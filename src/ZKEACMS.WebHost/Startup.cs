@@ -56,16 +56,7 @@ namespace ZKEACMS.WebHost
                 var cmsPlugin = plugin as PluginBase;
                 if (cmsPlugin != null)
                 {
-                    cmsPlugin.AdminMenu();
-                    cmsPlugin.ConfigureServices(services);
-                    cmsPlugin.Excute();
-                    var permissions = cmsPlugin.RegistPermission();
-                    if (permissions != null)
-                    {
-                        PermissionKeys.DefaultPermissions.AddRange(permissions);
-                    }
-                    cmsPlugin.RegistRoute();
-                    cmsPlugin.WidgetServiceTypes();
+                    cmsPlugin.InitPlug();
                 }
             });
             services.UseZKEACMS();

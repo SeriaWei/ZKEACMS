@@ -113,6 +113,10 @@ namespace ZKEACMS.Common.Service
                     }
                 }
             };
+            foreach (var item in AdminMenus.Menus)
+            {
+                yield return item;
+            }
         }
     }
 }

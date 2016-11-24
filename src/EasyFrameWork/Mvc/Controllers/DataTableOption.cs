@@ -26,7 +26,7 @@ namespace Easy.Mvc.Controllers
                 foreach (var item in Columns)
                 {
                     var p = properties.FirstOrDefault(m => m.Name.Equals(item.Data, StringComparison.OrdinalIgnoreCase));
-                    if (p == null) continue;
+                    if (p == null || p.PropertyType != typeof(string)) continue;
 
                     Query query = new Query();
                     query.Name = p.Name;
@@ -54,7 +54,7 @@ namespace Easy.Mvc.Controllers
             }
             if (exp != null)
             {
-                return Expression.Lambda<Func<T, object>>(Expression.Convert(exp,typeof(object)), parameter).Compile();
+                return Expression.Lambda<Func<T, object>>(Expression.Convert(exp, typeof(object)), parameter).Compile();
             }
             return null;
         }

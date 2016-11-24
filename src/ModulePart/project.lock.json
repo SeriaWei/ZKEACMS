@@ -2868,6 +2868,21 @@
         "runtime": {
           "netstandard1.6/EasyFrameWork.dll": {}
         }
+      },
+      "ZKEACMS/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.6",
+        "dependencies": {
+          "EasyFrameWork": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "1.1.0",
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "netstandard1.6/ZKEACMS.dll": {}
+        },
+        "runtime": {
+          "netstandard1.6/ZKEACMS.dll": {}
+        }
       }
     }
   },
@@ -8093,13 +8108,19 @@
       "type": "project",
       "path": "../EasyFrameWork/project.json",
       "msbuildProject": "../EasyFrameWork/EasyFrameWork.xproj"
+    },
+    "ZKEACMS/1.0.0": {
+      "type": "project",
+      "path": "../ZKEACMS/project.json",
+      "msbuildProject": "../ZKEACMS/ZKEACMS.xproj"
     }
   },
   "projectFileDependencyGroups": {
     "": [
       "EasyFrameWork >= 1.0.0-*",
       "Microsoft.AspNetCore.Mvc >= 1.1.0",
-      "NETStandard.Library >= 1.6.1"
+      "NETStandard.Library >= 1.6.1",
+      "ZKEACMS >= 1.0.0-*"
     ],
     ".NETStandard,Version=v1.6": []
   },

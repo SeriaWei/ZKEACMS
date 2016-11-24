@@ -16,7 +16,6 @@ namespace ZKEACMS.Common.Service
                 Template = "{*path}",
                 Defaults = new { controller = "Page", action = "PreView" },
                 Priority = -1
-                // Constraints = new { path = new RouteConstraint() }
             };
             yield return new RouteDescriptor
             {
@@ -45,6 +44,10 @@ namespace ZKEACMS.Common.Service
                 Defaults = new { controller = "Account", action = "Login"},
                 Priority = 10
             };
+            foreach (var item in RouteDescriptors.Routes)
+            {
+                yield return item;
+            }
         }
     }
 }

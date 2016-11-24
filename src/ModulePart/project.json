@@ -2,12 +2,17 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "ZKEACMS": {
+      "target": "project",
+      "version": "1.0.0-*"
+    },
     "EasyFrameWork": {
       "target": "project",
       "version": "1.0.0-*"
     },
     "Microsoft.AspNetCore.Mvc": "1.1.0",
-    "NETStandard.Library": "1.6.1" },
+    "NETStandard.Library": "1.6.1"
+  },
   "publishOptions": {
     "include": [
       "**/*.cshtml"

@@ -17,7 +17,7 @@ namespace Easy.Mvc.Plugin
         private const string ControllerTypeNameSuffix = "Controller";
         public static List<string> Folders { get; } = new List<string>();
         private static List<string> LoadedAssemblys { get; } = new List<string>();
-        private static Type PluginType = typeof(IPluginStartup);
+
         public Action<IPluginStartup> OnLoading { get; set; }
         public Assembly LoadPlugin(string path)
         {
@@ -55,7 +55,8 @@ namespace Easy.Mvc.Plugin
         private void RegistAssembly(Assembly assembly)
         {
             List<TypeInfo> controllers = new List<TypeInfo>();
-            assembly.DefinedTypes.Each(typeInfo =>
+            Type PluginType = typeof(IPluginStartup);
+            foreach (var typeInfo in assembly.DefinedTypes)
             {
                 if (IsController(typeInfo) && !controllers.Contains(typeInfo))
                 {
@@ -63,15 +64,15 @@ namespace Easy.Mvc.Plugin
                 }
                 else if (!typeInfo.IsAbstract && !typeInfo.IsInterface)
                 {
-                    var type = typeInfo.AsType();
-                    if (PluginType.IsAssignableFrom(type))
+                    var interfaces = typeInfo.GetInterfaces();
+                    if (interfaces != null && interfaces.Any(t => t == PluginType))
                     {
-                        var plugin = (Activator.CreateInstance(type) as IPluginStartup);
+                        var plugin = (Activator.CreateInstance(typeInfo.AsType()) as IPluginStartup);
                         plugin.ConfigureServices(Builder.ServiceCollection);
                         OnLoading?.Invoke(plugin);
                     }
                 }
-            });
+            }
             if (controllers.Count > 0 && !ActionDescriptorProvider.PluginControllers.ContainsKey(assembly.FullName))
             {
                 controllers.Each(c => Builder.ServiceCollection.TryAddTransient(c.AsType()));
