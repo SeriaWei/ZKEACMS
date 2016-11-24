@@ -1,0 +1,31 @@
+﻿<script type="text/javascript">
+    $("#noZoneWidgets>.widget").draggable({ revert: "invalid", connectToSortable: ".widgets" });
+    $(".widgets").sortable({
+        connectWith: ".connectedSortable",
+        tolerance: "pointer",
+        placeholder: "sorting",
+        stop: function (event, ui) {
+            ui.item.removeAttr("style");
+            var target = ui.item.parent();
+            var widgets = [];
+            target.children().each(function (i, ui) {
+                widgets.push({
+                    ID: $(ui).data("widgetid"),
+                    ZoneId: target.data("zoneid"),
+                    Position: i + 1
+                });
+            });
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SaveWidgetZone", "Widget", new { module = "admin" })',
+                dataType: 'json',
+                contentType: "application/json;charset=utf-8",
+                async: true,
+                data: JSON.stringify(widgets),
+                success: function () {
+                }
+            });
+        }
+    });
+
+</script>

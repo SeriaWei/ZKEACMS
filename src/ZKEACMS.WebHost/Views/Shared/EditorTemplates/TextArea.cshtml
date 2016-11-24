@@ -1,0 +1,10 @@
+﻿@model String
+@{
+    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
+
+    if (!descriptor.Properties.ContainsKey("rows"))
+    {
+        descriptor.Properties.Add("rows", "5");
+    }
+}
+@Html.TextArea("", Model, descriptor.ToHtmlProperties())

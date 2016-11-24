@@ -1,0 +1,26 @@
+﻿@model Easy.Models.EditorEntity
+@{
+    var model = ViewData.ModelMetadata;
+    ViewData.TemplateInfo.HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace(".[", "[");
+    
+}
+
+<div class="row item">
+    @foreach (var item in model.Properties.Where(m => m.ShowForEdit).OrderBy(m => m.Order))
+    {
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            @Html.Label(item.PropertyName, item.DisplayName, new { @class = "control-label" })
+            <div>
+                @Html.Editor(item.PropertyName)
+                @Html.ValidationMessage(item.PropertyName)
+            </div>
+        </div>
+    }
+    <button type="button" class="close delete" data-value="@ActionType.Delete"><span aria-hidden="true">×</span></button>
+    <div class="hide">
+        @foreach (var item in model.Properties.Where(m => !m.ShowForEdit))
+        {
+            @Html.Editor(item.PropertyName,"Hidden")
+        }
+    </div>
+</div>

@@ -1,0 +1,10 @@
+﻿@{
+    Style.Reqiured("dataTable").AtHead();
+    Script.Reqiured("dataTable").AtFoot();
+}
+@model ApplicationSetting
+
+<div id="toolBar">
+    <a href="@Url.Action("Create")" class="btn btn-primary btn-xs btn">新建</a>
+</div>
+<grid></grid>

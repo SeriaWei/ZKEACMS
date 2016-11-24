@@ -1,0 +1,283 @@
+﻿@using ZKEACMS.Common.ViewModels
+@model MediaViewModel
+@{
+    ViewBag.Title = "媒体库";
+    var action = Html.ViewContext.RouteData.Values["action"].ToString();
+
+    Script.Reqiured("lightBox").AtFoot();
+    Style.Reqiured("lightBox").AtHead();
+
+    if (ViewBag.PopUp != null)
+    {
+        Layout = Layouts.PopUp;
+    }
+
+}
+<div class="container-fluid">
+    <div class="clearfix thumbnail">
+        <div class="pull-left">
+            <span style="line-height: 30px">
+                &nbsp;<a href="@Url.Action(action)">媒体库</a>
+                @if (Model.Parents != null)
+                {
+                    foreach (MediaEntity item in Model.Parents)
+                    {
+                        <span>/</span>
+                        <a href="@Url.Action(action, new {ParentId = item.ID})">@item.Title</a>
+                    }
+                }
+            </span>
+        </div>
+        @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
+        {
+            <div class="pull-right">
+                <input type="button" class="btn btn-primary btn-sm upload" value="上传文件" />
+                <input type="button" class="btn btn-primary btn-sm create-folder" value="创建文件夹" />
+            </div>
+        }
+    </div>
+    <div id="media-list" class="row" data-parent="@Model.ParentID">
+        @if (Model.Medias != null)
+        {
+            foreach (var media in Model.Medias)
+            {
+                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+                    <div class="thumbnail">
+                        @if (media.MediaType == (int)MediaType.Image)
+                        {
+                            <a href="javascript:void(0)" class="img-link confirm" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
+                                <img class="img" src="@Url.Content(media.Url)" />
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@(media.MediaType==(int)MediaType.Folder?Url.Action(action, new {ParentId = media.ID}):"javascript:void(0)")" 
+                               class="img-link @(media.MediaType==(int)MediaType.Folder?"":"confirm")" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
+                                <img class="img" src="@Url.Content("~/Images/{0}.png".FormatWith(media.MediaTypeImage))" />
+                            </a>
+                        }
+                        <div class="caption" data-id="@media.ID">
+                            @media.Title
+                        </div>
+                        <div class="tool">
+                            @if (media.MediaType == (int) MediaType.Image && media.Url.IsNotNullAndWhiteSpace())
+                            {
+                                <a target="_blank" class="preview" href="@Url.Content(media.Url)"
+                                   data-lightbox="thumbnail" data-title="@media.Title">
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                </a>
+                            }
+                            @if (media.MediaType != (int) MediaType.Folder && media.Url.IsNotNullAndWhiteSpace())
+                            {
+                                <a target="_blank" class="download" download="@media.Title" href="@Url.Content(media.Url)">
+                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                </a>
+                            }
+                        </div>
+                        @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
+                        {
+                            <div class="close">
+                                <img src="~/images/close_red.png" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <ul class="pagination">
+        @if (Model.Pagin.PageIndex >= 1)
+        {
+            <li><a href="@Url.Action(action, new {ParentId = Model.ParentID})">«</a></li>
+        }
+        else
+        {
+            <li class="disabled"><a href="javascript:void(0)">«</a></li>
+        }
+        @{
+            if (Model.Pagin.PageIndex >= 5)
+            {
+                <li>
+                    <a>...</a>
+                </li>
+            }
+            int start = Model.Pagin.PageIndex - 4;
+            int end = Model.Pagin.PageIndex + 4;
+            if (start < 0)
+            {
+                start = 0;
+            }
+            for (; start < Model.Pagin.AllPage && start <= end; start++)
+            {
+                <li class="@(start == Model.Pagin.PageIndex ? "active" : "")">
+                    <a href="@Url.Action(action, new {parentId = Model.ParentID, pageIndex = start})">@(start + 1)</a>
+                </li>
+            }
+            if (Model.Pagin.AllPage - Model.Pagin.PageIndex > 5)
+            {
+                <li>
+                    <a>...</a>
+                </li>
+            }
+        }
+
+        @if (Model.Pagin.PageIndex < Model.Pagin.AllPage - 1)
+        {
+            <li>
+                <a href="@Url.Action(action, new {parentId = Model.ParentID, pageIndex = Model.Pagin.PageIndex + 1})">»</a>
+            </li>
+        }
+        else
+        {
+            <li class="disabled">
+                <a href="javascript:void(0)">»</a>
+            </li>
+        }
+    </ul>
+
+    <div class="hide">
+        <input type="file" id="fileUp" multiple />
+        <img src="~/Images/loader.gif" />
+        <div id="item-template">
+            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 new-folder">
+                <div class="thumbnail">
+                    <a class="img-link">
+                        <img class="img" src="~/Images/folder.png">
+                    </a>
+                    <div class="caption">
+                    </div>
+                    <div class="tool"></div>
+                    <div class="close">
+                        <img src="~/images/close_red.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            $(document).on("click", ".create-folder", function () {
+                var newfolder = $($("#item-template").html());
+                newfolder.find(".caption").append('<input type="text" class="edit" value="新建文件夹" />');
+                if ($("#media-list > div").size() > 0) {
+                    newfolder.insertBefore($("#media-list > div:first"));
+                } else {
+                    $("#media-list").append(newfolder);
+                }
+                newfolder.find(".edit").focus()[0].select();
+            });
+            function save(input) {
+                if (!$.trim(input.val())) {
+                    return false;
+                }
+                $.post("@Url.Action("Save")", { id: input.closest(".caption").data("id"), title: input.val(), parentId: $("#media-list").data("parent") }, function (data) {
+                    if (data) {
+                        var caption = input.closest(".caption");
+                        if (caption.data("id")) {
+                            input.replaceWith(data.Title);
+                        } else {
+                            input.closest(".new-folder").removeClass("new-folder").find("a").attr("href", "@Url.Action(action)" + "?ParentId=" + data.ID);
+                            caption.data("id", data.ID);
+                            input.replaceWith(data.Title);
+                        }
+                    }
+                });
+            }
+            $(document).on("keyup", ".edit", function (e) {
+                if (e.keyCode === 13) {
+                    save($(this));
+                }
+            });
+            $(document).on("blur", ".edit", function () {
+                save($(this));
+            });
+            $(document).on("click", ".caption", function () {
+                var cap = $(this);
+                if (cap.find(".edit").size() === 0) {
+                    var text = $.trim(cap.text());
+                    cap.html('<input type="text" class="edit"/>');
+                    cap.find(".edit").val(text).focus()[0].select();
+                }
+            });
+            $(document).on("click", ".upload", function () {
+                $("#fileUp").trigger("click");
+            });
+            $(document).on("change", "#fileUp", function () {
+                var threads = [];
+                for (var i = 0; i < this.files.length; i++) {
+                    if (this.files[i].size > 4194304) {
+                        Easy.MessageTip.Show(this.files[i].name + " 文件大小超过限制！");
+                        continue;
+                    }
+                    var newitem = $($("#item-template").html());
+                    newitem.find(".img").attr("src", "@Url.Content("~/Images/loader.gif")");
+                    newitem.find(".caption").html('<label class="label label-danger">排队中...</label>');
+                    if ($("#media-list > div").size() > 0) {
+                        newitem.insertBefore($("#media-list > div:first"));
+                    } else {
+                        $("#media-list").append(newitem);
+                    }
+                    var formData = new FormData();
+                    formData.append('file', this.files[i]);
+                    formData.append("parentId", $("#media-list").data("parent"));
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '@Url.Action("Upload")');
+                    xhr.target = newitem;
+                    xhr.onload = function (e) {
+                        var result = JSON.parse(e.target.response);
+                        if (result.ID) {
+                            this.target.find(".img").attr("src", "@Url.Content("~/Images/")" + result.MediaTypeImage+".png")
+                                .parent().attr("href", "javascript:void(0)")
+                                .addClass("confirm").attr("data-result", result.Url);
+                            this.target.find(".caption").html(result.Title).data("id",result.ID);
+                            this.target.removeClass("new-folder");
+                            if (result.MediaType == '@(MediaType.Image.ToString("D"))') {
+                                this.target.find(".img").attr("src",result.Url);
+                                var preview = $('<a target="_blank" class="preview" data-lightbox="thumbnail"><i class="glyphicon glyphicon-eye-open"></i></a>');
+                                preview.attr("href", result.Url);
+                                preview.data("title", result.Title);
+                                this.target.find(".tool").append(preview);
+                            }
+                            var downLoad = $('<a target="_blank" class="download" download="'+result.Title+'"><i class="glyphicon glyphicon-download-alt"></i></a>');
+                            downLoad.attr("href", result.Url);
+                            this.target.find(".tool").append(downLoad);
+                        } else {
+                            Easy.MessageTip.Show("文件上传失败。可能是因为上传的文件不被允许！");
+                            this.target.remove();
+                        }
+                        if (threads.length > 0) {
+                            var task = threads.pop();
+                            task.Req.send(task.Data);
+                        }
+                    };
+                    xhr.upload.target = newitem;
+                    xhr.upload.onprogress = function (e) {
+                        var persecnt = e.loaded / e.total * 100;
+                        this.target.find(".caption").html('<label class="label label-danger">' + Math.round(persecnt) + "%" + '</label>');
+                    }
+                    threads.push({ Req: xhr, Data: formData });
+                }
+                if (threads.length > 0) {
+                    var task = threads.pop();
+                    task.Req.send(task.Data);
+                }
+            });
+            $(document).on("click", ".close", function () {
+                var caption = $(this).siblings(".caption");
+                Easy.ShowMessageBox("提示", "确定要删除吗？", function () {
+                    Easy.Block();
+                    $.post("@Url.Action("Delete")", { ids: caption.data("id") }, function () {
+                        caption.closest(".thumbnail").parent().remove();
+                        Easy.UnBlock();
+                    });
+                }, true);
+            });
+        });
+
+    </script>
+}

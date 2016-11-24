@@ -1,0 +1,63 @@
+﻿@model LayoutEntity
+@{
+    Style.Reqiured("Layout").AtHead();
+    Style.Reqiured("Easy").AtHead();
+    Script.Reqiured("jQueryUi").AtFoot();
+    Script.Reqiured("PageDesign").AtFoot();
+    if (Model == null)
+    {
+        return;
+    }
+    //Stack<string> colors = new Stack<string>(new[] { "blue", "lightBlue", "red", "green", "orange" });
+}
+
+<input type="hidden" id="save-widget-zone-url" value="@Url.Action("SaveWidgetZone", "Widget", new {module = "admin"})" />
+<input type="hidden" id="append-widget-url" value="@Url.Action("AppendWidget", "Widget", new { module = "admin" })" />
+<input type="hidden" id="pageId" value="@Model.Page.ID" />
+@for (int i = 0; i < Model.Html.Count; i++)
+{
+    var item = Model.Html[i];
+    if (item.Html == ZoneEntity.ZoneTag)
+    {
+        i++;
+        var zoneId = Model.Html[i].Html;
+        if (zoneId.IsNotNullAndWhiteSpace())
+        {
+            if (Model.Zones.Any(m => m.ID == zoneId))
+            {
+                <input type="hidden" class="zoneId" value="@zoneId" />
+                <div class="zoneName">
+                    <a title="添加组件到该区域"
+                       class="add-widget label label-danger"
+                       href="@Url.Action("SelectWidget", "WidgetTemplate", new {module = "admin", pageId = Model.Page.ID, ZoneId = zoneId})">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        @Model.Zones.First(m => m.ID == zoneId).ZoneName
+                    </a>
+                    @if (ViewBag.CanPasteWidget == true)
+                    {
+                        <a class="paste-widget label label-warning" title="粘贴复制的组件到该区域"
+                           href="@Url.Action("Paste", "Widget", new { module = "admin", PageID = Model.Page.ID, ZoneID = zoneId })">
+                            <i class="glyphicon glyphicon-paste"></i>
+                            粘贴
+                        </a>
+                    }
+                </div>
+            }
+            if (Model.ZoneWidgets.ContainsKey(zoneId))
+            {
+                foreach (WidgetPart widgetPart in Model.ZoneWidgets[zoneId].OrderBy(m => m.Widget.Position).ThenBy(m => m.Widget.WidgetName))
+                {
+                    @Html.DesignWidget(new DesignWidgetViewModel(widgetPart, Model.Page.ID));
+                }
+            }
+        }
+        i++;
+    }
+    else
+    {
+        @Html.Raw(item.Html)
+    }
+}
+
+@Html.Action("Templates", "Widget", new { module = "admin" })
+

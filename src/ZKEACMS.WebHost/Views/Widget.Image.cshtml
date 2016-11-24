@@ -1,0 +1,14 @@
+﻿@model ZKEACMS.Common.Models.ImageWidget
+
+<div class="widget-image">
+    @if (Model.Link.IsNullOrEmpty())
+    {
+        <img alt="@Model.AltText" src="@Url.PathContent(Model.ImageUrl)" style="width: @(Model.Width.HasValue ? Model.Width.Value + "px" : "auto"); height: @(Model.Height.HasValue ? Model.Height.Value + "px" : "auto");"/>
+    }
+    else
+    {
+        <a href="@Url.Content(Model.Link)" target="@Html.SmartLinkTarget(Model.Link)">
+            <img alt="@Model.AltText" src="@Url.PathContent(Model.ImageUrl)" style="width: @(Model.Width.HasValue ? Model.Width.Value + "px" : "auto"); height: @(Model.Height.HasValue ? Model.Height.Value + "px" : "auto");" />
+        </a>
+    }
+</div>

@@ -1,0 +1,20 @@
+﻿@model ZKEACMS.Common.Models.NavigationEntity
+@{
+    Script.Reqiured("validate").AtFoot();
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div>导航</div>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.EditorForModel()
+            <div class="toolBar">
+                <input type="submit" class="btn btn-primary" value="保存" />
+                <input type="button" class="btn btn-default cancel" value="取消" />
+            </div>
+        }
+    </div>
+</div>

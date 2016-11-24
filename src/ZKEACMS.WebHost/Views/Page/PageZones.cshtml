@@ -1,0 +1,155 @@
+﻿@using ZKEACMS.Common.ViewModels
+@model LayoutZonesViewModel
+@{
+    Layout = null;
+    string returnUrl = Url.Action("Index", "Page", new { module = "admin", Model.PageID });
+    var noZoneWidgets = Model.Widgets.Where(m => Model.Zones.All(n => n.ID != m.ZoneID));
+}
+
+@if (noZoneWidgets.Any())
+{
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <span class="badge">须要处理</span>
+        </div>
+        <div class="panel-body">
+            <ul id="noZoneWidgets" class="fullRowList">
+                @foreach (var widget in noZoneWidgets.OrderBy(m => m.Position))
+                {
+                    <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
+                        @if (widget.LayoutID.IsNotNullAndWhiteSpace())
+                        {
+                            <span class="badge">布局</span>
+                        }
+                        @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+                        {
+                            <a href="@Url.Action("Edit", "Widget", new {module = "admin", widget.ID, ReturnUrl = returnUrl})"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a href="javascript:void(0)" class="delete" data-widgetid="@widget.ID"><i class="glyphicon glyphicon-trash"></i></a>
+                        }
+                        @widget.WidgetName
+                    </li>
+                }
+            </ul>
+
+        </div>
+        <div class="panel-footer">
+            <span class="description">
+                组件不能正确地显示在页面中，可能是因为您切换了布局或删除了原先的区域
+            </span>
+        </div>
+    </div>
+}
+
+<div class="panel  panel-default">
+    <div class="panel-heading">
+        @Model.Page.Title
+    </div>
+    <div class="simplePreview">
+        <div class="simpleDesign">
+            @for (int i = 0; i < Model.LayoutHtml.Count; i++)
+            {
+                var itemHtml = Model.LayoutHtml[i];
+                if (itemHtml.Html == ZoneEntity.ZoneTag)
+                {
+                    i++;
+                    itemHtml = Model.LayoutHtml[i];
+                    var zone = Model.Zones.Where(m => m.ID == itemHtml.Html);
+
+                    foreach (var item in zone)
+                    {
+                        <div class="panel panel-success panel-relative">
+                            <div class="panel-toolbar">
+                                @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+                                {
+                                    <a class="label label-danger" title="添加组件到该区域" href="@Url.Action("SelectWidget", "WidgetTemplate", new {module = "admin", Model.PageID, ZoneID = item.ID, ReturnUrl = returnUrl})">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                        @item.ZoneName
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="label label-danger" title="区域名称" href="#">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                        @item.ZoneName
+                                    </a>
+                                }
+                            </div>
+                            <ul data-zoneid="@item.ID" class="fullRowList widgets connectedSortable">
+                                @foreach (var widget in Model.Widgets.Where(m => m.ZoneID == item.ID).OrderBy(m => m.Position).ThenBy(m => m.WidgetName))
+                                {
+                                    <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
+                                        @if (widget.LayoutID.IsNotNullAndWhiteSpace())
+                                        {
+                                            <span class="label label-info">布局</span>
+                                        }
+                                        @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+                                        {
+                                            <a href="@Url.Action("Edit", "Widget", new { module = "admin", widget.ID, ReturnUrl = returnUrl })"><i class="glyphicon glyphicon-edit"></i></a>
+                                            <a href="javascript:void(0)" class="delete" data-widgetid="@widget.ID"><i class="glyphicon glyphicon-trash"></i></a>
+                                        }
+                                        @widget.WidgetName
+                                    </li>
+                                }
+                            </ul>
+
+                        </div>
+                    }
+
+                    i++;
+                }
+                else
+                {
+                    @Html.Raw(itemHtml.NoStyleHtml)
+                }
+
+            }
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="btn-group">
+            @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+            {
+                <a class="btn btn-primary" href="@Url.Action("Design", new {ID = Model.PageID})">
+                    <i class="glyphicon glyphicon-wrench"></i>
+                    设计
+                </a>
+            }
+            <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new {module = "admin", ID = Model.PageID})">
+                <i class="glyphicon glyphicon-search"></i>
+                预览
+            </a>
+            @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+            {
+                <a class="btn btn-primary" href="@Url.Action("Edit", new {ID = Model.PageID})">
+                    <i class="glyphicon glyphicon-edit"></i>
+                    属性
+                </a>
+            }
+            @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
+            {
+                <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new {module = "admin", ID = Model.LayoutID, Model.PageID})">
+                    <i class="glyphicon glyphicon-th-list"></i>
+                    布局
+                </a>
+            }
+            <a class="btn btn-primary"
+               href="@Url.Action("RedirectView", "Page", new {module = "admin", ID = Model.PageID, preview = false})"
+               target="_blank">
+                <i class="glyphicon glyphicon-new-window"></i>
+                查看已发布版本
+            </a>
+            @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+            {
+                <a class="btn btn-primary publish-page" data-id="@Model.PageID" href="javascript:void(0)">
+                    <i class="glyphicon glyphicon-open"></i>
+                    发布
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+@if (Authorizer.Authorize(PermissionKeys.ManagePage))
+{
+    @Html.Partial("SortWidget.Script")
+}

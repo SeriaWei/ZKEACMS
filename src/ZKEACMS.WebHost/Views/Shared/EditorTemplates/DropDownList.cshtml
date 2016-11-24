@@ -1,0 +1,15 @@
+﻿@using Easy.ViewPort.Descriptor
+@model Object
+@{
+    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as DropDownListDescriptor;
+    SelectList list;
+    if (descriptor.SourceType == SourceType.ViewData)
+    {
+        list = new SelectList(ViewData[descriptor.SourceKey] as SelectList, "Value", "Text", Model);
+    }
+    else
+    {
+        list = new SelectList(descriptor.OptionItems, "Key", "Value", Model);
+    }
+}
+@Html.DropDownList("", list, descriptor.ToHtmlProperties())

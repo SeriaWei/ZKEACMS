@@ -1,0 +1,25 @@
+﻿@using ZKEACMS.Common.Models
+@model CarouselWidget
+@{
+    if (Model.CarouselItems == null)
+    {
+        return;
+    }
+    Style.Reqiured("OWL.Carousel").AtHead();
+    Script.Reqiured("OWL.Carousel").AtFoot();
+    var carouselItems = Model.CarouselItems.ToList();
+}
+
+<div class="owl-carousel">
+    @foreach (CarouselItemEntity item in carouselItems)
+    {
+        <div class="item" style="background-image: url('@Url.PathContent(item.ImageUrl)');" data-image-url="@Url.PathContent(item.ImageUrl)">
+            <div class="slider-inner">
+                <div class="carousel-content">
+                    @Html.SmartLink(Url.PathContent(item.TargetLink), item.Title)
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

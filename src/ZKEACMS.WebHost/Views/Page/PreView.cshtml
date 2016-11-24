@@ -1,0 +1,50 @@
+﻿@model LayoutEntity
+@{
+    if (Model == null)
+    {
+        return;
+    }
+    Layout = Model.Layout;
+}
+@for (int i = 0; i < Model.Html.Count; i++)
+{
+    var item = Model.Html[i];
+    if (item.Html == ZoneEntity.ZoneTag)
+    {
+        i++;
+        var zoneId = Model.Html[i].Html;
+        if (zoneId.IsNotNullAndWhiteSpace())
+        {
+            if (Model.ZoneWidgets.ContainsKey(zoneId))
+            {
+                foreach (var widgetPart in Model.ZoneWidgets[zoneId].OrderBy(m => m.Widget.Position).ThenBy(m => m.Widget.WidgetName))
+                {
+                    <div style="@widgetPart.Widget.CustomStyle">
+                        <div class="widget @widgetPart.Widget.CustomClass">
+                            @if (widgetPart.Widget.Title.IsNotNullAndWhiteSpace())
+                            {
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        @widgetPart.Widget.Title
+                                    </div>
+                                    <div class="panel-body">
+                                        @Html.DisPlayWidget(widgetPart)
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                @Html.DisPlayWidget(widgetPart)
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        }
+        i++;
+    }
+    else
+    {
+        @Html.Raw(item.Html)
+    }
+}

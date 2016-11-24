@@ -1,0 +1,37 @@
+﻿@model String
+@{
+    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
+    bool additional = false;
+    bool video = false;
+    
+    descriptor.Classes.ForEach(m =>
+    {
+        if (m.Contains("select"))
+        {
+            additional = true;
+        }
+        if (m.Contains("select-video"))
+        {
+            video = true;
+        }
+    });
+}
+@if (additional)
+{
+    <div class="input-group">
+        @Html.TextBox("", Model, descriptor.ToHtmlProperties())
+        @if (video)
+        {
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-play"></span>
+            </div>
+        }
+        <div class="input-group-addon">
+            <span class="glyphicon glyphicon-search"></span>
+        </div>
+    </div>
+}
+else
+{
+    @Html.TextBox("", Model, descriptor.ToHtmlProperties())
+}

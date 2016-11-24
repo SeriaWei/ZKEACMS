@@ -1,0 +1,15 @@
+﻿@model ZKEACMS.Common.Models.StyleSheetWidget
+@if (Model.StyleSheet.IsNullOrEmpty())
+{
+    return;
+}
+@if (Model.StyleSheet.StartsWith("<link"))
+{
+    @Html.Raw(Model.StyleSheet)
+}
+else
+{
+    <style>
+        @Html.Raw(Model.StyleSheet)
+    </style>
+}

@@ -1,0 +1,20 @@
+﻿@using Easy.ViewPort.jsTree;
+@{
+    ViewBag.Title = "选择页面";
+    Script.Reqiured("jsTree").AtFoot();
+    Style.Reqiured("jsTree").AtHead();
+    Layout = Layouts.PopUp;
+}
+
+
+@(
+ Html.Tree<PageEntity>().Source("GetPageTree", "Page").On(Events.SelectNode, "Select")
+)
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        function Select(node, selected, e) {
+            Set(selected.node.a_attr.url);
+        }
+    </script>
+}

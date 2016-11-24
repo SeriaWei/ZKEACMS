@@ -1,0 +1,25 @@
+﻿@{
+    var metaData = ViewData.ModelMetadata;
+}
+
+
+<div class="row item">
+    @foreach (var item in metaData.Properties.Where(m => m.ShowForEdit).OrderBy(m => m.Order))
+    {
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            @Html.Label(item.PropertyName, item.DisplayName, new { @class = "control-label" })
+            <div>
+                @Html.Editor(item.PropertyName)
+                @Html.ValidationMessage(item.PropertyName)
+            </div>
+        </div>
+    }
+    <button type="button" class="close delete" data-value="@ActionType.Delete"><span aria-hidden="true">×</span></button>
+    <div class="hide">
+        @foreach (var item in metaData.Properties.Where(m => !m.ShowForEdit))
+        {
+            @Html.Editor(item.PropertyName, "Hidden")
+        }
+    </div>
+
+</div>

@@ -1,0 +1,6 @@
+﻿@model Decimal?
+@{
+
+    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
+}
+@Html.TextBox("", Model,descriptor.ToHtmlProperties())

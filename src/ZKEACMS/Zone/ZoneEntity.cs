@@ -1,0 +1,29 @@
+/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using Easy.MetaData;
+using Easy.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ZKEACMS.Zone
+{
+    [ViewConfigure(typeof(ZoneEntityMetaData)), Table("CMS_Zone")]
+    public class ZoneEntity : EditorEntity
+    {
+        public const string ZoneTag = "<zone>";
+        public const string ZoneEndTag = "</zone>";
+        [Key]
+        public string ID { get; set; }
+        public string LayoutId { get; set; }
+        public string ZoneName { get; set; }
+
+    }
+
+    class ZoneEntityMetaData : ViewMetaData<ZoneEntity>
+    {
+        protected override void ViewConfigure()
+        {
+
+        }
+    }
+
+}

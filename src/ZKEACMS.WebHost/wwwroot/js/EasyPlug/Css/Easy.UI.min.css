@@ -1,0 +1,6 @@
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2016 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+.readonly{background-color:#f5f3f3;cursor:not-allowed}input.Date{background-image:url(Images/Icons/date.png);background-repeat:no-repeat;background-position:right center}input.Number{background-image:url(Images/Icons/number.png);background-repeat:no-repeat;background-position:right center}input.Email{background-image:url(Images/Icons/Email.png);background-repeat:no-repeat;background-position:right center}.required{background:#fff2f2}.error{background-color:#ffc333}

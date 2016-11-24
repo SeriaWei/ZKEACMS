@@ -1,0 +1,49 @@
+﻿@model PageEntity
+@{
+    Script.Reqiured("validate").AtFoot();
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div>页面</div>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.EditorForModel()
+            <div class="toolBar">
+                <input type="submit" value="保存" class="btn btn-primary" data-value="@ActionType.Update" />
+                <input type="submit" value="设计" class="btn btn-success" data-value="@ActionType.Design" />
+                <input type="submit" value="发布" class="btn btn-info publish" data-value="@((int)ActionType.Publish)" />
+                <input type="submit" value="删除" class="btn btn-danger delete" data-value="@ActionType.Delete" />
+                <input type="button" class="btn btn-default cancel" value="取消" />
+            </div>
+        }
+    </div>
+</div>
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(".delete").click(function () {
+            return confirm("删除页面会删除对应的子页面，确定要删除吗？");
+        });
+        $(function () {
+            var url = $("#Url");
+            url.data("url", url.val().substring(0, url.val().lastIndexOf("/")+1));
+        });
+        $("#PageUrl").blur(function () {
+            var url = $("#Url");
+            var parentUrl = url.data("url");
+            if (!parentUrl) {
+                parentUrl = "~/";
+            }
+            var thisUrl = $(this).val();
+            var replaceValue = ["/", " ", "?", "`", "~", "!", "@@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "+", "[", "]", "{", "}", "\\", "|", ";", ":", "'", "\"", ",", ".", "<", ">"];
+            for (var i = 0; i < replaceValue.length; i++) {
+                thisUrl = thisUrl.replaceAll(replaceValue[i], "_");
+            }
+            url.val(parentUrl + thisUrl);
+        });
+    </script>    
+    
+}

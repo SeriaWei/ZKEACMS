@@ -1,0 +1,37 @@
+﻿@{
+    Style.Reqiured("datepicker").AtHead();
+    Script.Reqiured("datepicker").AtHead();
+    var metaData = ViewData.ModelMetadata;
+}
+@model Object
+<div class="form-horizontal">
+    @foreach (var item in metaData.Properties.Where(m => m.ShowForEdit).OrderBy(m => m.Order))
+    {
+        if (item.HideSurroundingHtml)
+        {
+            <div class="form-group">                
+                <div class="col-sm-10">
+                    @Html.Editor(item.PropertyName)
+                    @Html.ValidationMessage(item.PropertyName)
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                @Html.Label(item.PropertyName, item.DisplayName, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.Editor(item.PropertyName)
+                    @Html.ValidationMessage(item.PropertyName)
+                </div>
+            </div>
+        }
+
+    }
+    <div class="hide">
+        @foreach (var item in metaData.Properties.Where(m => !m.ShowForEdit))
+        {
+            @Html.Editor(item.PropertyName, "Hidden")
+        }
+    </div>
+</div>

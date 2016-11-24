@@ -1,0 +1,54 @@
+﻿@using ZKEACMS.Common
+@using ZKEACMS.Common.Models
+@using Easy.ViewPort.jsTree
+@{
+    Script.Reqiured("jsTree").AtFoot();
+    Style.Reqiured("jsTree").AtHead();
+    var navTree = Html.Tree<NavigationEntity>().Source("GetNavTree", "Navigation")
+.CheckCallBack("checkCallBack")
+.On(Events.MoveNode, "moveNode");
+
+    if (Authorizer.Authorize(PermissionKeys.ManageNavigation))
+    {
+        navTree.AddPlugin(Plugins.ContextMenu)
+            .AddPlugin(Plugins.DragAndDrop)
+            .AddContextMenuItem(new ContextmenuItem {Label = "新建", Action = "Create", Icon = "glyphicon glyphicon-plus"})
+            .AddContextMenuItem(new ContextmenuItem {Label = "编辑", Action = "Edit", Icon = "glyphicon glyphicon-edit"});
+    }
+}
+<div class="panel  panel-default">
+    <div class="panel-heading">
+        导航
+    </div>
+    <div class="panel-body">
+        @navTree
+    </div>
+    @if (Authorizer.Authorize(PermissionKeys.ManageNavigation))
+    {
+        <div class="panel-footer">
+            <a href="@Url.Action("Create", new {ParentID = "#"})" class="btn btn-link btn-xs">
+                <i class="glyphicon glyphicon-plus"></i>
+                添加导航
+            </a>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    function Create(node) {
+        var parent = node.reference.attr("id");
+        window.location.href = '@Url.Action("Create", "Navigation")' + '?ParentID=' + parent;
+    }
+    function Edit(node) {
+        var id = node.reference.attr("id");
+        window.location.href = '@Url.Action("Edit", "Navigation")' + '?ID=' + id;
+    }
+    function checkCallBack(operation, node, node_parent, node_position, more) {
+        return true;
+    }
+    function moveNode(node, parent) {
+        $.post("@Url.Action("MoveNav")", { id: parent.node.id, parentId: parent.parent, position: parent.position + 1, oldPosition: parent.old_position + 1 }, function () {
+
+        }, "json");
+    }
+</script>

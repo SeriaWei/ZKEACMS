@@ -1,0 +1,135 @@
+/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using Easy.ViewPort;
+using Easy.ViewPort.Descriptor;
+using Easy.Constant;
+using Easy.Models;
+using System.Reflection;
+using Easy.Extend;
+
+namespace Easy.MetaData
+{
+    /// <summary>
+    /// 数据元数据特性
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public abstract class ViewMetaData<T> : IViewMetaData where T : class
+    {
+        public ViewMetaData()
+        {
+            Init();
+        }
+        public void Init()
+        {
+            ViewPortDescriptors = new Dictionary<string, BaseDescriptor>();          
+            
+            TargetType = typeof(T);
+            foreach (var item in TargetType.GetProperties())
+            {
+                TypeCode code = Type.GetTypeCode(item.PropertyType.GetTypeInfo().IsGenericType ? item.PropertyType.GetGenericArguments()[0] : item.PropertyType);
+                switch (code)
+                {
+                    case TypeCode.Boolean:
+                        ViewConfig(item.Name).AsCheckBox();
+                        break;
+                    case TypeCode.Char:
+                        ViewConfig(item.Name).AsTextBox().MaxLength(1).RegularExpression(RegularExpression.Letters);
+                        break;
+                    case TypeCode.DateTime:
+                        ViewConfig(item.Name).AsTextBox().FormatAsDate();
+                        break;
+                    case TypeCode.UInt16:
+                    case TypeCode.UInt32:
+                    case TypeCode.UInt64:
+                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.PositiveIntegersAndZero);
+                        break;
+                    case TypeCode.SByte:
+                    case TypeCode.Int16:
+                    case TypeCode.Int32:
+                    case TypeCode.Int64:
+                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.Integer);
+                        break;
+                    case TypeCode.Object:
+                        ViewConfig(item.Name).AsHidden().Ignore();
+                        break;
+                    case TypeCode.Single:
+                    case TypeCode.Double:
+                    case TypeCode.Decimal:
+                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.Float);
+                        break;
+                    case TypeCode.String:
+                        ViewConfig(item.Name).AsTextBox().MaxLength(200);
+                        break;
+                        
+                    case TypeCode.Byte:
+                    case TypeCode.Empty:
+                    default: ViewConfig(item.Name).AsTextBox();
+                        break;
+                }
+                
+            }
+            if (typeof(EditorEntity).IsAssignableFrom(TargetType))
+            {
+                ViewConfig("CreateBy").AsHidden();
+                ViewConfig("CreatebyName").AsTextBox().Hide().ShowInGrid();
+                ViewConfig("CreateDate").AsTextBox().Hide().FormatAsDateTime().ShowInGrid();
+
+                ViewConfig("LastUpdateBy").AsHidden();
+                ViewConfig("LastUpdateByName").AsTextBox().Hide().ShowInGrid();
+                ViewConfig("LastUpdateDate").AsTextBox().Hide().FormatAsDateTime().ShowInGrid();
+                ViewConfig("ActionType").AsHidden().AddClass("ActionType");
+                ViewConfig("Title").AsTextBox().Order(1).ShowInGrid();
+                ViewConfig("Description").AsTextArea().Order(101);
+                ViewConfig("Status").AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary);
+              
+            }
+            if (typeof(IImage).IsAssignableFrom(TargetType))
+            {
+                ViewConfig("ImageUrl").AsTextBox();
+                ViewConfig("ImageThumbUrl").AsTextBox();
+            }
+            
+            ViewConfigure();
+        }
+
+        public Dictionary<string, BaseDescriptor> ViewPortDescriptors
+        {
+            get;
+            set;
+        }
+
+        public Type TargetType
+        {
+            get;
+            private set;
+        }
+        public Dictionary<string, PropertyInfo> Properties
+        {
+            get
+            {
+                var properties = new Dictionary<string, PropertyInfo>();
+                TargetType.GetProperties().Each(m => properties.Add(m.Name, m));
+                return properties;
+            }
+        }
+
+        
+        protected abstract void ViewConfigure();
+      
+      
+        protected TagsHelper ViewConfig(Expression<Func<T, object>> expression)
+        {
+            string key = Reflection.LinqExpression.GetPropertyName(expression.Body);
+            return ViewConfig(key);
+        }
+       
+        protected TagsHelper ViewConfig(string properyt)
+        {
+            return new TagsHelper(properyt, ViewPortDescriptors, TargetType, TargetType.GetProperty(properyt));
+        }      
+       
+    }
+
+}

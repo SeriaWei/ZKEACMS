@@ -1,0 +1,72 @@
+﻿@import "Library.less";
+
+.section {
+    line-height: normal;
+
+    & > h4 {
+        padding: 0 @padding-base * 0.5 @padding-base * 0.5;
+        color: @color-main;
+        border-bottom: @border-deep solid @color-main;
+        text-align: left;
+    }
+
+    table {
+        tr {
+            vertical-align: top;
+
+            td {
+                padding: @padding-base * 0.5;
+            }
+        }
+    }
+
+    .section-group-default {
+        padding: 0 @padding-base * 0.5;
+    }
+
+    .section-group-column {
+        padding: 0 @padding-base;
+
+        img {
+            margin-bottom: @padding-base;
+        }
+    }
+
+    .section-content-listgroup {
+        .border & {
+            margin: -@padding-base -@padding-base * 0.5 -@padding-base * 0.5;
+        }
+
+        .list-group-item {
+            .border & {
+                border-left: none;
+                border-right: none;
+            }
+
+                .border &:first-child {
+                    border-top: none;
+                }
+
+                .border &:last-child {
+                    border-bottom: none;
+                }
+
+            & > p {
+                margin: 0;
+            }
+        }
+    }
+
+    .section-group-listView {
+        padding: @padding-base 0;
+
+        h4 {
+            color: #000;
+        }
+
+        img {
+            margin: @margin-base auto;
+            display: block;
+        }
+    }
+}

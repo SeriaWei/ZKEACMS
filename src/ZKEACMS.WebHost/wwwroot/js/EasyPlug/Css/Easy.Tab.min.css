@@ -1,0 +1,6 @@
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2016 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+.TopMenu{padding:0;margin:0 0 0 0;position:relative;z-index:2}.TopMenu>li{list-style:none;display:block;float:left;margin:0 5px -1px 0;padding:5px;border:1px solid #ddd;white-space:nowrap}.TopMenu>li>.TabBtn{background:none;border:none;cursor:pointer;font-size:14px;padding:0;display:inline;margin:0;color:#999;font-weight:normal;overflow:visible}.TopMenu .Active{border-bottom:1px solid #fff;padding-top:5px}.TopMenu .Active>.TabBtn{color:#303942}.TabContent{clear:both;border:1px solid #ddd;z-index:1}.TabContent .Contents{display:none;padding:3px}.TabContent .Active{display:block}

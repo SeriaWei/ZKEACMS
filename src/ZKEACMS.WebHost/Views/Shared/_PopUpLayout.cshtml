@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+    Script.Reqiured("admin").AtFoot();
+    Style.Reqiured("bootStrap").AtHead();
+    Style.Reqiured("admin").AtHead();
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @StyleAtHead()
+    @ScriptAtHead()
+</head>
+<body>
+<div style="padding:10px 10px 40px;">
+   @RenderBody()    
+    <div class="popUpToolBar">
+        <input id="confirm" type="button" value="确认" class="btn btn-primary btn-sm"/>
+        <input type="button" value="取消" class="btn btn-default btn-sm"/>
+    </div>
+</div>
+    @StyleAtFoot()
+    @ScriptAtFoot()
+    <script type="text/javascript">
+        var selected = "";
+        var selectedArray = [];
+        $(".popUpToolBar .btn-default").click(function () {
+            $(window.parent.document).find(".WeiWindow.BoxShadow:last").find(".CloseWindow").click();
+        });
+
+        function Set(obj) {
+            selected = obj;
+        }
+
+        function SetArray(obj) {
+            selectedArray = obj;
+        }
+
+        function GetSelected() {
+            return selected;
+        }
+
+        function GetSelectedArray() {
+            return selectedArray;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+﻿@using ZKEACMS.Common
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">欢迎</div>
+            <div class="panel-body">
+                <h2>
+                    欢迎使用ZKEACMS
+                </h2>
+                <p class="text-muted">
+                    <small>我们准备了几个链接供您开始：</small>
+                </p>
+                @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+                {
+                    <a class="btn btn-primary" href="@Url.Action("Create", "Page", new {module = "admin", ParentID = "#"})">创建页面</a>
+                }
+                @if (Authorizer.Authorize(PermissionKeys.ViewPage))
+                {
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Page", new {module = "admin", ParentID = "#"})">查看页面</a>
+                }
+                @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
+                {
+                    <a class="btn btn-primary" href="@Url.Action("Create", "Layout", new {module = "admin"})">创建布局</a>
+                }
+                @if (Authorizer.Authorize(PermissionKeys.ViewLayout))
+                {
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Layout", new {module = "admin"})">查看布局</a>
+                }
+                @if (Authorizer.Authorize(PermissionKeys.ViewNavigation))
+                {
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Navigation", new {module = "admin"})">查看导航</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

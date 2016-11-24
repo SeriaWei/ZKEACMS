@@ -1,0 +1,89 @@
+﻿@using ZKEACMS.Common
+@model ZKEACMS.Common.ViewModels.LayoutZonesViewModel
+@{
+    Layout = null;
+    string returnUrl = Url.Action("LayoutWidget", "Layout", new { module = "admin", Model.LayoutID });
+    var noZoneWidgets = Model.Widgets.Where(m => Model.Zones.All(n => n.ID != m.ZoneID));
+}
+
+@if (noZoneWidgets.Any())
+{
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <span class="badge">须要处理</span>
+        </div>
+        <div class="panel-body">
+            <ul id="noZoneWidgets" class="fullRowList">
+                @foreach (var widget in noZoneWidgets.OrderBy(m => m.Position))
+                {
+                    <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
+                        @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+                        {
+                            <a href="@Url.Action("Edit", "Widget", new {module = "admin", widget.ID, ReturnUrl = returnUrl})"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a href="javascript:void(0)" class="delete" data-widgetid="@widget.ID"><i class="glyphicon glyphicon-trash"></i></a>
+                        }
+                        @widget.WidgetName
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="panel-footer">
+            <span class="description">
+                组件不能正确地显示在页面中，可能是因为您删除了原先的区域
+            </span>
+        </div>
+    </div>
+}
+<div class="panel  panel-default simplePreview">
+    <div class="panel-heading">布局概览</div>
+
+    <div class="simpleDesign">
+        @for (int i = 0; i < Model.LayoutHtml.Count; i++)
+        {
+            var itemHtml = Model.LayoutHtml[i];
+            if (itemHtml.Html == ZoneEntity.ZoneTag)
+            {
+                i++;
+                itemHtml = Model.LayoutHtml[i];
+                var zone = Model.Zones.Where(m => m.ID == itemHtml.Html);
+
+                foreach (var item in zone)
+                {
+                    <div class="panel panel-success  panel-relative">
+                        <div class="panel-toolbar">
+                            <a class="label label-danger" title="添加组件到该区域" href="@Url.Action("SelectWidget", "WidgetTemplate", new {module = "admin", Model.PageID, ZoneID = item.ID, LayoutID = item.LayoutId, ReturnUrl = returnUrl})">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                @item.ZoneName
+                            </a>
+                        </div>
+                        <ul data-zoneid="@item.ID" class="fullRowList widgets connectedSortable">
+                            @foreach (var widget in Model.Widgets.Where(m => m.ZoneID == item.ID).OrderBy(m => m.Position).ThenBy(m => m.WidgetName))
+                            {
+                                <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
+                                    @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+                                    {
+                                        <a href="@Url.Action("Edit", "Widget", new {module = "admin", widget.ID, ReturnUrl = returnUrl})"><i class="glyphicon glyphicon-edit"></i></a>
+                                        <a href="javascript:void(0)" class="delete" data-widgetid="@widget.ID"><i class="glyphicon glyphicon-trash"></i></a>
+                                    }
+                                    @widget.WidgetName
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                i++;
+            }
+            else
+            {
+                @Html.Raw(itemHtml.NoStyleHtml)
+            }
+        }
+    </div>
+
+</div>
+@if (Authorizer.Authorize(PermissionKeys.ManagePage))
+{
+    @Html.Partial("SortWidget.Script")
+}
+

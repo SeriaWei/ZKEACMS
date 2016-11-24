@@ -1,0 +1,150 @@
+﻿@using Microsoft.AspNetCore.Hosting
+@inject IHostingEnvironment hostingEnvironment
+@model LayoutEntity 
+@{
+    if (Model == null)
+    {
+        return;
+    }
+    Style.Reqiured("Easy").AtFoot();
+    
+}
+<!-- http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses -->
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="zh"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html class="not-ie" lang="zh">
+<!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>@Model.Page.Title</title>
+    <meta name="keywords" content="@Model.Page.MetaKeyWorlds" />
+    <meta name="description" content="@Model.Page.MetaDescription"/>
+    <meta name="author" content="ZKEASOFT"/>
+    <meta name="about" content="@ZKEACMS.Version.CurrentVersion" />
+    <meta name="website" content="http://www.zkea.net"/>
+
+    <link href="@Url.PathContent(Model.Page.Favicon)" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
+    @if (Model.Page.ExtendFields != null)
+    {
+        foreach (var meta in Model.Page.ExtendFields.Where(m => m.Title.IsNotNullAndWhiteSpace() && m.Title.StartsWith("meta_")))
+        {
+            <meta name="@meta.Title.Replace("meta_","")" content="@meta.Value" />
+        }
+    }
+    @StyleAtHead()
+    @ScriptAtHead()
+    @if (Model.CurrentTheme != null)
+    {
+        if (hostingEnvironment.IsDevelopment())
+        {
+            <link type="text/css" rel="stylesheet" href="@Url.Content(Model.CurrentTheme.UrlDebugger)" />
+        }
+        else
+        {
+            <link type="text/css" rel="stylesheet" href="@Url.Content(Model.CurrentTheme.Url)" />
+        }
+    }
+</head>
+<body class="front">
+    @if (ViewContext.HttpContext.User.Identity.IsAuthenticated)
+    {
+        <div class="preview-toolbar">
+            <div class="btn-group">
+                <a class="btn btn-primary sort-handle">
+                    <i class="glyphicon glyphicon-move"></i>
+                </a>
+                @if (!Model.Page.IsPublishedPage)
+                {
+                    <a class="btn btn-primary" href="@Url.Action("Design", "Page", new { module = "admin", Model.Page.ID })">
+                        <i class="glyphicon glyphicon-wrench"></i>
+                        设计
+                    </a>
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Page", new { module = "admin", PageID = Model.Page.ID })">
+                        <i class="glyphicon glyphicon-th"></i>
+                        概览
+                    </a>
+                    <a class="btn btn-primary" href="@Url.Action("Edit", "Page", new { module = "admin", Model.Page.ID })">
+                        <i class="glyphicon glyphicon-edit"></i>
+                        属性
+                    </a>
+                    <a class="btn btn-primary" href="@Url.Action("PublishPage", "Page", new {module = "admin", Model.Page.ID, ReturnUrl = Model.Page.Url})">
+                        <i class="glyphicon glyphicon-open"></i>
+                        发布
+                    </a>
+                    if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
+                    {
+                        <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme", new { module = "admin" })">
+                            <i class="glyphicon glyphicon-transfer"></i>
+                            退出
+                            @Model.CurrentTheme.Title
+                            主题
+                        </a>
+                    }
+                    @Html.Partial("Partial.Menu", Model)
+                }
+                else if (Model.PreViewPage != null)
+                {
+                    <a class="btn btn-primary" href="@Url.Action("Design", "Page", new {module = "admin", Model.PreViewPage.ID})">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                        编辑
+                    </a>
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Page", new {module = "admin"})">
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                        页面
+                    </a>
+                    if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
+                    {
+                        <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme", new { module = "admin" })">
+                            <i class="glyphicon glyphicon-transfer"></i>
+                            退出
+                            @Model.CurrentTheme.Title
+                            主题
+                        </a>
+                    }
+                    <a class="btn btn-primary" href="@Url.Action("Logout", "Account", new { module = "admin", returnurl = Model.Page.Url })">
+                        <i class="glyphicon glyphicon-off"></i>
+                        退出
+                    </a>
+                }
+            </div>
+        </div>
+        using (Script.AtFoot())
+        {
+            <script type="text/javascript">
+                var toolBar = $(".preview-toolbar");
+                $(".sort-handle", toolBar).DragElement(toolBar);
+            </script>
+        }
+    }
+
+    <div>
+        @RenderBody()
+    </div>
+
+    @StyleAtFoot()
+    @ScriptAtFoot()
+    @if (!Model.Style.IsNullOrEmpty())
+    {
+        <link href="@Url.Content(Model.Style)" rel="stylesheet" />
+    }
+    @if (!Model.Page.Style.IsNullOrEmpty())
+    {
+        <link href="@Url.Content(Model.Page.Style)" rel="stylesheet" />
+    }
+    @if (!Model.Script.IsNullOrEmpty())
+    {
+        <script type="text/javascript" src="@Url.Content(Model.Script)"></script>
+    }
+    @if (!Model.Page.Script.IsNullOrEmpty())
+    {
+        <script type="text/javascript" src="@Url.Content(Model.Page.Script)"></script>
+    }
+</body>
+
+</html>

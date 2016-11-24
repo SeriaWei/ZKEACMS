@@ -1,0 +1,23 @@
+﻿@{
+    Script.Reqiured("validate").AtFoot();
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div>
+            添加
+            @ViewBag.WidgetTemplateName
+        </div>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.EditorForModel()
+            <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
+            <div class="toolBar">
+                <input id="design" type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Create" />
+                <input type="button" class="btn btn-default cancel" value="取消" />
+            </div>
+        }
+    </div>
+</div>
+

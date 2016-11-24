@@ -1,0 +1,196 @@
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2016 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+/**/
+body {
+    color: black;
+    font-size: 14px;
+}
+/*.FontSim { font-family: Arial,Helvetica,sans-serif; }*/
+
+/*默认*/
+h1, h2, h3, h4, h5, h6 {
+    color: #403D3A;
+    line-height: normal;
+    font-variant: small-caps;
+}
+
+h1 {
+    font-size: 46px;
+}
+
+h2 {
+    font-size: 36px;
+}
+
+h3 {
+    font-size: 28px;
+}
+
+h4 {
+    font-size: 21px;
+}
+
+h5 {
+    font-size: 18px;
+}
+
+h6 {
+    font-size: 16px;
+}
+
+hr {
+    width: 100%;
+    display: block;
+    height: 1px;
+    border: none;
+    outline: none;
+    clear: both;
+    background: #5593ca;
+    margin: 2em 0;
+}
+
+input[type="text"] {
+    border: 1px solid #AAA;
+    color: #333;
+    padding: 3px 6px;
+    margin: 0px;
+}
+
+input[readonly='readonly'] {
+    background: #efefef;
+    cursor: not-allowed;
+}
+
+input[type="submit"], input[type="button"] {
+    margin: 0px;
+    border: 1px solid #EEE;
+    background: #D14836;
+    cursor: pointer;
+    color: #FFF;
+    padding: 3px 6px;
+    overflow: visible;
+    border-radius: 3px;
+}
+
+    input[type="submit"]:active, input[type="button"]:active {
+        background: #494949;
+    }
+/*边框*/
+.BorderRight {
+    border-right: 1px dotted #AAA;
+}
+
+.BorderTop {
+    border-top: 1px dotted #AAA;
+}
+
+.BorderBottom {
+    border-bottom: 1px dotted #AAA;
+}
+
+.BorderLeft {
+    border-left: 1px dotted #AAA;
+}
+/*浮动*/
+.FloatLeft {
+    float: left;
+}
+
+.FloatRight {
+    float: right;
+}
+
+.Clear {
+    clear: both;
+}
+/*百分比分*/
+.Split1-2 {
+    width: 50%;
+    float: left;
+}
+
+.Split2-3 {
+    width: 67%;
+    float: left;
+}
+
+.Split1-3 {
+    width: 33%;
+    float: left;
+}
+
+.Split3-4 {
+    width: 75%;
+    float: left;
+}
+
+.Split1-4 {
+    width: 25%;
+    float: left;
+}
+
+.Split1-5 {
+    width: 20%;
+    float: left;
+}
+
+.Split4-5 {
+    width: 80%;
+    float: left;
+}
+/*超出省略号*/
+.Ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
+}
+/*数字样式*/
+.Numerical {
+    font-family: Constantia;
+}
+/*居中*/
+.Center {
+    margin: 0px auto;
+}
+
+.field-validation-error {
+    position: relative;
+    color: rgb(255, 51, 0);
+}
+
+    .field-validation-error > span {
+        position: absolute;
+        left: 5px;
+        top: -1px;
+        border: 1px solid rgb(243, 201, 100);
+        white-space: nowrap;
+        background-color: rgb(255, 255, 207);
+        background-image: url(Images/Info.png);
+        background-position: left center;
+        background-repeat: no-repeat;
+        padding: 0px 2px 2px 20px;
+    }
+
+.BoxShadow {
+    box-shadow: 0 4px 23px 5px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.BackGroundShadow{
+    box-shadow: 0 1px 4px #ddd;
+    -webkit-box-shadow: 0 1px 4px #ddd;
+    -moz-box-shadow: 0 1px 4px #ddd;
+    background: #F8F8F8;
+}

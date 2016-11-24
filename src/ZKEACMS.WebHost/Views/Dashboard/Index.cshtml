@@ -1,0 +1,9 @@
+﻿@using ZKEACMS.Dashboard
+@model ZKEACMS.Common.ViewModels.DashboardViewModel
+
+<div class="container-fluid">
+  @foreach (DashboardPart part in Model.Parts.OrderBy(m=>m.Order))
+  {
+    @Html.Partial(part.ViewName, part.ViewModel)
+  }
+</div>

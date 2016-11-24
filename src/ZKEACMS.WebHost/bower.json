@@ -1,0 +1,18 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "3.3.6",
+    "jquery-validation": "1.15.0",
+    "jquery-validation-unobtrusive": "3.2.6",
+    "jquery": "2.2.3",
+    "jstree": "3.3.0",
+    "lightbox2": "2.8.2",
+    "datatables": "1.10.11",
+    "bootstrap-datepicker": "1.6.0"
+  },
+  "resolutions": {
+    "jquery": ">= 1.7.2",
+    "jquery-validation": ">=1.8"
+  }
+}

@@ -1,0 +1,27 @@
+﻿@using System.Reflection;
+@model System.Collections.IList
+@{
+    if (Model == null)
+    {
+        return;
+    }
+    var type = ViewData.ModelMetadata.ModelType.GetTypeInfo().GetGenericArguments()[0];
+}
+<div class="input-group-collection container-fluid">
+    <div class="Template hide">
+        @Html.Partial("ListEditorItemTemplate", Activator.CreateInstance(type))
+    </div>
+    <div class="items">
+        @if (Model != null)
+        {
+            for (int i = 0; i < Model.Count; i++)
+            {
+                @Html.EditorFor(m => m[i], "ListEditorItem")
+            }
+        }
+    </div>
+    <input type="button" value="添加" class="btn btn-primary btn-xs add"
+           data-value="@ActionType.Create" 
+           data-name-prefex="@ViewData.TemplateInfo.HtmlFieldPrefix" />
+
+</div>

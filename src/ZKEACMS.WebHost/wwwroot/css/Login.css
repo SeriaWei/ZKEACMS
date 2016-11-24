@@ -1,0 +1,89 @@
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2016 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+
+body {
+    background: url(./Images/login-bg.jpg) center center no-repeat;
+    background-size: cover;
+    color: #fff !important;
+}
+
+.login-panel {
+    position: absolute;
+    box-sizing: content-box;
+    top: 0;
+    left: 20%;
+    width: 280px;
+    padding: 0 50px;
+    background-color: #2d3336;
+    border-left:1px solid #000;
+    border-right:1px solid #000;
+    height: 100%;
+}
+
+    .login-panel .logo {
+        width: 130px;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .login-panel input {
+        border-radius: 0;
+    }
+
+    .login-panel .form-input {
+        margin-bottom: 15px;
+    }
+
+    .login-panel .login-panel-heading {
+        padding: 40px 0;
+        margin: 60px 0 40px 0;
+        text-align: center;
+        border-bottom: 1px solid #fff;
+    }
+
+    .login-panel .login-panel-body {
+        padding-bottom: 40px;
+        margin-bottom: 40px;
+        border-bottom: 1px solid #fff;
+    }
+
+    .login-panel .login-panel-footer {
+        text-align: center;
+    }
+
+    .login-panel .btn-login {
+        margin-top: 20px;
+        display: block;
+        width: 100%;
+    }
+
+    .login-panel .version {
+        margin-bottom: 60px;
+    }
+
+    .login-panel a {
+        color: #fff;
+        text-decoration: underline;
+    }
+
+        .login-panel a:hover ,.login-panel a:focus {
+            color: #fff;
+        }
+
+@media(max-height:750px) {
+    .login-panel .login-panel-heading {
+        margin: 0 0 30px 0;
+    }
+
+    .login-panel .login-panel-body {
+        padding-bottom: 30px;
+        margin-bottom: 30px;
+    }
+
+    .login-panel .version {
+        margin-bottom: 40px;
+    }
+}

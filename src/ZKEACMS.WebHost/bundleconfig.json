@@ -1,0 +1,36 @@
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/js/site.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/css/admin.min.css",
+    "inputFiles": [
+      "wwwroot/css/admin.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/EasyPlug/Easy.min.js",
+    "inputFiles": [
+      "wwwroot/js/EasyPlug/Easy.js"
+    ]
+  }
+]

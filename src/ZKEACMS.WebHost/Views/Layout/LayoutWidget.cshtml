@@ -1,0 +1,73 @@
+﻿@using ZKEACMS.Common
+@model IEnumerable<LayoutEntity>
+@{
+    Script.Reqiured("jQueryUi").AtFoot();
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    布局组件
+                </div>
+                <div class="panel-body">
+                    <ul id="layouts" class="fullRowList">
+                        @foreach (LayoutEntity item in Model)
+                        {
+                            <li id="@item.ID" class="clearfix" data-id="@item.ID">
+                                <div class="pull-left">
+                                    <i class="glyphicon glyphicon-equalizer"></i> @item.LayoutName
+                                </div>
+                                @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
+                                {
+                                    <div class="pull-right">
+                                        <a href="@Url.Action("Design", new {item.ID})" title="设计">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                        </a>
+                                    </div>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="layoutZones" class="col-md-8">
+
+        </div>
+    </div>
+</div>
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            if (!location.hash) {
+                location.hash = '@ViewBag.LayoutID';
+            }
+            if (location.hash && location.hash != "#") {
+                $("li" + location.hash).trigger("click");
+            }
+        });
+
+        $(document).on("click", ".fullRowList .delete", function () {
+            var id = $(this).data("widgetid");
+            if (confirm("确定要删除该组件吗？")) {
+                $.post("@Url.Action("DeleteWidget", "Widget", new { module = "admin" })", { ID: id }, function (data) {
+                    if (data) {
+                        $("#widget_" + id).remove();
+                    }
+                }, "json");
+            }
+        }).on("click", "#layouts>li", function () {
+            $(this).siblings().removeClass("actived");
+            $(this).addClass("actived");
+            location.hash = $(this).data("id");
+            var layoutZones = $("#layoutZones");
+            layoutZones.empty();
+            $.post("@Url.Action("LayoutZones", "Layout", new { module="admin"})", { ID: $(this).data("id") }, function (html) {
+                layoutZones.html(html);
+            }, "html");
+        });
+    </script>
+}

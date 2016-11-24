@@ -1,0 +1,27 @@
+﻿@model LayoutEntity
+@{
+    Layout = Layouts.LayoutDesign;
+    Script.Reqiured("LayoutDesign").AtFoot();
+    Style.Reqiured("Easy").AtHead();
+    if (Model == null || Model.Html == null)
+    {
+        return;
+    }
+}
+@for (int i = 0; i < Model.Html.Count; i++)
+{
+    var item = Model.Html[i];
+    @Html.Raw(item.Html)
+    if (item.Html == ZoneEntity.ZoneTag)
+    {
+        i++;
+        var zoneId = Model.Html[i].Html;
+        var zone = Model.Zones.FirstOrDefault(m => m.ID == zoneId);
+        if (zone != null)
+        {
+            <input class="form-control" type="text" name="ZoneName" placeholder="输入名称" value="@zone.ZoneName" />
+            <input class="form-control" type="hidden" name="LayoutId" value="@zone.LayoutId" />
+            <input class="form-control" type="hidden" name="ID" value="@zone.ID" />
+        }
+    }
+}

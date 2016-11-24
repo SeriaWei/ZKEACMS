@@ -1,0 +1,48 @@
+﻿@model WidgetTemplateViewModel
+@{
+    Style.Reqiured("Layout").AtFoot();
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div>选择组件</div>
+    </div>
+    <div class="panel-body template-list">
+        @using (Html.BeginForm("RedirectToWidget", "WidgetTemplate", new { module = "admin", Model.PageID, Model.LayoutID, Model.ZoneID, Model.ReturnUrl }))
+        {
+            foreach (var item in Model.WidgetTemplates.GroupBy(m => m.GroupName).OrderBy(m => m.Key))
+            {
+                foreach (WidgetTemplateEntity template in item.OrderBy(m => m.Order))
+                {
+                    <div class="col-lg-2 col-md-3 col-sm-4">
+                        <div>
+                            <input id="template-@template.ID" type="radio" name="WidgetTemplateID" value="@template.ID" />
+                            <label for="template-@template.ID" class="thumbnail">
+                                <img src="@Url.Content(template.Thumbnail)" />
+                                <span>
+                                    @template.Title
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                }
+            }
+            <div class="toolBar">
+                <input id="design" type="submit" class="btn btn-primary" value="下一步" />
+                @if (Model.CanPasteWidget)
+                {
+                    <a class="btn btn-warning" href="@Url.Action("PasteAndRedirect", "Widget", new { Model.LayoutID, Model.PageID,Model.ZoneID,Model.ReturnUrl})">
+                        <i class="glyphicon glyphicon-paste"></i>
+                        粘贴
+                    </a>
+                }
+                <input type="button" class="btn btn-default cancel" value="取消" />
+            </div>
+        }
+    </div>
+</div>
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $("input[type=radio]:first").attr("checked", "checked");
+    </script>
+}

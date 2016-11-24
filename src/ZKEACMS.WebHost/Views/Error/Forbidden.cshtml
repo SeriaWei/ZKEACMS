@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "没有权限";
+}
+<div class="page-header" style="text-align: center;">
+    <br /><br />
+    <h1 style="font-size: 4em" class="text-danger">请求被拒绝</h1>
+</div>
+<div style="text-align:center">
+    <h2>您没有足够的权限</h2>
+    <br />
+    <br />
+    <p>在处理您的请求时出现错误，因为您没有相关的权限，请与管理员联系。</p>
+    <br />
+    <p class="text-muted">或者您还可以访问其它页面：</p>
+    <br />
+    <p>
+        <a href="~/" class="btn btn-info">访问首页</a>
+        <a href="@Url.Action("Login","Account")" class="btn btn-primary">重新登录</a>
+        <a href="http://www.zkea.net/" target="_blank" class="btn btn-info">ZKEASOFT</a>
+        <a href="http://www.zkea.net/zkeacms" target="_blank" class="btn btn-info">ZKEACMS</a>
+    </p>
+</div>
+

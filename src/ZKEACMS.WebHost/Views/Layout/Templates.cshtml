@@ -1,0 +1,36 @@
+﻿@{
+    var templates = new List<List<string>>
+    {
+        new List<string>{"col-md-12"},
+        new List<string>{"col-md-6","col-md-6"},
+        new List<string>{"col-md-7","col-md-5"},
+        new List<string>{"col-md-8","col-md-4"},
+        new List<string>{"col-md-9","col-md-3"},
+        new List<string>{"col-md-5","col-md-7"},
+        new List<string>{"col-md-4","col-md-8"},
+        new List<string>{"col-md-3","col-md-9"},
+        new List<string>{"col-md-4","col-md-4","col-md-4"},
+        new List<string>{"col-md-3","col-md-6","col-md-3"},
+        new List<string>{"col-md-3","col-md-3","col-md-3","col-md-3"}
+    };
+}
+<div class="layout templates">
+    <div class="tool-open glyphicon glyphicon-chevron-right"></div>
+    <ul>
+        @foreach (var item in templates)
+        {
+            <li class="widget-design" data-add="true">
+                <div class="container-fluid">
+                    <div class="row">
+                        @foreach (string col in item)
+                        {
+                            <div class="@col">
+                                <div class="border-helper"></div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>

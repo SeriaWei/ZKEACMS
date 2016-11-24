@@ -1,0 +1,134 @@
+﻿@using ZKEACMS.Common.Models
+@using Version = ZKEACMS.Version
+@inject IAdminMenuProvider adminMenuProvider
+@{
+    Style.Reqiured("bootStrap").AtHead();
+    Style.Reqiured("admin").AtHead();
+    Script.Reqiured("admin").AtFoot();
+    List<AdminMenu> menus = adminMenuProvider.GetAdminMenus().ToList();
+    
+}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>ZKEASOFT</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @StyleAtHead()
+    @ScriptAtHead()
+</head>
+<body>
+
+    <div id="wrap" class="container-fluid">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="http://www.zkea.net" target="_blank" class="navbar-brand" title="ZKEASOFT">
+                        <img src="~/images/logo_zkea_min.png" alt="" style="height: 20px;" />
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <p class="navbar-text">
+                        @Version.CurrentVersion
+                    </p>
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="~/">查看站点</a>
+                        </li>
+                        <li>
+                            <a href="http://www.zkea.net/zkeacms/videos" target="_blank">演示视频</a>
+                        </li>
+                        <li>
+                            <a href="http://www.zkea.net/zkeacms/templates" target="_blank">下载模板</a>
+                        </li>
+                        <li>
+                            <a href="http://www.zkea.net/zkeacms/theme" target="_blank">下载主题</a>
+                        </li>
+                        <li>
+                            <a href="http://www.zkea.net/zkeacms/extend" target="_blank">扩展插件</a>
+                        </li>
+                        <li>
+                            <a href="http://www.zkea.net/freewebsite/build" target="_blank">云建站</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="http://www.zkea.net/zkeacms/donate" target="_blank">
+                                <i class="glyphicon glyphicon-usd"></i>
+                                赞助
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Logout", "Account")" target="_self" title="退出">
+                                <i class="glyphicon glyphicon-off"></i>
+                                退出
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+        <nav class="navbar navbar-inverse navbar-fixed-left">
+            <div class="">
+                <div class="navbar-header">
+                    <div class="userInfo">
+                        <img src="@Url.PathContent(ApplicationContext.CurrentUser.PhotoUrl)" class="img-circle" />
+                        <strong>@ApplicationContext.CurrentUser.UserName</strong>
+                    </div>
+                </div>
+                <ul id="main-menu" class="nav navbar-nav">
+                    @foreach (AdminMenu menu in menus.Where(m => Authorizer.Authorize(m.PermissionKey)).OrderBy(m => m.Order))
+                    {
+                        if (menu.Children != null && menu.Children.Any())
+                        {
+                            if (menu.Children.Any(m => Authorizer.Authorize(m.PermissionKey)))
+                            {
+                                <li class="accordion-group">
+                                    <a class="b_9FDDF6 group-item" href="#">
+                                        <i class="glyphicon @menu.Icon"></i>
+                                        @menu.Title
+                                        <i class="glyphicon group"></i>
+                                    </a>
+                                    <div class="accordion-inner">
+                                        @foreach (AdminMenu child in menu.Children.Where(m => Authorizer.Authorize(m.PermissionKey)).OrderBy(m => m.Order))
+                                        {
+                                            <a id="menu@((child.Url ?? child.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(child.Url ?? "~/")">
+                                                <i class="glyphicon @child.Icon"></i>
+                                                @child.Title
+                                            </a>
+                                        }
+                                    </div>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li>
+                                <a id="menu@((menu.Url ?? menu.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(menu.Url ?? "~/")">
+                                    <i class="glyphicon @menu.Icon"></i>
+                                    @menu.Title
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+
+        </nav>
+        <div class="main-container">
+            <div class="site-map">
+                
+            </div>
+            <div id="main-body">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    @StyleAtFoot()
+    @ScriptAtFoot()
+    <script type="text/javascript" async src="http://www.zkea.net/openstatistics"></script>
+</body>
+</html>

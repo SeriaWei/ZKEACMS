@@ -1,0 +1,51 @@
+﻿@model LayoutEntity
+@{
+    Layout = Layouts.PopUp;
+    if (Model == null)
+    {
+        return;
+    }
+}
+<style>
+    .panel {
+        cursor: pointer;
+    }
+
+        .panel.active {
+            background: #337ab7;
+            color: #fff;
+        }
+</style>
+<div>
+    @for (int i = 0; i < Model.Html.Count; i++)
+    {
+        var itemHtml = Model.Html[i];
+        if (itemHtml.Html == ZoneEntity.ZoneTag)
+        {
+            i++;
+            itemHtml = Model.Html[i];
+            foreach (var item in Model.Zones.Where(m => m.ID == itemHtml.Html))
+            {
+                <div class="panel panel-default @(item.ID == ViewBag.ZoneId ? "active" : "")" style="margin: 5px; text-align: center;" data-zoneid="@item.ID">
+                    <div class="panel-body">
+                        @item.ZoneName
+                    </div>
+                </div>
+            }
+            i++;
+            continue;
+        }
+        @Html.Raw(itemHtml.NoStyleHtml)
+    }
+
+</div>
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(document).on("click", ".panel", function () {
+            $(".panel").removeClass("active");
+            $(this).addClass("active");
+            Set($(this).data("zoneid"));
+        });
+    </script>
+}

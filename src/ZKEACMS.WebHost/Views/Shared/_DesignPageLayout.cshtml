@@ -1,0 +1,154 @@
+﻿@model LayoutEntity
+@{
+    if (Model == null)
+    {
+        return;
+    }
+}
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="zh"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html class="not-ie" lang="zh">
+<!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="cache-control" content="no-store">
+    <meta http-equiv="expires" content="-1">
+    <meta http-equiv="pragma" content="no-cache" />
+
+    <meta charset="utf-8" />
+    <title>[设计]@Model.Page.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @StyleAtHead()
+    @ScriptAtHead()
+    @if (Model.CurrentTheme != null)
+    {
+        if (HttpContext.Current.IsDebuggingEnabled)
+        {
+            <link type="text/css" rel="stylesheet" href="@Url.Content(Model.CurrentTheme.UrlDebugger)" />
+        }
+        else
+        {
+            <link type="text/css" rel="stylesheet" href="@Url.Content(Model.CurrentTheme.Url)" />
+        }
+    }
+</head>
+<body class="front">
+    <nav id="toolBar" class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="row">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand"><span class="badge">页面设计</span></a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a>
+                                <label class="checkbox-inline">
+                                    <input class="helper" data-class="design-border" type="checkbox" autocomplete="off" checked />
+                                    <span>
+                                        边框(显示空区域)
+                                    </span>
+                                </label>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <label class="checkbox-inline">
+                                    <input class="helper" data-class="hideToolBar" type="checkbox" autocomplete="off" checked />
+                                    <span>
+                                        工具栏
+                                    </span>
+                                </label>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="navbar-form navbar-right">
+                        <div class="btn-group">
+                            <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new {module = "admin", Model.Page.ID})">
+                                <i class="glyphicon glyphicon-search"></i>
+                                预览
+                            </a>
+                            <a class="btn btn-primary" href="@Url.Action("Index", "Page", new {module = "admin", PageID = Model.Page.ID})">
+                                <i class="glyphicon glyphicon-th"></i>
+                                概览
+                            </a>
+                            <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new {module = "admin", Model.ID, PageID = Model.Page.ID})">
+                                <i class="glyphicon glyphicon-th-list"></i>
+                                布局
+                            </a>
+                            <a class="btn btn-primary" href="@Url.Action("Edit", "Page", new {module = "admin", Model.Page.ID})">
+                                <i class="glyphicon glyphicon-edit"></i>
+                                属性
+                            </a>
+                            <a class="btn btn-primary" href="@Url.Action("PublishPage", "Page", new {module = "admin", Model.Page.ID, ReturnUrl = Model.Page.Url})">
+                                <i class="glyphicon glyphicon-open"></i>
+                                发布
+                            </a>
+                            <a class="btn btn-primary" href="@Url.Action("SelectWidget", "WidgetTemplate", new {module = "admin", pageId = Model.Page.ID})">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                添加组件
+                            </a>
+                            <a href="javascript:void(0)" class="upload-template btn btn-primary">
+                                <i class="glyphicon glyphicon-copy"></i>
+                                安装模板
+                            </a>
+
+                            @if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
+                            {
+                                <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme", new {module = "admin"})">
+                                    <i class="glyphicon glyphicon-transfer"></i>
+                                    退出
+                                    @Model.CurrentTheme.Title
+                                    主题
+                                </a>
+                            }
+                            @Html.Partial("Partial.Menu", Model)
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <form id="template-form" action="@Url.Action("InstallWidgetTemplate", "Widget", new {module = "admin"})" enctype="multipart/form-data" method="post">
+                <input type="hidden" name="returnUrl" value="@Request.Url.PathAndQuery" />
+                <input id="template-file" name="template" type="file" class="hidden" />
+            </form>
+        </div>
+    </nav>
+    <div id="containers" class="pagePreview design-border">
+        @RenderBody()
+    </div>
+
+    @StyleAtFoot()
+    @ScriptAtFoot()
+    @if (!Model.Style.IsNullOrEmpty())
+    {
+        <link href="@Url.Content(Model.Style)" rel="stylesheet" />
+    }
+    @if (!Model.Page.Style.IsNullOrEmpty())
+    {
+        <link href="@Url.Content(Model.Page.Style)" rel="stylesheet" />
+    }
+    @if (!Model.Script.IsNullOrEmpty())
+    {
+        <script type="text/javascript" src="@Url.Content(Model.Script)"></script>
+    }
+    @if (!Model.Page.Script.IsNullOrEmpty())
+    {
+        <script type="text/javascript" src="@Url.Content(Model.Page.Script)"></script>
+    }
+</body>
+</html>

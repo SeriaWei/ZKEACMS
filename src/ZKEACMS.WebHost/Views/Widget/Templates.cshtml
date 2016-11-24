@@ -1,0 +1,22 @@
+﻿@model IEnumerable<WidgetBase>
+@{
+    if (!Model.Any())
+    {
+        return;
+    }
+}
+<div class="templates">
+    <div class="tool-open glyphicon glyphicon-chevron-right"></div>
+    <ul>
+        @foreach (WidgetBase item in Model.OrderByDescending(m => m.IsSystem).ThenBy(m => m.Position))
+        {
+            <li id="template_@item.ID" class="widget-design" data-add="true" data-id="@item.ID">
+                <img title="@item.WidgetName" class="template" src="@Url.Content(item.Thumbnail.IsNullOrWhiteSpace() ? "~/Images/template.png" : item.Thumbnail)" />
+                @if (!item.IsSystem)
+                {
+                    <img data-id="@item.ID" data-url="@Url.Action("CancelTemplate", "Widget", new { module = "admin" })" class="delete-template" src="~/Content/Images/close_red.png" />
+                }
+            </li>
+        }
+    </ul>
+</div>

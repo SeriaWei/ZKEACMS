@@ -1,0 +1,184 @@
+﻿@using ZKEACMS.Common
+@using Easy.ViewPort.jsTree
+@{
+    string pageId =ViewContext.HttpContext.Request.Query["PageID"];
+    Script.Reqiured("jQueryUi").AtFoot();
+    Script.Reqiured("jsTree").AtFoot();
+    Style.Reqiured("jsTree").AtHead();
+
+    var pageTree = Html.Tree<PageEntity>().Source("GetPageTree", "Page")
+        .AddPlugin(Plugins.ContextMenu)
+        .On(Events.Loaded, "loadedPage")
+        .CheckCallBack("checkCallBack")
+        .On(Events.MoveNode, "moveNode")
+        .On(Events.ActiveNode, "ActiveNode");
+
+    if (Authorizer.Authorize(PermissionKeys.ManagePage))
+    {
+        pageTree.AddPlugin(Plugins.DragAndDrop).AddContextMenuItem(new ContextmenuItem { Label = "新建", Action = "Create", Icon = "glyphicon glyphicon-plus" })
+            .AddContextMenuItem(new ContextmenuItem {Label = "编辑", Action = "Edit", Icon = "glyphicon glyphicon-edit", SeparatorAfter = true})
+            .AddContextMenuItem(new ContextmenuItem {Label = "预览", Action = "PreView", Icon = "glyphicon glyphicon-search"})
+            .AddContextMenuItem(new ContextmenuItem {Label = "查看", Action = "View", Icon = "glyphicon glyphicon-new-window"})
+            .AddContextMenuItem(new ContextmenuItem {Label = "发布", Action = "Publish", Icon = "glyphicon glyphicon-open"})
+            .AddContextMenuItem(new ContextmenuItem {Label = "设计", Action = "Design", Icon = "glyphicon glyphicon-wrench"});
+    }
+    else
+    {
+        pageTree.AddContextMenuItem(new ContextmenuItem {Label = "预览", Action = "PreView", Icon = "glyphicon glyphicon-search"})
+            .AddContextMenuItem(new ContextmenuItem {Label = "查看", Action = "View", Icon = "glyphicon glyphicon-new-window"});
+    }
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    页面
+                </div>
+                <div class="panel-body">
+                    @pageTree
+                </div>
+                @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+                {
+                    <div class="panel-footer">
+                        <a href="@Url.Action("Create", new {ParentID = "#"})" class="btn btn-link btn-xs">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            添加页面
+                        </a>
+                        <i class="glyphicon glyphicon-question-sign" style="cursor:help" data-toggle="modal" data-target="#help"></i>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-8" id="pageZones"></div>
+    </div>
+</div>
+<div id="help" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">说明</h4>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li>
+                        添加页面：添加顶级页面，即域名下的一级子页面。~/xxxxx
+                    </li>
+                    <li>
+                        <span>右键菜单</span>
+                        <ul>
+                            <li>
+                                添加：添加子页面
+                            </li>
+                            <li>
+                                编辑：编辑选中页面的属性，像标题，SEO关键字等
+                            </li>
+                            <li>
+                                预览：查看最新修改版本
+                            </li>
+                            <li>
+                                查看：查看已发布版本
+                            </li>
+                            <li>
+                                发布：将页面发布到前端可查看
+                            </li>
+                            <li>
+                                设计：进入页面的设计模式
+                            </li>
+                            <li>
+                                布局：修改页面布局。<code>会影响所有使用该布局的页面</code>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <hr />
+                <p>
+                    <strong>注：</strong>
+                    页面必须要发布才可以通过网址访问。对页面进行修改不会影响到已发布版本，直到下一次发布。
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        function Create(node) {
+            var parent = node.reference.attr("id");
+            window.location.href = '@Url.Action("Create", "Page")' + '?ParentID=' + parent;
+        }
+        function Edit(node) {
+            var id = node.reference.attr("id");
+            window.location.href = '@Url.Action("Edit", "Page")' + '?ID=' + id;
+        }
+        function PreView(node) {
+            var id = node.reference.attr("id");
+            window.location.href = '@Url.Action("RedirectView", "Page")' + '?ID=' + id;
+        }
+        function View(node) {
+            var id = node.reference.attr("id");
+            window.open('@Url.Action("RedirectView", "Page")' + '?ID=' + id + "&preview=false");
+        }
+        function Design(node) {
+            var id = node.reference.attr("id");
+            window.location.href = '@Url.Action("Design", "Page")' + '?ID=' + id;
+        }
+        function Publish(node) {
+            var id = node.reference.attr("id");
+            Easy.ShowMessageBox("提示", "确定要发布吗？", function () {
+                Easy.Block();
+                $.post('@Url.Action("Publish")', { id: id }, function () {
+                    $(".jstree").jstree().refresh();
+                    Easy.UnBlock();
+                });
+            }, true);
+        }
+        function ActiveNode(node, selected) {
+            location.hash = selected.node.id;
+            var pageZones = $("#pageZones");
+            pageZones.empty();
+            $.post("@Url.Action("PageZones", "Page")", { PageID: selected.node.id }, function (html) {
+                pageZones.html(html);
+            }, "html");
+        }
+        function checkCallBack(operation, node, node_parent, node_position, more) {
+            return operation == "move_node" && node.parent == node_parent.id;
+        }
+        function moveNode(node, parent) {
+            $.post("@Url.Action("MovePage")", { id: parent.node.id, position: parent.position + 1, oldPosition: parent.old_position + 1 }, function () {
+
+            }, "json");
+        }
+        function loadedPage(p) {
+            if (location.hash && location.hash != "#") {
+                $(p.target).find("a" + location.hash).trigger("click");
+            } else {
+                $(".jstree-node:first a.jstree-anchor:first", p.target).trigger("click");
+            }
+        }
+        $(document).on("click", ".fullRowList .delete", function () {
+            var id = $(this).data("widgetid");
+            Easy.ShowMessageBox("提示", "确定要删除该组件吗？", function () {
+                $.post("@Url.Action("DeleteWidget", "Widget")", { ID: id }, function (data) {
+                    if (data) {
+                        $("#widget_" + id).remove();
+                    }
+                }, "json");
+            }, true, 10);
+        }).on("click", ".publish-page",function() {
+            var btn = $(this);
+            Publish({
+                reference: {
+                    attr: function (id) {
+                return btn.data(id);
+            }}});
+        });
+        if (!location.hash) {
+            location.hash = '@(pageId)';
+        }
+    </script>
+}

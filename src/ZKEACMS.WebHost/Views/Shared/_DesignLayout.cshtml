@@ -1,0 +1,213 @@
+﻿@{
+    Script.Reqiured("jQueryUi").AtFoot();
+    Style.Reqiured("Layout").AtHead();
+    Style.Reqiured("bootStrap").AtHead();
+    Script.Reqiured("admin").AtFoot();
+    Model.ContainerClass = Model.ContainerClass ?? "container";
+}
+@model LayoutEntity
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="zh"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html class="not-ie" lang="zh">
+<!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="cache-control" content="no-store">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="pragma" content="no-cache" />
+
+    <title>[设计]@Model.LayoutName</title>
+    @StyleAtHead()
+    @ScriptAtHead()
+</head>
+<body class="front">
+    <form id="LayoutInfo" asp-controller="Layout" asp-action="SaveLayout" method="post">
+        <nav id="toolBar" class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="row">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand"><span class="badge">布局设计</span></a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <div class="navbar-form navbar-left">
+                            <label class="AddContainer btn btn-default" data-container="container-fluid">
+                                <span class="badge">1</span>
+                                <i class="glyphicon glyphicon-unchecked"></i>
+                                容器
+                            </label>
+                            <label class="AddRow btn btn-primary" data-container="container-fluid">
+                                <span class="badge">2</span>
+                                <i class="glyphicon glyphicon-align-justify"></i>
+                                行
+                            </label>
+                            <div class="btn-group">
+                                <label id="add-col-handle" class="AddCol btn btn-success" data-col="col-md-" data-val="6">
+                                    <span class="badge">3</span>
+                                    <i class="glyphicon glyphicon-tasks"></i>
+                                    列 <span class="col-size-info">宽 6/12</span>
+                                </label>
+                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu col-size">
+                                    <li><a href="javascript:void(0)" data-val="1">宽 1/12</a></li>
+                                    <li><a href="javascript:void(0)" data-val="2">宽 2/12</a></li>
+                                    <li><a href="javascript:void(0)" data-val="3">宽 3/12</a></li>
+                                    <li><a href="javascript:void(0)" data-val="4">宽 4/12</a></li>
+                                    <li><a href="javascript:void(0)" data-val="5">宽 5/12</a></li>
+                                    <li class="active"><a href="javascript:void(0)" data-val="6">宽 6/12</a></li>
+                                    <li><a href="javascript:void(0)" data-val="7">宽 7/12</a></li>
+                                    <li><a href="javascript:void(0)" data-val="8">宽 8/12</a></li>
+                                    <li><a href="javascript:void(0)" data-val="9">宽 9/12</a></li>
+                                    <li><a href="javascript:void(0)" data-val="10">宽 10/12</a></li>
+                                    <li><a href="javascript:void(0)" data-val="11">宽 11/12</a></li>
+                                    <li><a href="javascript:void(0)" data-val="12">宽 12/12</a></li>
+                                </ul>
+                            </div>
+                            <span class="badge" data-toggle="modal" data-target="#question" style="cursor:help">?</span>
+
+
+
+                        </div>
+                        <div class="navbar-form navbar-right">
+                            <div class="btn-group">
+                                <a class="btn btn-primary cancel">
+                                    <i class="glyphicon glyphicon-arrow-left"></i>
+                                    取消
+                                </a>
+                                @if (Model.Page != null)
+                                {
+                                    <a class="btn btn-primary" href="@Url.Action("Design", "Page", new { module = "admin", Model.Page.ID })">
+                                        <i class="glyphicon glyphicon-wrench"></i>
+                                        页面设计
+                                    </a>
+                                }
+                                <a href="@Url.Action("LayoutWidget", "Layout", new { LayoutID = Model.ID, module = "admin" })" class="btn btn-primary">
+                                    <i class="glyphicon glyphicon-compressed"></i>
+                                    组件
+                                </a>
+                                <a href="@Url.Action("Edit", "Layout", new {Model.ID, module = "admin" })" class="btn btn-primary">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                    属性
+                                </a>
+                                <a class="btn btn-primary" id="save">
+                                    <i class="glyphicon glyphicon-floppy-disk"></i>
+                                    保存
+                                </a>
+                                @Html.Partial("Partial.Menu", Model)
+                            </div>
+                            <input type="hidden" id="ContainerClass" name="ContainerClass" value="@(Model.ContainerClass)" />
+                            <input type="hidden" id="LayoutId" name="ID" value="@Model.ID" />
+                            @if (Model.Page != null)
+                            {
+                                <input type="hidden" name="Page.ID" value="@Model.Page.ID" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </form>
+    <div id="containers" class="hide">
+        @RenderBody()
+    </div>
+
+    @Html.Partial("Layout/Templates")
+    @if (!Model.Style.IsNullOrEmpty())
+    {
+        <link href="@Url.Content(Model.Style)" rel="stylesheet" />
+
+    }
+    <div class="modal fade" id="question" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">布局设计说明</h4>
+                </div>
+                <div class="modal-body">
+                    <h3>
+                        居中 / 拉伸
+                    </h3>
+                    <ol>
+                        <li>
+                            居中，宽度响应变化
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                超小屏幕
+                                                <small>手机 (&lt;768px)</small>
+                                            </th>
+                                            <th>
+                                                小屏幕
+                                                <small>平板 (≥768px)</small>
+                                            </th>
+                                            <th>
+                                                中等屏幕
+                                                <small>桌面显示器 (≥992px)</small>
+                                            </th>
+                                            <th>
+                                                大屏幕
+                                                <small>大桌面显示器 (≥1200px)</small>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>100%</td>
+                                            <td>750px</td>
+                                            <td>970px</td>
+                                            <td>1170px</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </li>
+                        <li>
+                            拉伸，宽度100%。<code>在这种情况下，选中行可以设置“行”居中或拉伸。</code>
+                        </li>
+                    </ol>
+                    <h3>
+                        行 / 列宽 / 组件区域
+                    </h3>
+                    <ol>
+                        <li>
+                            <p><code>拖放操作步骤：</code>1.容器，2.行 -> 容器，3.列 -> 行</p>
+                        </li>
+                        <li>
+                            <p>行，直接加入到主容器中。</p>
+                        </li>
+                        <li>
+                            <p>列，只能加入到“行”中。列宽分成12等分，选择任意宽度划分行。</p>
+                        </li>
+                    </ol>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (!Model.Script.IsNullOrEmpty())
+    {
+        <script type="text/javascript" src="@Url.Content(Model.Script)"></script>
+    }
+    @StyleAtFoot()
+    @ScriptAtFoot()
+</body>
+</html>
