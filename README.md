@@ -1,1 +1,1 @@
-#ZKEACMS.Core
+#ZKEACMS For .Net Core
