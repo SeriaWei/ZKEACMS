@@ -64,5 +64,6 @@ SELECT LanKey ,
         LanType
 FROM    LanguageBackUp
 GO
+DROP TABLE LanguageBackUp
 alter table Carousel alter column [Status] int null
 GO
