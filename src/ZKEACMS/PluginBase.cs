@@ -47,7 +47,7 @@ namespace ZKEACMS
                     {
                         WidgetBase.KnownWidgetService.Add(name, item);
                     }
-                    foreach (var widgetModel in item.GetTypeInfo().GetGenericArguments())
+                    foreach (var widgetModel in item.GetTypeInfo().BaseType.GetGenericArguments())
                     {
                         string modelName = $"{widgetModel.GetTypeInfo().Assembly.GetName().Name},{widgetModel.FullName}";
                         if (!WidgetBase.KnownWidgetModel.ContainsKey(modelName))

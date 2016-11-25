@@ -19,13 +19,15 @@ namespace Easy.Mvc.Plugin
         public const string PluginFolder = "Plugins";
         private const string PluginInfoFile = ".info";
         public static IHostingEnvironment HostingEnvironment { get; set; }
+        private static List<AssemblyLoader> Loaders = new List<AssemblyLoader>();
         public void LoadEnablePlugins(Action<IPluginStartup> onLoading)
         {
-            var loader = new AssemblyLoader();
-            loader.OnLoading = onLoading;
             GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>
             {
+                var loader = new AssemblyLoader();
+                loader.OnLoading = onLoading;
                 loader.LoadPlugin(Path.Combine(m.RelativePath, HostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName));
+                Loaders.Add(loader);
             });
         }
 

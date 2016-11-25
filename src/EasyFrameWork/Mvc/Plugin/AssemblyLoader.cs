@@ -15,41 +15,38 @@ namespace Easy.Mvc.Plugin
     public class AssemblyLoader : AssemblyLoadContext
     {
         private const string ControllerTypeNameSuffix = "Controller";
-        public static List<string> Folders { get; } = new List<string>();
-        private static List<string> LoadedAssemblys { get; } = new List<string>();
+        private string LoadedAssembly;
 
         public Action<IPluginStartup> OnLoading { get; set; }
         public Assembly LoadPlugin(string path)
         {
-            if (!LoadedAssemblys.Contains(path))
+            if (LoadedAssembly == null)
             {
+                LoadedAssembly = path;
                 var assembly = this.LoadFromAssemblyPath(path);
-                var directory = new FileInfo(path).DirectoryName;
-                if (!Folders.Contains(directory))
-                {
-                    Folders.Add(directory);
-                }
                 RegistAssembly(assembly);
                 return assembly;
             }
-            return null;
+            throw new Exception("A loader just can load one assembly.");
         }
         protected override Assembly Load(AssemblyName assemblyName)
         {
-            string assemblyFile = assemblyName.Name + ".dll";
-            foreach (var item in Folders)
+            var deps = DependencyContext.Default;
+            if (deps.CompileLibraries.Any(d => d.Name == assemblyName.Name))
             {
-                string file = item + "\\" + assemblyFile;
-                if (File.Exists(file))
+                return Assembly.Load(assemblyName);
+            }
+
+            string file = new FileInfo(LoadedAssembly).DirectoryName + "\\" + assemblyName.Name + ".dll";
+            if (File.Exists(file))
+            {
+                var assembly = this.LoadFromAssemblyPath(file);
+                if (assembly.GetName().FullName == assemblyName.FullName)
                 {
-                    var assembly = this.LoadFromAssemblyPath(file);
-                    if (assembly.GetName().FullName == assemblyName.FullName)
-                    {
-                        RegistAssembly(assembly);
-                        return assembly;
-                    }
+                    return assembly;
                 }
             }
+
             return null;
         }
         private void RegistAssembly(Assembly assembly)
@@ -58,19 +55,17 @@ namespace Easy.Mvc.Plugin
             Type PluginType = typeof(IPluginStartup);
             foreach (var typeInfo in assembly.DefinedTypes)
             {
+                if (typeInfo.IsAbstract || typeInfo.IsInterface) continue;
+
                 if (IsController(typeInfo) && !controllers.Contains(typeInfo))
                 {
                     controllers.Add(typeInfo);
                 }
-                else if (!typeInfo.IsAbstract && !typeInfo.IsInterface)
+                else if (PluginType.IsAssignableFrom(typeInfo.AsType()))
                 {
-                    var interfaces = typeInfo.GetInterfaces();
-                    if (interfaces != null && interfaces.Any(t => t == PluginType))
-                    {
-                        var plugin = (Activator.CreateInstance(typeInfo.AsType()) as IPluginStartup);
-                        plugin.ConfigureServices(Builder.ServiceCollection);
-                        OnLoading?.Invoke(plugin);
-                    }
+                    var plugin = (Activator.CreateInstance(typeInfo.AsType()) as IPluginStartup);
+                    plugin.ConfigureServices(Builder.ServiceCollection);
+                    OnLoading?.Invoke(plugin);
                 }
             }
             if (controllers.Count > 0 && !ActionDescriptorProvider.PluginControllers.ContainsKey(assembly.FullName))
