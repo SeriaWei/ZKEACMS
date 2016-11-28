@@ -6,16 +6,6 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/js/site.min.js",
-    "inputFiles": [
-      "wwwroot/js/site.js"
-    ],
-    "minify": {
-      "enabled": true,
-      "renameLocals": true
-    }
-  },
-  {
     "outputFileName": "wwwroot/css/admin.min.css",
     "inputFiles": [
       "wwwroot/css/admin.css"

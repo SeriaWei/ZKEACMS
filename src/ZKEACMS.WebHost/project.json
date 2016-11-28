@@ -36,11 +36,12 @@
     "Microsoft.Extensions.Logging": "1.1.0",
     "Microsoft.ApplicationInsights.AspNetCore": "1.0.2",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
-    "Microsoft.AspNetCore.Mvc.Razor.Precompilation.Design":"1.0.0-preview1-final",
-    "Microsoft.Extensions.CommandLineUtils":"1.1.0"
+    "Microsoft.AspNetCore.Mvc.Razor.Precompilation.Design": "1.0.0-preview1-final",
+    "Microsoft.Extensions.CommandLineUtils": "1.1.0"
   },
 
   "tools": {
+    "BundlerMinifier.Core": "2.2.306",
     "Microsoft.AspNetCore.Razor.Tools": "1.0.0-preview2-final",
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final",
     "Microsoft.AspNetCore.Mvc.Razor.Precompilation.Tools": "1.0.0-preview1-final"
@@ -50,7 +51,6 @@
     "netcoreapp1.1": {
       "dependencies": {
         "Microsoft.NETCore.App": {
-          "type": "platform",
           "version": "1.1.0"
         }
       },
@@ -80,7 +80,16 @@
   },
 
   "scripts": {
-    "prepublish": [ "bower install", "dotnet bundle" ],
-    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
+    "prepublish": [
+      "bower install",
+      "dotnet bundle"
+    ],
+    "postpublish": [
+      "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%",
+      "dotnet razor-precompile -f %publish:FullTargetFramework% -o %publish:OutputPath%"
+    ]
+  },
+  "runtimes": {
+    "win7-x64": {}
   }
 }
