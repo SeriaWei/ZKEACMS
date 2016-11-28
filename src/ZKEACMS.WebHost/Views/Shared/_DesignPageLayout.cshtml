@@ -1,10 +1,12 @@
-﻿@model LayoutEntity
+﻿@using Microsoft.AspNetCore.Hosting
+@model LayoutEntity
 @{
     if (Model == null)
     {
         return;
     }
 }
+@inject IHostingEnvironment hostingEnvironment
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->
@@ -29,7 +31,7 @@
     @ScriptAtHead()
     @if (Model.CurrentTheme != null)
     {
-        if (HttpContext.Current.IsDebuggingEnabled)
+        if (hostingEnvironment.IsDevelopment())
         {
             <link type="text/css" rel="stylesheet" href="@Url.Content(Model.CurrentTheme.UrlDebugger)" />
         }
@@ -123,7 +125,7 @@
             </div>
 
             <form id="template-form" action="@Url.Action("InstallWidgetTemplate", "Widget", new {module = "admin"})" enctype="multipart/form-data" method="post">
-                <input type="hidden" name="returnUrl" value="@Request.Url.PathAndQuery" />
+                <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.Path" />
                 <input id="template-file" name="template" type="file" class="hidden" />
             </form>
         </div>
