@@ -36,7 +36,7 @@ namespace ZKEACMS.Controllers
         [HttpPost]
         public ActionResult RedirectToWidget(QueryContext context)
         {
-            return RedirectToAction("Create", "Widget", new { module = "admin", context.PageID, context.LayoutID, context.ZoneID, context.WidgetTemplateID, context.ReturnUrl });
+            return RedirectToAction("Create", "Widget", new { context.PageID, context.LayoutID, context.ZoneID, context.WidgetTemplateID, context.ReturnUrl });
         }
     }
 }

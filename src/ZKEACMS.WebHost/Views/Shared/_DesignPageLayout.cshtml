@@ -79,27 +79,27 @@
                     </ul>
                     <div class="navbar-form navbar-right">
                         <div class="btn-group">
-                            <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new {module = "admin", Model.Page.ID})">
+                            <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new {Model.Page.ID})">
                                 <i class="glyphicon glyphicon-search"></i>
                                 预览
                             </a>
-                            <a class="btn btn-primary" href="@Url.Action("Index", "Page", new {module = "admin", PageID = Model.Page.ID})">
+                            <a class="btn btn-primary" href="@Url.Action("Index", "Page", new {PageID = Model.Page.ID})">
                                 <i class="glyphicon glyphicon-th"></i>
                                 概览
                             </a>
-                            <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new {module = "admin", Model.ID, PageID = Model.Page.ID})">
+                            <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new {Model.ID, PageID = Model.Page.ID})">
                                 <i class="glyphicon glyphicon-th-list"></i>
                                 布局
                             </a>
-                            <a class="btn btn-primary" href="@Url.Action("Edit", "Page", new {module = "admin", Model.Page.ID})">
+                            <a class="btn btn-primary" href="@Url.Action("Edit", "Page", new { Model.Page.ID})">
                                 <i class="glyphicon glyphicon-edit"></i>
                                 属性
                             </a>
-                            <a class="btn btn-primary" href="@Url.Action("PublishPage", "Page", new {module = "admin", Model.Page.ID, ReturnUrl = Model.Page.Url})">
+                            <a class="btn btn-primary" href="@Url.Action("PublishPage", "Page", new {Model.Page.ID, ReturnUrl = Model.Page.Url})">
                                 <i class="glyphicon glyphicon-open"></i>
                                 发布
                             </a>
-                            <a class="btn btn-primary" href="@Url.Action("SelectWidget", "WidgetTemplate", new {module = "admin", pageId = Model.Page.ID})">
+                            <a class="btn btn-primary" href="@Url.Action("SelectWidget", "WidgetTemplate", new { pageId = Model.Page.ID})">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 添加组件
                             </a>
@@ -110,7 +110,7 @@
 
                             @if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
                             {
-                                <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme", new {module = "admin"})">
+                                <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme")">
                                     <i class="glyphicon glyphicon-transfer"></i>
                                     退出
                                     @Model.CurrentTheme.Title
@@ -124,7 +124,7 @@
                 </div>
             </div>
 
-            <form id="template-form" action="@Url.Action("InstallWidgetTemplate", "Widget", new {module = "admin"})" enctype="multipart/form-data" method="post">
+            <form id="template-form" action="@Url.Action("InstallWidgetTemplate", "Widget")" enctype="multipart/form-data" method="post">
                 <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.Path" />
                 <input id="template-file" name="template" type="file" class="hidden" />
             </form>

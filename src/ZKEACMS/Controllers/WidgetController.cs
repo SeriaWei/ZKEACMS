@@ -73,9 +73,9 @@ namespace ZKEACMS.Controllers
             }
             if (!widget.PageID.IsNullOrEmpty())
             {
-                return RedirectToAction("Design", "Page", new { module = "admin", ID = widget.PageID });
+                return RedirectToAction("Design", "Page", new { ID = widget.PageID });
             }
-            return RedirectToAction("LayoutWidget", "Layout", new { module = "admin" });
+            return RedirectToAction("LayoutWidget", "Layout");
         }
         [ViewDataZones]
         public ActionResult Edit(string ID, string ReturnUrl)
@@ -113,9 +113,9 @@ namespace ZKEACMS.Controllers
             }
             if (!widget.PageID.IsNullOrEmpty())
             {
-                return RedirectToAction("Design", "Page", new { module = "admin", ID = widget.PageID });
+                return RedirectToAction("Design", "Page", new { ID = widget.PageID });
             }
-            return RedirectToAction("LayoutWidget", "Layout", new { module = "admin" });
+            return RedirectToAction("LayoutWidget", "Layout");
         }
 
         [HttpPost]

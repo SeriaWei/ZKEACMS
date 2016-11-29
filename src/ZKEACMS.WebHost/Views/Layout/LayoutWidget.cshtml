@@ -53,7 +53,7 @@
         $(document).on("click", ".fullRowList .delete", function () {
             var id = $(this).data("widgetid");
             if (confirm("确定要删除该组件吗？")) {
-                $.post("@Url.Action("DeleteWidget", "Widget", new { module = "admin" })", { ID: id }, function (data) {
+                $.post("@Url.Action("DeleteWidget", "Widget")", { ID: id }, function (data) {
                     if (data) {
                         $("#widget_" + id).remove();
                     }

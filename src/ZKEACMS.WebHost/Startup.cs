@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using ZKEACMS.Common.Service;
+using ZKEACMS.ModelBinder;
 
 namespace ZKEACMS.WebHost
 {
@@ -46,7 +47,7 @@ namespace ZKEACMS.WebHost
 
             services.AddMvc(option =>
             {
-
+                option.ModelBinderProviders.Insert(0, new WidgetModelBinderProvider());
                 option.ModelMetadataDetailsProviders.Add(new Easy.Mvc.DataAnnotations.DataAnnotationsMetadataProvider());
             })
             .AddControllersAsServices();

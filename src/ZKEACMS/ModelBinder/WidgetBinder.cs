@@ -1,21 +1,25 @@
+using System;
+using System.Threading.Tasks;
 ///* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
-//using Easy.Extend;
-//using ZKEACMS.Widget;
+using Easy.Extend;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using ZKEACMS.Widget;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 
-//namespace ZKEACMS.ModelBinder
-//{
-//    public class WidgetBinder : DefaultModelBinder
-//    {
-//        public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
-//        {
-//            object model = base.BindModel(controllerContext, bindingContext);
-//            var widgetBase = model as WidgetBase;
-//            if (!widgetBase.ViewModelTypeName.IsNullOrEmpty())
-//            {
-//                bindingContext.ModelMetadata = ModelMetadataProviders.Current.GetMetadataForType(() => widgetBase.CreateViewModelInstance(), widgetBase.GetViewModelType());
-//                model = base.BindModel(controllerContext, bindingContext);
-//            }
-//            return model;
-//        }
-//    }
-//}
+namespace ZKEACMS.ModelBinder
+{
+    public class WidgetBinder : IModelBinder
+    {
+
+        public Task BindModelAsync(ModelBindingContext bindingContext)
+        {
+            Microsoft.AspNetCore.Mvc.ModelBinding.Binders.
+               var assembly = bindingContext.ValueProvider.GetValue("AssemblyName");
+            var viewModelType = bindingContext.ValueProvider.GetValue("ViewModelTypeName");
+            
+            SimpleTypeModelBinder simpleBinder = new SimpleTypeModelBinder(WidgetBase.KnownWidgetModel[$"{assembly.FirstValue},{viewModelType.FirstValue}"]);
+
+            return simpleBinder.BindModelAsync(bindingContext);
+        }
+    }
+}

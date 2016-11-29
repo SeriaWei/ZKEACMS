@@ -15,6 +15,7 @@ namespace ZKEACMS.MetaData
         }
         private void InitViewBase()
         {
+            ViewConfig(m => m.ID).AsHidden();
             ViewConfig(m => m.WidgetName).AsTextBox().Order(NextOrder()).Required();
             ViewConfig(m => m.Title).AsTextBox().Order(NextOrder());
             ViewConfig(m => m.ZoneID).AsDropDownList().Order(NextOrder()).DataSource(ViewDataKeys.Zones, SourceType.ViewData).Required();
@@ -25,7 +26,12 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.CustomClass).AsHidden().Ignore();
             ViewConfig(m => m.CustomStyle).AsHidden().Ignore();
             ViewConfig(m => m.ExtendFields).AsListEditor();
-            
+            ViewConfig(m => m.AssemblyName).AsHidden();
+            ViewConfig(m => m.FormView).AsHidden();
+            ViewConfig(m => m.IsSystem).AsHidden();
+            ViewConfig(m => m.ServiceTypeName).AsHidden();
+            ViewConfig(m => m.ViewModelTypeName).AsHidden();
+
         }
 
         protected override void ViewConfigure()

@@ -11,7 +11,7 @@
             {
                 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
                     <div class="thumbnail @(item.IsActived ? "active" : "")">
-                        <a href="@Url.Action("PreView", "Theme", new {module = "admin", id = item.ID})">
+                        <a href="@Url.Action("PreView", "Theme", new {id = item.ID})">
                             <img src="@Url.Content(item.Thumbnail ?? ThemeEntity.DefaultThumbnail)" alt="@item.Title"/>
                         </a>
                         @if (Authorizer.Authorize(PermissionKeys.ManageTheme))

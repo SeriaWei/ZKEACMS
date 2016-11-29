@@ -12,7 +12,7 @@ namespace ZKEACMS.WidgetTemplate
     public class WidgetTemplateEntity : EditorEntity
     {
         [Key]
-        public long? ID { get; set; }
+        public int ID { get; set; }
         public string GroupName { get; set; }
 
         public string PartialView { get; set; }

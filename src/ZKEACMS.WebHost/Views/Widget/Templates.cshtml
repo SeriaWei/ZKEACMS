@@ -14,7 +14,7 @@
                 <img title="@item.WidgetName" class="template" src="@Url.Content(item.Thumbnail.IsNullOrWhiteSpace() ? "~/Images/template.png" : item.Thumbnail)" />
                 @if (!item.IsSystem)
                 {
-                    <img data-id="@item.ID" data-url="@Url.Action("CancelTemplate", "Widget", new { module = "admin" })" class="delete-template" src="~/Content/Images/close_red.png" />
+                    <img data-id="@item.ID" data-url="@Url.Action("CancelTemplate", "Widget")" class="delete-template" src="~/Content/Images/close_red.png" />
                 }
             </li>
         }

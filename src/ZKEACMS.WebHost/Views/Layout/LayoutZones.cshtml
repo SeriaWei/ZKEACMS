@@ -2,7 +2,7 @@
 @model ZKEACMS.Common.ViewModels.LayoutZonesViewModel
 @{
     Layout = null;
-    string returnUrl = Url.Action("LayoutWidget", "Layout", new { module = "admin", Model.LayoutID });
+    string returnUrl = Url.Action("LayoutWidget", "Layout", new { Model.LayoutID });
     var noZoneWidgets = Model.Widgets.Where(m => Model.Zones.All(n => n.ID != m.ZoneID));
 }
 
@@ -19,7 +19,7 @@
                     <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
                         @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                         {
-                            <a href="@Url.Action("Edit", "Widget", new {module = "admin", widget.ID, ReturnUrl = returnUrl})"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a href="@Url.Action("Edit", "Widget", new {widget.ID, ReturnUrl = returnUrl})"><i class="glyphicon glyphicon-edit"></i></a>
                             <a href="javascript:void(0)" class="delete" data-widgetid="@widget.ID"><i class="glyphicon glyphicon-trash"></i></a>
                         }
                         @widget.WidgetName
@@ -51,7 +51,7 @@
                 {
                     <div class="panel panel-success  panel-relative">
                         <div class="panel-toolbar">
-                            <a class="label label-danger" title="添加组件到该区域" href="@Url.Action("SelectWidget", "WidgetTemplate", new {module = "admin", Model.PageID, ZoneID = item.ID, LayoutID = item.LayoutId, ReturnUrl = returnUrl})">
+                            <a class="label label-danger" title="添加组件到该区域" href="@Url.Action("SelectWidget", "WidgetTemplate", new { Model.PageID, ZoneID = item.ID, LayoutID = item.LayoutId, ReturnUrl = returnUrl})">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 @item.ZoneName
                             </a>
@@ -62,7 +62,7 @@
                                 <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
                                     @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                                     {
-                                        <a href="@Url.Action("Edit", "Widget", new {module = "admin", widget.ID, ReturnUrl = returnUrl})"><i class="glyphicon glyphicon-edit"></i></a>
+                                        <a href="@Url.Action("Edit", "Widget", new { widget.ID, ReturnUrl = returnUrl})"><i class="glyphicon glyphicon-edit"></i></a>
                                         <a href="javascript:void(0)" class="delete" data-widgetid="@widget.ID"><i class="glyphicon glyphicon-trash"></i></a>
                                     }
                                     @widget.WidgetName

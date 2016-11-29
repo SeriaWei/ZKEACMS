@@ -17,7 +17,7 @@
             });
             $.ajax({
                 type: "POST",
-                url: '@Url.Action("SaveWidgetZone", "Widget", new { module = "admin" })',
+                url: '@Url.Action("SaveWidgetZone", "Widget")',
                 dataType: 'json',
                 contentType: "application/json;charset=utf-8",
                 async: true,

@@ -107,7 +107,7 @@ namespace ZKEACMS.Controllers
             Service.UpdateDesign(layout);
             if (layout.Page != null)
             {
-                return RedirectToAction("Design", "Page", new { module = "admin", layout.Page.ID });
+                return RedirectToAction("Design", "Page", new { layout.Page.ID });
             }
             return RedirectToAction("Index");
         }

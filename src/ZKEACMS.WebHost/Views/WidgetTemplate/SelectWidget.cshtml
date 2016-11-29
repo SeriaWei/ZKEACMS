@@ -7,7 +7,7 @@
         <div>选择组件</div>
     </div>
     <div class="panel-body template-list">
-        @using (Html.BeginForm("RedirectToWidget", "WidgetTemplate", new { module = "admin", Model.PageID, Model.LayoutID, Model.ZoneID, Model.ReturnUrl }))
+        @using (Html.BeginForm("RedirectToWidget", "WidgetTemplate", new { Model.PageID, Model.LayoutID, Model.ZoneID, Model.ReturnUrl }))
         {
             foreach (var item in Model.WidgetTemplates.GroupBy(m => m.GroupName).OrderBy(m => m.Key))
             {

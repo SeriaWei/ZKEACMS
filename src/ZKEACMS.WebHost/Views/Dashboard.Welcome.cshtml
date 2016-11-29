@@ -12,23 +12,23 @@
                 </p>
                 @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                 {
-                    <a class="btn btn-primary" href="@Url.Action("Create", "Page", new {module = "admin", ParentID = "#"})">创建页面</a>
+                    <a class="btn btn-primary" href="@Url.Action("Create", "Page", new { ParentID = "#"})">创建页面</a>
                 }
                 @if (Authorizer.Authorize(PermissionKeys.ViewPage))
                 {
-                    <a class="btn btn-primary" href="@Url.Action("Index", "Page", new {module = "admin", ParentID = "#"})">查看页面</a>
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Page", new { ParentID = "#"})">查看页面</a>
                 }
                 @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
                 {
-                    <a class="btn btn-primary" href="@Url.Action("Create", "Layout", new {module = "admin"})">创建布局</a>
+                    <a class="btn btn-primary" href="@Url.Action("Create", "Layout")">创建布局</a>
                 }
                 @if (Authorizer.Authorize(PermissionKeys.ViewLayout))
                 {
-                    <a class="btn btn-primary" href="@Url.Action("Index", "Layout", new {module = "admin"})">查看布局</a>
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Layout")">查看布局</a>
                 }
                 @if (Authorizer.Authorize(PermissionKeys.ViewNavigation))
                 {
-                    <a class="btn btn-primary" href="@Url.Action("Index", "Navigation", new {module = "admin"})">查看导航</a>
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Navigation")">查看导航</a>
                 }
             </div>
         </div>

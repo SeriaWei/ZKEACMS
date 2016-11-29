@@ -2,7 +2,7 @@
 @model LayoutZonesViewModel
 @{
     Layout = null;
-    string returnUrl = Url.Action("Index", "Page", new { module = "admin", Model.PageID });
+    string returnUrl = Url.Action("Index", "Page", new { Model.PageID });
     var noZoneWidgets = Model.Widgets.Where(m => Model.Zones.All(n => n.ID != m.ZoneID));
 }
 
@@ -23,7 +23,7 @@
                         }
                         @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                         {
-                            <a href="@Url.Action("Edit", "Widget", new {module = "admin", widget.ID, ReturnUrl = returnUrl})"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a href="@Url.Action("Edit", "Widget", new { widget.ID, ReturnUrl = returnUrl})"><i class="glyphicon glyphicon-edit"></i></a>
                             <a href="javascript:void(0)" class="delete" data-widgetid="@widget.ID"><i class="glyphicon glyphicon-trash"></i></a>
                         }
                         @widget.WidgetName
@@ -61,7 +61,7 @@
                             <div class="panel-toolbar">
                                 @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                                 {
-                                    <a class="label label-danger" title="添加组件到该区域" href="@Url.Action("SelectWidget", "WidgetTemplate", new {module = "admin", Model.PageID, ZoneID = item.ID, ReturnUrl = returnUrl})">
+                                    <a class="label label-danger" title="添加组件到该区域" href="@Url.Action("SelectWidget", "WidgetTemplate", new { Model.PageID, ZoneID = item.ID, ReturnUrl = returnUrl})">
                                         <i class="glyphicon glyphicon-plus"></i>
                                         @item.ZoneName
                                     </a>
@@ -84,7 +84,7 @@
                                         }
                                         @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                                         {
-                                            <a href="@Url.Action("Edit", "Widget", new { module = "admin", widget.ID, ReturnUrl = returnUrl })"><i class="glyphicon glyphicon-edit"></i></a>
+                                            <a href="@Url.Action("Edit", "Widget", new { widget.ID, ReturnUrl = returnUrl })"><i class="glyphicon glyphicon-edit"></i></a>
                                             <a href="javascript:void(0)" class="delete" data-widgetid="@widget.ID"><i class="glyphicon glyphicon-trash"></i></a>
                                         }
                                         @widget.WidgetName
@@ -114,7 +114,7 @@
                     设计
                 </a>
             }
-            <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new {module = "admin", ID = Model.PageID})">
+            <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID})">
                 <i class="glyphicon glyphicon-search"></i>
                 预览
             </a>
@@ -127,13 +127,13 @@
             }
             @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
             {
-                <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new {module = "admin", ID = Model.LayoutID, Model.PageID})">
+                <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new { ID = Model.LayoutID, Model.PageID})">
                     <i class="glyphicon glyphicon-th-list"></i>
                     布局
                 </a>
             }
             <a class="btn btn-primary"
-               href="@Url.Action("RedirectView", "Page", new {module = "admin", ID = Model.PageID, preview = false})"
+               href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID, preview = false})"
                target="_blank">
                 <i class="glyphicon glyphicon-new-window"></i>
                 查看已发布版本
