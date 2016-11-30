@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "ZKEACMS": {
+      "target": "project",
+      "version": "1.0.0-*"
+    },
+    "Microsoft.AspNetCore.Mvc": "1.1.0",
+    "NETStandard.Library": "1.6.1",
+    "System.Linq.Parallel": "4.3.0"
+  },
+  "publishOptions": {
+    "include": [
+      "**/*.cshtml"
+    ]
+  },
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
+  }
+}

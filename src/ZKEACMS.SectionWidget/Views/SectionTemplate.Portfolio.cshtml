@@ -1,0 +1,36 @@
+﻿@using ZKEACMS.SectionWidget
+@model ZKEACMS.SectionWidget.Models.SectionGroup
+
+<div class="section-group-portfolio">
+    @if (Model.SectionTitle != null)
+    {
+        <h1 class="text-center">
+            @Model.SectionTitle.InnerText
+        </h1>
+    }
+    <br/>
+    @{
+        Html.RenderContent(Model.Paragraph);
+    }
+    <div class="text-center">
+        @{
+            var images = Model.SectionImages.Count();
+            var rows = images / 3;
+            rows += images % 3 == 0 ? 0 : 1;
+            for (int i = 0; i < rows; i++)
+            {
+                <div class="row" style="margin:40px 0">
+                    @foreach (var item in Model.SectionImages.Skip(i * 3).Take(3))
+                    {
+                        <div class="col-md-4">
+                            @{
+                        Html.RenderContent(item);
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        }
+
+    </div>
+</div>

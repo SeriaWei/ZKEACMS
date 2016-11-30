@@ -1,0 +1,189 @@
+﻿@{
+    Script.Reqiured("validate").AtFoot();
+}
+@model ZKEACMS.SectionWidget.Models.SectionGroup
+@{
+    Style.Reqiured("SectionAdmin").AtHead();
+}
+<div class="group-form @(HttpContext.Current.IsDebuggingEnabled?"developer":"")">
+    @using (Html.BeginForm("Save", "SectionGroup"))
+    {
+        <ul class="nav nav-tabs">
+            <li role="presentation"><a href="#info">基本信息</a></li>
+            <li role="presentation"><a href="#template">显示模板</a></li>
+        </ul>
+        <div class="panel panel-default  tab-content">
+            <div id="info" class="panel-body tab-pane">
+                @Html.EditorForModel()
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th><code>栅格列说明</code></th>
+                                <th>
+                                    超小屏幕
+                                    <small>手机 (&lt;768px)</small>
+                                </th>
+                                <th>
+                                    小屏幕
+                                    <small>平板 (≥768px)</small>
+                                </th>
+                                <th>
+                                    中等屏幕
+                                    <small>桌面显示器 (≥992px)</small>
+                                </th>
+                                <th>
+                                    大屏幕
+                                    <small>大桌面显示器 (≥1200px)</small>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="text-nowrap" scope="row">栅格系统行为</th>
+                                <td>总是水平排列</td>
+                                <td colspan="3">开始是堆叠在一起的，当大于这些阈值时将变为水平排列C</td>
+                            </tr>
+                            <tr>
+                                <th class="text-nowrap" scope="row">最大宽度</th>
+                                <td>None （自动）</td>
+                                <td>750px</td>
+                                <td>970px</td>
+                                <td>1170px</td>
+                            </tr>
+                            <tr>
+                                <th class="text-nowrap" scope="row">类前缀</th>
+                                <td><code>.col-xs-</code></td>
+                                <td><code>.col-sm-</code></td>
+                                <td><code>.col-md-</code></td>
+                                <td><code>.col-lg-</code></td>
+                            </tr>
+                            <tr>
+                                <th class="text-nowrap" scope="row">列数</th>
+                                <td colspan="4">12</td>
+                            </tr>
+                            <tr>
+                                <th class="text-nowrap" scope="row">最大列宽</th>
+                                <td class="text-muted">自动</td>
+                                <td>~62px</td>
+                                <td>~81px</td>
+                                <td>~97px</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="template" class="tab-pane">
+                <div>
+                    <div class="panel-body">
+                        <div class="container-fluid">
+                            <div id="templates" class="row"></div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-muted clearfix">
+                        @if (!Model.ID.HasValue)
+                        {
+                            <label class="checkbox-inline text-primary">
+                                @Html.CheckBoxFor(m=>m.IsLoadDefaultData)
+                                加载示例数据
+                            </label>
+                        }
+                        <span id="PartialView-Badge" class="badge">
+                            @Model.PartialView
+                        </span>
+                        &nbsp;&nbsp;
+                        <small class="text-muted">
+                            注：把模板包拖到列表区域进行上传
+                        </small>
+                        <a href="http://www.zkea.net/zkeacms/templates" target="_blank" class="pull-right">下载更多模板>></a>
+                    </div>
+                </div>
+                <div class="upload-process">
+                    <h1 id="message-info">松开鼠标进行上传...</h1>
+                    <div class="progress">
+                        <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0;">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+    $(document).on("click", "#confirm", function () {
+        $("form").submit();
+    });
+    $(function () {
+        if (@(ViewBag.Close!=null?1:0)) {
+            $(".popUpToolBar .btn-default").click();
+    }
+    });
+    $(function() {
+        
+        var templates = $("#templates");
+        var partView = $("#PartialView");
+        $("option",partView).each(function() {
+            var value = $(this).val();
+            templates.append('<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">'+
+                '<a class="thumbnail" href="#'+value+'"><div class="image"><img src="@Url.Content("~/Modules/Section/Views/Thumbnail/")'+value+'.png"/></div><div class="caption ">'+
+                    '<span class="badge">'+$(this).text()+'</span></div></a></i></a></div>');
+            });
+            $(".thumbnail[href='#" + partView.val() + "']").addClass("active");
+            partView.parents(".form-group").hide();
+        });
+        $(document).on("click", ".thumbnail", function() {
+            $(".thumbnail").removeClass("active");
+            $(this).addClass("active");
+            var partView = $(this).attr("href").replace("#", "");
+            $("#PartialView").val(partView).trigger("change");
+            return false;
+        });
+        $("#PartialView").on("change", function() {
+            $("#PartialView-Badge").html($("option:selected",this).text());
+        }).trigger("change");
+        var panel= $("#template")[0];
+        panel.ondragover=function(event) {
+            $(".upload-process").addClass("hover");
+            return false;
+        };
+        panel.ondragleave=function(event) {
+            $(".upload-process").removeClass("hover");
+            return false;
+        };
+        panel.ondrop = function(event) {
+            event.preventDefault && event.preventDefault();
+            var files = event.dataTransfer.files;
+            var formData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                formData.append('file', files[i]);
+            }
+            var progressBar = $("#progress-bar");
+            var message = $("#message-info");
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Action("UploadTemplate")');
+        xhr.onload = function(e) {
+            var result = JSON.parse(e.target.response);
+            if (result.Status === 1) {
+                setTimeout(function() {
+                    window.location.reload();
+                }, 500);
+                message.html(result.Message);
+            } else {
+                message.html(result.Message);
+                progressBar.width("0%");
+                progressBar.html("0%");
+            }
+        };
+        xhr.upload.onprogress = function(e) {
+            var persecnt = e.loaded / e.total * 100;
+            progressBar.width(persecnt + "%");
+            progressBar.html(Math.round(persecnt) + "%");
+        }
+        xhr.send(formData);
+        return false;
+    };
+    </script>
+}

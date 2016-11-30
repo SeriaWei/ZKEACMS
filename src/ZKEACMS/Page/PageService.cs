@@ -168,7 +168,7 @@ namespace ZKEACMS.Page
                 path = path.Substring(0, path.Length - 1);
             }
 
-            var pages = DbContext.Instance.Where(m => m.IsPublish == !isPreView);
+            var pages = DbContext.Instance.Where(m => m.IsPublishedPage == !isPreView);
             if (path == "/")
             {
                 pages = pages.Where(m => m.ParentId == "#");

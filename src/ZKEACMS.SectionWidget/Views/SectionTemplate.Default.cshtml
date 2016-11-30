@@ -1,0 +1,21 @@
+﻿@using ZKEACMS.SectionWidget
+@using ZKEACMS.SectionWidget.Models
+@model ZKEACMS.SectionWidget.Models.SectionGroup
+
+<div class="section-group-default">
+    @foreach (SectionContent content in Model.SectionContents.OrderBy(m => m.Order))
+    {
+        if (content.SectionContentType == (int)SectionContentBase.Types.CallToAction || content.SectionContentType == (int)SectionContentBase.Types.Image)
+        {
+            <p>
+                @{
+            Html.RenderContent(content);
+                }
+            </p>
+        }
+        else
+        {
+            Html.RenderContent(content);
+        }
+    }
+</div>

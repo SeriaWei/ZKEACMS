@@ -1,0 +1,13 @@
+﻿@using ZKEACMS.SectionWidget
+@using ZKEACMS.SectionWidget.Models
+@model ZKEACMS.SectionWidget.Models.SectionGroup
+<ul class="section-content-listgroup list-group">
+    @foreach (SectionContent content in Model.SectionContents.OrderBy(m => m.Order))
+    {
+        <li class="list-group-item">
+            @{
+                Html.RenderContent(content);
+            }
+        </li>
+    }
+</ul>

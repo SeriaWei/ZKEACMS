@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<required>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentTitle">
+    <property name="InnerText"><![CDATA[标签页1]]></property>
+    <property name="Href"><![CDATA[]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentParagraph">
+    <property name="HtmlContent"><![CDATA[这是一个标签页组件，标题作为标签页的标题，段落作为标签页的内容，一对一。]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentTitle">
+    <property name="InnerText"><![CDATA[标签页2]]></property>
+    <property name="Href"><![CDATA[]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentParagraph">
+    <property name="HtmlContent"><![CDATA[这是一个标签页组件，标题作为标签页的标题，段落作为标签页的内容，一对一。]]></property>
+  </item>
+</required>

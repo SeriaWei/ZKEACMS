@@ -1,0 +1,24 @@
+﻿@using ZKEACMS.SectionWidget
+@model ZKEACMS.SectionWidget.Models.SectionGroup
+<div class="section-group-listView">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-8">
+                @{
+                    Html.RenderContent(Model.SectionTitle);
+                }
+                <div class="text-muted">
+                    @{
+                        Html.RenderContent(Model.Paragraph);
+                    }
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                @{
+                    Html.RenderContent(Model.SectionImage);
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

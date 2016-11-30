@@ -1,0 +1,19 @@
+﻿@model ZKEACMS.SectionWidget.Models.SectionContentImage
+<li class="list-group-item" data-id="@Model.ID">
+    <div class="icon-left clearfix">
+        <div class="pull-left icon">
+            <i class="text-primary sort-handle glyphicon glyphicon-resize-vertical">
+            </i>
+            <a href="@Url.Action("Edit", "SectionContentImage", new {Id = Model.ID})"
+               class="dialog glyphicon glyphicon-edit text-primary" 
+               data-width="800" data-height="350" title="编辑图片">
+            </a>
+            <a href="@Url.Action("Delete", "SectionContentImage", new {Id = Model.ID})" class="ajax glyphicon glyphicon-remove text-danger delete">
+            </a>
+        </div>
+        <div class="pull-left">
+            <label class="label label-primary">图片</label>
+            @Html.Partial("SectionPartial.Image",Model)
+        </div>
+    </div>
+</li>

@@ -1,0 +1,34 @@
+﻿@using ZKEACMS.SectionWidget
+@using ZKEACMS.SectionWidget.Models
+@model ZKEACMS.SectionWidget.Models.SectionGroup
+<p class="section-group-linkgroup btn-group">
+    @foreach (SectionContent content in Model.SectionContents.Where(m => m.SectionContentType == (int)SectionContentBase.Types.CallToAction).OrderBy(m => m.Order))
+    {
+        SectionContentCallToAction callToAction = content as SectionContentCallToAction;
+        if (callToAction != null)
+        {
+            <a class="btn btn-default" target="@Html.SmartLinkTarget(callToAction.Href)" href="@Url.PathContent(callToAction.Href)">@callToAction.InnerText</a>
+        }
+    }
+</p>
+@if (Model.SectionContents.Any(m => m.SectionContentType != (int)SectionContentBase.Types.CallToAction))
+{
+    <div class="section-group-default">
+        @foreach (SectionContent content in Model.SectionContents.Where(m => m.SectionContentType != (int)SectionContentBase.Types.CallToAction).OrderBy(m => m.Order))
+        {
+            if (content.SectionContentType == (int)SectionContentBase.Types.CallToAction || content.SectionContentType == (int)SectionContentBase.Types.Image)
+            {
+                <p>
+                    @{
+                Html.RenderContent(content);
+                    }
+                </p>
+            }
+            else
+            {
+                Html.RenderContent(content);
+            }
+        }
+    </div>
+
+}

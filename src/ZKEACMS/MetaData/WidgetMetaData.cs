@@ -31,6 +31,7 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.IsSystem).AsHidden();
             ViewConfig(m => m.ServiceTypeName).AsHidden();
             ViewConfig(m => m.ViewModelTypeName).AsHidden();
+            ViewConfig(m => m.PartialView).AsHidden();
 
         }
 

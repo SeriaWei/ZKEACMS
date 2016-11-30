@@ -244,7 +244,7 @@ namespace ZKEACMS.Widget
         public override void Add(T item)
         {
             item.ID = Guid.NewGuid().ToString("N");
-            WidgetBaseService.Add(item);
+            WidgetBaseService.Add(item.ToWidgetBase());
             if (typeof(T) != typeof(WidgetBase))
             {
                 base.Add(item);
@@ -252,7 +252,7 @@ namespace ZKEACMS.Widget
         }
         public override void Update(T item)
         {
-            WidgetBaseService.Update(item);
+            WidgetBaseService.Update(item.ToWidgetBase());
             if (typeof(T) != typeof(WidgetBase))
             {
                 base.Update(item);
@@ -261,7 +261,7 @@ namespace ZKEACMS.Widget
         }
         public override void UpdateRange(params T[] items)
         {
-            WidgetBaseService.UpdateRange(items);
+            WidgetBaseService.UpdateRange(items.Select(m => m.ToWidgetBase()).ToArray());
             if (typeof(T) != typeof(WidgetBase))
             {
                 base.UpdateRange(items);
@@ -322,7 +322,7 @@ namespace ZKEACMS.Widget
             {
                 base.Remove(item);
             }
-            WidgetBaseService.Remove(item.ID);
+            WidgetBaseService.Remove(item.ToWidgetBase());
         }
         public override void RemoveRange(params T[] items)
         {
@@ -330,7 +330,7 @@ namespace ZKEACMS.Widget
             {
                 base.RemoveRange(items);
             }
-            WidgetBaseService.RemoveRange(items);
+            WidgetBaseService.RemoveRange(items.Select(m => m.ToWidgetBase()).ToArray());
         }
 
 

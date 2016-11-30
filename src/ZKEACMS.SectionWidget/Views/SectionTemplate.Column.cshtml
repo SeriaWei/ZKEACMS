@@ -1,0 +1,23 @@
+﻿@using ZKEACMS.SectionWidget
+@model ZKEACMS.SectionWidget.Models.SectionGroup
+@{
+    int count = Model.SectionContents.Count() / 2 + 1;
+    var contents = Model.SectionContents.OrderBy(m => m.Order);
+}
+<div class="section-group-column container-fluid">
+    @for (int i = 0; i < count; i++)
+    {
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                @{
+        Html.RenderContent(contents.Skip(i * 2).Take(1).FirstOrDefault());
+                }
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                @{
+        Html.RenderContent(contents.Skip(i * 2 + 1).Take(1).FirstOrDefault());
+                }
+            </div>
+        </div>
+    }
+</div>

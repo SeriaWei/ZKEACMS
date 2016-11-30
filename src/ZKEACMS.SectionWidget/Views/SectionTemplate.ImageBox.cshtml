@@ -1,0 +1,50 @@
+﻿@using ZKEACMS.SectionWidget.Models
+@model ZKEACMS.SectionWidget.Models.SectionGroup
+@using (Style.AtHead())
+{
+    <style>
+        .image-box-item {
+            display: block;
+            float: left;
+            position: relative;
+            margin:1px;
+            transition: all .2s linear;
+        }
+        .image-box-item:hover{
+            transform:scale(.98);
+        }
+        .image-box-item .image-box-description {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr='#CCFFFFFF', endColorstr='#CCFFFFFF');
+            background: rgba(255,255,255,.8);
+            color: #333;
+            text-align: center;
+            -webkit-transition: all .35s linear;
+            -moz-transition: all .35s linear;
+            transition: all .35s linear;
+        }
+        .image-box-item .image-box-description h3{
+            margin:10px;
+        }
+    </style>
+}
+<div class="section-group-image-box clearfix">
+    @foreach (SectionContentImage content in Model.SectionImages.OrderBy(m => m.Order))
+    {
+
+        <a class="image-box-item" href="@Url.PathContent(content.Href)">
+            <img src="@Url.PathContent(content.ImageSrc)" alt="@content.ImageAlt" />
+            <div class="image-box-description">
+                <h3>
+                    @content.ImageTitle
+                </h3>
+                <p>
+                    @content.ImageAlt
+                </p>
+            </div>
+        </a>
+    }
+</div>

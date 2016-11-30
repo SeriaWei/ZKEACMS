@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<required>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentTitle">
+    <property name="InnerText"><![CDATA[PORTFOLIO]]></property>
+    <property name="Href"><![CDATA[]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentParagraph">
+    <property name="HtmlContent">
+      <![CDATA[<p><a href="https://github.com/SeriaWei/ASP.NET-MVC-CMS" target="_blank">ZKEACMS</a>是基于ASP.NET MVC4开发的开源CMS，提供免费下载学习使用。ZKEACMS是一个内容管理软件（网站），不仅只是管理内容，更是重新定义了布局、页面和组件，让用户可以自由规划页面的布局，页面和内容。ZKEACMS使用可视化编辑设计，所见即所得，可直接在页面上设计你要的页面。</p>
+<p>架设环境：.Net FrameWork 4.0，MVC 4</p>]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkea.net/BuilderDemo/Portfolio/ab01-1.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[]]></property>
+    <property name="Href"><![CDATA[]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkea.net/BuilderDemo/Portfolio/ab01-2.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[]]></property>
+    <property name="Href"><![CDATA[]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkea.net/BuilderDemo/Portfolio/ab01-3.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[]]></property>
+    <property name="Href"><![CDATA[]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkea.net/BuilderDemo/Portfolio/ab01-4.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[]]></property>
+    <property name="Href"><![CDATA[]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkea.net/BuilderDemo/Portfolio/ab01-5.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[]]></property>
+    <property name="Href"><![CDATA[]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkea.net/BuilderDemo/Portfolio/ab01-6.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[]]></property>
+    <property name="Href"><![CDATA[]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+</required>

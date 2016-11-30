@@ -1,0 +1,94 @@
+﻿@using ZKEACMS.SectionWidget.Models
+@model ZKEACMS.SectionWidget.Models.SectionContentTitle
+
+@if (Model.TitleLevel == SectionContentTitle.H1)
+{
+    <h1>
+        @if (Model.Href.IsNullOrEmpty())
+        {
+            @Model.InnerText
+        }
+        else
+        {
+            @Html.SmartLink(Url.Content(Model.Href), Model.InnerText)
+        }
+    </h1>
+}
+else if (Model.TitleLevel == SectionContentTitle.H2)
+{
+    <h2>
+        @if (Model.Href.IsNullOrEmpty())
+        {
+            @Model.InnerText
+        }
+        else
+        {
+            @Html.SmartLink(Url.Content(Model.Href), Model.InnerText)
+        }
+    </h2>
+}
+else if (Model.TitleLevel == SectionContentTitle.H3)
+{
+    <h3>
+        @if (Model.Href.IsNullOrEmpty())
+        {
+            @Model.InnerText
+        }
+        else
+        {
+            @Html.SmartLink(Url.Content(Model.Href), Model.InnerText)
+        }
+    </h3>
+}
+else if (Model.TitleLevel == SectionContentTitle.H4)
+{
+    <h4>
+        @if (Model.Href.IsNullOrEmpty())
+        {
+            @Model.InnerText
+        }
+        else
+        {
+            @Html.SmartLink(Url.Content(Model.Href), Model.InnerText)
+        }
+    </h4>
+}
+else if (Model.TitleLevel == SectionContentTitle.H5)
+{
+    <h5>
+        @if (Model.Href.IsNullOrEmpty())
+        {
+            @Model.InnerText
+        }
+        else
+        {
+            @Html.SmartLink(Url.Content(Model.Href), Model.InnerText)
+        }
+    </h5>
+}
+else if (Model.TitleLevel == SectionContentTitle.H6)
+{
+    <h6>
+        @if (Model.Href.IsNullOrEmpty())
+        {
+            @Model.InnerText
+        }
+        else
+        {
+            @Html.SmartLink(Url.Content(Model.Href), Model.InnerText)
+        }
+    </h6>
+}
+else
+{
+    <h3>
+        @if (Model.Href.IsNullOrEmpty())
+        {
+            @Model.InnerText
+        }
+        else
+        {
+            @Html.SmartLink(Url.Content(Model.Href), Model.InnerText)
+        }
+    </h3>
+}

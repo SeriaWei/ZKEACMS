@@ -1,0 +1,21 @@
+﻿@using ZKEACMS.SectionWidget
+@using ZKEACMS.SectionWidget.Models
+@model ZKEACMS.SectionWidget.Models.SectionGroup
+<div class="section-group-default text-center">
+    @{
+        Html.RenderContent(Model.SectionTitle);
+        Html.RenderContent(Model.Paragraph);
+    }
+    <div class="row">
+        @foreach (SectionContent content in Model.SectionImages)
+        {
+            <div class="col-xs-4 col-md-2">
+                <div class="image-border" style="margin:20px 0">
+                    @{
+                        Html.RenderContent(content);
+                    }
+                </div>
+            </div>
+                    }
+    </div>
+</div>

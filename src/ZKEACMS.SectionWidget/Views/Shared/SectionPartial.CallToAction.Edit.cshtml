@@ -1,0 +1,21 @@
+﻿@model ZKEACMS.SectionWidget.Models.SectionContentCallToAction
+<li class="list-group-item" data-id="@Model.ID">
+    <div class="icon-left clearfix">
+        <div class="pull-left icon">
+            <i class="text-primary sort-handle glyphicon glyphicon-resize-vertical">
+            </i>
+            <a href="@Url.Action("Edit", "SectionContentCallToAction", new {Id = Model.ID})"
+               class="dialog glyphicon glyphicon-edit text-primary"
+               data-width="800"
+               data-height="170"
+               title="编辑链接">
+            </a>
+            <a href="@Url.Action("Delete", "SectionContentCallToAction", new {Id = Model.ID})" class="ajax glyphicon glyphicon-remove text-danger delete">
+            </a>
+        </div>
+        <div class="pull-left">
+            <label class="label label-primary">链接</label>
+            @Html.Partial("SectionPartial.CallToAction",Model)
+        </div>
+    </div>
+</li>

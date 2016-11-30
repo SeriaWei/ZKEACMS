@@ -1,0 +1,13 @@
+﻿@model ZKEACMS.SectionWidget.Models.SectionContentVideo
+
+<div class="clearfix">
+    <p class="video pull-left">
+        <img src="@Url.PathContent(Model.Thumbnail)" />
+        <a target="_blank" class="video-play pop-dialog"
+           data-width="@Model.Width"
+           data-height="@Model.Height"
+           data-title="@Model.VideoTitle"
+           title="@Model.VideoTitle"
+           href="@Url.Action("Play", "SectionContentVideo", new {module = "Section", Id = Model.ID})"></a>
+    </p>
+</div>

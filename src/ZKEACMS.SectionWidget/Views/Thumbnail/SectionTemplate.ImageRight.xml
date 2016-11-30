@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<required>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/Photos/g03-1.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[]]></property>
+    <property name="Href"><![CDATA[]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentTitle">
+    <property name="InnerText"><![CDATA[ZKEASOFT]]></property>
+    <property name="Href"><![CDATA[]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentParagraph">
+    <property name="HtmlContent"><![CDATA[<p>ZKEACMS采用了现代的响应式设计，可以自动适配不同大小的屏幕和设备。从PC，笔记本，电视，平板到手机页面都会自动响应适应。</p>]]></property>
+  </item>
+</required>

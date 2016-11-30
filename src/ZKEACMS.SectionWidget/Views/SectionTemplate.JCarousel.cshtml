@@ -1,0 +1,33 @@
+﻿@using ZKEACMS.SectionWidget
+@using ZKEACMS.SectionWidget.Models
+@model ZKEACMS.SectionWidget.Models.SectionGroup
+@using (Script.AtFoot())
+{
+    <script type="text/javascript" src="http://cdn.zkeasoft.com/Scripts/jcarousel/jquery.jcarousel.min.js"></script>
+    <script type="text/javascript" src="http://cdn.zkeasoft.com/Scripts/jcarousel/jcarousel.basic.js"></script>
+}
+@using (Style.AtFoot())
+{
+    <link href="http://cdn.zkeasoft.com/Scripts/jcarousel/jcarousel.basic.css" rel="stylesheet" />
+}
+<div class="section-group-carousel">
+    <div class="jcarousel-wrapper">
+        <div class="jcarousel">
+            <ul>
+                @foreach (SectionContentImage content in Model.SectionImages.OrderBy(m => m.Order))
+                {
+                    <li>
+                        @{
+                    Html.RenderContent(content);
+                        }
+                        
+                    </li>
+                }
+            </ul>
+        </div>
+        <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+        <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+        <p class="jcarousel-pagination">
+        </p>
+    </div>
+</div>

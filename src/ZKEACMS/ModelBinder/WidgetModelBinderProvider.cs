@@ -14,7 +14,7 @@ namespace ZKEACMS.ModelBinder
         {
             if (typeof(WidgetBase).IsAssignableFrom(context.Metadata.ModelType))
             {
-                return new WidgetBinder();
+                return new WidgetBinder(context);
             }
             return null;
         }

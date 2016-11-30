@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<required>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/demosite/site01/32.png]]></property>
+    <property name="ImageAlt"><![CDATA[COMPRESSED RAL]]></property>
+    <property name="ImageTitle"><![CDATA[压缩天然气]]></property>
+    <property name="Href"><![CDATA[]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+</required>

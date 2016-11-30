@@ -148,6 +148,38 @@ namespace ZKEACMS.Widget
         }
 
         public IEnumerable<ExtendFieldEntity> ExtendFields { get; set; }
+
+        public WidgetBase ToWidgetBase()
+        {
+            return new WidgetBase
+            {
+                AssemblyName = AssemblyName,
+                CreateBy = CreateBy,
+                CreatebyName = CreatebyName,
+                CreateDate = CreateDate,
+                Description = Description,
+                ID = ID,
+                LastUpdateBy = LastUpdateBy,
+                LastUpdateByName = LastUpdateByName,
+                LastUpdateDate = LastUpdateDate,
+                LayoutID = LayoutID,
+                PageID = PageID,
+                PartialView = PartialView,
+                Position = Position,
+                ServiceTypeName = ServiceTypeName,
+                Status = Status,
+                Title = Title,
+                ViewModelTypeName = ViewModelTypeName,
+                WidgetName = WidgetName,
+                ZoneID = ZoneID,
+                FormView = FormView,
+                StyleClass = StyleClass,
+                IsTemplate = IsTemplate,
+                Thumbnail = Thumbnail,
+                IsSystem = IsSystem,
+                ExtendFields = ExtendFields,
+            };
+        }
     }
     class WidgetBaseMetaData : ViewMetaData<WidgetBase>
     {

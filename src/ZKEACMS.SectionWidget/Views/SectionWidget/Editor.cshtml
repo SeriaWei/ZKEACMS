@@ -1,0 +1,10 @@
+﻿@using ZKEACMS.SectionWidget.Models
+@model ZKEACMS.SectionWidget.Models.SectionWidget
+@{
+    Layout = null;
+}
+
+@foreach (SectionGroup group in Model.Groups.OrderBy(m => m.Order))
+{
+    Html.RenderPartial("SectionGroup.Edit", group);
+}

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<required>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentParagraph">
+    <property name="HtmlContent"><![CDATA[<p><a href="https://github.com/SeriaWei/ASP.NET-MVC-CMS">ZKEACMS</a>是基于<a href="http://www.zkea.net/easyframework">EasyFrameWork</a>，使用ASP.NET MVC4开发的开源CMS。ZKEACMS一个内容管理软件（网站）。ZKEACMS不仅只是管理内容，更是重新定义了布局、页面和组件，让用户可以自由规划页面的布局，页面和内容。ZKEACMS使用可视化编辑设计，真正做到所见即所得，可直接在预览页面上设计页面。ZKEACMS采用插件式设计，支持扩展新插件。</p>]]></property>
+  </item>
+</required>

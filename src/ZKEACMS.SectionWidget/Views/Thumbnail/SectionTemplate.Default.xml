@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<required>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/Default/e09-1.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[]]></property>
+    <property name="Href"><![CDATA[]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentTitle">
+    <property name="InnerText"><![CDATA[我们的优势]]></property>
+    <property name="Href"><![CDATA[]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentParagraph">
+    <property name="HtmlContent"><![CDATA[<p>ZKEACMS是开源免费的，您可以直接使用它来做为您的企业网站，门户网站或者个人网站，博客，或用它做二次定制开发以满足您特定的需求。</p>]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentCallToAction">
+    <property name="InnerText"><![CDATA[ZKEASOFT]]></property>
+    <property name="Href"><![CDATA[http://www.zkea.net]]></property>
+  </item>
+</required>

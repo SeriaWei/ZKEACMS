@@ -1,0 +1,20 @@
+﻿@{
+    Script.Reqiured("validate").AtFoot();
+}
+@using (Html.BeginForm("Save", "SectionContentTitle"))
+{
+   @Html.EditorForModel()
+}
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(document).on("click", "#confirm", function () {
+            $("form").submit();
+        });
+        $(function () {
+            if (@(ViewBag.Close!=null?1:0)) {
+                $(".popUpToolBar .btn-default").click();
+        }
+        });
+    </script>
+}

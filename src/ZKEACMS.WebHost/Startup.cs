@@ -1,6 +1,7 @@
 ﻿using Easy;
 using Easy.Extend;
 using Easy.Mvc.Authorize;
+using Easy.Mvc.DataAnnotations;
 using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using ZKEACMS.Common.Service;
+using ZKEACMS.MetaData;
 using ZKEACMS.ModelBinder;
 
 namespace ZKEACMS.WebHost
@@ -48,7 +50,7 @@ namespace ZKEACMS.WebHost
             services.AddMvc(option =>
             {
                 option.ModelBinderProviders.Insert(0, new WidgetModelBinderProvider());
-                option.ModelMetadataDetailsProviders.Add(new Easy.Mvc.DataAnnotations.DataAnnotationsMetadataProvider());
+                option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
             })
             .AddControllersAsServices();
             services.TryAddTransient<IOnConfiguring, EntityFrameWorkConfigure>();

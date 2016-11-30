@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<required>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentCallToAction">
+    <property name="InnerText"><![CDATA[链接组1]]></property>
+    <property name="Href"><![CDATA[http://www.zkea.net]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentCallToAction">
+    <property name="InnerText"><![CDATA[链接组2]]></property>
+    <property name="Href"><![CDATA[http://www.zkea.net]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentCallToAction">
+    <property name="InnerText"><![CDATA[链接组3]]></property>
+    <property name="Href"><![CDATA[http://www.zkea.net]]></property>
+  </item>
+  <item type="ZKEACMS.SectionWidget.Models.SectionContentCallToAction">
+    <property name="InnerText"><![CDATA[链接组4]]></property>
+    <property name="Href"><![CDATA[http://www.zkea.net]]></property>
+  </item>
+</required>

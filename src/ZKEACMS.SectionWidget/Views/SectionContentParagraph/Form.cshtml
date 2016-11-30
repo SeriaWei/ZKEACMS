@@ -1,0 +1,36 @@
+﻿@model ZKEACMS.SectionWidget.Models.SectionContentParagraph
+<div>
+    @using (Html.BeginForm("Save", "SectionContentParagraph",FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.ID)
+        @Html.HiddenFor(m => m.SectionWidgetId)
+        @Html.HiddenFor(m => m.SectionGroupId)
+        @Html.HiddenFor(m => m.SectionContentType)
+        @Html.HiddenFor(m => m.Order)
+        @Html.HiddenFor(m => m.Title)
+        @Html.HiddenFor(m => m.Description)
+        @Html.HiddenFor(m => m.Status)
+        @Html.HiddenFor(m => m.CreateBy)
+        @Html.HiddenFor(m => m.CreatebyName)
+        @Html.HiddenFor(m => m.CreateDate)
+        @Html.HiddenFor(m => m.LastUpdateBy)
+        @Html.HiddenFor(m => m.LastUpdateByName)
+        @Html.HiddenFor(m => m.LastUpdateDate)
+        @Html.HiddenFor(m => m.ActionType)
+        @Html.TextAreaFor(m => m.HtmlContent, new { @class = "html" })
+    }
+</div>
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(document).on("click", "#confirm", function () {
+            $("form").submit();
+        });
+        $(function () {
+            if (@(ViewBag.Close!=null?1:0)) {
+                $(".popUpToolBar .btn-default").click();
+        }
+        });
+    </script>
+}
