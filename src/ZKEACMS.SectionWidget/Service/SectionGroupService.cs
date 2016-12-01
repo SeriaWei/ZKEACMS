@@ -5,24 +5,32 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using ZKEACMS.SectionWidget.Models;
-using Easy.Data;
 using Easy.Extend;
 using Easy.Reflection;
 using Easy.RepositoryPattern;
-using Microsoft.Practices.ServiceLocation;
+using Microsoft.AspNetCore.Hosting;
+using Easy;
 
 namespace ZKEACMS.SectionWidget.Service
 {
     public class SectionGroupService : ServiceBase<SectionGroup>, ISectionGroupService
     {
+        private readonly ISectionContentProviderService _sectionContentProviderService;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public SectionGroupService(ISectionContentProviderService sectionContentProviderService, IHostingEnvironment hostingEnvironment)
+        {
+            _sectionContentProviderService = sectionContentProviderService;
+            _hostingEnvironment = hostingEnvironment;
+        }
         public SectionGroup GenerateContentFromConfig(SectionGroup group)
         {
-            string configFile = AppDomain.CurrentDomain.BaseDirectory + @"Modules\Section\Views\Thumbnail\{0}.xml".FormatWith(group.PartialView);
+            string configFile = _hostingEnvironment.WebRootPath + @"Modules\Section\Views\Thumbnail\{0}.xml".FormatWith(group.PartialView);
             List<SectionContent> contents = new List<SectionContent>();
             if (File.Exists(configFile))
             {
                 XmlDocument doc = new XmlDocument();
-                doc.Load(configFile);
+                FileStream fileStream = new FileStream(configFile, FileMode.Open);
+                doc.Load(fileStream);
                 var nodes = doc.SelectNodes("/required/item");
                 foreach (XmlNode item in nodes)
                 {
@@ -31,7 +39,8 @@ namespace ZKEACMS.SectionWidget.Service
                     {
                         try
                         {
-                            var content = Activator.CreateInstance("ZKEACMS.SectionWidget", attr.Value).Unwrap() as SectionContent;
+                            throw new NotImplementedException();
+                            var content = Activator.CreateInstance(null) as SectionContent;
                             var properties = item.SelectNodes("property");
                             foreach (XmlNode property in properties)
                             {
@@ -60,12 +69,11 @@ namespace ZKEACMS.SectionWidget.Service
             base.Add(item);
             if (item.SectionContents != null && item.SectionContents.Any())
             {
-                var contentService = new SectionContentProviderService();
                 item.SectionContents.Each(m =>
                 {
                     m.SectionGroupId = item.ID;
                     m.SectionWidgetId = item.SectionWidgetId;
-                    contentService.Add(m);
+                    _sectionContentProviderService.Add(m);
                 });
             }
             if (item.IsLoadDefaultData)
@@ -73,10 +81,9 @@ namespace ZKEACMS.SectionWidget.Service
                 GenerateContentFromConfig(item);
                 if (item.SectionContents != null && item.SectionContents.Any())
                 {
-                    ISectionContentProviderService contentService = ServiceLocator.Current.GetInstance<ISectionContentProviderService>();
                     item.SectionContents.Each(c =>
                     {
-                        contentService.Add(c);
+                        _sectionContentProviderService.Add(c);
                     });
                 }
             }
@@ -84,13 +91,12 @@ namespace ZKEACMS.SectionWidget.Service
         public override void Remove(params object[] primaryKeys)
         {
             var group = Get(primaryKeys);
-            var contentService = new SectionContentProviderService();
-            var contents = contentService.Get(new DataFilter().Where("SectionGroupId", OperatorType.Equal, group.ID));
+            var contents = _sectionContentProviderService.Get(m => m.SectionGroupId == group.ID);
             contents.Each(m =>
             {
-                contentService.Delete(m.ID);
+                _sectionContentProviderService.Remove(m.ID);
             });
-            return base.Delete(primaryKeys);
+            base.Remove(primaryKeys);
         }
     }
 }

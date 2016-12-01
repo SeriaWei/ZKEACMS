@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ZKEACMS.SectionWidget.Models
 {
     [ViewConfigure(typeof(SectionContentTitleMetaData)), Table("SectionContentTitle")]
-    public class SectionContentTitle : SectionContent
+    public class SectionContentTitle : SectionContentBasic
     {
         public const string H1 = "h1";
         public const string H2 = "h2";

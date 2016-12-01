@@ -18,6 +18,7 @@ namespace Easy.Mvc.Plugin
         private string LoadedAssembly;
 
         public Action<IPluginStartup> OnLoading { get; set; }
+        public Action<Assembly> OnLoaded { get; set; }
         public Assembly LoadPlugin(string path)
         {
             if (LoadedAssembly == null)
@@ -25,6 +26,7 @@ namespace Easy.Mvc.Plugin
                 LoadedAssembly = path;
                 var assembly = this.LoadFromAssemblyPath(path);
                 RegistAssembly(assembly);
+                OnLoaded?.Invoke(assembly);
                 return assembly;
             }
             throw new Exception("A loader just can load one assembly.");

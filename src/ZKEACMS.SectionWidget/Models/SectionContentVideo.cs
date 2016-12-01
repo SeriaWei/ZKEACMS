@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ZKEACMS.SectionWidget.Models
 {
     [ViewConfigure(typeof(SectionContentVideoMetaData)), Table("SectionContentVideo")]
-    public class SectionContentVideo : SectionContent
+    public class SectionContentVideo : SectionContentBasic
     {
         public string VideoTitle { get; set; }
         public string Thumbnail { get; set; }

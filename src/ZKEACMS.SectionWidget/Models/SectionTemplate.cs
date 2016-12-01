@@ -1,30 +1,19 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.MetaData;
 using Easy.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.SectionWidget.Models
 {
-    [DataConfigure(typeof(SectionTemplateMetaData))]
+    [Table("SectionTemplate")]
     public class SectionTemplate : EditorEntity
     {
+        [Key]
         public string TemplateName { get; set; }
         public string Thumbnail { get; set; }
         public string ExampleData { get; set; }
     }
 
-    internal class SectionTemplateMetaData : DataViewMetaData<SectionTemplate>
-    {
 
-        protected override void DataConfigure()
-        {
-            DataTable("SectionTemplate");
-            DataConfig(m => m.TemplateName).AsPrimaryKey();
-        }
-
-        protected override void ViewConfigure()
-        {
-            
-        }
-
-    }
 }

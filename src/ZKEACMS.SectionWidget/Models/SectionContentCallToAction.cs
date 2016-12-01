@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ZKEACMS.SectionWidget.Models
 {
     [ViewConfigure(typeof(SectionContentCallToActionMetaData)), Table("SectionContentCallToAction")]
-    public class SectionContentCallToAction : SectionContent
+    public class SectionContentCallToAction : SectionContentBasic
     {
         public string InnerText { get; set; }
         public string Href { get; set; }

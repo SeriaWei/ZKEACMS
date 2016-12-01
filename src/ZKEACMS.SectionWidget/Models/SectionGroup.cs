@@ -20,7 +20,9 @@ namespace ZKEACMS.SectionWidget.Models
         public string PartialView { get; set; }
         public int? Order { get; set; }
         public string PercentWidth { get; set; }
+        [NotMapped]
         public bool IsLoadDefaultData { get; set; }
+        [NotMapped]
         public IEnumerable<SectionContent> SectionContents { get; set; }
 
         private T GetContent<T>(SectionContentBase.Types type) where T : SectionContent
@@ -40,6 +42,7 @@ namespace ZKEACMS.SectionWidget.Models
             }
             return null;
         }
+        [NotMapped]
         public SectionContentTitle SectionTitle
         {
             get
@@ -47,6 +50,7 @@ namespace ZKEACMS.SectionWidget.Models
                 return GetContent<SectionContentTitle>(SectionContentBase.Types.Title);
             }
         }
+        [NotMapped]
         public IEnumerable<SectionContentTitle> SectionTitles
         {
             get
@@ -54,6 +58,7 @@ namespace ZKEACMS.SectionWidget.Models
                 return GetContents<SectionContentTitle>(SectionContentBase.Types.Title);
             }
         }
+        [NotMapped]
         public SectionContentCallToAction CallToAction
         {
             get
@@ -61,7 +66,7 @@ namespace ZKEACMS.SectionWidget.Models
                 return GetContent<SectionContentCallToAction>(SectionContentBase.Types.CallToAction);
             }
         }
-
+        [NotMapped]
         public IEnumerable<SectionContentCallToAction> CallToActions
         {
             get
@@ -69,6 +74,7 @@ namespace ZKEACMS.SectionWidget.Models
                 return GetContents<SectionContentCallToAction>(SectionContentBase.Types.CallToAction);
             }
         }
+        [NotMapped]
         public SectionContentImage SectionImage
         {
             get
@@ -76,6 +82,7 @@ namespace ZKEACMS.SectionWidget.Models
                 return GetContent<SectionContentImage>(SectionContentBase.Types.Image);
             }
         }
+        [NotMapped]
         public IEnumerable<SectionContentImage> SectionImages
         {
             get
@@ -83,6 +90,7 @@ namespace ZKEACMS.SectionWidget.Models
                 return GetContents<SectionContentImage>(SectionContentBase.Types.Image);
             }
         }
+        [NotMapped]
         public SectionContentParagraph Paragraph
         {
             get
@@ -90,6 +98,7 @@ namespace ZKEACMS.SectionWidget.Models
                 return GetContent<SectionContentParagraph>(SectionContentBase.Types.Paragraph);
             }
         }
+        [NotMapped]
         public IEnumerable<SectionContentParagraph> Paragraphs
         {
             get
@@ -115,6 +124,12 @@ namespace ZKEACMS.SectionWidget.Models
             }
             return _templateName;
         }
+        [NotMapped]
+        public override string Description { get; set; }
+        [NotMapped]
+        public override int? Status { get; set; }
+        [NotMapped]
+        public override string Title { get; set; }
     }
 
     class SectionGroupMetaData : ViewMetaData<SectionGroup>
@@ -128,7 +143,7 @@ namespace ZKEACMS.SectionWidget.Models
             ViewConfig(m => m.PartialView).AsDropDownList().DataSource(() =>
             {
                 return new Easy.ServiceLocator().Current.GetService<ISectionTemplateService>()
-                    .Get()
+                    .GetAll()
                     .ToDictionary(m => m.TemplateName, m => m.Title);
             });
         }

@@ -2831,7 +2831,7 @@
           "System.Xml.ReaderWriter": "4.0.11"
         },
         "compile": {
-          "ref/netstandard1.3/_._": {}
+          "ref/netstandard1.3/System.Xml.XPath.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.dll": {}
@@ -2855,6 +2855,27 @@
         },
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
+        }
+      },
+      "system.xml.xpath.xmldocument/4.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections": "4.0.10",
+          "System.Globalization": "4.0.10",
+          "System.IO": "4.0.10",
+          "System.Resources.ResourceManager": "4.0.0",
+          "System.Runtime": "4.0.20",
+          "System.Runtime.Extensions": "4.0.10",
+          "System.Threading": "4.0.10",
+          "System.Xml.ReaderWriter": "4.0.10",
+          "System.Xml.XPath": "4.0.0",
+          "System.Xml.XmlDocument": "4.0.0"
+        },
+        "compile": {
+          "ref/dotnet/System.Xml.XPath.XmlDocument.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/System.Xml.XPath.XmlDocument.dll": {}
         }
       },
       "EasyFrameWork/1.0.0": {
@@ -8180,6 +8201,35 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
+    "system.xml.xpath.xmldocument/4.0.0": {
+      "sha512": "toGFsezsdAJ3Fkau0l386iGBg3qfYauQrM4haX1nWPYnUOWb0hXfAEVIi47/Ke4ET3gl9h9ZppKiws8QWeJVyQ==",
+      "type": "package",
+      "path": "system.xml.xpath.xmldocument/4.0.0",
+      "files": [
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/dotnet/System.Xml.XPath.XmlDocument.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/dotnet/System.Xml.XPath.XmlDocument.dll",
+        "ref/dotnet/System.Xml.XPath.XmlDocument.xml",
+        "ref/dotnet/de/System.Xml.XPath.XmlDocument.xml",
+        "ref/dotnet/es/System.Xml.XPath.XmlDocument.xml",
+        "ref/dotnet/fr/System.Xml.XPath.XmlDocument.xml",
+        "ref/dotnet/it/System.Xml.XPath.XmlDocument.xml",
+        "ref/dotnet/ja/System.Xml.XPath.XmlDocument.xml",
+        "ref/dotnet/ko/System.Xml.XPath.XmlDocument.xml",
+        "ref/dotnet/ru/System.Xml.XPath.XmlDocument.xml",
+        "ref/dotnet/zh-hans/System.Xml.XPath.XmlDocument.xml",
+        "ref/dotnet/zh-hant/System.Xml.XPath.XmlDocument.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "system.xml.xpath.xmldocument.4.0.0.nupkg.sha512",
+        "system.xml.xpath.xmldocument.nuspec"
+      ]
+    },
     "EasyFrameWork/1.0.0": {
       "type": "project",
       "path": "../EasyFrameWork/project.json",
@@ -8196,7 +8246,8 @@
       "Microsoft.AspNetCore.Mvc >= 1.1.0",
       "NETStandard.Library >= 1.6.1",
       "System.Linq.Parallel >= 4.3.0",
-      "ZKEACMS >= 1.0.0-*"
+      "ZKEACMS >= 1.0.0-*",
+      "system.xml.xpath.xmldocument >= 4.0.0"
     ],
     ".NETStandard,Version=v1.6": []
   },

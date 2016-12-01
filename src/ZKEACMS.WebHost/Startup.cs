@@ -47,12 +47,12 @@ namespace ZKEACMS.WebHost
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.AddMvc(option =>
-            {
-                option.ModelBinderProviders.Insert(0, new WidgetModelBinderProvider());
-                option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
-            })
-            .AddControllersAsServices();
+            var mvcBuilder = services.AddMvc(option =>
+              {
+                  option.ModelBinderProviders.Insert(0, new WidgetModelBinderProvider());
+                  option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
+              })
+             .AddControllersAsServices();
             services.TryAddTransient<IOnConfiguring, EntityFrameWorkConfigure>();
             services.UseEasyFrameWork(Configuration).LoadEnablePlugins(plugin =>
             {
@@ -61,6 +61,9 @@ namespace ZKEACMS.WebHost
                 {
                     cmsPlugin.InitPlug();
                 }
+            }, assembly =>
+            {
+                //mvcBuilder.AddApplicationPart(assembly);
             });
             services.UseZKEACMS();
             services.Configure<AuthorizationOptions>(options =>

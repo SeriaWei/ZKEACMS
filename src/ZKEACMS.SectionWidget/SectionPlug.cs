@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using ZKEACMS;
 using ZKEACMS.Common.Models;
 using Microsoft.Extensions.DependencyInjection;
+using ZKEACMS.SectionWidget.Service;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using System.Reflection;
 
 namespace ZKEACMS.SectionWidget
 {
@@ -45,12 +48,22 @@ namespace ZKEACMS.SectionWidget
 
         public override IEnumerable<Type> WidgetServiceTypes()
         {
-            throw new NotImplementedException();
+            yield return typeof(SectionWidgetService);
         }
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            
+            serviceCollection.AddTransient<ISectionGroupService, SectionGroupService>();
+            serviceCollection.AddTransient<ISectionContentProviderService, SectionContentProviderService>();
+            serviceCollection.AddTransient<ISectionContentService, SectionContentCallToActionService>();
+            serviceCollection.AddTransient<ISectionContentService, SectionContentImageService>();
+            serviceCollection.AddTransient<ISectionContentService, SectionContentParagraphService>();
+            serviceCollection.AddTransient<ISectionContentService, SectionContentTitleService>();
+            serviceCollection.AddTransient<ISectionContentService, SectionContentVideoService>();
+
+            serviceCollection.AddTransient<ISectionTemplateService, SectionTemplateService>();
+
         }
+        
     }
 }

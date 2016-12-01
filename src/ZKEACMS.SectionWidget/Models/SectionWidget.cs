@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using Easy.MetaData;
 using ZKEACMS.Widget;
 using ZKEACMS.MetaData;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.SectionWidget.Models
 {
-    [ViewConfigure(typeof(SectionWidgetMetaData))]
-    public class SectionWidget : WidgetBase
+    [ViewConfigure(typeof(SectionWidgetMetaData)), Table("SectionWidget")]
+    public class SectionWidget : BasicWidget
     {
         public string SectionTitle { get; set; }
+        [NotMapped]
         public IEnumerable<SectionGroup> Groups { get; set; }
     }
 

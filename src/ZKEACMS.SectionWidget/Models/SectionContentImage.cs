@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ZKEACMS.SectionWidget.Models
 {
     [ViewConfigure(typeof(SectionContentImageMetaData)), Table("SectionContentImage")]
-    public class SectionContentImage : SectionContent
+    public class SectionContentImage : SectionContentBasic
     {
         public string ImageSrc { get; set; }
         public string ImageAlt { get; set; }

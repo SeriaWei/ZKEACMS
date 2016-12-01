@@ -67,3 +67,8 @@ GO
 DROP TABLE LanguageBackUp
 alter table Carousel alter column [Status] int null
 GO
+
+UPDATE dbo.CMS_WidgetTemplate SET AssemblyName=N'ZKEACMS.SectionWidget',ServiceTypeName=N'ZKEACMS.SectionWidget.Service.SectionWidgetService',ViewModelTypeName=N'ZKEACMS.SectionWidget.Models.SectionWidget' WHERE AssemblyName=N'Easy.CMS.Section'
+GO
+UPDATE dbo.CMS_WidgetBase SET AssemblyName=N'ZKEACMS.SectionWidget',ServiceTypeName=N'ZKEACMS.SectionWidget.Service.SectionWidgetService',ViewModelTypeName=N'ZKEACMS.SectionWidget.Models.SectionWidget' WHERE AssemblyName=N'Easy.CMS.Section'
+GO

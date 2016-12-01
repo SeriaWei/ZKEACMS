@@ -21,10 +21,10 @@ namespace ZKEACMS.SectionWidget.Models
             Video = 5
         }
         [Key]
-        public int? ID { get; set; }
+        public int ID { get; set; }
         public string SectionWidgetId { get; set; }
-        public int? SectionGroupId { get; set; }
-        public int? Order { get; set; }
+        public virtual int? SectionGroupId { get; set; }
+        public virtual int? Order { get; set; }
         public abstract int SectionContentType
         {
             get;
@@ -47,6 +47,31 @@ namespace ZKEACMS.SectionWidget.Models
             content.Order = Order;
             return content;
         }
+        [NotMapped]
+        public override string Description { get; set; }
+        [NotMapped]
+        public override int? Status { get; set; }
+        [NotMapped]
+        public override string Title { get; set; }
+    }
 
+    public class SectionContentBasic : SectionContent
+    {
+        [NotMapped]
+        public override string CreateBy { get; set; }
+        [NotMapped]
+        public override DateTime? CreateDate { get; set; }
+        [NotMapped]
+        public override string CreatebyName { get; set; }
+        [NotMapped]
+        public override string LastUpdateBy { get; set; }
+        [NotMapped]
+        public override DateTime? LastUpdateDate { get; set; }
+        [NotMapped]
+        public override string LastUpdateByName { get; set; }
+        [NotMapped]
+        public override int? Order { get; set; }
+        [NotMapped]
+        public override int? SectionGroupId { get; set; }
     }
 }

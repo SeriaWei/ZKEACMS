@@ -32,7 +32,7 @@ namespace ZKEACMS.SectionWidget.Service
             var item = base.Get(primaryKeys);
             if (item != null)
             {
-                var result = _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).GetContent(item.ID ?? 0);
+                var result = _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).GetContent(item.ID);
                 result.Order = item.Order;
                 result.SectionGroupId = item.SectionGroupId;
                 result.SectionWidgetId = item.SectionWidgetId;
@@ -45,7 +45,7 @@ namespace ZKEACMS.SectionWidget.Service
         public override void Remove(params object[] primaryKey)
         {
             var content = base.Get(primaryKey);
-            _sectionContentServices.First(m => (int)m.ContentType == content.SectionContentType).DeleteContent(content.ID ?? 0);
+            _sectionContentServices.First(m => (int)m.ContentType == content.SectionContentType).DeleteContent(content.ID);
             base.Remove(primaryKey);
         }
         public SectionContent FillContent(SectionContent content)
@@ -53,7 +53,7 @@ namespace ZKEACMS.SectionWidget.Service
             return
                 content.InitContent(
                     _sectionContentServices.First(m => (int)m.ContentType == content.SectionContentType)
-                        .GetContent(content.ID ?? 0));
+                        .GetContent(content.ID));
         }
     }
 }

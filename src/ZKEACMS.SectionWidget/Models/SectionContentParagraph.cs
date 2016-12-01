@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ZKEACMS.SectionWidget.Models
 {
     [ViewConfigure(typeof(SectionContentParagraphMetaData)), Table("SectionContentParagraph")]
-    public class SectionContentParagraph : SectionContent
+    public class SectionContentParagraph : SectionContentBasic
     {
         public string HtmlContent { get; set; }
         public override int SectionContentType

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Easy.Extend;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.CodeAnalysis;
 
 namespace Easy.Mvc.Plugin
 {
@@ -24,8 +25,10 @@ namespace Easy.Mvc.Plugin
             {
                 options.FileProviders.Add(new DeveloperViewFileProvider());
             }
+            List<MetadataReference> reference = new List<MetadataReference>();
             loader.GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>
             {
+                reference.Add(MetadataReference.CreateFromFile(Path.Combine(m.RelativePath, hostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName)));
                 var directory = new DirectoryInfo(m.RelativePath);
                 if (hostingEnvironment.IsDevelopment())
                 {
@@ -41,6 +44,7 @@ namespace Easy.Mvc.Plugin
                 }
             });
             options.ViewLocationFormats.Add("/Views/{0}" + RazorViewEngine.ViewExtension);
+            reference.Each(options.AdditionalCompilationReferences.Add);
         }
     }
 }
