@@ -20,6 +20,7 @@ namespace Easy.Mvc.Plugin
         private const string PluginInfoFile = ".info";
         public static IHostingEnvironment HostingEnvironment { get; set; }
         private static List<AssemblyLoader> Loaders = new List<AssemblyLoader>();
+        private static Dictionary<string, Assembly> LoadedAssemblies = new Dictionary<string, Assembly>();
         public void LoadEnablePlugins(Action<IPluginStartup> onLoading, Action<Assembly> onLoaded)
         {
             GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>
@@ -27,11 +28,26 @@ namespace Easy.Mvc.Plugin
                 var loader = new AssemblyLoader();
                 loader.OnLoading = onLoading;
                 loader.OnLoaded = onLoaded;
-                loader.LoadPlugin(Path.Combine(m.RelativePath, HostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName));
+                var assembly = loader.LoadPlugin(Path.Combine(m.RelativePath, HostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName));
+                LoadedAssemblies.Add(assembly.FullName, assembly);
+                System.Runtime.Loader.AssemblyLoadContext.Default.Resolving += Default_Resolving;
                 Loaders.Add(loader);
             });
         }
 
+        private Assembly Default_Resolving(System.Runtime.Loader.AssemblyLoadContext arg1, AssemblyName arg2)
+        {
+            if (LoadedAssemblies.ContainsKey(arg2.FullName))
+            {
+                return LoadedAssemblies[arg2.FullName];
+            }
+            return null;
+        }
+
+        public IEnumerable<Assembly> GetPluginAssemblies()
+        {
+            return LoadedAssemblies.Select(m => m.Value);
+        }
         public IEnumerable<PluginInfo> GetPlugins()
         {
             string modulePath = HostingEnvironment.IsDevelopment() ?

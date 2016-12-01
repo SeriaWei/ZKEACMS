@@ -25,10 +25,20 @@ namespace Easy.Mvc.Plugin
             {
                 options.FileProviders.Add(new DeveloperViewFileProvider());
             }
-            List<MetadataReference> reference = new List<MetadataReference>();
+            loader.GetPluginAssemblies().Each(assembly =>
+            {
+                var reference = MetadataReference.CreateFromFile(assembly.Location);
+
+                options.AdditionalCompilationReferences.Add(reference);
+            });
+            //options.CompilationCallback = context =>
+            //{
+            //    var reference = MetadataReference.CreateFromFile(@"D:\Projects\ZKEACMS.Core\src\TestAss\bin\Debug\netstandard1.6\TestAss.dll");
+
+            //    context.Compilation = context.Compilation.AddReferences(reference);
+            //};
             loader.GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>
             {
-                reference.Add(MetadataReference.CreateFromFile(Path.Combine(m.RelativePath, hostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName)));
                 var directory = new DirectoryInfo(m.RelativePath);
                 if (hostingEnvironment.IsDevelopment())
                 {
@@ -44,7 +54,6 @@ namespace Easy.Mvc.Plugin
                 }
             });
             options.ViewLocationFormats.Add("/Views/{0}" + RazorViewEngine.ViewExtension);
-            reference.Each(options.AdditionalCompilationReferences.Add);
         }
     }
 }
