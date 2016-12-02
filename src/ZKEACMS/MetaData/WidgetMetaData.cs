@@ -32,7 +32,8 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.ServiceTypeName).AsHidden();
             ViewConfig(m => m.ViewModelTypeName).AsHidden();
             ViewConfig(m => m.PartialView).AsHidden();
-
+            ViewConfig(m => m.LayoutID).AsHidden();
+            ViewConfig(m => m.PageID).AsHidden();
         }
 
         protected override void ViewConfigure()

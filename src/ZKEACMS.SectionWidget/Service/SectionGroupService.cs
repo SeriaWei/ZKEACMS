@@ -19,7 +19,7 @@ namespace ZKEACMS.SectionWidget.Service
         private readonly IHostingEnvironment _hostingEnvironment;
         public SectionGroupService(ISectionContentProviderService sectionContentProviderService, IHostingEnvironment hostingEnvironment)
         {
-            _sectionContentProviderService = sectionContentProviderService;
+               _sectionContentProviderService = sectionContentProviderService;
             _hostingEnvironment = hostingEnvironment;
         }
         public SectionGroup GenerateContentFromConfig(SectionGroup group)

@@ -9,6 +9,7 @@ using System.IO;
 using Easy.Extend;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.CodeAnalysis;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Easy.Mvc.Plugin
 {
@@ -28,8 +29,7 @@ namespace Easy.Mvc.Plugin
             loader.GetPluginAssemblies().Each(assembly =>
             {
                 var reference = MetadataReference.CreateFromFile(assembly.Location);
-
-                options.AdditionalCompilationReferences.Add(reference);
+                options.AdditionalCompilationReferences.Add(reference);                
             });
             //options.CompilationCallback = context =>
             //{

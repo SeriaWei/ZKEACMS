@@ -15,37 +15,64 @@ namespace Easy.Mvc.Plugin
     public class AssemblyLoader : AssemblyLoadContext
     {
         private const string ControllerTypeNameSuffix = "Controller";
-        private string LoadedAssembly;
-
+        private Assembly CurrentAssembly;
+        private List<Assembly> DependencyAssemblies = new List<Assembly>();
         public Action<IPluginStartup> OnLoading { get; set; }
         public Action<Assembly> OnLoaded { get; set; }
-        public Assembly LoadPlugin(string path)
+        public IEnumerable<Assembly> LoadPlugin(string path)
         {
-            if (LoadedAssembly == null)
+            if (CurrentAssembly == null)
             {
-                LoadedAssembly = path;
+                AssemblyLoadContext.Default.Resolving += Default_Resolving;
                 var assembly = this.LoadFromAssemblyPath(path);
+                CurrentAssembly = assembly;
                 RegistAssembly(assembly);
+                ResolveDenpendency();
                 OnLoaded?.Invoke(assembly);
-                return assembly;
+                yield return assembly;
+                foreach (var item in DependencyAssemblies)
+                {
+                    yield return item;
+                }
             }
-            throw new Exception("A loader just can load one assembly.");
+            else { throw new Exception("A loader just can load one assembly."); }
+        }
+
+        private Assembly Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
+        {
+            return Load(arg2);
+        }
+        private void ResolveDenpendency()
+        {
+            var assemblies = new DirectoryInfo(new FileInfo(CurrentAssembly.Location).DirectoryName).GetFiles("*.dll");
+            foreach (var item in assemblies)
+            {
+                if (item.FullName == CurrentAssembly.Location) continue;
+
+                var assembly = LoadFromAssemblyPath(item.FullName);
+                if (!DependencyContext.Default.CompileLibraries.Any(m => m.Name == assembly.GetName().Name))
+                {
+                    DependencyAssemblies.Add(assembly);
+                }
+            }
         }
         protected override Assembly Load(AssemblyName assemblyName)
         {
+            if (assemblyName.FullName == CurrentAssembly.FullName)
+            {
+                return CurrentAssembly;
+            }
             var deps = DependencyContext.Default;
             if (deps.CompileLibraries.Any(d => d.Name == assemblyName.Name))
             {
                 return Assembly.Load(assemblyName);
             }
 
-            string file = new FileInfo(LoadedAssembly).DirectoryName + "\\" + assemblyName.Name + ".dll";
-            if (File.Exists(file))
+            foreach (var item in DependencyAssemblies)
             {
-                var assembly = this.LoadFromAssemblyPath(file);
-                if (assembly.GetName().FullName == assemblyName.FullName)
+                if (item.FullName == assemblyName.FullName)
                 {
-                    return assembly;
+                    return item;
                 }
             }
 

@@ -28,21 +28,16 @@ namespace Easy.Mvc.Plugin
                 var loader = new AssemblyLoader();
                 loader.OnLoading = onLoading;
                 loader.OnLoaded = onLoaded;
-                var assembly = loader.LoadPlugin(Path.Combine(m.RelativePath, HostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName));
-                LoadedAssemblies.Add(assembly.FullName, assembly);
-                System.Runtime.Loader.AssemblyLoadContext.Default.Resolving += Default_Resolving;
+                var assemblies = loader.LoadPlugin(Path.Combine(m.RelativePath, HostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName));
+                assemblies.Each(assembly =>
+                {
+                    LoadedAssemblies.Add(assembly.FullName, assembly);
+
+                });
+                
                 Loaders.Add(loader);
             });
-        }
-
-        private Assembly Default_Resolving(System.Runtime.Loader.AssemblyLoadContext arg1, AssemblyName arg2)
-        {
-            if (LoadedAssemblies.ContainsKey(arg2.FullName))
-            {
-                return LoadedAssemblies[arg2.FullName];
-            }
-            return null;
-        }
+        }        
 
         public IEnumerable<Assembly> GetPluginAssemblies()
         {
