@@ -32,6 +32,14 @@ namespace ZKEACMS.SectionWidget.Models
 
         protected override void ViewConfigure()
         {
+            ViewConfig(m => m.ID).AsHidden();
+            ViewConfig(m => m.Title).AsHidden();
+            ViewConfig(m => m.SectionContentType).AsHidden();
+            ViewConfig(m => m.Order).AsHidden();
+            ViewConfig(m => m.SectionGroupId).AsHidden();
+            ViewConfig(m => m.SectionWidgetId).AsHidden();
+            ViewConfig(m => m.Status).AsHidden();
+            ViewConfig(m => m.Description).AsHidden();
             ViewConfig(m => m.InnerText).AsTextBox().Required();
             ViewConfig(m => m.Href).AsTextBox().AddClass("select").AddProperty("data-url", Urls.SelectPage);
             ViewConfig(m => m.TitleLevel).AsDropDownList().DataSource(() => new Dictionary<string, string>

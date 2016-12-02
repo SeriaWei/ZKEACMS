@@ -1,8 +1,8 @@
 ﻿@using System.Text.RegularExpressions
 @using ZKEACMS.SectionWidget.Models
-@model ZKEACMS.SectionWidget.Models.SectionContent
+@model SectionContent
 @{
-    Layout = "~/Views/Shared/_PopUpClientLayout.cshtml";
+    Layout = Layouts.ClientPopUp;
     SectionContentVideo video = Model as SectionContentVideo;
     if (video == null)
     {

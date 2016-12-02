@@ -146,6 +146,8 @@ namespace ZKEACMS.SectionWidget.Models
                     .GetAll()
                     .ToDictionary(m => m.TemplateName, m => m.Title);
             });
+            ViewConfig(m => m.Title).AsHidden();
+            ViewConfig(m => m.Description).AsHidden();
         }
     }
 }

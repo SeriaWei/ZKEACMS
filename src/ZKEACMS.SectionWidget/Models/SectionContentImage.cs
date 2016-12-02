@@ -27,6 +27,14 @@ namespace ZKEACMS.SectionWidget.Models
     {
         protected override void ViewConfigure()
         {
+            ViewConfig(m => m.ID).AsHidden();
+            ViewConfig(m => m.Title).AsHidden();
+            ViewConfig(m => m.SectionContentType).AsHidden();
+            ViewConfig(m => m.Order).AsHidden();
+            ViewConfig(m => m.SectionGroupId).AsHidden();
+            ViewConfig(m => m.SectionWidgetId).AsHidden();
+            ViewConfig(m => m.Status).AsHidden();
+            ViewConfig(m => m.Description).AsHidden();
             ViewConfig(m => m.ImageSrc).AsTextBox().Required().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
             ViewConfig(m => m.Href).AsTextBox().AddClass(StringKeys.SelectPageClass).AddProperty("data-url", Urls.SelectPage);
         }

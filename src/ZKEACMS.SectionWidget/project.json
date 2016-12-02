@@ -11,9 +11,6 @@
     "System.Linq.Parallel": "4.3.0",
     "system.xml.xpath.xmldocument": "4.0.0"
   },
-  "buildOptions": {
-    "preserveCompilationContext": true
-  },
   "publishOptions": {
     "include": [
       "**/*.cshtml"

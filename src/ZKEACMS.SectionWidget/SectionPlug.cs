@@ -37,8 +37,8 @@ namespace ZKEACMS.SectionWidget
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
-            style("SectionAdmin").Include("~/Modules/Section/Content/Section.css", "~/Modules/Section/Content/Section.min.css", Urls.CdnHost + "/Modules/Section/Content/Section.min.css");
-            style("Section").Include("~/Modules/Section/Content/SectionClient.css", "~/Modules/Section/Content/SectionClient.min.css", Urls.CdnHost + "/Modules/Section/Content/SectionClient.min.css");
+            style("SectionAdmin").Include("~/Plugins/ZKEACMS.SectionWidget/Content/Section.css", "~/Plugins/ZKEACMS.SectionWidget/Content/Section.min.css", Urls.CdnHost + "/Plugins/ZKEACMS.SectionWidget/Content/Section.min.css");
+            style("Section").Include("~/Plugins/ZKEACMS.SectionWidget/Content/SectionClient.css", "~/Plugins/ZKEACMS.SectionWidget/Content/SectionClient.min.css", Urls.CdnHost + "/Plugins/ZKEACMS.SectionWidget/Content/SectionClient.min.css");
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
@@ -60,7 +60,7 @@ namespace ZKEACMS.SectionWidget
             serviceCollection.AddTransient<ISectionContentService, SectionContentParagraphService>();
             serviceCollection.AddTransient<ISectionContentService, SectionContentTitleService>();
             serviceCollection.AddTransient<ISectionContentService, SectionContentVideoService>();
-
+            serviceCollection.AddTransient<ISectionWidgetService, SectionWidgetService>();
             serviceCollection.AddTransient<ISectionTemplateService, SectionTemplateService>();
 
         }

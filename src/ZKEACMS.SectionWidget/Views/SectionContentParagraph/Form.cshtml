@@ -1,4 +1,8 @@
 ﻿@model ZKEACMS.SectionWidget.Models.SectionContentParagraph
+@{ 
+    Layout = Layouts.PopUp;
+    Script.Reqiured("tinymce").AtFoot();
+}
 <div>
     @using (Html.BeginForm("Save", "SectionContentParagraph",FormMethod.Post))
     {

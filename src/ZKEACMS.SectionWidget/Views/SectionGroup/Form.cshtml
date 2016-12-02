@@ -129,7 +129,7 @@
         $("option",partView).each(function() {
             var value = $(this).val();
             templates.append('<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">'+
-                '<a class="thumbnail" href="#'+value+'"><div class="image"><img src="@Url.Content("~/Modules/Section/Views/Thumbnail/")'+value+'.png"/></div><div class="caption ">'+
+                '<a class="thumbnail" href="#'+value+'"><div class="image"><img src="@Url.Content("~/Plugins/ZKEACMS.SectionWidget/Thumbnail/")'+value+'.png"/></div><div class="caption ">'+
                     '<span class="badge">'+$(this).text()+'</span></div></a></i></a></div>');
             });
             $(".thumbnail[href='#" + partView.val() + "']").addClass("active");
