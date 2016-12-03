@@ -82,9 +82,9 @@ namespace ZKEACMS.SectionWidget.Controllers
         {
             contents.Each(m =>
             {
-                var g = _sectionContentProviderService.Get(m.ID);
-                g.Order = m.Order;
-                _sectionContentProviderService.Update(g);
+                _sectionContentProviderService.DbContext.Instance.Attach(m);
+                _sectionContentProviderService.DbContext.Entry(m).Property(n => n.Order).IsModified = true;
+                _sectionContentProviderService.DbContext.SaveChanges();
             });
             return Json(true);
         }
