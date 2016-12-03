@@ -82,10 +82,10 @@
                         </div>
                     </div>
                     <div class="panel-footer text-muted clearfix">
-                        @if (!Model.ID.HasValue)
+                        @if (Model.ID == 0)
                         {
                             <label class="checkbox-inline text-primary">
-                                @Html.CheckBoxFor(m=>m.IsLoadDefaultData)
+                                @Html.CheckBoxFor(m => m.IsLoadDefaultData)
                                 加载示例数据
                             </label>
                         }
@@ -114,23 +114,23 @@
 @using (Script.AtFoot())
 {
     <script type="text/javascript">
-    $(document).on("click", "#confirm", function () {
-        $("form").submit();
-    });
-    $(function () {
-        if (@(ViewBag.Close!=null?1:0)) {
-            $(".popUpToolBar .btn-default").click();
-    }
-    });
-    $(function() {
-        
-        var templates = $("#templates");
-        var partView = $("#PartialView");
-        $("option",partView).each(function() {
-            var value = $(this).val();
-            templates.append('<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">'+
-                '<a class="thumbnail" href="#'+value+'"><div class="image"><img src="@Url.Content("~/Plugins/ZKEACMS.SectionWidget/Thumbnail/")'+value+'.png"/></div><div class="caption ">'+
-                    '<span class="badge">'+$(this).text()+'</span></div></a></i></a></div>');
+        $(document).on("click", "#confirm", function () {
+            $("form").submit();
+        });
+        $(function () {
+            if (@(ViewBag.Close!=null?1:0)==1) {
+                $(".popUpToolBar .btn-default").click();
+            }
+        });
+        $(function() {
+
+            var templates = $("#templates");
+            var partView = $("#PartialView");
+            $("option",partView).each(function() {
+                var value = $(this).val();
+                templates.append('<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">'+
+                    '<a class="thumbnail" href="#'+value+'"><div class="image"><img src="@Url.Content("~/Plugins/ZKEACMS.SectionWidget/Thumbnail/")'+value+'.png"/></div><div class="caption ">'+
+                        '<span class="badge">'+$(this).text()+'</span></div></a></i></a></div>');
             });
             $(".thumbnail[href='#" + partView.val() + "']").addClass("active");
             partView.parents(".form-group").hide();
@@ -165,26 +165,26 @@
             var message = $("#message-info");
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '@Url.Action("UploadTemplate")');
-        xhr.onload = function(e) {
-            var result = JSON.parse(e.target.response);
-            if (result.Status === 1) {
-                setTimeout(function() {
-                    window.location.reload();
-                }, 500);
-                message.html(result.Message);
-            } else {
-                message.html(result.Message);
-                progressBar.width("0%");
-                progressBar.html("0%");
+            xhr.onload = function(e) {
+                var result = JSON.parse(e.target.response);
+                if (result.Status === 1) {
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 500);
+                    message.html(result.Message);
+                } else {
+                    message.html(result.Message);
+                    progressBar.width("0%");
+                    progressBar.html("0%");
+                }
+            };
+            xhr.upload.onprogress = function(e) {
+                var persecnt = e.loaded / e.total * 100;
+                progressBar.width(persecnt + "%");
+                progressBar.html(Math.round(persecnt) + "%");
             }
+            xhr.send(formData);
+            return false;
         };
-        xhr.upload.onprogress = function(e) {
-            var persecnt = e.loaded / e.total * 100;
-            progressBar.width(persecnt + "%");
-            progressBar.html(Math.round(persecnt) + "%");
-        }
-        xhr.send(formData);
-        return false;
-    };
     </script>
 }

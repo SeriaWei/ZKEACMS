@@ -14,7 +14,7 @@ namespace ZKEACMS.SectionWidget.Models
     [ViewConfigure(typeof(SectionGroupMetaData)), Table("SectionGroup")]
     public class SectionGroup : EditorEntity
     {
-        public int? ID { get; set; }
+        public int ID { get; set; }
         public string GroupName { get; set; }
         public string SectionWidgetId { get; set; }
         public string PartialView { get; set; }

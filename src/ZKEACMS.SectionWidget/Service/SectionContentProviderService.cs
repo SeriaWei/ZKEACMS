@@ -19,11 +19,12 @@ namespace ZKEACMS.SectionWidget.Service
             {
                 item.Order = Count(m => m.SectionWidgetId == item.SectionWidgetId && m.SectionGroupId == item.SectionGroupId) + 1;
             }
-            base.Add(item);
+            base.Add(item.ToContent());
             _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).AddContent(item);
         }
         public override void Update(SectionContent item)
         {
+            base.Update(item.ToContent());
             _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).UpdateContent(item);
         }
        

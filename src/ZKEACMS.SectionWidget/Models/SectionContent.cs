@@ -53,6 +53,27 @@ namespace ZKEACMS.SectionWidget.Models
         public override int? Status { get; set; }
         [NotMapped]
         public override string Title { get; set; }
+        public SectionContent ToContent()
+        {
+            return new SectionContent
+            {
+                ActionType = ActionType,
+                ID = ID,
+                SectionWidgetId = SectionWidgetId,
+                SectionGroupId = SectionGroupId,
+                SectionContentType = SectionContentType,
+                Order = Order,
+                CreateBy = CreateBy,
+                CreatebyName = CreatebyName,
+                CreateDate = CreateDate,
+                LastUpdateBy = LastUpdateBy,
+                LastUpdateByName = LastUpdateByName,
+                LastUpdateDate = LastUpdateDate,
+                Title = Title,
+                Status = Status,
+                Description = Description
+            };
+        }
     }
 
     public class SectionContentBasic : SectionContent
