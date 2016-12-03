@@ -1,0 +1,30 @@
+﻿@model ZKEACMS.Article.ViewModel.ArticleDetailViewModel
+@{
+    Style.Reqiured("Article").AtHead();
+}
+
+<div class="article-detail">
+    <div class="page-header">
+        <h1 class="align-center">
+            @Model.Current.Title
+        </h1>
+        <div class="align-right">
+            <span>
+                <i class="glyphicon glyphicon-user"></i>
+                @Model.Current.CreatebyName
+            </span>
+            <span>
+                <i class="glyphicon glyphicon-calendar"></i>
+                @((Model.Current.PublishDate ?? DateTime.Now).ToString("yyyy/MM/dd"))
+            </span>
+        </div>
+    </div>
+    <div class="panel-body detail clearfix">
+        @if (Model.Current.ImageUrl.IsNotNullAndWhiteSpace())
+        {
+            <img class="thumbnail" src="@Url.Content(Model.Current.ImageUrl)" alt="@Model.Current.Title" />
+        }
+        @Html.Raw(Model.Current.ArticleContent)
+    </div>
+</div>
+

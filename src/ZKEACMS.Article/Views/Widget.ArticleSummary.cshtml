@@ -1,0 +1,31 @@
+﻿@model ZKEACMS.Article.Models.ArticleSummaryWidget
+@{
+    if (!Model.DetailLink.IsNullOrEmpty())
+    {
+        Model.DetailLink = Url.Content(Model.DetailLink);
+    }
+}
+<div class="article-summary">
+    <div class="bs-callout @Model.Style">
+        @if (!Model.SubTitle.IsNullOrEmpty())
+        {
+            <div class="clearfix">
+                <div class="pull-left">
+                    @if (Model.SubTitle.IsNotNullAndWhiteSpace())
+                    {
+                        <h4>@Model.SubTitle</h4>
+                    }
+                </div>
+                <div class="pull-right">
+                    @if (!Model.DetailLink.IsNullOrEmpty())
+                    {
+                        @Html.SmartLink(Url.PathContent(Model.DetailLink), "More »")
+                    }
+                </div>
+            </div>
+        }
+        <div class="sumary">
+            @Html.Raw(Model.Summary)
+        </div>
+    </div>
+</div>

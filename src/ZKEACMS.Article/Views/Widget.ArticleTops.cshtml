@@ -1,0 +1,27 @@
+﻿@model ZKEACMS.Article.ViewModel.ArticleTopWidgetViewModel
+@{
+    if (!Model.Widget.DetailPageUrl.IsNullOrEmpty())
+    {
+        Model.Widget.DetailPageUrl = Url.Content(Model.Widget.DetailPageUrl);
+    }
+    if (!Model.Widget.MoreLink.IsNullOrEmpty())
+    {
+        Model.Widget.MoreLink = Url.Content(Model.Widget.MoreLink);
+    }
+}
+<div class="article-tops">
+    <div class="list-group">
+        @if (Model.Articles != null)
+        {
+            foreach (var item in Model.Articles)
+            {
+                <a class="list-group-item" href="@(Model.Widget.DetailPageUrl + "?id=" + item.ID)" target="_blank">
+                    <h4 class="list-group-item-heading">
+                        @item.Title
+                    </h4>
+                    <p class="list-group-item-text">@item.Summary</p>
+                </a>
+            }
+        }
+    </div>
+</div>

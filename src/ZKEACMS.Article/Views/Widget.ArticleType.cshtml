@@ -1,0 +1,13 @@
+﻿@model ZKEACMS.Article.ViewModel.ArticleTypeWidgetViewModel
+
+<div class="article-category">
+    <div class="list-group">
+        @if (Model.ArticleTypes != null)
+        {
+            foreach (var item in Model.ArticleTypes)
+            {
+                <a href="@Url.AddQueryToCurrentUrl("ac",item.ID.ToString())" class="list-group-item @(item.ID == Model.ArticleTypeID ? "active" : "")">@item.Title</a>
+            }
+        }
+    </div>
+</div>
