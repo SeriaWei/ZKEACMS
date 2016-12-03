@@ -9,6 +9,8 @@ using Easy.Extend;
 using Easy.Mvc.Authorize;
 using Microsoft.AspNetCore.Mvc;
 using Easy.Mvc;
+using ZKEACMS.Widget;
+using Easy;
 
 namespace ZKEACMS.SectionWidget.Controllers
 {
@@ -17,10 +19,14 @@ namespace ZKEACMS.SectionWidget.Controllers
     {
         private readonly ISectionGroupService _sectionGroupService;
         private readonly ISectionContentProviderService _sectionContentProviderService;
-        public SectionGroupController(ISectionGroupService sectionGroupService, ISectionContentProviderService sectionContentProviderService)
+        private readonly IWidgetService _widgetService;
+        public SectionGroupController(ISectionGroupService sectionGroupService,
+            ISectionContentProviderService sectionContentProviderService,
+            IWidgetService widgetService)
         {
             _sectionGroupService = sectionGroupService;
             _sectionContentProviderService = sectionContentProviderService;
+            _widgetService = widgetService;
         }
 
         public ActionResult Create(string sectionWidgetId)
@@ -91,18 +97,18 @@ namespace ZKEACMS.SectionWidget.Controllers
         [HttpPost]
         public JsonResult UploadTemplate()
         {
-            //if (Request.Files.Count > 0)
-            //{
-            //    try
-            //    {
-            //        ServiceLocator.Current.GetInstance<IWidgetService>().InstallPackWidget(Request.Files[0].InputStream);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Logger.Error(ex);
-            //        return Json(new AjaxResult { Status = AjaxStatus.Error, Message = "上传的模板不正确" });
-            //    }
-            //}
+            if (Request.Form.Files.Count > 0)
+            {
+                try
+                {
+                    _widgetService.InstallPackWidget(Request.Form.Files[0].OpenReadStream(), HttpContext);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                    return Json(new AjaxResult { Status = AjaxStatus.Error, Message = "上传的模板不正确" });
+                }
+            }
 
             return Json(new AjaxResult { Status = AjaxStatus.Normal, Message = "上传成功" });
         }

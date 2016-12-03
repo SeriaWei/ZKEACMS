@@ -47,7 +47,7 @@ namespace ZKEACMS.WebHost
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            var mvcBuilder = services.AddMvc(option =>
+            services.AddMvc(option =>
               {
                   option.ModelBinderProviders.Insert(0, new WidgetModelBinderProvider());
                   option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
@@ -61,10 +61,7 @@ namespace ZKEACMS.WebHost
                 {
                     cmsPlugin.InitPlug();
                 }
-            }, assembly =>
-            {
-                //mvcBuilder.AddApplicationPart(assembly);
-            });
+            },null);
             services.UseZKEACMS();
             services.Configure<AuthorizationOptions>(options =>
             {

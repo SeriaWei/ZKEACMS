@@ -32,9 +32,7 @@ namespace Easy.Mvc.Plugin
                 assemblies.Each(assembly =>
                 {
                     LoadedAssemblies.Add(assembly.FullName, assembly);
-
-                });
-                
+                });                
                 Loaders.Add(loader);
             });
         }        
@@ -47,7 +45,7 @@ namespace Easy.Mvc.Plugin
         {
             string modulePath = HostingEnvironment.IsDevelopment() ?
                 new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent.FullName :
-                Path.Combine(HostingEnvironment.ContentRootPath, PluginFolder);
+                Path.Combine(HostingEnvironment.WebRootPath, PluginFolder);
 
             if (Directory.Exists(modulePath))
             {
