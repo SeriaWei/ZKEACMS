@@ -1,6 +1,6 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using System.Collections.Generic;
-using Easy.Web.CMS.Article.Models;
+using ZKEACMS.Article.Models;
 
 namespace ZKEACMS.Article.ViewModel
 {

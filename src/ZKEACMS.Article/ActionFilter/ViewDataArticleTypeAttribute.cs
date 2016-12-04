@@ -1,9 +1,11 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
-using System.Web.Mvc;
-using Easy.Web.Attribute;
-using Easy.Web.CMS;
-using Easy.Web.CMS.Article.Service;
-using Microsoft.Practices.ServiceLocation;
+
+using Easy;
+using Easy.Mvc.Attribute;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using ZKEACMS.Article.Service;
 
 namespace ZKEACMS.Article.ActionFilter
 {
@@ -18,8 +20,9 @@ namespace ZKEACMS.Article.ActionFilter
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            _articleTypeService = _articleTypeService ?? ServiceLocator.Current.GetInstance<IArticleTypeService>();
-            filterContext.Controller.ViewData[ViewDataKeys.ArticleCategory] = new SelectList(_articleTypeService.Get(), "ID", "Title");
+            _articleTypeService = _articleTypeService ?? new ServiceLocator().GetService<IArticleTypeService>();
+            (filterContext.Controller as Controller)
+                .ViewData[ViewDataKeys.ArticleCategory] = new SelectList(_articleTypeService.GetAll(), "ID", "Title");
         }
     }
 }

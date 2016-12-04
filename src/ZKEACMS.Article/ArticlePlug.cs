@@ -1,9 +1,10 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using Easy.Mvc.Resource;
+using Easy.Mvc.Route;
 using System;
 using System.Collections.Generic;
-using Easy.Web.CMS;
-using Easy.Web.Resource;
-using Easy.Web.Route;
+using ZKEACMS.Common.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ZKEACMS.Article
 {
@@ -57,6 +58,16 @@ namespace ZKEACMS.Article
             yield return new PermissionDescriptor(PermissionKeys.ManageArticle, "文章", "管理文章", "");
             yield return new PermissionDescriptor(PermissionKeys.ViewArticleType, "文章", "查看文章类别", "");
             yield return new PermissionDescriptor(PermissionKeys.ManageArticleType, "文章", "管理文章类别", "");
+        }
+
+        public override IEnumerable<Type> WidgetServiceTypes()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void ConfigureServices(IServiceCollection serviceCollection)
+        {
+            throw new NotImplementedException();
         }
     }
 }

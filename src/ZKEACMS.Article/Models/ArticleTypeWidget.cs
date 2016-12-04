@@ -1,16 +1,15 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
-using System;
-using System.Linq;
+using Easy;
 using Easy.MetaData;
-using Easy.Web.CMS.Article.Service;
-using Easy.Web.CMS.MetaData;
-using Easy.Web.CMS.Widget;
-using Microsoft.Practices.ServiceLocation;
+using System.Linq;
+using ZKEACMS.Article.Service;
+using ZKEACMS.MetaData;
+using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Models
 {
-    [DataConfigure(typeof(ArticleTypeWidgetMetaData)), Serializable]
-    public class ArticleTypeWidget : WidgetBase
+    [ViewConfigure(typeof(ArticleTypeWidgetMetaData))]
+    public class ArticleTypeWidget : BasicWidget
     {
         public int ArticleTypeID { get; set; }
         public string TargetPage { get; set; }
@@ -22,7 +21,7 @@ namespace ZKEACMS.Article.Models
             base.ViewConfigure();
             ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).DataSource(() =>
             {
-                return ServiceLocator.Current.GetInstance<IArticleTypeService>().Get().ToDictionary(m => m.ID.ToString(), m => m.Title);
+                return new ServiceLocator().GetService<IArticleTypeService>().GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
             }).Required();
             ViewConfig(m => m.TargetPage).AsHidden();
         }

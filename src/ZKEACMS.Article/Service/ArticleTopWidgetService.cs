@@ -1,17 +1,23 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
-using System.Web;
+using Easy;
+using Easy.RepositoryPattern;
+using Microsoft.AspNetCore.Http;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Article.ViewModel;
-using Easy.Data;
-using Easy.Web.CMS.Article.Service;
-using Easy.Web.CMS.Widget;
-using Microsoft.Practices.ServiceLocation;
+using ZKEACMS.Widget;
+using System.Linq;
 
 namespace ZKEACMS.Article.Service
 {
     public class ArticleTopWidgetService : WidgetService<ArticleTopWidget>
     {
-        public override WidgetPart Display(WidgetBase widget, HttpContextBase httpContext)
+        private readonly IArticleService _articleService;
+        public ArticleTopWidgetService(IWidgetService widgetService,IArticleService articleService, IApplicationContext applicationContext) : base(widgetService, applicationContext)
+        {
+            _articleService = articleService;
+        }
+
+        public override WidgetPart Display(WidgetBase widget, HttpContext httpContext)
         {
             var currentWidget = widget as ArticleTopWidget;
             var page = new Pagination
@@ -23,11 +29,8 @@ namespace ZKEACMS.Article.Service
             {
                 Widget = currentWidget
             };
-            var filter = new DataFilter();
-            filter.Where("IsPublish", OperatorType.Equal, true);
-            filter.OrderBy("PublishDate", OrderType.Descending);
-            filter.Where("ArticleTypeID", OperatorType.Equal, currentWidget.ArticleTypeID);
-            viewModel.Articles = ServiceLocator.Current.GetInstance<IArticleService>().Get(filter, page);
+
+            viewModel.Articles = _articleService.Get(m => m.IsPublish && m.ArticleTypeID == currentWidget.ArticleTypeID).OrderByDescending(m => m.PublishDate);
             return widget.ToWidgetPart(viewModel);
         }
     }

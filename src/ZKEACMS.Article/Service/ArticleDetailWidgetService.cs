@@ -1,24 +1,27 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
-using System.Web;
+using Easy;
+using Microsoft.AspNetCore.Http;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Article.ViewModel;
-using Easy.Web.CMS;
-using Easy.Web.CMS.Article.Models;
-using Easy.Web.CMS.Article.Service;
-using Easy.Web.CMS.Widget;
-using Microsoft.Practices.ServiceLocation;
+using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Service
 {
     public class ArticleDetailWidgetService : WidgetService<ArticleDetailWidget>
     {
-        public override WidgetPart Display(WidgetBase widget, HttpContextBase httpContext)
+        private readonly IArticleService _articleService;
+        public ArticleDetailWidgetService(IWidgetService widgetService,IArticleService articleService, IApplicationContext applicationContext) : base(widgetService, applicationContext)
+        {
+            _articleService = articleService;
+        }
+
+        public override WidgetPart Display(WidgetBase widget, HttpContext httpContext)
         {
             long articleId;
-            long.TryParse(httpContext.Request.QueryString["id"], out articleId);
+            long.TryParse(httpContext.Request.Query["id"], out articleId);
             var viewModel = new ArticleDetailViewModel
             {
-                Current = ServiceLocator.Current.GetInstance<IArticleService>().Get(articleId)
+                Current = _articleService.Get(articleId)
             };
             if (viewModel.Current == null)
             {

@@ -1,15 +1,14 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
-using System;
-using System.Collections.Generic;
 using Easy.MetaData;
-using Easy.Web.CMS;
-using Easy.Web.CMS.MetaData;
-using Easy.Web.CMS.Widget;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using ZKEACMS.MetaData;
+using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Models
 {
-    [DataConfigure(typeof(ArticleSummaryWidgetMetaData)), Serializable]
-    public class ArticleSummaryWidget : WidgetBase
+    [ViewConfigure(typeof(ArticleSummaryWidgetMetaData)),Table("ArticleSummaryWidget")]
+    public class ArticleSummaryWidget : BasicWidget
     {
         public string SubTitle { get; set; }
         public string DetailLink { get; set; }

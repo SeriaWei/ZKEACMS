@@ -1,29 +1,32 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
-using System.Web;
+using Easy;
+using Easy.Extend;
+using Microsoft.AspNetCore.Http;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Article.ViewModel;
-using Easy.Data;
-using Easy.Extend;
-using Easy.Web.CMS.Article.Service;
-using Easy.Web.CMS.Widget;
-using Microsoft.Practices.ServiceLocation;
+using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Service
 {
     public class ArticleTypeWidgetService : WidgetService<ArticleTypeWidget>
     {
-        public override WidgetPart Display(WidgetBase widget, HttpContextBase httpContext)
+        private readonly IArticleTypeService _articleTypeService;
+        public ArticleTypeWidgetService(IWidgetService widgetService, IArticleTypeService articleTypeService, IApplicationContext applicationContext) : base(widgetService, applicationContext)
+        {
+            _articleTypeService = articleTypeService;
+        }
+
+        public override WidgetPart Display(WidgetBase widget, HttpContext httpContext)
         {
             ArticleTypeWidget currentWidget = widget as ArticleTypeWidget;
-            var service = ServiceLocator.Current.GetInstance<IArticleTypeService>();
-            var filter = new DataFilter().Where("ParentID", OperatorType.Equal, currentWidget.ArticleTypeID);
+            var types = _articleTypeService.Get(m => m.ParentID == currentWidget.ArticleTypeID);
             int ac = 0;
-            int.TryParse(httpContext.Request.QueryString["ac"], out ac);
+            int.TryParse(httpContext.Request.Query["ac"].ToString(), out ac);
             return widget.ToWidgetPart(new ArticleTypeWidgetViewModel
             {
-                ArticleTypes = service.Get(filter),
-                CurrentType = service.Get(currentWidget.ArticleTypeID),
-                TargetPage = currentWidget.TargetPage.IsNullOrEmpty() ? httpContext.Request.Url.PathAndQuery.ToLower() : currentWidget.TargetPage,
+                ArticleTypes = types,
+                CurrentType = _articleTypeService.Get(currentWidget.ArticleTypeID),
+                TargetPage = currentWidget.TargetPage.IsNullOrEmpty() ? httpContext.Request.Path.ToString().ToLower() : currentWidget.TargetPage,
                 ArticleTypeID = ac
             });
         }

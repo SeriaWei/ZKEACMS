@@ -1,42 +1,66 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
-using System.Web.Mvc;
+using Easy.Mvc.Authorize;
+using Easy.Mvc.Controllers;
 using Easy.ViewPort.jsTree;
-using Easy.Web.Attribute;
-using Easy.Web.Authorize;
-using Easy.Web.CMS.Article.Models;
-using Easy.Web.CMS.Article.Service;
-using Easy.Web.Controller;
+using Microsoft.AspNetCore.Mvc;
+using ZKEACMS.Article.Models;
+using ZKEACMS.Article.Service;
 
 namespace ZKEACMS.Article.Controllers
 {
-    [AdminTheme, DefaultAuthorize]
+    [DefaultAuthorize]
     public class ArticleTypeController : BasicController<ArticleType, long, IArticleTypeService>
     {
         public ArticleTypeController(IArticleTypeService service)
             : base(service)
         {
         }
+        [DefaultAuthorize(Policy = PermissionKeys.ViewArticleType)]
+        public override ActionResult Index()
+        {
+            return base.Index();
+        }
 
         public override ActionResult Create()
         {
-            var parentId = ValueProvider.GetValue("ParentID");
+            var parentId = Request.Query["ParentID"];
             var articleType = new ArticleType { ParentID = 0 };
-            if (parentId != null)
+            if (parentId.Count > 0)
             {
                 long id;
-                if (long.TryParse(parentId.AttemptedValue, out id))
+                if (long.TryParse(parentId.ToString(), out id))
                 {
                     articleType.ParentID = id;
                 }
             }
             return View(articleType);
         }
-
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageArticleType)]
+        public override ActionResult Create(ArticleType entity)
+        {
+            return base.Create(entity);
+        }
+        [DefaultAuthorize(Policy = PermissionKeys.ManageArticleType)]
+        public override ActionResult Edit(long Id)
+        {
+            return base.Edit(Id);
+        }
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageArticleType)]
+        public override ActionResult Edit(ArticleType entity)
+        {
+            return base.Edit(entity);
+        }
+        [DefaultAuthorize(Policy = PermissionKeys.ViewArticleType)]
         public JsonResult GetArticleTypeTree()
         {
-            var allNodes = Service.Get();
+            var allNodes = Service.GetAll();
             var node = new Tree<ArticleType>().Source(allNodes).ToNode(m => m.ID.ToString(), m => m.Title, m => m.ParentID.ToString(), "0");
-            return Json(node, JsonRequestBehavior.AllowGet);
+            return Json(node);
+        }
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageArticleType)]
+        public override JsonResult Delete(string ids)
+        {
+            return base.Delete(ids);
         }
     }
 }

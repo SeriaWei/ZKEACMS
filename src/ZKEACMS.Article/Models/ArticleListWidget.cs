@@ -1,20 +1,18 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
-using System;
+using Easy;
+using Easy.Extend;
+using Easy.MetaData;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Easy.Extend;
-using Easy.MetaData;
-using Easy.Web.CMS;
-using Easy.Web.CMS.Article.Service;
-using Easy.Web.CMS.MetaData;
-using Easy.Web.CMS.Widget;
-using Microsoft.Practices.ServiceLocation;
+using ZKEACMS.Article.Service;
+using ZKEACMS.MetaData;
+using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Models
 {
-    [DataConfigure(typeof(ArticleListWidgetMeta)), Serializable]
-    public class ArticleListWidget : WidgetBase
+    [ViewConfigure(typeof(ArticleListWidgetMeta))]
+    public class ArticleListWidget : BasicWidget
     {
         public int ArticleTypeID { get; set; }
         public string DetailPageUrl { get; set; }
@@ -26,13 +24,13 @@ namespace ZKEACMS.Article.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
-            var articleTypeService = ServiceLocator.Current.GetInstance<IArticleTypeService>();
-            ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).DataSource(() => articleTypeService.Get().ToDictionary(m => m.ID.ToString(), m => m.Title)).Required();
+            var articleTypeService = new ServiceLocator().GetService<IArticleTypeService>();
+            ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).DataSource(() => articleTypeService.GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title)).Required();
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
 
             ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(() =>
             {
-                var path = (ServiceLocator.Current.GetInstance<IApplicationContext>() as CMSApplicationContext).MapPath("~/Modules/Article/Views");
+                var path = (new ServiceLocator().GetService<IApplicationContext>() as CMSApplicationContext).MapPath("~/Modules/Article/Views");
                 Dictionary<string, string> templates = new Dictionary<string, string>();
                 Directory.GetFiles(path, "Widget.ArticleList*.cshtml").Each(f =>
                 {
