@@ -5,5 +5,8 @@ namespace Easy.Modules.DataDictionary
 {
     public class DataDictionaryService : ServiceBase<DataDictionaryEntity>, IDataDictionaryService
     {
+        public DataDictionaryService(IApplicationContext applicationContext) : base(applicationContext)
+        {
+        }
     }
 }

@@ -10,11 +10,12 @@ namespace ZKEACMS.Product.Service
     public class ProductCategoryService : ServiceBase<ProductCategory>, IProductCategoryService
     {
         private readonly IProductService _productService;
-        public ProductCategoryService(IProductService productService)
+        public ProductCategoryService(IProductService productService, IApplicationContext applicationContext)
+            : base(applicationContext)
         {
             _productService = productService;
         }
-   
+
         public IEnumerable<ProductCategory> GetChildren(long id)
         {
             return Get(m => m.ParentID == id);

@@ -15,7 +15,8 @@ namespace ZKEACMS.Theme
         private readonly ICookie _cookie;
         private const string PreViewCookieName = "PreViewTheme";
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public ThemeService(ICookie cookie, IHttpContextAccessor httpContextAccessor)
+        public ThemeService(ICookie cookie, IHttpContextAccessor httpContextAccessor, IApplicationContext applicationContext)
+            :base(applicationContext)
         {
             _cookie = cookie;
             _httpContextAccessor = httpContextAccessor;

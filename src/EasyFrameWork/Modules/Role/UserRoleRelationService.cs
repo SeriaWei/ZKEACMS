@@ -5,6 +5,8 @@ namespace Easy.Modules.Role
 {
     public class UserRoleRelationService : ServiceBase<UserRoleRelation>, IUserRoleRelationService
     {
-
+        public UserRoleRelationService(IApplicationContext applicationContext) : base(applicationContext)
+        {
+        }
     }
 }

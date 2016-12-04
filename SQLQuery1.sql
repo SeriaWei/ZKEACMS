@@ -75,3 +75,42 @@ UPDATE dbo.CMS_WidgetBase SET AssemblyName=N'ZKEACMS.SectionWidget',ServiceTypeN
 GO
 UPDATE dbo.Users set [PassWord]=N'admin'
 GO
+
+
+UPDATE dbo.CMS_WidgetTemplate SET 
+AssemblyName=N'ZKEACMS.Product',
+ServiceTypeName=N'ZKEACMS.Product.Service.ProductListWidgetService',
+ViewModelTypeName=N'ZKEACMS.Product.Models.ProductListWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Product.Service.ProductListWidgetService'
+GO
+UPDATE dbo.CMS_WidgetTemplate SET 
+AssemblyName=N'ZKEACMS.Product',
+ServiceTypeName=N'ZKEACMS.Product.Service.ProductCategoryWidgetService',
+ViewModelTypeName=N'ZKEACMS.Product.Models.ProductCategoryWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Product.Service.ProductCategoryWidgetService'
+GO
+UPDATE dbo.CMS_WidgetTemplate SET 
+AssemblyName=N'ZKEACMS.Product',
+ServiceTypeName=N'ZKEACMS.Product.Service.ProductDetailWidgetService',
+ViewModelTypeName=N'ZKEACMS.Product.Models.ProductDetailWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Product.Service.ProductDetailWidgetService'
+GO
+
+UPDATE dbo.CMS_WidgetBase SET 
+AssemblyName=N'ZKEACMS.Product',
+ServiceTypeName=N'ZKEACMS.Product.Service.ProductListWidgetService',
+ViewModelTypeName=N'ZKEACMS.Product.Models.ProductListWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Product.Service.ProductListWidgetService'
+GO
+UPDATE dbo.CMS_WidgetBase SET 
+AssemblyName=N'ZKEACMS.Product',
+ServiceTypeName=N'ZKEACMS.Product.Service.ProductCategoryWidgetService',
+ViewModelTypeName=N'ZKEACMS.Product.Models.ProductCategoryWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Product.Service.ProductCategoryWidgetService'
+GO
+UPDATE dbo.CMS_WidgetBase SET 
+AssemblyName=N'ZKEACMS.Product',
+ServiceTypeName=N'ZKEACMS.Product.Service.ProductDetailWidgetService',
+ViewModelTypeName=N'ZKEACMS.Product.Models.ProductDetailWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Product.Service.ProductDetailWidgetService'
+GO

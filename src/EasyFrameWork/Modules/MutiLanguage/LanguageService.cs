@@ -5,6 +5,8 @@ namespace Easy.Modules.MutiLanguage
 {
     public class LanguageService : ServiceBase<LanguageEntity>, ILanguageService
     {
-        
+        public LanguageService(IApplicationContext applicationContext) : base(applicationContext)
+        {
+        }
     }
 }

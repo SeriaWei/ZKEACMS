@@ -1,11 +1,16 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using ZKEACMS.SectionWidget.Models;
 using Easy.RepositoryPattern;
+using Easy;
 
 namespace ZKEACMS.SectionWidget.Service
 {
     public class SectionContentParagraphService : ServiceBase<SectionContentParagraph>, ISectionContentService
     {
+        public SectionContentParagraphService(IApplicationContext applicationContext) : base(applicationContext)
+        {
+        }
+
         public SectionContentBase.Types ContentType
         {
             get { return SectionContentBase.Types.Paragraph; }

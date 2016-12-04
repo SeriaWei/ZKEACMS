@@ -6,11 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using ZKEACMS.Common.Models;
+using Easy;
 
 namespace ZKEACMS.Common.Service
 {
     public class NavigationService : ServiceBase<NavigationEntity>, INavigationService
     {
+        public NavigationService(IApplicationContext applicationContext) : base(applicationContext)
+        {
+        }
+
         public override void Add(NavigationEntity item)
         {
             if (item.ParentId.IsNullOrEmpty())

@@ -7,10 +7,11 @@ using ZKEACMS.MetaData;
 using ZKEACMS.Product.Service;
 using Easy;
 using Microsoft.Extensions.DependencyInjection;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Product.Models
 {
-    [ViewConfigure(typeof(ProductCategoryWidgetMedata))]
+    [ViewConfigure(typeof(ProductCategoryWidgetMedata)), Table("ProductCategoryWidget")]
     public class ProductCategoryWidget : BasicWidget
     {
         public int ProductCategoryID { get; set; }

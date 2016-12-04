@@ -10,6 +10,7 @@ using ZKEACMS.Page;
 using ZKEACMS.Widget;
 using ZKEACMS.Zone;
 using Easy;
+using ZKEACMS.Layout;
 
 namespace ZKEACMS.Layout
 {
@@ -18,17 +19,22 @@ namespace ZKEACMS.Layout
         public LayoutService(IDataArchivedService dataArchivedService,
             IPageService pageService,
             IZoneService zoneService,
-            IWidgetService widgetService)
+            IWidgetService widgetService,
+            IApplicationContext applicationContext,
+            ILayoutHtmlService layoutHtmlService)
+            : base(applicationContext)
         {
             DataArchivedService = dataArchivedService;
             PageService = pageService;
             ZoneService = zoneService;
             WidgetService = widgetService;
+            LayoutHtmlService = layoutHtmlService;
         }
 
         public IDataArchivedService DataArchivedService { get; set; }
         public IPageService PageService { get; set; }
         public IZoneService ZoneService { get; set; }
+        public ILayoutHtmlService LayoutHtmlService { get; set; }
 
         public IWidgetService WidgetService { get; set; }
 
@@ -50,11 +56,10 @@ namespace ZKEACMS.Layout
             }
             if (item.Html != null)
             {
-                LayoutHtmlService layoutHtmlService = new LayoutHtmlService();
                 item.Html.Each(m =>
                 {
                     m.LayoutId = item.ID;
-                    layoutHtmlService.Add(m);
+                    LayoutHtmlService.Add(m);
                 });
             }
         }
@@ -83,12 +88,11 @@ namespace ZKEACMS.Layout
             }
             if (item.Html != null)
             {
-                var layoutHtmlService = new LayoutHtmlService();
-                layoutHtmlService.Remove(m => m.LayoutId == item.ID);
+                LayoutHtmlService.Remove(m => m.LayoutId == item.ID);
                 item.Html.Each(m =>
                 {
                     m.LayoutId = item.ID;
-                    layoutHtmlService.Add(m);
+                    LayoutHtmlService.Add(m);
                 });
             }
 
@@ -115,7 +119,7 @@ namespace ZKEACMS.Layout
                 IEnumerable<ZoneEntity> zones = ZoneService.GetZonesByLayoutId(entity.ID);
                 entity.Zones = new ZoneCollection();
                 zones.Each(entity.Zones.Add);
-                IEnumerable<LayoutHtml> htmls = new LayoutHtmlService().GetByLayoutID(entity.ID);
+                IEnumerable<LayoutHtml> htmls = LayoutHtmlService.GetByLayoutID(entity.ID);
                 entity.Html = new LayoutHtmlCollection();
                 htmls.Each(entity.Html.Add);
                 return entity;
@@ -124,8 +128,7 @@ namespace ZKEACMS.Layout
         }
         public override void Remove(LayoutEntity item)
         {
-            var layoutHtmlService = new LayoutHtmlService();
-            layoutHtmlService.Remove(m => m.LayoutId == item.ID);
+            LayoutHtmlService.Remove(m => m.LayoutId == item.ID);
             ZoneService.Remove(m => m.LayoutId == item.ID);
             PageService.Remove(m => m.LayoutId == item.ID);
             var widgets = WidgetService.Get(m => m.LayoutID == item.ID);
@@ -148,10 +151,9 @@ namespace ZKEACMS.Layout
         }
         public override void Remove(Expression<Func<LayoutEntity, bool>> filter)
         {
-            var layoutHtmlService = new LayoutHtmlService();
             Get(filter).Each(layout =>
             {
-                layoutHtmlService.Remove(m => m.LayoutId == layout.ID);
+                LayoutHtmlService.Remove(m => m.LayoutId == layout.ID);
                 ZoneService.Remove(m => m.LayoutId == layout.ID);
                 PageService.Remove(m => m.LayoutId == layout.ID);
                 var widgets = WidgetService.Get(m => m.LayoutID == layout.ID);
@@ -171,10 +173,9 @@ namespace ZKEACMS.Layout
 
         public override void RemoveRange(params LayoutEntity[] items)
         {
-            var layoutHtmlService = new LayoutHtmlService();
             items.Each(layout =>
             {
-                layoutHtmlService.Remove(m => m.LayoutId == layout.ID);
+                LayoutHtmlService.Remove(m => m.LayoutId == layout.ID);
                 ZoneService.Remove(m => m.LayoutId == layout.ID);
                 PageService.Remove(m => m.LayoutId == layout.ID);
                 var widgets = WidgetService.Get(m => m.LayoutID == layout.ID);

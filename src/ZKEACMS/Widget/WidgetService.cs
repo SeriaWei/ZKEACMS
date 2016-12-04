@@ -23,7 +23,8 @@ namespace ZKEACMS.Widget
     public class WidgetService : ServiceBase<WidgetBase>, IWidgetService
     {
         protected const string EncryptWidgetTemplate = "EncryptWidgetTemplate";
-        public WidgetService(IEncryptService encryptService, IDataArchivedService dataArchivedService)
+        public WidgetService(IEncryptService encryptService, IDataArchivedService dataArchivedService, IApplicationContext applicationContext)
+            :base(applicationContext)
         {
             EncryptService = encryptService;
             DataArchivedService = dataArchivedService;
@@ -203,10 +204,14 @@ namespace ZKEACMS.Widget
     {
         protected const string TempFolder = "~/Temp";
         protected const string TempJsonFile = "~/Temp/{0}-widget.json";
-        public WidgetService(IWidgetService widgetService)
+        private IWidgetService widgetService;
+
+        public WidgetService(IWidgetService widgetService, IApplicationContext applicationContext)
+            :base(applicationContext)
         {
             WidgetBaseService = widgetService;
         }
+
         public IWidgetService WidgetBaseService { get; private set; }
 
         private void CopyTo(WidgetBase from, T to)

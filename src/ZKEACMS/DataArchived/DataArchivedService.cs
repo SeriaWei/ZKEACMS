@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using Easy;
 using Easy.Extend;
 using Easy.RepositoryPattern;
 using Newtonsoft.Json;
@@ -11,6 +12,11 @@ namespace ZKEACMS.DataArchived
     public class DataArchivedService : ServiceBase<DataArchived>, IDataArchivedService
     {
         private const string ArchiveLock = "ArchiveLock";
+
+        public DataArchivedService(IApplicationContext applicationContext) : base(applicationContext)
+        {
+        }
+
         public JsonConverter[] JsonConverters { get; set; }
         public override void Add(DataArchived item)
         {

@@ -17,7 +17,8 @@ namespace ZKEACMS.Page
     {
         private readonly IWidgetService _widgetService;
         private readonly IDataArchivedService _dataArchivedService;
-        public PageService(IWidgetService widgetService, IDataArchivedService dataArchivedService)
+        public PageService(IWidgetService widgetService, IDataArchivedService dataArchivedService, IApplicationContext applicationContext)
+            :base(applicationContext)
         {
             _widgetService = widgetService;
             _dataArchivedService = dataArchivedService;

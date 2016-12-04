@@ -13,13 +13,13 @@ namespace ZKEACMS.Zone
 {
     public class ZoneService : ServiceBase<ZoneEntity>, IZoneService
     {
-        public ZoneService(IPageService pageService)
+        public ZoneService(IPageService pageService, IApplicationContext applicationContext) : base(applicationContext)
         {
             PageService = pageService;
         }
 
         public IPageService PageService { get; set; }
-        
+
         public override void Add(ZoneEntity item)
         {
             if (item.ID.IsNullOrEmpty())
@@ -31,12 +31,12 @@ namespace ZKEACMS.Zone
         public IEnumerable<ZoneEntity> GetZonesByPageId(string pageId)
         {
             var page = PageService.Get(pageId);
-            using(var layoutService=new ServiceLocator().GetService<ILayoutService>())
+            using (var layoutService = new ServiceLocator().GetService<ILayoutService>())
             {
                 var layout = layoutService.Get(page.LayoutId);
                 return DbContext.Instance.Where(m => m.LayoutId == layout.ID).OrderBy(m => m.ID).ToList();
             }
-            
+
 
         }
         public IEnumerable<ZoneEntity> GetZonesByLayoutId(string layoutId)

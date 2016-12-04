@@ -5,11 +5,16 @@ using Easy.RepositoryPattern;
 using System;
 using System.IO;
 using System.Linq.Expressions;
+using Easy;
 
 namespace ZKEACMS.Media
 {
     public class MediaService : ServiceBase<MediaEntity>, IMediaService
     {
+        public MediaService(IApplicationContext applicationContext) : base(applicationContext)
+        {
+        }
+
         public override void Add(MediaEntity item)
         {
             item.ID = Guid.NewGuid().ToString("N");

@@ -10,8 +10,12 @@ namespace Easy.RepositoryPattern
 {
     public abstract class ServiceBase<T> : IService<T> where T : class
     {
+        public ServiceBase(IApplicationContext applicationContext)
+        {
+            ApplicationContext = applicationContext;
+        }
         public virtual DbContext<T> DbContext { get; } = new DbContext<T>();
-        public IApplicationContext ApplicationContext { get; } = new ServiceLocator().GetService<IApplicationContext>();
+        public IApplicationContext ApplicationContext { get; private set; }
         
         public virtual void Add(T item)
         {

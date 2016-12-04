@@ -14,6 +14,10 @@ namespace Easy.Modules.User.Service
 {
     public class UserService : ServiceBase<UserEntity>, IUserService
     {
+        public UserService(IApplicationContext applicationContext) : base(applicationContext)
+        {
+        }
+
         public override void Add(UserEntity item)
         {
             if (item.PassWordNew.IsNotNullAndWhiteSpace())

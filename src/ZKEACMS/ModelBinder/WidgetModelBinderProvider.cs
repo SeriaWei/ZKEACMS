@@ -12,7 +12,7 @@ namespace ZKEACMS.ModelBinder
     {
         public IModelBinder GetBinder(ModelBinderProviderContext context)
         {
-            if (typeof(WidgetBase).IsAssignableFrom(context.Metadata.ModelType))
+            if (typeof(BasicWidget).IsAssignableFrom(context.Metadata.ModelType))
             {
                 return new WidgetBinder(context);
             }

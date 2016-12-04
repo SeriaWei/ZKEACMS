@@ -9,6 +9,7 @@ using Easy.Extend;
 using Newtonsoft.Json;
 using ZKEACMS.Widget;
 using Easy.Zip;
+using Easy;
 
 namespace ZKEACMS.SectionWidget.Service
 {
@@ -20,8 +21,9 @@ namespace ZKEACMS.SectionWidget.Service
 
         public SectionWidgetService(IWidgetService widgetService, ISectionGroupService sectionGroupService,
             ISectionContentProviderService sectionContentProviderService,
-            ISectionTemplateService sectionTemplateService)
-            : base(widgetService)
+            ISectionTemplateService sectionTemplateService,
+            IApplicationContext applicationContext)
+            : base(widgetService, applicationContext)
         {
             _sectionGroupService = sectionGroupService;
             _sectionContentProviderService = sectionContentProviderService;

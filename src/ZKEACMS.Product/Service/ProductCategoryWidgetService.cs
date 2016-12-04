@@ -5,13 +5,15 @@ using ZKEACMS.Product.ViewModel;
 using Easy.Extend;
 using ZKEACMS.Widget;
 using Microsoft.AspNetCore.Http;
+using Easy;
 
 namespace ZKEACMS.Product.Service
 {
     public class ProductCategoryWidgetService : WidgetService<ProductCategoryWidget>
     {
         private readonly IProductCategoryService _productCategoryService;
-        public ProductCategoryWidgetService(IWidgetService widgetService, IProductCategoryService productCategoryService) : base(widgetService)
+        public ProductCategoryWidgetService(IWidgetService widgetService, IProductCategoryService productCategoryService, IApplicationContext applicationContext)
+            : base(widgetService, applicationContext)
         {
             _productCategoryService = productCategoryService;
         }

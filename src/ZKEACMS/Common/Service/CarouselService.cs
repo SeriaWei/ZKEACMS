@@ -7,6 +7,7 @@ using ZKEACMS.Common.Models;
 using Easy.Constant;
 using Easy.Extend;
 using Easy.RepositoryPattern;
+using Easy;
 
 namespace ZKEACMS.Common.Service
 {
@@ -14,7 +15,8 @@ namespace ZKEACMS.Common.Service
     {
         private readonly ICarouselItemService _carouselItemService;
 
-        public CarouselService(ICarouselItemService carouselItemService)
+        public CarouselService(ICarouselItemService carouselItemService, IApplicationContext applicationContext)
+            : base(applicationContext)
         {
             _carouselItemService = carouselItemService;
         }
@@ -33,10 +35,10 @@ namespace ZKEACMS.Common.Service
                 item.CarouselItems.Each(m =>
                 {
                     m.CarouselID = item.ID;
-                    if(m.ActionType== ActionType.Create)
+                    if (m.ActionType == ActionType.Create)
                     {
                         _carouselItemService.Add(m);
-                    }                    
+                    }
                 });
             }
         }

@@ -56,7 +56,7 @@ namespace ZKEACMS.Controllers
             return View(widget);
         }
         [HttpPost, ViewDataZones]
-        public ActionResult Create(WidgetBase widget, string ReturnUrl)
+        public ActionResult Create(BasicWidget widget, string ReturnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace ZKEACMS.Controllers
         }
 
         [HttpPost, ViewDataZones]
-        public ActionResult Edit(WidgetBase widget, string ReturnUrl)
+        public ActionResult Edit(BasicWidget widget, string ReturnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -119,7 +119,7 @@ namespace ZKEACMS.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveWidgetZone(List<WidgetBase> widgets)
+        public JsonResult SaveWidgetZone([FromBody] List<WidgetBase> widgets)
         {
             foreach (var widget in widgets)
             {

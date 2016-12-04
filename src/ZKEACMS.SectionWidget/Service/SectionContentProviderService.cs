@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using ZKEACMS.SectionWidget.Models;
 using Easy.RepositoryPattern;
+using Easy;
 
 namespace ZKEACMS.SectionWidget.Service
 {
     public class SectionContentProviderService : ServiceBase<SectionContent>, ISectionContentProviderService
     {
         private readonly IEnumerable<ISectionContentService> _sectionContentServices;
-        public SectionContentProviderService(IEnumerable<ISectionContentService> sectionContentServices)
+        public SectionContentProviderService(IEnumerable<ISectionContentService> sectionContentServices, IApplicationContext applicationContext)
+            : base(applicationContext)
         {
             _sectionContentServices = sectionContentServices;
         }
@@ -29,7 +31,7 @@ namespace ZKEACMS.SectionWidget.Service
             base.Update(item.ToContent());
             _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).UpdateContent(item);
         }
-       
+
         public override SectionContent Get(params object[] primaryKeys)
         {
             var item = base.Get(primaryKeys);

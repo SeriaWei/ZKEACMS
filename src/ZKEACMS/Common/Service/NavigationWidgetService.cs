@@ -14,15 +14,15 @@ namespace ZKEACMS.Common.Service
     public class NavigationWidgetService : WidgetService<NavigationWidget>
     {
         private readonly INavigationService _navigationService;
-        public NavigationWidgetService(IWidgetService widgetService, INavigationService navigationService)
-            :base(widgetService)
+        public NavigationWidgetService(IWidgetService widgetService, INavigationService navigationService, IApplicationContext applicationContext)
+            : base(widgetService, applicationContext)
         {
             _navigationService = navigationService;
         }
         public override WidgetPart Display(WidgetBase widget, HttpContext httpContext)
         {
             var navs = _navigationService.GetAll()
-                .Where(m => m.Status == (int)RecordStatus.Active).OrderBy(m=>m.DisplayOrder);
+                .Where(m => m.Status == (int)RecordStatus.Active).OrderBy(m => m.DisplayOrder);
             string path = "~" + httpContext.Request.Path.Value.ToLower();
             NavigationEntity current = null;
             int length = 0;

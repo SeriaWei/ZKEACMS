@@ -15,8 +15,8 @@ namespace ZKEACMS.Common.Service
     {
         private readonly ICarouselItemService _carouselItemService;
 
-        public CarouselWidgetService(IWidgetService widgetService, ICarouselItemService carouselItemService)
-            : base(widgetService)
+        public CarouselWidgetService(IWidgetService widgetService, ICarouselItemService carouselItemService, IApplicationContext applicationContext)
+            : base(widgetService, applicationContext)
         {
             _carouselItemService = carouselItemService;
         }

@@ -18,7 +18,12 @@ namespace ZKEACMS.Product.Controllers
             : base(service)
         {
         }
-
+        [DefaultAuthorize(Policy = PermissionKeys.ViewProductCategory)]
+        public override ActionResult Index()
+        {
+            return base.Index();
+        }
+        [DefaultAuthorize(Policy = PermissionKeys.ManageProductCategory)]
         public override ActionResult Create()
         {
 
@@ -34,7 +39,27 @@ namespace ZKEACMS.Product.Controllers
             }
             return View(productCategory);
         }
-
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProductCategory)]
+        public override ActionResult Create(ProductCategory entity)
+        {
+            return base.Create(entity);
+        }
+        [DefaultAuthorize(Policy = PermissionKeys.ManageProductCategory)]
+        public override ActionResult Edit(long Id)
+        {
+            return base.Edit(Id);
+        }
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProductCategory)]
+        public override ActionResult Edit(ProductCategory entity)
+        {
+            return base.Edit(entity);
+        }
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProductCategory)]
+        public override JsonResult Delete(string ids)
+        {
+            return base.Delete(ids);
+        }
+        [DefaultAuthorize(Policy = PermissionKeys.ViewProductCategory)]
         public JsonResult GetProductCategoryTree()
         {
             var pages = Service.GetAll();

@@ -1,4 +1,5 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using Easy;
 using Microsoft.AspNetCore.Http;
 using ZKEACMS.Product.Models;
 using ZKEACMS.Widget;
@@ -8,7 +9,8 @@ namespace ZKEACMS.Product.Service
     public class ProductDetailWidgetService : WidgetService<ProductDetailWidget>
     {
         private readonly IProductService _productService;
-        public ProductDetailWidgetService(IWidgetService widgetService, IProductService productService) : base(widgetService)
+        public ProductDetailWidgetService(IWidgetService widgetService, IProductService productService, IApplicationContext applicationContext)
+            : base(widgetService, applicationContext)
         {
             _productService = productService;
         }

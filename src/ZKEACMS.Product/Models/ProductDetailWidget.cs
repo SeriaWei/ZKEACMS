@@ -3,10 +3,11 @@ using System;
 using Easy.MetaData;
 using ZKEACMS.Widget;
 using ZKEACMS.MetaData;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Product.Models
 {
-    [ViewConfigure(typeof(ProductDetailWidgetMetaData))]
+    [ViewConfigure(typeof(ProductDetailWidgetMetaData)), Table("ProductDetailWidget")]
     public class ProductDetailWidget : BasicWidget
     {
         public string CustomerClass { get; set; }

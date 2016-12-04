@@ -9,10 +9,11 @@ using ZKEACMS.MetaData;
 using Easy;
 using Microsoft.Extensions.DependencyInjection;
 using ZKEACMS.Product.Service;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Product.Models
 {
-    [ViewConfigure(typeof(ProductListWidgetMetaData))]
+    [ViewConfigure(typeof(ProductListWidgetMetaData)), Table("ProductListWidget")]
     public class ProductListWidget : BasicWidget
     {
         public bool IsPageable { get; set; }

@@ -17,9 +17,10 @@ namespace ZKEACMS.SectionWidget.Service
     {
         private readonly ISectionContentProviderService _sectionContentProviderService;
         private readonly IHostingEnvironment _hostingEnvironment;
-        public SectionGroupService(ISectionContentProviderService sectionContentProviderService, IHostingEnvironment hostingEnvironment)
+        public SectionGroupService(ISectionContentProviderService sectionContentProviderService,
+            IHostingEnvironment hostingEnvironment, IApplicationContext applicationContext) : base(applicationContext)
         {
-               _sectionContentProviderService = sectionContentProviderService;
+            _sectionContentProviderService = sectionContentProviderService;
             _hostingEnvironment = hostingEnvironment;
         }
         public SectionGroup GenerateContentFromConfig(SectionGroup group)

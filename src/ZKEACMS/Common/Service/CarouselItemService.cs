@@ -3,11 +3,16 @@ using ZKEACMS.Common.Models;
 using Easy.Constant;
 using Easy.Extend;
 using Easy.RepositoryPattern;
+using Easy;
 
 namespace ZKEACMS.Common.Service
 {
     public class CarouselItemService : ServiceBase<CarouselItemEntity>, ICarouselItemService
     {
+        public CarouselItemService(IApplicationContext applicationContext) : base(applicationContext)
+        {
+        }
+
         public override void Add(CarouselItemEntity item)
         {
             if (item.ActionType != ActionType.Unattached)

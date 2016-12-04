@@ -8,7 +8,8 @@ namespace Easy.Modules.Role
     public class RoleService : ServiceBase<RoleEntity>, IRoleService
     {
         private readonly IPermissionService _permissionService;
-        public RoleService(IPermissionService permissionService)
+        public RoleService(IPermissionService permissionService, IApplicationContext applicationContext)
+            :base(applicationContext)
         {
             _permissionService = permissionService;
         }

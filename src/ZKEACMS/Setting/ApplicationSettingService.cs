@@ -1,4 +1,5 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using Easy;
 using Easy.Extend;
 using Easy.RepositoryPattern;
 
@@ -6,6 +7,10 @@ namespace ZKEACMS.Setting
 {
     public class ApplicationSettingService : ServiceBase<ApplicationSetting>, IApplicationSettingService
     {
+        public ApplicationSettingService(IApplicationContext applicationContext) : base(applicationContext)
+        {
+        }
+
         public override void Add(ApplicationSetting item)
         {
             if (Count(m => m.SettingKey == item.SettingKey) == 0)
