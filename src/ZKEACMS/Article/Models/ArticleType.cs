@@ -7,13 +7,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Article.Models
 {
-    [ViewConfigure(typeof(ArtycleTypeMetaData)),Table("ArticleType")]
+    [ViewConfigure(typeof(ArtycleTypeMetaData)), Table("ArticleType")]
     public class ArticleType : EditorEntity
     {
         [Key]
-        public long? ID { get; set; }
+        public int ID { get; set; }
 
-        public long? ParentID { get; set; }
+        public int? ParentID { get; set; }
     }
     class ArtycleTypeMetaData : ViewMetaData<ArticleType>
     {

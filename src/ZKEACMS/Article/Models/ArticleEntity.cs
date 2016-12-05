@@ -14,7 +14,7 @@ namespace ZKEACMS.Article.Models
     public class ArticleEntity : EditorEntity, IImage, IExtendField
     {
         [Key]
-        public long ID { get; set; }
+        public int ID { get; set; }
 
         public string Summary { get; set; }
         public string MetaKeyWords { get; set; }

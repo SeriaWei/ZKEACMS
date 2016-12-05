@@ -16,7 +16,7 @@ using ZKEACMS.Article.Service;
 namespace ZKEACMS.Article.Controllers
 {
     [DefaultAuthorize, ViewDataArticleType]
-    public class ArticleController : BasicController<ArticleEntity, long, IArticleService>
+    public class ArticleController : BasicController<ArticleEntity, int, IArticleService>
     {
         public ArticleController(IArticleService service)
             : base(service)
@@ -43,7 +43,7 @@ namespace ZKEACMS.Article.Controllers
             return result;
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageArticle)]
-        public override ActionResult Edit(long Id)
+        public override ActionResult Edit(int Id)
         {
             return base.Edit(Id);
         }

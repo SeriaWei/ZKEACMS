@@ -32,7 +32,7 @@ namespace ZKEACMS.Article.Service
             var item = Get(primaryKeys);
             if (item != null)
             {
-                GetChildren(item.ID ?? 0).Each(m =>
+                GetChildren(item.ID).Each(m =>
                 {
                     _articleService.Remove(n => n.ArticleTypeID == m.ID);
                     Remove(m.ID);

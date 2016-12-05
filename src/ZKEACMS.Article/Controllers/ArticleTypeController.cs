@@ -9,7 +9,7 @@ using ZKEACMS.Article.Service;
 namespace ZKEACMS.Article.Controllers
 {
     [DefaultAuthorize]
-    public class ArticleTypeController : BasicController<ArticleType, long, IArticleTypeService>
+    public class ArticleTypeController : BasicController<ArticleType, int, IArticleTypeService>
     {
         public ArticleTypeController(IArticleTypeService service)
             : base(service)
@@ -27,8 +27,8 @@ namespace ZKEACMS.Article.Controllers
             var articleType = new ArticleType { ParentID = 0 };
             if (parentId.Count > 0)
             {
-                long id;
-                if (long.TryParse(parentId.ToString(), out id))
+                int id;
+                if (int.TryParse(parentId.ToString(), out id))
                 {
                     articleType.ParentID = id;
                 }
@@ -41,7 +41,7 @@ namespace ZKEACMS.Article.Controllers
             return base.Create(entity);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageArticleType)]
-        public override ActionResult Edit(long Id)
+        public override ActionResult Edit(int Id)
         {
             return base.Edit(Id);
         }

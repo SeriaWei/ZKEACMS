@@ -95,7 +95,7 @@ ServiceTypeName=N'ZKEACMS.Product.Service.ProductDetailWidgetService',
 ViewModelTypeName=N'ZKEACMS.Product.Models.ProductDetailWidget' 
 WHERE ServiceTypeName=N'Easy.CMS.Product.Service.ProductDetailWidgetService'
 GO
-
+-------------------------------------------------------------------------------
 UPDATE dbo.CMS_WidgetBase SET 
 AssemblyName=N'ZKEACMS.Product',
 ServiceTypeName=N'ZKEACMS.Product.Service.ProductListWidgetService',
@@ -113,4 +113,67 @@ AssemblyName=N'ZKEACMS.Product',
 ServiceTypeName=N'ZKEACMS.Product.Service.ProductDetailWidgetService',
 ViewModelTypeName=N'ZKEACMS.Product.Models.ProductDetailWidget' 
 WHERE ServiceTypeName=N'Easy.CMS.Product.Service.ProductDetailWidgetService'
+GO
+---------------------------------------------------------------------------
+
+UPDATE dbo.CMS_WidgetTemplate SET 
+AssemblyName=N'ZKEACMS.Article',
+ServiceTypeName=N'ZKEACMS.Article.Service.ArticleListWidgetService',
+ViewModelTypeName=N'ZKEACMS.Article.Models.ArticleListWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Article.Service.ArticleListWidgetService'
+GO
+UPDATE dbo.CMS_WidgetTemplate SET 
+AssemblyName=N'ZKEACMS.Article',
+ServiceTypeName=N'ZKEACMS.Article.Service.ArticleDetailWidgetService',
+ViewModelTypeName=N'ZKEACMS.Article.Models.ArticleDetailWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Article.Service.ArticleDetailWidgetService'
+GO
+UPDATE dbo.CMS_WidgetTemplate SET 
+AssemblyName=N'ZKEACMS.Article',
+ServiceTypeName=N'ZKEACMS.Article.Service.ArticleTopWidgetService',
+ViewModelTypeName=N'ZKEACMS.Article.Models.ArticleTopWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Article.Service.ArticleTopWidgetService'
+GO
+UPDATE dbo.CMS_WidgetTemplate SET 
+AssemblyName=N'ZKEACMS.Article',
+ServiceTypeName=N'ZKEACMS.Article.Service.ArticleSummaryWidgetService',
+ViewModelTypeName=N'ZKEACMS.Article.Models.ArticleSummaryWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Article.Service.ArticleSummaryWidgetService'
+GO
+UPDATE dbo.CMS_WidgetTemplate SET 
+AssemblyName=N'ZKEACMS.Article',
+ServiceTypeName=N'ZKEACMS.Article.Service.ArticleTypeWidgetService',
+ViewModelTypeName=N'ZKEACMS.Article.Models.ArticleTypeWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Article.Service.ArticleTypeWidgetService'
+GO
+---------------------------------------------------------------------------
+UPDATE dbo.CMS_WidgetBase SET 
+AssemblyName=N'ZKEACMS.Article',
+ServiceTypeName=N'ZKEACMS.Article.Service.ArticleListWidgetService',
+ViewModelTypeName=N'ZKEACMS.Article.Models.ArticleListWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Article.Service.ArticleListWidgetService'
+GO
+UPDATE dbo.CMS_WidgetBase SET 
+AssemblyName=N'ZKEACMS.Article',
+ServiceTypeName=N'ZKEACMS.Article.Service.ArticleDetailWidgetService',
+ViewModelTypeName=N'ZKEACMS.Article.Models.ArticleDetailWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Article.Service.ArticleDetailWidgetService'
+GO
+UPDATE dbo.CMS_WidgetBase SET 
+AssemblyName=N'ZKEACMS.Article',
+ServiceTypeName=N'ZKEACMS.Article.Service.ArticleTopWidgetService',
+ViewModelTypeName=N'ZKEACMS.Article.Models.ArticleTopWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Article.Service.ArticleTopWidgetService'
+GO
+UPDATE dbo.CMS_WidgetBase SET 
+AssemblyName=N'ZKEACMS.Article',
+ServiceTypeName=N'ZKEACMS.Article.Service.ArticleSummaryWidgetService',
+ViewModelTypeName=N'ZKEACMS.Article.Models.ArticleSummaryWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Article.Service.ArticleSummaryWidgetService'
+GO
+UPDATE dbo.CMS_WidgetBase SET 
+AssemblyName=N'ZKEACMS.Article',
+ServiceTypeName=N'ZKEACMS.Article.Service.ArticleTypeWidgetService',
+ViewModelTypeName=N'ZKEACMS.Article.Models.ArticleTypeWidget' 
+WHERE ServiceTypeName=N'Easy.CMS.Article.Service.ArticleTypeWidgetService'
 GO

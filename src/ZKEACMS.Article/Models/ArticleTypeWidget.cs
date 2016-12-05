@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy;
 using Easy.MetaData;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using ZKEACMS.Article.Service;
 using ZKEACMS.MetaData;
@@ -8,7 +9,7 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Models
 {
-    [ViewConfigure(typeof(ArticleTypeWidgetMetaData))]
+    [ViewConfigure(typeof(ArticleTypeWidgetMetaData)), Table("ArticleTypeWidget")]
     public class ArticleTypeWidget : BasicWidget
     {
         public int ArticleTypeID { get; set; }

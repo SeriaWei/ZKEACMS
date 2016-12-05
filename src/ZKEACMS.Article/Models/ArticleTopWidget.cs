@@ -4,6 +4,7 @@ using Easy.Constant;
 using Easy.Extend;
 using Easy.MetaData;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
 using ZKEACMS.Article.Service;
@@ -12,7 +13,7 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Models
 {
-    [ViewConfigure(typeof(ArticleTopWidgetMetaData))]
+    [ViewConfigure(typeof(ArticleTopWidgetMetaData)), Table("ArticleTopWidget")]
     public class ArticleTopWidget : BasicWidget
     {
         public int ArticleTypeID { get; set; }
