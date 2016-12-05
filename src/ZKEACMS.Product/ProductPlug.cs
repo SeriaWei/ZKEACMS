@@ -47,13 +47,13 @@ namespace ZKEACMS.Product
         protected override void InitScript(Func<string, ResourceHelper> script)
         {
             script("PhotoWall")
-                .Include("~/Modules/Product/Scripts/jquery-photowall/jquery-photowall.js");
+                .Include("~/Plugins/ZKEACMS.Product/Scripts/jquery-photowall/jquery-photowall.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
             style("PhotoWall")
-                .Include("~/Modules/Product/Scripts/jquery-photowall/jquery-photowall.css");
+                .Include("~/Plugins/ZKEACMS.Product/Scripts/jquery-photowall/jquery-photowall.css");
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()

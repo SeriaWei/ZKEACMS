@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using ZKEACMS.Common.Models;
 using Microsoft.Extensions.DependencyInjection;
+using ZKEACMS.Article.Service;
 
 namespace ZKEACMS.Article
 {
@@ -49,7 +50,7 @@ namespace ZKEACMS.Article
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
-            style("Article").Include("~/Modules/Article/Content/Article.css");
+            style("Article").Include("~/Plugins/ZKEACMS.Article/Content/Article.css");
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
@@ -62,12 +63,17 @@ namespace ZKEACMS.Article
 
         public override IEnumerable<Type> WidgetServiceTypes()
         {
-            throw new NotImplementedException();
+            yield return typeof(ArticleDetailWidgetService);
+            yield return typeof(ArticleListWidgetService);
+            yield return typeof(ArticleSummaryWidgetService);
+            yield return typeof(ArticleTopWidgetService);
+            yield return typeof(ArticleTypeWidgetService);
         }
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            throw new NotImplementedException();
+            serviceCollection.AddTransient<IArticleService, ArticleService>();
+            serviceCollection.AddTransient<IArticleTypeService, ArticleTypeService>();
         }
     }
 }
