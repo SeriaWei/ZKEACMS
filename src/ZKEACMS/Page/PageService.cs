@@ -68,10 +68,9 @@ namespace ZKEACMS.Page
             }
             var widgets = _widgetService.GetByPageId(item.ID);
             Add(item);
-            ServiceLocator serviceLocator = new ServiceLocator();
             widgets.Each(m =>
             {
-                using (var widgetService = m.CreateServiceInstance(serviceLocator.Current))
+                using (var widgetService = m.CreateServiceInstance(ApplicationContext.ServiceLocator))
                 {
                     m = widgetService.GetWidget(m);
                     if (m.ExtendFields != null)
@@ -87,10 +86,9 @@ namespace ZKEACMS.Page
         {
             Remove(m => m.ParentId == item.ID);
             var widgets = _widgetService.Get(m => m.PageID == item.ID);
-            ServiceLocator serviceLocator = new ServiceLocator();
             widgets.Each(m =>
             {
-                using (var widgetService = m.CreateServiceInstance(serviceLocator.Current))
+                using (var widgetService = m.CreateServiceInstance(ApplicationContext.ServiceLocator))
                 {
                     widgetService.DeleteWidget(m.ID);
                 }
@@ -115,10 +113,9 @@ namespace ZKEACMS.Page
                 Remove(m => deletes.Any(d => d == m.ReferencePageID));
 
                 var widgets = _widgetService.Get(m => deletes.Any(n => n == m.PageID));
-                ServiceLocator serviceLocator = new ServiceLocator();
                 widgets.Each(m =>
                 {
-                    using (var widgetService = m.CreateServiceInstance(serviceLocator.Current))
+                    using (var widgetService = m.CreateServiceInstance(ApplicationContext.ServiceLocator))
                     {
                         widgetService.DeleteWidget(m.ID);
                     }

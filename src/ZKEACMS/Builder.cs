@@ -35,6 +35,7 @@ namespace ZKEACMS
             serviceCollection.TryAddTransient<IExtendFieldService, ExtendFieldService>();
 
             serviceCollection.TryAddTransient<ILayoutService, LayoutService>();
+            serviceCollection.TryAddTransient<ILayoutHtmlService, LayoutHtmlService>();
             serviceCollection.TryAddTransient<IMediaService, MediaService>();
             serviceCollection.TryAddTransient<IPageService, PageService>();
             serviceCollection.TryAddTransient<IApplicationSettingService, ApplicationSettingService>();

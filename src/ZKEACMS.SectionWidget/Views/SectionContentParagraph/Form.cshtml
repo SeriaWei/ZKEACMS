@@ -1,10 +1,10 @@
 ﻿@model ZKEACMS.SectionWidget.Models.SectionContentParagraph
-@{ 
+@{
     Layout = Layouts.PopUp;
     Script.Reqiured("tinymce").AtFoot();
 }
 <div>
-    @using (Html.BeginForm("Save", "SectionContentParagraph",FormMethod.Post))
+    @using (Html.BeginForm("Save", "SectionContentParagraph", FormMethod.Post))
     {
         @Html.HiddenFor(m => m.ID)
         @Html.HiddenFor(m => m.SectionWidgetId)
@@ -32,9 +32,9 @@
             $("form").submit();
         });
         $(function () {
-            if (@(ViewBag.Close!=null?1:0)) {
+            if (@(ViewBag.Close!=null?1:0)==1) {
                 $(".popUpToolBar .btn-default").click();
-        }
+            }
         });
     </script>
 }

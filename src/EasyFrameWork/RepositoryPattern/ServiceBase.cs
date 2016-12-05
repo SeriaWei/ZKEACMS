@@ -14,8 +14,8 @@ namespace Easy.RepositoryPattern
         {
             ApplicationContext = applicationContext;
         }
-        public virtual DbContext<T> DbContext { get; } = new DbContext<T>();
-        public IApplicationContext ApplicationContext { get; private set; }
+        public virtual DbContext<T> DbContext { get; set; } = new DbContext<T>();
+        public IApplicationContext ApplicationContext { get; set; }
         
         public virtual void Add(T item)
         {

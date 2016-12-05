@@ -7,7 +7,7 @@ using Easy;
 
 namespace ZKEACMS.Layout
 {
-    public class LayoutHtmlService : ServiceBase<LayoutHtml>
+    public class LayoutHtmlService : ServiceBase<LayoutHtml>, ILayoutHtmlService
     {
         public LayoutHtmlService(IApplicationContext applicationContext) : base(applicationContext)
         {

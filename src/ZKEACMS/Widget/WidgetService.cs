@@ -17,6 +17,7 @@ using System.Text;
 using ZKEACMS.DataArchived;
 using ZKEACMS.Layout;
 using ZKEACMS.Page;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ZKEACMS.Widget
 {
@@ -24,7 +25,7 @@ namespace ZKEACMS.Widget
     {
         protected const string EncryptWidgetTemplate = "EncryptWidgetTemplate";
         public WidgetService(IEncryptService encryptService, IDataArchivedService dataArchivedService, IApplicationContext applicationContext)
-            :base(applicationContext)
+            : base(applicationContext)
         {
             EncryptService = encryptService;
             DataArchivedService = dataArchivedService;
@@ -33,14 +34,14 @@ namespace ZKEACMS.Widget
         {
             if (widget != null && widget.PageID.IsNotNullAndWhiteSpace())
             {
-                using (var pageService = new ServiceLocator().GetService<IPageService>())
+                using (var pageService = ApplicationContext.ServiceLocator.GetService<IPageService>())
                 {
                     pageService.MarkChanged(widget.PageID);
                 }
             }
             else if (widget != null && widget.LayoutID.IsNotNullAndWhiteSpace())
             {
-                using (var layoutService = new ServiceLocator().GetService<ILayoutService>())
+                using (var layoutService = ApplicationContext.ServiceLocator.GetService<ILayoutService>())
                 {
                     layoutService.MarkChanged(widget.LayoutID);
                 }
@@ -61,7 +62,7 @@ namespace ZKEACMS.Widget
         }
         public IEnumerable<WidgetBase> GetAllByPageId(IServiceProvider serviceProvider, string pageId)
         {
-            using (var pageService = new ServiceLocator().GetService<IPageService>())
+            using (var pageService = ApplicationContext.ServiceLocator.GetService<IPageService>())
             {
                 return GetAllByPage(serviceProvider, pageService.Get(pageId));
             }
@@ -207,7 +208,7 @@ namespace ZKEACMS.Widget
         private IWidgetService widgetService;
 
         public WidgetService(IWidgetService widgetService, IApplicationContext applicationContext)
-            :base(applicationContext)
+            : base(applicationContext)
         {
             WidgetBaseService = widgetService;
         }

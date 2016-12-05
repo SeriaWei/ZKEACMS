@@ -5,7 +5,8 @@ namespace Easy.RepositoryPattern
 {
     public interface IService<T> : IDisposable where T : class
     {
-        DbContext<T> DbContext { get; }
+        DbContext<T> DbContext { get; set; }
+        IApplicationContext ApplicationContext { get; set; }
         void Add(T item);
         void AddRange(params T[] items);
         IEnumerable<T> GetAll();

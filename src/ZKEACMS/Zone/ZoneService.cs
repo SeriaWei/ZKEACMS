@@ -31,7 +31,7 @@ namespace ZKEACMS.Zone
         public IEnumerable<ZoneEntity> GetZonesByPageId(string pageId)
         {
             var page = PageService.Get(pageId);
-            using (var layoutService = new ServiceLocator().GetService<ILayoutService>())
+            using (var layoutService = ApplicationContext.ServiceLocator.GetService<ILayoutService>())
             {
                 var layout = layoutService.Get(page.LayoutId);
                 return DbContext.Instance.Where(m => m.LayoutId == layout.ID).OrderBy(m => m.ID).ToList();

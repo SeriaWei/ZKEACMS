@@ -1,4 +1,5 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using System;
 using Easy.Models;
 using Easy.Modules.User.Service;
 using Microsoft.AspNetCore.Hosting;
@@ -24,9 +25,9 @@ namespace Easy.Mvc
                     return _currentUser;
                 }
                 var httpContext = HttpContextAccessor.HttpContext;
-                if (httpContext.User.Identity.IsAuthenticated)
+                if (httpContext != null && httpContext.User.Identity.IsAuthenticated)
                 {
-                    using (var userService = new ServiceLocator().GetService<IUserService>())
+                    using (var userService = ServiceLocator.GetService<IUserService>())
                     {
                         _currentUser = userService.Get(httpContext.User.Identity.Name);
                         return _currentUser;
@@ -34,6 +35,19 @@ namespace Easy.Mvc
 
                 }
                 return null;
+            }
+        }
+
+        public IServiceProvider ServiceLocator
+        {
+            get
+            {
+                var httpContext = HttpContextAccessor.HttpContext;
+                if (httpContext != null)
+                {
+                    return httpContext.RequestServices;
+                }
+                return new ServiceLocator().Current;
             }
         }
     }
