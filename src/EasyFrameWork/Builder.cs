@@ -14,6 +14,7 @@ using Easy.Modules.MutiLanguage;
 using Easy.Mvc.Authorize;
 using Easy.Encrypt;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Builder;
 
 namespace Easy
 {
@@ -45,6 +46,12 @@ namespace Easy
 
             Configuration = configuration;
             return new Loader();
+        }
+
+        public static IApplicationBuilder UsePluginStaticFile(this IApplicationBuilder builder)
+        {
+            builder.UseMiddleware<PluginStaticFileMiddleware>();
+            return builder;
         }
     }
 }

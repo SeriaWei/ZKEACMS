@@ -44,11 +44,10 @@ namespace ZKEACMS
             serviceCollection.TryAddTransient<IWidgetService, WidgetService>();
             serviceCollection.TryAddTransient<IZoneService, ZoneService>();
             serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
-
-            new KnownTypeProvider().GetTypes().Each(type =>
+            foreach (var item in WidgetBase.KnownWidgetService)
             {
-                serviceCollection.TryAddTransient(type);
-            });
+                serviceCollection.TryAddTransient(item.Value);
+            }        
         }
     }
 }

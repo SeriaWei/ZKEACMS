@@ -65,7 +65,7 @@ namespace ZKEACMS.WebHost
             services.UseZKEACMS();
             services.Configure<AuthorizationOptions>(options =>
             {
-                PermissionKeys.DefaultPermissions.Each(p =>
+                PermissionKeys.KnownPermissions.Each(p =>
                 {
                     options.AddPolicy(p.Key, configure =>
                     {
@@ -91,6 +91,7 @@ namespace ZKEACMS.WebHost
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
+                app.UsePluginStaticFile();
             }
             else
             {

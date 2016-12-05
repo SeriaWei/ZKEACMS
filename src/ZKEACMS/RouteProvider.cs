@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Easy.Mvc.Route;
 
-namespace ZKEACMS.Common.Service
+namespace ZKEACMS
 {
     public class RouteProvider : IRouteProvider
     {

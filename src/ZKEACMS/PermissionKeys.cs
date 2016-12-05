@@ -32,7 +32,7 @@ namespace ZKEACMS
         public const string ViewApplicationSetting = "ApplicationSetting_View";
         public const string ManageApplicationSetting = "ApplicationSetting_Manage";
 
-        public static List<PermissionDescriptor> DefaultPermissions = new List<PermissionDescriptor>
+        public static List<PermissionDescriptor> KnownPermissions = new List<PermissionDescriptor>
         {
             new PermissionDescriptor { Module="页面",Title="查看页面",Key=ViewPage,Description="查看页面" },
             new PermissionDescriptor { Module="页面",Title="管理页面",Key=ManagePage,Description="管理页面" },

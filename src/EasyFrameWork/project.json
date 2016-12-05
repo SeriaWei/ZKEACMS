@@ -3,6 +3,7 @@
   "dependencies": {
     "Microsoft.AspNetCore.Html.Abstractions": "1.1.0",
     "Microsoft.AspNetCore.Mvc": "1.1.0",
+    "Microsoft.AspNetCore.StaticFiles": "1.1.0",
     "Microsoft.AspNetCore.WebUtilities": "1.1.0",
     "Microsoft.EntityFrameworkCore": "1.1.0",
     "Microsoft.Extensions.Caching.Memory": "1.1.0",

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ZKEACMS.Common.Models;
 
-namespace ZKEACMS.Common.Service
+namespace ZKEACMS
 {
     public class AdminMenuProvider : IAdminMenuProvider
     {

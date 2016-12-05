@@ -1,16 +1,11 @@
 ﻿using Easy.Extend;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyModel;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
-using Newtonsoft.Json;
 
 namespace Easy.Mvc.Plugin
 {
@@ -82,6 +77,10 @@ namespace Easy.Mvc.Plugin
             });
         }
 
+        public string PluginFolderName()
+        {
+            return PluginFolder;
+        }
     }
 
 }

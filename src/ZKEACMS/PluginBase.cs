@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using ZKEACMS.Common.Models;
 using ZKEACMS.Widget;
 
 namespace ZKEACMS
@@ -30,7 +29,7 @@ namespace ZKEACMS
             var permissions = this.RegistPermission();
             if (permissions != null)
             {
-                PermissionKeys.DefaultPermissions.AddRange(permissions);
+                PermissionKeys.KnownPermissions.AddRange(permissions);
             }
             var routes = this.RegistRoute();
             if (routes != null)
@@ -45,6 +44,7 @@ namespace ZKEACMS
                     string name = $"{item.GetTypeInfo().Assembly.GetName().Name},{item.FullName}";
                     if (!WidgetBase.KnownWidgetService.ContainsKey(name))
                     {
+                        
                         WidgetBase.KnownWidgetService.Add(name, item);
                     }
                     foreach (var widgetModel in item.GetTypeInfo().BaseType.GetGenericArguments())
