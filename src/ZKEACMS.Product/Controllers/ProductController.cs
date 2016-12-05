@@ -12,7 +12,7 @@ using ZKEACMS.Product.Service;
 namespace ZKEACMS.Product.Controllers
 {
     [DefaultAuthorize, ViewDataProductCategory]
-    public class ProductController : BasicController<ProductEntity, long, IProductService>
+    public class ProductController : BasicController<ProductEntity, int, IProductService>
     {
         public ProductController(IProductService service)
             : base(service)
@@ -34,12 +34,12 @@ namespace ZKEACMS.Product.Controllers
             var result = base.Create(entity);
             if (entity.ActionType == ActionType.Publish)
             {
-                Service.Publish(entity.ID ?? 0);
+                Service.Publish(entity.ID);
             }
             return result;
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
-        public override ActionResult Edit(long Id)
+        public override ActionResult Edit(int Id)
         {
             return base.Edit(Id);
         }
@@ -49,7 +49,7 @@ namespace ZKEACMS.Product.Controllers
             var result = base.Edit(entity);
             if (entity.ActionType == ActionType.Publish)
             {
-                Service.Publish(entity.ID ?? 0);
+                Service.Publish(entity.ID);
             }
             return result;
         }

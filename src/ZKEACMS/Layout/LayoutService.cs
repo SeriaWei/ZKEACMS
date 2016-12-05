@@ -111,8 +111,8 @@ namespace ZKEACMS.Layout
 
         public override LayoutEntity Get(params object[] primaryKeys)
         {
-            var layout = DataArchivedService.Get(GenerateKey(primaryKeys), () =>
-            {
+            //var layout = DataArchivedService.Get(GenerateKey(primaryKeys), () =>
+            //{
                 LayoutEntity entity = base.Get(primaryKeys);
                 if (entity == null)
                     return null;
@@ -123,8 +123,8 @@ namespace ZKEACMS.Layout
                 entity.Html = new LayoutHtmlCollection();
                 htmls.Each(entity.Html.Add);
                 return entity;
-            });
-            return layout;
+            //});
+            //return layout;
         }
         public override void Remove(LayoutEntity item)
         {

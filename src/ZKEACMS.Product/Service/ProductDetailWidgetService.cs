@@ -17,8 +17,8 @@ namespace ZKEACMS.Product.Service
 
         public override WidgetPart Display(WidgetBase widget, HttpContext httpContext)
         {
-            long productId = 0;
-            long.TryParse(httpContext.Request.Query["id"].ToString(), out productId);
+            int productId = 0;
+            int.TryParse(httpContext.Request.Query["id"], out productId);
             var product = _productService.Get(productId) ?? new ProductEntity
             {
                 Title = "产品明细组件使用说明",

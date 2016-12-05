@@ -12,7 +12,7 @@ using Easy.Extend;
 namespace ZKEACMS.Product.Controllers
 {
     [DefaultAuthorize]
-    public class ProductCategoryController : BasicController<ProductCategory, long, IProductCategoryService>
+    public class ProductCategoryController : BasicController<ProductCategory, int, IProductCategoryService>
     {
         public ProductCategoryController(IProductCategoryService service)
             : base(service)
@@ -31,8 +31,8 @@ namespace ZKEACMS.Product.Controllers
             var productCategory = new ProductCategory { ParentID = 0 };
             if (parentId.Count > 0)
             {
-                long id;
-                if (long.TryParse(parentId.ToString(), out id))
+                int id;
+                if (int.TryParse(parentId.ToString(), out id))
                 {
                     productCategory.ParentID = id;
                 }
@@ -45,7 +45,7 @@ namespace ZKEACMS.Product.Controllers
             return base.Create(entity);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageProductCategory)]
-        public override ActionResult Edit(long Id)
+        public override ActionResult Edit(int Id)
         {
             return base.Edit(Id);
         }

@@ -47,11 +47,11 @@ namespace ZKEACMS.Product.Service
             int c;
             if (int.TryParse(httpContext.Request.Query["pc"].ToString(), out c))
             {
-                products.Where(m => m.ProductCategoryID == c);
+                products = products.Where(m => m.ProductCategoryID == c);
             }
             else
             {
-                products.Where(m => m.ProductCategoryID == pwidget.ProductCategoryID);
+                products = products.Where(m => m.ProductCategoryID == pwidget.ProductCategoryID);
             }
 
             return widget.ToWidgetPart(new ProductListWidgetViewModel

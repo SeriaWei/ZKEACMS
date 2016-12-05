@@ -11,9 +11,9 @@ namespace ZKEACMS.Product.Models
     public class ProductCategory : EditorEntity
     {
         [Key]
-        public long ID { get; set; }
+        public int ID { get; set; }
 
-        public long ParentID { get; set; }
+        public int ParentID { get; set; }
     }
     class ProductCategoryMetaData : ViewMetaData<ProductCategory>
     {

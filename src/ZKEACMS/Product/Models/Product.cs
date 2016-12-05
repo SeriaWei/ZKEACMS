@@ -14,7 +14,7 @@ namespace ZKEACMS.Product.Models
     public class ProductEntity : EditorEntity, IImage, IExtendField
     {
         [Key]
-        public long? ID { get; set; }
+        public int ID { get; set; }
         /// <summary>
         /// 产品图
         /// </summary>
