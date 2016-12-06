@@ -7,7 +7,7 @@ using Easy;
 
 namespace ZKEACMS.Common.Service
 {
-    public class CarouselItemService : ServiceBase<CarouselItemEntity>, ICarouselItemService
+    public class CarouselItemService : ServiceBase<CarouselItemEntity, CMSDbContext>, ICarouselItemService
     {
         public CarouselItemService(IApplicationContext applicationContext) : base(applicationContext)
         {

@@ -47,7 +47,11 @@ namespace ZKEACMS
             foreach (var item in WidgetBase.KnownWidgetService)
             {
                 serviceCollection.TryAddTransient(item.Value);
-            }        
+            }
+            foreach (var item in WidgetBase.KnownWidgetModel)
+            {
+                serviceCollection.TryAddTransient(item.Value);
+            }
         }
     }
 }

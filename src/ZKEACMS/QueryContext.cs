@@ -8,6 +8,6 @@ namespace ZKEACMS
         public string PageID { get; set; }
         public string WidgetID { get; set; }
         public string ReturnUrl { get; set; }
-        public long WidgetTemplateID { get; set; }
+        public int WidgetTemplateID { get; set; }
     }
 }

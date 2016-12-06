@@ -133,9 +133,9 @@ namespace ZKEACMS.Widget
             string key = $"{AssemblyName},{ViewModelTypeName}";
             if (_widgetBase == null && KnownWidgetModel.ContainsKey(key))
             {
-                return _widgetBase = serviceProvider.GetService(KnownWidgetModel[key]) as WidgetBase;
+                _widgetBase = serviceProvider.GetService(KnownWidgetModel[key]) as WidgetBase;
             }
-            return _widgetBase;
+            return CopyTo(_widgetBase);
         }
         public Type GetViewModelType()
         {
@@ -151,34 +151,36 @@ namespace ZKEACMS.Widget
 
         public WidgetBase ToWidgetBase()
         {
-            return new WidgetBase
-            {
-                AssemblyName = AssemblyName,
-                CreateBy = CreateBy,
-                CreatebyName = CreatebyName,
-                CreateDate = CreateDate,
-                Description = Description,
-                ID = ID,
-                LastUpdateBy = LastUpdateBy,
-                LastUpdateByName = LastUpdateByName,
-                LastUpdateDate = LastUpdateDate,
-                LayoutID = LayoutID,
-                PageID = PageID,
-                PartialView = PartialView,
-                Position = Position,
-                ServiceTypeName = ServiceTypeName,
-                Status = Status,
-                Title = Title,
-                ViewModelTypeName = ViewModelTypeName,
-                WidgetName = WidgetName,
-                ZoneID = ZoneID,
-                FormView = FormView,
-                StyleClass = StyleClass,
-                IsTemplate = IsTemplate,
-                Thumbnail = Thumbnail,
-                IsSystem = IsSystem,
-                ExtendFields = ExtendFields,
-            };
+            return CopyTo(new WidgetBase());
+        }
+        private WidgetBase CopyTo(WidgetBase widget)
+        {
+            widget.AssemblyName = AssemblyName;
+            widget.CreateBy = CreateBy;
+            widget.CreatebyName = CreatebyName;
+            widget.CreateDate = CreateDate;
+            widget.Description = Description;
+            widget.ID = ID;
+            widget.LastUpdateBy = LastUpdateBy;
+            widget.LastUpdateByName = LastUpdateByName;
+            widget.LastUpdateDate = LastUpdateDate;
+            widget.LayoutID = LayoutID;
+            widget.PageID = PageID;
+            widget.PartialView = PartialView;
+            widget.Position = Position;
+            widget.ServiceTypeName = ServiceTypeName;
+            widget.Status = Status;
+            widget.Title = Title;
+            widget.ViewModelTypeName = ViewModelTypeName;
+            widget.WidgetName = WidgetName;
+            widget.ZoneID = ZoneID;
+            widget.FormView = FormView;
+            widget.StyleClass = StyleClass;
+            widget.IsTemplate = IsTemplate;
+            widget.Thumbnail = Thumbnail;
+            widget.IsSystem = IsSystem;
+            widget.ExtendFields = ExtendFields;
+            return widget;
         }
     }
     class WidgetBaseMetaData : ViewMetaData<WidgetBase>

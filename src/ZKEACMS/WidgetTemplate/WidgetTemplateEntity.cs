@@ -29,15 +29,11 @@ namespace ZKEACMS.WidgetTemplate
             WidgetBase widget = new WidgetBase();
             widget.AssemblyName = AssemblyName;
             widget.ServiceTypeName = ServiceTypeName;
-            widget = widget.CreateViewModelInstance(serviceProvider);
-            widget.AssemblyName = AssemblyName;
-            widget.ServiceTypeName = ServiceTypeName;
+            widget.ViewModelTypeName = ViewModelTypeName;
             widget.Description = Description;
             widget.PartialView = PartialView;
-            widget.ViewModelTypeName = ViewModelTypeName;
             widget.WidgetName = Title;
-
-            return widget;
+            return widget.CreateViewModelInstance(serviceProvider);
         }
     }
     class WidgetTemplateMetaData : ViewMetaData<WidgetTemplateEntity>

@@ -23,7 +23,7 @@ namespace Easy.ViewPort.Descriptor
             this.TemplateName = "DropDownList";
         }
 
-        
+
         public IDictionary<string, string> OptionItems
         {
             get
@@ -31,6 +31,23 @@ namespace Easy.ViewPort.Descriptor
                 if (_souceFunc != null)
                 {
                     _data = _souceFunc.Invoke();
+                }
+                if (_data == null && this.SourceType == SourceType.Dictionary)
+                {
+                    IDataDictionaryService dicService = new ServiceLocator().GetService<IDataDictionaryService>();
+                    if (dicService != null)
+                    {
+                        if (this._data == null)
+                        {
+                            _data = new Dictionary<string, string>();
+                        }
+                        var dicts = dicService.Get(m => m.DicName == this.SourceKey).ToList();
+                        foreach (DataDictionaryEntity item in dicts)
+                        {
+                            this._data.Add(item.ID.ToString(), item.Title);
+                        }
+                    }
+
                 }
                 return _data ?? (_data = new Dictionary<string, string>());
             }
@@ -46,20 +63,7 @@ namespace Easy.ViewPort.Descriptor
             }
             return builder.ToString();
         }
-
-        public DropDownListDescriptor DataSource(string Url)
-        {
-            if (this.Properties.ContainsKey("DataSource"))
-            {
-                this.Properties["DataSource"] = Url;
-            }
-            else
-            {
-                this.Properties.Add("DataSource", Url);
-            }
-            return this;
-        }
-
+        
         public DropDownListDescriptor DataSource(IDictionary<string, string> Data)
         {
             this._data = Data;
@@ -78,55 +82,32 @@ namespace Easy.ViewPort.Descriptor
             for (int i = 0; i < text.Length; i++)
             {
                 this._data.Add(Enum.Format(dataType, Enum.Parse(dataType, text[i], true), "d"), text[i]);
-
             }
-
             return this;
         }
-
+        public DropDownListDescriptor DataSource(string Url)
+        {
+            if (this.Properties.ContainsKey("DataSource"))
+            {
+                this.Properties["DataSource"] = Url;
+            }
+            else
+            {
+                this.Properties.Add("DataSource", Url);
+            }
+            return this;
+        }
         public DropDownListDescriptor DataSource(string dictionaryType, SourceType sourceType)
         {
             this.SourceKey = dictionaryType;
             this.SourceType = sourceType;
-            if (sourceType == SourceType.Dictionary)
-            {
-
-                IDataDictionaryService dicService =new ServiceLocator().GetService<IDataDictionaryService>();
-                if (dicService != null)
-                {
-                    if (this._data == null)
-                    {
-                        _data = new Dictionary<string, string>();
-                    }
-                    var dicts = dicService.Get(m => m.DicName == dictionaryType).ToList();
-                    foreach (DataDictionaryEntity item in dicts)
-                    {
-                        this._data.Add(item.ID.ToString(), item.Title);
-                    }
-                }
-
-            }
             return this;
         }
 
         public DropDownListDescriptor DataSource(SourceType type)
         {
-            string dictionaryType = this.ModelType.Name + "@" + this.Name;
-            if (type == SourceType.Dictionary)
-            {
-                var dicService = new ServiceLocator().GetService<IDataDictionaryService>();
-                if (dicService != null)
-                {
-                    if (this._data == null)
-                    {
-                        _data = new Dictionary<string, string>();
-                    }
-                    foreach (DataDictionaryEntity item in dicService.Get(m => m.DicName == type.ToString()))
-                    {
-                        this._data.Add(item.DicValue, item.Title);
-                    }
-                }
-            }
+            this.SourceKey = this.ModelType.Name + "@" + this.Name;
+            this.SourceType = type;
             return this;
         }
 

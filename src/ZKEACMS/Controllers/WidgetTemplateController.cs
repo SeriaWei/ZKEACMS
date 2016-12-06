@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ZKEACMS.Controllers
 {
     [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
-    public class WidgetTemplateController : BasicController<WidgetTemplateEntity, long, IWidgetTemplateService>
+    public class WidgetTemplateController : BasicController<WidgetTemplateEntity, int, IWidgetTemplateService>
     {
         private readonly ICookie _cookie;
         public WidgetTemplateController(IWidgetTemplateService widgetTemplateService, ICookie cookie)

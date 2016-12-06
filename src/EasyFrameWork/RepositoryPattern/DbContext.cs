@@ -1,17 +1,27 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 
 namespace Easy.RepositoryPattern
 {
-    public class DbContext<T> : DbContext where T : class
+    public static class DbContextConfig
     {
-        public virtual DbSet<T> Instance { get; set; }
+        static DbContextConfig()
+        {
+            var serviceLocator = new ServiceLocator();
+            OnModelCreatings = serviceLocator.GetServices<IOnModelCreating>();
+            OnConfigurings = serviceLocator.GetServices<IOnConfiguring>();
+        }
+        public static IEnumerable<IOnModelCreating> OnModelCreatings { get; }
+        public static IEnumerable<IOnConfiguring> OnConfigurings { get; }
+    }
+    public class DbContextBase : DbContext 
+    {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var services = new ServiceLocator().GetServices<IOnModelCreating>();
-            if (services != null)
+            if (DbContextConfig.OnModelCreatings != null)
             {
-                foreach (var item in services)
+                foreach (var item in DbContextConfig.OnModelCreatings)
                 {
                     item.OnModelCreating(modelBuilder);
                 }
@@ -19,11 +29,9 @@ namespace Easy.RepositoryPattern
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
-            var services = new ServiceLocator().GetServices<IOnConfiguring>();
-            if (services != null)
+            if (DbContextConfig.OnConfigurings != null)
             {
-                foreach (var item in services)
+                foreach (var item in DbContextConfig.OnConfigurings)
                 {
                     item.OnConfiguring(optionsBuilder);
                 }

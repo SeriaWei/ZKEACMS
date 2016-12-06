@@ -1,12 +1,22 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using System;
 using Easy.RepositoryPattern;
+using Microsoft.EntityFrameworkCore;
 
 namespace Easy.Modules.Role
 {
-    public class UserRoleRelationService : ServiceBase<UserRoleRelation>, IUserRoleRelationService
+    public class UserRoleRelationService : ServiceBase<UserRoleRelation, EasyDbContext>, IUserRoleRelationService
     {
         public UserRoleRelationService(IApplicationContext applicationContext) : base(applicationContext)
         {
+        }
+
+        public override DbSet<UserRoleRelation> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.UserRoleRelation;
+            }
         }
     }
 }

@@ -18,10 +18,11 @@ using ZKEACMS.DataArchived;
 using ZKEACMS.Layout;
 using ZKEACMS.Page;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Widget
 {
-    public class WidgetService : ServiceBase<WidgetBase>, IWidgetService
+    public class WidgetService : ServiceBase<WidgetBase, CMSDbContext>, IWidgetService
     {
         protected const string EncryptWidgetTemplate = "EncryptWidgetTemplate";
         public WidgetService(IEncryptService encryptService, IDataArchivedService dataArchivedService, IApplicationContext applicationContext)
@@ -29,6 +30,13 @@ namespace ZKEACMS.Widget
         {
             EncryptService = encryptService;
             DataArchivedService = dataArchivedService;
+        }
+        public override DbSet<WidgetBase> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.WidgetBase;
+            }
         }
         private void TriggerChange(WidgetBase widget)
         {
@@ -201,7 +209,7 @@ namespace ZKEACMS.Widget
             return EncryptService.Decrypt(source);
         }
     }
-    public abstract class WidgetService<T> : ServiceBase<T>, IWidgetPartDriver where T : WidgetBase
+    public abstract class WidgetService<T> : ServiceBase<T, CMSDbContext>, IWidgetPartDriver where T : WidgetBase
     {
         protected const string TempFolder = "~/Temp";
         protected const string TempJsonFile = "~/Temp/{0}-widget.json";
@@ -256,6 +264,7 @@ namespace ZKEACMS.Widget
                 base.Add(item);
             }
         }
+
         public override void Update(T item)
         {
             WidgetBaseService.Update(item.ToWidgetBase());

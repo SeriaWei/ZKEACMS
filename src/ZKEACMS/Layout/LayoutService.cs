@@ -11,10 +11,11 @@ using ZKEACMS.Widget;
 using ZKEACMS.Zone;
 using Easy;
 using ZKEACMS.Layout;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Layout
 {
-    public class LayoutService : ServiceBase<LayoutEntity>, ILayoutService
+    public class LayoutService : ServiceBase<LayoutEntity, CMSDbContext>, ILayoutService
     {
         public LayoutService(IDataArchivedService dataArchivedService,
             IPageService pageService,
@@ -30,7 +31,13 @@ namespace ZKEACMS.Layout
             WidgetService = widgetService;
             LayoutHtmlService = layoutHtmlService;
         }
-
+        public override DbSet<LayoutEntity> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.Layout;
+            }
+        }
         public IDataArchivedService DataArchivedService { get; set; }
         public IPageService PageService { get; set; }
         public IZoneService ZoneService { get; set; }
@@ -66,7 +73,7 @@ namespace ZKEACMS.Layout
 
         public void UpdateDesign(LayoutEntity item)
         {
-            DbContext.Instance.Attach(item);
+            CurrentDbSet.Attach(item);
             DbContext.Entry(item).Property(m => m.ContainerClass).IsModified = true;
             DbContext.SaveChanges();
 
@@ -113,16 +120,16 @@ namespace ZKEACMS.Layout
         {
             //var layout = DataArchivedService.Get(GenerateKey(primaryKeys), () =>
             //{
-                LayoutEntity entity = base.Get(primaryKeys);
-                if (entity == null)
-                    return null;
-                IEnumerable<ZoneEntity> zones = ZoneService.GetZonesByLayoutId(entity.ID);
-                entity.Zones = new ZoneCollection();
-                zones.Each(entity.Zones.Add);
-                IEnumerable<LayoutHtml> htmls = LayoutHtmlService.GetByLayoutID(entity.ID);
-                entity.Html = new LayoutHtmlCollection();
-                htmls.Each(entity.Html.Add);
-                return entity;
+            LayoutEntity entity = base.Get(primaryKeys);
+            if (entity == null)
+                return null;
+            IEnumerable<ZoneEntity> zones = ZoneService.GetZonesByLayoutId(entity.ID);
+            entity.Zones = new ZoneCollection();
+            zones.Each(entity.Zones.Add);
+            IEnumerable<LayoutHtml> htmls = LayoutHtmlService.GetByLayoutID(entity.ID);
+            entity.Html = new LayoutHtmlCollection();
+            htmls.Each(entity.Html.Add);
+            return entity;
             //});
             //return layout;
         }

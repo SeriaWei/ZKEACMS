@@ -12,12 +12,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Easy.Modules.User.Service
 {
-    public class UserService : ServiceBase<UserEntity>, IUserService
+    public class UserService : ServiceBase<UserEntity, EasyDbContext>, IUserService
     {
         public UserService(IApplicationContext applicationContext) : base(applicationContext)
         {
         }
-
+        public override DbSet<UserEntity> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.Users;
+            }
+        }
         public override void Add(UserEntity item)
         {
             if (item.PassWordNew.IsNotNullAndWhiteSpace())
@@ -40,9 +46,9 @@ namespace Easy.Modules.User.Service
         {
             passWord = EncryptionTool.Encryption(passWord);
             var result = Get(m => m.UserID == userID && m.PassWord == passWord).FirstOrDefault();
-            if (result!=null)
+            if (result != null)
             {
-                
+
                 result.LastLoginDate = DateTime.Now;
                 result.LoginIP = ip;
                 Update(result);

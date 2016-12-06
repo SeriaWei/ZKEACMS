@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.AspNetCore.StaticFiles;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Http.Features;
-using System.Threading;
-using System.IO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders.Physical;
+using Microsoft.Extensions.Options;
+using System;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Easy.Mvc.Plugin
 {
@@ -32,31 +28,45 @@ namespace Easy.Mvc.Plugin
             _hostingEnvironment = hostingEnv;
         }
 
-        public Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Method == "GET" && context.Request.Path.Value.StartsWith($"/{_pluginLoader.PluginFolderName()}/"))
+            if (IsGetMethod(context.Request.Method) && IsPluginMatchPath(context.Request.Path) && IsSupportContentType(context.Request.Path))
             {
-                string contentType;
-                if (_contentTypeProvider.TryGetContentType(context.Request.Path, out contentType))
+                string filePath = GetAbsolutePath(context.Request.Path);
+                if (File.Exists(filePath))
                 {
-                    string parentPath = new DirectoryInfo(_hostingEnvironment.ContentRootPath).Parent.FullName;
-                    string subPath = context.Request.Path.Value.Replace($"/{_pluginLoader.PluginFolderName()}/", "/").Replace("/", "\\");
-                    string filePath = parentPath + subPath;
-
-                    if (File.Exists(filePath))
+                    var sendFileFeature = context.Features.Get<IHttpSendFileFeature>();
+                    if (sendFileFeature != null)
                     {
-                        var sendFileFeature = context.Features.Get<IHttpSendFileFeature>();
-                        if (sendFileFeature != null)
-                        {
-                            return sendFileFeature.SendFileAsync(filePath, 0, null, CancellationToken.None);
-                        }
-
-                        return StreamCopyOperation.CopyToAsync(new PhysicalFileInfo(new FileInfo(filePath)).CreateReadStream(), context.Response.Body, null, CancellationToken.None);
-
+                        await sendFileFeature.SendFileAsync(filePath, 0, null, CancellationToken.None);
+                    }
+                    using (var readStream = new PhysicalFileInfo(new FileInfo(filePath)).CreateReadStream())
+                    {
+                        await StreamCopyOperation.CopyToAsync(readStream, context.Response.Body, null, CancellationToken.None);
                     }
                 }
+
             }
-            return _next(context);
+            await _next(context);
+        }
+        private bool IsGetMethod(string method)
+        {
+            return string.Equals("GET", method, StringComparison.OrdinalIgnoreCase);
+        }
+        private bool IsPluginMatchPath(string path)
+        {
+            return path.StartsWith($"/{_pluginLoader.PluginFolderName()}/", StringComparison.OrdinalIgnoreCase);
+        }
+        private bool IsSupportContentType(string path)
+        {
+            string contentType;
+            return _contentTypeProvider.TryGetContentType(path, out contentType);
+        }
+        private string GetAbsolutePath(string path)
+        {
+            string parentPath = new DirectoryInfo(_hostingEnvironment.ContentRootPath).Parent.FullName;
+            string subPath = path.Replace($"/{_pluginLoader.PluginFolderName()}/", "/").Replace("/", "\\");
+            return parentPath + subPath;
         }
     }
 }
