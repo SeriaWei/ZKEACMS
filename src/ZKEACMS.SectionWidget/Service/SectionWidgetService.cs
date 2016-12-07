@@ -60,7 +60,11 @@ namespace ZKEACMS.SectionWidget.Service
             List<SectionContent> filled = new List<SectionContent>();
             contents.AsParallel().Each(content =>
             {
-                filled.Add(_sectionContentProviderService.FillContent(content));
+                var contentFull = _sectionContentProviderService.FillContent(content);
+                if (contentFull != null)
+                {
+                    filled.Add(contentFull);
+                }
             });
 
             widget.Groups.Each(m =>

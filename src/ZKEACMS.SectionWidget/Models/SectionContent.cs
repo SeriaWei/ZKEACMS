@@ -42,9 +42,12 @@ namespace ZKEACMS.SectionWidget.Models
 
         public SectionContent InitContent(SectionContent content)
         {
-            content.SectionWidgetId = SectionWidgetId;
-            content.SectionGroupId = SectionGroupId;
-            content.Order = Order;
+            if (content != null)
+            {
+                content.SectionWidgetId = SectionWidgetId;
+                content.SectionGroupId = SectionGroupId;
+                content.Order = Order;
+            }
             return content;
         }
         [NotMapped]
