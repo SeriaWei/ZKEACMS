@@ -7,21 +7,32 @@ using Easy.Mvc;
 using Easy.Mvc.ValueProvider;
 using Easy;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ZKEACMS.Theme
 {
-    public class ThemeService : ServiceBase<ThemeEntity>, IThemeService
+    public class ThemeService : ServiceBase<ThemeEntity, CMSDbContext>, IThemeService
     {
         private readonly ICookie _cookie;
         private const string PreViewCookieName = "PreViewTheme";
         private readonly IHttpContextAccessor _httpContextAccessor;
+
+
+
         public ThemeService(ICookie cookie, IHttpContextAccessor httpContextAccessor, IApplicationContext applicationContext)
-            :base(applicationContext)
+            : base(applicationContext)
         {
             _cookie = cookie;
             _httpContextAccessor = httpContextAccessor;
         }
-
+        public override DbSet<ThemeEntity> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.Theme;
+            }
+        }
         public void SetPreview(string id)
         {
             _cookie.SetValue(PreViewCookieName, id, true, true);
@@ -57,7 +68,7 @@ namespace ZKEACMS.Theme
             {
                 var otherTheme = new ThemeEntity { IsActived = false };
 
-                DbContext.Instance.Attach(otherTheme);
+                CurrentDbSet.Attach(otherTheme);
                 DbContext.Entry(otherTheme).Property(m => m.IsActived).IsModified = true;
                 DbContext.SaveChanges();
 

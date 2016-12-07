@@ -5,6 +5,6 @@ namespace Easy.Modules.MutiLanguage
 {
     public interface ILanguageService : IService<LanguageEntity>
     {
-        
+
     }
 }

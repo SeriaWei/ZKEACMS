@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace ZKEACMS.Widget
 {
-    public class WidgetCollection : List<WidgetPart>
+    public class WidgetCollection : List<WidgetViewModelPart>
     {
-        public void TryAdd(WidgetPart part)
+        public void TryAdd(WidgetViewModelPart part)
         {
             if (!Contains(part))
             {

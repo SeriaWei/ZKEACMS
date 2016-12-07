@@ -5,11 +5,12 @@ using System.Linq;
 using Easy;
 using Easy.Extend;
 using Easy.RepositoryPattern;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace ZKEACMS.DataArchived
 {
-    public class DataArchivedService : ServiceBase<DataArchived>, IDataArchivedService
+    public class DataArchivedService : ServiceBase<DataArchived, CMSDbContext>, IDataArchivedService
     {
         private const string ArchiveLock = "ArchiveLock";
 
@@ -18,6 +19,15 @@ namespace ZKEACMS.DataArchived
         }
 
         public JsonConverter[] JsonConverters { get; set; }
+
+        public override DbSet<DataArchived> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.DataArchived;
+            }
+        }
+
         public override void Add(DataArchived item)
         {
             lock (ArchiveLock)

@@ -1,13 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ZKEACMS.Widget
 {
+    [Table("CMS_WidgetBase")]
+    public sealed class WidgetBasePart : WidgetBase
+    {
+
+    }
     public class BasicWidget : WidgetBase
     {
+        [Key]
+        public override string ID
+        {
+            get; set;
+        }
         [NotMapped]
         public override string AssemblyName
         {
@@ -111,7 +122,7 @@ namespace ZKEACMS.Widget
         [NotMapped]
         public override DateTime? LastUpdateDate
         {
-            get;set;
+            get; set;
         }
         [NotMapped]
         public override int? Status
@@ -122,6 +133,6 @@ namespace ZKEACMS.Widget
         public override string Title
         {
             get; set;
-        } 
+        }
     }
 }

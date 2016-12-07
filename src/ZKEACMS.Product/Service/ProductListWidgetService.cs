@@ -7,16 +7,26 @@ using ZKEACMS.Product.ViewModel;
 using ZKEACMS.Widget;
 using System.Linq;
 using Easy;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductListWidgetService : WidgetService<ProductListWidget>
+    public class ProductListWidgetService : WidgetService<ProductListWidget,ProductDbContext>
     {
         private readonly IProductService _productService;
-        public ProductListWidgetService(IWidgetService widgetService, IProductService productService, IApplicationContext applicationContext)
+        public ProductListWidgetService(IWidgetBasePartService widgetService, IProductService productService, IApplicationContext applicationContext)
             : base(widgetService, applicationContext)
         {
             _productService = productService;
+        }
+
+        public override DbSet<ProductListWidget> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.ProductListWidget;
+            }
         }
 
         public override void Add(ProductListWidget item)
@@ -27,7 +37,7 @@ namespace ZKEACMS.Product.Service
             }
             base.Add(item);
         }
-        public override WidgetPart Display(WidgetBase widget, HttpContext httpContext)
+        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
         {
             ProductListWidget pwidget = widget as ProductListWidget;
             IEnumerable<ProductEntity> products = null;
@@ -54,7 +64,7 @@ namespace ZKEACMS.Product.Service
                 products = products.Where(m => m.ProductCategoryID == pwidget.ProductCategoryID);
             }
 
-            return widget.ToWidgetPart(new ProductListWidgetViewModel
+            return widget.ToWidgetViewModelPart(new ProductListWidgetViewModel
             {
                 Products = products,
                 Page = page,

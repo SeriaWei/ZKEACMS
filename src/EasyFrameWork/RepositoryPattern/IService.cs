@@ -1,9 +1,12 @@
 using System;
 using System.Linq.Expressions;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+
 namespace Easy.RepositoryPattern
 {
-    public interface IService<T> : IDisposable where T : class
+    public interface IService<T> : IDisposable
+        where T : class
     {
         IApplicationContext ApplicationContext { get; set; }
         void Add(T item);

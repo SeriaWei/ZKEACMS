@@ -6,18 +6,28 @@ using ZKEACMS.Article.Models;
 using ZKEACMS.Article.ViewModel;
 using ZKEACMS.Widget;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleTopWidgetService : WidgetService<ArticleTopWidget>
+    public class ArticleTopWidgetService : WidgetService<ArticleTopWidget, ArticleDbContext>
     {
         private readonly IArticleService _articleService;
-        public ArticleTopWidgetService(IWidgetService widgetService,IArticleService articleService, IApplicationContext applicationContext) : base(widgetService, applicationContext)
+        public ArticleTopWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext) : base(widgetService, applicationContext)
         {
             _articleService = articleService;
         }
 
-        public override WidgetPart Display(WidgetBase widget, HttpContext httpContext)
+        public override DbSet<ArticleTopWidget> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.ArticleTopWidget;
+            }
+        }
+
+        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
         {
             var currentWidget = widget as ArticleTopWidget;
             var page = new Pagination
@@ -31,7 +41,7 @@ namespace ZKEACMS.Article.Service
             };
 
             viewModel.Articles = _articleService.Get(m => m.IsPublish && m.ArticleTypeID == currentWidget.ArticleTypeID).OrderByDescending(m => m.PublishDate);
-            return widget.ToWidgetPart(viewModel);
+            return widget.ToWidgetViewModelPart(viewModel);
         }
     }
 }

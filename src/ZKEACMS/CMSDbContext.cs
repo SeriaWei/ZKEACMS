@@ -23,17 +23,18 @@ namespace ZKEACMS
 {
     public class CMSDbContext : EasyDbContext
     {
+        public DbSet<WidgetBasePart> WidgetBasePart { get; set; }
         public DbSet<ApplicationSetting> ApplicationSetting { get; set; }
         public DbSet<ArticleEntity> Article { get; set; }
         public DbSet<ArticleType> ArticleType { get; set; }
         public DbSet<CarouselEntity> Carousel { get; set; }
         public DbSet<CarouselItemEntity> CarouselItem { get; set; }
+        public DbSet<CarouselWidget> CarouselWidget { get; set; }
         public DbSet<LayoutEntity> Layout { get; set; }
         public DbSet<LayoutHtml> LayoutHtml { get; set; }
         public DbSet<MediaEntity> Media { get; set; }
         public DbSet<PageEntity> Page { get; set; }
         public DbSet<ThemeEntity> Theme { get; set; }
-        public DbSet<WidgetBase> WidgetBase { get; set; }
         public DbSet<WidgetTemplateEntity> WidgetTemplate { get; set; }
         public DbSet<ZoneEntity> Zone { get; set; }
         public DbSet<DataArchived.DataArchived> DataArchived { get; set; }

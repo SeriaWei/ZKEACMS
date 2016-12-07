@@ -56,7 +56,7 @@ namespace ZKEACMS.Filter
             if (page != null)
             {
                 var layoutService = filterContext.HttpContext.RequestServices.GetService<ILayoutService>();
-                var widgetService = filterContext.HttpContext.RequestServices.GetService<IWidgetService>();
+                var widgetService = filterContext.HttpContext.RequestServices.GetService<IWidgetBasePartService>();
                 var applicationSettingService = filterContext.HttpContext.RequestServices.GetService<IApplicationSettingService>();
                 var themeService = filterContext.HttpContext.RequestServices.GetService<IThemeService>();
                 var onPageExecuteds = filterContext.HttpContext.RequestServices.GetServices<IOnPageExecuted>();
@@ -77,7 +77,7 @@ namespace ZKEACMS.Filter
                     if (widget != null)
                     {
                         IWidgetPartDriver partDriver = widget.CreateServiceInstance(filterContext.HttpContext.RequestServices);
-                        WidgetPart part = partDriver.Display(widget, filterContext.HttpContext);
+                        WidgetViewModelPart part = partDriver.Display(widget, filterContext.HttpContext);
                         lock (layout.ZoneWidgets)
                         {
                             if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))

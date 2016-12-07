@@ -10,19 +10,30 @@ using Easy.Reflection;
 using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Hosting;
 using Easy;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionGroupService : ServiceBase<SectionGroup>, ISectionGroupService
+    public class SectionGroupService : ServiceBase<SectionGroup, SectionDbContext>, ISectionGroupService
     {
         private readonly ISectionContentProviderService _sectionContentProviderService;
         private readonly IHostingEnvironment _hostingEnvironment;
+
         public SectionGroupService(ISectionContentProviderService sectionContentProviderService,
             IHostingEnvironment hostingEnvironment, IApplicationContext applicationContext) : base(applicationContext)
         {
             _sectionContentProviderService = sectionContentProviderService;
             _hostingEnvironment = hostingEnvironment;
         }
+
+        public override DbSet<SectionGroup> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.SectionGroup;
+            }
+        }
+
         public SectionGroup GenerateContentFromConfig(SectionGroup group)
         {
             string configFile = _hostingEnvironment.WebRootPath + @"Modules\Section\Views\Thumbnail\{0}.xml".FormatWith(group.PartialView);

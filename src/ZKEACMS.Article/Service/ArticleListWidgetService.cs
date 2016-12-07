@@ -7,14 +7,16 @@ using ZKEACMS.Article.ViewModel;
 using ZKEACMS.Widget;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleListWidgetService : WidgetService<ArticleListWidget>
+    public class ArticleListWidgetService : WidgetService<ArticleListWidget, ArticleDbContext>
     {
         private readonly IArticleTypeService _articleTypeService;
         private readonly IArticleService _articleService;
-        public ArticleListWidgetService(IWidgetService widgetService, IArticleTypeService articleTypeService,
+        public ArticleListWidgetService(IWidgetBasePartService widgetService, IArticleTypeService articleTypeService,
             IArticleService articleService, IApplicationContext applicationContext)
             : base(widgetService, applicationContext)
         {
@@ -22,7 +24,15 @@ namespace ZKEACMS.Article.Service
             _articleService = articleService;
         }
 
-        public override WidgetPart Display(WidgetBase widget, HttpContext httpContext)
+        public override DbSet<ArticleListWidget> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.ArticleListWidget;
+            }
+        }
+
+        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
         {
             var currentWidget = widget as ArticleListWidget;
             var categoryEntity = _articleTypeService.Get(currentWidget.ArticleTypeID);
@@ -50,7 +60,7 @@ namespace ZKEACMS.Article.Service
             {
                 articles = articles.Where(m => m.ArticleTypeID == currentWidget.ArticleTypeID);
             }
-            return widget.ToWidgetPart(new ArticleListWidgetViewModel
+            return widget.ToWidgetViewModelPart(new ArticleListWidgetViewModel
             {
                 Articles = articles,
                 Widget = currentWidget,

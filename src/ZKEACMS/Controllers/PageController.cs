@@ -26,12 +26,12 @@ namespace ZKEACMS.Controllers
         private readonly ICookie _cookie;
         private readonly IZoneService _zoneService;
         private readonly ILayoutService _layoutService;
-        private readonly IWidgetService _widgetService;
+        private readonly IWidgetBasePartService _widgetService;
         public PageController(IPageService service,
             ICookie cookie,
             IZoneService zoneService,
             ILayoutService layoutService,
-            IWidgetService widgetService)
+            IWidgetBasePartService widgetService)
             : base(service)
         {
             _cookie = cookie;

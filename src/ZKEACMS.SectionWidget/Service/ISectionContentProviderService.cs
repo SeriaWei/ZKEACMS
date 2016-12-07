@@ -4,8 +4,12 @@ using Easy.RepositoryPattern;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public interface ISectionContentProviderService : IService<SectionContent>
+    public interface ISectionContentProviderService : IService<SectionContentBasePart>
     {
+        void Add(SectionContent content);
+        void Update(SectionContent content);
+        SectionContent GetContent(int contentId);
         SectionContent FillContent(SectionContent content);
+        void SaveSort(SectionContent content);
     }
 }

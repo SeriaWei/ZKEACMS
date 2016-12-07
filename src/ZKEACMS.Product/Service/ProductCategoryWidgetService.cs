@@ -6,24 +6,34 @@ using Easy.Extend;
 using ZKEACMS.Widget;
 using Microsoft.AspNetCore.Http;
 using Easy;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductCategoryWidgetService : WidgetService<ProductCategoryWidget>
+    public class ProductCategoryWidgetService : WidgetService<ProductCategoryWidget, ProductDbContext>
     {
         private readonly IProductCategoryService _productCategoryService;
-        public ProductCategoryWidgetService(IWidgetService widgetService, IProductCategoryService productCategoryService, IApplicationContext applicationContext)
+        public ProductCategoryWidgetService(IWidgetBasePartService widgetService, IProductCategoryService productCategoryService, IApplicationContext applicationContext)
             : base(widgetService, applicationContext)
         {
             _productCategoryService = productCategoryService;
         }
 
-        public override WidgetPart Display(WidgetBase widget, HttpContext httpContext)
+        public override DbSet<ProductCategoryWidget> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.ProductCategoryWidget;
+            }
+        }
+
+        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
         {
             ProductCategoryWidget currentWidget = widget as ProductCategoryWidget;
             int c;
             int.TryParse(httpContext.Request.Query["pc"].ToString(), out c);
-            return widget.ToWidgetPart(new ProductCategoryWidgetViewModel
+            return widget.ToWidgetViewModelPart(new ProductCategoryWidgetViewModel
             {
                 Categorys = _productCategoryService.Get(m => m.ParentID == currentWidget.ProductCategoryID),
                 CurrentCategory = c,

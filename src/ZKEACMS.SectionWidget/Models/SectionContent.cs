@@ -31,7 +31,7 @@ namespace ZKEACMS.SectionWidget.Models
             set;
         }
     }
-    [Table("SectionContent")]
+    
     public class SectionContent : SectionContentBase
     {
         public override int SectionContentType
@@ -53,9 +53,9 @@ namespace ZKEACMS.SectionWidget.Models
         public override int? Status { get; set; }
         [NotMapped]
         public override string Title { get; set; }
-        public SectionContent ToContent()
+        public SectionContentBasePart ToContent()
         {
-            return new SectionContent
+            return new SectionContentBasePart
             {
                 ActionType = ActionType,
                 ID = ID,
@@ -94,5 +94,10 @@ namespace ZKEACMS.SectionWidget.Models
         public override int? Order { get; set; }
         [NotMapped]
         public override int? SectionGroupId { get; set; }
+    }
+    [Table("SectionContent")]
+    public class SectionContentBasePart: SectionContent
+    {
+
     }
 }

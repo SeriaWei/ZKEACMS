@@ -20,7 +20,7 @@ namespace ZKEACMS.Layout
         public LayoutService(IDataArchivedService dataArchivedService,
             IPageService pageService,
             IZoneService zoneService,
-            IWidgetService widgetService,
+            IWidgetBasePartService widgetService,
             IApplicationContext applicationContext,
             ILayoutHtmlService layoutHtmlService)
             : base(applicationContext)
@@ -43,7 +43,7 @@ namespace ZKEACMS.Layout
         public IZoneService ZoneService { get; set; }
         public ILayoutHtmlService LayoutHtmlService { get; set; }
 
-        public IWidgetService WidgetService { get; set; }
+        public IWidgetBasePartService WidgetService { get; set; }
 
         private string GenerateKey(object id)
         {

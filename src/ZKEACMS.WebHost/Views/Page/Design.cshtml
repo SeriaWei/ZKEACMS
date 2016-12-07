@@ -46,7 +46,7 @@
             }
             if (Model.ZoneWidgets.ContainsKey(zoneId))
             {
-                foreach (WidgetPart widgetPart in Model.ZoneWidgets[zoneId].OrderBy(m => m.Widget.Position).ThenBy(m => m.Widget.WidgetName))
+                foreach (var widgetPart in Model.ZoneWidgets[zoneId].OrderBy(m => m.Widget.Position).ThenBy(m => m.Widget.WidgetName))
                 {
                     @Html.DesignWidget(new DesignWidgetViewModel(widgetPart, Model.Page.ID));
                 }

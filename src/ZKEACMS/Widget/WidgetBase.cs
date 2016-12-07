@@ -14,7 +14,6 @@ using Easy;
 
 namespace ZKEACMS.Widget
 {
-    [ViewConfigure(typeof(WidgetBaseMetaData)), Table("CMS_WidgetBase")]
     public class WidgetBase : EditorEntity, IExtendField
     {
         public static Dictionary<string, Type> KnownWidgetModel { get; } = new Dictionary<string, Type>
@@ -38,7 +37,7 @@ namespace ZKEACMS.Widget
            { "ZKEACMS,ZKEACMS.Common.Service.VideoWidgetService",typeof(VideoWidgetService)},
         };
         [Key]
-        public string ID { get; set; }
+        public virtual string ID { get; set; }
         public virtual string WidgetName { get; set; }
         public virtual int? Position { get; set; }
         public virtual string LayoutID { get; set; }
@@ -97,17 +96,17 @@ namespace ZKEACMS.Widget
                 });
             }
         }
-        public WidgetPart ToWidgetPart()
+        public WidgetViewModelPart ToWidgetViewModelPart()
         {
-            return new WidgetPart
+            return new WidgetViewModelPart
             {
                 Widget = this,
                 ViewModel = this
             };
         }
-        public WidgetPart ToWidgetPart(object viewModel)
+        public WidgetViewModelPart ToWidgetViewModelPart(object viewModel)
         {
-            return new WidgetPart
+            return new WidgetViewModelPart
             {
                 Widget = this,
                 ViewModel = viewModel
@@ -146,12 +145,16 @@ namespace ZKEACMS.Widget
             }
             return null;
         }
-
-        public IEnumerable<ExtendFieldEntity> ExtendFields { get; set; }
+        [NotMapped]
+        public virtual IEnumerable<ExtendFieldEntity> ExtendFields { get; set; }
 
         public WidgetBase ToWidgetBase()
         {
             return CopyTo(new WidgetBase());
+        }
+        public WidgetBasePart ToWidgetBasePart()
+        {
+            return CopyTo(new WidgetBasePart()) as WidgetBasePart;
         }
         private WidgetBase CopyTo(WidgetBase widget)
         {
@@ -183,17 +186,4 @@ namespace ZKEACMS.Widget
             return widget;
         }
     }
-    class WidgetBaseMetaData : ViewMetaData<WidgetBase>
-    {
-
-        protected override void ViewConfigure()
-        {
-            ViewConfig(m => m.StyleClass).AsTextBox().MaxLength(1000);
-            ViewConfig(m => m.CustomClass).AsHidden().Ignore();
-            ViewConfig(m => m.CustomStyle).AsHidden().Ignore();
-            ViewConfig(m => m.ExtendFields).AsHidden().Ignore();
-        }
-    }
-
-
 }

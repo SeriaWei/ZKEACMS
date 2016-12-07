@@ -10,16 +10,19 @@ using Newtonsoft.Json;
 using ZKEACMS.Widget;
 using Easy.Zip;
 using Easy;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionWidgetService : WidgetService<Models.SectionWidget>, ISectionWidgetService
+    public class SectionWidgetService : WidgetService<Models.SectionWidget,SectionDbContext>, ISectionWidgetService
     {
         private readonly ISectionGroupService _sectionGroupService;
         private readonly ISectionContentProviderService _sectionContentProviderService;
         private readonly ISectionTemplateService _sectionTemplateService;
 
-        public SectionWidgetService(IWidgetService widgetService, ISectionGroupService sectionGroupService,
+
+        public SectionWidgetService(IWidgetBasePartService widgetService, ISectionGroupService sectionGroupService,
             ISectionContentProviderService sectionContentProviderService,
             ISectionTemplateService sectionTemplateService,
             IApplicationContext applicationContext)
@@ -28,6 +31,14 @@ namespace ZKEACMS.SectionWidget.Service
             _sectionGroupService = sectionGroupService;
             _sectionContentProviderService = sectionContentProviderService;
             _sectionTemplateService = sectionTemplateService;
+        }
+
+        public override DbSet<Models.SectionWidget> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.SectionWidget;
+            }
         }
 
         public override WidgetBase GetWidget(WidgetBase widget)

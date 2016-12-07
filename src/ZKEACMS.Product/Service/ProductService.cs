@@ -4,13 +4,22 @@ using System;
 using System.Collections.Generic;
 using ZKEACMS.Product.Models;
 using Easy;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductService : ServiceBase<ProductEntity>, IProductService
+    public class ProductService : ServiceBase<ProductEntity,ProductDbContext>, IProductService
     {
         public ProductService(IApplicationContext applicationContext) : base(applicationContext)
         {
+        }
+
+        public override DbSet<ProductEntity> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.Product;
+            }
         }
 
         public void Publish(long ID)

@@ -19,11 +19,11 @@ namespace ZKEACMS.Controllers
     [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
     public class WidgetController : Controller
     {
-        private readonly IWidgetService _widgetService;
+        private readonly IWidgetBasePartService _widgetService;
         private readonly IWidgetTemplateService _widgetTemplateService;
         private readonly ICookie _cookie;
 
-        public WidgetController(IWidgetService widgetService, IWidgetTemplateService widgetTemplateService, ICookie cookie)
+        public WidgetController(IWidgetBasePartService widgetService, IWidgetTemplateService widgetTemplateService, ICookie cookie)
         {
             _widgetService = widgetService;
             _widgetTemplateService = widgetTemplateService;
@@ -153,7 +153,7 @@ namespace ZKEACMS.Controllers
             var widgetPart = _widgetService.ApplyTemplate(widget, HttpContext);
             if (widgetPart == null)
             {
-                widgetPart = new HtmlWidget { PartialView = "Widget.HTML", HTML = "<h1 class='text-danger'><hr/>操作失败，找不到数据源，刷新页面后该消息会消失。<hr/></h1>" }.ToWidgetPart();
+                widgetPart = new HtmlWidget { PartialView = "Widget.HTML", HTML = "<h1 class='text-danger'><hr/>操作失败，找不到数据源，刷新页面后该消息会消失。<hr/></h1>" }.ToWidgetViewModelPart();
             }
             return PartialView("AppendWidget", new DesignWidgetViewModel(widgetPart, widget.PageID));
         }

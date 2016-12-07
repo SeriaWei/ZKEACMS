@@ -2,19 +2,31 @@
 using ZKEACMS.SectionWidget.Models;
 using Easy.RepositoryPattern;
 using Easy;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionContentImageService : ServiceBase<SectionContentImage>, ISectionContentService
+    public class SectionContentImageService : ServiceBase<SectionContentImage, SectionDbContext>, ISectionContentService
     {
         public SectionContentImageService(IApplicationContext applicationContext) : base(applicationContext)
         {
+        }
+
+        public override DbSet<SectionContentImage> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.SectionContentImage;
+            }
         }
 
         public SectionContentBase.Types ContentType
         {
             get { return SectionContentBase.Types.Image; }
         }
+
+
 
         public void AddContent(SectionContent content)
         {

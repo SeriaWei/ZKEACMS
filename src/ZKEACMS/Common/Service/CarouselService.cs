@@ -8,12 +8,21 @@ using Easy.Constant;
 using Easy.Extend;
 using Easy.RepositoryPattern;
 using Easy;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Common.Service
 {
-    public class CarouselService : ServiceBase<CarouselEntity>, ICarouselService
+    public class CarouselService : ServiceBase<CarouselEntity,CMSDbContext>, ICarouselService
     {
         private readonly ICarouselItemService _carouselItemService;
+
+        public override DbSet<CarouselEntity> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.Carousel;
+            }
+        }
 
         public CarouselService(ICarouselItemService carouselItemService, IApplicationContext applicationContext)
             : base(applicationContext)

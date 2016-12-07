@@ -22,20 +22,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Widget
 {
-    public class WidgetService : ServiceBase<WidgetBase, CMSDbContext>, IWidgetService
+    public class WidgetBasePartService : ServiceBase<WidgetBasePart, CMSDbContext>, IWidgetBasePartService
     {
         protected const string EncryptWidgetTemplate = "EncryptWidgetTemplate";
-        public WidgetService(IEncryptService encryptService, IDataArchivedService dataArchivedService, IApplicationContext applicationContext)
+        public WidgetBasePartService(IEncryptService encryptService, IDataArchivedService dataArchivedService, IApplicationContext applicationContext)
             : base(applicationContext)
         {
             EncryptService = encryptService;
             DataArchivedService = dataArchivedService;
         }
-        public override DbSet<WidgetBase> CurrentDbSet
+        public override DbSet<WidgetBasePart> CurrentDbSet
         {
             get
             {
-                return DbContext.WidgetBase;
+                return DbContext.WidgetBasePart;
             }
         }
         private void TriggerChange(WidgetBase widget)
@@ -92,22 +92,22 @@ namespace ZKEACMS.Widget
             //}
             return getPageWidgets(page).Where(m => m != null);
         }
-        public override void Add(WidgetBase item)
+        public override void Add(WidgetBasePart item)
         {
             base.Add(item);
             TriggerChange(item);
         }
-        public override void Update(WidgetBase item)
+        public override void Update(WidgetBasePart item)
         {
             TriggerChange(item);
             base.Update(item);
         }
-        public override void UpdateRange(params WidgetBase[] items)
+        public override void UpdateRange(params WidgetBasePart[] items)
         {
             items.Each(TriggerChange);
             base.UpdateRange(items);
         }
-        public override void Remove(Expression<Func<WidgetBase, bool>> filter)
+        public override void Remove(Expression<Func<WidgetBasePart, bool>> filter)
         {
             base.Remove(filter);
         }
@@ -116,28 +116,28 @@ namespace ZKEACMS.Widget
             TriggerChange(Get(primaryKey));
             base.Remove(primaryKey);
         }
-        public override void Remove(WidgetBase item)
+        public override void Remove(WidgetBasePart item)
         {
             TriggerChange(item);
             base.Remove(item);
         }
-        public override void RemoveRange(params WidgetBase[] items)
+        public override void RemoveRange(params WidgetBasePart[] items)
         {
             items.Each(TriggerChange);
             base.RemoveRange(items);
         }
 
 
-        public WidgetPart ApplyTemplate(WidgetBase widget, HttpContext httpContext)
+        public WidgetViewModelPart ApplyTemplate(WidgetBase widget, HttpContext httpContext)
         {
-            var widgetBase = Get(widget.ID);
-            if (widgetBase == null) return null;
-            if (widgetBase.ExtendFields != null)
+            var widgetBasePart = Get(widget.ID);
+            if (widgetBasePart == null) return null;
+            if (widgetBasePart.ExtendFields != null)
             {
-                widgetBase.ExtendFields.Each(f => { f.ActionType = ActionType.Create; });
+                widgetBasePart.ExtendFields.Each(f => { f.ActionType = ActionType.Create; });
             }
-            var service = widgetBase.CreateServiceInstance(httpContext.RequestServices);
-            widgetBase = service.GetWidget(widgetBase);
+            var service = widgetBasePart.CreateServiceInstance(httpContext.RequestServices);
+            var widgetBase = service.GetWidget(widgetBasePart.ToWidgetBase());
 
             widgetBase.PageID = widget.PageID;
             widgetBase.ZoneID = widget.ZoneID;
@@ -209,19 +209,18 @@ namespace ZKEACMS.Widget
             return EncryptService.Decrypt(source);
         }
     }
-    public abstract class WidgetService<T> : ServiceBase<T, CMSDbContext>, IWidgetPartDriver where T : WidgetBase
+    public abstract class WidgetService<T, TDB> : ServiceBase<T, TDB>, IWidgetPartDriver where T : WidgetBase where TDB : DbContextBase, new()
     {
         protected const string TempFolder = "~/Temp";
         protected const string TempJsonFile = "~/Temp/{0}-widget.json";
-        private IWidgetService widgetService;
 
-        public WidgetService(IWidgetService widgetService, IApplicationContext applicationContext)
+        public WidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext)
             : base(applicationContext)
         {
-            WidgetBaseService = widgetService;
+            WidgetBasePartService = widgetBasePartService;
         }
 
-        public IWidgetService WidgetBaseService { get; private set; }
+        public IWidgetBasePartService WidgetBasePartService { get; private set; }
 
         private void CopyTo(WidgetBase from, T to)
         {
@@ -258,7 +257,7 @@ namespace ZKEACMS.Widget
         public override void Add(T item)
         {
             item.ID = Guid.NewGuid().ToString("N");
-            WidgetBaseService.Add(item.ToWidgetBase());
+            WidgetBasePartService.Add(item.ToWidgetBasePart());
             if (typeof(T) != typeof(WidgetBase))
             {
                 base.Add(item);
@@ -267,7 +266,7 @@ namespace ZKEACMS.Widget
 
         public override void Update(T item)
         {
-            WidgetBaseService.Update(item.ToWidgetBase());
+            WidgetBasePartService.Update(item.ToWidgetBasePart());
             if (typeof(T) != typeof(WidgetBase))
             {
                 base.Update(item);
@@ -276,7 +275,7 @@ namespace ZKEACMS.Widget
         }
         public override void UpdateRange(params T[] items)
         {
-            WidgetBaseService.UpdateRange(items.Select(m => m.ToWidgetBase()).ToArray());
+            WidgetBasePartService.UpdateRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
             if (typeof(T) != typeof(WidgetBase))
             {
                 base.UpdateRange(items);
@@ -288,7 +287,7 @@ namespace ZKEACMS.Widget
             T model = base.GetSingle(filter);
             if (typeof(T) != typeof(WidgetBase))
             {
-                CopyTo(WidgetBaseService.Get(model.ID), model);
+                CopyTo(WidgetBasePartService.Get(model.ID), model);
             }
             return model;
         }
@@ -300,7 +299,7 @@ namespace ZKEACMS.Widget
             {
                 widgets.Each(widget =>
                 {
-                    CopyTo(WidgetBaseService.Get(widget.ID), widget);
+                    CopyTo(WidgetBasePartService.Get(widget.ID), widget);
                 });
             }
             return widgets;
@@ -310,7 +309,7 @@ namespace ZKEACMS.Widget
             T model = base.Get(primaryKeys);
             if (typeof(T) != typeof(WidgetBase))
             {
-                CopyTo(WidgetBaseService.Get(primaryKeys), model);
+                CopyTo(WidgetBasePartService.Get(primaryKeys), model);
             }
             return model;
         }
@@ -321,7 +320,7 @@ namespace ZKEACMS.Widget
             {
                 base.Remove(filter);
             }
-            WidgetBaseService.Remove(Expression.Lambda<Func<WidgetBase, bool>>(filter.Body, filter.Parameters));
+            WidgetBasePartService.Remove(Expression.Lambda<Func<WidgetBase, bool>>(filter.Body, filter.Parameters));
         }
         public override void Remove(params object[] primaryKey)
         {
@@ -329,7 +328,7 @@ namespace ZKEACMS.Widget
             {
                 base.Remove(primaryKey);
             }
-            WidgetBaseService.Remove(primaryKey);
+            WidgetBasePartService.Remove(primaryKey);
         }
         public override void Remove(T item)
         {
@@ -337,7 +336,7 @@ namespace ZKEACMS.Widget
             {
                 base.Remove(item);
             }
-            WidgetBaseService.Remove(item.ToWidgetBase());
+            WidgetBasePartService.Remove(item.ToWidgetBase());
         }
         public override void RemoveRange(params T[] items)
         {
@@ -345,7 +344,7 @@ namespace ZKEACMS.Widget
             {
                 base.RemoveRange(items);
             }
-            WidgetBaseService.RemoveRange(items.Select(m => m.ToWidgetBase()).ToArray());
+            WidgetBasePartService.RemoveRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
         }
 
 
@@ -356,9 +355,9 @@ namespace ZKEACMS.Widget
             return result;
         }
 
-        public virtual WidgetPart Display(WidgetBase widget, HttpContext httpContext)
+        public virtual WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
         {
-            return widget.ToWidgetPart();
+            return widget.ToWidgetViewModelPart();
         }
 
         #region PartDrive

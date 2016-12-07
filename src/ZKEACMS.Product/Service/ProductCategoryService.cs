@@ -4,16 +4,26 @@ using Easy.Extend;
 using Easy.RepositoryPattern;
 using ZKEACMS.Product.Models;
 using Easy;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductCategoryService : ServiceBase<ProductCategory>, IProductCategoryService
+    public class ProductCategoryService : ServiceBase<ProductCategory, ProductDbContext>, IProductCategoryService
     {
         private readonly IProductService _productService;
         public ProductCategoryService(IProductService productService, IApplicationContext applicationContext)
             : base(applicationContext)
         {
             _productService = productService;
+        }
+
+        public override DbSet<ProductCategory> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.ProductCategory;
+            }
         }
 
         public IEnumerable<ProductCategory> GetChildren(long id)

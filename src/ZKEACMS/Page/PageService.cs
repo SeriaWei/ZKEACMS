@@ -10,20 +10,30 @@ using System.Linq.Expressions;
 using ZKEACMS.DataArchived;
 using ZKEACMS.ExtendField;
 using ZKEACMS.Widget;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Page
 {
-    public class PageService : ServiceBase<PageEntity>, IPageService
+    public class PageService : ServiceBase<PageEntity, CMSDbContext>, IPageService
     {
-        private readonly IWidgetService _widgetService;
+        private readonly IWidgetBasePartService _widgetService;
         private readonly IDataArchivedService _dataArchivedService;
-        public PageService(IWidgetService widgetService, IDataArchivedService dataArchivedService, IApplicationContext applicationContext)
-            :base(applicationContext)
+
+
+
+        public PageService(IWidgetBasePartService widgetService, IDataArchivedService dataArchivedService, IApplicationContext applicationContext)
+            : base(applicationContext)
         {
             _widgetService = widgetService;
             _dataArchivedService = dataArchivedService;
         }
-
+        public override DbSet<PageEntity> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.Page;
+            }
+        }
         public override void Add(PageEntity item)
         {
             if (!item.IsPublishedPage && Count(m => m.Url == item.Url && m.IsPublishedPage == false) > 0)
@@ -166,7 +176,7 @@ namespace ZKEACMS.Page
                 path = path.Substring(0, path.Length - 1);
             }
 
-            var pages = DbContext.Instance.Where(m => m.IsPublishedPage == !isPreView);
+            var pages = CurrentDbSet.Where(m => m.IsPublishedPage == !isPreView);
             if (path == "/")
             {
                 pages = pages.Where(m => m.ParentId == "#");

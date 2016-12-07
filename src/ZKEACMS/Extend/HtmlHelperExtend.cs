@@ -10,7 +10,7 @@ namespace ZKEACMS
 {
     public static class HtmlHelperExtend
     {
-        public static IHtmlContent DisPlayWidget(this IHtmlHelper html, WidgetPart widget)
+        public static IHtmlContent DisPlayWidget(this IHtmlHelper html, WidgetViewModelPart widget)
         {
             if (widget.ViewModel != null)
             {

@@ -1,21 +1,31 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using System;
 using Easy;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Article.ViewModel;
 using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleDetailWidgetService : WidgetService<ArticleDetailWidget>
+    public class ArticleDetailWidgetService : WidgetService<ArticleDetailWidget, ArticleDbContext>
     {
         private readonly IArticleService _articleService;
-        public ArticleDetailWidgetService(IWidgetService widgetService,IArticleService articleService, IApplicationContext applicationContext) : base(widgetService, applicationContext)
+        public ArticleDetailWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext) : base(widgetService, applicationContext)
         {
             _articleService = articleService;
         }
 
-        public override WidgetPart Display(WidgetBase widget, HttpContext httpContext)
+        public override DbSet<ArticleDetailWidget> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.ArticleDetailWidget;
+            }
+        }
+
+        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
         {
             long articleId;
             long.TryParse(httpContext.Request.Query["id"], out articleId);
@@ -37,7 +47,7 @@ namespace ZKEACMS.Article.Service
             layout.Page.MetaKeyWorlds = viewModel.Current.MetaKeyWords;
             layout.Page.MetaDescription = viewModel.Current.MetaDescription;
             layout.Page.Title = viewModel.Current.Title;
-            return widget.ToWidgetPart(viewModel);
+            return widget.ToWidgetViewModelPart(viewModel);
         }
     }
 }

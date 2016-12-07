@@ -4,6 +4,8 @@ using Easy.Constant;
 using Easy.Extend;
 using Easy.RepositoryPattern;
 using Easy;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ZKEACMS.Common.Service
 {
@@ -11,6 +13,14 @@ namespace ZKEACMS.Common.Service
     {
         public CarouselItemService(IApplicationContext applicationContext) : base(applicationContext)
         {
+        }
+
+        public override DbSet<CarouselItemEntity> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.CarouselItem;
+            }
         }
 
         public override void Add(CarouselItemEntity item)

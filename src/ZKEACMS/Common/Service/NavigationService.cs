@@ -7,13 +7,22 @@ using System.Linq;
 using System.Linq.Expressions;
 using ZKEACMS.Common.Models;
 using Easy;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Common.Service
 {
-    public class NavigationService : ServiceBase<NavigationEntity>, INavigationService
+    public class NavigationService : ServiceBase<NavigationEntity,CMSDbContext>, INavigationService
     {
         public NavigationService(IApplicationContext applicationContext) : base(applicationContext)
         {
+        }
+
+        public override DbSet<NavigationEntity> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.Navigation;
+            }
         }
 
         public override void Add(NavigationEntity item)
@@ -59,7 +68,7 @@ namespace ZKEACMS.Common.Service
 
             IEnumerable<NavigationEntity> navs = null;
 
-            navs = DbContext.Instance.Where(m => m.ParentId == nav.ParentId && m.ID != nav.ID).OrderBy(m => m.DisplayOrder);
+            navs = CurrentDbSet.Where(m => m.ParentId == nav.ParentId && m.ID != nav.ID).OrderBy(m => m.DisplayOrder);
 
             int order = 1;
             for (int i = 0; i < navs.Count(); i++)

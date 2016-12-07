@@ -1,14 +1,14 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 namespace ZKEACMS.Widget
 {
-    public class WidgetPart
+    public class WidgetViewModelPart
     {
         public WidgetBase Widget { get; set; }
         public object ViewModel { get; set; }
 
         public override bool Equals(object obj)
         {
-            var target = obj as WidgetPart;
+            var target = obj as WidgetViewModelPart;
             if (target != null && target.Widget != null && Widget != null)
             {
                 return target.Widget.ID == Widget.ID;

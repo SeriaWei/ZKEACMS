@@ -8,13 +8,13 @@ using System;
 
 namespace ZKEACMS.Widget
 {
-    public interface IWidgetService : IService<WidgetBase>
+    public interface IWidgetBasePartService : IService<WidgetBasePart>
     {
         IEnumerable<WidgetBase> GetByLayoutId(string layoutId);
         IEnumerable<WidgetBase> GetByPageId(string pageId);
         IEnumerable<WidgetBase> GetAllByPageId(IServiceProvider serviceProvider, string pageId);
         IEnumerable<WidgetBase> GetAllByPage(IServiceProvider serviceProvider, PageEntity page);
-        WidgetPart ApplyTemplate(WidgetBase widget, HttpContext httpContext);
+        WidgetViewModelPart ApplyTemplate(WidgetBase widget, HttpContext httpContext);
         MemoryStream PackWidget(string widgetId, HttpContext httpContext);
         WidgetBase InstallPackWidget(Stream stream, HttpContext httpContext);
     }

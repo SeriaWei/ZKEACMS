@@ -8,18 +8,29 @@ using ZKEACMS.Widget;
 using Microsoft.AspNetCore.Http;
 using Easy;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ZKEACMS.Common.Service
 {
-    public class NavigationWidgetService : WidgetService<NavigationWidget>
+    public class NavigationWidgetService : WidgetService<NavigationWidget, CMSDbContext>
     {
         private readonly INavigationService _navigationService;
-        public NavigationWidgetService(IWidgetService widgetService, INavigationService navigationService, IApplicationContext applicationContext)
+        public NavigationWidgetService(IWidgetBasePartService widgetService, INavigationService navigationService, IApplicationContext applicationContext)
             : base(widgetService, applicationContext)
         {
             _navigationService = navigationService;
         }
-        public override WidgetPart Display(WidgetBase widget, HttpContext httpContext)
+
+        public override DbSet<NavigationWidget> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.NavigationWidget;
+            }
+        }
+
+        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
         {
             var navs = _navigationService.GetAll()
                 .Where(m => m.Status == (int)RecordStatus.Active).OrderBy(m => m.DisplayOrder);
@@ -40,7 +51,7 @@ namespace ZKEACMS.Common.Service
             {
                 current.IsCurrent = true;
             }
-            return widget.ToWidgetPart(new NavigationWidgetViewModel(navs, widget as NavigationWidget));
+            return widget.ToWidgetViewModelPart(new NavigationWidgetViewModel(navs, widget as NavigationWidget));
         }
     }
 }

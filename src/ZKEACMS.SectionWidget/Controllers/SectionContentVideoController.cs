@@ -29,7 +29,7 @@ namespace ZKEACMS.SectionWidget.Controllers
         [DefaultAuthorize]
         public ActionResult Edit(int Id)
         {
-            var content = _sectionContentProviderService.Get(Id);
+            var content = _sectionContentProviderService.GetContent(Id);
             content.ActionType = ActionType.Update;
             return View("Form", content);
         }

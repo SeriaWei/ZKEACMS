@@ -8,10 +8,11 @@ using ZKEACMS.Layout;
 using ZKEACMS.Page;
 using Easy;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Zone
 {
-    public class ZoneService : ServiceBase<ZoneEntity>, IZoneService
+    public class ZoneService : ServiceBase<ZoneEntity,CMSDbContext>, IZoneService
     {
         public ZoneService(IPageService pageService, IApplicationContext applicationContext) : base(applicationContext)
         {
@@ -19,6 +20,14 @@ namespace ZKEACMS.Zone
         }
 
         public IPageService PageService { get; set; }
+
+        public override DbSet<ZoneEntity> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.Zone;
+            }
+        }
 
         public override void Add(ZoneEntity item)
         {
@@ -34,14 +43,14 @@ namespace ZKEACMS.Zone
             using (var layoutService = ApplicationContext.ServiceLocator.GetService<ILayoutService>())
             {
                 var layout = layoutService.Get(page.LayoutId);
-                return DbContext.Instance.Where(m => m.LayoutId == layout.ID).OrderBy(m => m.ID).ToList();
+                return CurrentDbSet.Where(m => m.LayoutId == layout.ID).OrderBy(m => m.ID).ToList();
             }
 
 
         }
         public IEnumerable<ZoneEntity> GetZonesByLayoutId(string layoutId)
         {
-            return DbContext.Instance.Where(m => m.LayoutId == layoutId).OrderBy(m => m.ID);
+            return CurrentDbSet.Where(m => m.LayoutId == layoutId).OrderBy(m => m.ID);
         }
     }
 }

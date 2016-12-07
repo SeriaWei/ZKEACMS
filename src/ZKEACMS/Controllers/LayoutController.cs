@@ -21,8 +21,8 @@ namespace ZKEACMS.Controllers
     {
         private readonly IPageService _pageService;
         private readonly IZoneService _zoneService;
-        private readonly IWidgetService _widgetService;
-        public LayoutController(ILayoutService service, IPageService pageService, IZoneService zoneService, IWidgetService widgetService)
+        private readonly IWidgetBasePartService _widgetService;
+        public LayoutController(ILayoutService service, IPageService pageService, IZoneService zoneService, IWidgetBasePartService widgetService)
             : base(service)
         {
             _pageService = pageService;

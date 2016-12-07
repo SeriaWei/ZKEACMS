@@ -9,13 +9,15 @@ using System.Reflection;
 
 namespace Easy.RepositoryPattern
 {
-    public abstract class ServiceBase<T, TDB> : IService<T> where T : class where TDB : DbContextBase, new()
+    public abstract class ServiceBase<T, TDB> : IService<T>
+        where T : class
+        where TDB : DbContextBase, new()
     {
         public ServiceBase(IApplicationContext applicationContext)
         {
             ApplicationContext = applicationContext;
         }
-        public virtual TDB DbContext { get; } = new TDB();
+        public virtual TDB DbContext { get; set; } = new TDB();
         public abstract DbSet<T> CurrentDbSet { get; }
 
         public IApplicationContext ApplicationContext { get; set; }

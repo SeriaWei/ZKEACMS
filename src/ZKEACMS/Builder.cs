@@ -41,7 +41,7 @@ namespace ZKEACMS
             serviceCollection.TryAddTransient<IApplicationSettingService, ApplicationSettingService>();
             serviceCollection.TryAddTransient<IThemeService, ThemeService>();
             serviceCollection.TryAddTransient<IWidgetTemplateService, WidgetTemplateService>();
-            serviceCollection.TryAddTransient<IWidgetService, WidgetService>();
+            serviceCollection.TryAddTransient<IWidgetBasePartService, WidgetBasePartService>();
             serviceCollection.TryAddTransient<IZoneService, ZoneService>();
             serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
             foreach (var item in WidgetBase.KnownWidgetService)

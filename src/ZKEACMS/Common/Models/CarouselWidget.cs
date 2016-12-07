@@ -17,6 +17,7 @@ namespace ZKEACMS.Common.Models
     public class CarouselWidget : BasicWidget
     {
         public int? CarouselID { get; set; }
+        [NotMapped]
         public IEnumerable<CarouselItemEntity> CarouselItems { get; set; }
     }
     class CarouselWidgetMetaData : WidgetMetaData<CarouselWidget>

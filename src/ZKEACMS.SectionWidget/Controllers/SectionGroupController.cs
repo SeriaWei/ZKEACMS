@@ -19,10 +19,10 @@ namespace ZKEACMS.SectionWidget.Controllers
     {
         private readonly ISectionGroupService _sectionGroupService;
         private readonly ISectionContentProviderService _sectionContentProviderService;
-        private readonly IWidgetService _widgetService;
+        private readonly IWidgetBasePartService _widgetService;
         public SectionGroupController(ISectionGroupService sectionGroupService,
             ISectionContentProviderService sectionContentProviderService,
-            IWidgetService widgetService)
+            IWidgetBasePartService widgetService)
         {
             _sectionGroupService = sectionGroupService;
             _sectionContentProviderService = sectionContentProviderService;
@@ -88,9 +88,7 @@ namespace ZKEACMS.SectionWidget.Controllers
         {
             contents.Each(m =>
             {
-                _sectionContentProviderService.DbContext.Instance.Attach(m);
-                _sectionContentProviderService.DbContext.Entry(m).Property(n => n.Order).IsModified = true;
-                _sectionContentProviderService.DbContext.SaveChanges();
+                _sectionContentProviderService.SaveSort(m);
             });
             return Json(true);
         }

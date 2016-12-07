@@ -12,7 +12,7 @@ namespace ZKEACMS.Widget
         void UpdateWidget(WidgetBase widget);
         void Publish(WidgetBase widget);
         WidgetBase GetWidget(WidgetBase widget);
-        WidgetPart Display(WidgetBase widget, HttpContext httpContext);
+        WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext);
         ZipFile PackWidget(WidgetBase widget);
         WidgetBase UnPackWidget(ZipFileInfoCollection pack);
     }

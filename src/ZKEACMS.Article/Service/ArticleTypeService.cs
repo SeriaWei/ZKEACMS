@@ -4,16 +4,26 @@ using Easy.RepositoryPattern;
 using System.Collections.Generic;
 using ZKEACMS.Article.Models;
 using Easy;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleTypeService : ServiceBase<ArticleType>, IArticleTypeService
+    public class ArticleTypeService : ServiceBase<ArticleType, ArticleDbContext>, IArticleTypeService
     {
         private IArticleService _articleService;
 
-        public ArticleTypeService(IApplicationContext applicationContext,IArticleService articleService) : base(applicationContext)
+        public ArticleTypeService(IApplicationContext applicationContext, IArticleService articleService) : base(applicationContext)
         {
             _articleService = articleService;
+        }
+
+        public override DbSet<ArticleType> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.ArticleType;
+            }
         }
 
         public override void Add(ArticleType item)

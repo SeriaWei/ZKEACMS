@@ -6,13 +6,22 @@ using System;
 using System.IO;
 using System.Linq.Expressions;
 using Easy;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Media
 {
-    public class MediaService : ServiceBase<MediaEntity>, IMediaService
+    public class MediaService : ServiceBase<MediaEntity,CMSDbContext>, IMediaService
     {
         public MediaService(IApplicationContext applicationContext) : base(applicationContext)
         {
+        }
+
+        public override DbSet<MediaEntity> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.Media;
+            }
         }
 
         public override void Add(MediaEntity item)

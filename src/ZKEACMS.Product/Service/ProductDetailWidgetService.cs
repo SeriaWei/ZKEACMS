@@ -1,21 +1,31 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using System;
 using Easy;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Product.Models;
 using ZKEACMS.Widget;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductDetailWidgetService : WidgetService<ProductDetailWidget>
+    public class ProductDetailWidgetService : WidgetService<ProductDetailWidget,ProductDbContext>
     {
         private readonly IProductService _productService;
-        public ProductDetailWidgetService(IWidgetService widgetService, IProductService productService, IApplicationContext applicationContext)
+        public ProductDetailWidgetService(IWidgetBasePartService widgetService, IProductService productService, IApplicationContext applicationContext)
             : base(widgetService, applicationContext)
         {
             _productService = productService;
         }
 
-        public override WidgetPart Display(WidgetBase widget, HttpContext httpContext)
+        public override DbSet<ProductDetailWidget> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.ProductDetailWidget;
+            }
+        }
+
+        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
         {
             int productId = 0;
             int.TryParse(httpContext.Request.Query["id"], out productId);
@@ -32,7 +42,7 @@ namespace ZKEACMS.Product.Service
             page.MetaKeyWorlds = product.SEOKeyWord;
             page.Title = product.SEOTitle ?? product.Title;
 
-            return widget.ToWidgetPart(product);
+            return widget.ToWidgetViewModelPart(product);
         }
     }
 }

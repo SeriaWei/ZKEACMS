@@ -1,21 +1,31 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using System;
 using Easy;
 using Easy.Extend;
 using Easy.RepositoryPattern;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Setting
 {
-    public class ApplicationSettingService : ServiceBase<ApplicationSetting>, IApplicationSettingService
+    public class ApplicationSettingService : ServiceBase<ApplicationSetting, CMSDbContext>, IApplicationSettingService
     {
         public ApplicationSettingService(IApplicationContext applicationContext) : base(applicationContext)
         {
+        }
+
+        public override DbSet<ApplicationSetting> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.ApplicationSetting;
+            }
         }
 
         public override void Add(ApplicationSetting item)
         {
             if (Count(m => m.SettingKey == item.SettingKey) == 0)
             {
-                base.Add(item);    
+                base.Add(item);
             }
         }
 

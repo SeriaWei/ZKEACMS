@@ -8,14 +8,24 @@ using ZKEACMS.Widget;
 using Microsoft.AspNetCore.Http;
 using Easy;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ZKEACMS.Common.Service
 {
-    public class CarouselWidgetService : WidgetService<CarouselWidget>
+    public class CarouselWidgetService : WidgetService<CarouselWidget, CMSDbContext>
     {
         private readonly ICarouselItemService _carouselItemService;
 
-        public CarouselWidgetService(IWidgetService widgetService, ICarouselItemService carouselItemService, IApplicationContext applicationContext)
+        public override DbSet<CarouselWidget> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.CarouselWidget;
+            }
+        }
+
+        public CarouselWidgetService(IWidgetBasePartService widgetService, ICarouselItemService carouselItemService, IApplicationContext applicationContext)
             : base(widgetService, applicationContext)
         {
             _carouselItemService = carouselItemService;
@@ -65,7 +75,7 @@ namespace ZKEACMS.Common.Service
             base.DeleteWidget(widgetId);
         }
 
-        public override WidgetPart Display(WidgetBase widget, HttpContext httpContext)
+        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
         {
             var carouselWidget = widget as CarouselWidget;
             if (carouselWidget.CarouselID.HasValue)

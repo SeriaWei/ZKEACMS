@@ -4,18 +4,29 @@ using System.Linq;
 using ZKEACMS.SectionWidget.Models;
 using Easy.RepositoryPattern;
 using Easy;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionContentProviderService : ServiceBase<SectionContent>, ISectionContentProviderService
+    public class SectionContentProviderService : ServiceBase<SectionContentBasePart, SectionDbContext>, ISectionContentProviderService
     {
         private readonly IEnumerable<ISectionContentService> _sectionContentServices;
+
         public SectionContentProviderService(IEnumerable<ISectionContentService> sectionContentServices, IApplicationContext applicationContext)
             : base(applicationContext)
         {
             _sectionContentServices = sectionContentServices;
         }
-        public override void Add(SectionContent item)
+
+        public override DbSet<SectionContentBasePart> CurrentDbSet
+        {
+            get
+            {
+                return DbContext.SectionContentBasePart;
+            }
+        }
+        public void Add(SectionContent item)
         {
             if (!item.Order.HasValue || item.Order.Value == 0)
             {
@@ -26,15 +37,16 @@ namespace ZKEACMS.SectionWidget.Service
             item.ID = contentBase.ID;
             _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).AddContent(item);
         }
-        public override void Update(SectionContent item)
+        public void Update(SectionContent item)
         {
             base.Update(item.ToContent());
             _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).UpdateContent(item);
         }
+        
 
-        public override SectionContent Get(params object[] primaryKeys)
+        public SectionContent GetContent(int contentId)
         {
-            var item = base.Get(primaryKeys);
+            var item = base.Get(contentId);
             if (item != null)
             {
                 var result = _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).GetContent(item.ID);
@@ -59,6 +71,14 @@ namespace ZKEACMS.SectionWidget.Service
                 content.InitContent(
                     _sectionContentServices.First(m => (int)m.ContentType == content.SectionContentType)
                         .GetContent(content.ID));
+        }
+
+        public void SaveSort(SectionContent content)
+        {
+            var contentPart = content.ToContent();
+            CurrentDbSet.Attach(contentPart);
+            DbContext.Entry(contentPart).Property(n => n.Order).IsModified = true;
+            DbContext.SaveChanges();
         }
     }
 }
