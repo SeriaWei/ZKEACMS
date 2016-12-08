@@ -9,11 +9,11 @@ namespace Easy
 {
     public class EasyDbContext : DbContextBase
     {
-        public DbSet<DataDictionaryEntity> DataDictionary { get; set; }
-        public DbSet<LanguageEntity> Language { get; set; }
-        public DbSet<Permission> Permission { get; set; }
-        public DbSet<RoleEntity> Roles { get; set; }
-        public DbSet<UserRoleRelation> UserRoleRelation { get; set; }
-        public DbSet<UserEntity> Users { get; set; }
+        internal DbSet<DataDictionaryEntity> DataDictionary { get; set; }
+        internal DbSet<LanguageEntity> Language { get; set; }
+        internal DbSet<Permission> Permission { get; set; }
+        internal DbSet<RoleEntity> Roles { get; set; }
+        internal DbSet<UserRoleRelation> UserRoleRelation { get; set; }
+        internal DbSet<UserEntity> Users { get; set; }
     }
 }

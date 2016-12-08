@@ -9,8 +9,10 @@ namespace ZKEACMS.Product
 {
     public class ProductDbContext : CMSDbContext
     {
-        public DbSet<ProductCategoryWidget> ProductCategoryWidget { get; set; }
-        public DbSet<ProductDetailWidget> ProductDetailWidget { get; set; }
-        public DbSet<ProductListWidget> ProductListWidget { get; set; }
+        internal DbSet<ProductEntity> Product { get; set; }
+        internal DbSet<ProductCategory> ProductCategory { get; set; }
+        internal DbSet<ProductCategoryWidget> ProductCategoryWidget { get; set; }
+        internal DbSet<ProductDetailWidget> ProductDetailWidget { get; set; }
+        internal DbSet<ProductListWidget> ProductListWidget { get; set; }
     }
 }

@@ -9,10 +9,12 @@ namespace ZKEACMS.Article
 {
     public class ArticleDbContext : CMSDbContext
     {
-        public DbSet<ArticleDetailWidget> ArticleDetailWidget { get; set; }
-        public DbSet<ArticleListWidget> ArticleListWidget { get; set; }
-        public DbSet<ArticleSummaryWidget> ArticleSummaryWidget { get; set; }
-        public DbSet<ArticleTopWidget> ArticleTopWidget { get; set; }
-        public DbSet<ArticleTypeWidget> ArticleTypeWidget { get; set; }
+        internal DbSet<ArticleEntity> Article { get; set; }
+        internal DbSet<ArticleType> ArticleType { get; set; }
+        internal DbSet<ArticleDetailWidget> ArticleDetailWidget { get; set; }
+        internal DbSet<ArticleListWidget> ArticleListWidget { get; set; }
+        internal DbSet<ArticleSummaryWidget> ArticleSummaryWidget { get; set; }
+        internal DbSet<ArticleTopWidget> ArticleTopWidget { get; set; }
+        internal DbSet<ArticleTypeWidget> ArticleTypeWidget { get; set; }
     }
 }

@@ -55,8 +55,8 @@ namespace ZKEACMS.SectionWidget.Service
 
         private Models.SectionWidget InitSectionWidget(Models.SectionWidget widget)
         {
-            widget.Groups = _sectionGroupService.Get(m => m.SectionWidgetId == widget.ID);
-            var contents = _sectionContentProviderService.Get(m => m.SectionWidgetId == widget.ID);
+            widget.Groups = _sectionGroupService.Get(m => m.SectionWidgetId == widget.ID).ToList();
+            var contents = _sectionContentProviderService.Get(m => m.SectionWidgetId == widget.ID).ToList();
             List<SectionContent> filled = new List<SectionContent>();
             contents.AsParallel().Each(content =>
             {
@@ -74,15 +74,7 @@ namespace ZKEACMS.SectionWidget.Service
             return widget;
         }
 
-        public override void DeleteWidget(string widgetId)
-        {
-            Get(widgetId).Groups.Each(m =>
-            {
-                _sectionGroupService.Remove(m.ID);
-            });
-            base.DeleteWidget(widgetId);
-        }
-
+        
         public override void Remove(params object[] primaryKeys)
         {
             Get(primaryKeys).Groups.Each(m =>

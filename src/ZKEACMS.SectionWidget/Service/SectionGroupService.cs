@@ -103,7 +103,7 @@ namespace ZKEACMS.SectionWidget.Service
         public override void Remove(params object[] primaryKeys)
         {
             var group = Get(primaryKeys);
-            var contents = _sectionContentProviderService.Get(m => m.SectionGroupId == group.ID);
+            var contents = _sectionContentProviderService.Get(m => m.SectionGroupId == group.ID).ToList();
             contents.Each(m =>
             {
                 _sectionContentProviderService.Remove(m.ID);

@@ -63,7 +63,7 @@ namespace ZKEACMS.SectionWidget.Service
         {
             var content = base.Get(primaryKey);
             _sectionContentServices.First(m => (int)m.ContentType == content.SectionContentType).DeleteContent(content.ID);
-            base.Remove(primaryKey);
+            Remove(content);
         }
         public SectionContent FillContent(SectionContent content)
         {
