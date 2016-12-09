@@ -27,8 +27,8 @@ namespace ZKEACMS.Article.Service
 
         public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
         {
-            long articleId;
-            long.TryParse(httpContext.Request.Query["id"], out articleId);
+            int articleId;
+            int.TryParse(httpContext.Request.Query["id"], out articleId);
             var viewModel = new ArticleDetailViewModel
             {
                 Current = _articleService.Get(articleId)
@@ -38,7 +38,7 @@ namespace ZKEACMS.Article.Service
                 viewModel.Current = new ArticleEntity
                 {
                     Title = "文章明细组件使用说明",
-                    ImageUrl = "~/Modules/Article/Content/Image/Example.png",
+                    ImageUrl = "~/Plugins/ZKEACMS.Article/Content/Image/Example.png",
                     ArticleContent = "<p>如上图所示，该组件需要一个<code>文章列表组件</code>组合使用，您需要在其它页面添加一个文章列表组件并链接过来，然后点击文章列表中的文章，该组件就可正常显示文章的内容</p>",
                     CreatebyName = "ZKEASOFT"
                 };

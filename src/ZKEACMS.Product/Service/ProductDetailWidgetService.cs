@@ -8,7 +8,7 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductDetailWidgetService : WidgetService<ProductDetailWidget,ProductDbContext>
+    public class ProductDetailWidgetService : WidgetService<ProductDetailWidget, ProductDbContext>
     {
         private readonly IProductService _productService;
         public ProductDetailWidgetService(IWidgetBasePartService widgetService, IProductService productService, IApplicationContext applicationContext)
@@ -32,7 +32,7 @@ namespace ZKEACMS.Product.Service
             var product = _productService.Get(productId) ?? new ProductEntity
             {
                 Title = "产品明细组件使用说明",
-                ImageUrl = "~/Modules/Product/Content/Image/Example.png",
+                ImageUrl = "~/Plugins/ZKEACMS.Product/Content/Image/Example.png",
                 ProductContent = "<p>如上图所示，该组件需要一个<code>产品列表组件</code>组合使用，您需要在其它页面添加一个产品列表组件并链接过来，然后点击产品列表中的产品，该组件就可正常显示产品的内容</p>",
                 CreatebyName = "ZKEASOFT"
             };

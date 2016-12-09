@@ -28,26 +28,29 @@ namespace Easy.Mvc.Plugin
             _hostingEnvironment = hostingEnv;
         }
 
-        public async Task Invoke(HttpContext context)
+        public Task Invoke(HttpContext context)
         {
-            if (IsGetMethod(context.Request.Method) && IsPluginMatchPath(context.Request.Path) && IsSupportContentType(context.Request.Path))
+            if (IsGetMethod(context.Request.Method) && IsPluginMatchPath(context.Request.Path) && IsSupportContentType(context))
             {
                 string filePath = GetAbsolutePath(context.Request.Path);
                 if (File.Exists(filePath))
                 {
+                    var file = new PhysicalFileInfo(new FileInfo(filePath));
+                    context.Response.ContentLength = file.Length;
+                    context.Response.StatusCode = 200;
                     var sendFileFeature = context.Features.Get<IHttpSendFileFeature>();
                     if (sendFileFeature != null)
                     {
-                        await sendFileFeature.SendFileAsync(filePath, 0, null, CancellationToken.None);
+                        sendFileFeature.SendFileAsync(filePath, 0, file.Length, CancellationToken.None);
                     }
-                    using (var readStream = new PhysicalFileInfo(new FileInfo(filePath)).CreateReadStream())
+                    using (var readStream = file.CreateReadStream())
                     {
-                        await StreamCopyOperation.CopyToAsync(readStream, context.Response.Body, null, CancellationToken.None);
+                        StreamCopyOperation.CopyToAsync(readStream, context.Response.Body, file.Length, 64 * 1024, context.RequestAborted);
                     }
                 }
 
             }
-            await _next(context);
+            return _next(context);
         }
         private bool IsGetMethod(string method)
         {
@@ -57,10 +60,15 @@ namespace Easy.Mvc.Plugin
         {
             return path.StartsWith($"/{_pluginLoader.PluginFolderName()}/", StringComparison.OrdinalIgnoreCase);
         }
-        private bool IsSupportContentType(string path)
+        private bool IsSupportContentType(HttpContext context)
         {
             string contentType;
-            return _contentTypeProvider.TryGetContentType(path, out contentType);
+            if (_contentTypeProvider.TryGetContentType(context.Request.Path, out contentType))
+            {
+                context.Response.ContentType = contentType;
+                return true;
+            }
+            return false;
         }
         private string GetAbsolutePath(string path)
         {

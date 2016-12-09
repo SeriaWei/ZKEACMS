@@ -252,3 +252,9 @@ GO
 
 UPDATE dbo.NavigationWidget SET Logo=N'~/images/logo_zkea.png'
 GO
+UPDATE dbo.CMS_WidgetTemplate SET Thumbnail=REPLACE(Thumbnail,N'~/Content/Images/',N'~/images/')
+GO
+UPDATE dbo.CMS_WidgetTemplate SET Thumbnail=REPLACE(Thumbnail,N'~/images/',N'~/Plugins/ZKEACMS.Product/Content/Image/') WHERE AssemblyName=N'ZKEACMS.Product'
+GO
+UPDATE dbo.CMS_WidgetTemplate SET Thumbnail=REPLACE(Thumbnail,N'~/images/',N'~/Plugins/ZKEACMS.Article/Content/Image/') WHERE AssemblyName=N'ZKEACMS.Article'
+GO
