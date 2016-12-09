@@ -54,7 +54,7 @@ namespace ZKEACMS.SectionWidget.Controllers
             return View("Form", content);
         }
 
-        public JsonResult Delete(int Id)
+        public JsonResult Delete(string Id)
         {
             _sectionContentProviderService.Remove(Id);
             return Json(true);

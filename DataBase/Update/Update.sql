@@ -94,15 +94,10 @@ ALTER TABLE [dbo].[SectionContent] DROP CONSTRAINT [PK_SectionContent]
 GO
 
 ALTER table dbo.SectionContent ADD IDStr NVARCHAR(100)
-GO
 UPDATE dbo.SectionContent SET [IDStr]=[ID]
-GO
 ALTER TABLE dbo.SectionContent DROP COLUMN [ID]
-GO
 ALTER TABLE dbo.SectionContent ADD [ID] NVARCHAR(100)
-GO
 UPDATE dbo.SectionContent SET [ID]=[IDStr]
-GO
 ALTER TABLE dbo.SectionContent DROP COLUMN [IDStr]
 GO
 ALTER TABLE dbo.SectionContentCallToAction alter column [ID] NVARCHAR(100)
@@ -133,15 +128,10 @@ ALTER TABLE [dbo].[SectionGroup] DROP CONSTRAINT [PK_SectionGroup]
 
 GO
 ALTER table dbo.SectionGroup ADD [IDStr] NVARCHAR(100)
-GO
 UPDATE dbo.SectionGroup SET [IDStr]=ID
-GO
 ALTER TABLE dbo.SectionGroup DROP COLUMN [ID]
-GO
 ALTER TABLE dbo.SectionGroup ADD [ID] NVARCHAR(100)
-GO
 UPDATE dbo.SectionGroup SET ID=[IDStr]
-GO
 ALTER TABLE dbo.SectionGroup DROP COLUMN [IDStr]
 GO
 ALTER TABLE dbo.SectionGroup ALTER COLUMN [ID]  NVARCHAR(100) NOT NULL
@@ -258,4 +248,7 @@ AssemblyName=N'ZKEACMS.Article',
 ServiceTypeName=N'ZKEACMS.Article.Service.ArticleTypeWidgetService',
 ViewModelTypeName=N'ZKEACMS.Article.Models.ArticleTypeWidget' 
 WHERE ServiceTypeName=N'Easy.CMS.Article.Service.ArticleTypeWidgetService'
+GO
+
+UPDATE dbo.NavigationWidget SET Logo=N'~/images/logo_zkea.png'
 GO

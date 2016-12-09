@@ -52,13 +52,13 @@ namespace ZKEACMS.SectionWidget.Controllers
             return View("Form", content);
         }
         [DefaultAuthorize]
-        public JsonResult Delete(int Id)
+        public JsonResult Delete(string Id)
         {
             _sectionContentProviderService.Remove(Id);
             return Json(true);
         }
 
-        public ActionResult Play(int Id)
+        public ActionResult Play(string Id)
         {
             return View(_sectionContentProviderService.Get(Id));
         }
