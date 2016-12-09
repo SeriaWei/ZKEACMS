@@ -311,6 +311,18 @@ if %ERRORLEVEL% NEQ 0 goto errors
 @echo Permission
 sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.Permission.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
+@echo DataArchived
+sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.DataArchived.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo ExtendField
+sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.ExtendField.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo PageView
+sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.PageView.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo ApplicationSetting
+sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.ApplicationSetting.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
 
 @echo -----------------------------------------------------------------------------
 @echo 数据库创建成功。
