@@ -18,7 +18,7 @@ namespace ZKEACMS.SectionWidget.Controllers
             _sectionContentProviderService = sectionContentProviderService;
         }
 
-        public ActionResult Create(int sectionGroupId, string sectionWidgetId)
+        public ActionResult Create(string sectionGroupId, string sectionWidgetId)
         {
             return View("Form", new SectionContentCallToAction
             {
@@ -28,7 +28,7 @@ namespace ZKEACMS.SectionWidget.Controllers
             });
         }
 
-        public ActionResult Edit(int Id)
+        public ActionResult Edit(string Id)
         {
             var content = _sectionContentProviderService.GetContent(Id);
             content.ActionType = ActionType.Update;
@@ -53,7 +53,7 @@ namespace ZKEACMS.SectionWidget.Controllers
             return View("Form", content);
         }
 
-        public JsonResult Delete(int Id)
+        public JsonResult Delete(string Id)
         {
             _sectionContentProviderService.Remove(Id);
             return Json(true);

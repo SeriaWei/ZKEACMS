@@ -17,7 +17,7 @@ namespace ZKEACMS.SectionWidget.Controllers
             _sectionContentProviderService = sectionContentProviderService;
         }
         [DefaultAuthorize]
-        public ActionResult Create(int sectionGroupId, string sectionWidgetId)
+        public ActionResult Create(string sectionGroupId, string sectionWidgetId)
         {
             return View("Form", new SectionContentVideo
             {
@@ -27,7 +27,7 @@ namespace ZKEACMS.SectionWidget.Controllers
             });
         }
         [DefaultAuthorize]
-        public ActionResult Edit(int Id)
+        public ActionResult Edit(string Id)
         {
             var content = _sectionContentProviderService.GetContent(Id);
             content.ActionType = ActionType.Update;

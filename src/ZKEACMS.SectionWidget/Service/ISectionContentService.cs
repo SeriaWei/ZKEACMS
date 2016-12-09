@@ -8,7 +8,7 @@ namespace ZKEACMS.SectionWidget.Service
         SectionContentBase.Types ContentType { get; }
         void AddContent(SectionContent content);
         void UpdateContent(SectionContent content);
-        SectionContent GetContent(int contentId);
-        void DeleteContent(int contentId);
+        SectionContent GetContent(string contentId);
+        void DeleteContent(string contentId);
     }
 }

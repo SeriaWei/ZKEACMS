@@ -114,9 +114,9 @@ namespace Easy.RepositoryPattern
             CurrentDbSet.UpdateRange(items);
             DbContext.SaveChanges();
         }
-        public virtual void Remove(params object[] primaryKey)
+        public void Remove(params object[] primaryKey)
         {
-            var item = CurrentDbSet.Find(primaryKey);
+            var item = Get(primaryKey);
             if (item != null)
             {
                 Remove(item);

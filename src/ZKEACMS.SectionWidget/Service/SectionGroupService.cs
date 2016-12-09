@@ -78,6 +78,7 @@ namespace ZKEACMS.SectionWidget.Service
         }
         public override void Add(SectionGroup item)
         {
+            item.ID = Guid.NewGuid().ToString("N");
             base.Add(item);
             if (item.SectionContents != null && item.SectionContents.Any())
             {
@@ -100,15 +101,17 @@ namespace ZKEACMS.SectionWidget.Service
                 }
             }
         }
-        public override void Remove(params object[] primaryKeys)
+        public override void Remove(SectionGroup item)
         {
-            var group = Get(primaryKeys);
-            var contents = _sectionContentProviderService.Get(m => m.SectionGroupId == group.ID).ToList();
-            contents.Each(m =>
+            if (item != null)
             {
-                _sectionContentProviderService.Remove(m.ID);
-            });
-            base.Remove(primaryKeys);
+                var contents = _sectionContentProviderService.Get(m => m.SectionGroupId == item.ID).ToList();
+                contents.Each(m =>
+                {
+                    _sectionContentProviderService.Remove(m.ID);
+                });
+            }
+            base.Remove(item);
         }
     }
 }

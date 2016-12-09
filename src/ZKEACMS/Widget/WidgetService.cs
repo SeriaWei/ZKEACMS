@@ -28,37 +28,6 @@ namespace ZKEACMS.Widget
 
         public IWidgetBasePartService WidgetBasePartService { get; private set; }
 
-        private void CopyTo(WidgetBase from, T to)
-        {
-            if (to != null)
-            {
-                to.AssemblyName = from.AssemblyName;
-                to.CreateBy = from.CreateBy;
-                to.CreatebyName = from.CreatebyName;
-                to.CreateDate = from.CreateDate;
-                to.Description = from.Description;
-                to.ID = from.ID;
-                to.LastUpdateBy = from.LastUpdateBy;
-                to.LastUpdateByName = from.LastUpdateByName;
-                to.LastUpdateDate = from.LastUpdateDate;
-                to.LayoutID = from.LayoutID;
-                to.PageID = from.PageID;
-                to.PartialView = from.PartialView;
-                to.Position = from.Position;
-                to.ServiceTypeName = from.ServiceTypeName;
-                to.Status = from.Status;
-                to.Title = from.Title;
-                to.ViewModelTypeName = from.ViewModelTypeName;
-                to.WidgetName = from.WidgetName;
-                to.ZoneID = from.ZoneID;
-                to.FormView = from.FormView;
-                to.StyleClass = from.StyleClass;
-                to.IsTemplate = from.IsTemplate;
-                to.Thumbnail = from.Thumbnail;
-                to.IsSystem = from.IsSystem;
-                to.ExtendFields = from.ExtendFields;
-            }
-        }
 
         public override void Add(T item)
         {
@@ -94,9 +63,6 @@ namespace ZKEACMS.Widget
             WidgetBasePartService.UpdateRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
 
             base.UpdateRange(items);
-
-
-
             Signal.Trigger(CacheTrigger.WidgetChanged);
         }
         public override T GetSingle(Expression<Func<T, bool>> filter)
@@ -104,7 +70,7 @@ namespace ZKEACMS.Widget
             T model = base.GetSingle(filter);
             if (typeof(T) != typeof(WidgetBase))
             {
-                CopyTo(WidgetBasePartService.Get(model.ID), model);
+                WidgetBasePartService.Get(model.ID).CopyTo(model);
             }
             return model;
         }
@@ -116,7 +82,7 @@ namespace ZKEACMS.Widget
             {
                 widgets.Each(widget =>
                 {
-                    CopyTo(WidgetBasePartService.Get(widget.ID), widget);
+                    WidgetBasePartService.Get(widget.ID).CopyTo(widget);
                 });
             }
             return widgets;
@@ -124,9 +90,16 @@ namespace ZKEACMS.Widget
         public override T Get(params object[] primaryKeys)
         {
             T model = base.Get(primaryKeys);
-            if (typeof(T) != typeof(WidgetBase))
+            if (model != null)
             {
-                CopyTo(WidgetBasePartService.Get(primaryKeys), model);
+                WidgetBasePartService.Get(primaryKeys).CopyTo(model);
+            }
+            else
+            {
+                var basePart = new WidgetBasePart { ID = primaryKeys[0].ToString() };
+                DbContext.WidgetBasePart.Attach(basePart);
+                DbContext.WidgetBasePart.Remove(basePart);
+                DbContext.SaveChanges();
             }
             return model;
         }
@@ -138,20 +111,13 @@ namespace ZKEACMS.Widget
             WidgetBasePartService.Remove(Expression.Lambda<Func<WidgetBase, bool>>(filter.Body, filter.Parameters));
 
         }
-        public override void Remove(params object[] primaryKey)
-        {
-
-            base.Remove(primaryKey);
-
-            WidgetBasePartService.Remove(primaryKey);
-
-        }
+        
         public override void Remove(T item)
         {
 
             base.Remove(item);
 
-            WidgetBasePartService.Remove(item.ToWidgetBasePart());
+            WidgetBasePartService.Remove(WidgetBasePartService.Get(item.ID));
 
         }
         public override void RemoveRange(params T[] items)
@@ -167,8 +133,16 @@ namespace ZKEACMS.Widget
         public virtual WidgetBase GetWidget(WidgetBase widget)
         {
             T result = base.Get(widget.ID);
-            CopyTo(widget, result);
-            return result;
+            if (result != null)
+            {
+                widget.CopyTo(result);
+                return result;
+            }
+            var basePart = widget.ToWidgetBasePart();
+            DbContext.WidgetBasePart.Attach(basePart);
+            DbContext.WidgetBasePart.Remove(basePart);
+            DbContext.SaveChanges();
+            return null;
         }
 
         public virtual WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)

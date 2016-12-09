@@ -33,12 +33,12 @@ namespace ZKEACMS.SectionWidget.Service
             Add(content as SectionContentVideo);
         }
 
-        public void DeleteContent(int contentId)
+        public void DeleteContent(string contentId)
         {
             Remove(contentId);
         }
 
-        public SectionContent GetContent(int contentId)
+        public SectionContent GetContent(string contentId)
         {
             return Get(contentId);
         }

@@ -39,10 +39,7 @@ namespace ZKEACMS.Common.Service
             Remove(m => m.ParentId == item.ID);
             base.Remove(item);
         }
-        public override void Remove(params object[] primaryKey)
-        {
-            Remove(Get(primaryKey));
-        }
+        
         public override void RemoveRange(params NavigationEntity[] items)
         {
             items.Each(m =>

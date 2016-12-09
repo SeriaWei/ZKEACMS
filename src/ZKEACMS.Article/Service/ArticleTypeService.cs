@@ -36,10 +36,8 @@ namespace ZKEACMS.Article.Service
         {
             return Get(m => m.ParentID == id);
         }
-
-        public override void Remove(params object[] primaryKeys)
+        public override void Remove(ArticleType item)
         {
-            var item = Get(primaryKeys);
             if (item != null)
             {
                 GetChildren(item.ID).Each(m =>
@@ -49,7 +47,8 @@ namespace ZKEACMS.Article.Service
                 });
                 _articleService.Remove(n => n.ArticleTypeID == item.ID);
             }
-            base.Remove(primaryKeys);
+            base.Remove(item);
         }
+
     }
 }

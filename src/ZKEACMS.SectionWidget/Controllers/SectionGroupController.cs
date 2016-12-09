@@ -118,7 +118,7 @@ namespace ZKEACMS.SectionWidget.Controllers
             {
                 groups.Each(g =>
                 {
-                    if (g.ID > 0)
+                    if (g.ID.IsNotNullAndWhiteSpace())
                     {
                         var group = _sectionGroupService.Get(g.ID);
                         if (group != null)

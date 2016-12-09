@@ -18,7 +18,7 @@ namespace ZKEACMS.SectionWidget.Controllers
             _sectionContentProviderService = sectionContentProviderService;
         }
 
-        public ActionResult Create(int sectionGroupId, string sectionWidgetId)
+        public ActionResult Create(string sectionGroupId, string sectionWidgetId)
         {
             return View("Form", new SectionContentTitle
             {
@@ -29,7 +29,7 @@ namespace ZKEACMS.SectionWidget.Controllers
             });
         }
 
-        public ActionResult Edit(int Id)
+        public ActionResult Edit(string Id)
         {
             var content = _sectionContentProviderService.GetContent(Id);
             content.ActionType = ActionType.Update;

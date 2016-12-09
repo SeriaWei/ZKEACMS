@@ -82,10 +82,7 @@ namespace ZKEACMS.Media
             Remove(m => m.ParentID == item.ID);
             base.Remove(item);
         }
-        public override void Remove(params object[] primaryKey)
-        {
-            Remove(Get(primaryKey));
-        }
+        
         public override void Remove(Expression<Func<MediaEntity, bool>> filter)
         {
             Get(filter).Each(m =>

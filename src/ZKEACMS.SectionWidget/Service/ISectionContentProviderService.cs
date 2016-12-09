@@ -8,7 +8,7 @@ namespace ZKEACMS.SectionWidget.Service
     {
         void Add(SectionContent content);
         void Update(SectionContent content);
-        SectionContent GetContent(int contentId);
+        SectionContent GetContent(string contentId);
         SectionContent FillContent(SectionContent content);
         void SaveSort(SectionContent content);
     }

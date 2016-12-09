@@ -28,13 +28,13 @@ namespace ZKEACMS.SectionWidget.Service
         }
         public void Add(SectionContent item)
         {
+            item.ID = Guid.NewGuid().ToString("N");
             if (!item.Order.HasValue || item.Order.Value == 0)
             {
                 item.Order = Count(m => m.SectionWidgetId == item.SectionWidgetId && m.SectionGroupId == item.SectionGroupId) + 1;
             }
             var contentBase = item.ToContent();
             base.Add(contentBase);
-            item.ID = contentBase.ID;
             _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).AddContent(item);
         }
         public void Update(SectionContent item)
@@ -42,9 +42,9 @@ namespace ZKEACMS.SectionWidget.Service
             base.Update(item.ToContent());
             _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).UpdateContent(item);
         }
-        
 
-        public SectionContent GetContent(int contentId)
+
+        public SectionContent GetContent(string contentId)
         {
             var item = base.Get(contentId);
             if (item != null)
@@ -58,13 +58,13 @@ namespace ZKEACMS.SectionWidget.Service
             return null;
         }
 
-
-        public override void Remove(params object[] primaryKey)
+        public override void Remove(SectionContentBasePart item)
         {
-            var content = base.Get(primaryKey);
-            _sectionContentServices.First(m => (int)m.ContentType == content.SectionContentType).DeleteContent(content.ID);
-            Remove(content);
+            _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).DeleteContent(item.ID);
+            base.Remove(item);
         }
+
+
         public SectionContent FillContent(SectionContent content)
         {
             return

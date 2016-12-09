@@ -151,10 +151,7 @@ namespace ZKEACMS.Layout
             MarkChanged(item.ID);
             base.Remove(item);
         }
-        public override void Remove(params object[] primaryKey)
-        {
-            Remove(Get(primaryKey));
-        }
+        
         public override void Remove(Expression<Func<LayoutEntity, bool>> filter)
         {
             Get(filter).Each(layout =>

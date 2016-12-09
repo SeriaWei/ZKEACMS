@@ -8,13 +8,15 @@ using Easy.MetaData;
 using Easy.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Extensions.DependencyInjection;
+using System.ComponentModel.DataAnnotations;
 
 namespace ZKEACMS.SectionWidget.Models
 {
     [ViewConfigure(typeof(SectionGroupMetaData)), Table("SectionGroup")]
     public class SectionGroup : EditorEntity
     {
-        public int ID { get; set; }
+        [Key]
+        public string ID { get; set; }
         public string GroupName { get; set; }
         public string SectionWidgetId { get; set; }
         public string PartialView { get; set; }

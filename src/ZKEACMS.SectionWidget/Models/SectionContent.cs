@@ -21,9 +21,9 @@ namespace ZKEACMS.SectionWidget.Models
             Video = 5
         }
         [Key]
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string SectionWidgetId { get; set; }
-        public virtual int? SectionGroupId { get; set; }
+        public virtual string SectionGroupId { get; set; }
         public virtual int? Order { get; set; }
         public abstract int SectionContentType
         {
@@ -96,7 +96,7 @@ namespace ZKEACMS.SectionWidget.Models
         [NotMapped]
         public override int? Order { get; set; }
         [NotMapped]
-        public override int? SectionGroupId { get; set; }
+        public override string SectionGroupId { get; set; }
     }
     [Table("SectionContent")]
     public class SectionContentBasePart: SectionContent

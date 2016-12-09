@@ -156,7 +156,7 @@ namespace ZKEACMS.Widget
         {
             return CopyTo(new WidgetBasePart()) as WidgetBasePart;
         }
-        private WidgetBase CopyTo(WidgetBase widget)
+        public WidgetBase CopyTo(WidgetBase widget)
         {
             widget.AssemblyName = AssemblyName;
             widget.CreateBy = CreateBy;

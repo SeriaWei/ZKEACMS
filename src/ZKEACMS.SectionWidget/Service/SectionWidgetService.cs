@@ -15,7 +15,7 @@ using System;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionWidgetService : WidgetService<Models.SectionWidget,SectionDbContext>, ISectionWidgetService
+    public class SectionWidgetService : WidgetService<Models.SectionWidget, SectionDbContext>, ISectionWidgetService
     {
         private readonly ISectionGroupService _sectionGroupService;
         private readonly ISectionContentProviderService _sectionContentProviderService;
@@ -55,6 +55,8 @@ namespace ZKEACMS.SectionWidget.Service
 
         private Models.SectionWidget InitSectionWidget(Models.SectionWidget widget)
         {
+            if (widget == null) return null;
+
             widget.Groups = _sectionGroupService.Get(m => m.SectionWidgetId == widget.ID).ToList();
             var contents = _sectionContentProviderService.Get(m => m.SectionWidgetId == widget.ID).ToList();
             List<SectionContent> filled = new List<SectionContent>();
@@ -73,15 +75,16 @@ namespace ZKEACMS.SectionWidget.Service
             });
             return widget;
         }
-
-        
-        public override void Remove(params object[] primaryKeys)
+        public override void Remove(Models.SectionWidget item)
         {
-            Get(primaryKeys).Groups.Each(m =>
+            if (item != null)
             {
-                _sectionGroupService.Remove(m.ID);
-            });
-            base.Remove(primaryKeys);
+                item.Groups.Each(m =>
+                {
+                    _sectionGroupService.Remove(m.ID);
+                });
+            }
+            base.Remove(item);
         }
 
         public override void Add(Models.SectionWidget item)

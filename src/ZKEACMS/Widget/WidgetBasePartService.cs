@@ -44,7 +44,6 @@ namespace ZKEACMS.Widget
             {
                 using (var pageService = ApplicationContext.ServiceLocator.GetService<IPageService>())
                 {
-                    pageService.SetDbContext(DbContext);
                     pageService.MarkChanged(widget.PageID);
                 }
             }
@@ -52,7 +51,6 @@ namespace ZKEACMS.Widget
             {
                 using (var layoutService = ApplicationContext.ServiceLocator.GetService<ILayoutService>())
                 {
-                    layoutService.SetDbContext(DbContext);
                     layoutService.MarkChanged(widget.LayoutID);
                 }
             }
@@ -112,11 +110,6 @@ namespace ZKEACMS.Widget
         public override void Remove(Expression<Func<WidgetBasePart, bool>> filter)
         {
             base.Remove(filter);
-        }
-        public override void Remove(params object[] primaryKey)
-        {
-            TriggerChange(Get(primaryKey));
-            base.Remove(primaryKey);
         }
         public override void Remove(WidgetBasePart item)
         {

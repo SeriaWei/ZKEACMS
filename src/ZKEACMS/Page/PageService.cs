@@ -63,7 +63,7 @@ namespace ZKEACMS.Page
             item = Get(item.ID);
             item.IsPublish = true;
             item.PublishDate = DateTime.Now;
-            Update(item);
+            base.Update(item);
 
             Remove(m => m.ReferencePageID == item.ID && m.IsPublishedPage == true);
 
@@ -110,10 +110,7 @@ namespace ZKEACMS.Page
             _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(item.ID));
             base.Remove(item);
         }
-        public override void Remove(params object[] primaryKey)
-        {
-            Remove(Get(primaryKey));
-        }
+        
         public override void Remove(Expression<Func<PageEntity, bool>> filter)
         {
             var deletes = Get(filter).ToList(m => m.ID);
@@ -204,7 +201,7 @@ namespace ZKEACMS.Page
             pageEntity.IsPublish = false;
             pageEntity.LastUpdateDate = DateTime.Now;
             pageEntity.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
-            Update(pageEntity);
+            base.Update(pageEntity);
         }
     }
 }
