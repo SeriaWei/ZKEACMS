@@ -1,10 +1,11 @@
 ﻿@using ZKEACMS.Product
 @using Easy.ViewPort.jsTree
-@using Easy.Web.CMS.Product.Models
+@using ZKEACMS.Product.Models
 @{
     Script.Reqiured("jsTree").AtFoot();
+    Style.Reqiured("jsTree").AtHead();
     var categoryTree = Html.Tree<ProductCategory>().Source("GetProductCategoryTree", "ProductCategory");
-    if (Authorizer.Authorize(PermissionKeys.ManageProductCategory))
+    if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProductCategory))
     {
         categoryTree
             .AddPlugin(Plugins.ContextMenu)
@@ -19,7 +20,7 @@
     <div class="panel-body">
         @categoryTree
     </div>
-    @if (Authorizer.Authorize(PermissionKeys.ManageProductCategory))
+    @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProductCategory))
     {
         <div class="panel-footer">
             <a href="@Url.Action("Create")" class="btn btn-link btn-xs">

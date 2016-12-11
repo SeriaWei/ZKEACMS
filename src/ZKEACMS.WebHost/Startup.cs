@@ -52,7 +52,11 @@ namespace ZKEACMS.WebHost
                   option.ModelBinderProviders.Insert(0, new WidgetModelBinderProvider());
                   option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
               })
-             .AddControllersAsServices();
+             .AddControllersAsServices()
+             .AddJsonOptions(option =>
+             {
+                 option.SerializerSettings.DateFormatString = "yyyy-MM-dd";
+             });
             services.TryAddTransient<IOnConfiguring, EntityFrameWorkConfigure>();
             services.UseEasyFrameWork(Configuration).LoadEnablePlugins(plugin =>
             {
@@ -61,7 +65,7 @@ namespace ZKEACMS.WebHost
                 {
                     cmsPlugin.InitPlug();
                 }
-            },null);
+            }, null);
             services.UseZKEACMS();
             services.Configure<AuthorizationOptions>(options =>
             {

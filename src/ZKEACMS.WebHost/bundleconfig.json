@@ -22,5 +22,11 @@
     "inputFiles": [
       "wwwroot/js/EasyPlug/Easy.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/dataTable.min.js",
+    "inputFiles": [
+      "wwwroot/js/dataTable.js"
+    ]
   }
 ]

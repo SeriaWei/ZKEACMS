@@ -1,10 +1,10 @@
 @echo off
 REM: 请根据您的个人实际情况修改以下信息：
 set server=(local)
-set dataBase=ZKEACMS_DEMO
+set dataBase=ZKEACMS
 set dbUserId=sa
 set dbPassword=sa
-set dbPath=E:\DotNetCore\ZKEACMS\App_Data
+set dbPath=E:\GitHub\ZKEACMS.Core\App_Data
 @echo -----------------------------------------------------------------------------
 @echo *** 欢迎使用 ZKEACMS ***
 @echo -----------------------------------------------------------------------------

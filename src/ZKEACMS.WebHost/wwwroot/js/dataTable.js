@@ -35,7 +35,19 @@
                 "type": "POST"
             },
             "columns": columns,
-            "order": order
+            "order": order,
+            "language": {
+                "lengthMenu": "每页 _MENU_ 条记录",
+                "zeroRecords": "没有找到记录",
+                "info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
+                "infoEmpty": "无记录",
+                "infoFiltered": "(从 _MAX_ 条记录过滤)",
+                "paginate": {
+                    "previous": "上一页",
+                    "next":"下一页"
+                },
+                "search": "关键字:"
+            }
         });
     });
 });

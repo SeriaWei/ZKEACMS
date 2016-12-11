@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ZKEACMS.Article.Models
 {
-    [ViewConfigure(typeof(ArticleEntityMeta)),Table("Article")]
+    [ViewConfigure(typeof(ArticleEntityMeta)), Table("Article")]
     public class ArticleEntity : EditorEntity, IImage, IExtendField
     {
         [Key]
@@ -32,7 +32,7 @@ namespace ZKEACMS.Article.Models
 
         public IEnumerable<ExtendFieldEntity> ExtendFields
         {
-            get;set;
+            get; set;
         }
     }
     class ArticleEntityMeta : ViewMetaData<ArticleEntity>
@@ -40,7 +40,7 @@ namespace ZKEACMS.Article.Models
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.ID).AsHidden();
-            ViewConfig(m => m.Title).AsTextBox().Required().Order(1);
+            ViewConfig(m => m.Title).AsTextBox().Required().Order(1).ShowInGrid();
             ViewConfig(m => m.Status).AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary);
             ViewConfig(m => m.ImageThumbUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
             ViewConfig(m => m.ImageUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);

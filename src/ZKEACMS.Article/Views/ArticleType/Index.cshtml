@@ -1,10 +1,11 @@
 ﻿@using ZKEACMS.Article
 @using Easy.ViewPort.jsTree
-@using Easy.Web.CMS.Article.Models
+@using ZKEACMS.Article.Models
 @{
     Script.Reqiured("jsTree").AtFoot();
+    Style.Reqiured("jsTree").AtHead();
     var articleTree = Html.Tree<ArticleType>().Source("GetArticleTypeTree", "ArticleType", new {module = "admin"});
-    if (Authorizer.Authorize(PermissionKeys.ManageArticleType))
+    if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticleType))
     {
         articleTree
         .AddPlugin(Plugins.ContextMenu)
@@ -19,7 +20,7 @@
     <div class="panel-body">
         @articleTree
     </div>
-    @if (Authorizer.Authorize(PermissionKeys.ManageArticleType))
+    @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticleType))
     {
         <div class="panel-footer">
             <a href="@Url.Action("Create")" class="btn btn-link btn-xs">
