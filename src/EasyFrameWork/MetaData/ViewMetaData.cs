@@ -82,7 +82,7 @@ namespace Easy.MetaData
                 ViewConfig("ActionType").AsHidden().AddClass("ActionType");
                 ViewConfig("Title").AsTextBox().Order(1).ShowInGrid();
                 ViewConfig("Description").AsTextArea().Order(101);
-                ViewConfig("Status").AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary);
+                ViewConfig("Status").AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary).ShowInGrid();
               
             }
             if (typeof(IImage).IsAssignableFrom(TargetType))

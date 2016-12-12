@@ -50,52 +50,53 @@ namespace Easy.LINQ
                 {
                     continue;
                 }
-                var value = Convert.ChangeType(item.Value, property.PropertyType);
+                Type realType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                var value = Convert.ChangeType(item.Value, realType);
                 switch (item.Operator)
                 {
                     case Query.Operators.Equal:
                         {
-                            expression = Append(expression, Expression.Equal(Expression.Property(parameter, item.Name), Expression.Constant(value)));
+                            expression = Append(expression, Expression.Equal(Expression.Property(parameter, item.Name), Expression.Constant(value, property.PropertyType)));
                             break;
                         }
                     case Query.Operators.GreaterThan:
                         {
-                            expression = Append(expression, Expression.GreaterThan(Expression.Property(parameter, item.Name), Expression.Constant(value)));
+                            expression = Append(expression, Expression.GreaterThan(Expression.Property(parameter, item.Name), Expression.Constant(value, property.PropertyType)));
                             break;
                         }
                     case Query.Operators.GreaterThanOrEqual:
                         {
-                            expression = Append(expression, Expression.GreaterThanOrEqual(Expression.Property(parameter, item.Name), Expression.Constant(value)));
+                            expression = Append(expression, Expression.GreaterThanOrEqual(Expression.Property(parameter, item.Name), Expression.Constant(value, property.PropertyType)));
                             break;
                         }
                     case Query.Operators.LessThan:
                         {
-                            expression = Append(expression, Expression.LessThan(Expression.Property(parameter, item.Name), Expression.Constant(value)));
+                            expression = Append(expression, Expression.LessThan(Expression.Property(parameter, item.Name), Expression.Constant(value, property.PropertyType)));
                             break;
                         }
                     case Query.Operators.LessThanOrEqual:
                         {
-                            expression = Append(expression, Expression.LessThanOrEqual(Expression.Property(parameter, item.Name), Expression.Constant(value)));
+                            expression = Append(expression, Expression.LessThanOrEqual(Expression.Property(parameter, item.Name), Expression.Constant(value, property.PropertyType)));
                             break;
                         }
                     case Query.Operators.Contains:
                         {
                             var nullCheck = Expression.Not(Expression.Call(typeof(string), "IsNullOrEmpty", null, Expression.Property(parameter, item.Name)));
-                            var contains = Expression.Call(Expression.Property(parameter, item.Name), "Contains", null, Expression.Constant(value));
+                            var contains = Expression.Call(Expression.Property(parameter, item.Name), "Contains", null, Expression.Constant(value, property.PropertyType));
                             expression = Append(expression, Expression.AndAlso(nullCheck, contains));
                             break;
                         }
                     case Query.Operators.StartWith:
                         {
                             var nullCheck = Expression.Not(Expression.Call(typeof(string), "IsNullOrEmpty", null, Expression.Property(parameter, item.Name)));
-                            var startsWith = Expression.Call(Expression.Property(parameter, item.Name), "StartsWith", null, Expression.Constant(value));
+                            var startsWith = Expression.Call(Expression.Property(parameter, item.Name), "StartsWith", null, Expression.Constant(value, property.PropertyType));
                             expression = Append(expression, Expression.AndAlso(nullCheck, startsWith));
                             break;
                         }
                     case Query.Operators.EndWidth:
                         {
                             var nullCheck = Expression.Not(Expression.Call(typeof(string), "IsNullOrEmpty", null, Expression.Property(parameter, item.Name)));
-                            var endsWith = Expression.Call(Expression.Property(parameter, item.Name), "EndsWith", null, Expression.Constant(value));
+                            var endsWith = Expression.Call(Expression.Property(parameter, item.Name), "EndsWith", null, Expression.Constant(value, property.PropertyType));
                             expression = Append(expression, Expression.AndAlso(nullCheck, endsWith));
                             break;
                         }
@@ -104,13 +105,13 @@ namespace Easy.LINQ
                             Expression minExp = null, maxExp = null;
                             if (item.ValueMin != null)
                             {
-                                var minValue = Convert.ChangeType(item.ValueMin, property.PropertyType);
-                                minExp = Expression.GreaterThanOrEqual(Expression.Property(parameter, item.Name), Expression.Constant(minValue));
+                                var minValue = Convert.ChangeType(item.ValueMin, realType);
+                                minExp = Expression.GreaterThanOrEqual(Expression.Property(parameter, item.Name), Expression.Constant(minValue, property.PropertyType));
                             }
                             if (item.ValueMax != null)
                             {
-                                var maxValue = Convert.ChangeType(item.ValueMax, property.PropertyType);
-                                maxExp = Expression.LessThanOrEqual(Expression.Property(parameter, item.Name), Expression.Constant(maxValue));
+                                var maxValue = Convert.ChangeType(item.ValueMax, realType);
+                                maxExp = Expression.LessThanOrEqual(Expression.Property(parameter, item.Name), Expression.Constant(maxValue, property.PropertyType));
                             }
 
                             if (minExp != null && maxExp != null)

@@ -76,7 +76,7 @@ namespace Easy.Reflection
             }
         }
 
-       
+
         public static object ValueConvert(PropertyInfo property, object obj)
         {
             return ValueConvert(property.PropertyType, obj);
@@ -84,40 +84,42 @@ namespace Easy.Reflection
         public static object ValueConvert(Type type, object obj)
         {
             if (obj == null) return null;
-           
-            TypeCode code =  type.GetTypeInfo().IsGenericType ? Type.GetTypeCode(type.GetGenericArguments()[0]) : Type.GetTypeCode(type);
-            switch (code)
-            {
-                case TypeCode.Boolean:
-                    {
-                        if (obj != null)
-                        {
-                            string result = obj.ToString().ToLower();
-                            if (result == "true" || result == "1")
-                                return true;
-                            else return false;
-                        }
-                        else return false;
-                    }
-                case TypeCode.Byte: return Convert.ToByte(obj);
-                case TypeCode.Char: return Convert.ToChar(obj);
-                
-                case TypeCode.DateTime: return Convert.ToDateTime(obj);
-                case TypeCode.Decimal: return Convert.ToDecimal(obj);
-                case TypeCode.Double: return Convert.ToDouble(obj);
-                case TypeCode.Empty: return null;
-                case TypeCode.Int16: return Convert.ToInt16(obj);
-                case TypeCode.Int32: return Convert.ToInt32(obj);
-                case TypeCode.Int64: return Convert.ToInt64(obj);
-                case TypeCode.Object: return obj;
-                case TypeCode.SByte: return Convert.ToSByte(obj);
-                case TypeCode.Single: return Convert.ToSingle(obj);
-                case TypeCode.String: return Convert.ToString(obj);
-                case TypeCode.UInt16: return Convert.ToUInt16(obj);
-                case TypeCode.UInt32: return Convert.ToUInt32(obj);
-                case TypeCode.UInt64: return Convert.ToUInt64(obj);
-                default: return obj;
-            }
-        }       
+            var realType = Nullable.GetUnderlyingType(type) ?? type;
+            return Convert.ChangeType(obj, realType);
+
+            //TypeCode code = Type.GetTypeCode(realType);
+            //switch (code)
+            //{
+            //    case TypeCode.Boolean:
+            //        {
+            //            if (obj != null)
+            //            {
+            //                string result = obj.ToString().ToLower();
+            //                if (result == "true" || result == "1")
+            //                    return true;
+            //                else return false;
+            //            }
+            //            else return false;
+            //        }
+            //    case TypeCode.Byte: return Convert.ToByte(obj);
+            //    case TypeCode.Char: return Convert.ToChar(obj);
+
+            //    case TypeCode.DateTime: return Convert.ToDateTime(obj);
+            //    case TypeCode.Decimal: return Convert.ToDecimal(obj);
+            //    case TypeCode.Double: return Convert.ToDouble(obj);
+            //    case TypeCode.Empty: return null;
+            //    case TypeCode.Int16: return Convert.ToInt16(obj);
+            //    case TypeCode.Int32: return Convert.ToInt32(obj);
+            //    case TypeCode.Int64: return Convert.ToInt64(obj);
+            //    case TypeCode.Object: return obj;
+            //    case TypeCode.SByte: return Convert.ToSByte(obj);
+            //    case TypeCode.Single: return Convert.ToSingle(obj);
+            //    case TypeCode.String: return Convert.ToString(obj);
+            //    case TypeCode.UInt16: return Convert.ToUInt16(obj);
+            //    case TypeCode.UInt32: return Convert.ToUInt32(obj);
+            //    case TypeCode.UInt64: return Convert.ToUInt64(obj);
+            //    default: return obj;
+            //}
+        }
     }
 }

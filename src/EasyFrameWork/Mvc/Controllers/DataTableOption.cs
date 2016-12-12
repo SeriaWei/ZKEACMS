@@ -21,19 +21,35 @@ namespace Easy.Mvc.Controllers
         {
             QueryCollection queryCollection = new QueryCollection();
             var properties = typeof(T).GetTypeInfo().GetProperties();
-            if (Search != null && Search.Value.IsNotNullAndWhiteSpace())
-            {
-                foreach (var item in Columns)
-                {
-                    var p = properties.FirstOrDefault(m => m.Name.Equals(item.Data, StringComparison.OrdinalIgnoreCase));
-                    if (p == null || p.PropertyType != typeof(string)) continue;
 
-                    Query query = new Query();
-                    query.Name = p.Name;
-                    query.Operator = Query.Operators.Contains;
-                    query.Value = Easy.Reflection.ClassAction.ValueConvert(p, Search.Value);
-                    queryCollection.Add(query);
+            foreach (var item in Columns)
+            {
+                var p = properties.FirstOrDefault(m => m.Name.Equals(item.Data, StringComparison.OrdinalIgnoreCase));
+                if (p == null) continue;
+                var realType = Nullable.GetUnderlyingType(p.PropertyType) ?? p.PropertyType;
+                string value = null;
+                if (item.Search != null && item.Search.Value.IsNotNullAndWhiteSpace())
+                {
+                    value = item.Search.Value;
                 }
+                else if (Search != null && Search.Value.IsNotNullAndWhiteSpace() && realType == typeof(string))
+                {
+                    value = Search.Value;
+                }
+                if (value == null) continue;
+
+                Query query = new Query();
+                query.Name = p.Name;
+                query.Value = Easy.Reflection.ClassAction.ValueConvert(p, value);
+                if (realType == typeof(string))
+                {
+                    query.Operator = Query.Operators.Contains;
+                }
+                else
+                {
+                    query.Operator = Query.Operators.GreaterThanOrEqual;
+                }
+                queryCollection.Add(query);
             }
             return queryCollection.AsExpression<T>();
         }
