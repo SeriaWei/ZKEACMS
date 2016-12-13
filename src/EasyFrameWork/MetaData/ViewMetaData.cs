@@ -35,21 +35,21 @@ namespace Easy.MetaData
                         ViewConfig(item.Name).AsCheckBox();
                         break;
                     case TypeCode.Char:
-                        ViewConfig(item.Name).AsTextBox().MaxLength(1).RegularExpression(RegularExpression.Letters);
+                        ViewConfig(item.Name).AsTextBox().MaxLength(1).RegularExpression(RegularExpression.Letters).Search(LINQ.Query.Operators.Contains);
                         break;
                     case TypeCode.DateTime:
-                        ViewConfig(item.Name).AsTextBox().FormatAsDate();
+                        ViewConfig(item.Name).AsTextBox().FormatAsDate().Search(LINQ.Query.Operators.Range);
                         break;
                     case TypeCode.UInt16:
                     case TypeCode.UInt32:
                     case TypeCode.UInt64:
-                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.PositiveIntegersAndZero);
+                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.PositiveIntegersAndZero).Search(LINQ.Query.Operators.Range);
                         break;
                     case TypeCode.SByte:
                     case TypeCode.Int16:
                     case TypeCode.Int32:
                     case TypeCode.Int64:
-                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.Integer);
+                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.Integer).Search(LINQ.Query.Operators.Range);
                         break;
                     case TypeCode.Object:
                         ViewConfig(item.Name).AsHidden().Ignore();
@@ -57,10 +57,10 @@ namespace Easy.MetaData
                     case TypeCode.Single:
                     case TypeCode.Double:
                     case TypeCode.Decimal:
-                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.Float);
+                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.Float).Search(LINQ.Query.Operators.Range);
                         break;
                     case TypeCode.String:
-                        ViewConfig(item.Name).AsTextBox().MaxLength(200);
+                        ViewConfig(item.Name).AsTextBox().MaxLength(200).Search(LINQ.Query.Operators.Contains);
                         break;
                         
                     case TypeCode.Byte:

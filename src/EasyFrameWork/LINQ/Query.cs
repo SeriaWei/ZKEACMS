@@ -9,6 +9,7 @@ namespace Easy.LINQ
     {
         public enum Operators
         {
+            None = 0,
             Equal = 1,
             GreaterThan = 2,
             GreaterThanOrEqual = 3,

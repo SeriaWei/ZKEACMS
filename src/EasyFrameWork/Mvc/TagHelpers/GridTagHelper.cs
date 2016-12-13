@@ -10,6 +10,7 @@ using System.Text;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using Easy.LINQ;
 
 namespace Easy.Mvc.TagHelpers
 {
@@ -18,8 +19,9 @@ namespace Easy.Mvc.TagHelpers
         private const string DefaultClass = "dataTable table table-striped table-bordered";
         private const string DefaultSourceAction = "GetList";
         public const string DefaultEditAction = "Edit";
-        private const string TableStructure = "<table class=\"{0}\" cellspacing=\"0\" width=\"100%\" data-source=\"{1}\"><thead><tr>{2}</tr></thead></table>";
-        private const string TableHeadStructure = "<th data-key=\"{0}\" data-template=\"{1}\" data-order=\"{2}\" data-option=\"{4}\">{3}</th>";
+        private const string TableStructure = "<table class=\"{0}\" cellspacing=\"0\" width=\"100%\" data-source=\"{1}\"><thead><tr>{2}</tr></thead><tfoot><tr class=\"search\">{3}</tr></tfoot></table>";
+        private const string TableHeadStructure = "<th data-key=\"{0}\" data-template=\"{1}\" data-order=\"{2}\" data-option=\"{4}\" data-search-operator=\"{5}\" data-data-type=\"{6}\">{3}</th>";
+        private const string TableSearchStructure = "<th></th>";
         public const string EditLinkTemplate = "<a href=\"{0}\">编辑</a>";
         public string Source { get; set; }
         public string Edit { get; set; }
@@ -50,7 +52,7 @@ namespace Easy.Mvc.TagHelpers
             }
             var viewConfig = ViewConfigureAttribute.GetAttribute(ModelType);
             StringBuilder tableHeaderBuilder = new StringBuilder();
-
+            StringBuilder tableSearchBuilder = new StringBuilder();
             if (viewConfig != null)
             {
                 var primaryKey = viewConfig.MetaData.Properties.Select(m => m.Value).FirstOrDefault(m => m.CustomAttributes.Any(attr => attr.AttributeType == typeof(KeyAttribute)));
@@ -68,7 +70,10 @@ namespace Easy.Mvc.TagHelpers
                         WebUtility.HtmlEncode(EditLinkTemplate.FormatWith(Edit + "?Id=" + placeholder)),
                         string.Empty,
                         "操作",
+                        string.Empty,
+                        Query.Operators.None,
                         string.Empty);
+                    tableSearchBuilder.Append(TableSearchStructure);
                 }
 
                 var columns = viewConfig.GetViewPortDescriptors(true)
@@ -90,12 +95,15 @@ namespace Easy.Mvc.TagHelpers
                             WebUtility.HtmlEncode(m.GridColumnTemplate),
                             OrderAsc == m.Name ? "asc" : OrderDesc == m.Name ? "desc" : "",
                             m.DisplayName,
-                            optionBuilder.Length == 0 ? string.Empty : WebUtility.HtmlEncode($"[{optionBuilder.ToString().Trim(',')}]"));
+                            optionBuilder.Length == 0 ? string.Empty : WebUtility.HtmlEncode($"[{optionBuilder.ToString().Trim(',')}]"),
+                            m.SearchOperator,
+                            m.DataType.Name);
+                        tableSearchBuilder.Append(TableSearchStructure);
                     });
             }
             output.TagName = "div";
             output.Attributes.Add("class", "container-fluid");
-            output.Content.SetHtmlContent(TableStructure.FormatWith(GridClass, Source, tableHeaderBuilder));
+            output.Content.SetHtmlContent(TableStructure.FormatWith(GridClass, Source, tableHeaderBuilder, tableSearchBuilder));
         }
     }
 }

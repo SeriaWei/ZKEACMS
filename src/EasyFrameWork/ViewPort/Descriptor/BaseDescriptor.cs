@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Easy.Extend;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Easy.LINQ;
 
 namespace Easy.ViewPort.Descriptor
 {
@@ -22,6 +23,7 @@ namespace Easy.ViewPort.Descriptor
             this.OrderIndex = 100;
             this.IsShowForEdit = true;
             this.IsShowForDisplay = true;
+            SearchOperator = Query.Operators.Equal;
         }
         #region Private
 
@@ -101,6 +103,7 @@ namespace Easy.ViewPort.Descriptor
 
         public bool IsHidden { get; set; }
         public bool IsShowInGrid { get; set; }
+        public Query.Operators SearchOperator { get; set; }
         public string GridColumnTemplate { get; set; }
         /// <summary>
         /// 显示模板
@@ -256,6 +259,11 @@ namespace Easy.ViewPort.Descriptor
         {
             this.IsShowInGrid = true;
             this.GridColumnTemplate = template;
+            return this as T;
+        }
+        public T Search(Query.Operators searchOperator)
+        {
+            this.SearchOperator = searchOperator;
             return this as T;
         }
         #endregion

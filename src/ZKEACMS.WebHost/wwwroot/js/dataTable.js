@@ -7,6 +7,8 @@
             var sort = $(this).data("order");
             var option = $(this).data("option");
             var key = $(this).data("key");
+            var searchOpeartor = $(this).data("search-operator");
+            var dataType = $(this).data("data-type");
             if (sort) {
                 order.push([i, sort]);
             }
@@ -21,10 +23,8 @@
                     meta.settings.columnSettings = meta.settings.columnSettings || {};
                     meta.settings.columnSettings[meta.col] = meta.settings.columnSettings[meta.col] || {};
                     var columnSetting = meta.settings.columnSettings[meta.col];
-                    columnSetting.searchAble = true;
-                    if (!key) {
-                        columnSetting.searchAble = false;
-                    }
+                    columnSetting.searchOpeartor = searchOpeartor;
+                    columnSetting.dataType = dataType;
                     if (option) {
                         columnSetting.option = option;
                         for (var i = 0; i < option.length; i++) {
@@ -51,6 +51,10 @@
             "serverSide": true,
             "ajax": {
                 "url": $(this).data("source"),
+                "data": function (data, setting, o) {
+                    debugger
+                    return data;
+                },
                 "type": "POST"
             },
             "columns": columns,
@@ -71,24 +75,25 @@
                 this.api().columns().every(function () {
                     var column = this;
                     var columnSetting = column.settings()[0].columnSettings[column[0][0]];
-                    if (columnSetting.searchAble) {
+                    if (columnSetting.searchOpeartor!="None") {
                         var option = columnSetting.option;
+                        
                         if (option) {
-                            var select = $('<select></select>');
+                            var select = $('<select class="form-control"></select>');
                             select.append("<option>-- 请选择 --</option>")
                             for (var i = 0; i < option.length; i++) {
                                 select.append("<option value=\"" + option[i].value + "\">" + option[i].name + "</option>")
                             }
 
-                            select.appendTo($(column.header()))
+                            select.appendTo($(column.footer()))
                             .on('change', function () {
                                 column
                                     .search($(this).val(), false, false)
                                     .draw();
                             });
                         } else {
-                            $('<input type="text">')
-                            .appendTo($(column.header()))
+                            $('<input class="form-control" type="text">')
+                            .appendTo($(column.footer()))
                             .on('keyup', function () {
                                 column
                                     .search($(this).val(), false, false)
