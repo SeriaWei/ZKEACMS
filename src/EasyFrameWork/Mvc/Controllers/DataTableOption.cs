@@ -36,22 +36,26 @@ namespace Easy.Mvc.Controllers
                 {
                     value = Search.Value;
                 }
-                if (value == null) continue;
+                if ((item.Search.Opeartor == Query.Operators.Range && item.Search.ValueMin.IsNullOrWhiteSpace() && item.Search.ValueMax.IsNullOrWhiteSpace()) ||
+                    (item.Search.Opeartor != Query.Operators.Range && value.IsNullOrWhiteSpace())) continue;
 
                 Query query = new Query();
                 query.Name = p.Name;
-                query.Value = Easy.Reflection.ClassAction.ValueConvert(p, value);
-                if (realType == typeof(string))
+                try
                 {
-                    query.Operator = Query.Operators.Contains;
+                    query.Value = Easy.Reflection.ClassAction.ValueConvert(p, value);
+                    query.ValueMin = Easy.Reflection.ClassAction.ValueConvert(p, item.Search.ValueMin);
+                    query.ValueMax = Easy.Reflection.ClassAction.ValueConvert(p, item.Search.ValueMax);
                 }
-                else
+                catch
                 {
-                    query.Operator = Query.Operators.GreaterThanOrEqual;
+                    continue;
                 }
+
+                query.Operator = item.Search.Opeartor;
                 queryCollection.Add(query);
             }
-            return queryCollection.AsExpression<T>();
+            return queryCollection.AsExpression<T>(Query.Condition.AndAlso);
         }
         public Func<T, object> GetOrderBy<T>()
         {
@@ -94,7 +98,10 @@ namespace Easy.Mvc.Controllers
     public class SearchOption
     {
         public string Value { get; set; }
+        public string ValueMin { get; set; }
+        public string ValueMax { get; set; }
         public bool Regex { get; set; }
+        public Query.Operators Opeartor { get; set; }
     }
     public class OrderOption
     {

@@ -432,3 +432,18 @@ a.badge:hover {
 .navbar-inverse .navbar-nav > li a:hover {
     background-color: #000;
 }
+.dataTable{
+    background-color:#fff;
+}
+.dataTable thead,
+.dataTable tfoot {
+    background-color: #fff;
+}
+
+.dataTable .search .input-group-addon {
+    border-left: none;
+    border-right: none;
+}
+.dataTable .search .form-control{
+    font-weight:normal;
+}

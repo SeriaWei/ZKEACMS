@@ -80,7 +80,7 @@ namespace ZKEACMS.Product.Models
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.ID).AsHidden();
-            ViewConfig(m => m.Title).AsTextBox().Required().Order(0).ShowInGrid();
+            ViewConfig(m => m.Title).AsTextBox().Required().Order(0).ShowInGrid().Search(Easy.LINQ.Query.Operators.Contains);
             ViewConfig(m => m.ImageUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
             ViewConfig(m => m.ImageThumbUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
             ViewConfig(m => m.BrandCD).AsHidden();

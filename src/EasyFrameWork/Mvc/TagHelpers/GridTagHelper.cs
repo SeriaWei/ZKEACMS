@@ -11,6 +11,7 @@ using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Easy.LINQ;
+using Easy.ViewPort.Descriptor;
 
 namespace Easy.Mvc.TagHelpers
 {
@@ -20,7 +21,7 @@ namespace Easy.Mvc.TagHelpers
         private const string DefaultSourceAction = "GetList";
         public const string DefaultEditAction = "Edit";
         private const string TableStructure = "<table class=\"{0}\" cellspacing=\"0\" width=\"100%\" data-source=\"{1}\"><thead><tr>{2}</tr></thead><tfoot><tr class=\"search\">{3}</tr></tfoot></table>";
-        private const string TableHeadStructure = "<th data-key=\"{0}\" data-template=\"{1}\" data-order=\"{2}\" data-option=\"{4}\" data-search-operator=\"{5}\" data-data-type=\"{6}\">{3}</th>";
+        private const string TableHeadStructure = "<th data-key=\"{0}\" data-template=\"{1}\" data-order=\"{2}\" data-option=\"{4}\" data-search-operator=\"{5}\" data-data-type=\"{6}\" data-format=\"{7}\">{3}</th>";
         private const string TableSearchStructure = "<th></th>";
         public const string EditLinkTemplate = "<a href=\"{0}\">编辑</a>";
         public string Source { get; set; }
@@ -72,6 +73,7 @@ namespace Easy.Mvc.TagHelpers
                         "操作",
                         string.Empty,
                         Query.Operators.None,
+                        string.Empty,
                         string.Empty);
                     tableSearchBuilder.Append(TableSearchStructure);
                 }
@@ -80,7 +82,7 @@ namespace Easy.Mvc.TagHelpers
                     .Where(m => m.IsShowInGrid)
                     .Each(m =>
                     {
-                        var dropDown = m as ViewPort.Descriptor.DropDownListDescriptor;
+                        var dropDown = m as DropDownListDescriptor;
                         StringBuilder optionBuilder = new StringBuilder();
                         if (dropDown != null)
                         {
@@ -97,7 +99,8 @@ namespace Easy.Mvc.TagHelpers
                             m.DisplayName,
                             optionBuilder.Length == 0 ? string.Empty : WebUtility.HtmlEncode($"[{optionBuilder.ToString().Trim(',')}]"),
                             m.SearchOperator,
-                            m.DataType.Name);
+                            m.DataType.Name,
+                            (m as TextBoxDescriptor)?.JavaScriptDateFormat);
                         tableSearchBuilder.Append(TableSearchStructure);
                     });
             }

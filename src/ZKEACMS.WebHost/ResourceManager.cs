@@ -58,7 +58,8 @@ namespace ZKEACMS.WebHost
                 .Include($"{ScriptPath}/dataTable.js", $"{ScriptPath}/dataTable.min.js");
 
             script("datepicker")
-                .Include($"{LibraryPath}/bootstrap-datepicker/dist/js/bootstrap-datepicker.js", $"{LibraryPath}/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js");
+                .Include($"{LibraryPath}/bootstrap-datepicker/dist/js/bootstrap-datepicker.js", $"{LibraryPath}/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js")
+                .Include($"{LibraryPath}/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)

@@ -20,6 +20,11 @@ namespace Easy.LINQ
             EndWidth = 8,
             Range = 9
         }
+        public enum Condition
+        {
+            OrElse = 1,
+            AndAlso = 2
+        }
         public string Name { get; set; }
         public Operators Operator { get; set; }
         public object Value { get; set; }
@@ -29,7 +34,7 @@ namespace Easy.LINQ
 
     public class QueryCollection : Collection<Query>
     {
-        public Expression<Func<T, bool>> AsExpression<T>() where T : class
+        public Expression<Func<T, bool>> AsExpression<T>(Query.Condition? condition = Query.Condition.OrElse) where T : class
         {
             Type targetType = typeof(T);
             TypeInfo typeInfo = targetType.GetTypeInfo();
@@ -41,63 +46,72 @@ namespace Easy.LINQ
                 {
                     return exp2;
                 }
-                return Expression.OrElse(exp1, exp2);
+                return (condition ?? Query.Condition.OrElse) == Query.Condition.OrElse ? Expression.OrElse(exp1, exp2) : Expression.AndAlso(exp1, exp2);
             };
             foreach (var item in this)
             {
                 var property = typeInfo.GetProperty(item.Name);
-                if (property == null || !property.CanRead || item.Value == null ||
-                (item.Operator == Query.Operators.Range && item.ValueMin == null && item.ValueMax == null))
+                if (property == null ||
+                    !property.CanRead ||
+                    (item.Operator != Query.Operators.Range && item.Value == null) ||
+                    (item.Operator == Query.Operators.Range && item.ValueMin == null && item.ValueMax == null))
                 {
                     continue;
                 }
                 Type realType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
-                var value = Convert.ChangeType(item.Value, realType);
                 switch (item.Operator)
                 {
                     case Query.Operators.Equal:
                         {
-                            expression = Append(expression, Expression.Equal(Expression.Property(parameter, item.Name), Expression.Constant(value, property.PropertyType)));
+                            expression = Append(expression, Expression.Equal(Expression.Property(parameter, item.Name), 
+                                Expression.Constant(Convert.ChangeType(item.Value, realType), property.PropertyType)));
                             break;
                         }
                     case Query.Operators.GreaterThan:
                         {
-                            expression = Append(expression, Expression.GreaterThan(Expression.Property(parameter, item.Name), Expression.Constant(value, property.PropertyType)));
+                            expression = Append(expression, Expression.GreaterThan(Expression.Property(parameter, item.Name), 
+                                Expression.Constant(Convert.ChangeType(item.Value, realType), property.PropertyType)));
                             break;
                         }
                     case Query.Operators.GreaterThanOrEqual:
                         {
-                            expression = Append(expression, Expression.GreaterThanOrEqual(Expression.Property(parameter, item.Name), Expression.Constant(value, property.PropertyType)));
+                            expression = Append(expression, Expression.GreaterThanOrEqual(Expression.Property(parameter, item.Name), 
+                                Expression.Constant(Convert.ChangeType(item.Value, realType), property.PropertyType)));
                             break;
                         }
                     case Query.Operators.LessThan:
                         {
-                            expression = Append(expression, Expression.LessThan(Expression.Property(parameter, item.Name), Expression.Constant(value, property.PropertyType)));
+                            expression = Append(expression, Expression.LessThan(Expression.Property(parameter, item.Name), 
+                                Expression.Constant(Convert.ChangeType(item.Value, realType), property.PropertyType)));
                             break;
                         }
                     case Query.Operators.LessThanOrEqual:
                         {
-                            expression = Append(expression, Expression.LessThanOrEqual(Expression.Property(parameter, item.Name), Expression.Constant(value, property.PropertyType)));
+                            expression = Append(expression, Expression.LessThanOrEqual(Expression.Property(parameter, item.Name), 
+                                Expression.Constant(Convert.ChangeType(item.Value, realType), property.PropertyType)));
                             break;
                         }
                     case Query.Operators.Contains:
                         {
                             var nullCheck = Expression.Not(Expression.Call(typeof(string), "IsNullOrEmpty", null, Expression.Property(parameter, item.Name)));
-                            var contains = Expression.Call(Expression.Property(parameter, item.Name), "Contains", null, Expression.Constant(value, property.PropertyType));
+                            var contains = Expression.Call(Expression.Property(parameter, item.Name), "Contains", null, 
+                                Expression.Constant(Convert.ChangeType(item.Value, realType), property.PropertyType));
                             expression = Append(expression, Expression.AndAlso(nullCheck, contains));
                             break;
                         }
                     case Query.Operators.StartWith:
                         {
                             var nullCheck = Expression.Not(Expression.Call(typeof(string), "IsNullOrEmpty", null, Expression.Property(parameter, item.Name)));
-                            var startsWith = Expression.Call(Expression.Property(parameter, item.Name), "StartsWith", null, Expression.Constant(value, property.PropertyType));
+                            var startsWith = Expression.Call(Expression.Property(parameter, item.Name), "StartsWith", null, 
+                                Expression.Constant(Convert.ChangeType(item.Value, realType), property.PropertyType));
                             expression = Append(expression, Expression.AndAlso(nullCheck, startsWith));
                             break;
                         }
                     case Query.Operators.EndWidth:
                         {
                             var nullCheck = Expression.Not(Expression.Call(typeof(string), "IsNullOrEmpty", null, Expression.Property(parameter, item.Name)));
-                            var endsWith = Expression.Call(Expression.Property(parameter, item.Name), "EndsWith", null, Expression.Constant(value, property.PropertyType));
+                            var endsWith = Expression.Call(Expression.Property(parameter, item.Name), "EndsWith", null, 
+                                Expression.Constant(Convert.ChangeType(item.Value, realType), property.PropertyType));
                             expression = Append(expression, Expression.AndAlso(nullCheck, endsWith));
                             break;
                         }

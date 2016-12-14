@@ -9,6 +9,7 @@
             var key = $(this).data("key");
             var searchOpeartor = $(this).data("search-operator");
             var dataType = $(this).data("data-type");
+            var format = $(this).data("format");
             if (sort) {
                 order.push([i, sort]);
             }
@@ -25,6 +26,7 @@
                     var columnSetting = meta.settings.columnSettings[meta.col];
                     columnSetting.searchOpeartor = searchOpeartor;
                     columnSetting.dataType = dataType;
+                    columnSetting.format = format;
                     if (option) {
                         columnSetting.option = option;
                         for (var i = 0; i < option.length; i++) {
@@ -51,8 +53,13 @@
             "serverSide": true,
             "ajax": {
                 "url": $(this).data("source"),
-                "data": function (data, setting, o) {
-                    debugger
+                "data": function (data, setting) {
+                    for (var i = 0; i < data.columns.length; i++) {
+                        $("tr.search>th:eq(" + i + ")", $("#" + setting.sTableId)).find(".form-control").each(function () {
+                            data.columns[i].search[$(this).attr("name")] = $(this).val();
+                            data.columns[i].search["opeartor"] = $(this).data("opeartor");
+                        });
+                    }
                     return data;
                 },
                 "type": "POST"
@@ -75,33 +82,56 @@
                 this.api().columns().every(function () {
                     var column = this;
                     var columnSetting = column.settings()[0].columnSettings[column[0][0]];
-                    if (columnSetting.searchOpeartor!="None") {
+                    if (columnSetting.searchOpeartor != "None") {
                         var option = columnSetting.option;
-                        
+
                         if (option) {
-                            var select = $('<select class="form-control"></select>');
-                            select.append("<option>-- 请选择 --</option>")
+                            var select = $('<select class="form-control" name="value"></select>');
+                            select.data("opeartor", columnSetting.searchOpeartor).data("data-type", columnSetting.dataType);
+                            select.append("<option value=\"\">-- 请选择 --</option>")
                             for (var i = 0; i < option.length; i++) {
                                 select.append("<option value=\"" + option[i].value + "\">" + option[i].name + "</option>")
                             }
-
-                            select.appendTo($(column.footer()))
-                            .on('change', function () {
-                                column
-                                    .search($(this).val(), false, false)
-                                    .draw();
-                            });
+                            select.appendTo($(column.footer()));
                         } else {
-                            $('<input class="form-control" type="text">')
-                            .appendTo($(column.footer()))
-                            .on('keyup', function () {
-                                column
-                                    .search($(this).val(), false, false)
-                                    .draw();
-                            });
+                            if (columnSetting.searchOpeartor == "Range") {
+                                var rangeInput = $('<div class="input-group"><input name="valueMin" class="form-control min" type="text" placeholder="最小值"><div class="input-group-addon">-</div><input name="valueMax" class="form-control max" type="text" placeholder="最大值"></div>');
+                                $(".min", rangeInput).data("opeartor", columnSetting.searchOpeartor).data("data-type", columnSetting.dataType);
+                                $(".max", rangeInput).data("opeartor", columnSetting.searchOpeartor).data("data-type", columnSetting.dataType);
+                                rangeInput.appendTo($(column.footer()));
+                            } else {
+                                $('<input class="form-control" type="text" name="value" placeholder="输入搜索..."/>')
+                                    .data("opeartor", columnSetting.searchOpeartor)
+                                    .data("data-type", columnSetting.dataType)
+                                    .appendTo($(column.footer()))
+                            }
+                            if (columnSetting.dataType == "DateTime") {
+                                $(column.footer()).find(".form-control").datepicker({
+                                    language: "zh-CN",
+                                    format: "yyyy/mm/dd" //columnSetting.format
+                                });
+                            }
                         }
                     }
                 });
+            }
+        }).on("keyup change", function (e) {
+            if (e.type == "change" || (e.type == "keyup" && e.keyCode == 13)) {
+                var valid = true;
+                $("tr.search>th .form-control", this).each(function () {
+                    if (valid) {
+                        var dataType = $(this).data("data-type");
+                        if (dataType == "DateTime" && $(this).val()) {
+                            if (!Date.parse($(this).val())) {
+                                valid = false;
+                            }
+                        }
+                    }
+                });
+                if (valid) {
+                    $(this).DataTable().draw();
+                }
+
             }
         });
     });

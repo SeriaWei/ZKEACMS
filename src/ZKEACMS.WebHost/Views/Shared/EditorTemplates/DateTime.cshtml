@@ -1,5 +1,6 @@
 ﻿@model DateTime?
 @{
     var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
+    string dateFormat = (descriptor as Easy.ViewPort.Descriptor.TextBoxDescriptor)?.DateFormat;
 }
-@Html.TextBox("", Model, descriptor.ToHtmlProperties())
+@Html.TextBox("", Model?.ToString(dateFormat ?? "yyyy/MM/dd"), descriptor.ToHtmlProperties())

@@ -74,13 +74,13 @@ namespace Easy.MetaData
             {
                 ViewConfig("CreateBy").AsHidden();
                 ViewConfig("CreatebyName").AsTextBox().Hide().ShowInGrid();
-                ViewConfig("CreateDate").AsTextBox().Hide().FormatAsDateTime().ShowInGrid();
+                ViewConfig("CreateDate").AsTextBox().Hide().FormatAsDateTime().ShowInGrid().Search(LINQ.Query.Operators.Range);
 
                 ViewConfig("LastUpdateBy").AsHidden();
                 ViewConfig("LastUpdateByName").AsTextBox().Hide().ShowInGrid();
-                ViewConfig("LastUpdateDate").AsTextBox().Hide().FormatAsDateTime().ShowInGrid();
+                ViewConfig("LastUpdateDate").AsTextBox().Hide().FormatAsDateTime().ShowInGrid().Search(LINQ.Query.Operators.Range);
                 ViewConfig("ActionType").AsHidden().AddClass("ActionType");
-                ViewConfig("Title").AsTextBox().Order(1).ShowInGrid();
+                ViewConfig("Title").AsTextBox().Order(1).ShowInGrid().Search(LINQ.Query.Operators.Contains);
                 ViewConfig("Description").AsTextArea().Order(101);
                 ViewConfig("Status").AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary).ShowInGrid();
               

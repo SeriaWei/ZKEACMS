@@ -122,7 +122,7 @@ $(function () {
 
 
     $(".Date").each(function () {
-        $(this).datepicker({ locale: "zh_cn", format: $(this).attr("JsDateFormat") });
+        $(this).datepicker({ language: "zh-CN", format: $(this).attr("JsDateFormat") });
     });
     $(document).on("click", ".nav.nav-tabs a", function () {
         $(this).tab('show');
