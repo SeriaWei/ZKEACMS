@@ -47,7 +47,7 @@ namespace ZKEACMS.Article.Models
             ViewConfig(m => m.ArticleTypeID).AsDropDownList().DataSource(ViewDataKeys.ArticleCategory, SourceType.ViewData).Required();
             ViewConfig(m => m.ArticleContent).AsTextArea().AddClass(StringKeys.HtmlEditorClass);
             ViewConfig(m => m.PublishDate).AsTextBox().Hide();
-            ViewConfig(m => m.IsPublish).AsTextBox().Hide();
+            ViewConfig(m => m.IsPublish).AsTextBox().Hide().ShowInGrid();
         }
     }
 

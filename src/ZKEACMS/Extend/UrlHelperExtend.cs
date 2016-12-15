@@ -21,9 +21,7 @@ namespace ZKEACMS
 
         public static string AddQueryToCurrentUrl(this IUrlHelper helper, string name, string value)
         {
-            var query = QueryHelpers.ParseQuery(helper.ActionContext.HttpContext.Request.Path.Value);
-            query[name] = value;
-            return "{0}?{1}".FormatWith(helper.ActionContext.HttpContext.Request.PathBase.Value, query);
+            return QueryHelpers.AddQueryString(helper.ActionContext.HttpContext.Request.Path, name, value);
         }
     }
 }

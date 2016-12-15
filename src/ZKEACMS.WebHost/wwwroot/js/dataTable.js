@@ -20,24 +20,25 @@
             columns.push({
                 "data": key,
                 "render": function (data, type, full, meta) {
-                    var dataIn = data;
                     meta.settings.columnSettings = meta.settings.columnSettings || {};
                     meta.settings.columnSettings[meta.col] = meta.settings.columnSettings[meta.col] || {};
                     var columnSetting = meta.settings.columnSettings[meta.col];
                     columnSetting.searchOpeartor = searchOpeartor;
                     columnSetting.dataType = dataType;
                     columnSetting.format = format;
-                    if (option) {
+
+                    if (option && data != null) {
+                        var dataIn = data.toString();
                         columnSetting.option = option;
                         for (var i = 0; i < option.length; i++) {
-                            if (option[i].value == data) {
-                                dataIn = option[i].name;
+                            if (option[i].value == dataIn) {
+                                data = option[i].name;
                                 break;
                             }
                         }
                     }
                     if (!template) {
-                        return dataIn;
+                        return data;
                     }
                     var result;
                     for (var p in full) {
@@ -51,6 +52,7 @@
         $(this).DataTable({
             "processing": true,
             "serverSide": true,
+            "filter": false,
             "ajax": {
                 "url": $(this).data("source"),
                 "data": function (data, setting) {
@@ -84,34 +86,34 @@
                     var columnSetting = column.settings()[0].columnSettings[column[0][0]];
                     if (columnSetting.searchOpeartor != "None") {
                         var option = columnSetting.option;
-
+                        var searchInput = null;
                         if (option) {
-                            var select = $('<select class="form-control" name="value"></select>');
-                            select.data("opeartor", columnSetting.searchOpeartor).data("data-type", columnSetting.dataType);
-                            select.append("<option value=\"\">-- 请选择 --</option>")
+                            searchInput = $('<select class="form-control" name="value"></select>');
+                            searchInput.data("opeartor", columnSetting.searchOpeartor).data("data-type", columnSetting.dataType);
+                            searchInput.append("<option value=\"\">-- 请选择 --</option>")
                             for (var i = 0; i < option.length; i++) {
-                                select.append("<option value=\"" + option[i].value + "\">" + option[i].name + "</option>")
+                                searchInput.append("<option value=\"" + option[i].value + "\">" + option[i].name + "</option>")
                             }
-                            select.appendTo($(column.footer()));
+
                         } else {
                             if (columnSetting.searchOpeartor == "Range") {
-                                var rangeInput = $('<div class="input-group"><input name="valueMin" class="form-control min" type="text" placeholder="最小值"><div class="input-group-addon">-</div><input name="valueMax" class="form-control max" type="text" placeholder="最大值"></div>');
-                                $(".min", rangeInput).data("opeartor", columnSetting.searchOpeartor).data("data-type", columnSetting.dataType);
-                                $(".max", rangeInput).data("opeartor", columnSetting.searchOpeartor).data("data-type", columnSetting.dataType);
-                                rangeInput.appendTo($(column.footer()));
+                                searchInput = $('<div class="input-group"><input name="valueMin" class="form-control min" type="text" placeholder="最小值"><div class="input-group-addon">-</div><input name="valueMax" class="form-control max" type="text" placeholder="最大值"></div>');
+                                $(".min", searchInput).data("opeartor", columnSetting.searchOpeartor).data("data-type", columnSetting.dataType);
+                                $(".max", searchInput).data("opeartor", columnSetting.searchOpeartor).data("data-type", columnSetting.dataType);
+
                             } else {
-                                $('<input class="form-control" type="text" name="value" placeholder="输入搜索..."/>')
-                                    .data("opeartor", columnSetting.searchOpeartor)
-                                    .data("data-type", columnSetting.dataType)
-                                    .appendTo($(column.footer()))
-                            }
-                            if (columnSetting.dataType == "DateTime") {
-                                $(column.footer()).find(".form-control").datepicker({
-                                    language: "zh-CN",
-                                    format: "yyyy/mm/dd" //columnSetting.format
-                                });
+                                searchInput = $('<input class="form-control" type="text" name="value" placeholder="输入搜索..."/>');
+                                searchInput.data("opeartor", columnSetting.searchOpeartor)
+                                searchInput.data("data-type", columnSetting.dataType);
                             }
                         }
+                        if (columnSetting.dataType == "DateTime") {
+                            searchInput.find(".form-control").datepicker({
+                                language: "zh-CN",
+                                format: "yyyy/mm/dd" //columnSetting.format
+                            });
+                        }
+                        searchInput.appendTo($(column.footer()));
                     }
                 });
             }

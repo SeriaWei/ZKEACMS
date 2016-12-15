@@ -23,7 +23,8 @@ namespace Easy.Mvc.TagHelpers
         private const string TableStructure = "<table class=\"{0}\" cellspacing=\"0\" width=\"100%\" data-source=\"{1}\"><thead><tr>{2}</tr></thead><tfoot><tr class=\"search\">{3}</tr></tfoot></table>";
         private const string TableHeadStructure = "<th data-key=\"{0}\" data-template=\"{1}\" data-order=\"{2}\" data-option=\"{4}\" data-search-operator=\"{5}\" data-data-type=\"{6}\" data-format=\"{7}\">{3}</th>";
         private const string TableSearchStructure = "<th></th>";
-        public const string EditLinkTemplate = "<a href=\"{0}\">编辑</a>";
+        public const string EditLinkTemplate = "<a href=\"{0}\"><img src=\"/images/icons/edit.png\" title=\"编辑\"/></a>";
+
         public string Source { get; set; }
         public string Edit { get; set; }
         public string GridClass { get; set; }
@@ -43,10 +44,6 @@ namespace Easy.Mvc.TagHelpers
             {
                 GridClass = DefaultClass;
             }
-            if (Edit.IsNullOrWhiteSpace())
-            {
-                Edit = Url.Action(DefaultEditAction);
-            }
             if (ModelType == null)
             {
                 ModelType = ViewContext.ViewData.ModelMetadata.ModelType;
@@ -65,10 +62,14 @@ namespace Easy.Mvc.TagHelpers
                     {
                         name = name.ToLower();
                     }
-                    string placeholder = "{" + name + "}";
+
+                    if (Edit.IsNullOrWhiteSpace())
+                    {
+                        Edit = Url.Action(DefaultEditAction) + "?Id=" + "{" + name + "}";
+                    }
                     tableHeaderBuilder.AppendFormat(TableHeadStructure,
                         string.Empty,
-                        WebUtility.HtmlEncode(EditLinkTemplate.FormatWith(Edit + "?Id=" + placeholder)),
+                        WebUtility.HtmlEncode(EditLinkTemplate.FormatWith(Edit)),
                         string.Empty,
                         "操作",
                         string.Empty,
@@ -91,7 +92,11 @@ namespace Easy.Mvc.TagHelpers
                                 optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", item.Value, item.Key);
                             }
                         }
-
+                        else if (m.DataType == typeof(bool) || m.DataType == typeof(bool?))
+                        {
+                            optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", "是", "true");
+                            optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", "否", "false");
+                        }
                         tableHeaderBuilder.AppendFormat(TableHeadStructure,
                             m.Name.FirstCharToLowerCase(),
                             WebUtility.HtmlEncode(m.GridColumnTemplate),

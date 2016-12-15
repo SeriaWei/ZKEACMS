@@ -92,7 +92,7 @@ namespace ZKEACMS.Product.Models
             ViewConfig(m => m.PurchasePrice).AsHidden();
             ViewConfig(m => m.ProductContent).AsTextArea().AddClass("html");
             ViewConfig(m => m.Description).AsTextArea();
-            ViewConfig(m => m.IsPublish).AsTextBox().Hide();
+            ViewConfig(m => m.IsPublish).AsTextBox().Hide().ShowInGrid();
         }
     }
 
