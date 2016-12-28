@@ -92,12 +92,15 @@ ALTER TABLE [dbo].[SectionContentVideo] DROP CONSTRAINT [FK_SectionContentVideo_
 
 ALTER TABLE [dbo].[SectionContent] DROP CONSTRAINT [PK_SectionContent]
 GO
-
 ALTER table dbo.SectionContent ADD IDStr NVARCHAR(100)
+GO
 UPDATE dbo.SectionContent SET [IDStr]=[ID]
+GO
 ALTER TABLE dbo.SectionContent DROP COLUMN [ID]
 ALTER TABLE dbo.SectionContent ADD [ID] NVARCHAR(100)
+GO
 UPDATE dbo.SectionContent SET [ID]=[IDStr]
+GO
 ALTER TABLE dbo.SectionContent DROP COLUMN [IDStr]
 GO
 ALTER TABLE dbo.SectionContentCallToAction alter column [ID] NVARCHAR(100)
@@ -112,7 +115,7 @@ ALTER TABLE dbo.SectionContentImage ALTER COLUMN ID  NVARCHAR(100) NOT NULL
 ALTER TABLE dbo.SectionContentParagraph ALTER COLUMN ID  NVARCHAR(100) NOT NULL
 ALTER TABLE dbo.SectionContentTitle ALTER COLUMN ID  NVARCHAR(100) NOT NULL
 ALTER TABLE dbo.SectionContentVideo ALTER COLUMN ID  NVARCHAR(100) NOT NULL
-
+GO
 ALTER TABLE dbo.SectionContent ADD CONSTRAINT PK_SectionContent PRIMARY KEY(ID)
 ALTER TABLE dbo.SectionContentCallToAction ADD CONSTRAINT PK_SectionContentCallToAction PRIMARY KEY(ID)
 ALTER TABLE dbo.SectionContentImage ADD CONSTRAINT PK_SectionContentImage PRIMARY KEY(ID)
@@ -120,17 +123,18 @@ ALTER TABLE dbo.SectionContentParagraph ADD CONSTRAINT PK_SectionContentParagrap
 ALTER TABLE dbo.SectionContentTitle ADD CONSTRAINT PK_SectionContentTitle PRIMARY KEY(ID)
 ALTER TABLE dbo.SectionContentVideo ADD CONSTRAINT PK_SectionContentVideo PRIMARY KEY(ID)
 GO
-ALTER table dbo.SectionContent ADD IDStr NVARCHAR(100)
-GO
 
 ALTER TABLE [dbo].[SectionContent] DROP CONSTRAINT [FK_SectionContent_SectionGroup]
 ALTER TABLE [dbo].[SectionGroup] DROP CONSTRAINT [PK_SectionGroup]
 
 GO
 ALTER table dbo.SectionGroup ADD [IDStr] NVARCHAR(100)
+GO
 UPDATE dbo.SectionGroup SET [IDStr]=ID
+GO
 ALTER TABLE dbo.SectionGroup DROP COLUMN [ID]
 ALTER TABLE dbo.SectionGroup ADD [ID] NVARCHAR(100)
+GO
 UPDATE dbo.SectionGroup SET ID=[IDStr]
 ALTER TABLE dbo.SectionGroup DROP COLUMN [IDStr]
 GO
@@ -139,7 +143,7 @@ ALTER TABLE dbo.SectionContent ALTER COLUMN SectionGroupId  NVARCHAR(100) NOT NU
 GO
 
 ALTER TABLE dbo.SectionGroup ADD CONSTRAINT PK_SectionGroup PRIMARY KEY(ID)
-
+GO
 ------------------------------------------------------------------------------------------------------------
 UPDATE dbo.CMS_WidgetTemplate SET AssemblyName=N'ZKEACMS.SectionWidget',ServiceTypeName=N'ZKEACMS.SectionWidget.Service.SectionWidgetService',ViewModelTypeName=N'ZKEACMS.SectionWidget.Models.SectionWidget' WHERE AssemblyName=N'Easy.CMS.Section'
 GO

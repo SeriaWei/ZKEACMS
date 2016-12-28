@@ -4,7 +4,7 @@ set server=(local)
 set dataBase=ZKEACMS
 set dbUserId=sa
 set dbPassword=sa
-set dbPath=E:\GitHub\ZKEACMS.Core\App_Data
+set dbPath=D:\Projects\ZKEACMS.Core\App_Data
 @echo -----------------------------------------------------------------------------
 @echo *** ª∂”≠ π”√ ZKEACMS ***
 @echo -----------------------------------------------------------------------------
