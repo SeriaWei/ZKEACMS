@@ -440,8 +440,26 @@ a.badge:hover {
     background-color: #fff;
 }
 
-.dataTable .search .form-control{
+.dataTable .input-group-addon{
+    cursor:pointer;
+}
+.dataTable .form-control{
     font-weight:normal;
+}
+.dataTable .range-search{
+    position:relative;
+}
+.dataTable .range-search input.max{
+    display:none;
+    position: absolute;
+    left: 0;
+    bottom: -101%;
+    width: 100%;
+    z-index: 2;
+}
+
+.dataTable .range-search input.max.show{
+    display:block;
 }
 div.dataTables_wrapper div.dataTables_processing {
     text-indent: -5000px;

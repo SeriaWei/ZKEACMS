@@ -46,6 +46,11 @@ namespace Easy.Mvc.Controllers
                     query.Value = Easy.Reflection.ClassAction.ValueConvert(p, value);
                     query.ValueMin = Easy.Reflection.ClassAction.ValueConvert(p, item.Search.ValueMin);
                     query.ValueMax = Easy.Reflection.ClassAction.ValueConvert(p, item.Search.ValueMax);
+
+                    if(query.ValueMax!=null && query.ValueMax is DateTime)
+                    {
+                        query.ValueMax = ((DateTime)query.ValueMax).AddDays(1).AddMilliseconds(-1);
+                    }
                 }
                 catch
                 {

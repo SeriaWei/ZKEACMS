@@ -1724,7 +1724,7 @@
           }
         }
       },
-      "System.Interactive.Async/3.1.0": {
+      "System.Interactive.Async/3.1.1": {
         "type": "package",
         "dependencies": {
           "NETStandard.Library": "1.6.0"
@@ -2869,18 +2869,18 @@
           "lib/netstandard1.3/System.Xml.XmlDocument.dll": {}
         }
       },
-      "System.Xml.XPath/4.0.1": {
+      "System.Xml.XPath/4.3.0": {
         "type": "package",
         "dependencies": {
-          "System.Collections": "4.0.11",
-          "System.Diagnostics.Debug": "4.0.11",
-          "System.Globalization": "4.0.11",
-          "System.IO": "4.1.0",
-          "System.Resources.ResourceManager": "4.0.1",
-          "System.Runtime": "4.1.0",
-          "System.Runtime.Extensions": "4.1.0",
-          "System.Threading": "4.0.11",
-          "System.Xml.ReaderWriter": "4.0.11"
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Debug": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Xml.ReaderWriter": "4.3.0"
         },
         "compile": {
           "ref/netstandard1.3/System.Xml.XPath.dll": {}
@@ -2909,25 +2909,25 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "system.xml.xpath.xmldocument/4.0.0": {
+      "System.Xml.XPath.XmlDocument/4.3.0": {
         "type": "package",
         "dependencies": {
-          "System.Collections": "4.0.10",
-          "System.Globalization": "4.0.10",
-          "System.IO": "4.0.10",
-          "System.Resources.ResourceManager": "4.0.0",
-          "System.Runtime": "4.0.20",
-          "System.Runtime.Extensions": "4.0.10",
-          "System.Threading": "4.0.10",
-          "System.Xml.ReaderWriter": "4.0.10",
-          "System.Xml.XPath": "4.0.0",
-          "System.Xml.XmlDocument": "4.0.0"
+          "System.Collections": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Xml.ReaderWriter": "4.3.0",
+          "System.Xml.XPath": "4.3.0",
+          "System.Xml.XmlDocument": "4.3.0"
         },
         "compile": {
-          "ref/dotnet/System.Xml.XPath.XmlDocument.dll": {}
+          "ref/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
         },
         "runtime": {
-          "lib/dotnet/System.Xml.XPath.XmlDocument.dll": {}
+          "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
         }
       },
       "EasyFrameWork/1.0.0": {
@@ -2950,7 +2950,7 @@
           "System.Collections.Concurrent": "4.3.0",
           "System.Collections.Immutable": "1.3.0",
           "System.ComponentModel.Annotations": "4.3.0",
-          "System.Interactive.Async": "3.1.0",
+          "System.Interactive.Async": "3.1.1",
           "System.Linq.Queryable": "4.3.0",
           "System.ObjectModel": "4.3.0",
           "System.Reflection.Extensions": "4.3.0",
@@ -5324,12 +5324,12 @@
         "runtimes/win/lib/netstandard1.3/System.Globalization.Extensions.dll"
       ]
     },
-    "System.Interactive.Async/3.1.0": {
-      "sha512": "uvyDO6bJ6OMA7774OwX5RtcSpZJJ1wU22pD64zY8v4sg6UHO/IUQXNU0kn8E9QEGRiex+x92Vy5+vTNphut+rg==",
+    "System.Interactive.Async/3.1.1": {
+      "sha512": "hZccYiIE5RS1/J9Tb/BNtosAGVggdlsJm4Ojdu+gDV0p4AIi+LUfUogMKkRacljQEJd2AG6vYzvcjhQFkqoZmw==",
       "type": "package",
-      "path": "System.Interactive.Async/3.1.0",
+      "path": "System.Interactive.Async/3.1.1",
       "files": [
-        "System.Interactive.Async.3.1.0.nupkg.sha512",
+        "System.Interactive.Async.3.1.1.nupkg.sha512",
         "System.Interactive.Async.nuspec",
         "lib/net45/System.Interactive.Async.dll",
         "lib/net45/System.Interactive.Async.xml",
@@ -8256,12 +8256,12 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "System.Xml.XPath/4.0.1": {
-      "sha512": "UWd1H+1IJ9Wlq5nognZ/XJdyj8qPE4XufBUkAW59ijsCPjZkZe0MUzKKJFBr+ZWBe5Wq1u1d5f2CYgE93uH7DA==",
+    "System.Xml.XPath/4.3.0": {
+      "sha512": "v1JQ5SETnQusqmS3RwStF7vwQ3L02imIzl++sewmt23VGygix04pEH+FCj1yWb+z4GDzKiljr1W7Wfvrx0YwgA==",
       "type": "package",
-      "path": "System.Xml.XPath/4.0.1",
+      "path": "System.Xml.XPath/4.3.0",
       "files": [
-        "System.Xml.XPath.4.0.1.nupkg.sha512",
+        "System.Xml.XPath.4.3.0.nupkg.sha512",
         "System.Xml.XPath.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
@@ -8330,33 +8330,40 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "system.xml.xpath.xmldocument/4.0.0": {
-      "sha512": "toGFsezsdAJ3Fkau0l386iGBg3qfYauQrM4haX1nWPYnUOWb0hXfAEVIi47/Ke4ET3gl9h9ZppKiws8QWeJVyQ==",
+    "System.Xml.XPath.XmlDocument/4.3.0": {
+      "sha512": "A/uxsWi/Ifzkmd4ArTLISMbfFs6XpRPsXZonrIqyTY70xi8t+mDtvSM5Os0RqyRDobjMBwIDHDL4NOIbkDwf7A==",
       "type": "package",
-      "path": "system.xml.xpath.xmldocument/4.0.0",
+      "path": "System.Xml.XPath.XmlDocument/4.3.0",
       "files": [
+        "System.Xml.XPath.XmlDocument.4.3.0.nupkg.sha512",
+        "System.Xml.XPath.XmlDocument.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
         "lib/MonoTouch10/_._",
-        "lib/dotnet/System.Xml.XPath.XmlDocument.dll",
+        "lib/net46/System.Xml.XPath.XmlDocument.dll",
+        "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll",
         "lib/xamarinios10/_._",
         "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
         "ref/MonoAndroid10/_._",
         "ref/MonoTouch10/_._",
-        "ref/dotnet/System.Xml.XPath.XmlDocument.dll",
-        "ref/dotnet/System.Xml.XPath.XmlDocument.xml",
-        "ref/dotnet/de/System.Xml.XPath.XmlDocument.xml",
-        "ref/dotnet/es/System.Xml.XPath.XmlDocument.xml",
-        "ref/dotnet/fr/System.Xml.XPath.XmlDocument.xml",
-        "ref/dotnet/it/System.Xml.XPath.XmlDocument.xml",
-        "ref/dotnet/ja/System.Xml.XPath.XmlDocument.xml",
-        "ref/dotnet/ko/System.Xml.XPath.XmlDocument.xml",
-        "ref/dotnet/ru/System.Xml.XPath.XmlDocument.xml",
-        "ref/dotnet/zh-hans/System.Xml.XPath.XmlDocument.xml",
-        "ref/dotnet/zh-hant/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/System.Xml.XPath.XmlDocument.dll",
+        "ref/netstandard1.3/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/de/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/es/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/fr/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/it/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/ja/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/ko/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/ru/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/zh-hans/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/zh-hant/System.Xml.XPath.XmlDocument.xml",
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
-        "system.xml.xpath.xmldocument.4.0.0.nupkg.sha512",
-        "system.xml.xpath.xmldocument.nuspec"
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "EasyFrameWork/1.0.0": {
@@ -8375,8 +8382,8 @@
       "Microsoft.AspNetCore.Mvc >= 1.1.0",
       "NETStandard.Library >= 1.6.1",
       "System.Linq.Parallel >= 4.3.0",
-      "ZKEACMS >= 1.0.0-*",
-      "system.xml.xpath.xmldocument >= 4.0.0"
+      "System.Xml.XPath.XmlDocument >= 4.3.0",
+      "ZKEACMS >= 1.0.0-*"
     ],
     ".NETStandard,Version=v1.6": []
   },
