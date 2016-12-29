@@ -440,10 +440,12 @@ a.badge:hover {
     background-color: #fff;
 }
 
-.dataTable .search .input-group-addon {
-    border-left: none;
-    border-right: none;
-}
 .dataTable .search .form-control{
     font-weight:normal;
+}
+div.dataTables_wrapper div.dataTables_processing {
+    text-indent: -5000px;
+    background:#fff url('../js/easyplug/css/images/loader.gif') center center no-repeat;
+    width:50px;
+    margin-left:-25px;
 }
