@@ -85,7 +85,7 @@
         var styleTarget = $(this).closest(".widget").parent();
         styleTarget.toggleClass("custom-style-target");
         window.top.Easy.ShowUrlWindow({
-            url: '/Modules/Common/Scripts/StyleEditor/index.html',
+            url: '/js/StyleEditor/index.html',
             width: 1024,
             title: "编辑样式",
             onLoad: function (box) {
@@ -101,7 +101,7 @@
             },
             isDialog: false
         });
-
+        $(".WeiWindow.BoxShadow").addClass("StyleEditor");
     }).on("click", ".copy-widget", function() {
         $.post($(this).data("action"), function (data) {
             Easy.MessageTip.Show(data.Message);

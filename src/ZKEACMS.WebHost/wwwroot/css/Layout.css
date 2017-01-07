@@ -606,3 +606,11 @@ li.ui-sortable-helper {
 .widget{
     transition:all .3s linear;
 }
+
+.WeiWindow.StyleEditor{
+    left:0 !important;
+    top:0 !important;
+    width:300px !important;
+    height:100% !important;
+    z-index:11 !important;
+}

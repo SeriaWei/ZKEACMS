@@ -28,5 +28,11 @@
     "inputFiles": [
       "wwwroot/js/dataTable.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/StyleEditor/Content/main.min.css",
+    "inputFiles": [
+      "wwwroot/js/StyleEditor/Content/main.css"
+    ]
   }
 ]

@@ -1,3 +1,25 @@
+html::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        html::-webkit-scrollbar-corner,
+        html::-webkit-scrollbar-thumb:window-inactive {
+            background: rgba(100,100,100,0.4);
+        }
+
+        html::-webkit-scrollbar-thumb {
+            border-radius: 1em;
+            background-color: rgba(50,50,50,0.3);
+        }
+
+        html::-webkit-scrollbar-thumb {
+            background: rgba(100,100,100,0.8);
+        }
+
+        html::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        }
+
 .editor-main {
     padding-top: 10px;
     padding-bottom: 10px;
