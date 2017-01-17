@@ -453,9 +453,10 @@ a.badge:hover {
     display:none;
     position: absolute;
     left: 0;
-    bottom: -101%;
+    bottom: -100%;
     width: 100%;
     z-index: 2;
+    margin-bottom:-2px;
 }
 
 .dataTable .range-search input.max.show{

@@ -97,7 +97,7 @@
 
                         } else {
                             if (columnSetting.searchOpeartor == "Range") {
-                                searchInput = $('<div class="range-search"><div class="input-group"><input name="valueMin" class="form-control min" type="text" placeholder="最小值"><div class="input-group-addon">-</div></div><input name="valueMax" class="form-control max" type="text" placeholder="最大值"></div>');
+                                searchInput = $('<div class="range-search"><div class="input-group"><input name="valueMin" class="form-control min" type="text" placeholder="大于"><div class="input-group-addon">-</div></div><input name="valueMax" class="form-control max" type="text" placeholder="小于"></div>');
                                 $(".min", searchInput).data("opeartor", columnSetting.searchOpeartor).data("data-type", columnSetting.dataType);
                                 $(".max", searchInput).data("opeartor", columnSetting.searchOpeartor).data("data-type", columnSetting.dataType);
 
@@ -114,6 +114,8 @@
                             });
                         }
                         searchInput.appendTo($(column.footer()));
+                    } else {
+                        $('<a href="javascript:void(0)" class="reset-search glyphicon glyphicon-repeat"></a>').appendTo($(column.footer()));
                     }
                 });
             }
@@ -137,6 +139,11 @@
             }
         }).on("click", ".range-search .input-group-addon", function () {
             $(this).closest(".range-search").find("input.max").toggleClass("show");
+        }).on("click", ".reset-search", function () {
+            $(".form-control", $(this).closest(".search")).each(function () {
+                $(this).val("");
+            }).first().trigger("change");
+
         });
     });
 });

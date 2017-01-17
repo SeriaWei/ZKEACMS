@@ -23,7 +23,7 @@ namespace Easy.Mvc.TagHelpers
         private const string TableStructure = "<table class=\"{0}\" cellspacing=\"0\" width=\"100%\" data-source=\"{1}\"><thead><tr>{2}</tr></thead><tfoot><tr class=\"search\">{3}</tr></tfoot></table>";
         private const string TableHeadStructure = "<th data-key=\"{0}\" data-template=\"{1}\" data-order=\"{2}\" data-option=\"{4}\" data-search-operator=\"{5}\" data-data-type=\"{6}\" data-format=\"{7}\">{3}</th>";
         private const string TableSearchStructure = "<th></th>";
-        public const string EditLinkTemplate = "<a href=\"{0}\"><img src=\"/images/icons/edit.png\" title=\"编辑\"/></a>";
+        public const string EditLinkTemplate = "<a href=\"{0}\" class=\"glyphicon glyphicon-pencil\"></a>";
 
         public string Source { get; set; }
         public string Edit { get; set; }
