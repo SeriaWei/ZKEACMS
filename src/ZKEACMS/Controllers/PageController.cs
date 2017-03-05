@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Http;
 using Easy.ViewPort.jsTree;
 using Microsoft.Extensions.DependencyInjection;
 using Easy.Mvc.Authorize;
+using Easy.Mvc;
 
 namespace ZKEACMS.Controllers
 {
@@ -104,7 +105,13 @@ namespace ZKEACMS.Controllers
         [ViewDataLayouts, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override ActionResult Edit(string Id)
         {
-            return base.Edit(Id);
+            var page = Service.Get(Id);
+            if (page == null || page.IsPublishedPage)
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.OldVersions = Service.Get(m => m.Url == page.Url && m.IsPublishedPage == true).OrderBy(m => m.PublishDate);
+            return View(page);
         }
         [ViewDataLayouts, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         [HttpPost]
@@ -146,7 +153,53 @@ namespace ZKEACMS.Controllers
             ViewBag.CanPasteWidget = _cookie.GetValue<string>(Const.CopyWidgetCookie).IsNotNullAndWhiteSpace();
             return View();
         }
-
+        [ViewPage]
+        public ActionResult ViewPage(string ID)
+        {
+            return View("PreView");
+        }
+        [HttpPost]
+        public JsonResult Revert(string ID, bool RetainLatest)
+        {
+            try
+            {
+                Service.Revert(ID, RetainLatest);
+                return Json(new AjaxResult
+                {
+                    Status = AjaxStatus.Normal
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Json(new AjaxResult
+                {
+                    Status = AjaxStatus.Error,
+                    Message = ex.Message
+                });
+            }
+        }
+        [HttpPost]
+        public JsonResult DeleteVersion(string ID)
+        {
+            try
+            {
+                Service.DeleteVersion(ID);
+                return Json(new AjaxResult
+                {
+                    Status = AjaxStatus.Normal
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Json(new AjaxResult
+                {
+                    Status = AjaxStatus.Error,
+                    Message = ex.Message
+                });
+            }
+        }
         public ActionResult RedirectView(string Id, bool? preview)
         {
             return Redirect(Service.Get(Id).Url + ((preview ?? true) ? "?ViewType=" + ReView.Review : ""));

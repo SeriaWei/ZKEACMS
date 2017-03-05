@@ -21,7 +21,7 @@ namespace ZKEACMS.Filter
     public class WidgetAttribute : ActionFilterAttribute, IActionFilter
     {
 
-        public virtual PageEntity GetPage(ActionExecutedContext filterContext, bool isPreView = false)
+        public virtual PageEntity GetPage(ActionExecutedContext filterContext)
         {
             string path = filterContext.HttpContext.Request.Path;
             if (path.EndsWith("/") && path.Length > 1)
@@ -30,8 +30,8 @@ namespace ZKEACMS.Filter
                 filterContext.Result = new RedirectResult(path);
                 return null;
             }
-
-            if (!isPreView && filterContext.HttpContext.User.Identity.IsAuthenticated)
+            bool isPreView = false;
+            if (filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 isPreView = ReView.Review.Equals(
                     filterContext.HttpContext.Request.Query[ReView.QueryKey],
@@ -48,7 +48,10 @@ namespace ZKEACMS.Filter
         {
             return "~/Views/Shared/_Layout.cshtml";
         }
-
+        public virtual PageViewMode GetPageViewMode()
+        {
+            return PageViewMode.Publish;
+        }
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             //Page
@@ -67,7 +70,7 @@ namespace ZKEACMS.Filter
                 page.Favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
                 if (filterContext.HttpContext.User.Identity.IsAuthenticated && page.IsPublishedPage)
                 {
-                    layout.PreViewPage = GetPage(filterContext, true);
+                    layout.PreViewPage = filterContext.HttpContext.RequestServices.GetService<IPageService>().GetByPath(page.Url, true);
                 }
                 layout.CurrentTheme = themeService.GetCurrentTheme();
                 layout.ZoneWidgets = new ZoneWidgetCollection();
@@ -96,6 +99,10 @@ namespace ZKEACMS.Filter
                 if (viewResult != null)
                 {
                     layout.Layout = GetLayout();
+                    if (GetPageViewMode() == PageViewMode.Design)
+                    {
+                        layout.Templates = widgetService.Get(m => m.IsTemplate == true).ToList();
+                    }
                     (filterContext.Controller as Controller).ViewData.Model = layout;
                 }
                 if (page.IsPublishedPage && onPageExecuteds != null)

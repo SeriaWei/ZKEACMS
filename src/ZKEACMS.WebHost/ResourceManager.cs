@@ -40,7 +40,7 @@ namespace ZKEACMS.WebHost
                 .Include($"{ScriptPath}/Owl.Carousel.js", $"{ScriptPath}/Owl.Carousel.min.js");
 
             script("LayoutDesign")
-                .Include($"{ScriptPath}/LayoutDesign.js", $"{ScriptPath}/Scripts/LayoutDesign.min.js");
+                .Include($"{ScriptPath}/LayoutDesign.js", $"{ScriptPath}/LayoutDesign.min.js");
 
             script("PageDesign")
                 .Include($"{ScriptPath}/PageDesign.js", $"{ScriptPath}/PageDesign.min.js");

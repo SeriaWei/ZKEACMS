@@ -1,6 +1,8 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.MetaData;
 using Easy.Models;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ZKEACMS.Page;
@@ -38,6 +40,9 @@ namespace ZKEACMS.Layout
         public ThemeEntity CurrentTheme { get; set; }
         [NotMapped]
         public string Layout { get; set; }
+
+        [NotMapped]
+        public IEnumerable<WidgetBasePart> Templates { get; set; }
     }
 
     class LayoutEntityMetaData : ViewMetaData<LayoutEntity>

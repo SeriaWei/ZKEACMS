@@ -9,5 +9,7 @@ namespace ZKEACMS.Page
         PageEntity GetByPath(string path, bool isPreView);
         void MarkChanged(string pageId);
         void Publish(PageEntity item);
+        void Revert(string ID, bool RetainLatest);
+        void DeleteVersion(string ID);
     }
 }

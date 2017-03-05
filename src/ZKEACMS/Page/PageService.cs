@@ -65,7 +65,7 @@ namespace ZKEACMS.Page
             item.PublishDate = DateTime.Now;
             base.Update(item);
 
-            Remove(m => m.ReferencePageID == item.ID && m.IsPublishedPage == true);
+            //Remove(m => m.ReferencePageID == item.ID && m.IsPublishedPage == true);
 
             _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(item.ID));
 
@@ -91,6 +91,56 @@ namespace ZKEACMS.Page
                     widgetService.Publish(m);
                 }
             });
+        }
+        public void Revert(string ID, bool RetainLatest)
+        {
+            var page = Get(ID);
+            if (page.IsPublishedPage)
+            {
+                if (RetainLatest)
+                {//保留当前编辑版本
+                    var refPage = Get(page.ReferencePageID);
+                    refPage.IsPublish = false;
+                    Update(refPage);
+
+                    page.PublishDate = DateTime.Now;
+                    Add(page);
+                }
+                else
+                {
+                    var refPage = Get(page.ReferencePageID);
+                    refPage.PublishDate = null;
+                    Update(refPage);
+
+                    Remove(page.ReferencePageID); //删除当前的编辑版本，加入旧的版本做为编辑版本，再发布
+                    page.ID = page.ReferencePageID;
+                    page.ReferencePageID = null;
+                    page.IsPublish = false;
+                    page.IsPublishedPage = false;
+                    if (page.ExtendFields != null)
+                    {
+                        page.ExtendFields.Each(m => m.ActionType = ActionType.Create);
+                    }
+                    base.Add(page);
+                }
+                var widgets = _widgetService.GetByPageId(ID);
+                widgets.Each(m =>
+                {
+                    var widgetService = m.CreateServiceInstance(ApplicationContext.ServiceLocator);
+                    m = widgetService.GetWidget(m);
+                    if (m.ExtendFields != null)
+                    {
+                        m.ExtendFields.Each(f => f.ActionType = ActionType.Create);
+                    }
+                    m.PageID = page.ID;
+                    widgetService.Publish(m);
+                });
+                if (!RetainLatest)
+                {
+                    Publish(page);
+                }
+
+            }
         }
         public override void Remove(PageEntity item)
         {
@@ -139,7 +189,17 @@ namespace ZKEACMS.Page
             items.Each(Remove);
         }
 
-
+        public void DeleteVersion(string ID)
+        {
+            PageEntity page = Get(ID);
+            if (page != null)
+            {
+                var widgets = _widgetService.Get(m => m.PageID == page.ID);
+                widgets.Each(m => m.CreateServiceInstance(ApplicationContext.ServiceLocator).DeleteWidget(m.ID));
+                _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(page.ID));
+            }
+            base.Remove(ID);
+        }
 
         public void Move(string id, int position, int oldPosition)
         {
@@ -176,15 +236,14 @@ namespace ZKEACMS.Page
             var pages = CurrentDbSet.Where(m => m.IsPublishedPage == !isPreView);
             if (path == "/")
             {
-                pages = pages.Where(m => m.ParentId == "#");
-
+                path = "~/index";
             }
             else
             {
                 pages = pages.Where(m => m.Url == (path.StartsWith("~") ? "" : "~") + path);
             }
 
-            pages = pages.OrderBy(m => m.DisplayOrder);
+            pages = pages.OrderByDescending(m => m.PublishDate);
             var result = pages.FirstOrDefault();
             if (result != null && result.ExtendFields != null)
             {
