@@ -12,6 +12,7 @@ namespace ZKEACMS
         public const string Layouts = "ViewDataKey_Layouts";
         public const string ArticleCategory = "ViewDataKey_ArticleType";
         public const string ProductCategory = "ViewDataKey_ProductCategory";
+        public const string ProductListTemplate = "ViewDataKey_ProductListTemplate";
     }
     public class ReView
     {

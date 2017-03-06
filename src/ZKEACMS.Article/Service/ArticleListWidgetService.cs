@@ -44,34 +44,33 @@ namespace ZKEACMS.Article.Service
             IEnumerable<ArticleEntity> articles;
 
             Expression<Func<ArticleEntity, bool>> filter = null;
-
-            if (currentWidget.IsPageable)
-            {
-
-                articles = _articleService.Get(m => m.IsPublish == true, page);
-            }
-            else
-            {
-                articles = _articleService.Get(m => m.IsPublish == true);
-            }
-
             if (cate != 0)
             {
-                articles = articles.Where(m => m.ArticleTypeID == cate);
+                filter = m =>m.IsPublish && m.ArticleTypeID == cate;
             }
             else
             {
                 var ids = _articleTypeService.Get(m => m.ParentID == currentWidget.ArticleTypeID).Select(m => m.ID);
                 if (ids.Any())
                 {
-                    articles = articles.Where(m => ids.Any(id => id == m.ArticleTypeID));
+                    filter = m => m.IsPublish && ids.Any(id => id == m.ArticleTypeID);
                 }
                 else
                 {
-                    articles = articles.Where(m => m.ArticleTypeID == currentWidget.ArticleTypeID);
+                    filter = m => m.IsPublish && m.ArticleTypeID == currentWidget.ArticleTypeID;
                 }
 
             }
+            if (currentWidget.IsPageable)
+            {
+                articles = _articleService.Get(filter, page);
+            }
+            else
+            {
+                articles = _articleService.Get(filter);
+            }
+
+            
             return widget.ToWidgetViewModelPart(new ArticleListWidgetViewModel
             {
                 Articles = articles,

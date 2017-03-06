@@ -31,14 +31,9 @@ namespace ZKEACMS.Article.Models
 
             ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(() =>
             {
-                var path = (new ServiceLocator().GetService<IApplicationContext>() as CMSApplicationContext).MapPath("~/Modules/Article/Views");
                 Dictionary<string, string> templates = new Dictionary<string, string>();
-                Directory.GetFiles(path, "Widget.ArticleList*.cshtml").Each(f =>
-                {
-                    string fileName = Path.GetFileNameWithoutExtension(f);
-                    templates.Add(fileName, fileName.Replace("Widget.", ""));
-
-                });
+                templates.Add("Widget.ArticleList", "Ä¬ÈÏ");
+                templates.Add("Widget.ArticleList-Snippet", "ºá·ù");
                 return templates;
             });
         }

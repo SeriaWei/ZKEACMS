@@ -37,7 +37,7 @@
                                 @item.Description
                             </p>
                         }
-                        @if (url.IsNotNullAndWhiteSpace() && Path.HasExtension(url))
+                        @if (url.IsNotNullAndWhiteSpace() && System.IO.Path.HasExtension(url))
                         {
                             <p class="clearfix">
                                 <a href="@Url.Content(url)" class="btn btn-default">
