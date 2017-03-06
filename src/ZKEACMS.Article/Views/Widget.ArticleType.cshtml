@@ -6,7 +6,7 @@
         {
             foreach (var item in Model.ArticleTypes)
             {
-                <a href="@Url.AddQueryToCurrentUrl("ac",item.ID.ToString())" class="list-group-item @(item.ID == Model.ArticleTypeID ? "active" : "")">@item.Title</a>
+                <a href="@Url.CategoryUrl(item.ID)" class="list-group-item @(item.ID == Model.ArticleTypeID ? "active" : "")">@item.Title</a>
             }
         }
     </div>

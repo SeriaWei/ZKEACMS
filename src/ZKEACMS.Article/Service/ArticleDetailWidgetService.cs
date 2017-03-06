@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Article.ViewModel;
 using ZKEACMS.Widget;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Article.Service
 {
@@ -25,10 +26,9 @@ namespace ZKEACMS.Article.Service
             }
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
+        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
-            int articleId;
-            int.TryParse(httpContext.Request.Query["id"], out articleId);
+            int articleId = actionContext.RouteData.GetPost();
             var viewModel = new ArticleDetailViewModel
             {
                 Current = _articleService.Get(articleId)
@@ -43,7 +43,7 @@ namespace ZKEACMS.Article.Service
                     CreatebyName = "ZKEASOFT"
                 };
             }
-            var layout = httpContext.GetLayout();
+            var layout = actionContext.HttpContext.GetLayout();
             layout.Page.MetaKeyWorlds = viewModel.Current.MetaKeyWords;
             layout.Page.MetaDescription = viewModel.Current.MetaDescription;
             layout.Page.Title = viewModel.Current.Title;

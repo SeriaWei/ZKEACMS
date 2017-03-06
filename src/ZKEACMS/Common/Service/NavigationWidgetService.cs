@@ -10,6 +10,7 @@ using Easy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Common.Service
 {
@@ -30,11 +31,11 @@ namespace ZKEACMS.Common.Service
             }
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
+        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             var navs = _navigationService.GetAll()
                 .Where(m => m.Status == (int)RecordStatus.Active).OrderBy(m => m.DisplayOrder);
-            string path = "~" + httpContext.Request.Path.Value.ToLower();
+            string path = "~" + actionContext.RouteData.GetPath();
             NavigationEntity current = null;
             int length = 0;
             foreach (var navigationEntity in navs)

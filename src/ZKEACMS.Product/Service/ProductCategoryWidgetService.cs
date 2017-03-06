@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Easy;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Product.Service
 {
@@ -28,16 +29,15 @@ namespace ZKEACMS.Product.Service
             }
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
+        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             ProductCategoryWidget currentWidget = widget as ProductCategoryWidget;
-            int c;
-            int.TryParse(httpContext.Request.Query["pc"].ToString(), out c);
+            int cate = actionContext.RouteData.GetCategory();
             return widget.ToWidgetViewModelPart(new ProductCategoryWidgetViewModel
             {
                 Categorys = _productCategoryService.Get(m => m.ParentID == currentWidget.ProductCategoryID),
-                CurrentCategory = c,
-                TargetPage = currentWidget.TargetPage.IsNullOrEmpty() ? httpContext.Request.Path.ToString().ToLower() : currentWidget.TargetPage
+                CurrentCategory = cate,
+                TargetPage = currentWidget.TargetPage.IsNullOrEmpty() ? actionContext.HttpContext.Request.Path.ToString().ToLower() : currentWidget.TargetPage
             });
         }
     }

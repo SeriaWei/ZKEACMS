@@ -3,7 +3,7 @@
 <ul class="pagination">
     @if (Model.PageIndex >= 1)
     {
-        <li><a href="@Url.AddQueryToCurrentUrl("p","0")">«</a></li>
+        <li><a href="@Url.Page(0)">«</a></li>
     }
     else
     {
@@ -25,10 +25,10 @@
         for (; start < Model.AllPage && start <= end; start++)
         {
             <li class="@(start == Model.PageIndex ? "active" : "")">
-                <a href="@Url.AddQueryToCurrentUrl("p", start.ToString())">@(start+1)</a>
+                <a href="@Url.Page(start)">@(start + 1)</a>
             </li>
         }
-        if (Model.AllPage-Model.PageIndex>5)
+        if (Model.AllPage - Model.PageIndex > 5)
         {
             <li>
                 <a>...</a>
@@ -39,7 +39,7 @@
     @if (Model.PageIndex < Model.AllPage - 1)
     {
         <li>
-            <a href="@Url.AddQueryToCurrentUrl("p", (Model.PageIndex + 1).ToString())">»</a>
+            <a href="@Url.Page(Model.PageIndex + 1)">»</a>
         </li>
     }
     else

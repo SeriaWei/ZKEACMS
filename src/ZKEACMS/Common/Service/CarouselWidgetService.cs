@@ -10,6 +10,7 @@ using Easy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Common.Service
 {
@@ -75,7 +76,7 @@ namespace ZKEACMS.Common.Service
             base.DeleteWidget(widgetId);
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
+        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             var carouselWidget = widget as CarouselWidget;
             if (carouselWidget.CarouselID.HasValue)
@@ -92,7 +93,7 @@ namespace ZKEACMS.Common.Service
             }
             carouselWidget.CarouselItems =
                 carouselWidget.CarouselItems.Where(m => m.Status == (int)RecordStatus.Active);
-            return base.Display(widget, httpContext);
+            return base.Display(widget, actionContext);
         }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Product.Models;
 using ZKEACMS.Widget;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Product.Service
 {
@@ -25,10 +26,9 @@ namespace ZKEACMS.Product.Service
             }
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
+        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
-            int productId = 0;
-            int.TryParse(httpContext.Request.Query["id"], out productId);
+            int productId = actionContext.RouteData.GetPost();
             var product = _productService.Get(productId) ?? new ProductEntity
             {
                 Title = "产品明细组件使用说明",
@@ -37,7 +37,7 @@ namespace ZKEACMS.Product.Service
                 CreatebyName = "ZKEASOFT"
             };
 
-            var page = httpContext.GetLayout().Page;
+            var page = actionContext.HttpContext.GetLayout().Page;
             page.MetaDescription = product.SEODescription;
             page.MetaKeyWorlds = product.SEOKeyWord;
             page.Title = product.SEOTitle ?? product.Title;

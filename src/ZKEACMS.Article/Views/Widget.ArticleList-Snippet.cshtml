@@ -1,0 +1,81 @@
+﻿@model ZKEACMS.Article.ViewModel.ArticleListWidgetViewModel
+@{
+    if (!Model.Widget.DetailPageUrl.IsNullOrEmpty())
+    {
+        Model.Widget.DetailPageUrl = Url.Content(Model.Widget.DetailPageUrl);
+    }
+}
+@using (Script.AtHead())
+{
+    <style>
+        ul.article-list-snippet {
+            margin: 0;
+            padding: 0;
+        }
+
+            ul.article-list-snippet li {
+                list-style: none;
+                border: 1px solid #ddd;
+                margin-bottom: 30px;
+                background-color: #fff;
+            }
+
+                ul.article-list-snippet li img {
+                    width: 100%;
+                }
+
+                ul.article-list-snippet li article {
+                    padding: 0 20px 20px 20px;
+                    border-top: 1px solid #f2f2f2;
+                }
+
+                ul.article-list-snippet li .summary {
+                    margin-top: 20px;
+                }
+
+                ul.article-list-snippet li .author {
+                    margin-right: 10px;
+                }
+    </style>
+}
+<div class="article-list">
+    @if (Model.Articles != null)
+    {
+        <ul class="article-list-snippet">
+            @foreach (var item in Model.Articles)
+            {
+                <li>
+                    <div>
+                        <a href="@Url.PostUrl(Model.Widget.DetailPageUrl,item.ID)">
+                            <img src="@Url.PathContent(item.ImageThumbUrl)" alt="@item.Title" />
+                        </a>
+                    </div>
+                    <article>
+                        <h3>
+                            <a href="@Url.PostUrl(Model.Widget.DetailPageUrl,item.ID)">
+                                @item.Title
+                            </a>
+                        </h3>
+                        <p>
+                            <span class="author">
+                                <i class="glyphicon glyphicon-user"></i>
+                                @item.CreatebyName
+                            </span>
+                            <span class="text-muted publish-date">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                                @((item.PublishDate ?? DateTime.Now).ToString("f"))
+                            </span>
+                        </p>
+                        <p class="summary">
+                            @item.Summary
+                        </p>
+                    </article>
+                </li>
+            }
+        </ul>
+        if (Model.IsPageable)
+        {
+            Html.Pagin(Model.Pagin);
+        }
+    }
+</div>

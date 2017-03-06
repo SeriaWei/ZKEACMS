@@ -5,6 +5,7 @@ using Easy.Extend;
 using Easy.RepositoryPattern;
 using Easy.Zip;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -145,7 +146,7 @@ namespace ZKEACMS.Widget
             return null;
         }
 
-        public virtual WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
+        public virtual WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             return widget.ToWidgetViewModelPart();
         }

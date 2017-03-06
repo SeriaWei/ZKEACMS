@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Article.ViewModel;
 using ZKEACMS.Widget;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Article.Service
 {
@@ -26,17 +27,16 @@ namespace ZKEACMS.Article.Service
             }
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
+        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             ArticleTypeWidget currentWidget = widget as ArticleTypeWidget;
             var types = _articleTypeService.Get(m => m.ParentID == currentWidget.ArticleTypeID);
-            int ac = 0;
-            int.TryParse(httpContext.Request.Query["ac"].ToString(), out ac);
+            int ac = actionContext.RouteData.GetCategory();
             return widget.ToWidgetViewModelPart(new ArticleTypeWidgetViewModel
             {
                 ArticleTypes = types,
                 CurrentType = _articleTypeService.Get(currentWidget.ArticleTypeID),
-                TargetPage = currentWidget.TargetPage.IsNullOrEmpty() ? httpContext.Request.Path.ToString().ToLower() : currentWidget.TargetPage,
+                TargetPage = currentWidget.TargetPage.IsNullOrEmpty() ? actionContext.HttpContext.Request.Path.ToString().ToLower() : currentWidget.TargetPage,
                 ArticleTypeID = ac
             });
         }

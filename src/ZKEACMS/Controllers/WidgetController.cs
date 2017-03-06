@@ -150,7 +150,7 @@ namespace ZKEACMS.Controllers
         [HttpPost]
         public PartialViewResult AppendWidget(WidgetBase widget)
         {
-            var widgetPart = _widgetService.ApplyTemplate(widget, HttpContext);
+            var widgetPart = _widgetService.ApplyTemplate(widget, ControllerContext);
             if (widgetPart == null)
             {
                 widgetPart = new HtmlWidget { PartialView = "Widget.HTML", HTML = "<h1 class='text-danger'><hr/>操作失败，找不到数据源，刷新页面后该消息会消失。<hr/></h1>" }.ToWidgetViewModelPart();
@@ -252,7 +252,7 @@ namespace ZKEACMS.Controllers
         public ActionResult PasteAndRedirect(WidgetBase widget, string ReturnUrl)
         {
             widget.ID = _cookie.GetValue<string>(Const.CopyWidgetCookie);
-            var widgetPart = _widgetService.ApplyTemplate(widget, HttpContext);
+            var widgetPart = _widgetService.ApplyTemplate(widget, ControllerContext);
             if (widgetPart != null)
             {
                 if (ReturnUrl.IsNotNullAndWhiteSpace())

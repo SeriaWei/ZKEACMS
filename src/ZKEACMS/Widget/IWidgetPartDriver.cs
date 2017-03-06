@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.Zip;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace ZKEACMS.Widget
@@ -12,7 +13,7 @@ namespace ZKEACMS.Widget
         void UpdateWidget(WidgetBase widget);
         void Publish(WidgetBase widget);
         WidgetBase GetWidget(WidgetBase widget);
-        WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext);
+        WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext);
         ZipFile PackWidget(WidgetBase widget);
         WidgetBase UnPackWidget(ZipFileInfoCollection pack);
     }

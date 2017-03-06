@@ -23,7 +23,7 @@ namespace ZKEACMS.Filter
 
         public virtual PageEntity GetPage(ActionExecutedContext filterContext)
         {
-            string path = filterContext.HttpContext.Request.Path;
+            string path = filterContext.RouteData.GetPath();
             if (path.EndsWith("/") && path.Length > 1)
             {
                 path = path.Substring(0, path.Length - 1);
@@ -80,7 +80,7 @@ namespace ZKEACMS.Filter
                     if (widget != null)
                     {
                         IWidgetPartDriver partDriver = widget.CreateServiceInstance(filterContext.HttpContext.RequestServices);
-                        WidgetViewModelPart part = partDriver.Display(widget, filterContext.HttpContext);
+                        WidgetViewModelPart part = partDriver.Display(widget, filterContext);
                         lock (layout.ZoneWidgets)
                         {
                             if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))

@@ -18,6 +18,7 @@ using ZKEACMS.DataArchived;
 using ZKEACMS.Page;
 using Microsoft.Extensions.DependencyInjection;
 using ZKEACMS.Layout;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Widget
 {
@@ -123,7 +124,7 @@ namespace ZKEACMS.Widget
         }
 
 
-        public WidgetViewModelPart ApplyTemplate(WidgetBase widget, HttpContext httpContext)
+        public WidgetViewModelPart ApplyTemplate(WidgetBase widget, ActionContext actionContext)
         {
             var widgetBasePart = Get(widget.ID);
             if (widgetBasePart == null) return null;
@@ -131,7 +132,7 @@ namespace ZKEACMS.Widget
             {
                 widgetBasePart.ExtendFields.Each(f => { f.ActionType = ActionType.Create; });
             }
-            var service = widgetBasePart.CreateServiceInstance(httpContext.RequestServices);
+            var service = widgetBasePart.CreateServiceInstance(actionContext.HttpContext.RequestServices);
             var widgetBase = service.GetWidget(widgetBasePart.ToWidgetBase());
 
             widgetBase.PageID = widget.PageID;
@@ -141,7 +142,7 @@ namespace ZKEACMS.Widget
             widgetBase.IsTemplate = false;
             widgetBase.Thumbnail = null;
 
-            var widgetPart = service.Display(widgetBase, httpContext);
+            var widgetPart = service.Display(widgetBase, actionContext);
             service.AddWidget(widgetBase);
             return widgetPart;
         }

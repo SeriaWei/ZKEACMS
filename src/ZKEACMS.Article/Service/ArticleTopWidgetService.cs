@@ -8,6 +8,7 @@ using ZKEACMS.Widget;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Article.Service
 {
@@ -27,7 +28,7 @@ namespace ZKEACMS.Article.Service
             }
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
+        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             var currentWidget = widget as ArticleTopWidget;
             var page = new Pagination

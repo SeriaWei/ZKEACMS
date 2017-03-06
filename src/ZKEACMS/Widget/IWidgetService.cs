@@ -5,6 +5,7 @@ using Easy.RepositoryPattern;
 using ZKEACMS.Page;
 using Microsoft.AspNetCore.Http;
 using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Widget
 {
@@ -14,7 +15,7 @@ namespace ZKEACMS.Widget
         IEnumerable<WidgetBase> GetByPageId(string pageId);
         IEnumerable<WidgetBase> GetAllByPageId(IServiceProvider serviceProvider, string pageId);
         IEnumerable<WidgetBase> GetAllByPage(IServiceProvider serviceProvider, PageEntity page);
-        WidgetViewModelPart ApplyTemplate(WidgetBase widget, HttpContext httpContext);
+        WidgetViewModelPart ApplyTemplate(WidgetBase widget, ActionContext actionContext);
         MemoryStream PackWidget(string widgetId, HttpContext httpContext);
         WidgetBase InstallPackWidget(Stream stream, HttpContext httpContext);
     }

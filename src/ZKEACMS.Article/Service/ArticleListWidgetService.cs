@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 
 namespace ZKEACMS.Article.Service
 {
@@ -32,16 +34,17 @@ namespace ZKEACMS.Article.Service
             }
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, HttpContext httpContext)
+        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             var currentWidget = widget as ArticleListWidget;
             var categoryEntity = _articleTypeService.Get(currentWidget.ArticleTypeID);
-            int pageIndex = 0;
-            int ac = 0;
-            int.TryParse(httpContext.Request.Query["ac"], out ac);
-            int.TryParse(httpContext.Request.Query["p"], out pageIndex);
+            int pageIndex = actionContext.RouteData.GetPage();
+            int cate = actionContext.RouteData.GetCategory();
             var page = new Pagination { PageIndex = pageIndex, PageSize = currentWidget.PageSize ?? 20 };
             IEnumerable<ArticleEntity> articles;
+
+            Expression<Func<ArticleEntity, bool>> filter = null;
+
             if (currentWidget.IsPageable)
             {
 
@@ -52,13 +55,22 @@ namespace ZKEACMS.Article.Service
                 articles = _articleService.Get(m => m.IsPublish == true);
             }
 
-            if (ac != 0)
+            if (cate != 0)
             {
-                articles = articles.Where(m => m.ArticleTypeID == ac);
+                articles = articles.Where(m => m.ArticleTypeID == cate);
             }
             else
             {
-                articles = articles.Where(m => m.ArticleTypeID == currentWidget.ArticleTypeID);
+                var ids = _articleTypeService.Get(m => m.ParentID == currentWidget.ArticleTypeID).Select(m => m.ID);
+                if (ids.Any())
+                {
+                    articles = articles.Where(m => ids.Any(id => id == m.ArticleTypeID));
+                }
+                else
+                {
+                    articles = articles.Where(m => m.ArticleTypeID == currentWidget.ArticleTypeID);
+                }
+
             }
             return widget.ToWidgetViewModelPart(new ArticleListWidgetViewModel
             {
