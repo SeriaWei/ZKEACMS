@@ -37,7 +37,8 @@
     "Microsoft.ApplicationInsights.AspNetCore": "1.0.2",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
     "Microsoft.AspNetCore.Mvc.Razor.Precompilation.Design": "1.0.0-preview1-final",
-    "Microsoft.Extensions.CommandLineUtils": "1.1.0"
+    "Microsoft.Extensions.CommandLineUtils": "1.1.0",
+    "System.Xml.XPath.XmlDocument": "4.3.0"
   },
 
   "tools": {

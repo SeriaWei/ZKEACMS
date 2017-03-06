@@ -2,4 +2,4 @@
 @{
     var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
 }
-@Html.CheckBox("", Model ?? false, descriptor.ToHtmlProperties())
+@Html.CheckBox("", Model, descriptor.ToHtmlProperties())

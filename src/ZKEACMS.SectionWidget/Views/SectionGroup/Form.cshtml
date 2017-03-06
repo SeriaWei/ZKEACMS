@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div class="panel-footer text-muted clearfix">
-                        @if (Model.ID.IsNotNullAndWhiteSpace())
+                        @if (Model.ID.IsNullOrEmpty())
                         {
                             <label class="checkbox-inline text-primary">
                                 @Html.CheckBoxFor(m => m.IsLoadDefaultData)

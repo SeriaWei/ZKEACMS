@@ -41,7 +41,7 @@ namespace ZKEACMS.SectionWidget.Controllers
                 GroupName = "组 " + order
             });
         }
-        public ActionResult Edit(int Id)
+        public ActionResult Edit(string Id)
         {
             var group = _sectionGroupService.Get(Id);
             group.ActionType = ActionType.Update;
@@ -66,7 +66,7 @@ namespace ZKEACMS.SectionWidget.Controllers
             return View("Form", group);
         }
 
-        public JsonResult Delete(int Id)
+        public JsonResult Delete(string Id)
         {
             _sectionGroupService.Remove(Id);
             return Json(true);

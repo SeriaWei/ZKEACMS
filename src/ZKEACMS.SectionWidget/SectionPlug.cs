@@ -9,11 +9,21 @@ using Microsoft.Extensions.DependencyInjection;
 using ZKEACMS.SectionWidget.Service;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using System.Reflection;
+using ZKEACMS.SectionWidget.Models;
 
 namespace ZKEACMS.SectionWidget
 {
-    public class ProductPlug : PluginBase
+    public class SectionPlug : PluginBase
     {
+        public const string PluginID = "66BF2F20-69E5-42B7-84BF-3488C6A2EB80";
+        public static Dictionary<string, Type> ContentTypes { get; } = new Dictionary<string, Type>
+        {
+           { "ZKEACMS.SectionWidget.Models.SectionContentCallToAction",typeof(SectionContentCallToAction)},
+           { "ZKEACMS.SectionWidget.Models.SectionContentImage",typeof(SectionContentImage)},
+           { "ZKEACMS.SectionWidget.Models.SectionContentParagraph",typeof(SectionContentParagraph)},
+           { "ZKEACMS.SectionWidget.Models.SectionContentTitle",typeof(SectionContentTitle)},
+           { "ZKEACMS.SectionWidget.Models.SectionContentVideo",typeof(SectionContentVideo)}
+        };
         public override IEnumerable<RouteDescriptor> RegistRoute()
         {
             yield return new RouteDescriptor
@@ -64,6 +74,6 @@ namespace ZKEACMS.SectionWidget
             serviceCollection.AddTransient<ISectionTemplateService, SectionTemplateService>();
 
         }
-        
+
     }
 }

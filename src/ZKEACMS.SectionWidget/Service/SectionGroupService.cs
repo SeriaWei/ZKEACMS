@@ -11,19 +11,20 @@ using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Hosting;
 using Easy;
 using Microsoft.EntityFrameworkCore;
+using Easy.Mvc.Plugin;
 
 namespace ZKEACMS.SectionWidget.Service
 {
     public class SectionGroupService : ServiceBase<SectionGroup, SectionDbContext>, ISectionGroupService
     {
         private readonly ISectionContentProviderService _sectionContentProviderService;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IPluginLoader _pluginLoader;
 
         public SectionGroupService(ISectionContentProviderService sectionContentProviderService,
-            IHostingEnvironment hostingEnvironment, IApplicationContext applicationContext) : base(applicationContext)
+            IPluginLoader pluginLoader, IApplicationContext applicationContext) : base(applicationContext)
         {
             _sectionContentProviderService = sectionContentProviderService;
-            _hostingEnvironment = hostingEnvironment;
+            _pluginLoader = pluginLoader;
         }
 
         public override DbSet<SectionGroup> CurrentDbSet
@@ -36,7 +37,7 @@ namespace ZKEACMS.SectionWidget.Service
 
         public SectionGroup GenerateContentFromConfig(SectionGroup group)
         {
-            string configFile = _hostingEnvironment.WebRootPath + @"Modules\Section\Views\Thumbnail\{0}.xml".FormatWith(group.PartialView);
+            string configFile = _pluginLoader.GetPlugins().First(m => m.ID == SectionPlug.PluginID).RelativePath + @"\Thumbnail\{0}.xml".FormatWith(group.PartialView);
             List<SectionContent> contents = new List<SectionContent>();
             if (File.Exists(configFile))
             {
@@ -51,20 +52,22 @@ namespace ZKEACMS.SectionWidget.Service
                     {
                         try
                         {
-                            throw new NotImplementedException();
-                            var content = Activator.CreateInstance(null) as SectionContent;
-                            var properties = item.SelectNodes("property");
-                            foreach (XmlNode property in properties)
+                            if (SectionPlug.ContentTypes.ContainsKey(attr.Value))
                             {
-                                var name = property.Attributes["name"];
-                                if (name != null && name.Value.IsNotNullAndWhiteSpace() && property.InnerText.IsNotNullAndWhiteSpace())
+                                var content = Activator.CreateInstance(SectionPlug.ContentTypes[attr.Value]) as SectionContent;
+                                var properties = item.SelectNodes("property");
+                                foreach (XmlNode property in properties)
                                 {
-                                    ClassAction.SetObjPropertyValue(content, name.Value, property.InnerText);
+                                    var name = property.Attributes["name"];
+                                    if (name != null && name.Value.IsNotNullAndWhiteSpace() && property.InnerText.IsNotNullAndWhiteSpace())
+                                    {
+                                        ClassAction.SetObjPropertyValue(content, name.Value, property.InnerText);
+                                    }
                                 }
+                                content.SectionGroupId = group.ID;
+                                content.SectionWidgetId = group.SectionWidgetId;
+                                contents.Add(content);
                             }
-                            content.SectionGroupId = group.ID;
-                            content.SectionWidgetId = group.SectionWidgetId;
-                            contents.Add(content);
                         }
                         catch (Exception ex)
                         {
