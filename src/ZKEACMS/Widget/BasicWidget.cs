@@ -134,5 +134,10 @@ namespace ZKEACMS.Widget
         {
             get; set;
         }
+        [NotMapped]
+        public override string ExtendData
+        {
+            get; set;
+        }
     }
 }

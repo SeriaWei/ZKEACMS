@@ -9,13 +9,19 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace Easy.Modules.User.Service
 {
     public class UserService : ServiceBase<UserEntity, EasyDbContext>, IUserService
     {
-        public UserService(IApplicationContext applicationContext) : base(applicationContext)
+        private readonly IDataProtectionProvider _dataProtectionProvider;
+        private readonly IDataProtector _dataProtector;
+        private const string Purpose = "ZKEACMS-User-PassWord";
+        public UserService(IApplicationContext applicationContext, IDataProtectionProvider dataProtectionProvider) : base(applicationContext)
         {
+            _dataProtectionProvider = dataProtectionProvider;
+            _dataProtector = dataProtectionProvider.CreateProtector(Purpose);
         }
         public override DbSet<UserEntity> CurrentDbSet
         {
@@ -28,7 +34,7 @@ namespace Easy.Modules.User.Service
         {
             if (item.PassWordNew.IsNotNullAndWhiteSpace())
             {
-                item.PassWord = EncryptionTool.Encryption(item.PassWordNew);
+                item.PassWord = _dataProtector.Protect(item.PassWordNew);
             }
             base.Add(item);
         }
@@ -37,23 +43,25 @@ namespace Easy.Modules.User.Service
         {
             if (item.PassWordNew.IsNotNullAndWhiteSpace())
             {
-                item.PassWord = EncryptionTool.Encryption(item.PassWordNew);
+                item.PassWord = _dataProtector.Protect(item.PassWordNew);
             }
             base.Update(item);
         }
 
         public UserEntity Login(string userID, string passWord, string ip)
         {
-            passWord = EncryptionTool.Encryption(passWord);
-            var result = Get(m => m.UserID == userID && m.PassWord == passWord).FirstOrDefault();
+            var result = Get(m => m.UserID == userID).FirstOrDefault();
             if (result != null)
             {
-
-                result.LastLoginDate = DateTime.Now;
-                result.LoginIP = ip;
-                Update(result);
+                if (passWord == _dataProtector.Unprotect(result.PassWord))
+                {
+                    result.LastLoginDate = DateTime.Now;
+                    result.LoginIP = ip;
+                    Update(result);
+                    return result;
+                }
             }
-            return result;
+            return null;
         }
     }
 }

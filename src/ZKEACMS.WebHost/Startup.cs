@@ -79,6 +79,7 @@ namespace ZKEACMS.WebHost
 
             });
             services.AddAuthorization();
+            services.AddDataProtection();
             new ResourceManager().Excute();
         }
 
