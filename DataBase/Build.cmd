@@ -1,10 +1,10 @@
 @echo off
 REM: 请根据您的个人实际情况修改以下信息：
 set server=(local)
-set dataBase=ZKEACMS
+set dataBase=ZKEACMS_DEMO
 set dbUserId=sa
 set dbPassword=sa
-set dbPath=D:\Projects\ZKEACMS.Core\App_Data
+set dbPath=D:\Projects\ASP.NET-MVC-CMS\Easy.CMS.Web\App_Data
 @echo -----------------------------------------------------------------------------
 @echo *** 欢迎使用 ZKEACMS ***
 @echo -----------------------------------------------------------------------------
@@ -50,6 +50,9 @@ sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo CMS_Theme
 sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.CMS_Theme.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo CMS_Message
+sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.CMS_Message.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo ArticleType
 sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.ArticleType.Table.sql"
@@ -310,18 +313,6 @@ sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialDat
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo Permission
 sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.Permission.Table.sql"
-if %ERRORLEVEL% NEQ 0 goto errors
-@echo DataArchived
-sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.DataArchived.Table.sql"
-if %ERRORLEVEL% NEQ 0 goto errors
-@echo ExtendField
-sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.ExtendField.Table.sql"
-if %ERRORLEVEL% NEQ 0 goto errors
-@echo PageView
-sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.PageView.Table.sql"
-if %ERRORLEVEL% NEQ 0 goto errors
-@echo ApplicationSetting
-sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.ApplicationSetting.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
 
 @echo -----------------------------------------------------------------------------

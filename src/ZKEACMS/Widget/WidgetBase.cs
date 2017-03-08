@@ -51,7 +51,7 @@ namespace ZKEACMS.Widget
         public virtual string ServiceTypeName { get; set; }
         public virtual string ViewModelTypeName { get; set; }
         public virtual string FormView { get; set; }
-
+        public virtual string ExtendData { get; set; }
         public virtual string StyleClass { get; set; }
         private string _customClass;
         [NotMapped]
@@ -183,6 +183,7 @@ namespace ZKEACMS.Widget
             widget.Thumbnail = Thumbnail;
             widget.IsSystem = IsSystem;
             widget.ExtendFields = ExtendFields;
+            widget.ExtendData = ExtendData;
             return widget;
         }
     }
