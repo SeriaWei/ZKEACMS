@@ -21,7 +21,7 @@ namespace ZKEACMS
              new RouteDescriptor
              {
                 RouteName = "admin",
-                Template = "admin/{controller=Dashboard}/{action=index}",
+                Template = "admin/{controller=Dashboard}/{action=index}/{id?}",
                 Priority = 10
              },
              new RouteDescriptor

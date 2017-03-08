@@ -11,7 +11,7 @@ namespace ZKEACMS.Filter
     {
         public override PageEntity GetPage(ActionExecutedContext filterContext)
         {
-            string pageId = filterContext.HttpContext.Request.Query["ID"];
+            string pageId = filterContext.RouteData.Values["id"].ToString();
             using (var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>())
             {
                 return pageService.Get(pageId);
