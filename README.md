@@ -79,7 +79,7 @@ ZKEACMS 使用LESS，可以轻松的创建主题。
 [http://www.zkea.net/zkeacms/videos](http://www.zkea.net/zkeacms/videos)
 
 ## 官方网站
-[http://www.zkea.net/zkeacms](http://www.zkea.net/zkeacms)
+[ZKEASOFT](http://www.zkea.net/zkeacms/zkeacmscore)
 
 [开发文档](http://www.zkea.net/zkeacms/document)
 
