@@ -15,7 +15,7 @@ ASP.NET Core MVC
 
 ### 开发环境
 
-Microsoft VisualStudio 2015
+Microsoft VisualStudio 2017
 
 Microsoft Sql Server 2008 以上
 
