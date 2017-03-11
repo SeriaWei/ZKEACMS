@@ -26,7 +26,10 @@ namespace Easy.Mvc.Plugin
                 var assemblies = loader.LoadPlugin(Path.Combine(m.RelativePath, HostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName));
                 assemblies.Each(assembly =>
                 {
-                    LoadedAssemblies.Add(assembly.FullName, assembly);
+                    if (!LoadedAssemblies.ContainsKey(assembly.FullName))
+                    {
+                        LoadedAssemblies.Add(assembly.FullName, assembly);
+                    }                    
                 });                
                 Loaders.Add(loader);
             });
