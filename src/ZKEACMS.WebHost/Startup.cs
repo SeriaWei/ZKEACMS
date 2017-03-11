@@ -82,7 +82,8 @@ namespace ZKEACMS.WebHost
 
             });
             services.AddAuthorization();
-            services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(Loader.HostingEnvironment.ContentRootPath, "PersistKeys")));
+            services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(Loader.HostingEnvironment.ContentRootPath, "PersistKeys")));
             new ResourceManager().Excute();
         }
 
