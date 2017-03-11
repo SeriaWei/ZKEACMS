@@ -7,7 +7,6 @@
     <AssemblyName>ZKEACMS.WebHost</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>ZKEACMS.WebHost</PackageId>
-    <RuntimeIdentifiers>win7-x64</RuntimeIdentifiers>
     <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>

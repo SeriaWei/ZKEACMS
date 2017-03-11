@@ -89,8 +89,7 @@ namespace ZKEACMS.WebHost
             //ServiceLocator.Current = app.ApplicationServices;
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-            app.UseApplicationInsightsRequestTelemetry();
+            
 
             if (env.IsDevelopment())
             {
@@ -111,8 +110,7 @@ namespace ZKEACMS.WebHost
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true
             });
-
-            app.UseApplicationInsightsExceptionTelemetry();
+            
 
             app.UseStaticFiles();
 
