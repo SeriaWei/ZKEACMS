@@ -2,9 +2,11 @@
 using Easy.Extend;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.DataAnnotations;
+using Easy.Mvc.Plugin;
 using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using ZKEACMS.Common.Service;
 using ZKEACMS.MetaData;
@@ -34,7 +37,7 @@ namespace ZKEACMS.WebHost
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
             }
-            Easy.Mvc.Plugin.Loader.HostingEnvironment = env;
+            Loader.HostingEnvironment = env;
             Configuration = builder.Build();
 
         }
@@ -79,7 +82,7 @@ namespace ZKEACMS.WebHost
 
             });
             services.AddAuthorization();
-            services.AddDataProtection();
+            services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(Loader.HostingEnvironment.ContentRootPath, "PersistKeys")));
             new ResourceManager().Excute();
         }
 
@@ -89,7 +92,7 @@ namespace ZKEACMS.WebHost
             //ServiceLocator.Current = app.ApplicationServices;
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            
+
 
             if (env.IsDevelopment())
             {
@@ -110,7 +113,7 @@ namespace ZKEACMS.WebHost
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true
             });
-            
+
 
             app.UseStaticFiles();
 

@@ -53,6 +53,7 @@ namespace Easy.Modules.User.Service
             var result = Get(m => m.UserID == userID).FirstOrDefault();
             if (result != null)
             {
+                var pass = _dataProtector.Protect(result.PassWord);
                 if (passWord == _dataProtector.Unprotect(result.PassWord))
                 {
                     result.LastLoginDate = DateTime.Now;
