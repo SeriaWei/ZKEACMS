@@ -15,6 +15,7 @@ using ZKEACMS.Theme;
 using ZKEACMS.Widget;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.Zone;
+using ZKEACMS.PackageManger;
 
 namespace ZKEACMS
 {
@@ -44,6 +45,12 @@ namespace ZKEACMS
             serviceCollection.TryAddTransient<IWidgetBasePartService, WidgetBasePartService>();
             serviceCollection.TryAddTransient<IZoneService, ZoneService>();
             serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+
+            serviceCollection.AddTransient<IPackageInstaller, ThemePackageInstaller>();
+            serviceCollection.AddTransient<IPackageInstaller, WidgetPackageInstaller>();
+            serviceCollection.AddTransient<IPackageInstaller, FilePackageInstaller>();
+            serviceCollection.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
+
             foreach (var item in WidgetBase.KnownWidgetService)
             {
                 serviceCollection.TryAddTransient(item.Value);

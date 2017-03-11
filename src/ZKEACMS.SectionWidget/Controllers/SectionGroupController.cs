@@ -1,18 +1,16 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using ZKEACMS.SectionWidget.Models;
-using ZKEACMS.SectionWidget.Service;
+using Easy;
 using Easy.Constant;
 using Easy.Extend;
+using Easy.Mvc;
 using Easy.Mvc.Authorize;
 using Microsoft.AspNetCore.Mvc;
-using Easy.Mvc;
+using System;
+using System.Collections.Generic;
+using ZKEACMS.PackageManger;
+using ZKEACMS.SectionWidget.Models;
+using ZKEACMS.SectionWidget.Service;
 using ZKEACMS.Widget;
-using Easy;
-using System.IO;
-using Newtonsoft.Json;
 
 namespace ZKEACMS.SectionWidget.Controllers
 {
@@ -22,13 +20,16 @@ namespace ZKEACMS.SectionWidget.Controllers
         private readonly ISectionGroupService _sectionGroupService;
         private readonly ISectionContentProviderService _sectionContentProviderService;
         private readonly IWidgetBasePartService _widgetService;
+        private readonly IPackageInstallerProvider _packageInstallerProvider;
+
         public SectionGroupController(ISectionGroupService sectionGroupService,
             ISectionContentProviderService sectionContentProviderService,
-            IWidgetBasePartService widgetService)
+            IWidgetBasePartService widgetService, IPackageInstallerProvider packageInstallerProvider)
         {
             _sectionGroupService = sectionGroupService;
             _sectionContentProviderService = sectionContentProviderService;
             _widgetService = widgetService;
+            _packageInstallerProvider = packageInstallerProvider;
         }
 
         public ActionResult Create(string sectionWidgetId)
@@ -101,10 +102,9 @@ namespace ZKEACMS.SectionWidget.Controllers
             {
                 try
                 {
-                    StreamReader reader = new StreamReader(Request.Form.Files[0].OpenReadStream());
-                    var content = reader.ReadToEnd();
-                    var package = JsonConvert.DeserializeObject<WidgetPackage>(reader.ReadToEnd());
-                    package.Content = content;
+
+                    WidgetPackage package;
+                    _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
                     package.Widget.CreateServiceInstance(Request.HttpContext.RequestServices).InstallWidget(package);
 
                 }

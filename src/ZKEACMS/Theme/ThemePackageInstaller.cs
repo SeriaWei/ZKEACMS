@@ -10,7 +10,7 @@ namespace ZKEACMS.Theme
 {
     public class ThemePackageInstaller : FilePackageInstaller
     {
-        private const string ThemePath = "~/Themes";
+        private const string ThemePath = "~/themes";
         private readonly IThemeService _themeService;
 
         public ThemePackageInstaller(IHostingEnvironment hostingEnvironment, IThemeService themeService) : base(hostingEnvironment)
@@ -52,7 +52,7 @@ namespace ZKEACMS.Theme
         public override Package Pack(object obj)
         {
             //obj is theme id
-            string path = MapPath(ThemePath + "/" + obj);
+            string path = Path.Combine(MapPath(ThemePath), obj.ToString());
             if (Directory.Exists(path))
             {
                 var theme = _themeService.Get(obj.ToString());

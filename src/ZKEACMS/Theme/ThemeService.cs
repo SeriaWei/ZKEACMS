@@ -67,11 +67,9 @@ namespace ZKEACMS.Theme
             if (theme != null)
             {
                 var otherTheme = new ThemeEntity { IsActived = false };
-
-                CurrentDbSet.Attach(otherTheme);
-                DbContext.Entry(otherTheme).Property(m => m.IsActived).IsModified = true;
-                DbContext.SaveChanges();
-
+                var activeTheme = Get(m => m.IsActived);
+                activeTheme.Each(m => m.IsActived = false);
+                UpdateRange(activeTheme.ToArray());
                 theme.IsActived = true;
                 Update(theme);
             }

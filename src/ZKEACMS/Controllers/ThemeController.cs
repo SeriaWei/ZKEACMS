@@ -3,17 +3,11 @@ using Easy;
 using Easy.Mvc;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
-using Easy.Mvc.Extend;
-using Easy.Zip;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
-using System.IO;
-using System.Linq;
-using System.Text;
+using ZKEACMS.PackageManger;
 using ZKEACMS.Theme;
-using Easy.Extend;
 
 namespace ZKEACMS.Controllers
 {
@@ -22,9 +16,11 @@ namespace ZKEACMS.Controllers
     {
         private const string ThemePath = "~/Themes";
         private readonly IHostingEnvironment _hostingEnvironment;
-        public ThemeController(IThemeService service, IHostingEnvironment hostingEnvironment)
+        private readonly IPackageInstallerProvider _packageInstallerProvider;
+        public ThemeController(IThemeService service, IHostingEnvironment hostingEnvironment, IPackageInstallerProvider packageInstallerProvider)
             : base(service)
         {
+            _packageInstallerProvider = packageInstallerProvider;
             _hostingEnvironment = hostingEnvironment;
         }
 
@@ -53,8 +49,8 @@ namespace ZKEACMS.Controllers
 
         public FileResult ThemePackage(string id)
         {
-            var package = new ThemePackageInstaller(_hostingEnvironment, Service).Pack(id) as ThemePackage;
-            return File(JsonConvert.SerializeObject(package).ToByte(), "Application/zip", package.Theme.Title + ".theme");
+            var package = _packageInstallerProvider.CreateInstaller("ThemePackageInstaller").Pack(id) as ThemePackage;
+            return File(package.ToFilePackage(), "Application/zip", package.Theme.Title + ".theme");
         }
         [HttpPost]
         public JsonResult UploadTheme()
@@ -64,9 +60,9 @@ namespace ZKEACMS.Controllers
             {
                 try
                 {
-                    StreamReader reader = new StreamReader(Request.Form.Files[0].OpenReadStream());
-                    var theme = JsonConvert.DeserializeObject<ThemePackage>(reader.ReadToEnd());
-                    new ThemePackageInstaller(_hostingEnvironment, Service).Install(theme);
+                    ThemePackage package;
+                    var installer = _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
+                    installer.Install(package);
                 }
                 catch (Exception ex)
                 {

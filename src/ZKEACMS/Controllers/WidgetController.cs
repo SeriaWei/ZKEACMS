@@ -15,6 +15,7 @@ using Easy.Mvc;
 using ZKEACMS.Common.Models;
 using System.IO;
 using Newtonsoft.Json;
+using ZKEACMS.PackageManger;
 
 namespace ZKEACMS.Controllers
 {
@@ -24,12 +25,15 @@ namespace ZKEACMS.Controllers
         private readonly IWidgetBasePartService _widgetService;
         private readonly IWidgetTemplateService _widgetTemplateService;
         private readonly ICookie _cookie;
+        private readonly IPackageInstallerProvider _packageInstallerProvider;
 
-        public WidgetController(IWidgetBasePartService widgetService, IWidgetTemplateService widgetTemplateService, ICookie cookie)
+        public WidgetController(IWidgetBasePartService widgetService, IWidgetTemplateService widgetTemplateService, 
+            ICookie cookie, IPackageInstallerProvider packageInstallerProvider)
         {
             _widgetService = widgetService;
             _widgetTemplateService = widgetTemplateService;
             _cookie = cookie;
+            _packageInstallerProvider = packageInstallerProvider;
         }
 
         [ViewDataZones]
@@ -219,8 +223,7 @@ namespace ZKEACMS.Controllers
         {
             var widget = _widgetService.Get(ID);
             var widgetPackage = widget.CreateServiceInstance(Request.HttpContext.RequestServices).PackWidget(widget) as WidgetPackage;
-            var json = JsonConvert.SerializeObject(widgetPackage);
-            return File(json.ToByte(), "Application/zip", widgetPackage.Widget.WidgetName + ".widget");
+            return File(widgetPackage.ToFilePackage(), "Application/zip", widgetPackage.Widget.WidgetName + ".widget");
         }
         [HttpPost]
         public ActionResult InstallWidgetTemplate(string returnUrl)
@@ -229,10 +232,8 @@ namespace ZKEACMS.Controllers
             {
                 try
                 {
-                    StreamReader reader = new StreamReader(Request.Form.Files[0].OpenReadStream());
-                    var content = reader.ReadToEnd();
-                    var package = JsonConvert.DeserializeObject<WidgetPackage>(content);
-                    package.Content = content;
+                    WidgetPackage package;
+                    _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
                     package.Widget.CreateServiceInstance(Request.HttpContext.RequestServices).InstallWidget(package);
                 }
                 catch (Exception ex)

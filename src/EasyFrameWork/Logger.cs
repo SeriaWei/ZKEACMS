@@ -1,4 +1,5 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using Easy.Mvc.Plugin;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,7 +29,7 @@ namespace Easy
         }
         static string GetDir()
         {
-            string logPath = Directory.GetCurrentDirectory() + Path;
+            string logPath = System.IO.Path.Combine(Loader.HostingEnvironment.WebRootPath, Path);
             if (!Directory.Exists(logPath))
             {
                 Directory.CreateDirectory(logPath);

@@ -24,7 +24,7 @@ namespace ZKEACMS.PackageManger
         }
         protected string MapPath(string path)
         {
-            return Path.Combine(_hostingEnvironment.ContentRootPath, path.Replace("~/", ""));
+            return Path.Combine(_hostingEnvironment.WebRootPath, path.Replace("~/", ""));
         }
         public virtual object Install(Package package)
         {
