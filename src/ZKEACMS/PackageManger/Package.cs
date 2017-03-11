@@ -16,7 +16,7 @@ namespace ZKEACMS.PackageManger
         public virtual string PackageInstaller { get; set; }
         public string Name { get; set; }
         public object Content { get; set; }
-        public byte[] ToFilePackage()
+        public virtual byte[] ToFilePackage()
         {
             return JsonConvert.SerializeObject(this).ToByte();
         }

@@ -102,11 +102,9 @@ namespace ZKEACMS.SectionWidget.Controllers
             {
                 try
                 {
-
                     WidgetPackage package;
                     _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
                     package.Widget.CreateServiceInstance(Request.HttpContext.RequestServices).InstallWidget(package);
-
                 }
                 catch (Exception ex)
                 {

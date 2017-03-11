@@ -14,10 +14,11 @@ namespace ZKEACMS.Controllers
     [DefaultAuthorize]
     public class ThemeController : BasicController<ThemeEntity, string, IThemeService>
     {
-        private const string ThemePath = "~/Themes";
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IPackageInstallerProvider _packageInstallerProvider;
-        public ThemeController(IThemeService service, IHostingEnvironment hostingEnvironment, IPackageInstallerProvider packageInstallerProvider)
+
+        public ThemeController(IThemeService service, IHostingEnvironment hostingEnvironment, 
+            IPackageInstallerProvider packageInstallerProvider)
             : base(service)
         {
             _packageInstallerProvider = packageInstallerProvider;
