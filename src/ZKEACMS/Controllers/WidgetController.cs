@@ -13,6 +13,8 @@ using Easy.Mvc.ValueProvider;
 using Easy;
 using Easy.Mvc;
 using ZKEACMS.Common.Models;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace ZKEACMS.Controllers
 {
@@ -216,8 +218,9 @@ namespace ZKEACMS.Controllers
         public FileResult Pack(string ID)
         {
             var widget = _widgetService.Get(ID);
-            var file = _widgetService.PackWidget(ID, HttpContext);
-            return File(file, "Application/zip", widget.WidgetName + ".zip");
+            var widgetPackage = widget.CreateServiceInstance(Request.HttpContext.RequestServices).PackWidget(widget) as WidgetPackage;
+            var json = JsonConvert.SerializeObject(widgetPackage);
+            return File(json.ToByte(), "Application/zip", widgetPackage.Widget.WidgetName + ".widget");
         }
         [HttpPost]
         public ActionResult InstallWidgetTemplate(string returnUrl)
@@ -226,7 +229,11 @@ namespace ZKEACMS.Controllers
             {
                 try
                 {
-                    _widgetService.InstallPackWidget(Request.Form.Files[0].OpenReadStream(), HttpContext);
+                    StreamReader reader = new StreamReader(Request.Form.Files[0].OpenReadStream());
+                    var content = reader.ReadToEnd();
+                    var package = JsonConvert.DeserializeObject<WidgetPackage>(content);
+                    package.Content = content;
+                    package.Widget.CreateServiceInstance(Request.HttpContext.RequestServices).InstallWidget(package);
                 }
                 catch (Exception ex)
                 {

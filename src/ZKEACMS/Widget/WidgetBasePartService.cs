@@ -147,50 +147,6 @@ namespace ZKEACMS.Widget
             return widgetPart;
         }
 
-        public MemoryStream PackWidget(string widgetId, HttpContext httpContext)
-        {
-            var widgetBase = Get(widgetId);
-            var zipfile = widgetBase.CreateServiceInstance(httpContext.RequestServices).PackWidget(widgetBase);
-            var bytes = Encrypt(zipfile.ToMemoryStream().ToArray());
-            return new MemoryStream(bytes);
-        }
-
-        public WidgetBase InstallPackWidget(Stream stream, HttpContext httpContext)
-        {
-            byte[] bytes = new byte[stream.Length];
-            stream.Read(bytes, 0, bytes.Length);
-            stream.Seek(0, SeekOrigin.Begin);
-
-            ZipFile zipFile = new ZipFile();
-
-            var files = zipFile.ToFileCollection(new MemoryStream(Decrypt(bytes)));
-            foreach (ZipFileInfo item in files)
-            {
-                if (item.RelativePath.EndsWith("-widget.json"))
-                {
-                    try
-                    {
-                        var jsonStr = Encoding.UTF8.GetString(item.FileBytes);
-                        var widgetBase = JsonConvert.DeserializeObject<WidgetBase>(jsonStr);
-                        var service = widgetBase.CreateServiceInstance(httpContext.RequestServices);
-                        var widget = service.UnPackWidget(files);
-                        widget.PageID = null;
-                        widget.LayoutID = null;
-                        widget.ZoneID = null;
-                        widget.IsSystem = false;
-                        widget.IsTemplate = true;
-                        service.AddWidget(widget);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Error(ex);
-                        return null;
-                    }
-                }
-            }
-            return null;
-        }
-
         private byte[] Encrypt(byte[] source)
         {
             if (Easy.Builder.Configuration[EncryptWidgetTemplate] == "true")

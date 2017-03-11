@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Easy.Mvc;
 using ZKEACMS.Widget;
 using Easy;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace ZKEACMS.SectionWidget.Controllers
 {
@@ -99,7 +101,12 @@ namespace ZKEACMS.SectionWidget.Controllers
             {
                 try
                 {
-                    _widgetService.InstallPackWidget(Request.Form.Files[0].OpenReadStream(), HttpContext);
+                    StreamReader reader = new StreamReader(Request.Form.Files[0].OpenReadStream());
+                    var content = reader.ReadToEnd();
+                    var package = JsonConvert.DeserializeObject<WidgetPackage>(reader.ReadToEnd());
+                    package.Content = content;
+                    package.Widget.CreateServiceInstance(Request.HttpContext.RequestServices).InstallWidget(package);
+
                 }
                 catch (Exception ex)
                 {

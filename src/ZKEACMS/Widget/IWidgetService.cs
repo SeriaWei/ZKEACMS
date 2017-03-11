@@ -16,7 +16,5 @@ namespace ZKEACMS.Widget
         IEnumerable<WidgetBase> GetAllByPageId(IServiceProvider serviceProvider, string pageId);
         IEnumerable<WidgetBase> GetAllByPage(IServiceProvider serviceProvider, PageEntity page);
         WidgetViewModelPart ApplyTemplate(WidgetBase widget, ActionContext actionContext);
-        MemoryStream PackWidget(string widgetId, HttpContext httpContext);
-        WidgetBase InstallPackWidget(Stream stream, HttpContext httpContext);
     }
 }

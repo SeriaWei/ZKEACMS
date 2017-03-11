@@ -14,6 +14,8 @@ namespace ZKEACMS.SectionWidget.Models
         public string SectionTitle { get; set; }
         [NotMapped]
         public IEnumerable<SectionGroup> Groups { get; set; }
+        [NotMapped]
+        public SectionTemplate Template { get; set; }
     }
 
     class SectionWidgetMetaData : WidgetMetaData<SectionWidget>
@@ -22,6 +24,7 @@ namespace ZKEACMS.SectionWidget.Models
         {
             base.ViewConfigure();
             ViewConfig(m => m.SectionTitle).AsHidden();
+            ViewConfig(m => m.Template).AsHidden().Ignore();
         }
     }
 }

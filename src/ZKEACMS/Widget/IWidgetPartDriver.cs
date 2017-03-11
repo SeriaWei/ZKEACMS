@@ -14,8 +14,8 @@ namespace ZKEACMS.Widget
         void Publish(WidgetBase widget);
         WidgetBase GetWidget(WidgetBase widget);
         WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext);
-        ZipFile PackWidget(WidgetBase widget);
-        WidgetBase UnPackWidget(ZipFileInfoCollection pack);
+        WidgetPackage PackWidget(WidgetBase widget);
+        void InstallWidget(WidgetPackage pack);
     }
 
 }

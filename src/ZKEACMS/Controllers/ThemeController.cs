@@ -5,6 +5,7 @@ using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
 using Easy.Mvc.Extend;
 using Easy.Zip;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -12,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using ZKEACMS.Theme;
+using Easy.Extend;
 
 namespace ZKEACMS.Controllers
 {
@@ -19,9 +21,11 @@ namespace ZKEACMS.Controllers
     public class ThemeController : BasicController<ThemeEntity, string, IThemeService>
     {
         private const string ThemePath = "~/Themes";
-        public ThemeController(IThemeService service)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public ThemeController(IThemeService service, IHostingEnvironment hostingEnvironment)
             : base(service)
         {
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public override ActionResult Index()
@@ -49,22 +53,8 @@ namespace ZKEACMS.Controllers
 
         public FileResult ThemePackage(string id)
         {
-            string path = Request.MapPath(ThemePath + "/" + id);
-            if (Directory.Exists(path))
-            {
-                var theme = Service.Get(id);
-                if (theme != null)
-                {
-                    string json = JsonConvert.SerializeObject(theme);
-                    var writer = System.IO.File.CreateText(path + "/info.json");
-                    writer.Write(json);
-                    writer.Dispose();
-                    ZipFile zipFile = new ZipFile();
-                    zipFile.AddDirectory(new DirectoryInfo(path));
-                    return File(zipFile.ToMemoryStream(), "application/zip", theme.Title + ".zip");
-                }
-            }
-            return null;
+            var package = new ThemePackageInstaller(_hostingEnvironment, Service).Pack(id) as ThemePackage;
+            return File(JsonConvert.SerializeObject(package).ToByte(), "Application/zip", package.Theme.Title + ".theme");
         }
         [HttpPost]
         public JsonResult UploadTheme()
@@ -74,50 +64,14 @@ namespace ZKEACMS.Controllers
             {
                 try
                 {
-                    var file = Request.Form.Files[0];
-                    ZipFile zipFile = new ZipFile();
-                    var files = zipFile.ToFileCollection(file.OpenReadStream());
-                    var themeInfo = files.FirstOrDefault(m => m.RelativePath.EndsWith("\\info.json"));
-                    string json = Encoding.UTF8.GetString(themeInfo.FileBytes);
-                    var newTheme = JsonConvert.DeserializeObject<ThemeEntity>(json);
-                    newTheme.IsActived = false;
-                    if (Service.Count(m => m.ID == newTheme.ID) == 0)
-                    {
-                        Service.Add(newTheme);
-                    }
-                    else
-                    {
-                        var oldTheme = Service.Get(newTheme.ID);
-                        if (oldTheme.IsActived)
-                        {
-                            newTheme.IsActived = true;
-                        }
-                        Service.Update(newTheme);
-                        result.Message = "主题已更新...";
-                    }
-                    var themePath = Request.MapPath(ThemePath);
-
-                    foreach (ZipFileInfo item in files)
-                    {
-                        string folder = Path.GetDirectoryName(themePath + item.RelativePath);
-                        if (!Directory.Exists(folder))
-                        {
-                            Directory.CreateDirectory(folder);
-                        }
-                        using (
-                            var fs =
-                                System.IO.File.Create(themePath + item.RelativePath)
-                            )
-                        {
-                            fs.Write(item.FileBytes, 0, item.FileBytes.Length);
-                        }
-                    }
-
+                    StreamReader reader = new StreamReader(Request.Form.Files[0].OpenReadStream());
+                    var theme = JsonConvert.DeserializeObject<ThemePackage>(reader.ReadToEnd());
+                    new ThemePackageInstaller(_hostingEnvironment, Service).Install(theme);
                 }
                 catch (Exception ex)
                 {
                     Logger.Error(ex);
-                    result.Message = "上传的主题不正确！";
+                    result.Message = "上传的主题不正确！" + ex.Message;
                     result.Status = AjaxStatus.Error;
                     return Json(result);
                 }

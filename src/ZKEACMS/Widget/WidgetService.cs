@@ -13,14 +13,13 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ZKEACMS.Widget
 {
     public abstract class WidgetService<T, TDB> : ServiceBase<T, TDB>, IWidgetPartDriver where T : WidgetBase where TDB : CMSDbContext, new()
     {
-        protected const string TempFolder = "~/Temp";
-        protected const string TempJsonFile = "~/Temp/{0}-widget.json";
-
         public WidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext)
             : base(applicationContext)
         {
@@ -175,7 +174,7 @@ namespace ZKEACMS.Widget
         }
 
         #region PackWidget
-        public virtual ZipFile PackWidget(WidgetBase widget)
+        public virtual WidgetPackage PackWidget(WidgetBase widget)
         {
             widget = GetWidget(widget);
             widget.PageID = null;
@@ -183,39 +182,17 @@ namespace ZKEACMS.Widget
             widget.ZoneID = null;
             widget.IsSystem = false;
             widget.IsTemplate = true;
-            var jsonResult = JsonConvert.SerializeObject(widget);
-            string tempFile = ((CMSApplicationContext)ApplicationContext).MapPath(TempJsonFile.FormatWith(Guid.NewGuid().ToString("N")));
-            if (!Directory.Exists(((CMSApplicationContext)ApplicationContext).MapPath(TempFolder)))
-            {
-                Directory.CreateDirectory(((CMSApplicationContext)ApplicationContext).MapPath(TempFolder));
-            }
-            File.WriteAllText(tempFile, jsonResult);
-            ZipFile file = new ZipFile();
-            file.AddFile(new FileInfo(tempFile));
-            return file;
+            return new WidgetPackageInstaller(ApplicationContext.ServiceLocator.GetService<IHostingEnvironment>()).Pack(widget) as WidgetPackage;
         }
 
-        public virtual WidgetBase UnPackWidget(ZipFileInfoCollection pack)
+        public virtual void InstallWidget(WidgetPackage pack)
         {
-            WidgetBase result = null;
-            try
+            var widget = new WidgetPackageInstaller(ApplicationContext.ServiceLocator.GetService<IHostingEnvironment>()).Install(pack);
+            if (widget != null)
             {
-                foreach (ZipFileInfo item in pack)
-                {
-                    if (item.RelativePath.EndsWith("-widget.json"))
-                    {
-                        var jsonStr = Encoding.UTF8.GetString(item.FileBytes);
-                        var widgetBase = JsonConvert.DeserializeObject<WidgetBase>(jsonStr);
-                        var widget = JsonConvert.DeserializeObject(jsonStr, widgetBase.GetViewModelType()) as WidgetBase;
-                        result = widget;
-                    }
-                }
+                AddWidget(widget as WidgetBase);
             }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-            }
-            return result;
+
         }
         #endregion
     }
