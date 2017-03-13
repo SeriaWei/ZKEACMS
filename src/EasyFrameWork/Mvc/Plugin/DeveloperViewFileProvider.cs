@@ -22,8 +22,8 @@ namespace Easy.Mvc.Plugin
         {
             if (subpath.StartsWith("/Porject.RootPath/"))
             {
-                var parent= new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent;
-                var file = Path.Combine(parent.FullName + subpath.Replace("/Porject.RootPath/", "/"));
+                var parent = new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent;
+                var file = Path.Combine(parent.FullName, subpath.Replace("/Porject.RootPath/", "").Replace("/", "\\"));
                 if (File.Exists(file))
                 {
                     return new PhysicalFileInfo(new FileInfo(file));
