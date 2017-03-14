@@ -103,7 +103,7 @@ namespace ZKEACMS.WebHost
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
