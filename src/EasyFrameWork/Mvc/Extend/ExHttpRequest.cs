@@ -35,7 +35,7 @@ namespace Easy.Mvc.Extend
         public static string MapPath(this HttpRequest request, string path)
         {
             var environment = request.HttpContext.RequestServices.GetService<IHostingEnvironment>();
-            return Path.Combine(environment.ContentRootPath, path.Replace("~/", ""));
+            return Path.Combine(environment.WebRootPath, path.Replace("~/", "")).Replace("/","\\");
         }
         /// <summary>
         /// 保存图片到UpLoad/Images
@@ -63,7 +63,7 @@ namespace Easy.Mvc.Extend
                             return filePath;
                         }
                     }
-                    return path.Replace(request.MapPath("~/"), "~/").Replace("\\", "/");
+                    return path.Replace(request.MapPath("~/"), "~").Replace("\\", "/");
                 }
             }
             return string.Empty;

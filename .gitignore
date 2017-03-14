@@ -151,3 +151,4 @@ $RECYCLE.BIN/
 .DS_Store
 .svn
 .vs
+src/ZKEACMS.WebHost/wwwroot/UpLoad
