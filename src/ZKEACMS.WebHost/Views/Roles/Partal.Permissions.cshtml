@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Easy.Modules.Role.Permission>
 
 @{
-    var AllPermission = PermissionKeys.DefaultPermissions;  
+    var AllPermission = PermissionKeys.KnownPermissions;  
     var permissions = AllPermission.GroupBy(m => m.Module);
     int rows = permissions.Count() / 3;
     rows += permissions.Count() % 3 == 0 ? 0 : 1;
@@ -30,8 +30,6 @@
                                     @p.Title
                                 </label>
                             </span>
-
-
                             index++;
                         }
                     </div>
