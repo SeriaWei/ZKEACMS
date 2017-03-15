@@ -1,5 +1,6 @@
 ﻿using Easy;
 using Easy.Extend;
+using Easy.Mvc.Attribute;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.DataAnnotations;
 using Easy.Mvc.Plugin;
@@ -54,6 +55,7 @@ namespace ZKEACMS.WebHost
               {
                   option.ModelBinderProviders.Insert(0, new WidgetModelBinderProvider());
                   option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
+                  option.Filters.Add(new HandleErrorToLogAttribute());
               })
              .AddControllersAsServices()
              .AddJsonOptions(option =>
@@ -95,15 +97,15 @@ namespace ZKEACMS.WebHost
             loggerFactory.AddDebug();
 
 
+            app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
                 app.UsePluginStaticFile();
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                //app.UseExceptionHandler("/Error");
             }
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions

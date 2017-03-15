@@ -27,5 +27,5 @@
 	"dependencies": {
 		"jquery": ">= 1.7.2"
 	},
-	"version": "1.15.0"
+	"version": "1.16.0"
 }
