@@ -97,15 +97,15 @@ namespace ZKEACMS.WebHost
             loggerFactory.AddDebug();
 
 
-            app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {
+            	app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
                 app.UsePluginStaticFile();
             }
             else
             {
-                //app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
