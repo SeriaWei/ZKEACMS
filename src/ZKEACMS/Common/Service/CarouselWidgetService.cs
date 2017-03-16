@@ -1,16 +1,16 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2017 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
+using Easy;
+using Easy.Constant;
+using Easy.Extend;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using ZKEACMS.Common.Models;
-using Easy.Constant;
-using Easy.Extend;
 using ZKEACMS.Widget;
-using Microsoft.AspNetCore.Http;
-using Easy;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using System;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Common.Service
 {

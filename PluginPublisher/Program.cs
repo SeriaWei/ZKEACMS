@@ -1,4 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2017 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;

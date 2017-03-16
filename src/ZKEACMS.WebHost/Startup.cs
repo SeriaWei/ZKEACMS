@@ -1,4 +1,8 @@
-﻿using Easy;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2017 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
+using Easy;
 using Easy.Extend;
 using Easy.Mvc.Attribute;
 using Easy.Mvc.Authorize;
@@ -14,11 +18,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ZKEACMS.Common.Service;
-using ZKEACMS.MetaData;
 using ZKEACMS.ModelBinder;
 
 namespace ZKEACMS.WebHost
