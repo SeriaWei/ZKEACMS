@@ -11,7 +11,7 @@ namespace PluginPublisher
 {
     class Program
     {
-        private const string PluginInfoFile = ".info";
+        private const string PluginInfoFile = "zkea.plugin";
         private const string PublishTo = @"src\ZKEACMS.WebHost\bin\Release\PublishOutput\";
         private static string[] IgnoreFiles = new string[] { ".cs", ".pdb", ".csproj", ".user" };
         private static string[] IgnoreFoders = new string[] { "obj" };

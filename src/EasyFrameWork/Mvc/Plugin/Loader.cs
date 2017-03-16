@@ -1,4 +1,8 @@
-﻿using Easy.Extend;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2017 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
+using Easy.Extend;
 using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
 using System;
@@ -12,7 +16,7 @@ namespace Easy.Mvc.Plugin
     public class Loader : IPluginLoader
     {
         public const string PluginFolder = "Plugins";
-        private const string PluginInfoFile = ".info";
+        private const string PluginInfoFile = "zkea.plugin";
         public static IHostingEnvironment HostingEnvironment { get; set; }
         private static List<AssemblyLoader> Loaders = new List<AssemblyLoader>();
         private static Dictionary<string, Assembly> LoadedAssemblies = new Dictionary<string, Assembly>();
