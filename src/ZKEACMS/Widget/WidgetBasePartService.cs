@@ -26,11 +26,14 @@ namespace ZKEACMS.Widget
     public class WidgetBasePartService : ServiceBase<WidgetBasePart, CMSDbContext>, IWidgetBasePartService
     {
         protected const string EncryptWidgetTemplate = "EncryptWidgetTemplate";
-        public WidgetBasePartService(IEncryptService encryptService, IDataArchivedService dataArchivedService, IApplicationContext applicationContext)
+        private readonly IWidgetActivetor _widgetActivetor;
+        public WidgetBasePartService(IEncryptService encryptService, IDataArchivedService dataArchivedService, 
+            IApplicationContext applicationContext, IWidgetActivetor widgetActivetor)
             : base(applicationContext)
         {
             EncryptService = encryptService;
             DataArchivedService = dataArchivedService;
+            _widgetActivetor = widgetActivetor;
         }
         public override DbSet<WidgetBasePart> CurrentDbSet
         {
@@ -85,7 +88,7 @@ namespace ZKEACMS.Widget
                 var result = GetByLayoutId(p.LayoutId);
                 List<WidgetBase> widgets = result.ToList();
                 widgets.AddRange(GetByPageId(p.ID));
-                return widgets.Select(widget => widget.CreateServiceInstance(serviceProvider)?.GetWidget(widget)).ToList();
+                return widgets.Select(widget => _widgetActivetor.Create(widget)?.GetWidget(widget)).ToList();
             };
             //if (page.IsPublishedPage)
             //{
@@ -132,7 +135,7 @@ namespace ZKEACMS.Widget
             {
                 widgetBasePart.ExtendFields.Each(f => { f.ActionType = ActionType.Create; });
             }
-            var service = widgetBasePart.CreateServiceInstance(actionContext.HttpContext.RequestServices);
+            var service = _widgetActivetor.Create(widgetBasePart);
             var widgetBase = service.GetWidget(widgetBasePart.ToWidgetBase());
 
             widgetBase.PageID = widget.PageID;

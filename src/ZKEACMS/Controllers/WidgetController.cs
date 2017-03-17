@@ -26,14 +26,16 @@ namespace ZKEACMS.Controllers
         private readonly IWidgetTemplateService _widgetTemplateService;
         private readonly ICookie _cookie;
         private readonly IPackageInstallerProvider _packageInstallerProvider;
+        private readonly IWidgetActivetor _widgetActivetor;
 
-        public WidgetController(IWidgetBasePartService widgetService, IWidgetTemplateService widgetTemplateService, 
-            ICookie cookie, IPackageInstallerProvider packageInstallerProvider)
+        public WidgetController(IWidgetBasePartService widgetService, IWidgetTemplateService widgetTemplateService,
+            ICookie cookie, IPackageInstallerProvider packageInstallerProvider, IWidgetActivetor widgetActivetor)
         {
             _widgetService = widgetService;
             _widgetTemplateService = widgetTemplateService;
             _cookie = cookie;
             _packageInstallerProvider = packageInstallerProvider;
+            _widgetActivetor = widgetActivetor;
         }
 
         [ViewDataZones]
@@ -68,7 +70,7 @@ namespace ZKEACMS.Controllers
             {
                 return View(widget);
             }
-            widget.CreateServiceInstance(HttpContext.RequestServices).AddWidget(widget);
+            _widgetActivetor.Create(widget).AddWidget(widget);
             if (widget.ActionType == ActionType.Continue)
             {
                 return RedirectToAction("Edit", new { widget.ID, ReturnUrl });
@@ -87,7 +89,7 @@ namespace ZKEACMS.Controllers
         public ActionResult Edit(string ID, string ReturnUrl)
         {
             var widgetBase = _widgetService.Get(ID);
-            var widget = widgetBase.CreateServiceInstance(HttpContext.RequestServices).GetWidget(widgetBase);
+            var widget = _widgetActivetor.Create(widgetBase).GetWidget(widgetBase);
             ViewBag.ReturnUrl = ReturnUrl;
 
             var template = _widgetTemplateService.Get(
@@ -112,7 +114,7 @@ namespace ZKEACMS.Controllers
             {
                 return View(widget);
             }
-            widget.CreateServiceInstance(HttpContext.RequestServices).UpdateWidget(widget);
+            _widgetActivetor.Create(widget).UpdateWidget(widget);
             if (!ReturnUrl.IsNullOrEmpty())
             {
                 return Redirect(ReturnUrl);
@@ -142,7 +144,7 @@ namespace ZKEACMS.Controllers
             WidgetBase widget = _widgetService.Get(ID);
             if (widget != null)
             {
-                widget.CreateServiceInstance(HttpContext.RequestServices).DeleteWidget(ID);
+                _widgetActivetor.Create(widget).DeleteWidget(ID);
                 return Json(ID);
             }
             return Json(false);
@@ -176,7 +178,7 @@ namespace ZKEACMS.Controllers
                 }
                 else
                 {
-                    widget.CreateServiceInstance(HttpContext.RequestServices).DeleteWidget(Id);
+                    _widgetActivetor.Create(widget).DeleteWidget(Id);
                 }
             }
             return Json(Id);
@@ -222,7 +224,7 @@ namespace ZKEACMS.Controllers
         public FileResult Pack(string ID)
         {
             var widget = _widgetService.Get(ID);
-            var widgetPackage = widget.CreateServiceInstance(Request.HttpContext.RequestServices).PackWidget(widget) as WidgetPackage;
+            var widgetPackage = _widgetActivetor.Create(widget).PackWidget(widget) as WidgetPackage;
             return File(widgetPackage.ToFilePackage(), "Application/zip", widgetPackage.Widget.WidgetName + ".widget");
         }
         [HttpPost]
@@ -234,7 +236,7 @@ namespace ZKEACMS.Controllers
                 {
                     WidgetPackage package;
                     _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
-                    package.Widget.CreateServiceInstance(Request.HttpContext.RequestServices).InstallWidget(package);
+                    _widgetActivetor.Create(package.Widget).InstallWidget(package);
                 }
                 catch (Exception ex)
                 {

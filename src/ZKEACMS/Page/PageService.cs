@@ -18,14 +18,16 @@ namespace ZKEACMS.Page
     {
         private readonly IWidgetBasePartService _widgetService;
         private readonly IDataArchivedService _dataArchivedService;
+        private readonly IWidgetActivetor _widgetActivetor;
 
 
-
-        public PageService(IWidgetBasePartService widgetService, IDataArchivedService dataArchivedService, IApplicationContext applicationContext)
+        public PageService(IWidgetBasePartService widgetService, IDataArchivedService dataArchivedService,
+            IApplicationContext applicationContext, IWidgetActivetor widgetActivetor)
             : base(applicationContext)
         {
             _widgetService = widgetService;
             _dataArchivedService = dataArchivedService;
+            _widgetActivetor = widgetActivetor;
         }
         public override DbSet<PageEntity> CurrentDbSet
         {
@@ -80,7 +82,7 @@ namespace ZKEACMS.Page
             Add(item);
             widgets.Each(m =>
             {
-                using (var widgetService = m.CreateServiceInstance(ApplicationContext.ServiceLocator))
+                using (var widgetService = _widgetActivetor.Create(m))
                 {
                     m = widgetService.GetWidget(m);
                     if (m.ExtendFields != null)
@@ -126,7 +128,7 @@ namespace ZKEACMS.Page
                 var widgets = _widgetService.GetByPageId(ID);
                 widgets.Each(m =>
                 {
-                    var widgetService = m.CreateServiceInstance(ApplicationContext.ServiceLocator);
+                    var widgetService = _widgetActivetor.Create(m);
                     m = widgetService.GetWidget(m);
                     if (m.ExtendFields != null)
                     {
@@ -148,7 +150,7 @@ namespace ZKEACMS.Page
             var widgets = _widgetService.Get(m => m.PageID == item.ID);
             widgets.Each(m =>
             {
-                using (var widgetService = m.CreateServiceInstance(ApplicationContext.ServiceLocator))
+                using (var widgetService = _widgetActivetor.Create(m))
                 {
                     widgetService.DeleteWidget(m.ID);
                 }
@@ -160,7 +162,7 @@ namespace ZKEACMS.Page
             _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(item.ID));
             base.Remove(item);
         }
-        
+
         public override void Remove(Expression<Func<PageEntity, bool>> filter)
         {
             var deletes = Get(filter).ToList(m => m.ID);
@@ -172,7 +174,7 @@ namespace ZKEACMS.Page
                 var widgets = _widgetService.Get(m => deletes.Any(n => n == m.PageID));
                 widgets.Each(m =>
                 {
-                    using (var widgetService = m.CreateServiceInstance(ApplicationContext.ServiceLocator))
+                    using (var widgetService = _widgetActivetor.Create(m))
                     {
                         widgetService.DeleteWidget(m.ID);
                     }
@@ -195,7 +197,7 @@ namespace ZKEACMS.Page
             if (page != null)
             {
                 var widgets = _widgetService.Get(m => m.PageID == page.ID);
-                widgets.Each(m => m.CreateServiceInstance(ApplicationContext.ServiceLocator).DeleteWidget(m.ID));
+                widgets.Each(m => _widgetActivetor.Create(m).DeleteWidget(m.ID));
                 _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(page.ID));
             }
             base.Remove(ID);

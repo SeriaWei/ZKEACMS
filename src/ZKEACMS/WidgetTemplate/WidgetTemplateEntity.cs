@@ -5,6 +5,7 @@ using Easy.Models;
 using ZKEACMS.Widget;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ZKEACMS.WidgetTemplate
 {
@@ -33,7 +34,7 @@ namespace ZKEACMS.WidgetTemplate
             widget.Description = Description;
             widget.PartialView = PartialView;
             widget.WidgetName = Title;
-            return widget.CreateViewModelInstance(serviceProvider);
+            return serviceProvider.GetService<IWidgetActivetor>().CreateWidgetViewModel(widget);
         }
     }
     class WidgetTemplateMetaData : ViewMetaData<WidgetTemplateEntity>
