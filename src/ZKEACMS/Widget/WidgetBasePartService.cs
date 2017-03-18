@@ -27,13 +27,15 @@ namespace ZKEACMS.Widget
     {
         protected const string EncryptWidgetTemplate = "EncryptWidgetTemplate";
         private readonly IWidgetActivetor _widgetActivetor;
+        private readonly IServiceProvider _serviceProvider;
         public WidgetBasePartService(IEncryptService encryptService, IDataArchivedService dataArchivedService, 
-            IApplicationContext applicationContext, IWidgetActivetor widgetActivetor)
+            IApplicationContext applicationContext, IWidgetActivetor widgetActivetor, IServiceProvider serviceProvider)
             : base(applicationContext)
         {
             EncryptService = encryptService;
             DataArchivedService = dataArchivedService;
             _widgetActivetor = widgetActivetor;
+            _serviceProvider = serviceProvider;
         }
         public override DbSet<WidgetBasePart> CurrentDbSet
         {
@@ -46,14 +48,14 @@ namespace ZKEACMS.Widget
         {
             if (widget != null && widget.PageID.IsNotNullAndWhiteSpace())
             {
-                using (var pageService = ApplicationContext.ServiceLocator.GetService<IPageService>())
+                using (var pageService = _serviceProvider.GetService<IPageService>())
                 {
                     pageService.MarkChanged(widget.PageID);
                 }
             }
             else if (widget != null && widget.LayoutID.IsNotNullAndWhiteSpace())
             {
-                using (var layoutService = ApplicationContext.ServiceLocator.GetService<ILayoutService>())
+                using (var layoutService = _serviceProvider.GetService<ILayoutService>())
                 {
                     layoutService.MarkChanged(widget.LayoutID);
                 }
@@ -74,7 +76,7 @@ namespace ZKEACMS.Widget
         }
         public IEnumerable<WidgetBase> GetAllByPageId(IServiceProvider serviceProvider, string pageId)
         {
-            using (var pageService = ApplicationContext.ServiceLocator.GetService<IPageService>())
+            using (var pageService = _serviceProvider.GetService<IPageService>())
             {
                 return GetAllByPage(serviceProvider, pageService.Get(pageId));
             }

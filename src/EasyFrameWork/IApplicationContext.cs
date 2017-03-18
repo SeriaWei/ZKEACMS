@@ -1,5 +1,6 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.Models;
+using Microsoft.AspNetCore.Hosting;
 using System;
 
 namespace Easy
@@ -7,6 +8,6 @@ namespace Easy
     public interface IApplicationContext
     {
         IUser CurrentUser { get; }
-        IServiceProvider ServiceLocator { get; }
+        IHostingEnvironment HostingEnvironment { get; }
     }
 }

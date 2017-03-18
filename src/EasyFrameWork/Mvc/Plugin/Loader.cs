@@ -17,9 +17,13 @@ namespace Easy.Mvc.Plugin
     {
         public const string PluginFolder = "Plugins";
         private const string PluginInfoFile = "zkea.plugin";
-        public static IHostingEnvironment HostingEnvironment { get; set; }
+        public IHostingEnvironment HostingEnvironment { get; set; }
         private static List<AssemblyLoader> Loaders = new List<AssemblyLoader>();
         private static Dictionary<string, Assembly> LoadedAssemblies = new Dictionary<string, Assembly>();
+        public Loader(IHostingEnvironment hostEnvironment)
+        {
+            HostingEnvironment = hostEnvironment;
+        }
         public void LoadEnablePlugins(Action<IPluginStartup> onLoading, Action<Assembly> onLoaded)
         {
             GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>

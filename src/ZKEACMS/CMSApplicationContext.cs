@@ -4,17 +4,20 @@ using System;
 using Easy.Mvc.Extend;
 using Microsoft.AspNetCore.Http;
 using Easy.Modules.User.Service;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ZKEACMS
 {
     public class CMSApplicationContext : ApplicationContext
     {
-        public CMSApplicationContext(IHttpContextAccessor httpContextAccessor) :
-            base(httpContextAccessor)
-        {
-
-        }
+        
         private Uri _requestUrl;
+
+        public CMSApplicationContext(IHttpContextAccessor httpContextAccessor, IHostingEnvironment hostingEnvironment) : 
+            base(httpContextAccessor, hostingEnvironment)
+        {
+        }
+
         public Uri RequestUrl
         {
             get

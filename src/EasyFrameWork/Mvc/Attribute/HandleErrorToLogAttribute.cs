@@ -1,5 +1,6 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Easy.Mvc.Attribute
 {
@@ -8,7 +9,7 @@ namespace Easy.Mvc.Attribute
         public override void OnException(ExceptionContext filterContext)
         {
             base.OnException(filterContext);
-            Logger.Error(filterContext.Exception);
+            filterContext.HttpContext.RequestServices.GetService<ILogger>().Error(filterContext.Exception);
         }
     }
 }

@@ -50,29 +50,24 @@ namespace ZKEACMS.SectionWidget.Service
                     var attr = item.Attributes["type"];
                     if (attr != null && attr.Value.IsNotNullAndWhiteSpace())
                     {
-                        try
+
+                        if (SectionPlug.ContentTypes.ContainsKey(attr.Value))
                         {
-                            if (SectionPlug.ContentTypes.ContainsKey(attr.Value))
+                            var content = Activator.CreateInstance(SectionPlug.ContentTypes[attr.Value]) as SectionContent;
+                            var properties = item.SelectNodes("property");
+                            foreach (XmlNode property in properties)
                             {
-                                var content = Activator.CreateInstance(SectionPlug.ContentTypes[attr.Value]) as SectionContent;
-                                var properties = item.SelectNodes("property");
-                                foreach (XmlNode property in properties)
+                                var name = property.Attributes["name"];
+                                if (name != null && name.Value.IsNotNullAndWhiteSpace() && property.InnerText.IsNotNullAndWhiteSpace())
                                 {
-                                    var name = property.Attributes["name"];
-                                    if (name != null && name.Value.IsNotNullAndWhiteSpace() && property.InnerText.IsNotNullAndWhiteSpace())
-                                    {
-                                        ClassAction.SetObjPropertyValue(content, name.Value, property.InnerText);
-                                    }
+                                    ClassAction.SetObjPropertyValue(content, name.Value, property.InnerText);
                                 }
-                                content.SectionGroupId = group.ID;
-                                content.SectionWidgetId = group.SectionWidgetId;
-                                contents.Add(content);
                             }
+                            content.SectionGroupId = group.ID;
+                            content.SectionWidgetId = group.SectionWidgetId;
+                            contents.Add(content);
                         }
-                        catch (Exception ex)
-                        {
-                            Logger.Error(ex);
-                        }
+
                     }
                 }
             }

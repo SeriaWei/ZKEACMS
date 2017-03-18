@@ -35,7 +35,7 @@ namespace Easy.Mvc.Extend
         public static string MapPath(this HttpRequest request, string path)
         {
             var environment = request.HttpContext.RequestServices.GetService<IHostingEnvironment>();
-            return Path.Combine(environment.WebRootPath, path.Replace("~/", "")).Replace("/","\\");
+            return Path.Combine(environment.WebRootPath, path.Replace("~/", "")).Replace("/", "\\");
         }
         /// <summary>
         /// 保存图片到UpLoad/Images
@@ -154,24 +154,16 @@ namespace Easy.Mvc.Extend
 
         public static void DeleteFile(this HttpRequest request, string filePath)
         {
-            try
+            string file = request.MapPath(filePath);
+            if (File.Exists(file))
             {
-                string file = request.MapPath(filePath);
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
-                var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
-                if (storage != null)
-                {
-                    storage.DeleteFile(file);
-                }
+                File.Delete(file);
             }
-            catch (Exception ex)
+            var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
+            if (storage != null)
             {
-                Logger.Error(ex);
+                storage.DeleteFile(file);
             }
-
         }
     }
 }

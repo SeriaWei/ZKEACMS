@@ -111,8 +111,7 @@ namespace ZKEACMS.SectionWidget.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex);
-                    return Json(new AjaxResult { Status = AjaxStatus.Error, Message = "上传的模板不正确" });
+                    return Json(new AjaxResult { Status = AjaxStatus.Error, Message = "上传的模板不正确!" + ex.Message });
                 }
             }
 

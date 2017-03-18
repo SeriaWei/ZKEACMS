@@ -109,23 +109,6 @@ namespace ZKEACMS.SectionWidget.Models
             }
         }
 
-        private string _templateName;
-        public string GetTemplateName()
-        {
-            if (_templateName.IsNullOrWhiteSpace())
-            {
-                var template = new Easy.ServiceLocator().Current.GetService<ISectionTemplateService>().Get(PartialView);
-                if (template != null)
-                {
-                    _templateName = template.Title;
-                }
-                else
-                {
-                    _templateName = "Error";
-                }
-            }
-            return _templateName;
-        }
         [NotMapped]
         public override string Description { get; set; }
         [NotMapped]

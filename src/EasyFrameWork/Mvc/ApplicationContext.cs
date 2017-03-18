@@ -10,9 +10,10 @@ namespace Easy.Mvc
 {
     public class ApplicationContext : IApplicationContext
     {
-        public ApplicationContext(IHttpContextAccessor httpContextAccessor)
+        public ApplicationContext(IHttpContextAccessor httpContextAccessor, IHostingEnvironment hostingEnvironment)
         {
             HttpContextAccessor = httpContextAccessor;
+            HostingEnvironment = hostingEnvironment;
         }
         public IHttpContextAccessor HttpContextAccessor { get; set; }
         IUser _currentUser;
@@ -27,7 +28,7 @@ namespace Easy.Mvc
                 var httpContext = HttpContextAccessor.HttpContext;
                 if (httpContext != null && httpContext.User.Identity.IsAuthenticated)
                 {
-                    using (var userService = ServiceLocator.GetService<IUserService>())
+                    using (var userService = httpContext.RequestServices.GetService<IUserService>())
                     {
                         _currentUser = userService.Get(httpContext.User.Identity.Name);
                         return _currentUser;
@@ -38,17 +39,9 @@ namespace Easy.Mvc
             }
         }
 
-        public IServiceProvider ServiceLocator
+        public IHostingEnvironment HostingEnvironment
         {
-            get
-            {
-                var httpContext = HttpContextAccessor.HttpContext;
-                if (httpContext != null)
-                {
-                    return httpContext.RequestServices;
-                }
-                return new ServiceLocator().Current;
-            }
+            get;
         }
     }
 }

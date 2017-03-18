@@ -41,11 +41,12 @@ namespace ZKEACMS.WebHost
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
             }
-            Loader.HostingEnvironment = env;
+            HostingEnvironment = env;
             Configuration = builder.Build();
 
         }
 
+        public IHostingEnvironment HostingEnvironment { get; }
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -66,14 +67,14 @@ namespace ZKEACMS.WebHost
                  option.SerializerSettings.DateFormatString = "yyyy-MM-dd";
              });
             services.TryAddTransient<IOnConfiguring, EntityFrameWorkConfigure>();
-            services.UseEasyFrameWork(Configuration).LoadEnablePlugins(plugin =>
-            {
-                var cmsPlugin = plugin as PluginBase;
-                if (cmsPlugin != null)
-                {
-                    cmsPlugin.InitPlug();
-                }
-            }, null);
+            services.UseEasyFrameWork(Configuration, HostingEnvironment).LoadEnablePlugins(plugin =>
+             {
+                 var cmsPlugin = plugin as PluginBase;
+                 if (cmsPlugin != null)
+                 {
+                     cmsPlugin.InitPlug();
+                 }
+             }, null);
             services.UseZKEACMS();
             services.Configure<AuthorizationOptions>(options =>
             {
@@ -87,8 +88,6 @@ namespace ZKEACMS.WebHost
 
             });
             services.AddAuthorization();
-            services.AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(Loader.HostingEnvironment.ContentRootPath, "PersistKeys")));
             new ResourceManager().Excute();
         }
 
@@ -102,7 +101,7 @@ namespace ZKEACMS.WebHost
 
             if (env.IsDevelopment())
             {
-            	app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
                 app.UsePluginStaticFile();
             }

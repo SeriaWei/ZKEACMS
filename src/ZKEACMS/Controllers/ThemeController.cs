@@ -17,7 +17,7 @@ namespace ZKEACMS.Controllers
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IPackageInstallerProvider _packageInstallerProvider;
 
-        public ThemeController(IThemeService service, IHostingEnvironment hostingEnvironment, 
+        public ThemeController(IThemeService service, IHostingEnvironment hostingEnvironment,
             IPackageInstallerProvider packageInstallerProvider)
             : base(service)
         {
@@ -67,7 +67,6 @@ namespace ZKEACMS.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex);
                     result.Message = "上传的主题不正确！" + ex.Message;
                     result.Status = AjaxStatus.Error;
                     return Json(result);

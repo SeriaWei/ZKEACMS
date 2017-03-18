@@ -182,12 +182,12 @@ namespace ZKEACMS.Widget
             widget.ZoneID = null;
             widget.IsSystem = false;
             widget.IsTemplate = true;
-            return new WidgetPackageInstaller(ApplicationContext.ServiceLocator.GetService<IHostingEnvironment>()).Pack(widget) as WidgetPackage;
+            return new WidgetPackageInstaller(ApplicationContext.HostingEnvironment).Pack(widget) as WidgetPackage;
         }
 
         public virtual void InstallWidget(WidgetPackage pack)
         {
-            var widget = new WidgetPackageInstaller(ApplicationContext.ServiceLocator.GetService<IHostingEnvironment>()).Install(pack);
+            var widget = new WidgetPackageInstaller(ApplicationContext.HostingEnvironment).Install(pack);
             if (widget != null)
             {
                 AddWidget(widget as WidgetBase);

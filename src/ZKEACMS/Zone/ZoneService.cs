@@ -14,9 +14,11 @@ namespace ZKEACMS.Zone
 {
     public class ZoneService : ServiceBase<ZoneEntity,CMSDbContext>, IZoneService
     {
-        public ZoneService(IPageService pageService, IApplicationContext applicationContext) : base(applicationContext)
+        private readonly IServiceProvider _serviceProvder;
+        public ZoneService(IPageService pageService, IApplicationContext applicationContext,IServiceProvider serviceProvder) : base(applicationContext)
         {
             PageService = pageService;
+            _serviceProvder = serviceProvder;
         }
 
         public IPageService PageService { get; set; }
@@ -40,7 +42,7 @@ namespace ZKEACMS.Zone
         public IEnumerable<ZoneEntity> GetZonesByPageId(string pageId)
         {
             var page = PageService.Get(pageId);
-            using (var layoutService = ApplicationContext.ServiceLocator.GetService<ILayoutService>())
+            using (var layoutService = _serviceProvder.GetService<ILayoutService>())
             {
                 var layout = layoutService.Get(page.LayoutId);
                 return CurrentDbSet.Where(m => m.LayoutId == layout.ID).OrderBy(m => m.ID).ToList();

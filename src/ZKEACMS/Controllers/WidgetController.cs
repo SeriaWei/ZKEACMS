@@ -232,16 +232,11 @@ namespace ZKEACMS.Controllers
         {
             if (Request.Form.Files.Count > 0)
             {
-                try
-                {
-                    WidgetPackage package;
-                    _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
-                    _widgetActivetor.Create(package.Widget).InstallWidget(package);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex);
-                }
+
+                WidgetPackage package;
+                _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
+                _widgetActivetor.Create(package.Widget).InstallWidget(package);
+
             }
             return Redirect(returnUrl);
         }

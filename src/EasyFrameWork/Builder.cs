@@ -15,6 +15,7 @@ using Easy.Mvc.Authorize;
 using Easy.Encrypt;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Easy
 {
@@ -22,7 +23,7 @@ namespace Easy
     {
         public static IConfigurationRoot Configuration { get; set; }
         public static IServiceCollection ServiceCollection { get; set; }
-        public static IPluginLoader UseEasyFrameWork(this IServiceCollection services, IConfigurationRoot configuration)
+        public static IPluginLoader UseEasyFrameWork(this IServiceCollection services, IConfigurationRoot configuration, IHostingEnvironment hostingEnvironment)
         {
             services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<RazorViewEngineOptions>, PluginRazorViewEngineOptionsSetup>());
             
@@ -42,10 +43,13 @@ namespace Easy
             services.TryAddTransient<ILanguageService, LanguageService>();
             services.TryAddTransient<IEncryptService, EncryptService>();
             services.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+
+            services.AddTransient<ILogger, Logger>();
+
             ServiceCollection = services;
 
             Configuration = configuration;
-            return new Loader();
+            return new Loader(hostingEnvironment);
         }
 
         public static IApplicationBuilder UsePluginStaticFile(this IApplicationBuilder builder)
