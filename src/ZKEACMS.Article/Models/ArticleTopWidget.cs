@@ -28,7 +28,7 @@ namespace ZKEACMS.Article.Models
         {
             base.ViewConfigure();
             ViewConfig(m => m.SubTitle).AsTextBox().Order(NextOrder());
-            var articleTypeService = new ServiceLocator().GetService<IArticleTypeService>();
+            var articleTypeService = ServiceLocator.GetService<IArticleTypeService>();
             ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).DataSource(articleTypeService.GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title)).Required();
             ViewConfig(m => m.Tops).AsTextBox().Order(NextOrder()).RegularExpression(RegularExpression.PositiveIntegers);
             ViewConfig(m => m.MoreLink).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
@@ -36,7 +36,7 @@ namespace ZKEACMS.Article.Models
 
             ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(() =>
             {
-                var path = (new ServiceLocator().GetService<IApplicationContext>() as CMSApplicationContext).MapPath("~/Modules/Article/Views");
+                var path = (ServiceLocator.GetService<IApplicationContext>() as CMSApplicationContext).MapPath("~/Modules/Article/Views");
                 Dictionary<string, string> templates = new Dictionary<string, string>();
                 Directory.GetFiles(path, "Widget.ArticleTops*.cshtml").Each(f =>
                 {

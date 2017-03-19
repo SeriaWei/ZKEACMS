@@ -13,11 +13,15 @@ namespace Easy.Mvc.Plugin
 {
     public class DeveloperViewFileProvider : IFileProvider
     {
+        public DeveloperViewFileProvider(IHostingEnvironment hostingEnvironment)
+        {
+            HostingEnvironment = hostingEnvironment;
+        }
         public IDirectoryContents GetDirectoryContents(string subpath)
         {
             return null;
         }
-        public IHostingEnvironment HostingEnvironment { get; } = new ServiceLocator().GetService<IHostingEnvironment>();
+        public IHostingEnvironment HostingEnvironment { get; }
         public IFileInfo GetFileInfo(string subpath)
         {
             if (subpath.StartsWith("/Porject.RootPath/"))

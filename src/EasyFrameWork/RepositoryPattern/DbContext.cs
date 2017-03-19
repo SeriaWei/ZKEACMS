@@ -8,9 +8,8 @@ namespace Easy.RepositoryPattern
     {
         static DbContextConfig()
         {
-            var serviceLocator = new ServiceLocator();
-            OnModelCreatings = serviceLocator.GetServices<IOnModelCreating>();
-            OnConfigurings = serviceLocator.GetServices<IOnConfiguring>();
+            OnModelCreatings = ServiceLocator.GetServices<IOnModelCreating>();
+            OnConfigurings = ServiceLocator.GetServices<IOnConfiguring>();
         }
         public static IEnumerable<IOnModelCreating> OnModelCreatings { get; }
         public static IEnumerable<IOnConfiguring> OnConfigurings { get; }

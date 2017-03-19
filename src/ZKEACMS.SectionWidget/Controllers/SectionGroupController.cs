@@ -21,18 +21,18 @@ namespace ZKEACMS.SectionWidget.Controllers
         private readonly ISectionContentProviderService _sectionContentProviderService;
         private readonly IWidgetBasePartService _widgetService;
         private readonly IPackageInstallerProvider _packageInstallerProvider;
-        private readonly IWidgetActivetor _widgetActivetor;
+        private readonly IWidgetActivator _widgetActivator;
 
         public SectionGroupController(ISectionGroupService sectionGroupService,
             ISectionContentProviderService sectionContentProviderService,
             IWidgetBasePartService widgetService, IPackageInstallerProvider packageInstallerProvider,
-            IWidgetActivetor widgetActivetor)
+            IWidgetActivator widgetActivator)
         {
             _sectionGroupService = sectionGroupService;
             _sectionContentProviderService = sectionContentProviderService;
             _widgetService = widgetService;
             _packageInstallerProvider = packageInstallerProvider;
-            _widgetActivetor = widgetActivetor;
+            _widgetActivator = widgetActivator;
         }
 
         public ActionResult Create(string sectionWidgetId)
@@ -107,7 +107,7 @@ namespace ZKEACMS.SectionWidget.Controllers
                 {
                     WidgetPackage package;
                     _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
-                    _widgetActivetor.Create(package.Widget).InstallWidget(package);
+                    _widgetActivator.Create(package.Widget).InstallWidget(package);
                 }
                 catch (Exception ex)
                 {

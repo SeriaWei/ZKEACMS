@@ -26,16 +26,16 @@ namespace ZKEACMS.Controllers
         private readonly IWidgetTemplateService _widgetTemplateService;
         private readonly ICookie _cookie;
         private readonly IPackageInstallerProvider _packageInstallerProvider;
-        private readonly IWidgetActivetor _widgetActivetor;
+        private readonly IWidgetActivator _widgetActivator;
 
         public WidgetController(IWidgetBasePartService widgetService, IWidgetTemplateService widgetTemplateService,
-            ICookie cookie, IPackageInstallerProvider packageInstallerProvider, IWidgetActivetor widgetActivetor)
+            ICookie cookie, IPackageInstallerProvider packageInstallerProvider, IWidgetActivator widgetActivator)
         {
             _widgetService = widgetService;
             _widgetTemplateService = widgetTemplateService;
             _cookie = cookie;
             _packageInstallerProvider = packageInstallerProvider;
-            _widgetActivetor = widgetActivetor;
+            _widgetActivator = widgetActivator;
         }
 
         [ViewDataZones]
@@ -70,7 +70,7 @@ namespace ZKEACMS.Controllers
             {
                 return View(widget);
             }
-            _widgetActivetor.Create(widget).AddWidget(widget);
+            _widgetActivator.Create(widget).AddWidget(widget);
             if (widget.ActionType == ActionType.Continue)
             {
                 return RedirectToAction("Edit", new { widget.ID, ReturnUrl });
@@ -89,7 +89,7 @@ namespace ZKEACMS.Controllers
         public ActionResult Edit(string ID, string ReturnUrl)
         {
             var widgetBase = _widgetService.Get(ID);
-            var widget = _widgetActivetor.Create(widgetBase).GetWidget(widgetBase);
+            var widget = _widgetActivator.Create(widgetBase).GetWidget(widgetBase);
             ViewBag.ReturnUrl = ReturnUrl;
 
             var template = _widgetTemplateService.Get(
@@ -114,7 +114,7 @@ namespace ZKEACMS.Controllers
             {
                 return View(widget);
             }
-            _widgetActivetor.Create(widget).UpdateWidget(widget);
+            _widgetActivator.Create(widget).UpdateWidget(widget);
             if (!ReturnUrl.IsNullOrEmpty())
             {
                 return Redirect(ReturnUrl);
@@ -144,7 +144,7 @@ namespace ZKEACMS.Controllers
             WidgetBase widget = _widgetService.Get(ID);
             if (widget != null)
             {
-                _widgetActivetor.Create(widget).DeleteWidget(ID);
+                _widgetActivator.Create(widget).DeleteWidget(ID);
                 return Json(ID);
             }
             return Json(false);
@@ -178,7 +178,7 @@ namespace ZKEACMS.Controllers
                 }
                 else
                 {
-                    _widgetActivetor.Create(widget).DeleteWidget(Id);
+                    _widgetActivator.Create(widget).DeleteWidget(Id);
                 }
             }
             return Json(Id);
@@ -224,7 +224,7 @@ namespace ZKEACMS.Controllers
         public FileResult Pack(string ID)
         {
             var widget = _widgetService.Get(ID);
-            var widgetPackage = _widgetActivetor.Create(widget).PackWidget(widget) as WidgetPackage;
+            var widgetPackage = _widgetActivator.Create(widget).PackWidget(widget) as WidgetPackage;
             return File(widgetPackage.ToFilePackage(), "Application/zip", widgetPackage.Widget.WidgetName + ".widget");
         }
         [HttpPost]
@@ -235,7 +235,7 @@ namespace ZKEACMS.Controllers
 
                 WidgetPackage package;
                 _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
-                _widgetActivetor.Create(package.Widget).InstallWidget(package);
+                _widgetActivator.Create(package.Widget).InstallWidget(package);
 
             }
             return Redirect(returnUrl);

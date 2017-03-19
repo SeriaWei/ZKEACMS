@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ZKEACMS.Widget
 {
-    public interface IWidgetActivetor
+    public interface IWidgetActivator
     {
         IWidgetPartDriver Create(WidgetBase widget);
         WidgetBase CreateWidgetViewModel(WidgetBase widget);

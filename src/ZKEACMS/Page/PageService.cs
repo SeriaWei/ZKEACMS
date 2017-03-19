@@ -18,16 +18,16 @@ namespace ZKEACMS.Page
     {
         private readonly IWidgetBasePartService _widgetService;
         private readonly IDataArchivedService _dataArchivedService;
-        private readonly IWidgetActivetor _widgetActivetor;
+        private readonly IWidgetActivator _widgetActivator;
 
 
         public PageService(IWidgetBasePartService widgetService, IDataArchivedService dataArchivedService,
-            IApplicationContext applicationContext, IWidgetActivetor widgetActivetor)
+            IApplicationContext applicationContext, IWidgetActivator widgetActivator)
             : base(applicationContext)
         {
             _widgetService = widgetService;
             _dataArchivedService = dataArchivedService;
-            _widgetActivetor = widgetActivetor;
+            _widgetActivator = widgetActivator;
         }
         public override DbSet<PageEntity> CurrentDbSet
         {
@@ -82,7 +82,7 @@ namespace ZKEACMS.Page
             Add(item);
             widgets.Each(m =>
             {
-                using (var widgetService = _widgetActivetor.Create(m))
+                using (var widgetService = _widgetActivator.Create(m))
                 {
                     m = widgetService.GetWidget(m);
                     if (m.ExtendFields != null)
@@ -128,7 +128,7 @@ namespace ZKEACMS.Page
                 var widgets = _widgetService.GetByPageId(ID);
                 widgets.Each(m =>
                 {
-                    var widgetService = _widgetActivetor.Create(m);
+                    var widgetService = _widgetActivator.Create(m);
                     m = widgetService.GetWidget(m);
                     if (m.ExtendFields != null)
                     {
@@ -150,7 +150,7 @@ namespace ZKEACMS.Page
             var widgets = _widgetService.Get(m => m.PageID == item.ID);
             widgets.Each(m =>
             {
-                using (var widgetService = _widgetActivetor.Create(m))
+                using (var widgetService = _widgetActivator.Create(m))
                 {
                     widgetService.DeleteWidget(m.ID);
                 }
@@ -174,7 +174,7 @@ namespace ZKEACMS.Page
                 var widgets = _widgetService.Get(m => deletes.Any(n => n == m.PageID));
                 widgets.Each(m =>
                 {
-                    using (var widgetService = _widgetActivetor.Create(m))
+                    using (var widgetService = _widgetActivator.Create(m))
                     {
                         widgetService.DeleteWidget(m.ID);
                     }
@@ -197,7 +197,7 @@ namespace ZKEACMS.Page
             if (page != null)
             {
                 var widgets = _widgetService.Get(m => m.PageID == page.ID);
-                widgets.Each(m => _widgetActivetor.Create(m).DeleteWidget(m.ID));
+                widgets.Each(m => _widgetActivator.Create(m).DeleteWidget(m.ID));
                 _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(page.ID));
             }
             base.Remove(ID);
@@ -249,7 +249,11 @@ namespace ZKEACMS.Page
             var result = pages.FirstOrDefault();
             if (result != null && result.ExtendFields != null)
             {
-                /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+                /*!
+                 * http://www.zkea.net/ 
+                 * Copyright 2017 ZKEASOFT 
+                 * http://www.zkea.net/licenses 
+                 */
                 ((List<ExtendFieldEntity>)result.ExtendFields).Add(new ExtendFieldEntity { Title = "meta_support", Value = "ZKEASOFT" });
             }
             return result;

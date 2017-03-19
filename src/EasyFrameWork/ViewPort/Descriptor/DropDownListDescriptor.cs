@@ -34,7 +34,7 @@ namespace Easy.ViewPort.Descriptor
                 }
                 if (_data == null && this.SourceType == SourceType.Dictionary)
                 {
-                    IDataDictionaryService dicService = new ServiceLocator().GetService<IDataDictionaryService>();
+                    IDataDictionaryService dicService = ServiceLocator.GetService<IDataDictionaryService>();
                     if (dicService != null)
                     {
                         if (this._data == null)

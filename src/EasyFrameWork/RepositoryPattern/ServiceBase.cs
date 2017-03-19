@@ -175,7 +175,7 @@ namespace Easy.RepositoryPattern
         }
         public virtual void Dispose()
         {
-            DbContext.Dispose();
+            //DbContext.Dispose();
         }
     }
 }

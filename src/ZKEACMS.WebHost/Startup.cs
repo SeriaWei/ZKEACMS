@@ -97,7 +97,7 @@ namespace ZKEACMS.WebHost
             //ServiceLocator.Current = app.ApplicationServices;
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            ServiceLocator.Current = app.ApplicationServices;
 
             if (env.IsDevelopment())
             {

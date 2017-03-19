@@ -28,7 +28,7 @@ namespace ZKEACMS.Article.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
-            var articleTypeService = new ServiceLocator().GetService<IArticleTypeService>();
+            var articleTypeService = ServiceLocator.GetService<IArticleTypeService>();
             ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).DataSource(() => articleTypeService.GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title)).Required();
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
 

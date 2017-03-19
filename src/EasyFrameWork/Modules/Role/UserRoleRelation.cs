@@ -48,7 +48,7 @@ namespace Easy.Modules.Role
             ViewConfig(m => m.Status).AsHidden();
             ViewConfig(m => m.RoleID).AsDropDownList().DataSource(() =>
             {
-                using (var roleService = new ServiceLocator().GetService<IRoleService>())
+                using (var roleService = ServiceLocator.GetService<IRoleService>())
                 {
                     return roleService
                     .Get(m => m.ID > 0)

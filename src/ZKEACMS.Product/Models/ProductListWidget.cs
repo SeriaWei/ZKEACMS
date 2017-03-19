@@ -31,7 +31,7 @@ namespace ZKEACMS.Product.Models
             ViewConfig(m => m.ProductCategoryID).AsDropDownList().DataSource(() =>
             {
                 var dicts = new Dictionary<string, string>();
-                new ServiceLocator().Current.GetService<IProductCategoryService>().GetAll().Each(m => { dicts.Add(m.ID.ToString(), m.Title); });
+                ServiceLocator.GetService<IProductCategoryService>().GetAll().Each(m => { dicts.Add(m.ID.ToString(), m.Title); });
                 return dicts;
             }).Required().Order(NextOrder());
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
@@ -43,7 +43,7 @@ namespace ZKEACMS.Product.Models
             });
             ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(() =>
             {
-                var path = (new ServiceLocator().Current.GetService<IApplicationContext>() as CMSApplicationContext).MapPath("~/Modules/Product/Views");
+                var path = (ServiceLocator.GetService<IApplicationContext>() as CMSApplicationContext).MapPath("~/Modules/Product/Views");
                 Dictionary<string, string> templates = new Dictionary<string, string>();
                 Directory.GetFiles(path, "Widget.ProductList*.cshtml").Each(f =>
                 {

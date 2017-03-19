@@ -26,15 +26,15 @@ namespace ZKEACMS.Widget
     public class WidgetBasePartService : ServiceBase<WidgetBasePart, CMSDbContext>, IWidgetBasePartService
     {
         protected const string EncryptWidgetTemplate = "EncryptWidgetTemplate";
-        private readonly IWidgetActivetor _widgetActivetor;
+        private readonly IWidgetActivator _widgetActivator;
         private readonly IServiceProvider _serviceProvider;
         public WidgetBasePartService(IEncryptService encryptService, IDataArchivedService dataArchivedService, 
-            IApplicationContext applicationContext, IWidgetActivetor widgetActivetor, IServiceProvider serviceProvider)
+            IApplicationContext applicationContext, IWidgetActivator widgetActivator, IServiceProvider serviceProvider)
             : base(applicationContext)
         {
             EncryptService = encryptService;
             DataArchivedService = dataArchivedService;
-            _widgetActivetor = widgetActivetor;
+            _widgetActivator = widgetActivator;
             _serviceProvider = serviceProvider;
         }
         public override DbSet<WidgetBasePart> CurrentDbSet
@@ -90,7 +90,7 @@ namespace ZKEACMS.Widget
                 var result = GetByLayoutId(p.LayoutId);
                 List<WidgetBase> widgets = result.ToList();
                 widgets.AddRange(GetByPageId(p.ID));
-                return widgets.Select(widget => _widgetActivetor.Create(widget)?.GetWidget(widget)).ToList();
+                return widgets.Select(widget => _widgetActivator.Create(widget)?.GetWidget(widget)).ToList();
             };
             //if (page.IsPublishedPage)
             //{
@@ -137,7 +137,7 @@ namespace ZKEACMS.Widget
             {
                 widgetBasePart.ExtendFields.Each(f => { f.ActionType = ActionType.Create; });
             }
-            var service = _widgetActivetor.Create(widgetBasePart);
+            var service = _widgetActivator.Create(widgetBasePart);
             var widgetBase = service.GetWidget(widgetBasePart.ToWidgetBase());
 
             widgetBase.PageID = widget.PageID;

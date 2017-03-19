@@ -23,7 +23,7 @@ namespace Easy.Mvc.Plugin
         {
             if (hostingEnvironment.IsDevelopment())
             {
-                options.FileProviders.Add(new DeveloperViewFileProvider());
+                options.FileProviders.Add(new DeveloperViewFileProvider(hostingEnvironment));
             }
             loader.GetPluginAssemblies().Each(assembly =>
             {

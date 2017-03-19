@@ -14,7 +14,7 @@ namespace Easy
             var lanCache = new StaticCache();
             LanguageEntity lan = lanCache.Get(lanKey, m =>
             {
-                using (var languageService = new ServiceLocator().Current.GetService<ILanguageService>())
+                using (var languageService = ServiceLocator.GetService<ILanguageService>())
                 {
 
                     var language = languageService.Get(n => n.LanKey == lanKey && n.CultureName == CultureInfo.CurrentUICulture.Name).FirstOrDefault();

@@ -26,7 +26,8 @@ namespace ZKEACMS
             serviceCollection.TryAddScoped<IApplicationContext, CMSApplicationContext>();
             serviceCollection.TryAddSingleton<IRouteProvider, RouteProvider>();
             serviceCollection.TryAddSingleton<IAdminMenuProvider, AdminMenuProvider>();
-            serviceCollection.TryAddSingleton<IWidgetActivetor, DefaultWidgetActivetor>();
+
+            serviceCollection.TryAddTransient<IWidgetActivator, DefaultWidgetActivator>();
 
             serviceCollection.TryAddTransient<ICarouselItemService, CarouselItemService>();
             serviceCollection.TryAddTransient<ICarouselService, CarouselService>();

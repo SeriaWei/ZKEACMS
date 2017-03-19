@@ -19,7 +19,7 @@ namespace Easy.ViewPort.Validator
                 {
                     url = string.Format("/{0}/{1}", Area, url);
                 }
-                var app = new ServiceLocator().GetService<IApplicationContext>();
+                var app = ServiceLocator.GetService<IApplicationContext>();
                 if (app != null)
                 {
                     url = string.Format("{0}{1}", "", url);

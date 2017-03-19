@@ -9,6 +9,7 @@ using Easy.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel.DataAnnotations;
+using Easy;
 
 namespace ZKEACMS.SectionWidget.Models
 {
@@ -127,7 +128,7 @@ namespace ZKEACMS.SectionWidget.Models
             ViewConfig(m => m.IsLoadDefaultData).AsHidden().Ignore();
             ViewConfig(m => m.PartialView).AsDropDownList().DataSource(() =>
             {
-                return new Easy.ServiceLocator().Current.GetService<ISectionTemplateService>()
+                return ServiceLocator.GetService<ISectionTemplateService>()
                     .GetAll()
                     .ToDictionary(m => m.TemplateName, m => m.Title);
             });

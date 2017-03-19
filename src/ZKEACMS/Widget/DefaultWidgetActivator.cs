@@ -4,10 +4,10 @@ using System.Text;
 
 namespace ZKEACMS.Widget
 {
-    public class DefaultWidgetActivetor : IWidgetActivetor
+    public class DefaultWidgetActivator : IWidgetActivator
     {
         private readonly IServiceProvider _serviceProvider;
-        public DefaultWidgetActivetor(IServiceProvider serviceProvider)
+        public DefaultWidgetActivator(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }

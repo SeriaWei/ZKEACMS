@@ -65,7 +65,7 @@ namespace Easy.Mvc.TagHelpers
 
                     if (Edit.IsNullOrWhiteSpace())
                     {
-                        Edit = Url.Action(DefaultEditAction) + "?Id=" + "{" + name + "}";
+                        Edit = Url.Action(DefaultEditAction) + "/{" + name + "}";
                     }
                     tableHeaderBuilder.AppendFormat(TableHeadStructure,
                         string.Empty,

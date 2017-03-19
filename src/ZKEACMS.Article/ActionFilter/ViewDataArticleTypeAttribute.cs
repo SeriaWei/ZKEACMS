@@ -20,7 +20,7 @@ namespace ZKEACMS.Article.ActionFilter
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            _articleTypeService = _articleTypeService ?? new ServiceLocator().GetService<IArticleTypeService>();
+            _articleTypeService = _articleTypeService ?? ServiceLocator.GetService<IArticleTypeService>();
             (filterContext.Controller as Controller)
                 .ViewData[ViewDataKeys.ArticleCategory] = new SelectList(_articleTypeService.GetAll(), "ID", "Title");
         }

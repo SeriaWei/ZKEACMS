@@ -29,7 +29,7 @@ namespace ZKEACMS.Common.Models
             ViewConfig(m => m.CarouselID).AsDropDownList().Order(NextOrder()).DataSource(() =>
             {
                 var result = new Dictionary<string, string> { { "", "---请选择---" } };
-                using (var carouselService = new ServiceLocator().GetService<ICarouselService>())
+                using (var carouselService = ServiceLocator.GetService<ICarouselService>())
                 {
                     carouselService.GetAll().Each(m => result.Add(m.ID.ToString(), m.Title));
                     return result;

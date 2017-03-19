@@ -34,7 +34,7 @@ namespace ZKEACMS.WidgetTemplate
             widget.Description = Description;
             widget.PartialView = PartialView;
             widget.WidgetName = Title;
-            return serviceProvider.GetService<IWidgetActivetor>().CreateWidgetViewModel(widget);
+            return serviceProvider.GetService<IWidgetActivator>().CreateWidgetViewModel(widget);
         }
     }
     class WidgetTemplateMetaData : ViewMetaData<WidgetTemplateEntity>

@@ -23,7 +23,7 @@ namespace ZKEACMS.Layout
             IWidgetBasePartService widgetService,
             IApplicationContext applicationContext,
             ILayoutHtmlService layoutHtmlService,
-            IWidgetActivetor widgetActivetor)
+            IWidgetActivator widgetActivator)
             : base(applicationContext)
         {
             DataArchivedService = dataArchivedService;
@@ -31,7 +31,7 @@ namespace ZKEACMS.Layout
             ZoneService = zoneService;
             WidgetService = widgetService;
             LayoutHtmlService = layoutHtmlService;
-            WidgetActivetor = widgetActivetor;
+            WidgetActivator = widgetActivator;
         }
         public override DbSet<LayoutEntity> CurrentDbSet
         {
@@ -44,7 +44,7 @@ namespace ZKEACMS.Layout
         public IPageService PageService { get; set; }
         public IZoneService ZoneService { get; set; }
         public ILayoutHtmlService LayoutHtmlService { get; set; }
-        public IWidgetActivetor WidgetActivetor { get; set; }
+        public IWidgetActivator WidgetActivator { get; set; }
         public IWidgetBasePartService WidgetService { get; set; }
 
         private string GenerateKey(object id)
@@ -143,7 +143,7 @@ namespace ZKEACMS.Layout
             var widgets = WidgetService.Get(m => m.LayoutID == item.ID);
             widgets.Each(m =>
             {
-                using (var widgetService = WidgetActivetor.Create(m))
+                using (var widgetService = WidgetActivator.Create(m))
                 {
                     widgetService.DeleteWidget(m.ID);
                 }
@@ -164,7 +164,7 @@ namespace ZKEACMS.Layout
                 var widgets = WidgetService.Get(m => m.LayoutID == layout.ID);
                 widgets.Each(m =>
                 {
-                    using (var widgetService = WidgetActivetor.Create(m))
+                    using (var widgetService = WidgetActivator.Create(m))
                     {
                         widgetService.DeleteWidget(m.ID);
                     }
@@ -185,7 +185,7 @@ namespace ZKEACMS.Layout
                 var widgets = WidgetService.Get(m => m.LayoutID == layout.ID);
                 widgets.Each(m =>
                 {
-                    using (var widgetService = WidgetActivetor.Create(m))
+                    using (var widgetService = WidgetActivator.Create(m))
                     {
                         widgetService.DeleteWidget(m.ID);
                     }
