@@ -1,0 +1,123 @@
+﻿@import "Library.less";
+
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body.front {
+    margin: 0;
+    padding: 0;
+    font: @font-size-normal/1.5 @fontFamaily;
+}
+
+img {
+    max-width: 100%;
+}
+
+.preview-toolbar {
+    position: fixed;
+    left: 5px;
+    top: 5px;
+    z-index: 10;
+
+    .dropdown-menu {
+        right: 0;
+        left: auto;
+    }
+}
+
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+    position: static;
+}
+
+.bs-callout {
+    padding: @padding-base;
+    margin: 0;
+    border: @border-thin solid @color-border;
+    border-top-width: @border-heavy;
+    border-radius: 5px;
+}
+
+.bs-callout .pull-left h4 {
+    margin-top: @margin-base * 0.5;
+}
+
+.bs-callout-danger {
+    border-top-color: @color-danger;
+}
+
+.bs-callout-danger .pull-left h4 {
+    color: @color-danger;
+}
+
+.bs-callout-warning {
+    border-top-color: @color-warning;
+}
+
+.bs-callout-warning .pull-left h4 {
+    color: @color-warning;
+}
+
+.bs-callout-info {
+    border-top-color: @color-info;
+}
+
+.bs-callout-info .pull-left h4 {
+    color: @color-info;
+}
+
+.bs-callout-success {
+    border-top-color: @color-success;
+}
+
+.bs-callout-success .pull-left h4 {
+    color: @color-success;
+}
+
+.panel-body {
+
+    .list-group-item {
+        border-width: 1px 0;
+    }
+
+    .list-group-item:first-child {
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+        border-width: 1px 0;
+    }
+}
+
+
+
+
+.list-group {
+    margin-bottom: 0;
+}
+
+@media only screen and (max-width:@screen-sm-max) {
+    #container {
+        border: none;
+        box-shadow: none;
+
+        .row.container {
+            margin: 0 -15px;
+            padding: 0;
+        }
+    }
+
+    .bs-callout {
+        border-radius: 0;
+    }
+}
+
+.space {
+    padding: 5px 0;
+    line-height: normal;
+}
+
+.preview-theme {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+}
