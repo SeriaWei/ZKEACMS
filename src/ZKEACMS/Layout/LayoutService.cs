@@ -81,17 +81,22 @@ namespace ZKEACMS.Layout
 
             if (item.Zones != null)
             {
-                var zones = ZoneService.Get(m => m.LayoutId == item.ID);
+                var zones = ZoneService.Get(m => m.LayoutId == item.ID).ToList();
 
                 item.Zones.Where(m => zones.All(n => n.ID != m.ID)).Each(m =>
                 {
                     m.LayoutId = item.ID;
                     ZoneService.Add(m);
                 });
-                item.Zones.Where(m => zones.Any(n => n.ID == m.ID)).Each(m =>
+                zones.Each(m =>
                 {
-                    m.LayoutId = item.ID;
-                    ZoneService.Update(m);
+                   var changeZone= item.Zones.FirstOrDefault(z => z.ID == m.ID);
+                    if (changeZone != null)
+                    {
+                        m.LayoutId = item.ID;
+                        m.Title = changeZone.Title;
+                        ZoneService.Update(m);
+                    }
                 });
                 zones.Where(m => item.Zones.All(n => n.ID != m.ID)).Each(m => ZoneService.Remove(m.ID));
             }

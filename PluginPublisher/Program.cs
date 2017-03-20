@@ -54,7 +54,12 @@ namespace PluginPublisher
                     var splitPath = target.Split(new string[] { "\\bin\\" }, StringSplitOptions.RemoveEmptyEntries);
                     target = Path.Combine(splitPath[0], "bin", splitPath[1], "bin", item.Name);
                 }
-                File.Copy(item.FullName, target, true);
+                Console.WriteLine("{0} -> {1}", item.FullName, target);
+                if (File.Exists(target))
+                {
+                    File.Delete(target);
+                }
+                File.Copy(item.FullName, target);
             }
 
             foreach (var item in currentDirectory.GetDirectories())
