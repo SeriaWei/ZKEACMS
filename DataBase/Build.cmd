@@ -1,10 +1,10 @@
 @echo off
 REM: 请根据您的个人实际情况修改以下信息：
 set server=(local)
-set dataBase=ZKEACMS_Publish3
+set dataBase=ZKEACMS_Core
 set dbUserId=sa
 set dbPassword=sa
-set dbPath=D:\Projects\ASP.NET-MVC-CMS\Easy.CMS.Web\App_Data
+set dbPath=E:\DotNetCore\ZKEACMS\App_Data
 @echo -----------------------------------------------------------------------------
 @echo *** 欢迎使用 ZKEACMS ***
 @echo -----------------------------------------------------------------------------
