@@ -43,6 +43,7 @@ namespace Easy
             services.TryAddTransient<ILanguageService, LanguageService>();
             services.TryAddTransient<IEncryptService, EncryptService>();
             services.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+            services.AddTransient<IPluginLoader, Loader>();
 
             services.AddTransient<ILogger, Logger>();
 

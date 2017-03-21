@@ -1,6 +1,4 @@
-﻿@using ZKEACMS.SectionWidget
-@using ZKEACMS.SectionWidget.Models
-@model ZKEACMS.SectionWidget.Models.SectionGroup
+﻿@model SectionGroup
 
 <div class="section-group-grey-box text-center" style="background-color: #f4f4f4; padding: 35px;">
     @foreach (SectionContent content in Model.SectionContents.OrderBy(m => m.Order))

@@ -1,23 +1,20 @@
-﻿@using ZKEACMS.SectionWidget.Models
-@model ZKEACMS.SectionWidget.Models.SectionGroup
+﻿@model SectionGroup
 @{
     string tabId = Guid.NewGuid().ToString("N");
 }
 <div class="section-group-tab">
-    <p>
-        <ul class="nav nav-tabs" role="tablist">
-            @{
-                var titles = Model.SectionContents.Where(m => m.SectionContentType == (int)SectionContentBase.Types.Title).Cast<SectionContentTitle>().ToList();
-                for (int i = 0; i < titles.Count; i++)
-                {
-                    var itemId = tabId + "-" + i;
-                    <li role="presentation" class="@(i==0?"active":"")">
-                        <a href="#@itemId" aria-controls="@itemId" role="tab" data-toggle="tab">@titles[i].InnerText</a>
-                    </li>
-                }
+    <ul class="nav nav-tabs" role="tablist">
+        @{
+            var titles = Model.SectionContents.Where(m => m.SectionContentType == (int)SectionContentBase.Types.Title).Cast<SectionContentTitle>().ToList();
+            for (int i = 0; i < titles.Count; i++)
+            {
+                var itemId = tabId + "-" + i;
+                <li role="presentation" class="@(i==0?"active":"")">
+                    <a href="#@itemId" aria-controls="@itemId" role="tab" data-toggle="tab">@titles[i].InnerText</a>
+                </li>
             }
-        </ul>
-    </p>
+        }
+    </ul>
     <div class="tab-content">
         @{
             var paragraphs = Model.SectionContents.Where(m => m.SectionContentType == (int)SectionContentBase.Types.Paragraph).Cast<SectionContentParagraph>().ToList();
@@ -29,6 +26,6 @@
                 </div>
             }
         }
-        
+
     </div>
 </div>
