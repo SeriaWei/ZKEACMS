@@ -4,7 +4,7 @@ set server=(local)
 set dataBase=ZKEACMS_Core
 set dbUserId=sa
 set dbPassword=sa
-set dbPath=E:\DotNetCore\ZKEACMS\App_Data
+set dbPath=D:\Projects\ZKEACMS.Core\App_Data
 @echo -----------------------------------------------------------------------------
 @echo *** ª∂”≠ π”√ ZKEACMS ***
 @echo -----------------------------------------------------------------------------
