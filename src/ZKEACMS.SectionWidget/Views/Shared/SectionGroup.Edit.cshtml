@@ -1,7 +1,8 @@
-﻿@using ZKEACMS.SectionWidget
-@using ZKEACMS.SectionWidget.Models
-@model ZKEACMS.SectionWidget.Models.SectionGroup
-
+﻿@model SectionGroup
+@inject ISectionTemplateService _sectionTemplateService
+@{ 
+    var template = _sectionTemplateService.Get(Model.PartialView);
+}
 <div class="panel panel-default section-group" data-id="@Model.ID" data-col="@Model.PercentWidth">
     <div class="panel-heading">
         <i class="sort-handle glyphicon glyphicon-resize-vertical"></i>
@@ -9,7 +10,7 @@
         <a href="@Url.Action("Delete", "SectionGroup", new {Id= Model.ID })" class="ajax delete text-danger" title="删除"><i class="glyphicon glyphicon-remove"></i></a>
         <i class="glyphicon glyphicon-option-vertical"></i>
         <span class="label label-info">@Model.GroupName</span>
-        <span class="label label-danger">@Model.GetTemplateName()</span>
+        <span class="label label-danger">@template.Title</span>
         <span class="label label-primary">@Model.PercentWidth</span>
     </div>
     <ul class="list-group">

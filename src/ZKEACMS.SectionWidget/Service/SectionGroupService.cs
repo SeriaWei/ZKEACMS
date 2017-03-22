@@ -45,15 +45,18 @@ namespace ZKEACMS.SectionWidget.Service
                 FileStream fileStream = new FileStream(configFile, FileMode.Open);
                 doc.Load(fileStream);
                 var nodes = doc.SelectNodes("/required/item");
+                const string fullNameSpace = "ZKEACMS.SectionWidget.Models.{0}";
                 foreach (XmlNode item in nodes)
                 {
                     var attr = item.Attributes["type"];
+                    
                     if (attr != null && attr.Value.IsNotNullAndWhiteSpace())
                     {
-
-                        if (SectionPlug.ContentTypes.ContainsKey(attr.Value))
+                        var typeInfoArray = attr.Value.Split('.');
+                        string fullTypeInfo = fullNameSpace.FormatWith(typeInfoArray[typeInfoArray.Length - 1]);
+                        if (SectionPlug.ContentTypes.ContainsKey(fullTypeInfo))
                         {
-                            var content = Activator.CreateInstance(SectionPlug.ContentTypes[attr.Value]) as SectionContent;
+                            var content = Activator.CreateInstance(SectionPlug.ContentTypes[fullTypeInfo]) as SectionContent;
                             var properties = item.SelectNodes("property");
                             foreach (XmlNode property in properties)
                             {

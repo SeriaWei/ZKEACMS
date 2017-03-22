@@ -141,7 +141,10 @@ namespace ZKEACMS.Page
                 {
                     Publish(page);
                 }
-
+                else
+                {
+                    _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(page.ReferencePageID));
+                }
             }
         }
         public override void Remove(PageEntity item)

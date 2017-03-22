@@ -85,7 +85,8 @@
                         @if (Model.ID.IsNullOrEmpty())
                         {
                             <label class="checkbox-inline text-primary">
-                                @Html.CheckBoxFor(m => m.IsLoadDefaultData)
+                                <input type="checkbox" name="IsLoadDefaultData" value="true" />
+                                <input type="hidden" name="IsLoadDefaultData" value="false" />
                                 加载示例数据
                             </label>
                         }
