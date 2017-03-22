@@ -152,3 +152,4 @@ $RECYCLE.BIN/
 .svn
 .vs
 src/ZKEACMS.WebHost/wwwroot/UpLoad
+src/ZKEACMS.WebHost/wwwroot/Logs

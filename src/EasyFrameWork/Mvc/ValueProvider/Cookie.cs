@@ -24,31 +24,31 @@ namespace Easy.Mvc.ValueProvider
 
         public T GetValue<T>(string name, bool expireOnceRead)
         {
-            var cookie = _httpContext.Request.Cookies[name];
+            string valuStr = null;
             T value = default(T);
 
-            if (cookie != null)
+            if (_httpContext.Request.Cookies.TryGetValue(name, out valuStr))
             {
-                if (!string.IsNullOrWhiteSpace(cookie))
+                if (!string.IsNullOrWhiteSpace(valuStr))
                 {
                     TypeConverter converter = TypeDescriptor.GetConverter(typeof(T));
 
                     try
                     {
-                        value = (T)converter.ConvertFromString(cookie);
+                        value = (T)converter.ConvertFromString(valuStr);
                     }
                     catch (NotSupportedException)
                     {
                         if (converter.CanConvertFrom(typeof(string)))
                         {
-                            value = (T)converter.ConvertFrom(cookie);
+                            value = (T)converter.ConvertFrom(valuStr);
                         }
                     }
                 }
 
                 if (expireOnceRead)
                 {
-                    _httpContext.Response.Cookies.Delete(name);
+                    Delete(name);
                 }
             }
 
@@ -106,6 +106,11 @@ namespace Easy.Mvc.ValueProvider
                 }
 
             }
+        }
+
+        public void Delete(string name)
+        {
+            _httpContext.Response.Cookies.Append(name, "", new CookieOptions { Expires = DateTime.Now.AddDays(-1d) });
         }
     }
 }

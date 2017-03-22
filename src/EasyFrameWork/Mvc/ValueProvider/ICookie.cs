@@ -15,5 +15,7 @@ namespace Easy.Mvc.ValueProvider
         void SetValue<T>(string name, T value, bool httpOnly, bool expireWithBrowser);
 
         void SetValue<T>(string name, T value, float expireDurationInMinutes, bool httpOnly, bool expireWithBrowser);
+
+        void Delete(string name);
     }
 }

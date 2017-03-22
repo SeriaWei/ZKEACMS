@@ -31,10 +31,10 @@ namespace Easy
             services.TryAddEnumerable(ServiceDescriptor.Transient<IActionDescriptorProvider, ActionDescriptorProvider>());
             services.TryAddSingleton<IPluginLoader, Loader>();
 
-            services.TryAddSingleton<ICookie, Cookie>();
 
             services.TryAddTransient<IAuthorizer, DefaultAuthorizer>();
 
+            services.TryAddTransient<ICookie, Cookie>();
             services.TryAddTransient<IUserService, UserService>();
             services.TryAddTransient<IRoleService, RoleService>();
             services.TryAddTransient<IUserRoleRelationService, UserRoleRelationService>();
