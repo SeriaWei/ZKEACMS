@@ -41,11 +41,11 @@ namespace Easy.Mvc.Plugin
                     var sendFileFeature = context.Features.Get<IHttpSendFileFeature>();
                     if (sendFileFeature != null)
                     {
-                        sendFileFeature.SendFileAsync(filePath, 0, file.Length, CancellationToken.None);
+                        return sendFileFeature.SendFileAsync(filePath, 0, file.Length, CancellationToken.None);
                     }
                     using (var readStream = file.CreateReadStream())
                     {
-                        StreamCopyOperation.CopyToAsync(readStream, context.Response.Body, file.Length, 64 * 1024, context.RequestAborted);
+                        return StreamCopyOperation.CopyToAsync(readStream, context.Response.Body, file.Length, 64 * 1024, context.RequestAborted);
                     }
                 }
 
