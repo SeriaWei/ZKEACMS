@@ -55,6 +55,12 @@ namespace Easy.Mvc.DataAnnotations
                         displayMetadata.ShowForDisplay = false;
                         displayMetadata.ShowForEdit = false;
                     }
+                    if (descriptor.IsIgnore)
+                    {
+                        displayMetadata.ShowForDisplay = false;
+                        displayMetadata.ShowForEdit = false;
+                        displayMetadata.TemplateHint = "Ignore";
+                    }
                 }
             }
 
