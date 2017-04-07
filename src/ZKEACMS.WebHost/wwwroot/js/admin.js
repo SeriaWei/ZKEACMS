@@ -205,4 +205,5 @@ $(function () {
         },
         placement: "left"
     });
+    $("#main-menu").slimscroll({ height: $(window).height() - 170 });
 });

@@ -51,7 +51,8 @@ namespace ZKEACMS.WebHost
                 .Include($"{ScriptPath}/PageDesign.js", $"{ScriptPath}/PageDesign.min.js");
 
             script("admin")
-                .Include($"{ScriptPath}/admin.js", $"{ScriptPath}/admin.min.js");
+                .Include($"{ScriptPath}/admin.js", $"{ScriptPath}/admin.min.js")
+                .Include($"{LibraryPath}/slimscroll/jquery.slimscroll.js", $"{LibraryPath}/slimscroll/jquery.slimscroll.min.js");
 
             script("tinymce")
                 .Include($"{ScriptPath}/tinymce/tinymce.min.js")
