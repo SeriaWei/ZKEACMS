@@ -1,0 +1,46 @@
+﻿@model MessageEntity
+@{
+    Script.Reqiured("validate").AtFoot();
+}
+<div class="message">
+    @if (ViewContext.HttpContext.Request.Cookies.Any(key => key.Key == "Message"))
+    {
+        <div class="alert alert-info">
+            <h4>Thank You!</h4>
+            <p>
+                我们已经收到您的留言，我们会在第一时间处理您的信息，并在需要的时候通过邮件与您取得联系。
+            </p>
+        </div>
+    }
+    @using (Html.BeginForm("PostMessage", "MessageHandle", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.Status)
+        @Html.HiddenFor(m => m.Description)
+        @Html.HiddenFor(m => m.Reply)
+        <input type="hidden" value="@ViewContext.HttpContext.Request.Path.ToString()" name="redirect" />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Title)
+                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "输入您的名字" })
+                    @Html.ValidationMessageFor(m => m.Title)
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email)
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "输入您的邮箱地址" })
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PostMessage)
+                    @Html.TextAreaFor(m => m.PostMessage, new { @class = "form-control", rows = "10", placeholder = "请留言..." })
+                    @Html.ValidationMessageFor(m => m.PostMessage)
+                </div>
+            </div>
+        </div>
+        <input type="submit" value="提交留言" class="btn btn-primary" />
+    }
+</div>

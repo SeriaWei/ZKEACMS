@@ -7,16 +7,23 @@ using System.Threading.Tasks;
 using System.Linq.Expressions;
 using Easy.RepositoryPattern;
 using Easy;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Widget
 {
-    public abstract class SimpleWidgetService<T, TDB> : WidgetService<T, TDB> where T : WidgetBase where TDB : CMSDbContext, new()
+    public abstract class SimpleWidgetService<T> : WidgetService<T, CMSDbContext> where T : WidgetBase, new()
     {
         public SimpleWidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext) :
             base(widgetBasePartService, applicationContext)
         {
         }
 
+        public override DbSet<T> CurrentDbSet => throw new NotImplementedException();
+        public override T Get(params object[] primaryKeys)
+        {
+            var item = WidgetBasePartService.Get(primaryKeys);
+            return item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData)) as T;
+        }
         public override void Add(T item)
         {
             item.ID = Guid.NewGuid().ToString("N");
@@ -93,12 +100,7 @@ namespace ZKEACMS.Widget
 
         public override WidgetBase GetWidget(WidgetBase widget)
         {
-            var currentWidget = base.GetWidget(widget);
-            if (currentWidget != null)
-            {
-                return currentWidget.CopyTo(JsonConvert.DeserializeObject<T>(currentWidget.ExtendData));
-            }
-            return null;
+            return widget.CopyTo(JsonConvert.DeserializeObject<T>(widget.ExtendData)) as T;
         }
     }
 }

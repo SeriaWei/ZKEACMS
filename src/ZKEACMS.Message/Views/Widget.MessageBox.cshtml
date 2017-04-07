@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MessageEntity>
+<div class="message-box">
+    @if (Model == null || !Model.Any())
+    {
+        <em>还没有留言……</em>
+    }
+    else
+    {
+        <div class="container-fluid">
+            @{
+                var last = Model.Last();
+                foreach (var item in Model)
+                {
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-1 bg-primary text-center">
+                            <h4 style="word-break:break-all">@item.CreateDate.Value.Year</h4>
+                            <p>@item.CreateDate.Value.ToString("M / d")</p>
+                        </div>
+                        <div class="col-xs-10 col-sm-10 col-md-11">
+                            <p>
+                              <strong>@item.PostMessage</strong>  
+                            </p>
+                            <div class="text-muted">
+                                @item.Reply
+                            </div>
+                        </div>
+                    </div>
+                    if (!item.Equals(last))
+                    {
+                        <div class="row">
+                            <hr />
+                        </div>
+                    }
+                }
+            }
+        </div>
+                }
+
+</div>
