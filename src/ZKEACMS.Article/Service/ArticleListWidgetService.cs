@@ -46,7 +46,7 @@ namespace ZKEACMS.Article.Service
             Expression<Func<ArticleEntity, bool>> filter = null;
             if (cate != 0)
             {
-                filter = m =>m.IsPublish && m.ArticleTypeID == cate;
+                filter = m => m.IsPublish && m.ArticleTypeID == cate;
             }
             else
             {
@@ -63,14 +63,14 @@ namespace ZKEACMS.Article.Service
             }
             if (currentWidget.IsPageable)
             {
-                articles = _articleService.Get(filter, page);
+                articles = _articleService.Get(filter, page).OrderByDescending(m => m.ID);
             }
             else
             {
-                articles = _articleService.Get(filter);
+                articles = _articleService.Get(filter).OrderByDescending(m => m.ID);
             }
 
-            
+
             return widget.ToWidgetViewModelPart(new ArticleListWidgetViewModel
             {
                 Articles = articles,
