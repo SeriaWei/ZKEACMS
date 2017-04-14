@@ -1,4 +1,5 @@
 @echo off
+echo ASPNETCORE_ENVIRONMENT=Development
 set ASPNETCORE_ENVIRONMENT=Development
-dotnet watch run
+dotnet run
 @pause

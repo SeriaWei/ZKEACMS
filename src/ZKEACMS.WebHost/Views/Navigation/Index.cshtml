@@ -41,7 +41,7 @@
     }
     function Edit(node) {
         var id = node.reference.attr("id");
-        window.location.href = '@Url.Action("Edit", "Navigation")' + '?ID=' + id;
+        window.location.href = '@Url.Action("Edit", "Navigation")' + '/' + id;
     }
     function checkCallBack(operation, node, node_parent, node_position, more) {
         return true;
