@@ -16,8 +16,8 @@ namespace Easy
             {
                 using (var languageService = ServiceLocator.GetService<ILanguageService>())
                 {
-
-                    var language = languageService.Get(n => n.LanKey == lanKey && n.CultureName == CultureInfo.CurrentUICulture.Name).FirstOrDefault();
+                    var culture = Builder.Configuration["Culture"] ?? CultureInfo.CurrentUICulture.Name;
+                    var language = languageService.Get(n => n.LanKey == lanKey && n.CultureName == culture).FirstOrDefault();
 
                     if (language == null)
                     {

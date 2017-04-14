@@ -13,6 +13,7 @@ namespace ZKEACMS.WebHost
     {
         public void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //optionsBuilder.UseSqlite(Easy.Builder.Configuration.GetSection("ConnectionStrings")["Sqlite"]);
             optionsBuilder.UseSqlServer(Easy.Builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"]);
         }
     }

@@ -118,5 +118,11 @@
     "inputFiles": [
       "wwwroot/js/StyleEditor/Content/values.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/tinymce/tinymce.config.min.js",
+    "inputFiles": [
+      "wwwroot/js/tinymce/tinymce.config.js"
+    ]
   }
 ]

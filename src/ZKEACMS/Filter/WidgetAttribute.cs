@@ -61,24 +61,26 @@ namespace ZKEACMS.Filter
             var page = GetPage(filterContext);
             if (page != null)
             {
-                var layoutService = filterContext.HttpContext.RequestServices.GetService<ILayoutService>();
-                var widgetService = filterContext.HttpContext.RequestServices.GetService<IWidgetBasePartService>();
-                var applicationSettingService = filterContext.HttpContext.RequestServices.GetService<IApplicationSettingService>();
-                var themeService = filterContext.HttpContext.RequestServices.GetService<IThemeService>();
-                var onPageExecuteds = filterContext.HttpContext.RequestServices.GetServices<IOnPageExecuted>();
-                var widgetActivator = filterContext.HttpContext.RequestServices.GetService<IWidgetActivator>();
+                var requestServices = filterContext.HttpContext.RequestServices;
+
+                var layoutService = requestServices.GetService<ILayoutService>();
+                var widgetService = requestServices.GetService<IWidgetBasePartService>();
+                var applicationSettingService = requestServices.GetService<IApplicationSettingService>();
+                var themeService = requestServices.GetService<IThemeService>();
+                var onPageExecuteds = requestServices.GetServices<IOnPageExecuted>();
+                var widgetActivator = requestServices.GetService<IWidgetActivator>();
 
                 LayoutEntity layout = layoutService.Get(page.LayoutId);
                 layout.Page = page;
                 page.Favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
                 if (filterContext.HttpContext.User.Identity.IsAuthenticated && page.IsPublishedPage)
                 {
-                    layout.PreViewPage = filterContext.HttpContext.RequestServices.GetService<IPageService>().GetByPath(page.Url, true);
+                    layout.PreViewPage = requestServices.GetService<IPageService>().GetByPath(page.Url, true);
                 }
                 layout.CurrentTheme = themeService.GetCurrentTheme();
                 layout.ZoneWidgets = new ZoneWidgetCollection();
                 filterContext.HttpContext.TrySetLayout(layout);
-                widgetService.GetAllByPage(filterContext.HttpContext.RequestServices, page).Each(widget =>
+                widgetService.GetAllByPage(requestServices, page).Each(widget =>
                 {
                     if (widget != null)
                     {
@@ -120,7 +122,7 @@ namespace ZKEACMS.Filter
             }
             else
             {
-                filterContext.Result = new RedirectResult("~/error/notfond");
+                filterContext.Result = new RedirectResult("~/error/notfond?f=" + filterContext.HttpContext.Request.Path);
             }
         }
 

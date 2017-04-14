@@ -53,7 +53,7 @@
                         {
                             <a href="@(media.MediaType==(int)MediaType.Folder?Url.Action(action, new {ParentId = media.ID}):"javascript:void(0)")" 
                                class="img-link @(media.MediaType==(int)MediaType.Folder?"":"confirm")" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
-                                <img class="img" src="@Url.Content("~/Images/{0}.png".FormatWith(media.MediaTypeImage))" />
+                                <img class="img" src="@Url.Content("~/images/{0}.png".FormatWith(media.MediaTypeImage))" />
                             </a>
                         }
                         <div class="caption" data-id="@media.ID">

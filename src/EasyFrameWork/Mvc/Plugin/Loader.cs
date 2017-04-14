@@ -31,17 +31,18 @@ namespace Easy.Mvc.Plugin
                 var loader = new AssemblyLoader();
                 loader.OnLoading = onLoading;
                 loader.OnLoaded = onLoaded;
-                var assemblies = loader.LoadPlugin(Path.Combine(m.RelativePath, HostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName));
+
+                var assemblies = loader.LoadPlugin(Path.Combine(m.RelativePath, Path.Combine((HostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName).Split('\\'))));
                 assemblies.Each(assembly =>
                 {
                     if (!LoadedAssemblies.ContainsKey(assembly.FullName))
                     {
                         LoadedAssemblies.Add(assembly.FullName, assembly);
-                    }                    
-                });                
+                    }
+                });
                 Loaders.Add(loader);
             });
-        }        
+        }
 
         public IEnumerable<Assembly> GetPluginAssemblies()
         {
