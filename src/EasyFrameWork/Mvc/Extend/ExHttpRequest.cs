@@ -21,6 +21,7 @@ namespace Easy.Mvc.Extend
                 Directory.CreateDirectory(path);
             }
             path += string.Format("\\{0}\\", DateTime.Now.ToString("yyyyMM"));
+            path = Path.Combine(path.Split('\\'));
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -35,7 +36,7 @@ namespace Easy.Mvc.Extend
         public static string MapPath(this HttpRequest request, string path)
         {
             var environment = request.HttpContext.RequestServices.GetService<IHostingEnvironment>();
-            return Path.Combine(environment.WebRootPath, path.Replace("~/", "")).Replace("/", "\\");
+            return Path.Combine(environment.WebRootPath, Path.Combine(path.Replace("~/", "").Replace("/", "\\").Split('\\')));
         }
         /// <summary>
         /// 保存图片到UpLoad/Images

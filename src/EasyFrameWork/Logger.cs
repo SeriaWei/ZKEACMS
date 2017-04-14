@@ -48,8 +48,7 @@ namespace Easy
         {
             string logPath = GetDir();
             string fileName = string.Format(FileTemplate, date.ToString(DateNameTemplate));
-            logPath += "\\" + fileName;
-            return logPath;
+            return System.IO.Path.Combine(logPath, fileName);
         }
         #endregion
         public void Info(string msg)
