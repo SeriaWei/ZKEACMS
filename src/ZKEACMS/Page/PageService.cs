@@ -237,19 +237,16 @@ namespace ZKEACMS.Page
             {
                 path = path.Substring(0, path.Length - 1);
             }
-
-            var pages = CurrentDbSet.Where(m => m.IsPublishedPage == !isPreView);
             if (path == "/")
             {
-                path = "~/index";
+                path = "/index";
             }
-            else
-            {
-                pages = pages.Where(m => m.Url == (path.StartsWith("~") ? "" : "~") + path);
-            }
+            path = "~" + path;
+            var result = CurrentDbSet
+                .Where(m => m.Url == path && m.IsPublishedPage == !isPreView)
+                .OrderByDescending(m => m.PublishDate)
+                .FirstOrDefault();
 
-            pages = pages.OrderByDescending(m => m.PublishDate);
-            var result = pages.FirstOrDefault();
             if (result != null && result.ExtendFields != null)
             {
                 /*!
