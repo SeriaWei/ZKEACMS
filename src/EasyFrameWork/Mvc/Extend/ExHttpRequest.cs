@@ -1,4 +1,8 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* 
+ * http://www.zkea.net/ 
+ * Copyright 2016 ZKEASOFT 
+ * http://www.zkea.net/licenses 
+ */
 using System;
 using Easy.Storage;
 using Easy.Extend;
@@ -11,21 +15,26 @@ namespace Easy.Mvc.Extend
 {
     public static class ExHttpRequest
     {
-        const string ImagePath = "~/UpLoad/Images";
-        const string FilePath = "~/UpLoad/Files";
+        const string UploadFolder = "UpLoad";
+        const string ImageFolder = "Images";
+        const string FileFolder = "Files";
 
-        public static string InitPath(IServiceProvider serviceProvider, string path)
+        private static string ChangeToWebPath(HttpRequest request, string path)
         {
+            return path.Replace(request.MapPath("~/"), "~").Replace("\\", "/");
+        }
+        public static string GetUploadPath(this HttpRequest request, string folder = ImageFolder)
+        {
+            var environment = request.HttpContext.RequestServices.GetService<IHostingEnvironment>();
+            var path = Path.Combine(new string[] { environment.WebRootPath, UploadFolder, folder, DateTime.Now.ToString("yyyyMM") });
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
-            path += string.Format("\\{0}\\", DateTime.Now.ToString("yyyyMM"));
-            path = Path.Combine(path.Split('\\'));
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
-                var storage = serviceProvider.GetService<IStorageService>();
+                var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
                 if (storage != null)
                 {
                     storage.CreateFolder(path);
@@ -36,7 +45,7 @@ namespace Easy.Mvc.Extend
         public static string MapPath(this HttpRequest request, string path)
         {
             var environment = request.HttpContext.RequestServices.GetService<IHostingEnvironment>();
-            return Path.Combine(environment.WebRootPath, Path.Combine(path.Replace("~/", "").Replace("/", "\\").Split('\\')));
+            return Path.Combine(environment.WebRootPath, path.Replace("~/", "").ToFilePath());
         }
         /// <summary>
         /// 保存图片到UpLoad/Images
@@ -47,13 +56,12 @@ namespace Easy.Mvc.Extend
         {
             if (request.Form.Files.Count > 0 && request.Form.Files[0].Length > 0)
             {
-                string path = InitPath(request.HttpContext.RequestServices, request.MapPath(ImagePath));
+                string path = request.GetUploadPath(ImageFolder);
                 string fileName = request.Form.Files[0].FileName;
-                string ext = System.IO.Path.GetExtension(fileName);
+                string ext = Path.GetExtension(fileName);
                 if (Common.IsImage(ext))
                 {
-                    fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
-                    path += fileName;
+                    path = Path.Combine(path, string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext));
                     request.Form.Files[0].SaveAs(path);
                     var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
                     if (storage != null)
@@ -64,7 +72,7 @@ namespace Easy.Mvc.Extend
                             return filePath;
                         }
                     }
-                    return path.Replace(request.MapPath("~/"), "~").Replace("\\", "/");
+                    return ChangeToWebPath(request, path);
                 }
             }
             return string.Empty;
@@ -73,9 +81,9 @@ namespace Easy.Mvc.Extend
         {
             if (request.Form.Files.Count > 0 && request.Form.Files[name].Length > 0)
             {
-                string path = InitPath(request.HttpContext.RequestServices, request.MapPath(ImagePath));
+                string path = request.GetUploadPath(ImageFolder);
                 string fileName = request.Form.Files[name].FileName;
-                string ext = System.IO.Path.GetExtension(fileName);
+                string ext = Path.GetExtension(fileName);
                 if (Common.IsImage(ext))
                 {
                     fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
@@ -90,7 +98,7 @@ namespace Easy.Mvc.Extend
                             return filePath;
                         }
                     }
-                    return path.Replace(request.MapPath("~/"), "~/").Replace("\\", "/");
+                    return ChangeToWebPath(request, path);
                 }
             }
             return string.Empty;
@@ -104,9 +112,9 @@ namespace Easy.Mvc.Extend
         {
             if (request.Form.Files.Count > 0 && request.Form.Files[0].Length > 0)
             {
-                string path = InitPath(request.HttpContext.RequestServices, request.MapPath(FilePath));
+                string path = request.GetUploadPath(FileFolder);
                 string fileName = request.Form.Files[0].FileName;
-                string ext = System.IO.Path.GetExtension(fileName);
+                string ext = Path.GetExtension(fileName);
                 if (Common.FileCanUp(ext))
                 {
                     fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
@@ -121,7 +129,7 @@ namespace Easy.Mvc.Extend
                             return filePath;
                         }
                     }
-                    return path.Replace(request.MapPath("~/"), "~/").Replace("\\", "/");
+                    return ChangeToWebPath(request, path);
                 }
             }
             return string.Empty;
@@ -130,9 +138,9 @@ namespace Easy.Mvc.Extend
         {
             if (request.Form.Files.Count > 0 && request.Form.Files[0].Length > 0)
             {
-                string path = InitPath(request.HttpContext.RequestServices, request.MapPath(FilePath));
+                string path = request.GetUploadPath(FileFolder);
                 string fileName = request.Form.Files[0].FileName;
-                string ext = System.IO.Path.GetExtension(fileName);
+                string ext = Path.GetExtension(fileName);
                 if (Common.FileCanUp(ext))
                 {
                     fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
@@ -147,7 +155,7 @@ namespace Easy.Mvc.Extend
                             return filePath;
                         }
                     }
-                    return path.Replace(request.MapPath("~/"), "~/").Replace("\\", "/");
+                    return ChangeToWebPath(request, path);
                 }
             }
             return string.Empty;

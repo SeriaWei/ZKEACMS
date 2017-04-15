@@ -32,7 +32,7 @@ namespace Easy.Mvc.Plugin
                 loader.OnLoading = onLoading;
                 loader.OnLoaded = onLoaded;
 
-                var assemblies = loader.LoadPlugin(Path.Combine(m.RelativePath, Path.Combine((HostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName).Split('\\'))));
+                var assemblies = loader.LoadPlugin(Path.Combine(m.RelativePath, (HostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName).ToFilePath()));
                 assemblies.Each(assembly =>
                 {
                     if (!LoadedAssemblies.ContainsKey(assembly.FullName))

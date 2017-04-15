@@ -6,6 +6,8 @@
 
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
+using Easy.Extend;
+using MySQL.Data.EntityFrameworkCore.Extensions;
 
 namespace ZKEACMS.WebHost
 {
@@ -13,8 +15,21 @@ namespace ZKEACMS.WebHost
     {
         public void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlite(Easy.Builder.Configuration.GetSection("ConnectionStrings")["Sqlite"]);
-            optionsBuilder.UseSqlServer(Easy.Builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"]);
+            var connections = Easy.Builder.Configuration.GetSection("ConnectionStrings");
+            var connectionString = connections["DefaultConnection"];
+            if (connectionString.IsNotNullAndWhiteSpace())
+            {
+                optionsBuilder.UseSqlServer(connectionString);
+            }
+            else if ((connectionString = connections["Sqlite"]).IsNotNullAndWhiteSpace())
+            {
+                optionsBuilder.UseSqlite(connectionString);
+            }
+            else if((connectionString = connections["MySql"]).IsNotNullAndWhiteSpace())
+            {
+                optionsBuilder.UseMySQL(connectionString);
+            }
+
         }
     }
 }

@@ -6,6 +6,7 @@
 
 using Easy;
 using Easy.Extend;
+using Easy.Logging;
 using Easy.Mvc.Attribute;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.DataAnnotations;
@@ -59,7 +60,6 @@ namespace ZKEACMS.WebHost
               {
                   option.ModelBinderProviders.Insert(0, new WidgetModelBinderProvider());
                   option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
-                  option.Filters.Add(new HandleErrorToLogAttribute());
               })
              .AddControllersAsServices()
              .AddJsonOptions(option =>
@@ -107,6 +107,7 @@ namespace ZKEACMS.WebHost
             }
             else
             {
+                loggerFactory.AddProvider(new FileLoggerProvider(env));
                 app.UseExceptionHandler("/Error");
             }
 

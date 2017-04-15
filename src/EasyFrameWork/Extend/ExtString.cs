@@ -1,5 +1,6 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using System;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -85,8 +86,6 @@ namespace Easy.Extend
 
         public static string FormatWith(this string instance, params object[] args)
         {
-
-
             return string.Format(instance, args);
         }
 
@@ -201,6 +200,10 @@ namespace Easy.Extend
                 return char.ToLower(instance[0]) + instance.Substring(1);
             }
             return instance;
+        }
+        public static string ToFilePath(this string path)
+        {
+            return Path.Combine(path.Split('/', '\\'));
         }
     }
 }
