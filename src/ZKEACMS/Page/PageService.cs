@@ -241,7 +241,10 @@ namespace ZKEACMS.Page
             {
                 path = "/index";
             }
-            path = "~" + path;
+            if (!path.StartsWith("~"))
+            {
+                path = "~" + path;
+            }
             var result = CurrentDbSet
                 .Where(m => m.Url == path && m.IsPublishedPage == !isPreView)
                 .OrderByDescending(m => m.PublishDate)
