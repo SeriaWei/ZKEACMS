@@ -10,7 +10,7 @@ namespace ZKEACMS.Theme
 {
     public class ThemePackageInstaller : FilePackageInstaller
     {
-        private const string ThemePath = "~/Themes";
+        private const string ThemePath = "~/themes";
         private readonly IThemeService _themeService;
 
         public ThemePackageInstaller(IHostingEnvironment hostingEnvironment, IThemeService themeService) : base(hostingEnvironment)
@@ -27,6 +27,14 @@ namespace ZKEACMS.Theme
         }
         public override object Install(Package package)
         {
+            var filePackage = package as FilePackage;
+            if (filePackage != null && filePackage.Files != null)
+            {
+                filePackage.Files.ForEach(file =>
+                {
+                    file.FilePath = file.FilePath.Replace("~/Themes", ThemePath);
+                });
+            }
             base.Install(package);
             var themePackage = package as ThemePackage;
             if (themePackage != null)
