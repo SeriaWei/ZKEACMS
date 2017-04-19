@@ -53,6 +53,13 @@ namespace ZKEACMS.Filter
                     };
                     //filterContext.HttpContext.Response.Headers[HeaderNames.Vary] = new string[] { "Accept-Encoding" };
                 }
+                else
+                {
+                    filterContext.HttpContext.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
+                    {
+                        NoCache = true
+                    };
+                }
                 return pageService.GetByPath(path, isPreView);
             }
 
