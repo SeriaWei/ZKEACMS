@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Widget
 {
-    public abstract class SimpleWidgetService<T> : WidgetService<T, CMSDbContext> where T : WidgetBase, new()
+    public abstract class SimpleWidgetService<T> : WidgetService<T, CMSDbContext> where T : BasicWidget, new()
     {
         public SimpleWidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext) :
             base(widgetBasePartService, applicationContext)
@@ -89,7 +89,7 @@ namespace ZKEACMS.Widget
         }
         public override void Remove(T item)
         {
-            WidgetBasePartService.Remove(item.ToWidgetBasePart());
+            WidgetBasePartService.Remove(item.ID);
             Signal.Trigger(CacheTrigger.WidgetChanged);
         }
         public override void RemoveRange(params T[] items)

@@ -18,6 +18,8 @@ using Easy.Modules.User.Service;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
 
 namespace ZKEACMS.Filter
 {
@@ -42,6 +44,15 @@ namespace ZKEACMS.Filter
             }
             using (var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>())
             {
+                if (!isPreView && GetPageViewMode() == PageViewMode.Publish)
+                {
+                    filterContext.HttpContext.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromMinutes(30)
+                    };
+                    //filterContext.HttpContext.Response.Headers[HeaderNames.Vary] = new string[] { "Accept-Encoding" };
+                }
                 return pageService.GetByPath(path, isPreView);
             }
 

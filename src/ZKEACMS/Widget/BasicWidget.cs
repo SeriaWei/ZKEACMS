@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,127 +15,127 @@ namespace ZKEACMS.Widget
     }
     public class BasicWidget : WidgetBase
     {
-        [Key]
+        [Key, JsonIgnore]
         public override string ID
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string AssemblyName
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string FormView
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override bool IsSystem
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override bool IsTemplate
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string LayoutID
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string PageID
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string PartialView
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override int? Position
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string ServiceTypeName
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string StyleClass
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string Thumbnail
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string ViewModelTypeName
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string WidgetName
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string ZoneID
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string CreateBy
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string CreatebyName
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override DateTime? CreateDate
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string Description
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string LastUpdateBy
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string LastUpdateByName
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override DateTime? LastUpdateDate
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override int? Status
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string Title
         {
             get; set;
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public override string ExtendData
         {
             get; set;
