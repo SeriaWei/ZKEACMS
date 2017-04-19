@@ -72,7 +72,7 @@ namespace ZKEACMS.Widget
         }
         public IEnumerable<WidgetBase> GetByPageId(string pageId)
         {
-            return Get(m => m.PageID == pageId);
+            return Get(m => m.PageID == pageId).ToList();
         }
         public IEnumerable<WidgetBase> GetAllByPageId(IServiceProvider serviceProvider, string pageId)
         {
