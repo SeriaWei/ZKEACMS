@@ -44,7 +44,7 @@ namespace ZKEACMS.Filter
             }
             using (var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>())
             {
-                if (!isPreView && GetPageViewMode() == PageViewMode.Publish)
+                if (!filterContext.HttpContext.User.Identity.IsAuthenticated && !isPreView && GetPageViewMode() == PageViewMode.Publish)
                 {
                     filterContext.HttpContext.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
                     {
