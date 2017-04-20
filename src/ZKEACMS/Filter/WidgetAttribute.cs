@@ -49,7 +49,7 @@ namespace ZKEACMS.Filter
                     filterContext.HttpContext.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
                     {
                         Public = true,
-                        MaxAge = TimeSpan.FromMinutes(30)
+                        MaxAge = TimeSpan.FromHours(1)
                     };
                     //filterContext.HttpContext.Response.Headers[HeaderNames.Vary] = new string[] { "Accept-Encoding" };
                 }
