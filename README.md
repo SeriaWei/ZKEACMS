@@ -91,7 +91,7 @@ ZKEACMS 使用LESS，可以轻松的创建主题。
 
 [赞助](http://www.zkea.net/zkeacms/donate)
 
-[DEMO站点](http://demo.zkea.net/)
+[DEMO站点](http://core.zkeasoft.com)
 
 ## 关注微信(ZKEASOFT)
 ![关注微信](http://blog.zkea.net/wp-content/uploads/2016/03/263801921375bdf2.jpg)
