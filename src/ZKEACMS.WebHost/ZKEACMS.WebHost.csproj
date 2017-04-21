@@ -134,7 +134,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Logs\" />
-    <Folder Include="wwwroot\Logs\" />
   </ItemGroup>
 
 </Project>

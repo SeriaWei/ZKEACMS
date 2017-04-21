@@ -16,6 +16,8 @@ using Easy.Encrypt;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
+using Easy.Logging;
 
 namespace Easy
 {
@@ -55,6 +57,10 @@ namespace Easy
         {
             builder.UseMiddleware<PluginStaticFileMiddleware>();
             return builder;
+        }
+        public static void UseFileLog(this ILoggerFactory loggerFactory, IHostingEnvironment env)
+        {
+            loggerFactory.AddProvider(new FileLoggerProvider(env));
         }
     }
 }
