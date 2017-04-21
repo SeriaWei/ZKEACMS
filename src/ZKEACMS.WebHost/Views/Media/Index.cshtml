@@ -138,12 +138,12 @@
 
     <div class="hide">
         <input type="file" id="fileUp" multiple />
-        <img src="~/Images/loader.gif" />
+        <img src="~/images/loader.gif" />
         <div id="item-template">
             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 new-folder">
                 <div class="thumbnail">
                     <a class="img-link">
-                        <img class="img" src="~/Images/folder.png">
+                        <img class="img" src="~/images/folder.png">
                     </a>
                     <div class="caption">
                     </div>
@@ -215,7 +215,7 @@
                         continue;
                     }
                     var newitem = $($("#item-template").html());
-                    newitem.find(".img").attr("src", "@Url.Content("~/Images/loader.gif")");
+                    newitem.find(".img").attr("src", "@Url.Content("~/images/loader.gif")");
                     newitem.find(".caption").html('<label class="label label-danger">排队中...</label>');
                     if ($("#media-list > div").size() > 0) {
                         newitem.insertBefore($("#media-list > div:first"));
