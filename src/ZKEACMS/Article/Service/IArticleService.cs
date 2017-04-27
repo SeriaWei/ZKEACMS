@@ -6,6 +6,6 @@ namespace ZKEACMS.Article.Service
 {
     public interface IArticleService : IService<ArticleEntity>
     {
-        void Publish(long ID);
+        void Publish(int ID);
     }
 }

@@ -22,7 +22,7 @@ namespace ZKEACMS.Product.Service
             }
         }
 
-        public void Publish(long ID)
+        public void Publish(int ID)
         {
             var product = Get(ID);
             product.IsPublish = true;

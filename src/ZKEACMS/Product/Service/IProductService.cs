@@ -6,6 +6,6 @@ namespace ZKEACMS.Product.Service
 {
     public interface IProductService : IService<ProductEntity>
     {
-        void Publish(long ID);
+        void Publish(int ID);
     }
 }
