@@ -55,9 +55,9 @@ namespace ZKEACMS.Product.Controllers
             return base.Edit(entity);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProductCategory)]
-        public override JsonResult Delete(string ids)
+        public override JsonResult Delete(int id)
         {
-            return base.Delete(ids);
+            return base.Delete(id);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewProductCategory)]
         public JsonResult GetProductCategoryTree()

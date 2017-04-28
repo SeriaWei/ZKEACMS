@@ -59,9 +59,9 @@ namespace ZKEACMS.Product.Controllers
             return base.GetList(query);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
-        public override JsonResult Delete(string ids)
+        public override JsonResult Delete(int id)
         {
-            return base.Delete(ids);
+            return base.Delete(id);
         }
     }
 }

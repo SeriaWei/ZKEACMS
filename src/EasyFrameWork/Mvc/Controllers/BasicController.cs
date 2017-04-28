@@ -86,16 +86,13 @@ namespace Easy.Mvc.Controllers
         }
 
         [HttpPost]
-        public virtual JsonResult Delete(string ids)
+        public virtual JsonResult Delete(TPrimarykey id)
         {
             try
             {
-                string[] id = ids.Split(',');
 
-                foreach (string item in id)
-                {
-                    Service.Remove(item);
-                }
+                Service.Remove(id);
+
                 return Json(new AjaxResult { Status = AjaxStatus.Normal });
             }
             catch (Exception ex)

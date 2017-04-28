@@ -62,9 +62,9 @@ namespace ZKEACMS.Article.Controllers
             return base.GetList(query);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageArticle)]
-        public override JsonResult Delete(string ids)
+        public override JsonResult Delete(int id)
         {
-            return base.Delete(ids);
+            return base.Delete(id);
         }
     }
 }
