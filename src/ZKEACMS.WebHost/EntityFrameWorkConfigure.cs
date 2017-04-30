@@ -8,6 +8,7 @@ using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
 using Easy.Extend;
 using MySQL.Data.EntityFrameworkCore.Extensions;
+using System;
 
 namespace ZKEACMS.WebHost
 {
@@ -25,7 +26,7 @@ namespace ZKEACMS.WebHost
             {
                 optionsBuilder.UseSqlite(connectionString);
             }
-            else if((connectionString = connections["MySql"]).IsNotNullAndWhiteSpace())
+            else if ((connectionString = connections["MySql"]).IsNotNullAndWhiteSpace())
             {
                 optionsBuilder.UseMySQL(connectionString);
             }

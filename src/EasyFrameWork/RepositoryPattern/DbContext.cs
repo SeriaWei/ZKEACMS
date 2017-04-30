@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Easy.RepositoryPattern
 {
@@ -9,12 +10,12 @@ namespace Easy.RepositoryPattern
         static DbContextConfig()
         {
             OnModelCreatings = ServiceLocator.GetServices<IOnModelCreating>();
-            OnConfigurings = ServiceLocator.GetServices<IOnConfiguring>();
+            OnConfiguring = ServiceLocator.GetService<IOnConfiguring>();
         }
         public static IEnumerable<IOnModelCreating> OnModelCreatings { get; }
-        public static IEnumerable<IOnConfiguring> OnConfigurings { get; }
+        public static IOnConfiguring OnConfiguring { get; }
     }
-    public class DbContextBase : DbContext 
+    public class DbContextBase : DbContext
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,12 +29,9 @@ namespace Easy.RepositoryPattern
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (DbContextConfig.OnConfigurings != null)
+            if (DbContextConfig.OnConfiguring != null)
             {
-                foreach (var item in DbContextConfig.OnConfigurings)
-                {
-                    item.OnConfiguring(optionsBuilder);
-                }
+                DbContextConfig.OnConfiguring.OnConfiguring(optionsBuilder);
             }
         }
     }
