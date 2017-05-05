@@ -10,6 +10,7 @@ using Easy;
 using Microsoft.Extensions.DependencyInjection;
 using ZKEACMS.Product.Service;
 using System.ComponentModel.DataAnnotations.Schema;
+using Easy.Constant;
 
 namespace ZKEACMS.Product.Models
 {
@@ -36,23 +37,8 @@ namespace ZKEACMS.Product.Models
             }).Required().Order(NextOrder());
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
             ViewConfig(m => m.PageSize).AsTextBox().Order(NextOrder()).Range(1, 50);
-            ViewConfig(m => m.Columns).AsDropDownList().Order(NextOrder()).DataSource(new Dictionary<string, string>
-            {
-                { "col-xs-12 col-sm-6 col-md-4", "3 列" },
-                { "col-xs-12 col-sm-6 col-md-4 col-lg-3", "4 列" }
-            });
-            ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(() =>
-            {
-                var path = (ServiceLocator.GetService<IApplicationContext>() as CMSApplicationContext).MapPath("~/Modules/Product/Views");
-                Dictionary<string, string> templates = new Dictionary<string, string>();
-                Directory.GetFiles(path, "Widget.ProductList*.cshtml").Each(f =>
-                {
-                    string fileName = Path.GetFileNameWithoutExtension(f);
-                    templates.Add(fileName, fileName.Replace("Widget.", ""));
-
-                });
-                return templates;
-            });
+            ViewConfig(m => m.Columns).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary);
+            ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary);
         }
     }
 

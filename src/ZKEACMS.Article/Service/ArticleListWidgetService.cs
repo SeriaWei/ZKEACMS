@@ -50,7 +50,7 @@ namespace ZKEACMS.Article.Service
             }
             else
             {
-                var ids = _articleTypeService.Get(m => m.ParentID == currentWidget.ArticleTypeID).Select(m => m.ID);
+                var ids = _articleTypeService.Get(m =>m.ID==currentWidget.ArticleTypeID || m.ParentID == currentWidget.ArticleTypeID).Select(m => m.ID);
                 if (ids.Any())
                 {
                     filter = m => m.IsPublish && ids.Any(id => id == m.ArticleTypeID);

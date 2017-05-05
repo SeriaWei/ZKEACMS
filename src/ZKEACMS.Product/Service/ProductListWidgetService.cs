@@ -57,7 +57,7 @@ namespace ZKEACMS.Product.Service
             }
             else
             {
-                var ids = _productCategoryService.Get(m => m.ParentID == pwidget.ProductCategoryID).Select(m => m.ID);
+                var ids = _productCategoryService.Get(m => m.ID == pwidget.ProductCategoryID || m.ParentID == pwidget.ProductCategoryID).Select(m => m.ID);
                 if (ids.Any())
                 {
                     filter = m => m.IsPublish && ids.Any(id => id == m.ProductCategoryID);

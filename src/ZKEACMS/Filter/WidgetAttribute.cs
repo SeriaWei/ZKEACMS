@@ -143,7 +143,10 @@ namespace ZKEACMS.Filter
             }
             else
             {
-                filterContext.Result = new RedirectResult("~/error/notfond?f=" + filterContext.HttpContext.Request.Path);
+                if(!(filterContext.Result is RedirectResult))
+                {
+                    filterContext.Result = new RedirectResult("~/error/notfond?f=" + filterContext.HttpContext.Request.Path);
+                }
             }
         }
 

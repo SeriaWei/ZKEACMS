@@ -30,22 +30,11 @@ namespace ZKEACMS.Article.Models
             ViewConfig(m => m.SubTitle).AsTextBox().Order(NextOrder());
             var articleTypeService = ServiceLocator.GetService<IArticleTypeService>();
             ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).DataSource(articleTypeService.GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title)).Required();
-            ViewConfig(m => m.Tops).AsTextBox().Order(NextOrder()).RegularExpression(RegularExpression.PositiveIntegers);
+            ViewConfig(m => m.Tops).AsTextBox().Order(NextOrder()).RegularExpression(RegularExpression.PositiveIntegers).Required();
             ViewConfig(m => m.MoreLink).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
 
-            ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(() =>
-            {
-                var path = (ServiceLocator.GetService<IApplicationContext>() as CMSApplicationContext).MapPath("~/Modules/Article/Views");
-                Dictionary<string, string> templates = new Dictionary<string, string>();
-                Directory.GetFiles(path, "Widget.ArticleTops*.cshtml").Each(f =>
-                {
-                    string fileName = Path.GetFileNameWithoutExtension(f);
-                    templates.Add(fileName, fileName.Replace("Widget.", ""));
-
-                });
-                return templates;
-            });
+            ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary);
         }
     }
 

@@ -16,10 +16,7 @@
             foreach (var item in Model.Articles)
             {
                 <a class="list-group-item" href="@Url.PostUrl(Model.Widget.DetailPageUrl, item.ID)" target="_blank">
-                    <h4 class="list-group-item-heading">
-                        @item.Title
-                    </h4>
-                    <p class="list-group-item-text">@item.Summary</p>
+                    @item.Title
                 </a>
             }
         }
