@@ -199,7 +199,7 @@ namespace ZKEACMS.Controllers
                 PageID = context.PageID,
                 LayoutID = layout.ID,
                 Zones = _zoneService.GetZonesByPageId(context.PageID),
-                Widgets = _widgetService.GetAllByPageId(HttpContext.RequestServices, context.PageID),
+                Widgets = _widgetService.GetAllByPage(Service.Get(context.PageID)),
                 LayoutHtml = layout.Html
             };
             return View(viewModel);

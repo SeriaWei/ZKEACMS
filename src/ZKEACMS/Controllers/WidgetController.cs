@@ -16,6 +16,7 @@ using ZKEACMS.Common.Models;
 using System.IO;
 using Newtonsoft.Json;
 using ZKEACMS.PackageManger;
+using ZKEACMS.Page;
 
 namespace ZKEACMS.Controllers
 {
@@ -27,15 +28,17 @@ namespace ZKEACMS.Controllers
         private readonly ICookie _cookie;
         private readonly IPackageInstallerProvider _packageInstallerProvider;
         private readonly IWidgetActivator _widgetActivator;
+        private readonly IPageService _pageService;
 
         public WidgetController(IWidgetBasePartService widgetService, IWidgetTemplateService widgetTemplateService,
-            ICookie cookie, IPackageInstallerProvider packageInstallerProvider, IWidgetActivator widgetActivator)
+            ICookie cookie, IPackageInstallerProvider packageInstallerProvider, IWidgetActivator widgetActivator, IPageService pageService)
         {
             _widgetService = widgetService;
             _widgetTemplateService = widgetTemplateService;
             _cookie = cookie;
             _packageInstallerProvider = packageInstallerProvider;
             _widgetActivator = widgetActivator;
+            _pageService = pageService;
         }
 
         [ViewDataZones]
@@ -49,7 +52,7 @@ namespace ZKEACMS.Controllers
             widget.FormView = template.FormView;
             if (widget.PageID.IsNotNullAndWhiteSpace())
             {
-                widget.Position = _widgetService.GetAllByPageId(HttpContext.RequestServices, context.PageID).Count(m => m.ZoneID == context.ZoneID) + 1;
+                widget.Position = _widgetService.GetAllByPage(_pageService.Get(context.PageID)).Count(m => m.ZoneID == context.ZoneID) + 1;
             }
             else
             {

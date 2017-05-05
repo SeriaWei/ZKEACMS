@@ -74,16 +74,8 @@ namespace ZKEACMS.Widget
         {
             return Get(m => m.PageID == pageId).ToList();
         }
-        public IEnumerable<WidgetBase> GetAllByPageId(IServiceProvider serviceProvider, string pageId)
-        {
-            using (var pageService = _serviceProvider.GetService<IPageService>())
-            {
-                return GetAllByPage(serviceProvider, pageService.Get(pageId));
-            }
 
-        }
-
-        public IEnumerable<WidgetBase> GetAllByPage(IServiceProvider serviceProvider, PageEntity page)
+        public IEnumerable<WidgetBase> GetAllByPage(PageEntity page)
         {
             Func<PageEntity, List<WidgetBase>> getPageWidgets = p =>
             {

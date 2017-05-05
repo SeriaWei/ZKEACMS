@@ -13,8 +13,7 @@ namespace ZKEACMS.Widget
     {
         IEnumerable<WidgetBase> GetByLayoutId(string layoutId);
         IEnumerable<WidgetBase> GetByPageId(string pageId);
-        IEnumerable<WidgetBase> GetAllByPageId(IServiceProvider serviceProvider, string pageId);
-        IEnumerable<WidgetBase> GetAllByPage(IServiceProvider serviceProvider, PageEntity page);
+        IEnumerable<WidgetBase> GetAllByPage(PageEntity page);
         WidgetViewModelPart ApplyTemplate(WidgetBase widget, ActionContext actionContext);
     }
 }

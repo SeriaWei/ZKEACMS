@@ -35,13 +35,7 @@ namespace ZKEACMS.Filter
                 filterContext.Result = new RedirectResult(path);
                 return null;
             }
-            bool isPreView = false;
-            if (filterContext.HttpContext.User.Identity.IsAuthenticated)
-            {
-                isPreView = ReView.Review.Equals(
-                    filterContext.HttpContext.Request.Query[ReView.QueryKey],
-                    StringComparison.CurrentCultureIgnoreCase);
-            }
+            bool isPreView = IsPreView(filterContext);
             using (var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>())
             {
                 if (!filterContext.HttpContext.User.Identity.IsAuthenticated && !isPreView && GetPageViewMode() == PageViewMode.Publish)
@@ -64,7 +58,17 @@ namespace ZKEACMS.Filter
             }
 
         }
-
+        private bool IsPreView(ActionExecutedContext filterContext)
+        {
+            bool isPreView = false;
+            if (filterContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                isPreView = ReView.Review.Equals(
+                    filterContext.HttpContext.Request.Query[ReView.QueryKey],
+                    StringComparison.CurrentCultureIgnoreCase);
+            }
+            return isPreView;
+        }
         public virtual string GetLayout()
         {
             return "~/Views/Shared/_Layout.cshtml";
@@ -79,15 +83,14 @@ namespace ZKEACMS.Filter
             var page = GetPage(filterContext);
             if (page != null)
             {
-                var requestServices = filterContext.HttpContext.RequestServices;
 
+                var requestServices = filterContext.HttpContext.RequestServices;
+                var onPageExecuteds = requestServices.GetServices<IOnPageExecuted>();
                 var layoutService = requestServices.GetService<ILayoutService>();
                 var widgetService = requestServices.GetService<IWidgetBasePartService>();
                 var applicationSettingService = requestServices.GetService<IApplicationSettingService>();
                 var themeService = requestServices.GetService<IThemeService>();
-                var onPageExecuteds = requestServices.GetServices<IOnPageExecuted>();
                 var widgetActivator = requestServices.GetService<IWidgetActivator>();
-
                 LayoutEntity layout = layoutService.Get(page.LayoutId);
                 layout.Page = page;
                 page.Favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
@@ -98,7 +101,7 @@ namespace ZKEACMS.Filter
                 layout.CurrentTheme = themeService.GetCurrentTheme();
                 layout.ZoneWidgets = new ZoneWidgetCollection();
                 filterContext.HttpContext.TrySetLayout(layout);
-                widgetService.GetAllByPage(requestServices, page).Each(widget =>
+                widgetService.GetAllByPage(page).Each(widget =>
                 {
                     if (widget != null)
                     {
