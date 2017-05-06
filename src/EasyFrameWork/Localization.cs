@@ -27,12 +27,17 @@ namespace Easy
                         if (lanKey.Contains("@"))
                         {
                             lanValue = lanKey.Split('@')[1];
+                            var translated = languageService.Get(n => n.LanKey.EndsWith("@" + lanValue) && n.CultureName == culture).FirstOrDefault();
+                            if (translated != null)
+                            {
+                                lanValue = translated.LanValue;
+                            }
                             lanType = "EntityProperty";
                             module = lanKey.Split('@')[0];
                         }
                         language = new LanguageEntity
                         {
-                            CultureName = CultureInfo.CurrentUICulture.Name,
+                            CultureName = culture,
                             LanValue = lanValue,
                             LanKey = lanKey,
                             LanType = lanType,

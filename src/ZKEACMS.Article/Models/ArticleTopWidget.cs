@@ -28,8 +28,11 @@ namespace ZKEACMS.Article.Models
         {
             base.ViewConfigure();
             ViewConfig(m => m.SubTitle).AsTextBox().Order(NextOrder());
-            var articleTypeService = ServiceLocator.GetService<IArticleTypeService>();
-            ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).DataSource(articleTypeService.GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title)).Required();
+            ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).DataSource(() =>
+            {
+                var articleTypeService = ServiceLocator.GetService<IArticleTypeService>();
+                return articleTypeService.GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
+            }).Required();
             ViewConfig(m => m.Tops).AsTextBox().Order(NextOrder()).RegularExpression(RegularExpression.PositiveIntegers).Required();
             ViewConfig(m => m.MoreLink).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);

@@ -41,7 +41,9 @@ img {
 .input-group .form-control {
     position: static;
 }
-
+.form-control.required {
+    background-color: #fff0dd;
+}
 a.badge:hover {
     background-color: #1F1F1F;
 }

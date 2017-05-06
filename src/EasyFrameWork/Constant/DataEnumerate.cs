@@ -4,8 +4,9 @@ namespace Easy.Constant
 {
     public enum SourceType
     {
-        Dictionary,
-        ViewData
+        None = 1,
+        Dictionary = 2,
+        ViewData = 3
     }
     public enum RecordStatus
     {

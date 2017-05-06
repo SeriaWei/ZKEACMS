@@ -25,7 +25,7 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.StyleClass).AsTextBox().Order(NextOrder()).AddClass(StringKeys.StyleEditor).AddProperty("data-url", Urls.StyleEditor).AddProperty("data-width", "1024").MaxLength(1000);
             ViewConfig(m => m.CustomClass).AsHidden().Ignore();
             ViewConfig(m => m.CustomStyle).AsHidden().Ignore();
-            ViewConfig(m => m.ExtendFields).AsListEditor();
+            ViewConfig(m => m.ExtendFields).AsHidden().Ignore();
             ViewConfig(m => m.AssemblyName).AsHidden();
             ViewConfig(m => m.FormView).AsHidden();
             ViewConfig(m => m.IsSystem).AsHidden();
@@ -34,6 +34,7 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.PartialView).AsHidden();
             ViewConfig(m => m.LayoutID).AsHidden();
             ViewConfig(m => m.PageID).AsHidden();
+            ViewConfig(m => m.ExtendData).AsHidden();
         }
 
         protected override void ViewConfigure()

@@ -119,6 +119,10 @@ namespace Easy.ViewPort.Descriptor
             if (!Classes.Contains("form-control"))
             {
                 Classes.Add("form-control");
+                if (IsRequired)
+                {
+                    Classes.Add("required");
+                }
             }
             result.Add("class", string.Join(" ", Classes));
             result.Add("style", string.Join(";", Styles.ToList(m => string.Format("{0}:{1}", m.Key, m.Value))));
