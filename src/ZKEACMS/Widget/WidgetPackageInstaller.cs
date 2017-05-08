@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using ZKEACMS.PackageManger;
 using Microsoft.AspNetCore.Hosting;
+using Easy.Modules.DataDictionary;
 
 namespace ZKEACMS.Widget
 {
@@ -29,7 +30,7 @@ namespace ZKEACMS.Widget
             var widgetPackage = package as WidgetPackage;
             if (widgetPackage != null)
             {
-                if(widgetPackage.Widget != null)
+                if (widgetPackage.Widget != null)
                 {
                     var widget = JsonConvert.DeserializeObject(JObject.Parse(package.Content.ToString()).GetValue("Widget").ToString(), widgetPackage.Widget.GetViewModelType()) as WidgetBase;
                     widget.PageID = null;
@@ -57,5 +58,57 @@ namespace ZKEACMS.Widget
         {
             return null;
         }
+    }
+
+    public class DataDictionaryPackageInstaller : FilePackageInstaller
+    {
+        private readonly IDataDictionaryService _dataDictionaryService;
+        public DataDictionaryPackageInstaller(IHostingEnvironment hostingEnvironment, IDataDictionaryService dataDictionaryService) : base(hostingEnvironment)
+        {
+            _dataDictionaryService = dataDictionaryService;
+        }
+
+        public override string PackageInstaller
+        {
+            get
+            {
+                return "DataDictionaryPackageInstaller";
+            }
+        }
+        public override object Install(Package package)
+        {
+            base.Install(package);
+            DataDictionaryPackage dicPackage = package as DataDictionaryPackage;
+            if (dicPackage != null)
+            {
+                var exists = _dataDictionaryService.Count(m => m.DicName == dicPackage.DataDictionary.DicName && m.DicValue == dicPackage.DataDictionary.DicValue);
+                if (exists == 0)
+                {
+                    dicPackage.DataDictionary.ID = 0;
+                    _dataDictionaryService.Add(dicPackage.DataDictionary);
+                }
+            }
+
+            return null;
+        }
+        public override Package Pack(object obj)
+        {
+            DataDictionaryPackage package = null;
+            if (OnPacking != null)
+            {
+                package = base.Pack(OnPacking()) as DataDictionaryPackage;
+            }
+            if (package == null)
+            {
+                package = CreatePackage() as DataDictionaryPackage;
+            }
+            package.DataDictionary = obj as DataDictionaryEntity;
+            return package;
+        }
+        public override FilePackage CreatePackage()
+        {
+            return new DataDictionaryPackage(PackageInstaller);
+        }
+        public Func<IEnumerable<System.IO.FileInfo>> OnPacking { get; set; }
     }
 }

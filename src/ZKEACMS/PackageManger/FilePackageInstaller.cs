@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Easy.Extend;
 using Microsoft.AspNetCore.Hosting;
+using Newtonsoft.Json;
 
 namespace ZKEACMS.PackageManger
 {
@@ -80,6 +81,13 @@ namespace ZKEACMS.PackageManger
             {
                 package.Files.Add(new FileInfo { FileName = file.Name, FilePath = file.FullName.Replace(MapPath("~/"), "~/"), Content = File.ReadAllBytes(file.FullName) });
             });
+        }
+
+        public object Install(string packageContent)
+        {
+            Package package = JsonConvert.DeserializeObject(packageContent, CreatePackage().GetType()) as Package;
+            package.Content = packageContent;
+            return Install(package);
         }
     }
 }

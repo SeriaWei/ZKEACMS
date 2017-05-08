@@ -10,6 +10,7 @@ using Easy;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.DependencyInjection;
+using Easy.Constant;
 
 namespace ZKEACMS.Common.Models
 {
@@ -36,6 +37,7 @@ namespace ZKEACMS.Common.Models
                 }
             });
             ViewConfig(m => m.CarouselItems).AsListEditor().Order(NextOrder());
+            ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary);
         }
     }
 

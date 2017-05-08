@@ -17,6 +17,10 @@ using System.IO;
 using Newtonsoft.Json;
 using ZKEACMS.PackageManger;
 using ZKEACMS.Page;
+using Easy.Modules.DataDictionary;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
+using Easy.Mvc.Extend;
 
 namespace ZKEACMS.Controllers
 {
@@ -230,15 +234,44 @@ namespace ZKEACMS.Controllers
             var widgetPackage = _widgetActivator.Create(widget).PackWidget(widget) as WidgetPackage;
             return File(widgetPackage.ToFilePackage(), "Application/zip", widgetPackage.Widget.WidgetName + ".widget");
         }
+        public FileResult PackDictionary(int ID, string[] filePath)
+        {
+            var dataDictionaryService = HttpContext.RequestServices.GetService<IDataDictionaryService>();
+            var dataDictionary = dataDictionaryService.Get(ID);
+            var installer = new DataDictionaryPackageInstaller(HttpContext.RequestServices.GetService<IHostingEnvironment>(), dataDictionaryService);
+            if (filePath != null && filePath.Any())
+            {
+                installer.OnPacking = () =>
+                {
+                    List<System.IO.FileInfo> files = new List<System.IO.FileInfo>();
+                    foreach (var item in filePath)
+                    {
+                        files.Add(new System.IO.FileInfo(Request.MapPath(item)));
+                    }
+                    return files;
+                };
+            }
+
+            return File(installer.Pack(dataDictionary).ToFilePackage(), "Application/zip", dataDictionary.Title + ".widget");
+        }
         [HttpPost]
         public ActionResult InstallWidgetTemplate(string returnUrl)
         {
             if (Request.Form.Files.Count > 0)
             {
 
-                WidgetPackage package;
-                _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
-                _widgetActivator.Create(package.Widget).InstallWidget(package);
+                Package package;
+                var installer = _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
+                if (installer is WidgetPackageInstaller)
+                {
+                    var widgetPackage = JsonConvert.DeserializeObject<WidgetPackage>(package.Content.ToString());
+                    widgetPackage.Content = package.Content;
+                    _widgetActivator.Create(widgetPackage.Widget).InstallWidget(widgetPackage);
+                }
+                else
+                {
+                    installer.Install(package.Content.ToString());
+                }
 
             }
             return Redirect(returnUrl);

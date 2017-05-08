@@ -51,6 +51,7 @@ namespace ZKEACMS
             serviceCollection.AddTransient<IPackageInstaller, ThemePackageInstaller>();
             serviceCollection.AddTransient<IPackageInstaller, WidgetPackageInstaller>();
             serviceCollection.AddTransient<IPackageInstaller, FilePackageInstaller>();
+            serviceCollection.AddTransient<IPackageInstaller, DataDictionaryPackageInstaller>();
             serviceCollection.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
 
             foreach (var item in WidgetBase.KnownWidgetService)
