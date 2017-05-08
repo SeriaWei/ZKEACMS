@@ -34,7 +34,8 @@ namespace ZKEACMS.Product.Models
                 var dicts = new Dictionary<string, string>();
                 ServiceLocator.GetService<IProductCategoryService>().GetAll().Each(m => { dicts.Add(m.ID.ToString(), m.Title); });
                 return dicts;
-            }).Required().Order(NextOrder());
+            }).Required().Order(NextOrder()).AddClass("select").AddProperty("data-url", "/admin/ProductCategory/Select");
+
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
             ViewConfig(m => m.PageSize).AsTextBox().Order(NextOrder()).Range(1, 50);
             ViewConfig(m => m.Columns).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary);

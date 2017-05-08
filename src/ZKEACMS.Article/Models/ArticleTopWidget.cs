@@ -32,7 +32,8 @@ namespace ZKEACMS.Article.Models
             {
                 var articleTypeService = ServiceLocator.GetService<IArticleTypeService>();
                 return articleTypeService.GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
-            }).Required();
+            }).Required().AddClass("select").AddProperty("data-url", "/admin/ArticleType/Select");
+
             ViewConfig(m => m.Tops).AsTextBox().Order(NextOrder()).RegularExpression(RegularExpression.PositiveIntegers).Required();
             ViewConfig(m => m.MoreLink).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
