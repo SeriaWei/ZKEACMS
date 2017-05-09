@@ -2,8 +2,7 @@
 @using Microsoft.AspNetCore.Html
 @model ZKEACMS.Common.ViewModels.NavigationWidgetViewModel
 @{
-    NavigationEntity homePage = Model.Navigations.FirstOrDefault(m => m.ParentId == "#");
-    if (homePage == null)
+    if (Model.Navigations == null || !Model.Navigations.Any())
     {
         return;
     }
@@ -28,7 +27,7 @@
                 }
                 @{
                     <ul class="nav navbar-nav nav-mobile visible-xs">
-                      @foreach (var item in Model.Navigations.Where(m => m.IsMobile ?? false))
+                      @foreach (var item in Model.Navigations.Where(m => m.ParentId == Model.Widget.RootID && (m.IsMobile ?? false)))
                       {
                         <li class="pull-left @(item.IsCurrent ? "active" : "")">
                             @Html.SmartLink(Url.PathContent(item.Url), item.Title)
@@ -39,7 +38,7 @@
             </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav @Model.Widget.AlignClass">
-                    @foreach (NavigationEntity item in Model.Navigations.Where(m => m.ParentId == "#"))
+                    @foreach (NavigationEntity item in Model.Navigations.Where(m => m.ParentId == Model.Widget.RootID))
                     {
                         if (Model.Navigations.Any(m => m.ParentId == item.ID))
                         {

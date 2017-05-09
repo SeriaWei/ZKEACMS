@@ -1,0 +1,31 @@
+﻿@using ZKEACMS.Common
+@using ZKEACMS.Common.Models
+@using Easy.ViewPort.jsTree
+
+@{
+    ViewBag.Title = "选择导航";
+    Layout = Layouts.PopUp;
+    Script.Reqiured("jsTree").AtFoot();
+    Style.Reqiured("jsTree").AtHead();
+}
+
+
+@(
+ Html.Tree<NavigationEntity>().Source("GetSelectNavTree", "Navigation", new { module = "admin" }).On(Events.SelectNode, "Select").On(Events.Loaded, "loaded")
+)
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        function Select(node, selected, e) {
+            Set(selected.node.a_attr.id);
+        }
+        function loaded() {
+            @if (ViewBag.Selected != null)
+        {
+<text>
+            $("a[id=@(ViewBag.Selected)]").click();
+            </text>
+        }
+        }
+    </script>
+}

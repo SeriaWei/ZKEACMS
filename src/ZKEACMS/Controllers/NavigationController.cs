@@ -41,11 +41,24 @@ namespace ZKEACMS.Controllers
             return Json(node);
         }
 
+        public JsonResult GetSelectNavTree()
+        {
+            var navs = Service.GetAll().OrderBy(m => m.DisplayOrder);
+            var node = new Tree<NavigationEntity>().Source(navs).ToNode(m => m.ID, m => m.Title, m => m.ParentId, "#");
+            Node root = new Node { id = "root", text = "µ¼º½", children = node, state = new State { opened = true }, a_attr = new { id = "root" } };
+            return Json(root);
+        }
+
         [HttpPost]
         public JsonResult MoveNav(string id, string parentId, int position, int oldPosition)
         {
             Service.Move(id, parentId, position, oldPosition);
             return Json(true);
+        }
+        public ActionResult Select(string selected)
+        {
+            ViewBag.Selected = selected;
+            return View();
         }
     }
 }
