@@ -18,14 +18,16 @@ namespace ZKEACMS.Page
     {
         private readonly IWidgetBasePartService _widgetService;
         private readonly IDataArchivedService _dataArchivedService;
+        private readonly IWidgetActivator _widgetActivator;
 
 
-
-        public PageService(IWidgetBasePartService widgetService, IDataArchivedService dataArchivedService, IApplicationContext applicationContext)
+        public PageService(IWidgetBasePartService widgetService, IDataArchivedService dataArchivedService,
+            IApplicationContext applicationContext, IWidgetActivator widgetActivator)
             : base(applicationContext)
         {
             _widgetService = widgetService;
             _dataArchivedService = dataArchivedService;
+            _widgetActivator = widgetActivator;
         }
         public override DbSet<PageEntity> CurrentDbSet
         {
@@ -80,7 +82,7 @@ namespace ZKEACMS.Page
             Add(item);
             widgets.Each(m =>
             {
-                using (var widgetService = m.CreateServiceInstance(ApplicationContext.ServiceLocator))
+                using (var widgetService = _widgetActivator.Create(m))
                 {
                     m = widgetService.GetWidget(m);
                     if (m.ExtendFields != null)
@@ -126,7 +128,7 @@ namespace ZKEACMS.Page
                 var widgets = _widgetService.GetByPageId(ID);
                 widgets.Each(m =>
                 {
-                    var widgetService = m.CreateServiceInstance(ApplicationContext.ServiceLocator);
+                    var widgetService = _widgetActivator.Create(m);
                     m = widgetService.GetWidget(m);
                     if (m.ExtendFields != null)
                     {
@@ -139,7 +141,10 @@ namespace ZKEACMS.Page
                 {
                     Publish(page);
                 }
-
+                else
+                {
+                    _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(page.ReferencePageID));
+                }
             }
         }
         public override void Remove(PageEntity item)
@@ -148,7 +153,7 @@ namespace ZKEACMS.Page
             var widgets = _widgetService.Get(m => m.PageID == item.ID);
             widgets.Each(m =>
             {
-                using (var widgetService = m.CreateServiceInstance(ApplicationContext.ServiceLocator))
+                using (var widgetService = _widgetActivator.Create(m))
                 {
                     widgetService.DeleteWidget(m.ID);
                 }
@@ -160,7 +165,7 @@ namespace ZKEACMS.Page
             _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(item.ID));
             base.Remove(item);
         }
-        
+
         public override void Remove(Expression<Func<PageEntity, bool>> filter)
         {
             var deletes = Get(filter).ToList(m => m.ID);
@@ -172,7 +177,7 @@ namespace ZKEACMS.Page
                 var widgets = _widgetService.Get(m => deletes.Any(n => n == m.PageID));
                 widgets.Each(m =>
                 {
-                    using (var widgetService = m.CreateServiceInstance(ApplicationContext.ServiceLocator))
+                    using (var widgetService = _widgetActivator.Create(m))
                     {
                         widgetService.DeleteWidget(m.ID);
                     }
@@ -195,7 +200,7 @@ namespace ZKEACMS.Page
             if (page != null)
             {
                 var widgets = _widgetService.Get(m => m.PageID == page.ID);
-                widgets.Each(m => m.CreateServiceInstance(ApplicationContext.ServiceLocator).DeleteWidget(m.ID));
+                widgets.Each(m => _widgetActivator.Create(m).DeleteWidget(m.ID));
                 _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(page.ID));
             }
             base.Remove(ID);
@@ -232,22 +237,26 @@ namespace ZKEACMS.Page
             {
                 path = path.Substring(0, path.Length - 1);
             }
-
-            var pages = CurrentDbSet.Where(m => m.IsPublishedPage == !isPreView);
             if (path == "/")
             {
-                path = "~/index";
+                path = "/index";
             }
-            else
+            if (!path.StartsWith("~"))
             {
-                pages = pages.Where(m => m.Url == (path.StartsWith("~") ? "" : "~") + path);
+                path = "~" + path;
             }
+            var result = CurrentDbSet
+                .Where(m => m.Url == path && m.IsPublishedPage == !isPreView)
+                .OrderByDescending(m => m.PublishDate)
+                .FirstOrDefault();
 
-            pages = pages.OrderByDescending(m => m.PublishDate);
-            var result = pages.FirstOrDefault();
             if (result != null && result.ExtendFields != null)
             {
-                /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+                /*!
+                 * http://www.zkea.net/ 
+                 * Copyright 2017 ZKEASOFT 
+                 * http://www.zkea.net/licenses 
+                 */
                 ((List<ExtendFieldEntity>)result.ExtendFields).Add(new ExtendFieldEntity { Title = "meta_support", Value = "ZKEASOFT" });
             }
             return result;

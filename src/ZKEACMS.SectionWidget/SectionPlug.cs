@@ -47,8 +47,8 @@ namespace ZKEACMS.SectionWidget
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
-            style("SectionAdmin").Include("~/Plugins/ZKEACMS.SectionWidget/Content/Section.css", "~/Plugins/ZKEACMS.SectionWidget/Content/Section.min.css", Urls.CdnHost + "/Plugins/ZKEACMS.SectionWidget/Content/Section.min.css");
-            style("Section").Include("~/Plugins/ZKEACMS.SectionWidget/Content/SectionClient.css", "~/Plugins/ZKEACMS.SectionWidget/Content/SectionClient.min.css", Urls.CdnHost + "/Plugins/ZKEACMS.SectionWidget/Content/SectionClient.min.css");
+            style("SectionAdmin").Include("~/Plugins/ZKEACMS.SectionWidget/Content/Section.css", "~/Plugins/ZKEACMS.SectionWidget/Content/Section.min.css");
+            style("Section").Include("~/Plugins/ZKEACMS.SectionWidget/Content/SectionClient.css", "~/Plugins/ZKEACMS.SectionWidget/Content/SectionClient.min.css");
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()

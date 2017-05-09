@@ -44,7 +44,7 @@ namespace Easy.Mvc.DataAnnotations
                         }
                         displayMetadata.DisplayName = () => descriptor.DisplayName;
                     }
-                   
+
                     displayMetadata.Order = descriptor.OrderIndex;
                     displayMetadata.TemplateHint = descriptor.TemplateName;
                     displayMetadata.ShowForDisplay = descriptor.IsShowForDisplay;
@@ -54,6 +54,12 @@ namespace Easy.Mvc.DataAnnotations
                         displayMetadata.TemplateHint = "HiddenInput";
                         displayMetadata.ShowForDisplay = false;
                         displayMetadata.ShowForEdit = false;
+                    }
+                    if (descriptor.IsIgnore)
+                    {
+                        displayMetadata.ShowForDisplay = false;
+                        displayMetadata.ShowForEdit = false;
+                        displayMetadata.TemplateHint = "Ignore";
                     }
                 }
             }
@@ -66,7 +72,6 @@ namespace Easy.Mvc.DataAnnotations
             {
                 throw new ArgumentNullException(nameof(context));
             }
-
             var viewConfig = ViewConfigureAttribute.GetAttribute(context.Key.ContainerType);
             if (viewConfig != null && context.Key.Name.IsNotNullAndWhiteSpace())
             {
@@ -75,11 +80,13 @@ namespace Easy.Mvc.DataAnnotations
                 {
                     descriptor.Validator.Each(v =>
                     {
+                        v.DisplayName = descriptor.DisplayName;
                         if (v is RangeValidator)
                         {
                             RangeValidator valid = (RangeValidator)v;
                             RangeAttribute range = new RangeAttribute(valid.Min, valid.Max);
                             range.ErrorMessage = valid.ErrorMessage;
+
                             context.ValidationMetadata.ValidatorMetadata.Add(range);
                         }
                         else if (v is RegularValidator)

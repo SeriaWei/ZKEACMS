@@ -1,4 +1,9 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* 
+ * http://www.zkea.net/ 
+ * Copyright 2017 ZKEASOFT 
+ * http://www.zkea.net/licenses 
+ */
+
 using System.Collections.Generic;
 using System.Linq;
 using Easy.Constant;
@@ -28,12 +33,20 @@ namespace ZKEACMS.Controllers
         [HttpPost]
         public ActionResult Create(RoleEntity entity, List<PermissionDescriptor> PermissionSet)
         {
+            Service.Add(entity);
             var permissions = new List<Permission>();
             PermissionSet.Where(m => m.Checked ?? false).Each(m =>
             {
-                permissions.Add(new Permission { PermissionKey = m.Key, Module = m.Module, Title = m.Title, ActionType = ActionType.Create });
+                permissions.Add(new Permission
+                {
+                    RoleId = entity.ID,
+                    PermissionKey = m.Key,
+                    Module = m.Module,
+                    Title = m.Title,
+                    ActionType = ActionType.Create
+                });
             });
-            Service.Add(entity);
+            _permissionService.AddRange(permissions.ToArray());
             return RedirectToAction("Index");
         }
         public override ActionResult Edit(int Id)

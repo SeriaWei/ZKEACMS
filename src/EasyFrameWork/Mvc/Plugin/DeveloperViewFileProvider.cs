@@ -13,17 +13,21 @@ namespace Easy.Mvc.Plugin
 {
     public class DeveloperViewFileProvider : IFileProvider
     {
+        public DeveloperViewFileProvider(IHostingEnvironment hostingEnvironment)
+        {
+            HostingEnvironment = hostingEnvironment;
+        }
         public IDirectoryContents GetDirectoryContents(string subpath)
         {
             return null;
         }
-        public IHostingEnvironment HostingEnvironment { get; } = new ServiceLocator().GetService<IHostingEnvironment>();
+        public IHostingEnvironment HostingEnvironment { get; }
         public IFileInfo GetFileInfo(string subpath)
         {
             if (subpath.StartsWith("/Porject.RootPath/"))
             {
-                var parent= new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent;
-                var file = Path.Combine(parent.FullName + subpath.Replace("/Porject.RootPath/", "/"));
+                var parent = new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent;
+                var file = Path.Combine(parent.FullName, subpath.Replace("/Porject.RootPath/", "").Replace("/", "\\"));
                 if (File.Exists(file))
                 {
                     return new PhysicalFileInfo(new FileInfo(file));

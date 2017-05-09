@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Easy.Extend;
 
 namespace Easy.Mvc.Extend
 {
@@ -9,7 +10,8 @@ namespace Easy.Mvc.Extend
         {
             if (file.Length > 0)
             {
-                using (var fileStream = new FileStream(Path.Combine(path, file.FileName), FileMode.Create))
+                path = Path.GetExtension(path).IsNullOrWhiteSpace() ? Path.Combine(path, file.FileName) : path;
+                using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     file.CopyTo(fileStream);
                 }

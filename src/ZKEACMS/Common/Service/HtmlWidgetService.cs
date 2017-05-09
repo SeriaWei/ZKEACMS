@@ -1,5 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
-using System;
+/* http://www.zkea.net/ 
+ * Copyright 2017 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using Easy;
 using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Common.Models;

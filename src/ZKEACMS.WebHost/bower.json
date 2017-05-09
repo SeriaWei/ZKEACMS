@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "3.3.6",
-    "jquery-validation": "1.15.0",
+    "jquery-validation": "1.16.0",
     "jquery-validation-unobtrusive": "3.2.6",
     "jquery": "2.2.3",
     "jstree": "3.3.0",
@@ -13,6 +13,6 @@
   },
   "resolutions": {
     "jquery": ">= 1.7.2",
-    "jquery-validation": ">=1.8"
+    "jquery-validation": "1.16.0"
   }
 }

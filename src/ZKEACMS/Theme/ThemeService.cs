@@ -40,7 +40,7 @@ namespace ZKEACMS.Theme
 
         public void CancelPreview()
         {
-            _cookie.GetValue<string>(PreViewCookieName, true);
+            _cookie.Delete(PreViewCookieName);
         }
 
         public ThemeEntity GetCurrentTheme()

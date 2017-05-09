@@ -1,4 +1,5 @@
 using Easy.LINQ;
+using Easy.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
@@ -50,7 +51,7 @@ namespace Easy.RepositoryPattern
                     action.Invoke();
                     transaction.Commit();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     transaction.Rollback();
                     throw ex;
@@ -60,11 +61,28 @@ namespace Easy.RepositoryPattern
 
         public virtual void Add(T item)
         {
+            var editor = item as EditorEntity;
+            if (editor != null && ApplicationContext.CurrentUser != null)
+            {
+                editor.CreateBy = ApplicationContext.CurrentUser.UserID;
+                editor.CreatebyName = ApplicationContext.CurrentUser.UserName;
+                editor.CreateDate = DateTime.Now;
+            }
             CurrentDbSet.Add(item);
             DbContext.SaveChanges();
         }
         public virtual void AddRange(params T[] items)
         {
+            foreach (var item in items)
+            {
+                var editor = item as EditorEntity;
+                if (editor != null && ApplicationContext.CurrentUser != null)
+                {
+                    editor.CreateBy = ApplicationContext.CurrentUser.UserID;
+                    editor.CreatebyName = ApplicationContext.CurrentUser.UserName;
+                    editor.CreateDate = DateTime.Now;
+                }
+            }
             CurrentDbSet.AddRange(items);
             DbContext.SaveChanges();
         }
@@ -106,11 +124,28 @@ namespace Easy.RepositoryPattern
         }
         public virtual void Update(T item)
         {
+            var editor = item as EditorEntity;
+            if (editor != null && ApplicationContext.CurrentUser != null)
+            {
+                editor.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
+                editor.LastUpdateByName = ApplicationContext.CurrentUser.UserName;
+                editor.LastUpdateDate = DateTime.Now;
+            }
             CurrentDbSet.Update(item);
             DbContext.SaveChanges();
         }
         public virtual void UpdateRange(params T[] items)
         {
+            foreach (var item in items)
+            {
+                var editor = item as EditorEntity;
+                if (editor != null && ApplicationContext.CurrentUser != null)
+                {
+                    editor.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
+                    editor.LastUpdateByName = ApplicationContext.CurrentUser.UserName;
+                    editor.LastUpdateDate = DateTime.Now;
+                }
+            }
             CurrentDbSet.UpdateRange(items);
             DbContext.SaveChanges();
         }
@@ -140,7 +175,7 @@ namespace Easy.RepositoryPattern
         }
         public virtual void Dispose()
         {
-            DbContext.Dispose();
+            //DbContext.Dispose();
         }
     }
 }

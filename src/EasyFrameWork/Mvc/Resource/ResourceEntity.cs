@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 namespace Easy.Mvc.Resource
 {
@@ -17,21 +18,48 @@ namespace Easy.Mvc.Resource
     {
         const string StyleFormt = "<link href=\"{0}\" rel=\"stylesheet\" />";
         const string ScriptFormt = "<script src=\"{0}\" type=\"text/javascript\"></script>";
+        static readonly IConfigurationSection CNDSetting;
+        static ResourceEntity()
+        {
+            CNDSetting = Builder.Configuration.GetSection("CDN");
+        }
         public ResourcePosition Position { get; set; }
         public IHtmlContent Source { get; set; }
 
         public ResourceType SourceType { get; set; }
         public string ReleaseSource { get; set; }
         public string DebugSource { get; set; }
-        public string CDNSource { get; set; }
+        private string _CDNSource;
+        public string CDNSource
+        {
+            get
+            {
+                if (_CDNSource.IsNotNullAndWhiteSpace())
+                {
+                    return _CDNSource;
+                }
+                if (ReleaseSource.StartsWith("http"))
+                {
+                    return _CDNSource = ReleaseSource;
+                }
+                if (ReleaseSource.StartsWith("~"))
+                {
+                    return _CDNSource = ReleaseSource.Replace("~", CNDSetting["Url"]);
+                }
+                if (ReleaseSource.StartsWith("/"))
+                {
+                    return _CDNSource = CNDSetting["Url"].TrimEnd('/') + ReleaseSource;
+                }
+                return _CDNSource = CNDSetting["Url"].TrimEnd('/') + "/" + ReleaseSource;
+            }
+        }
         public IUrlHelper UrlHelper { get; private set; }
         public IHostingEnvironment HostingEnvironment { get; private set; }
         public bool UseCNDSource
         {
             get
             {
-                var setting = Builder.Configuration["UseCDN"];
-                return setting.IsNotNullAndWhiteSpace() && setting.Equals("true", StringComparison.CurrentCultureIgnoreCase) && CDNSource.IsNotNullAndWhiteSpace();
+                return CNDSetting != null && CNDSetting["Enable"].Equals("true", StringComparison.CurrentCultureIgnoreCase) && CNDSetting["Url"].IsNotNullAndWhiteSpace();
             }
         }
 
@@ -77,7 +105,6 @@ namespace Easy.Mvc.Resource
                 Source = Source,
                 SourceType = SourceType,
                 ReleaseSource = ReleaseSource,
-                CDNSource = CDNSource,
                 DebugSource = DebugSource
             };
         }

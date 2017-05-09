@@ -1,18 +1,14 @@
-﻿using Easy;
-using Easy.Modules.Role;
-using Easy.RepositoryPattern;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2017 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
+using Easy;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ZKEACMS.Article.Models;
 using ZKEACMS.Common.Models;
 using ZKEACMS.ExtendField;
 using ZKEACMS.Layout;
 using ZKEACMS.Media;
 using ZKEACMS.Page;
-using ZKEACMS.Product.Models;
 using ZKEACMS.Setting;
 using ZKEACMS.Theme;
 using ZKEACMS.Widget;

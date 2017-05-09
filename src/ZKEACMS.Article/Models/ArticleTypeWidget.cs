@@ -22,7 +22,7 @@ namespace ZKEACMS.Article.Models
             base.ViewConfigure();
             ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).DataSource(() =>
             {
-                return new ServiceLocator().GetService<IArticleTypeService>().GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
+                return ServiceLocator.GetService<IArticleTypeService>().GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
             }).Required();
             ViewConfig(m => m.TargetPage).AsHidden();
         }

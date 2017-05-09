@@ -25,7 +25,7 @@ namespace ZKEACMS.Product.Models
             base.ViewConfigure();
             ViewConfig(m => m.ProductCategoryID).AsDropDownList().Order(NextOrder()).DataSource(() =>
             {
-                return new ServiceLocator().Current.GetService<IProductCategoryService>().GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
+                return ServiceLocator.GetService<IProductCategoryService>().GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
             }).Required();
             ViewConfig(m => m.TargetPage).AsHidden();
         }

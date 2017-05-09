@@ -32,19 +32,17 @@ namespace Easy.ViewPort.Descriptor
                 {
                     _data = _souceFunc.Invoke();
                 }
-                if (_data == null && this.SourceType == SourceType.Dictionary)
+                if (this.SourceType == SourceType.Dictionary)
                 {
-                    IDataDictionaryService dicService = new ServiceLocator().GetService<IDataDictionaryService>();
+                    IDataDictionaryService dicService = ServiceLocator.GetService<IDataDictionaryService>();
                     if (dicService != null)
                     {
-                        if (this._data == null)
-                        {
-                            _data = new Dictionary<string, string>();
-                        }
+                        _data = new Dictionary<string, string>();
+
                         var dicts = dicService.Get(m => m.DicName == this.SourceKey).ToList();
                         foreach (DataDictionaryEntity item in dicts)
                         {
-                            this._data.Add(item.ID.ToString(), item.Title);
+                            this._data.Add(item.DicValue, item.Title);
                         }
                     }
 
@@ -63,7 +61,7 @@ namespace Easy.ViewPort.Descriptor
             }
             return builder.ToString();
         }
-        
+
         public DropDownListDescriptor DataSource(IDictionary<string, string> Data)
         {
             this._data = Data;

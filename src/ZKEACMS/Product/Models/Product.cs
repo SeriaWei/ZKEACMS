@@ -84,7 +84,7 @@ namespace ZKEACMS.Product.Models
             ViewConfig(m => m.ImageUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
             ViewConfig(m => m.ImageThumbUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
             ViewConfig(m => m.BrandCD).AsHidden();
-            ViewConfig(m => m.ProductCategoryID).AsDropDownList().Required().DataSource(ViewDataKeys.ProductCategory, SourceType.ViewData);
+            ViewConfig(m => m.ProductCategoryID).AsDropDownList().Required().DataSource(ViewDataKeys.ProductCategory, SourceType.ViewData).AddClass("select").AddProperty("data-url", "/admin/ProductCategory/Select");
             ViewConfig(m => m.ExtendFields).AsListEditor();
             ViewConfig(m => m.ShelfLife).AsHidden();
             ViewConfig(m => m.Norm).AsHidden();

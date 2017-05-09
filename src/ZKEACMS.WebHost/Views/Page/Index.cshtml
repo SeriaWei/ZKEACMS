@@ -113,11 +113,11 @@
         }
         function Edit(node) {
             var id = node.reference.attr("id");
-            window.location.href = '@Url.Action("Edit", "Page")' + '?ID=' + id;
+            window.location.href = '@Url.Action("Edit", "Page")' + '/' + id;
         }
         function PreView(node) {
             var id = node.reference.attr("id");
-            window.location.href = '@Url.Action("RedirectView", "Page")' + '?ID=' + id;
+            window.location.href = '@Url.Action("RedirectView", "Page")' + '/' + id;
         }
         function View(node) {
             var id = node.reference.attr("id");
@@ -125,7 +125,7 @@
         }
         function Design(node) {
             var id = node.reference.attr("id");
-            window.location.href = '@Url.Action("Design", "Page")' + '?ID=' + id;
+            window.location.href = '@Url.Action("Design", "Page")' + '/' + id;
         }
         function Publish(node) {
             var id = node.reference.attr("id");

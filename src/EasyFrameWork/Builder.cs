@@ -15,6 +15,9 @@ using Easy.Mvc.Authorize;
 using Easy.Encrypt;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
+using Easy.Logging;
 
 namespace Easy
 {
@@ -22,7 +25,7 @@ namespace Easy
     {
         public static IConfigurationRoot Configuration { get; set; }
         public static IServiceCollection ServiceCollection { get; set; }
-        public static IPluginLoader UseEasyFrameWork(this IServiceCollection services, IConfigurationRoot configuration)
+        public static IPluginLoader UseEasyFrameWork(this IServiceCollection services, IConfigurationRoot configuration, IHostingEnvironment hostingEnvironment)
         {
             services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<RazorViewEngineOptions>, PluginRazorViewEngineOptionsSetup>());
             
@@ -30,10 +33,10 @@ namespace Easy
             services.TryAddEnumerable(ServiceDescriptor.Transient<IActionDescriptorProvider, ActionDescriptorProvider>());
             services.TryAddSingleton<IPluginLoader, Loader>();
 
-            services.TryAddSingleton<ICookie, Cookie>();
 
             services.TryAddTransient<IAuthorizer, DefaultAuthorizer>();
 
+            services.TryAddTransient<ICookie, Cookie>();
             services.TryAddTransient<IUserService, UserService>();
             services.TryAddTransient<IRoleService, RoleService>();
             services.TryAddTransient<IUserRoleRelationService, UserRoleRelationService>();
@@ -42,16 +45,22 @@ namespace Easy
             services.TryAddTransient<ILanguageService, LanguageService>();
             services.TryAddTransient<IEncryptService, EncryptService>();
             services.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+            services.AddTransient<IPluginLoader, Loader>();            
+
             ServiceCollection = services;
 
             Configuration = configuration;
-            return new Loader();
+            return new Loader(hostingEnvironment);
         }
 
         public static IApplicationBuilder UsePluginStaticFile(this IApplicationBuilder builder)
         {
             builder.UseMiddleware<PluginStaticFileMiddleware>();
             return builder;
+        }
+        public static void UseFileLog(this ILoggerFactory loggerFactory, IHostingEnvironment env)
+        {
+            loggerFactory.AddProvider(new FileLoggerProvider(env));
         }
     }
 }

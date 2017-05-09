@@ -10,7 +10,74 @@
     <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
+    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\Themes\Cerulean\css\Article.less" />
+    <Content Include="wwwroot\Themes\Cerulean\css\Base.less" />
+    <Content Include="wwwroot\Themes\Cerulean\css\Bootstrap.less" />
+    <Content Include="wwwroot\Themes\Cerulean\css\Carousel.less" />
+    <Content Include="wwwroot\Themes\Cerulean\css\Library.less" />
+    <Content Include="wwwroot\Themes\Cerulean\css\Navigation.less" />
+    <Content Include="wwwroot\Themes\Cerulean\css\Pagination.less" />
+    <Content Include="wwwroot\Themes\Cerulean\css\Product.less" />
+    <Content Include="wwwroot\Themes\Cerulean\css\Section.less" />
+    <Content Include="wwwroot\Themes\Cerulean\css\Theme.css" />
+    <Content Include="wwwroot\Themes\Cerulean\css\Theme.css.map" />
+    <Content Include="wwwroot\Themes\Cerulean\css\Theme.less" />
+    <Content Include="wwwroot\Themes\Cerulean\css\Theme.min.css" />
+    <Content Include="wwwroot\Themes\Cerulean\css\Widget.less" />
+    <Content Include="wwwroot\Themes\Cerulean\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="wwwroot\Themes\Cerulean\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="wwwroot\Themes\Cerulean\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="wwwroot\Themes\Cerulean\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="wwwroot\Themes\Cerulean\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="wwwroot\Themes\Cerulean\images\bg.gif" />
+    <Content Include="wwwroot\Themes\Cerulean\images\col_side_bg.png" />
+    <Content Include="wwwroot\Themes\Cerulean\images\header_bg.png" />
+    <Content Include="wwwroot\Themes\Cerulean\images\icon_point.png" />
+    <Content Include="wwwroot\Themes\Cerulean\images\icon_square.png" />
+    <Content Include="wwwroot\Themes\Cerulean\images\loader.gif" />
+    <Content Include="wwwroot\Themes\Cerulean\images\logo_z.png" />
+    <Content Include="wwwroot\Themes\Cerulean\images\more.png" />
+    <Content Include="wwwroot\Themes\Cerulean\images\prd_sort_title.gif" />
+    <Content Include="wwwroot\Themes\Cerulean\images\video-play.png" />
+    <Content Include="wwwroot\Themes\Cerulean\info.json" />
+    <Content Include="wwwroot\Themes\Cerulean\thumbnail.jpg" />
+    <Content Include="wwwroot\Themes\Default\css\Article.less" />
+    <Content Include="wwwroot\Themes\Default\css\Base.less" />
+    <Content Include="wwwroot\Themes\Default\css\Bootstrap.less" />
+    <Content Include="wwwroot\Themes\Default\css\Bootstrap.Theme.less" />
+    <Content Include="wwwroot\Themes\Default\css\Carousel.less" />
+    <Content Include="wwwroot\Themes\Default\css\Library.less" />
+    <Content Include="wwwroot\Themes\Default\css\Navigation.less" />
+    <Content Include="wwwroot\Themes\Default\css\Pagination.less" />
+    <Content Include="wwwroot\Themes\Default\css\Product.less" />
+    <Content Include="wwwroot\Themes\Default\css\Section.less" />
+    <Content Include="wwwroot\Themes\Default\css\theme.css" />
+    <Content Include="wwwroot\Themes\Default\css\Theme.css.map" />
+    <Content Include="wwwroot\Themes\Default\css\Theme.less" />
+    <Content Include="wwwroot\Themes\Default\css\Theme.min.css" />
+    <Content Include="wwwroot\Themes\Default\css\widget.less" />
+    <Content Include="wwwroot\Themes\Default\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="wwwroot\Themes\Default\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="wwwroot\Themes\Default\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="wwwroot\Themes\Default\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="wwwroot\Themes\Default\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="wwwroot\Themes\Default\images\bg.gif" />
+    <Content Include="wwwroot\Themes\Default\images\col_side_bg.png" />
+    <Content Include="wwwroot\Themes\Default\images\header_bg.png" />
+    <Content Include="wwwroot\Themes\Default\images\icon_point.png" />
+    <Content Include="wwwroot\Themes\Default\images\icon_square.png" />
+    <Content Include="wwwroot\Themes\Default\images\loader.gif" />
+    <Content Include="wwwroot\Themes\Default\images\logo_z.png" />
+    <Content Include="wwwroot\Themes\Default\images\more.png" />
+    <Content Include="wwwroot\Themes\Default\images\prd_sort_title.gif" />
+    <Content Include="wwwroot\Themes\Default\images\video-play.png" />
+    <Content Include="wwwroot\Themes\Default\info.json" />
+    <Content Include="wwwroot\Themes\Default\thumbnail.jpg" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Update="wwwroot\**\*">
@@ -25,10 +92,10 @@
 
   <ItemGroup>
     <PackageReference Include="BundlerMinifier.Core" Version="2.4.337" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.1" />
@@ -50,17 +117,24 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.Precompilation.Design" Version="1.0.0-preview1-final" />
     <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.0" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="7.0.7-m61" />
     <PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />
   </ItemGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
-    <Exec Command="bower install" />
     <Exec Command="dotnet bundle" />
   </Target>
 
   <ItemGroup>
     <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.2.301" />
     <DotNetCliToolReference Include="Microsoft.AspNetCore.Mvc.Razor.Precompilation.Tools" Version="1.0.0-preview1-final" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.Caching.SqlConfig.Tools" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Logs\" />
   </ItemGroup>
 
 </Project>

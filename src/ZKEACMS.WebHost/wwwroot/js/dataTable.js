@@ -143,7 +143,14 @@
             $(".form-control", $(this).closest(".search")).each(function () {
                 $(this).val("");
             }).first().trigger("change");
-
+        }).on("click", ".glyphicon.glyphicon-remove", function () {
+            var link = $(this);
+            Easy.ShowMessageBox("提示", "确认删除该数据吗？", function () {
+                $.post(link.attr("href"), function () {
+                    link.trigger("change");
+                });
+            })
+            return false;
         });
     });
 });

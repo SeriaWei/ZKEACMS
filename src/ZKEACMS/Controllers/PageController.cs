@@ -161,44 +161,22 @@ namespace ZKEACMS.Controllers
         [HttpPost]
         public JsonResult Revert(string ID, bool RetainLatest)
         {
-            try
+            Service.Revert(ID, RetainLatest);
+            return Json(new AjaxResult
             {
-                Service.Revert(ID, RetainLatest);
-                return Json(new AjaxResult
-                {
-                    Status = AjaxStatus.Normal
-                });
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                return Json(new AjaxResult
-                {
-                    Status = AjaxStatus.Error,
-                    Message = ex.Message
-                });
-            }
+                Status = AjaxStatus.Normal
+            });
+
         }
         [HttpPost]
         public JsonResult DeleteVersion(string ID)
         {
-            try
+            Service.DeleteVersion(ID);
+            return Json(new AjaxResult
             {
-                Service.DeleteVersion(ID);
-                return Json(new AjaxResult
-                {
-                    Status = AjaxStatus.Normal
-                });
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                return Json(new AjaxResult
-                {
-                    Status = AjaxStatus.Error,
-                    Message = ex.Message
-                });
-            }
+                Status = AjaxStatus.Normal
+            });
+
         }
         public ActionResult RedirectView(string Id, bool? preview)
         {
@@ -221,7 +199,7 @@ namespace ZKEACMS.Controllers
                 PageID = context.PageID,
                 LayoutID = layout.ID,
                 Zones = _zoneService.GetZonesByPageId(context.PageID),
-                Widgets = _widgetService.GetAllByPageId(HttpContext.RequestServices, context.PageID),
+                Widgets = _widgetService.GetAllByPage(Service.Get(context.PageID)),
                 LayoutHtml = layout.Html
             };
             return View(viewModel);

@@ -1,5 +1,5 @@
 /*!
- * jQuery Validation Plugin v1.15.0
+ * jQuery Validation Plugin v1.16.0
  *
  * http://jqueryvalidation.org/
  *
@@ -135,14 +135,13 @@ $.extend( $.fn, {
 
 	// http://jqueryvalidation.org/rules/
 	rules: function( command, argument ) {
-
-		// If nothing is selected, return nothing; can't chain anyway
-		if ( !this.length ) {
-			return;
-		}
-
 		var element = this[ 0 ],
 			settings, staticRules, existingRules, data, param, filtered;
+
+		// If nothing is selected, return empty object; can't chain anyway
+		if ( element == null || element.form == null ) {
+			return;
+		}
 
 		if ( command ) {
 			settings = $.data( element.form, "validator" ).settings;
@@ -205,7 +204,7 @@ $.extend( $.fn, {
 } );
 
 // Custom selectors
-$.extend( $.expr[ ":" ], {
+$.extend( $.expr.pseudos || $.expr[ ":" ], {		// '|| $.expr[ ":" ]' here enables backwards compatibility to jQuery 1.7. Can be removed when dropping jQ 1.7.x support
 
 	// http://jqueryvalidation.org/blank-selector/
 	blank: function( a ) {
@@ -355,7 +354,7 @@ $.extend( $.validator, {
 		email: "Please enter a valid email address.",
 		url: "Please enter a valid URL.",
 		date: "Please enter a valid date.",
-		dateISO: "Please enter a valid date ( ISO ).",
+		dateISO: "Please enter a valid date (ISO).",
 		number: "Please enter a valid number.",
 		digits: "Please enter only digits.",
 		equalTo: "Please enter the same value again.",
@@ -399,6 +398,12 @@ $.extend( $.validator, {
 			} );
 
 			function delegate( event ) {
+
+				// Set form expando on contenteditable
+				if ( !this.form && this.hasAttribute( "contenteditable" ) ) {
+					this.form = $( this ).closest( "form" )[ 0 ];
+				}
+
 				var validator = $.data( this.form, "validator" ),
 					eventType = "on" + event.type.replace( /^validate/, "" ),
 					settings = validator.settings;
@@ -412,7 +417,7 @@ $.extend( $.validator, {
 					":text, [type='password'], [type='file'], select, textarea, [type='number'], [type='search'], " +
 					"[type='tel'], [type='url'], [type='email'], [type='datetime'], [type='date'], [type='month'], " +
 					"[type='week'], [type='time'], [type='datetime-local'], [type='range'], [type='color'], " +
-					"[type='radio'], [type='checkbox'], [contenteditable]", delegate )
+					"[type='radio'], [type='checkbox'], [contenteditable], [type='button']", delegate )
 
 				// Support: Chrome, oldIE
 				// "select" is provided as event.target when clicking a option
@@ -470,7 +475,7 @@ $.extend( $.validator, {
 							cleanElement = v.validationTargetFor( v.clean( v.findByName( name ) ) );
 							if ( cleanElement && cleanElement.name in v.invalid ) {
 								v.currentElements.push( cleanElement );
-								result = result && v.check( cleanElement );
+								result = v.check( cleanElement ) && result;
 							}
 						}
 					} );
@@ -814,7 +819,20 @@ $.extend( $.validator, {
 			return undefined;
 		},
 
+		// The second parameter 'rule' used to be a string, and extended to an object literal
+		// of the following form:
+		// rule = {
+		//     method: "method name",
+		//     parameters: "the given method parameters"
+		// }
+		//
+		// The old behavior still supported, kept to maintain backward compatibility with
+		// old code, and will be removed in the next major release.
 		defaultMessage: function( element, rule ) {
+			if ( typeof rule === "string" ) {
+				rule = { method: rule };
+			}
+
 			var message = this.findDefined(
 					this.customMessage( element.name, rule.method ),
 					this.customDataMessage( element, rule.method ),
@@ -923,7 +941,7 @@ $.extend( $.validator, {
 				if ( this.labelContainer.length ) {
 					this.labelContainer.append( place );
 				} else if ( this.settings.errorPlacement ) {
-					this.settings.errorPlacement( place, $( element ) );
+					this.settings.errorPlacement.call( this, place, $( element ) );
 				} else {
 					place.insertAfter( element );
 				}
@@ -1079,6 +1097,8 @@ $.extend( $.validator, {
 		},
 
 		previousValue: function( element, method ) {
+			method = typeof method === "string" && method || "remote";
+
 			return $.data( element, "previousValue" ) || $.data( element, "previousValue", {
 				old: null,
 				valid: true,
@@ -1406,14 +1426,36 @@ $.extend( $.validator, {
 				errorMessage = "Step attribute on input type " + type + " is not supported.",
 				supportedTypes = [ "text", "number", "range" ],
 				re = new RegExp( "\\b" + type + "\\b" ),
-				notSupported = type && !re.test( supportedTypes.join() );
+				notSupported = type && !re.test( supportedTypes.join() ),
+				decimalPlaces = function( num ) {
+					var match = ( "" + num ).match( /(?:\.(\d+))?$/ );
+					if ( !match ) {
+						return 0;
+					}
+
+					// Number of digits right of decimal point.
+					return match[ 1 ] ? match[ 1 ].length : 0;
+				},
+				toInt = function( num ) {
+					return Math.round( num * Math.pow( 10, decimals ) );
+				},
+				valid = true,
+				decimals;
 
 			// Works only for text, number and range input types
 			// TODO find a way to support input types date, datetime, datetime-local, month, time and week
 			if ( notSupported ) {
 				throw new Error( errorMessage );
 			}
-			return this.optional( element ) || ( value % param === 0 );
+
+			decimals = decimalPlaces( param );
+
+			// Value can't have too many decimals
+			if ( decimalPlaces( value ) > decimals || toInt( value ) % toInt( param ) !== 0 ) {
+				valid = false;
+			}
+
+			return this.optional( element ) || valid;
 		},
 
 		// http://jqueryvalidation.org/equalTo-method/
@@ -1528,5 +1570,5 @@ if ( $.ajaxPrefilter ) {
 		return ajax.apply( this, arguments );
 	};
 }
-
+return $;
 }));

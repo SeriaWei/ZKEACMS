@@ -15,9 +15,14 @@ namespace ZKEACMS.Article.Service
     public class ArticleTopWidgetService : WidgetService<ArticleTopWidget, ArticleDbContext>
     {
         private readonly IArticleService _articleService;
-        public ArticleTopWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext) : base(widgetService, applicationContext)
+        private readonly IArticleTypeService _articleTypeService;
+        public ArticleTopWidgetService(IWidgetBasePartService widgetService,
+            IArticleService articleService,
+            IApplicationContext applicationContext,
+            IArticleTypeService articleTypeService) : base(widgetService, applicationContext)
         {
             _articleService = articleService;
+            _articleTypeService = articleTypeService;
         }
 
         public override DbSet<ArticleTopWidget> CurrentDbSet
@@ -40,8 +45,8 @@ namespace ZKEACMS.Article.Service
             {
                 Widget = currentWidget
             };
-
-            viewModel.Articles = _articleService.Get(m => m.IsPublish && m.ArticleTypeID == currentWidget.ArticleTypeID).OrderByDescending(m => m.PublishDate);
+            var categoryIds = _articleTypeService.Get(m => m.ID == currentWidget.ArticleTypeID || m.ParentID == currentWidget.ArticleTypeID).Select(m => m.ID);
+            viewModel.Articles = _articleService.Get(m => m.IsPublish && categoryIds.Any(cate => cate == m.ArticleTypeID), page).OrderByDescending(m => m.ID);
             return widget.ToWidgetViewModelPart(viewModel);
         }
     }

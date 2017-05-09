@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2017 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using System;
 using Easy.Extend;
 using ZKEACMS.Event;
@@ -15,6 +18,8 @@ using Easy.Modules.User.Service;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
 
 namespace ZKEACMS.Filter
 {
@@ -30,6 +35,31 @@ namespace ZKEACMS.Filter
                 filterContext.Result = new RedirectResult(path);
                 return null;
             }
+            bool isPreView = IsPreView(filterContext);
+            using (var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>())
+            {
+                if (!filterContext.HttpContext.User.Identity.IsAuthenticated && !isPreView && GetPageViewMode() == PageViewMode.Publish)
+                {
+                    filterContext.HttpContext.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromHours(1)
+                    };
+                    //filterContext.HttpContext.Response.Headers[HeaderNames.Vary] = new string[] { "Accept-Encoding" };
+                }
+                else
+                {
+                    filterContext.HttpContext.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
+                    {
+                        NoCache = true
+                    };
+                }
+                return pageService.GetByPath(path, isPreView);
+            }
+
+        }
+        private bool IsPreView(ActionExecutedContext filterContext)
+        {
             bool isPreView = false;
             if (filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
@@ -37,13 +67,8 @@ namespace ZKEACMS.Filter
                     filterContext.HttpContext.Request.Query[ReView.QueryKey],
                     StringComparison.CurrentCultureIgnoreCase);
             }
-            using (var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>())
-            {
-                return pageService.GetByPath(path, isPreView);
-            }
-
+            return isPreView;
         }
-
         public virtual string GetLayout()
         {
             return "~/Views/Shared/_Layout.cshtml";
@@ -58,28 +83,29 @@ namespace ZKEACMS.Filter
             var page = GetPage(filterContext);
             if (page != null)
             {
-                var layoutService = filterContext.HttpContext.RequestServices.GetService<ILayoutService>();
-                var widgetService = filterContext.HttpContext.RequestServices.GetService<IWidgetBasePartService>();
-                var applicationSettingService = filterContext.HttpContext.RequestServices.GetService<IApplicationSettingService>();
-                var themeService = filterContext.HttpContext.RequestServices.GetService<IThemeService>();
-                var onPageExecuteds = filterContext.HttpContext.RequestServices.GetServices<IOnPageExecuted>();
 
-
+                var requestServices = filterContext.HttpContext.RequestServices;
+                var onPageExecuteds = requestServices.GetServices<IOnPageExecuted>();
+                var layoutService = requestServices.GetService<ILayoutService>();
+                var widgetService = requestServices.GetService<IWidgetBasePartService>();
+                var applicationSettingService = requestServices.GetService<IApplicationSettingService>();
+                var themeService = requestServices.GetService<IThemeService>();
+                var widgetActivator = requestServices.GetService<IWidgetActivator>();
                 LayoutEntity layout = layoutService.Get(page.LayoutId);
                 layout.Page = page;
                 page.Favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
                 if (filterContext.HttpContext.User.Identity.IsAuthenticated && page.IsPublishedPage)
                 {
-                    layout.PreViewPage = filterContext.HttpContext.RequestServices.GetService<IPageService>().GetByPath(page.Url, true);
+                    layout.PreViewPage = requestServices.GetService<IPageService>().GetByPath(page.Url, true);
                 }
                 layout.CurrentTheme = themeService.GetCurrentTheme();
                 layout.ZoneWidgets = new ZoneWidgetCollection();
                 filterContext.HttpContext.TrySetLayout(layout);
-                widgetService.GetAllByPage(filterContext.HttpContext.RequestServices, page).Each(widget =>
+                widgetService.GetAllByPage(page).Each(widget =>
                 {
                     if (widget != null)
                     {
-                        IWidgetPartDriver partDriver = widget.CreateServiceInstance(filterContext.HttpContext.RequestServices);
+                        IWidgetPartDriver partDriver = widgetActivator.Create(widget);
                         WidgetViewModelPart part = partDriver.Display(widget, filterContext);
                         lock (layout.ZoneWidgets)
                         {
@@ -117,7 +143,10 @@ namespace ZKEACMS.Filter
             }
             else
             {
-                filterContext.Result = new RedirectResult("~/error/notfond");
+                if(!(filterContext.Result is RedirectResult))
+                {
+                    filterContext.Result = new RedirectResult("~/error/notfond?f=" + filterContext.HttpContext.Request.Path);
+                }
             }
         }
 

@@ -21,15 +21,18 @@ namespace ZKEACMS.SectionWidget.Controllers
         private readonly ISectionContentProviderService _sectionContentProviderService;
         private readonly IWidgetBasePartService _widgetService;
         private readonly IPackageInstallerProvider _packageInstallerProvider;
+        private readonly IWidgetActivator _widgetActivator;
 
         public SectionGroupController(ISectionGroupService sectionGroupService,
             ISectionContentProviderService sectionContentProviderService,
-            IWidgetBasePartService widgetService, IPackageInstallerProvider packageInstallerProvider)
+            IWidgetBasePartService widgetService, IPackageInstallerProvider packageInstallerProvider,
+            IWidgetActivator widgetActivator)
         {
             _sectionGroupService = sectionGroupService;
             _sectionContentProviderService = sectionContentProviderService;
             _widgetService = widgetService;
             _packageInstallerProvider = packageInstallerProvider;
+            _widgetActivator = widgetActivator;
         }
 
         public ActionResult Create(string sectionWidgetId)
@@ -104,12 +107,11 @@ namespace ZKEACMS.SectionWidget.Controllers
                 {
                     WidgetPackage package;
                     _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
-                    package.Widget.CreateServiceInstance(Request.HttpContext.RequestServices).InstallWidget(package);
+                    _widgetActivator.Create(package.Widget).InstallWidget(package);
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex);
-                    return Json(new AjaxResult { Status = AjaxStatus.Error, Message = "上传的模板不正确" });
+                    return Json(new AjaxResult { Status = AjaxStatus.Error, Message = "上传的模板不正确!" + ex.Message });
                 }
             }
 

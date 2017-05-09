@@ -1,0 +1,29 @@
+﻿@using Easy.ViewPort.jsTree
+@using ZKEACMS.Article.Models
+@{
+    ViewBag.Title = "选择文章类别";
+    Layout = Layouts.PopUp;
+    Style.Reqiured("jsTree").AtHead();
+    Script.Reqiured("jsTree").AtFoot();
+}
+
+
+@(
+ Html.Tree<ArticleType>().Source("GetArticleTypeTree", "ArticleType", new { module = "admin" }).On(Events.SelectNode, "Select").On(Events.Loaded, "loaded")
+)
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        function Select(node, selected, e) {
+            Set(selected.node.a_attr.id);
+        }
+        function loaded() {
+            @if (ViewBag.Selected != null)
+        {
+<text>
+            $("a[id=@(ViewBag.Selected)]").click();
+            </text>
+        }
+        }
+    </script>
+}

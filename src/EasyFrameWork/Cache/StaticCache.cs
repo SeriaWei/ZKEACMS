@@ -22,7 +22,7 @@ namespace Easy.Cache
             }
             public object Get()
             {
-                LastVisit = DateTime.Now;                
+                LastVisit = DateTime.Now;
                 return _obj;
             }
         }
@@ -31,6 +31,24 @@ namespace Easy.Cache
         static StaticCache()
         {
             Cache = new Dictionary<string, CacheObject>();
+        }
+        public T Get<T>(string key)
+        {
+
+            if (Cache.ContainsKey(key))
+            {
+                var cacheObj = Cache[key];
+                if (cacheObj.AutoRemove && (DateTime.Now - cacheObj.LastVisit).TotalMinutes > (cacheObj.ExpireMinutes ?? 30))
+                {
+                    Remove(key);
+                }
+                else
+                {
+                    return (T)cacheObj.Get();
+                }
+            }
+            return default(T);
+
         }
         public T Get<T>(string key, Func<Signal, T> source)
         {
@@ -56,7 +74,17 @@ namespace Easy.Cache
 
             }
         }
-
+        public void Add(string key, object obj)
+        {
+            lock (Cache)
+            {
+                if (Cache.ContainsKey(key))
+                {
+                    Remove(key);
+                }
+                Cache.Add(key, new CacheObject(obj, false, null));
+            }
+        }
         public void Remove(string key)
         {
             lock (Cache)

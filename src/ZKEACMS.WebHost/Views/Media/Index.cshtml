@@ -53,7 +53,7 @@
                         {
                             <a href="@(media.MediaType==(int)MediaType.Folder?Url.Action(action, new {ParentId = media.ID}):"javascript:void(0)")" 
                                class="img-link @(media.MediaType==(int)MediaType.Folder?"":"confirm")" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
-                                <img class="img" src="@Url.Content("~/Images/{0}.png".FormatWith(media.MediaTypeImage))" />
+                                <img class="img" src="@Url.Content("~/images/{0}.png".FormatWith(media.MediaTypeImage))" />
                             </a>
                         }
                         <div class="caption" data-id="@media.ID">
@@ -138,12 +138,12 @@
 
     <div class="hide">
         <input type="file" id="fileUp" multiple />
-        <img src="~/Images/loader.gif" />
+        <img src="~/images/loader.gif" />
         <div id="item-template">
             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 new-folder">
                 <div class="thumbnail">
                     <a class="img-link">
-                        <img class="img" src="~/Images/folder.png">
+                        <img class="img" src="~/images/folder.png">
                     </a>
                     <div class="caption">
                     </div>
@@ -215,7 +215,7 @@
                         continue;
                     }
                     var newitem = $($("#item-template").html());
-                    newitem.find(".img").attr("src", "@Url.Content("~/Images/loader.gif")");
+                    newitem.find(".img").attr("src", "@Url.Content("~/images/loader.gif")");
                     newitem.find(".caption").html('<label class="label label-danger">排队中...</label>');
                     if ($("#media-list > div").size() > 0) {
                         newitem.insertBefore($("#media-list > div:first"));
@@ -230,21 +230,21 @@
                     xhr.target = newitem;
                     xhr.onload = function (e) {
                         var result = JSON.parse(e.target.response);
-                        if (result.ID) {
-                            this.target.find(".img").attr("src", "@Url.Content("~/Images/")" + result.MediaTypeImage+".png")
+                        if (result.id) {
+                            this.target.find(".img").attr("src", "@Url.Content("~/Images/")" + result.mediaTypeImage+".png")
                                 .parent().attr("href", "javascript:void(0)")
-                                .addClass("confirm").attr("data-result", result.Url);
-                            this.target.find(".caption").html(result.Title).data("id",result.ID);
+                                .addClass("confirm").attr("data-result", result.url);
+                            this.target.find(".caption").html(result.title).data("id",result.id);
                             this.target.removeClass("new-folder");
-                            if (result.MediaType == '@(MediaType.Image.ToString("D"))') {
-                                this.target.find(".img").attr("src",result.Url);
+                            if (result.mediaType == '@(MediaType.Image.ToString("D"))') {
+                                this.target.find(".img").attr("src",result.url);
                                 var preview = $('<a target="_blank" class="preview" data-lightbox="thumbnail"><i class="glyphicon glyphicon-eye-open"></i></a>');
-                                preview.attr("href", result.Url);
-                                preview.data("title", result.Title);
+                                preview.attr("href", result.url);
+                                preview.data("title", result.title);
                                 this.target.find(".tool").append(preview);
                             }
-                            var downLoad = $('<a target="_blank" class="download" download="'+result.Title+'"><i class="glyphicon glyphicon-download-alt"></i></a>');
-                            downLoad.attr("href", result.Url);
+                            var downLoad = $('<a target="_blank" class="download" download="'+result.title+'"><i class="glyphicon glyphicon-download-alt"></i></a>');
+                            downLoad.attr("href", result.url);
                             this.target.find(".tool").append(downLoad);
                         } else {
                             Easy.MessageTip.Show("文件上传失败。可能是因为上传的文件不被允许！");

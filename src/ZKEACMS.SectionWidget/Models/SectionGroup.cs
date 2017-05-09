@@ -9,6 +9,7 @@ using Easy.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel.DataAnnotations;
+using Easy;
 
 namespace ZKEACMS.SectionWidget.Models
 {
@@ -109,23 +110,6 @@ namespace ZKEACMS.SectionWidget.Models
             }
         }
 
-        private string _templateName;
-        public string GetTemplateName()
-        {
-            if (_templateName.IsNullOrWhiteSpace())
-            {
-                var template = new Easy.ServiceLocator().Current.GetService<ISectionTemplateService>().Get(PartialView);
-                if (template != null)
-                {
-                    _templateName = template.Title;
-                }
-                else
-                {
-                    _templateName = "Error";
-                }
-            }
-            return _templateName;
-        }
         [NotMapped]
         public override string Description { get; set; }
         [NotMapped]
@@ -144,7 +128,7 @@ namespace ZKEACMS.SectionWidget.Models
             ViewConfig(m => m.IsLoadDefaultData).AsHidden().Ignore();
             ViewConfig(m => m.PartialView).AsDropDownList().DataSource(() =>
             {
-                return new Easy.ServiceLocator().Current.GetService<ISectionTemplateService>()
+                return ServiceLocator.GetService<ISectionTemplateService>()
                     .GetAll()
                     .ToDictionary(m => m.TemplateName, m => m.Title);
             });

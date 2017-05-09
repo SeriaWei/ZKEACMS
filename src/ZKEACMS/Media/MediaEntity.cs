@@ -17,7 +17,7 @@ namespace ZKEACMS.Media
 
         public string MediaTypeImage
         {
-            get { return ((MediaType)MediaType).ToString(); }
+            get { return ((MediaType)MediaType).ToString().ToLower(); }
         }
     }
 

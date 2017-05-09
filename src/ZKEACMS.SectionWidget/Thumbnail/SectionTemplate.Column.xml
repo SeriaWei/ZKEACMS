@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <required>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+  <item type="SectionContentImage">
     <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/Column/k01-1.jpg]]></property>
     <property name="ImageAlt"><![CDATA[]]></property>
     <property name="ImageTitle"><![CDATA[]]></property>
@@ -8,7 +8,7 @@
     <property name="Width"><![CDATA[]]></property>
     <property name="Height"><![CDATA[]]></property>
   </item>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+  <item type="SectionContentImage">
     <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/Column/k01-2.jpg]]></property>
     <property name="ImageAlt"><![CDATA[]]></property>
     <property name="ImageTitle"><![CDATA[]]></property>

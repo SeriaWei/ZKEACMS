@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Easy.Modules.DataDictionary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,13 @@ namespace ZKEACMS.Widget
 
         }
         public WidgetBase Widget { get; set; }
+    }
+    public class DataDictionaryPackage : FilePackage
+    {
+        public DataDictionaryPackage(string installer) : base(installer)
+        {
+
+        }
+        public DataDictionaryEntity DataDictionary { get; set; }
     }
 }

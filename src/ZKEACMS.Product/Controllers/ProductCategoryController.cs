@@ -55,9 +55,9 @@ namespace ZKEACMS.Product.Controllers
             return base.Edit(entity);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProductCategory)]
-        public override JsonResult Delete(string ids)
+        public override JsonResult Delete(int id)
         {
-            return base.Delete(ids);
+            return base.Delete(id);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewProductCategory)]
         public JsonResult GetProductCategoryTree()
@@ -65,6 +65,13 @@ namespace ZKEACMS.Product.Controllers
             var pages = Service.GetAll();
             var node = new Tree<ProductCategory>().Source(pages).ToNode(m => m.ID.ToString(), m => m.Title, m => m.ParentID.ToString(), "0");
             return Json(node);
+        }
+
+        [DefaultAuthorize(Policy = PermissionKeys.ViewProductCategory)]
+        public ActionResult Select(int? selected)
+        {
+            ViewBag.Selected = selected;
+            return View();
         }
     }
 }

@@ -80,12 +80,12 @@
                 xhr.open('POST', '@Url.Action("UploadTheme")');
                 xhr.onload = function (e) {
                     var result = JSON.parse(e.target.response);
-                    if (result.Status === 1) {
+                    if (result.status === 1) {
                         setTimeout(function () {
                             window.location.reload();
                         }, 1000);
                     }
-                    Easy.MessageTip.Show(result.Message);
+                    Easy.MessageTip.Show(result.message);
                 }
                 Easy.MessageTip.Show("主题安装中...");
                 xhr.send(formData);

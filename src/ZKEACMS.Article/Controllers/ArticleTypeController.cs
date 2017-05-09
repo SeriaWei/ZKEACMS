@@ -58,9 +58,15 @@ namespace ZKEACMS.Article.Controllers
             return Json(node);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageArticleType)]
-        public override JsonResult Delete(string ids)
+        public override JsonResult Delete(int id)
         {
-            return base.Delete(ids);
+            return base.Delete(id);
+        }
+        [DefaultAuthorize(Policy = PermissionKeys.ViewArticleType)]
+        public ActionResult Select(int? selected)
+        {
+            ViewBag.Selected = selected;
+            return View();
         }
     }
 }

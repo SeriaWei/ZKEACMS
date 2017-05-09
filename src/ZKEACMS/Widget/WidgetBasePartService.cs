@@ -26,11 +26,16 @@ namespace ZKEACMS.Widget
     public class WidgetBasePartService : ServiceBase<WidgetBasePart, CMSDbContext>, IWidgetBasePartService
     {
         protected const string EncryptWidgetTemplate = "EncryptWidgetTemplate";
-        public WidgetBasePartService(IEncryptService encryptService, IDataArchivedService dataArchivedService, IApplicationContext applicationContext)
+        private readonly IWidgetActivator _widgetActivator;
+        private readonly IServiceProvider _serviceProvider;
+        public WidgetBasePartService(IEncryptService encryptService, IDataArchivedService dataArchivedService, 
+            IApplicationContext applicationContext, IWidgetActivator widgetActivator, IServiceProvider serviceProvider)
             : base(applicationContext)
         {
             EncryptService = encryptService;
             DataArchivedService = dataArchivedService;
+            _widgetActivator = widgetActivator;
+            _serviceProvider = serviceProvider;
         }
         public override DbSet<WidgetBasePart> CurrentDbSet
         {
@@ -43,14 +48,14 @@ namespace ZKEACMS.Widget
         {
             if (widget != null && widget.PageID.IsNotNullAndWhiteSpace())
             {
-                using (var pageService = ApplicationContext.ServiceLocator.GetService<IPageService>())
+                using (var pageService = _serviceProvider.GetService<IPageService>())
                 {
                     pageService.MarkChanged(widget.PageID);
                 }
             }
             else if (widget != null && widget.LayoutID.IsNotNullAndWhiteSpace())
             {
-                using (var layoutService = ApplicationContext.ServiceLocator.GetService<ILayoutService>())
+                using (var layoutService = _serviceProvider.GetService<ILayoutService>())
                 {
                     layoutService.MarkChanged(widget.LayoutID);
                 }
@@ -67,25 +72,17 @@ namespace ZKEACMS.Widget
         }
         public IEnumerable<WidgetBase> GetByPageId(string pageId)
         {
-            return Get(m => m.PageID == pageId);
-        }
-        public IEnumerable<WidgetBase> GetAllByPageId(IServiceProvider serviceProvider, string pageId)
-        {
-            using (var pageService = ApplicationContext.ServiceLocator.GetService<IPageService>())
-            {
-                return GetAllByPage(serviceProvider, pageService.Get(pageId));
-            }
-
+            return Get(m => m.PageID == pageId).ToList();
         }
 
-        public IEnumerable<WidgetBase> GetAllByPage(IServiceProvider serviceProvider, PageEntity page)
+        public IEnumerable<WidgetBase> GetAllByPage(PageEntity page)
         {
             Func<PageEntity, List<WidgetBase>> getPageWidgets = p =>
             {
                 var result = GetByLayoutId(p.LayoutId);
                 List<WidgetBase> widgets = result.ToList();
                 widgets.AddRange(GetByPageId(p.ID));
-                return widgets.Select(widget => widget.CreateServiceInstance(serviceProvider)?.GetWidget(widget)).ToList();
+                return widgets.Select(widget => _widgetActivator.Create(widget)?.GetWidget(widget)).ToList();
             };
             //if (page.IsPublishedPage)
             //{
@@ -132,7 +129,7 @@ namespace ZKEACMS.Widget
             {
                 widgetBasePart.ExtendFields.Each(f => { f.ActionType = ActionType.Create; });
             }
-            var service = widgetBasePart.CreateServiceInstance(actionContext.HttpContext.RequestServices);
+            var service = _widgetActivator.Create(widgetBasePart);
             var widgetBase = service.GetWidget(widgetBasePart.ToWidgetBase());
 
             widgetBase.PageID = widget.PageID;

@@ -88,7 +88,7 @@ namespace Easy.ViewPort.Descriptor
             if (sourceType == SourceType.Dictionary)
             {
 
-                IDataDictionaryService dicService = new ServiceLocator().GetService<IDataDictionaryService>();
+                IDataDictionaryService dicService = ServiceLocator.GetService<IDataDictionaryService>();
                 if (dicService != null)
                 {
                     if (this._data == null)
@@ -111,7 +111,7 @@ namespace Easy.ViewPort.Descriptor
             string dictionaryType = this.ModelType.Name + "@" + this.Name;
             if (type == SourceType.Dictionary)
             {
-                var dicService = new ServiceLocator().GetService<IDataDictionaryService>();
+                var dicService = ServiceLocator.GetService<IDataDictionaryService>();
                 if (dicService != null)
                 {
                     if (this._data == null)

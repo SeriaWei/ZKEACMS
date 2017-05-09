@@ -34,5 +34,95 @@
     "inputFiles": [
       "wwwroot/js/StyleEditor/Content/main.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/css/Layout.min.css",
+    "inputFiles": [
+      "wwwroot/css/Layout.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/Login.min.css",
+    "inputFiles": [
+      "wwwroot/css/Login.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/EasyPlug/Css/Animate.min.css",
+    "inputFiles": [
+      "wwwroot/js/EasyPlug/Css/Animate.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/EasyPlug/Css/Base.min.css",
+    "inputFiles": [
+      "wwwroot/js/EasyPlug/Css/Base.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/EasyPlug/Css/Easy.min.css",
+    "inputFiles": [
+      "wwwroot/js/EasyPlug/Css/Easy.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/EasyPlug/Css/Icon.min.css",
+    "inputFiles": [
+      "wwwroot/js/EasyPlug/Css/Icon.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/OwlCarousel/owl.carousel.min.css",
+    "inputFiles": [
+      "wwwroot/js/OwlCarousel/owl.carousel.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/OwlCarousel/owl.transitions.min.css",
+    "inputFiles": [
+      "wwwroot/js/OwlCarousel/owl.transitions.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/StyleEditor/Content/bootstrap.min.css",
+    "inputFiles": [
+      "wwwroot/js/StyleEditor/Content/bootstrap.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/StyleEditor/Content/editor.min.js",
+    "inputFiles": [
+      "wwwroot/js/StyleEditor/Content/editor.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/StyleEditor/Content/jquery-ui.min.css",
+    "inputFiles": [
+      "wwwroot/js/StyleEditor/Content/jquery-ui.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/StyleEditor/Content/jquery-ui.custom.min.js",
+    "inputFiles": [
+      "wwwroot/js/StyleEditor/Content/jquery-ui.custom.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/StyleEditor/Content/jscolor.min.js",
+    "inputFiles": [
+      "wwwroot/js/StyleEditor/Content/jscolor.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/StyleEditor/Content/values.min.js",
+    "inputFiles": [
+      "wwwroot/js/StyleEditor/Content/values.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/tinymce/tinymce.config.min.js",
+    "inputFiles": [
+      "wwwroot/js/tinymce/tinymce.config.js"
+    ]
   }
 ]

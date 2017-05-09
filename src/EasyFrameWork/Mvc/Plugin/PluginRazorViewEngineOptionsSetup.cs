@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.IO;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2017 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using Easy.Extend;
-using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.CodeAnalysis;
-using Microsoft.Extensions.DependencyModel;
+using Microsoft.Extensions.Options;
+using System.IO;
+using System.Linq;
 
 namespace Easy.Mvc.Plugin
 {
@@ -24,7 +23,7 @@ namespace Easy.Mvc.Plugin
         {
             if (hostingEnvironment.IsDevelopment())
             {
-                options.FileProviders.Add(new DeveloperViewFileProvider());
+                options.FileProviders.Add(new DeveloperViewFileProvider(hostingEnvironment));
             }
             loader.GetPluginAssemblies().Each(assembly =>
             {
@@ -48,9 +47,9 @@ namespace Easy.Mvc.Plugin
                 }
                 else
                 {
-                    options.ViewLocationFormats.Add($"/{Loader.PluginFolder}/{directory.Name}" + "/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
-                    options.ViewLocationFormats.Add($"/{Loader.PluginFolder}/{directory.Name}" + "/Views/Shared/{0}" + RazorViewEngine.ViewExtension);
-                    options.ViewLocationFormats.Add($"/{Loader.PluginFolder}/{directory.Name}" + "/Views/{0}" + RazorViewEngine.ViewExtension);
+                    options.ViewLocationFormats.Add($"/wwwroot/{Loader.PluginFolder}/{directory.Name}" + "/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
+                    options.ViewLocationFormats.Add($"/wwwroot/{Loader.PluginFolder}/{directory.Name}" + "/Views/Shared/{0}" + RazorViewEngine.ViewExtension);
+                    options.ViewLocationFormats.Add($"/wwwroot/{Loader.PluginFolder}/{directory.Name}" + "/Views/{0}" + RazorViewEngine.ViewExtension);
                 }
             });
             options.ViewLocationFormats.Add("/Views/{0}" + RazorViewEngine.ViewExtension);

@@ -1,6 +1,6 @@
 ﻿/*!
  * http://www.zkea.net/
- * Copyright 2016 ZKEASOFT
+ * Copyright 2017 ZKEASOFT
  * http://www.zkea.net/licenses
  */
 
@@ -9,7 +9,7 @@ html, body {
 }
 
 body {
-    background: url(images/dotted.png);
+    background: url(../images/dotted.png);
 }
 
 img {
@@ -41,7 +41,9 @@ img {
 .input-group .form-control {
     position: static;
 }
-
+.form-control.required {
+    background-color: #fff0dd;
+}
 a.badge:hover {
     background-color: #1F1F1F;
 }
@@ -367,7 +369,8 @@ a.badge:hover {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#fff5f5f5', GradientType=0);
 }
 
-.form-group select#ZoneID {
+.form-group select#ZoneID,
+.form-group select.select {
     cursor: pointer;
 }
 
@@ -464,7 +467,7 @@ a.badge:hover {
 }
 div.dataTables_wrapper div.dataTables_processing {
     text-indent: -5000px;
-    background:#fff url('../js/easyplug/css/images/loader.gif') center center no-repeat;
+    background:#fff url('../js/EasyPlug/Css/Images/loader.gif') center center no-repeat;
     width:50px;
     margin-left:-25px;
 }

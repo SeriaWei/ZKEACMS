@@ -1,5 +1,13 @@
-﻿using Easy;
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2017 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+
+using Easy;
 using Easy.Extend;
+using Easy.Logging;
+using Easy.Mvc.Attribute;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.DataAnnotations;
 using Easy.Mvc.Plugin;
@@ -9,15 +17,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ZKEACMS.Common.Service;
-using ZKEACMS.MetaData;
 using ZKEACMS.ModelBinder;
 
 namespace ZKEACMS.WebHost
@@ -37,11 +43,12 @@ namespace ZKEACMS.WebHost
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
             }
-            Loader.HostingEnvironment = env;
+            HostingEnvironment = env;
             Configuration = builder.Build();
 
         }
 
+        public IHostingEnvironment HostingEnvironment { get; }
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -61,14 +68,15 @@ namespace ZKEACMS.WebHost
                  option.SerializerSettings.DateFormatString = "yyyy-MM-dd";
              });
             services.TryAddTransient<IOnConfiguring, EntityFrameWorkConfigure>();
-            services.UseEasyFrameWork(Configuration).LoadEnablePlugins(plugin =>
-            {
-                var cmsPlugin = plugin as PluginBase;
-                if (cmsPlugin != null)
-                {
-                    cmsPlugin.InitPlug();
-                }
-            }, null);
+
+            services.UseEasyFrameWork(Configuration, HostingEnvironment).LoadEnablePlugins(plugin =>
+             {
+                 var cmsPlugin = plugin as PluginBase;
+                 if (cmsPlugin != null)
+                 {
+                     cmsPlugin.InitPlug();
+                 }
+             }, null);
             services.UseZKEACMS();
             services.Configure<AuthorizationOptions>(options =>
             {
@@ -82,18 +90,14 @@ namespace ZKEACMS.WebHost
 
             });
             services.AddAuthorization();
-            services.AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(Loader.HostingEnvironment.ContentRootPath, "PersistKeys")));
             new ResourceManager().Excute();
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            //ServiceLocator.Current = app.ApplicationServices;
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            ServiceLocator.Current = app.ApplicationServices;
 
             if (env.IsDevelopment())
             {
@@ -103,7 +107,8 @@ namespace ZKEACMS.WebHost
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                loggerFactory.UseFileLog(env);
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
@@ -120,10 +125,6 @@ namespace ZKEACMS.WebHost
 
             app.UseMvc(routes =>
             {
-                //routes.MapRoute(
-                //    name: "default",
-                //    template: "{controller=Home}/{action=Index}/{id?}");
-
                 app.ApplicationServices.GetService<IRouteProvider>().GetRoutes().OrderByDescending(route => route.Priority).Each(route =>
                   {
                       routes.MapRoute(route.RouteName, route.Template, route.Defaults, route.Constraints, route.DataTokens);

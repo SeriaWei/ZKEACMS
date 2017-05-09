@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <required>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+  <item type="SectionContentImage">
     <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/Photos/i1.jpg]]></property>
     <property name="ImageAlt"><![CDATA[玩“赚”美搭]]></property>
     <property name="ImageTitle"><![CDATA[潮范叛逆精灵]]></property>

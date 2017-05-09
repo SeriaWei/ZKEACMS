@@ -14,10 +14,10 @@ namespace Easy
             var lanCache = new StaticCache();
             LanguageEntity lan = lanCache.Get(lanKey, m =>
             {
-                using (var languageService = new ServiceLocator().Current.GetService<ILanguageService>())
+                using (var languageService = ServiceLocator.GetService<ILanguageService>())
                 {
-
-                    var language = languageService.Get(n => n.LanKey == lanKey && n.CultureName == CultureInfo.CurrentUICulture.Name).FirstOrDefault();
+                    var culture = Builder.Configuration["Culture"] ?? CultureInfo.CurrentUICulture.Name;
+                    var language = languageService.Get(n => n.LanKey == lanKey && n.CultureName == culture).FirstOrDefault();
 
                     if (language == null)
                     {
@@ -27,12 +27,17 @@ namespace Easy
                         if (lanKey.Contains("@"))
                         {
                             lanValue = lanKey.Split('@')[1];
+                            var translated = languageService.Get(n => n.LanKey.EndsWith("@" + lanValue) && n.CultureName == culture).FirstOrDefault();
+                            if (translated != null)
+                            {
+                                lanValue = translated.LanValue;
+                            }
                             lanType = "EntityProperty";
                             module = lanKey.Split('@')[0];
                         }
                         language = new LanguageEntity
                         {
-                            CultureName = CultureInfo.CurrentUICulture.Name,
+                            CultureName = culture,
                             LanValue = lanValue,
                             LanKey = lanKey,
                             LanType = lanType,

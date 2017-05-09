@@ -16,6 +16,11 @@ using ZKEACMS.Common.Models;
 using System.IO;
 using Newtonsoft.Json;
 using ZKEACMS.PackageManger;
+using ZKEACMS.Page;
+using Easy.Modules.DataDictionary;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
+using Easy.Mvc.Extend;
 
 namespace ZKEACMS.Controllers
 {
@@ -26,14 +31,18 @@ namespace ZKEACMS.Controllers
         private readonly IWidgetTemplateService _widgetTemplateService;
         private readonly ICookie _cookie;
         private readonly IPackageInstallerProvider _packageInstallerProvider;
+        private readonly IWidgetActivator _widgetActivator;
+        private readonly IPageService _pageService;
 
-        public WidgetController(IWidgetBasePartService widgetService, IWidgetTemplateService widgetTemplateService, 
-            ICookie cookie, IPackageInstallerProvider packageInstallerProvider)
+        public WidgetController(IWidgetBasePartService widgetService, IWidgetTemplateService widgetTemplateService,
+            ICookie cookie, IPackageInstallerProvider packageInstallerProvider, IWidgetActivator widgetActivator, IPageService pageService)
         {
             _widgetService = widgetService;
             _widgetTemplateService = widgetTemplateService;
             _cookie = cookie;
             _packageInstallerProvider = packageInstallerProvider;
+            _widgetActivator = widgetActivator;
+            _pageService = pageService;
         }
 
         [ViewDataZones]
@@ -47,7 +56,7 @@ namespace ZKEACMS.Controllers
             widget.FormView = template.FormView;
             if (widget.PageID.IsNotNullAndWhiteSpace())
             {
-                widget.Position = _widgetService.GetAllByPageId(HttpContext.RequestServices, context.PageID).Count(m => m.ZoneID == context.ZoneID) + 1;
+                widget.Position = _widgetService.GetAllByPage(_pageService.Get(context.PageID)).Count(m => m.ZoneID == context.ZoneID) + 1;
             }
             else
             {
@@ -68,7 +77,7 @@ namespace ZKEACMS.Controllers
             {
                 return View(widget);
             }
-            widget.CreateServiceInstance(HttpContext.RequestServices).AddWidget(widget);
+            _widgetActivator.Create(widget).AddWidget(widget);
             if (widget.ActionType == ActionType.Continue)
             {
                 return RedirectToAction("Edit", new { widget.ID, ReturnUrl });
@@ -87,7 +96,7 @@ namespace ZKEACMS.Controllers
         public ActionResult Edit(string ID, string ReturnUrl)
         {
             var widgetBase = _widgetService.Get(ID);
-            var widget = widgetBase.CreateServiceInstance(HttpContext.RequestServices).GetWidget(widgetBase);
+            var widget = _widgetActivator.Create(widgetBase).GetWidget(widgetBase);
             ViewBag.ReturnUrl = ReturnUrl;
 
             var template = _widgetTemplateService.Get(
@@ -112,7 +121,7 @@ namespace ZKEACMS.Controllers
             {
                 return View(widget);
             }
-            widget.CreateServiceInstance(HttpContext.RequestServices).UpdateWidget(widget);
+            _widgetActivator.Create(widget).UpdateWidget(widget);
             if (!ReturnUrl.IsNullOrEmpty())
             {
                 return Redirect(ReturnUrl);
@@ -142,7 +151,7 @@ namespace ZKEACMS.Controllers
             WidgetBase widget = _widgetService.Get(ID);
             if (widget != null)
             {
-                widget.CreateServiceInstance(HttpContext.RequestServices).DeleteWidget(ID);
+                _widgetActivator.Create(widget).DeleteWidget(ID);
                 return Json(ID);
             }
             return Json(false);
@@ -176,7 +185,7 @@ namespace ZKEACMS.Controllers
                 }
                 else
                 {
-                    widget.CreateServiceInstance(HttpContext.RequestServices).DeleteWidget(Id);
+                    _widgetActivator.Create(widget).DeleteWidget(Id);
                 }
             }
             return Json(Id);
@@ -222,24 +231,48 @@ namespace ZKEACMS.Controllers
         public FileResult Pack(string ID)
         {
             var widget = _widgetService.Get(ID);
-            var widgetPackage = widget.CreateServiceInstance(Request.HttpContext.RequestServices).PackWidget(widget) as WidgetPackage;
+            var widgetPackage = _widgetActivator.Create(widget).PackWidget(widget) as WidgetPackage;
             return File(widgetPackage.ToFilePackage(), "Application/zip", widgetPackage.Widget.WidgetName + ".widget");
+        }
+        public FileResult PackDictionary(int ID, string[] filePath)
+        {
+            var dataDictionaryService = HttpContext.RequestServices.GetService<IDataDictionaryService>();
+            var dataDictionary = dataDictionaryService.Get(ID);
+            var installer = new DataDictionaryPackageInstaller(HttpContext.RequestServices.GetService<IHostingEnvironment>(), dataDictionaryService);
+            if (filePath != null && filePath.Any())
+            {
+                installer.OnPacking = () =>
+                {
+                    List<System.IO.FileInfo> files = new List<System.IO.FileInfo>();
+                    foreach (var item in filePath)
+                    {
+                        files.Add(new System.IO.FileInfo(Request.MapPath(item)));
+                    }
+                    return files;
+                };
+            }
+
+            return File(installer.Pack(dataDictionary).ToFilePackage(), "Application/zip", dataDictionary.Title + ".widget");
         }
         [HttpPost]
         public ActionResult InstallWidgetTemplate(string returnUrl)
         {
             if (Request.Form.Files.Count > 0)
             {
-                try
+
+                Package package;
+                var installer = _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
+                if (installer is WidgetPackageInstaller)
                 {
-                    WidgetPackage package;
-                    _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
-                    package.Widget.CreateServiceInstance(Request.HttpContext.RequestServices).InstallWidget(package);
+                    var widgetPackage = JsonConvert.DeserializeObject<WidgetPackage>(package.Content.ToString());
+                    widgetPackage.Content = package.Content;
+                    _widgetActivator.Create(widgetPackage.Widget).InstallWidget(widgetPackage);
                 }
-                catch (Exception ex)
+                else
                 {
-                    Logger.Error(ex);
+                    installer.Install(package.Content.ToString());
                 }
+
             }
             return Redirect(returnUrl);
         }

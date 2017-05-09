@@ -9,7 +9,7 @@
     {
         if (item.HideSurroundingHtml)
         {
-            <div class="form-group">                
+            <div class="form-group">
                 <div class="col-sm-10">
                     @Html.Editor(item.PropertyName)
                     @Html.ValidationMessage(item.PropertyName)
@@ -29,7 +29,7 @@
 
     }
     <div class="hide">
-        @foreach (var item in metaData.Properties.Where(m => !m.ShowForEdit))
+        @foreach (var item in metaData.Properties.Where(m => !m.ShowForEdit && m.TemplateHint != "Ignore"))
         {
             @Html.Editor(item.PropertyName, "Hidden")
         }

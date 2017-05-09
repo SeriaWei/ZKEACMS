@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <required>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+  <item type="SectionContentImage">
     <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/LifeStyle/1.jpg]]></property>
     <property name="ImageAlt"><![CDATA[]]></property>
     <property name="ImageTitle"><![CDATA[]]></property>
@@ -8,39 +8,39 @@
     <property name="Width"><![CDATA[]]></property>
     <property name="Height"><![CDATA[]]></property>
   </item>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentTitle">
+  <item type="SectionContentTitle">
     <property name="InnerText"><![CDATA[生活格调]]></property>
     <property name="Href"><![CDATA[]]></property>
   </item>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentCallToAction">
+  <item type="SectionContentCallToAction">
     <property name="InnerText"><![CDATA[家电]]></property>
     <property name="Href"><![CDATA[#]]></property>
   </item>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentCallToAction">
+  <item type="SectionContentCallToAction">
     <property name="InnerText"><![CDATA[读好书]]></property>
     <property name="Href"><![CDATA[#]]></property>
   </item>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentCallToAction">
+  <item type="SectionContentCallToAction">
     <property name="InnerText"><![CDATA[健身]]></property>
     <property name="Href"><![CDATA[#]]></property>
   </item>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentCallToAction">
+  <item type="SectionContentCallToAction">
     <property name="InnerText"><![CDATA[汽车指南]]></property>
     <property name="Href"><![CDATA[#]]></property>
   </item>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentCallToAction">
+  <item type="SectionContentCallToAction">
     <property name="InnerText"><![CDATA[居家绿植]]></property>
     <property name="Href"><![CDATA[#]]></property>
   </item>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentCallToAction">
+  <item type="SectionContentCallToAction">
     <property name="InnerText"><![CDATA[母婴]]></property>
     <property name="Href"><![CDATA[#]]></property>
   </item>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentCallToAction">
+  <item type="SectionContentCallToAction">
     <property name="InnerText"><![CDATA[挑礼物]]></property>
     <property name="Href"><![CDATA[#]]></property>
   </item>  
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+  <item type="SectionContentImage">
     <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/LifeStyle/2.jpg]]></property>
     <property name="ImageAlt"><![CDATA[靓丽厨房 邂逅生活]]></property>
     <property name="ImageTitle"><![CDATA[唯美食不可辜负]]></property>
@@ -48,7 +48,7 @@
     <property name="Width"><![CDATA[]]></property>
     <property name="Height"><![CDATA[]]></property>
   </item>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+  <item type="SectionContentImage">
     <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/LifeStyle/3.jpg]]></property>
     <property name="ImageAlt"><![CDATA[让生活多姿多彩]]></property>
     <property name="ImageTitle"><![CDATA[智能时代]]></property>
@@ -56,7 +56,7 @@
     <property name="Width"><![CDATA[]]></property>
     <property name="Height"><![CDATA[]]></property>
   </item>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+  <item type="SectionContentImage">
     <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/LifeStyle/4.jpg]]></property>
     <property name="ImageAlt"><![CDATA[只有一盏灯的距离]]></property>
     <property name="ImageTitle"><![CDATA[温馨家装]]></property>
@@ -64,7 +64,7 @@
     <property name="Width"><![CDATA[]]></property>
     <property name="Height"><![CDATA[]]></property>
   </item>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+  <item type="SectionContentImage">
     <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/LifeStyle/5.jpg]]></property>
     <property name="ImageAlt"><![CDATA[拯救褶皱衣物]]></property>
     <property name="ImageTitle"><![CDATA[靓丽出行]]></property>
@@ -72,7 +72,7 @@
     <property name="Width"><![CDATA[]]></property>
     <property name="Height"><![CDATA[]]></property>
   </item>
-  <item type="ZKEACMS.SectionWidget.Models.SectionContentImage">
+  <item type="SectionContentImage">
     <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/LifeStyle/6.jpg]]></property>
     <property name="ImageAlt"><![CDATA[正确运动才有效]]></property>
     <property name="ImageTitle"><![CDATA[减肥训练营]]></property>

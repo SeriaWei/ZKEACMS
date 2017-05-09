@@ -27,6 +27,8 @@ namespace ZKEACMS
             serviceCollection.TryAddSingleton<IRouteProvider, RouteProvider>();
             serviceCollection.TryAddSingleton<IAdminMenuProvider, AdminMenuProvider>();
 
+            serviceCollection.TryAddTransient<IWidgetActivator, DefaultWidgetActivator>();
+
             serviceCollection.TryAddTransient<ICarouselItemService, CarouselItemService>();
             serviceCollection.TryAddTransient<ICarouselService, CarouselService>();
             serviceCollection.TryAddTransient<INavigationService, NavigationService>();
@@ -49,6 +51,7 @@ namespace ZKEACMS
             serviceCollection.AddTransient<IPackageInstaller, ThemePackageInstaller>();
             serviceCollection.AddTransient<IPackageInstaller, WidgetPackageInstaller>();
             serviceCollection.AddTransient<IPackageInstaller, FilePackageInstaller>();
+            serviceCollection.AddTransient<IPackageInstaller, DataDictionaryPackageInstaller>();
             serviceCollection.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
 
             foreach (var item in WidgetBase.KnownWidgetService)

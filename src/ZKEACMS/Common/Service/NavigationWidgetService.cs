@@ -33,8 +33,9 @@ namespace ZKEACMS.Common.Service
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
+            var currentWidget = widget as NavigationWidget;
             var navs = _navigationService.GetAll()
-                .Where(m => m.Status == (int)RecordStatus.Active).OrderBy(m => m.DisplayOrder);
+                .Where(m => m.Status == (int)RecordStatus.Active).OrderBy(m => m.DisplayOrder).ToList();
             string path = "~" + actionContext.RouteData.GetPath();
             NavigationEntity current = null;
             int length = 0;
@@ -52,7 +53,12 @@ namespace ZKEACMS.Common.Service
             {
                 current.IsCurrent = true;
             }
-            return widget.ToWidgetViewModelPart(new NavigationWidgetViewModel(navs, widget as NavigationWidget));
+
+            if (currentWidget.RootID.IsNullOrEmpty() || currentWidget.RootID == "root")
+            {
+                currentWidget.RootID = "#";
+            }
+            return widget.ToWidgetViewModelPart(new NavigationWidgetViewModel(navs, currentWidget));
         }
     }
 }

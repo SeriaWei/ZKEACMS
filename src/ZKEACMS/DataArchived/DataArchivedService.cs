@@ -56,7 +56,7 @@ namespace ZKEACMS.DataArchived
 
         private string Serialize(object obj)
         {
-            return JsonConvert.SerializeObject(obj);
+            return JsonConvert.SerializeObject(obj, Formatting.None, JsonConverters);
         }
 
         private T Deserialize<T>(string data) where T : class
