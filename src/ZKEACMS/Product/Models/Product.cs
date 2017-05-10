@@ -70,7 +70,7 @@ namespace ZKEACMS.Product.Models
         public DateTime? PublishDate { get; set; }
         public string TargetFrom { get; set; }
         public string TargetUrl { get; set; }
-
+        
         public IEnumerable<ExtendFieldEntity> ExtendFields { get; set; }
 
     }

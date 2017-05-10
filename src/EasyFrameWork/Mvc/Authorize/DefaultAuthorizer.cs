@@ -32,9 +32,13 @@ namespace Easy.Mvc.Authorize
 
         public bool Authorize(string permission, IUser user)
         {
-            if (permission.IsNullOrWhiteSpace() || user == null)
+            if (permission.IsNullOrWhiteSpace())
             {
                 return true;
+            }
+            if(user == null)
+            {
+                return false;
             }
             if (_userPermissions != null && _userPermissions.ContainsKey(user.UserID))
             {

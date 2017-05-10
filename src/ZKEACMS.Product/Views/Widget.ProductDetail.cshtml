@@ -16,6 +16,11 @@
                 <i class="glyphicon glyphicon-calendar"></i>
                 @((Model.PublishDate ?? DateTime.Now).ToString("yyyy/MM/dd"))
             </span>
+
+            @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProduct))
+            {
+                <a href="@Url.Action("Edit", "Product", new { id = Model.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">编辑</a>
+            }
         </div>
     </div>
     <div class="panel-body detail clearfix">

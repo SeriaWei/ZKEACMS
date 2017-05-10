@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using ZKEACMS.Article.ActionFilter;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Article.Service;
+using Easy.Extend;
 
 namespace ZKEACMS.Article.Controllers
 {
@@ -53,6 +54,10 @@ namespace ZKEACMS.Article.Controllers
             if (entity.ActionType == ActionType.Publish)
             {
                 Service.Publish(entity.ID);
+                if (Request.Query["ReturnUrl"].Count > 0)
+                {
+                    return Redirect(Request.Query["ReturnUrl"]);
+                }
             }
             return result;
         }

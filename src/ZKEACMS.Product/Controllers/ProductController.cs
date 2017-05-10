@@ -2,6 +2,7 @@
 
 
 using Easy.Constant;
+using Easy.Extend;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@ namespace ZKEACMS.Product.Controllers
         {
             return base.Create();
         }
-        [HttpPost,DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
         public override ActionResult Create(ProductEntity entity)
         {
             var result = base.Create(entity);
@@ -43,13 +44,17 @@ namespace ZKEACMS.Product.Controllers
         {
             return base.Edit(Id);
         }
-        [HttpPost,DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
         public override ActionResult Edit(ProductEntity entity)
         {
             var result = base.Edit(entity);
             if (entity.ActionType == ActionType.Publish)
             {
                 Service.Publish(entity.ID);
+                if (Request.Query["ReturnUrl"].Count > 0)
+                {
+                    return Redirect(Request.Query["ReturnUrl"]);
+                }
             }
             return result;
         }
