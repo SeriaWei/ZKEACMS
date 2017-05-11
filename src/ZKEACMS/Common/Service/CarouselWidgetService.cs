@@ -81,18 +81,9 @@ namespace ZKEACMS.Common.Service
             var carouselWidget = widget as CarouselWidget;
             if (carouselWidget.CarouselID.HasValue)
             {
-                var varouselItems = _carouselItemService.Get(m => m.CarouselID == carouselWidget.CarouselID).ToList();
-                if (carouselWidget.CarouselItems == null)
-                {
-                    carouselWidget.CarouselItems = varouselItems;
-                }
-                else
-                {
-                    ((List<CarouselItemEntity>)carouselWidget.CarouselItems).AddRange(varouselItems);
-                }
+                carouselWidget.CarouselItems = _carouselItemService.Get(m => m.CarouselID == carouselWidget.CarouselID).ToList();
             }
-            carouselWidget.CarouselItems =
-                carouselWidget.CarouselItems.Where(m => m.Status == (int)RecordStatus.Active);
+            carouselWidget.CarouselItems = carouselWidget.CarouselItems.Where(m => m.Status == (int)RecordStatus.Active);
             return base.Display(widget, actionContext);
         }
     }

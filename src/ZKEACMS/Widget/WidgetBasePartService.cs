@@ -1,24 +1,19 @@
 ﻿using Easy;
 using Easy.Constant;
-using Easy.Encrypt;
 using Easy.Extend;
 using Easy.RepositoryPattern;
-using Easy.Zip;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using ZKEACMS.DataArchived;
-using ZKEACMS.Page;
-using Microsoft.Extensions.DependencyInjection;
 using ZKEACMS.Layout;
-using Microsoft.AspNetCore.Mvc;
+using ZKEACMS.Page;
+using CacheManager.Core;
+using Microsoft.AspNetCore.Http;
 
 namespace ZKEACMS.Widget
 {
@@ -28,14 +23,18 @@ namespace ZKEACMS.Widget
         protected const string EncryptWidgetTemplate = "EncryptWidgetTemplate";
         private readonly IWidgetActivator _widgetActivator;
         private readonly IServiceProvider _serviceProvider;
-        public WidgetBasePartService(IEncryptService encryptService, IDataArchivedService dataArchivedService, 
-            IApplicationContext applicationContext, IWidgetActivator widgetActivator, IServiceProvider serviceProvider)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        static ICacheManager<IEnumerable<WidgetBase>> PageWidgetCacheManage;
+        static WidgetBasePartService()
+        {
+            PageWidgetCacheManage = CacheFactory.Build<IEnumerable<WidgetBase>>(setting => setting.WithDictionaryHandle("PageWidgets"));
+        }
+        public WidgetBasePartService(IApplicationContext applicationContext, IWidgetActivator widgetActivator, IServiceProvider serviceProvider, IHttpContextAccessor httpContextAccessor)
             : base(applicationContext)
         {
-            EncryptService = encryptService;
-            DataArchivedService = dataArchivedService;
             _widgetActivator = widgetActivator;
             _serviceProvider = serviceProvider;
+            _httpContextAccessor = httpContextAccessor;
         }
         public override DbSet<WidgetBasePart> CurrentDbSet
         {
@@ -62,10 +61,6 @@ namespace ZKEACMS.Widget
             }
         }
 
-
-        public IEncryptService EncryptService { get; set; }
-
-        public IDataArchivedService DataArchivedService { get; set; }
         public IEnumerable<WidgetBase> GetByLayoutId(string layoutId)
         {
             return Get(m => m.LayoutID == layoutId);
@@ -75,7 +70,7 @@ namespace ZKEACMS.Widget
             return Get(m => m.PageID == pageId).ToList();
         }
 
-        public IEnumerable<WidgetBase> GetAllByPage(PageEntity page)
+        public IEnumerable<WidgetBase> GetAllByPage(PageEntity page, bool formCache = false)
         {
             Func<PageEntity, List<WidgetBase>> getPageWidgets = p =>
             {
@@ -84,10 +79,10 @@ namespace ZKEACMS.Widget
                 widgets.AddRange(GetByPageId(p.ID));
                 return widgets.Select(widget => _widgetActivator.Create(widget)?.GetWidget(widget)).ToList();
             };
-            //if (page.IsPublishedPage)
-            //{
-            //    return DataArchivedService.Get(CacheTrigger.PageWidgetsArchivedKey.FormatWith(page.ReferencePageID), () => getPageWidgets(page));
-            //}
+            if (formCache)
+            {
+                return PageWidgetCacheManage.GetOrAdd(page.ReferencePageID, _httpContextAccessor.HttpContext.Request.Host.Value, (key, region) => getPageWidgets(page));
+            }
             return getPageWidgets(page).Where(m => m != null);
         }
         public override void Add(WidgetBasePart item)
@@ -144,18 +139,9 @@ namespace ZKEACMS.Widget
             return widgetPart;
         }
 
-        private byte[] Encrypt(byte[] source)
+        public void RemoveCache(string pageId)
         {
-            if (Easy.Builder.Configuration[EncryptWidgetTemplate] == "true")
-            {
-                return EncryptService.Encrypt(source);
-            }
-            return source;
-        }
-
-        private byte[] Decrypt(byte[] source)
-        {
-            return EncryptService.Decrypt(source);
+            PageWidgetCacheManage.Remove(pageId, _httpContextAccessor.HttpContext.Request.Host.Value);
         }
     }
 }

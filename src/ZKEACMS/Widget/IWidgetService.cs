@@ -13,7 +13,8 @@ namespace ZKEACMS.Widget
     {
         IEnumerable<WidgetBase> GetByLayoutId(string layoutId);
         IEnumerable<WidgetBase> GetByPageId(string pageId);
-        IEnumerable<WidgetBase> GetAllByPage(PageEntity page);
+        IEnumerable<WidgetBase> GetAllByPage(PageEntity page, bool formCache = false);
         WidgetViewModelPart ApplyTemplate(WidgetBase widget, ActionContext actionContext);
+        void RemoveCache(string pageId);
     }
 }

@@ -17,16 +17,13 @@ namespace ZKEACMS.Page
     public class PageService : ServiceBase<PageEntity, CMSDbContext>, IPageService
     {
         private readonly IWidgetBasePartService _widgetService;
-        private readonly IDataArchivedService _dataArchivedService;
         private readonly IWidgetActivator _widgetActivator;
 
 
-        public PageService(IWidgetBasePartService widgetService, IDataArchivedService dataArchivedService,
-            IApplicationContext applicationContext, IWidgetActivator widgetActivator)
+        public PageService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, IWidgetActivator widgetActivator)
             : base(applicationContext)
         {
             _widgetService = widgetService;
-            _dataArchivedService = dataArchivedService;
             _widgetActivator = widgetActivator;
         }
         public override DbSet<PageEntity> CurrentDbSet
@@ -69,7 +66,7 @@ namespace ZKEACMS.Page
 
             //Remove(m => m.ReferencePageID == item.ID && m.IsPublishedPage == true);
 
-            _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(item.ID));
+            _widgetService.RemoveCache(item.ID);
 
             item.ReferencePageID = item.ID;
             item.IsPublishedPage = true;
@@ -143,7 +140,7 @@ namespace ZKEACMS.Page
                 }
                 else
                 {
-                    _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(page.ReferencePageID));
+                    _widgetService.RemoveCache(page.ReferencePageID);
                 }
             }
         }
@@ -162,7 +159,7 @@ namespace ZKEACMS.Page
             {
                 Remove(m => m.ReferencePageID == item.ID);
             }
-            _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(item.ID));
+            _widgetService.RemoveCache(item.ID);
             base.Remove(item);
         }
 
@@ -183,7 +180,7 @@ namespace ZKEACMS.Page
                     }
                 });
 
-                deletes.Each(p => _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(p)));
+                deletes.Each(p => _widgetService.RemoveCache(p));
 
                 base.Remove(filter);
             }
@@ -201,7 +198,7 @@ namespace ZKEACMS.Page
             {
                 var widgets = _widgetService.Get(m => m.PageID == page.ID);
                 widgets.Each(m => _widgetActivator.Create(m).DeleteWidget(m.ID));
-                _dataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(page.ID));
+                _widgetService.RemoveCache(ID);
             }
             base.Remove(ID);
         }

@@ -101,26 +101,26 @@ namespace ZKEACMS.Filter
                 layout.CurrentTheme = themeService.GetCurrentTheme();
                 layout.ZoneWidgets = new ZoneWidgetCollection();
                 filterContext.HttpContext.TrySetLayout(layout);
-                widgetService.GetAllByPage(page).Each(widget =>
-                {
-                    if (widget != null)
+                widgetService.GetAllByPage(page, GetPageViewMode() == PageViewMode.Publish && !IsPreView(filterContext)).Each(widget =>
                     {
-                        IWidgetPartDriver partDriver = widgetActivator.Create(widget);
-                        WidgetViewModelPart part = partDriver.Display(widget, filterContext);
-                        lock (layout.ZoneWidgets)
+                        if (widget != null)
                         {
-                            if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
+                            IWidgetPartDriver partDriver = widgetActivator.Create(widget);
+                            WidgetViewModelPart part = partDriver.Display(widget, filterContext);
+                            lock (layout.ZoneWidgets)
                             {
-                                layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
+                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
+                                {
+                                    layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
+                                }
+                                else
+                                {
+                                    layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
+                                }
                             }
-                            else
-                            {
-                                layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
-                            }
+                            partDriver.Dispose();
                         }
-                        partDriver.Dispose();
-                    }
-                });
+                    });
                 var viewResult = (filterContext.Result as ViewResult);
                 if (viewResult != null)
                 {
@@ -143,7 +143,7 @@ namespace ZKEACMS.Filter
             }
             else
             {
-                if(!(filterContext.Result is RedirectResult))
+                if (!(filterContext.Result is RedirectResult))
                 {
                     filterContext.Result = new RedirectResult("~/error/notfond?f=" + filterContext.HttpContext.Request.Path);
                 }

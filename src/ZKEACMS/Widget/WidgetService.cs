@@ -1,6 +1,5 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy;
-using Easy.Cache;
 using Easy.Extend;
 using Easy.RepositoryPattern;
 using Easy.Zip;
@@ -41,21 +40,14 @@ namespace ZKEACMS.Widget
             {
                 WidgetBasePartService.Remove(item.ID);
                 throw ex;
-            }
-
-            Signal.Trigger(CacheTrigger.WidgetChanged);
+            }            
         }
 
         public override void Update(T item)
         {
-
             WidgetBasePartService.Update(item.ToWidgetBasePart());
 
-            base.Update(item);
-
-
-            Signal.Trigger(CacheTrigger.WidgetChanged);
-
+            base.Update(item);  
         }
         public override void UpdateRange(params T[] items)
         {
@@ -63,7 +55,6 @@ namespace ZKEACMS.Widget
             WidgetBasePartService.UpdateRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
 
             base.UpdateRange(items);
-            Signal.Trigger(CacheTrigger.WidgetChanged);
         }
         public override T GetSingle(Expression<Func<T, bool>> filter)
         {

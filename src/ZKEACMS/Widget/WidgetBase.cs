@@ -1,7 +1,6 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using System;
 using System.Collections.Generic;
-using Easy.Cache;
 using Easy.Extend;
 using Easy.MetaData;
 using Easy.Models;
