@@ -24,6 +24,7 @@ namespace ZKEACMS.Widget
            { "ZKEACMS,ZKEACMS.Common.Models.ScriptWidget",typeof(ScriptWidget)},
            { "ZKEACMS,ZKEACMS.Common.Models.StyleSheetWidget",typeof(StyleSheetWidget)},
            { "ZKEACMS,ZKEACMS.Common.Models.VideoWidget",typeof(VideoWidget)},
+           { "ZKEACMS,ZKEACMS.Common.Models.BreadcrumbWidget",typeof(BreadcrumbWidget)}
         };
         public static Dictionary<string, Type> KnownWidgetService { get; } = new Dictionary<string, Type>
         {
@@ -34,6 +35,7 @@ namespace ZKEACMS.Widget
            { "ZKEACMS,ZKEACMS.Common.Service.ScriptWidgetService",typeof(ScriptWidgetService)},
            { "ZKEACMS,ZKEACMS.Common.Service.StyleSheetWidgetService",typeof(StyleSheetWidgetService)},
            { "ZKEACMS,ZKEACMS.Common.Service.VideoWidgetService",typeof(VideoWidgetService)},
+           { "ZKEACMS,ZKEACMS.Common.Service.BreadcrumbWidgetService",typeof(BreadcrumbWidgetService)}
         };
         [Key]
         public virtual string ID { get; set; }

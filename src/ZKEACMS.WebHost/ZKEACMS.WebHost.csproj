@@ -14,6 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\images\Widget.Breadcrumb.png" />
     <Content Include="wwwroot\Themes\Cerulean\css\Article.less" />
     <Content Include="wwwroot\Themes\Cerulean\css\Base.less" />
     <Content Include="wwwroot\Themes\Cerulean\css\Bootstrap.less" />
