@@ -96,7 +96,7 @@ namespace ZKEACMS.Filter
                 page.Favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
                 if (filterContext.HttpContext.User.Identity.IsAuthenticated && page.IsPublishedPage)
                 {
-                    layout.PreViewPage = requestServices.GetService<IPageService>().GetByPath(page.Url, true);
+                    layout.PreViewPage = requestServices.GetService<IPageService>().Get(page.ReferencePageID);
                 }
                 layout.CurrentTheme = themeService.GetCurrentTheme();
                 layout.ZoneWidgets = new ZoneWidgetCollection();

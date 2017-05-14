@@ -63,7 +63,8 @@ namespace ZKEACMS.Article.Service
             }
             if (currentWidget.IsPageable)
             {
-                articles = _articleService.Get(filter, page).OrderByDescending(m => m.ID);
+                page.RecordCount = _articleService.Count(filter);
+                articles = _articleService.Get(filter).OrderByDescending(m => m.ID).Skip(page.PageIndex * page.PageSize).Take(page.PageSize); ;
             }
             else
             {

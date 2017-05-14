@@ -69,7 +69,8 @@ namespace ZKEACMS.Product.Service
             }
             if (pwidget.IsPageable)
             {
-                products = _productService.Get(filter, page).OrderByDescending(m => m.ID);
+                page.RecordCount = _productService.Count(filter);
+                products = _productService.Get(filter).OrderByDescending(m => m.ID).Skip(page.PageIndex * page.PageSize).Take(page.PageSize);
             }
             else
             {
