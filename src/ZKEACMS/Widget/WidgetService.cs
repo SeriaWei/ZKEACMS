@@ -161,6 +161,8 @@ namespace ZKEACMS.Widget
 
         public virtual void Publish(WidgetBase widget)
         {
+            widget.IsTemplate = false;
+            widget.IsSystem = false;
             AddWidget(widget);
         }
 

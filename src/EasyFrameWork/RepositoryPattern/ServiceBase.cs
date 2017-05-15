@@ -96,6 +96,7 @@ namespace Easy.RepositoryPattern
         }
         public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter)
         {
+            if (filter == null) return GetAll();
             return CurrentDbSet.Where(filter);
         }
         public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter, Pagination pagination)

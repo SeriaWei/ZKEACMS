@@ -35,6 +35,13 @@ namespace ZKEACMS.Product
                     },
                     new AdminMenu
                     {
+                        Title = "产品排序",
+                        Url = "~/admin/Product/Sort",
+                        Icon = "glyphicon-sort",
+                        PermissionKey = PermissionKeys.ViewProduct
+                    },
+                    new AdminMenu
+                    {
                         Title = "产品类别",
                         Url = "~/admin/ProductCategory",
                         Icon = "glyphicon-th-list",

@@ -132,6 +132,7 @@ namespace ZKEACMS.Widget
             widgetBase.Position = widget.Position;
             widgetBase.LayoutID = widget.LayoutID;
             widgetBase.IsTemplate = false;
+            widgetBase.IsSystem = false;
             widgetBase.Thumbnail = null;
 
             var widgetPart = service.Display(widgetBase, actionContext);

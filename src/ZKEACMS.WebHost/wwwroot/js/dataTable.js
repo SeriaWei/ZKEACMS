@@ -83,6 +83,9 @@
             initComplete: function () {
                 this.api().columns().every(function () {
                     var column = this;
+                    if (!column.settings()[0].columnSettings) {
+                        return;
+                    }
                     var columnSetting = column.settings()[0].columnSettings[column[0][0]];
                     if (columnSetting.searchOpeartor != "None") {
                         var option = columnSetting.option;
