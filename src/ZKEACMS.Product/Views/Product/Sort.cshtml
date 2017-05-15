@@ -4,7 +4,7 @@
     Script.Reqiured("jQueryUi").AtFoot();
 }
 <ul class="fullRowList">
-    @foreach (var item in Model.OrderBy(m => m.OrderIndex))
+    @foreach (var item in Model.OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID))
     {
         <li data-id="@item.ID">
             @item.Title
