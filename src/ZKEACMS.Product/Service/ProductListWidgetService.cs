@@ -70,11 +70,11 @@ namespace ZKEACMS.Product.Service
             if (pwidget.IsPageable)
             {
                 page.RecordCount = _productService.Count(filter);
-                products = _productService.Get(filter).OrderByDescending(m => m.ID).Skip(page.PageIndex * page.PageSize).Take(page.PageSize);
+                products = _productService.Get(filter).OrderBy(m=>m.OrderIndex).ThenByDescending(m => m.ID).Skip(page.PageIndex * page.PageSize).Take(page.PageSize);
             }
             else
             {
-                products = _productService.Get(filter).OrderByDescending(m => m.ID);
+                products = _productService.Get(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID);
             }
 
             return widget.ToWidgetViewModelPart(new ProductListWidgetViewModel

@@ -104,7 +104,9 @@ namespace Easy.Mvc.Controllers
         public virtual JsonResult GetList(DataTableOption query)
         {
             var pagin = new Pagination { PageSize = query.Length, PageIndex = query.Start / query.Length };
-            var entities = Service.Get(query.AsExpression<TEntity>(), pagin);
+            var expression = query.AsExpression<TEntity>();
+            pagin.RecordCount = Service.Count(expression);
+            var entities = Service.Get(expression);
             var order = query.GetOrderBy<TEntity>();
             if (order != null)
             {
@@ -117,7 +119,7 @@ namespace Easy.Mvc.Controllers
                     entities = entities.OrderBy(order);
                 }
             }
-            return Json(new TableData(entities, pagin.RecordCount, query.Draw));
+            return Json(new TableData(entities.Skip(pagin.PageIndex * pagin.PageSize).Take(pagin.PageSize), pagin.RecordCount, query.Draw));
         }
         protected override void Dispose(bool disposing)
         {

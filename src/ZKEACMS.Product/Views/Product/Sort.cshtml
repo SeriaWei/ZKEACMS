@@ -1,0 +1,46 @@
+﻿@using ZKEACMS.Product.Models
+@model IEnumerable<ProductEntity>
+@{
+    Script.Reqiured("jQueryUi").AtFoot();
+}
+<ul class="fullRowList">
+    @foreach (var item in Model.OrderBy(m => m.OrderIndex))
+    {
+        <li data-id="@item.ID">
+            @item.Title
+        </li>
+    }
+</ul>
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+
+        $(function () {
+            $(".fullRowList").sortable({
+                tolerance: "pointer",
+                placeholder: "sorting",
+                update: function (event, ui) {                    
+                    var target = ui.item.parent();
+                    var products = [];
+                    target.children().each(function (i, ui) {
+                        products.push({
+                            ID: $(ui).data("id"),
+                            OrderIndex: i + 1
+                        });
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Sort")',
+                        dataType: 'json',
+                        contentType: "application/json;charset=utf-8",
+                        async: true,
+                        data: JSON.stringify(products),
+                        success: function () {
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
+}
