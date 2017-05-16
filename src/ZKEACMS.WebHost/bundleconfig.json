@@ -124,5 +124,11 @@
     "inputFiles": [
       "wwwroot/js/tinymce/tinymce.config.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/tinymce/plugins/bootstrap/plugin.min.js",
+    "inputFiles": [
+      "wwwroot/js/tinymce/plugins/bootstrap/plugin.js"
+    ]
   }
 ]
