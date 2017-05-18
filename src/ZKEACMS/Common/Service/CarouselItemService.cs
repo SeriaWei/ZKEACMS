@@ -30,11 +30,11 @@ namespace ZKEACMS.Common.Service
                 base.Add(item);
             }
         }
-        public override void Update(CarouselItemEntity item)
+        public override void Update(CarouselItemEntity item, bool saveImmediately = true)
         {
             if (item.ActionType == ActionType.Update)
             {
-                base.Update(item);
+                base.Update(item, saveImmediately);
             }
             else if (item.ActionType == ActionType.Create)
             {
@@ -42,7 +42,7 @@ namespace ZKEACMS.Common.Service
             }
             else if (item.ActionType == ActionType.Delete)
             {
-                Remove(item);
+                Remove(item, saveImmediately);
             }
         }
 

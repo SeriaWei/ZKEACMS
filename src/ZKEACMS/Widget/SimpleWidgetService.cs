@@ -37,10 +37,10 @@ namespace ZKEACMS.Widget
             }
             WidgetBasePartService.AddRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
         }
-        public override void Update(T item)
+        public override void Update(T item, bool saveImmediately = true)
         {
             item.ExtendData = JsonConvert.SerializeObject(item);
-            WidgetBasePartService.Update(item.ToWidgetBasePart());
+            WidgetBasePartService.Update(item.ToWidgetBasePart(), saveImmediately);
         }
         public override void UpdateRange(params T[] items)
         {
@@ -83,7 +83,7 @@ namespace ZKEACMS.Widget
         {
             WidgetBasePartService.Remove(Expression.Lambda<Func<WidgetBasePart, bool>>(filter.Body, filter.Parameters));
         }
-        public override void Remove(T item)
+        public override void Remove(T item, bool saveImmediately = true)
         {
             WidgetBasePartService.Remove(item.ID);
         }

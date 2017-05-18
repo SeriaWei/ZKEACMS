@@ -90,7 +90,7 @@ namespace ZKEACMS.Layout
                 });
                 zones.Each(m =>
                 {
-                   var changeZone= item.Zones.FirstOrDefault(z => z.ID == m.ID);
+                    var changeZone = item.Zones.FirstOrDefault(z => z.ID == m.ID);
                     if (changeZone != null)
                     {
                         m.LayoutId = item.ID;
@@ -111,10 +111,10 @@ namespace ZKEACMS.Layout
             }
 
         }
-        public override void Update(LayoutEntity item)
+        public override void Update(LayoutEntity item, bool saveImmediately = true)
         {
             MarkChanged(item.ID);
-            base.Update(item);
+            base.Update(item, saveImmediately);
         }
         public override void UpdateRange(params LayoutEntity[] items)
         {
@@ -140,7 +140,7 @@ namespace ZKEACMS.Layout
             //});
             //return layout;
         }
-        public override void Remove(LayoutEntity item)
+        public override void Remove(LayoutEntity item, bool saveImmediately = true)
         {
             LayoutHtmlService.Remove(m => m.LayoutId == item.ID);
             ZoneService.Remove(m => m.LayoutId == item.ID);
@@ -156,9 +156,9 @@ namespace ZKEACMS.Layout
             });
 
             MarkChanged(item.ID);
-            base.Remove(item);
+            base.Remove(item, saveImmediately);
         }
-        
+
         public override void Remove(Expression<Func<LayoutEntity, bool>> filter)
         {
             Get(filter).Each(layout =>

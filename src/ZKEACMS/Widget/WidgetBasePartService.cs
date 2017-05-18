@@ -90,10 +90,10 @@ namespace ZKEACMS.Widget
             base.Add(item);
             TriggerChange(item);
         }
-        public override void Update(WidgetBasePart item)
+        public override void Update(WidgetBasePart item, bool saveImmediately = true)
         {
             TriggerChange(item);
-            base.Update(item);
+            base.Update(item, saveImmediately);
         }
         public override void UpdateRange(params WidgetBasePart[] items)
         {
@@ -104,10 +104,10 @@ namespace ZKEACMS.Widget
         {
             base.Remove(filter);
         }
-        public override void Remove(WidgetBasePart item)
+        public override void Remove(WidgetBasePart item, bool saveImmediately = true)
         {
             TriggerChange(item);
-            base.Remove(item);
+            base.Remove(item, saveImmediately);
         }
         public override void RemoveRange(params WidgetBasePart[] items)
         {
