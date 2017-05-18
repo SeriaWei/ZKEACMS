@@ -6,8 +6,9 @@
 
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql;
+
 using Easy.Extend;
-using MySQL.Data.EntityFrameworkCore.Extensions;
 using System;
 
 namespace ZKEACMS.WebHost
@@ -28,7 +29,7 @@ namespace ZKEACMS.WebHost
             }
             else if ((connectionString = connections["MySql"]).IsNotNullAndWhiteSpace())
             {
-                optionsBuilder.UseMySQL(connectionString);
+                optionsBuilder.UseMySql(connectionString);
             }
 
         }
