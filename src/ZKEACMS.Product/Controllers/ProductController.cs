@@ -18,9 +18,11 @@ namespace ZKEACMS.Product.Controllers
     [DefaultAuthorize, ViewDataProductCategory]
     public class ProductController : BasicController<ProductEntity, int, IProductService>
     {
-        public ProductController(IProductService service)
+        private readonly IProductCategoryService _productCategoryService;
+        public ProductController(IProductService service, IProductCategoryService productCategoryService)
             : base(service)
         {
+            _productCategoryService = productCategoryService;
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewProduct)]
         public override ActionResult Index()
@@ -74,7 +76,7 @@ namespace ZKEACMS.Product.Controllers
         [DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
         public IActionResult Sort()
         {
-            return View(Service.GetAll());
+            return View();
         }
         [HttpPost]
         public JsonResult Sort([FromBody] IEnumerable<ProductEntity> products)
@@ -92,6 +94,13 @@ namespace ZKEACMS.Product.Controllers
                 });
             }
             return Json(new AjaxResult { Status = AjaxStatus.Normal });
+        }
+        public JsonResult GetProducts(int ProductCategoryID)
+        {
+            var ids = _productCategoryService.Get(m => m.ParentID == ProductCategoryID || m.ID == ProductCategoryID).Select(m => m.ID);
+            return Json(Service.Get(m => ids.Any(id => id == m.ProductCategoryID))
+                .OrderBy(m => m.OrderIndex)
+                .ThenByDescending(m => m.ID).Select(m => new { m.ID, m.Title }));
         }
     }
 }
