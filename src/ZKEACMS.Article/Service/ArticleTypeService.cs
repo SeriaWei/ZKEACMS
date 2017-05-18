@@ -36,7 +36,7 @@ namespace ZKEACMS.Article.Service
         {
             return Get(m => m.ParentID == id);
         }
-        public override void Remove(ArticleType item)
+        public override void Remove(ArticleType item, bool saveImmediately = true)
         {
             if (item != null)
             {
@@ -47,7 +47,7 @@ namespace ZKEACMS.Article.Service
                 });
                 _articleService.Remove(n => n.ArticleTypeID == item.ID);
             }
-            base.Remove(item);
+            base.Remove(item, saveImmediately);
         }
 
     }

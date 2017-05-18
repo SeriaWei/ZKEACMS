@@ -49,7 +49,7 @@ namespace ZKEACMS.SectionWidget.Service
                 foreach (XmlNode item in nodes)
                 {
                     var attr = item.Attributes["type"];
-                    
+
                     if (attr != null && attr.Value.IsNotNullAndWhiteSpace())
                     {
                         var typeInfoArray = attr.Value.Split('.');
@@ -102,7 +102,7 @@ namespace ZKEACMS.SectionWidget.Service
                 }
             }
         }
-        public override void Remove(SectionGroup item)
+        public override void Remove(SectionGroup item, bool saveImmediately = true)
         {
             if (item != null)
             {
@@ -112,7 +112,7 @@ namespace ZKEACMS.SectionWidget.Service
                     _sectionContentProviderService.Remove(m.ID);
                 });
             }
-            base.Remove(item);
+            base.Remove(item, saveImmediately);
         }
     }
 }

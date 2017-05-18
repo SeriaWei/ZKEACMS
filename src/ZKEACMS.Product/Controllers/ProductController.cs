@@ -89,9 +89,10 @@ namespace ZKEACMS.Product.Controllers
                     if (product != null)
                     {
                         product.OrderIndex = m.OrderIndex;
-                        Service.Update(product);
+                        Service.Update(product, false);
                     }
                 });
+                Service.SaveChanges();
             }
             return Json(new AjaxResult { Status = AjaxStatus.Normal });
         }

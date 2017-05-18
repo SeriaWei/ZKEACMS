@@ -20,11 +20,12 @@ namespace Easy.RepositoryPattern
         IEnumerable<T> Get(Expression<Func<T, bool>> filter, Pagination pagination);
         T Get(params object[] primaryKey);
         int Count(Expression<Func<T, bool>> filter);
-        void Update(T item);
+        void Update(T item, bool saveImmediately = true);
         void UpdateRange(params T[] items);
         void Remove(params object[] primaryKey);
-        void Remove(T item);
+        void Remove(T item, bool saveImmediately = true);
         void Remove(Expression<Func<T, bool>> filter);
         void RemoveRange(params T[] items);
+        void SaveChanges();
     }
 }

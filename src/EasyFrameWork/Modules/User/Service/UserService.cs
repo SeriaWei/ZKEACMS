@@ -42,13 +42,13 @@ namespace Easy.Modules.User.Service
             base.Add(item);
         }
 
-        public override void Update(UserEntity item)
+        public override void Update(UserEntity item, bool saveImmediately = true)
         {
             if (item.PassWordNew.IsNotNullAndWhiteSpace())
             {
                 item.PassWord = ProtectPassWord(item.PassWordNew);
             }
-            base.Update(item);
+            base.Update(item, saveImmediately);
         }
 
         public UserEntity Login(string userID, string passWord, string ip)

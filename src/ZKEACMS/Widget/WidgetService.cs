@@ -40,14 +40,14 @@ namespace ZKEACMS.Widget
             {
                 WidgetBasePartService.Remove(item.ID);
                 throw ex;
-            }            
+            }
         }
 
-        public override void Update(T item)
+        public override void Update(T item, bool saveImmediately = true)
         {
             WidgetBasePartService.Update(item.ToWidgetBasePart());
 
-            base.Update(item);  
+            base.Update(item, saveImmediately);
         }
         public override void UpdateRange(params T[] items)
         {
@@ -102,11 +102,11 @@ namespace ZKEACMS.Widget
             WidgetBasePartService.Remove(Expression.Lambda<Func<WidgetBase, bool>>(filter.Body, filter.Parameters));
 
         }
-        
-        public override void Remove(T item)
+
+        public override void Remove(T item, bool saveImmediately = true)
         {
 
-            base.Remove(item);
+            base.Remove(item, saveImmediately);
 
             WidgetBasePartService.Remove(WidgetBasePartService.Get(item.ID));
 
