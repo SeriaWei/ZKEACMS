@@ -147,7 +147,7 @@ namespace ZKEACMS.Page
         public override void Remove(PageEntity item, bool saveImmediately = true)
         {
             Remove(m => m.ParentId == item.ID);
-            var widgets = _widgetService.Get(m => m.PageID == item.ID);
+            var widgets = _widgetService.Get(m => m.PageID == item.ID).ToList();
             widgets.Each(m =>
             {
                 using (var widgetService = _widgetActivator.Create(m))
