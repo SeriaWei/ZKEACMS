@@ -147,7 +147,7 @@ namespace ZKEACMS.Page
         public override void Remove(PageEntity item, bool saveImmediately = true)
         {
             Remove(m => m.ParentId == item.ID);
-            var widgets = _widgetService.Get(m => m.PageID == item.ID);
+            var widgets = _widgetService.GetByPageId(item.ID);
             widgets.Each(m =>
             {
                 using (var widgetService = _widgetActivator.Create(m))
@@ -171,7 +171,7 @@ namespace ZKEACMS.Page
                 Remove(m => deletes.Any(d => d == m.ParentId));
                 Remove(m => deletes.Any(d => d == m.ReferencePageID));
 
-                var widgets = _widgetService.Get(m => deletes.Any(n => n == m.PageID));
+                var widgets = _widgetService.Get(m => deletes.Any(n => n == m.PageID)).ToList();
                 widgets.Each(m =>
                 {
                     using (var widgetService = _widgetActivator.Create(m))
@@ -196,7 +196,7 @@ namespace ZKEACMS.Page
             PageEntity page = Get(ID);
             if (page != null)
             {
-                var widgets = _widgetService.Get(m => m.PageID == page.ID);
+                var widgets = _widgetService.GetByPageId(page.ID);
                 widgets.Each(m => _widgetActivator.Create(m).DeleteWidget(m.ID));
                 _widgetService.RemoveCache(ID);
             }
