@@ -5,6 +5,7 @@ using Easy.Modules.User.Service;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Easy.Extend;
 
 namespace Easy.Mvc
 {
@@ -26,7 +27,7 @@ namespace Easy.Mvc
                     return _currentUser;
                 }
                 var httpContext = HttpContextAccessor.HttpContext;
-                if (httpContext != null && httpContext.User.Identity.IsAuthenticated)
+                if (httpContext != null && httpContext.User.Identity.IsAuthenticated && httpContext.User.Identity.Name.IsNotNullAndWhiteSpace())
                 {
                     using (var userService = httpContext.RequestServices.GetService<IUserService>())
                     {
