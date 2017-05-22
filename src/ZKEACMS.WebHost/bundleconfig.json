@@ -124,5 +124,29 @@
     "inputFiles": [
       "wwwroot/js/tinymce/tinymce.config.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/tinymce/plugins/bootstrap/plugin.min.js",
+    "inputFiles": [
+      "wwwroot/js/tinymce/plugins/bootstrap/plugin.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/PageDesign.min.js",
+    "inputFiles": [
+      "wwwroot/js/PageDesign.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/Owl.Carousel.min.js",
+    "inputFiles": [
+      "wwwroot/js/Owl.Carousel.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/LayoutDesign.min.js",
+    "inputFiles": [
+      "wwwroot/js/LayoutDesign.js"
+    ]
   }
 ]

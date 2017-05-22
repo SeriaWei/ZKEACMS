@@ -96,6 +96,7 @@ namespace Easy.RepositoryPattern
         }
         public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter)
         {
+            if (filter == null) return GetAll();
             return CurrentDbSet.Where(filter);
         }
         public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter, Pagination pagination)
@@ -122,7 +123,7 @@ namespace Easy.RepositoryPattern
             }
             return CurrentDbSet.Count();
         }
-        public virtual void Update(T item)
+        public virtual void Update(T item, bool saveImmediately = true)
         {
             var editor = item as EditorEntity;
             if (editor != null && ApplicationContext.CurrentUser != null)
@@ -132,7 +133,10 @@ namespace Easy.RepositoryPattern
                 editor.LastUpdateDate = DateTime.Now;
             }
             CurrentDbSet.Update(item);
-            DbContext.SaveChanges();
+            if (saveImmediately)
+            {
+                DbContext.SaveChanges();
+            }
         }
         public virtual void UpdateRange(params T[] items)
         {
@@ -157,10 +161,14 @@ namespace Easy.RepositoryPattern
                 Remove(item);
             }
         }
-        public virtual void Remove(T item)
+        public virtual void Remove(T item, bool saveImmediately = true)
         {
             CurrentDbSet.Remove(item);
-            DbContext.SaveChanges();
+            if (saveImmediately)
+            {
+                DbContext.SaveChanges();
+            }
+            
         }
         public virtual void Remove(Expression<Func<T, bool>> filter)
         {
@@ -176,6 +184,11 @@ namespace Easy.RepositoryPattern
         public virtual void Dispose()
         {
             //DbContext.Dispose();
+        }
+
+        public void SaveChanges()
+        {
+            DbContext.SaveChanges();
         }
     }
 }

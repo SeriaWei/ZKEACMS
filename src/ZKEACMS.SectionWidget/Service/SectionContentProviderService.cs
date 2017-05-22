@@ -58,10 +58,10 @@ namespace ZKEACMS.SectionWidget.Service
             return null;
         }
 
-        public override void Remove(SectionContentBasePart item)
+        public override void Remove(SectionContentBasePart item, bool saveImmediately = true)
         {
             _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).DeleteContent(item.ID);
-            base.Remove(item);
+            base.Remove(item, saveImmediately);
         }
 
 

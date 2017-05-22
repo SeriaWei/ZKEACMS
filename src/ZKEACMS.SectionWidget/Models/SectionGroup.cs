@@ -41,7 +41,7 @@ namespace ZKEACMS.SectionWidget.Models
         {
             if (SectionContents != null)
             {
-                return SectionContents.Where(m => m != null && m.SectionContentType == (int)type).Cast<T>();
+                return SectionContents.Where(m => m != null && m.SectionContentType == (int)type).OrderBy(m => m.Order).Cast<T>();
             }
             return null;
         }

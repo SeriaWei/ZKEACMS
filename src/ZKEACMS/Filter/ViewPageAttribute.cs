@@ -17,7 +17,8 @@ namespace ZKEACMS.Filter
             string pageId = filterContext.RouteData.Values["id"].ToString();
             using (var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>())
             {
-                return pageService.Get(pageId);
+                var page = pageService.Get(pageId);
+                return page;
             }
         }
 

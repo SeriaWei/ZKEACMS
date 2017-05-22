@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Common.Service
 {
-    public class NavigationService : ServiceBase<NavigationEntity,CMSDbContext>, INavigationService
+    public class NavigationService : ServiceBase<NavigationEntity, CMSDbContext>, INavigationService
     {
         public NavigationService(IApplicationContext applicationContext) : base(applicationContext)
         {
@@ -34,12 +34,12 @@ namespace ZKEACMS.Common.Service
             item.ID = Guid.NewGuid().ToString("N");
             base.Add(item);
         }
-        public override void Remove(NavigationEntity item)
+        public override void Remove(NavigationEntity item, bool saveImmediately = true)
         {
             Remove(m => m.ParentId == item.ID);
-            base.Remove(item);
+            base.Remove(item, saveImmediately);
         }
-        
+
         public override void RemoveRange(params NavigationEntity[] items)
         {
             items.Each(m =>

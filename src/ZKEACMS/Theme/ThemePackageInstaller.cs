@@ -25,6 +25,10 @@ namespace ZKEACMS.Theme
                 return "ThemePackageInstaller";
             }
         }
+        private string ResetPath(string path)
+        {
+            return path.Replace("~/Themes", ThemePath);
+        }
         public override object Install(Package package)
         {
             var filePackage = package as FilePackage;
@@ -32,7 +36,7 @@ namespace ZKEACMS.Theme
             {
                 filePackage.Files.ForEach(file =>
                 {
-                    file.FilePath = file.FilePath.Replace("~/Themes", ThemePath);
+                    file.FilePath = ResetPath(file.FilePath);
                 });
             }
             base.Install(package);
@@ -40,6 +44,9 @@ namespace ZKEACMS.Theme
             if (themePackage != null)
             {
                 var newTheme = themePackage.Theme;
+                newTheme.Url = ResetPath(newTheme.Url);
+                newTheme.UrlDebugger = ResetPath(newTheme.UrlDebugger);
+                newTheme.Thumbnail = ResetPath(newTheme.Thumbnail);
                 newTheme.IsActived = false;
                 if (_themeService.Count(m => m.ID == newTheme.ID) == 0)
                 {

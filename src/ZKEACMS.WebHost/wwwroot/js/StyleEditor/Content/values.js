@@ -44,17 +44,23 @@ $(function () {
         attrs = "";
     }
     attrs = attrs.replace(": ", ":");
-    var attrRexs = [{ reg: /^width:(\d+)px/g, setValue: function setValue(v) {
+    var attrRexs = [{
+        reg: /^width:(\d+)px/g, setValue: function setValue(v) {
             $("#width").val(v);
-        } }, {
+        }
+    }, {
         reg: /^height:(\d+)px/g, setValue: function setValue(v) {
             $("#height").val(v);
         }
-    }, { reg: /^background-color:(.+)/g, setValue: function setValue(v) {
+    }, {
+        reg: /^background-color:(.+)/g, setValue: function setValue(v) {
             $("#b-color").val(v);
-        } }, { reg: /^color:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^color:(.+)/g, setValue: function setValue(v) {
             $("#t-color").val(v);
-        } }, {
+        }
+    }, {
         reg: /^border:(.+)/g, setValue: function setValue(v) {
             v.replace(/(\d+)px ([a-z|A-Z]+) (#[a-z|A-Z|0-9]+)/g, function (a, s1, s2, s3) {
                 $("#border-width").html(s1);
@@ -78,61 +84,119 @@ $(function () {
                 $("#margin").text(parseInt(v));
             }
         }
-    }, { reg: /^font-family:(.+)/g, setValue: function setValue(v) {
+    }, {
+        reg: /^font-family:(.+)/g, setValue: function setValue(v) {
             $("#font-name").val(v);
-        } }, { reg: /^font-style:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^font-style:(.+)/g, setValue: function setValue(v) {
             $("#font-style").val(v);
-        } }, { reg: /^font-weight:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^font-weight:(.+)/g, setValue: function setValue(v) {
             $("#font-weight").val(v);
-        } }, { reg: /^font-size:(\d+)px/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^font-size:(\d+)px/g, setValue: function setValue(v) {
             $("#font-size").text(v);
-        } }, { reg: /^font-variant:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^font-variant:(.+)/g, setValue: function setValue(v) {
             $("#font-variant").val(v);
-        } }, { reg: /^line-height:(\d+)px/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^line-height:(\d+)px/g, setValue: function setValue(v) {
             $("#line-height").text(v);
-        } }, { reg: /^text-align:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^text-align:(.+)/g, setValue: function setValue(v) {
             $("#text-align").val(v);
-        } }, { reg: /^text-decoration:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^text-decoration:(.+)/g, setValue: function setValue(v) {
             $("#text-decoration").val(v);
-        } }, { reg: /^text-indent:(\d+)px/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^text-indent:(\d+)px/g, setValue: function setValue(v) {
             $("#text-indent").text(v);
-        } }, { reg: /^letter-spacing:(\d+)px/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^letter-spacing:(\d+)px/g, setValue: function setValue(v) {
             $("#letter-spacing").text(v);
-        } }, { reg: /^word-spacing:(\d+)px/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^word-spacing:(\d+)px/g, setValue: function setValue(v) {
             $("#word-spacing").text(v);
-        } }, { reg: /^text-transform:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^text-transform:(.+)/g, setValue: function setValue(v) {
             $("#text-transform").val(v);
-        } }, { reg: /^background-image:url\((.+)\)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^background-image:url\((.+)\)/g, setValue: function setValue(v) {
             $("#background-image").val(v);
-        } }, { reg: /^background-repeat:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^background-repeat:(.+)/g, setValue: function setValue(v) {
             $("#background-repeat").val(v);
-        } }, { reg: /^background-position:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^background-position:(.+)/g, setValue: function setValue(v) {
             $("#background-position").val(v);
-        } }, { reg: /^background-attachment:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^background-attachment:(.+)/g, setValue: function setValue(v) {
             $("#background-attachment").val(v);
-        } }, { reg: /^background:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^background-size:(.+)/g, setValue: function setValue(v) {
+            $("#background-size").val(v);
+        }
+    }, {
+        reg: /^background:(.+)/g, setValue: function setValue(v) {
             $("#background").val(v);
-        } }, { reg: /^position:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^position:(.+)/g, setValue: function setValue(v) {
             $("#position").val(v);
-        } }, { reg: /^top:(\d+)px/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^top:(\d+)px/g, setValue: function setValue(v) {
             $("#top").text(v);
-        } }, { reg: /^left:(\d+)px/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^left:(\d+)px/g, setValue: function setValue(v) {
             $("#left").text(v);
-        } }, { reg: /^right:(\d+)px/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^right:(\d+)px/g, setValue: function setValue(v) {
             $("#right").text(v);
-        } }, { reg: /^bottom:(\d+)px/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^bottom:(\d+)px/g, setValue: function setValue(v) {
             $("#bottom").text(v);
-        } }, { reg: /^cursor:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^cursor:(.+)/g, setValue: function setValue(v) {
             $("#cursor").val(v);
-        } }, { reg: /^visibility:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^visibility:(.+)/g, setValue: function setValue(v) {
             $("#visibility").val(v);
-        } }, { reg: /^overflow:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^overflow:(.+)/g, setValue: function setValue(v) {
             $("#overflow").val(v);
-        } }, { reg: /^float:(.+)/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^float:(.+)/g, setValue: function setValue(v) {
             $("#float").val(v);
-        } }, { reg: /^border-radius:(\d+)px/g, setValue: function setValue(v) {
+        }
+    }, {
+        reg: /^border-radius:(\d+)px/g, setValue: function setValue(v) {
             $("#border-radius").text(v);
-        } }, {
+        }
+    }, {
         reg: /^text-shadow:(.+)/g, setValue: function setValue(v) {
             v.replace(/(\d+)px (\d+)px (\d+)px (#[a-z|A-Z|0-9]+)/g, function (a, s1, s2, s3, s4) {
                 $("#text-h-length").html(s1);

@@ -28,9 +28,9 @@
         ],
         afterInit: progressBar,
         afterMove: moved,
-        startDragging: pauseOnDragging,
+        startDragging: pauseOnDragging
         //autoHeight : true,
-        transitionStyle: "fadeUp"
+        //transitionStyle: "fadeUp"
     });
 
     //Init progressBar where elem is $("#owl-demo")

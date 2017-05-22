@@ -26,6 +26,7 @@ namespace ZKEACMS.Product.Service
         {
             var product = Get(ID);
             product.IsPublish = true;
+            product.PublishDate = DateTime.Now;
             Update(product);
         }
     }

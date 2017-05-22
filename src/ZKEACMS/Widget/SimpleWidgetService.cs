@@ -1,5 +1,4 @@
-﻿using Easy.Cache;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,11 +37,10 @@ namespace ZKEACMS.Widget
             }
             WidgetBasePartService.AddRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
         }
-        public override void Update(T item)
+        public override void Update(T item, bool saveImmediately = true)
         {
             item.ExtendData = JsonConvert.SerializeObject(item);
-            WidgetBasePartService.Update(item.ToWidgetBasePart());
-            Signal.Trigger(CacheTrigger.WidgetChanged);
+            WidgetBasePartService.Update(item.ToWidgetBasePart(), saveImmediately);
         }
         public override void UpdateRange(params T[] items)
         {
@@ -51,7 +49,6 @@ namespace ZKEACMS.Widget
                 item.ExtendData = JsonConvert.SerializeObject(item);
             }
             WidgetBasePartService.UpdateRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
-            Signal.Trigger(CacheTrigger.WidgetChanged);
         }
         public override IEnumerable<T> Get(Expression<Func<T, bool>> filter)
         {
@@ -85,17 +82,14 @@ namespace ZKEACMS.Widget
         public override void Remove(Expression<Func<T, bool>> filter)
         {
             WidgetBasePartService.Remove(Expression.Lambda<Func<WidgetBasePart, bool>>(filter.Body, filter.Parameters));
-            Signal.Trigger(CacheTrigger.WidgetChanged);
         }
-        public override void Remove(T item)
+        public override void Remove(T item, bool saveImmediately = true)
         {
             WidgetBasePartService.Remove(item.ID);
-            Signal.Trigger(CacheTrigger.WidgetChanged);
         }
         public override void RemoveRange(params T[] items)
         {
             WidgetBasePartService.RemoveRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
-            Signal.Trigger(CacheTrigger.WidgetChanged);
         }
 
         public override WidgetBase GetWidget(WidgetBase widget)

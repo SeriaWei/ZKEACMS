@@ -1,6 +1,5 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy;
-using Easy.Cache;
 using Easy.Extend;
 using Easy.RepositoryPattern;
 using Easy.Zip;
@@ -42,20 +41,13 @@ namespace ZKEACMS.Widget
                 WidgetBasePartService.Remove(item.ID);
                 throw ex;
             }
-
-            Signal.Trigger(CacheTrigger.WidgetChanged);
         }
 
-        public override void Update(T item)
+        public override void Update(T item, bool saveImmediately = true)
         {
-
             WidgetBasePartService.Update(item.ToWidgetBasePart());
 
-            base.Update(item);
-
-
-            Signal.Trigger(CacheTrigger.WidgetChanged);
-
+            base.Update(item, saveImmediately);
         }
         public override void UpdateRange(params T[] items)
         {
@@ -63,7 +55,6 @@ namespace ZKEACMS.Widget
             WidgetBasePartService.UpdateRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
 
             base.UpdateRange(items);
-            Signal.Trigger(CacheTrigger.WidgetChanged);
         }
         public override T GetSingle(Expression<Func<T, bool>> filter)
         {
@@ -111,11 +102,11 @@ namespace ZKEACMS.Widget
             WidgetBasePartService.Remove(Expression.Lambda<Func<WidgetBase, bool>>(filter.Body, filter.Parameters));
 
         }
-        
-        public override void Remove(T item)
+
+        public override void Remove(T item, bool saveImmediately = true)
         {
 
-            base.Remove(item);
+            base.Remove(item, saveImmediately);
 
             WidgetBasePartService.Remove(WidgetBasePartService.Get(item.ID));
 
@@ -170,6 +161,8 @@ namespace ZKEACMS.Widget
 
         public virtual void Publish(WidgetBase widget)
         {
+            widget.IsTemplate = false;
+            widget.IsSystem = false;
             AddWidget(widget);
         }
 

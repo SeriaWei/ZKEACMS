@@ -1,17 +1,23 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
-using Easy.Cache;
+
 using Easy.ViewPort.Descriptor;
 using Easy.Extend;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CacheManager.Core;
 
 namespace Easy.MetaData
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class ViewConfigureAttribute : Attribute
     {
+        static ICacheManager<ViewConfigureAttribute> AttributeCache;
+        static ViewConfigureAttribute()
+        {
+            AttributeCache = CacheFactory.Build<ViewConfigureAttribute>(setting => { setting.WithDictionaryHandle("ViewConfigureAttribute"); });
+        }
         public IViewMetaData MetaData
         {
             get;
@@ -57,19 +63,22 @@ namespace Easy.MetaData
         public static ViewConfigureAttribute GetAttribute<T>()
         {
             Type targetType = typeof(T);
-            StaticCache cache = new StaticCache();
-            string typeName = targetType.FullName;
-            var attribute = cache.Get("DataConfigureAttribute_" + typeName, m => targetType.GetTypeInfo().GetCustomAttribute(typeof(ViewConfigureAttribute)) as ViewConfigureAttribute);
-            return attribute;
+            ViewConfigureAttribute result;
+            if (AttributeCache.TryGetOrAdd(targetType.FullName, key => targetType.GetTypeInfo().GetCustomAttribute(typeof(ViewConfigureAttribute)) as ViewConfigureAttribute, out result))
+            {
+                return result;
+            }
+            return null;
         }
         public static ViewConfigureAttribute GetAttribute(Type type)
         {
             if (type == null) return null;
-            StaticCache cache = new StaticCache();
-            string typeName = type.FullName;
-            var attribute = cache.Get("DataConfigureAttribute_" + typeName, m => type.GetTypeInfo().GetCustomAttribute(typeof(ViewConfigureAttribute)) as ViewConfigureAttribute);
-            return attribute;
-
+            ViewConfigureAttribute result;
+            if (AttributeCache.TryGetOrAdd(type.FullName, key => type.GetTypeInfo().GetCustomAttribute(typeof(ViewConfigureAttribute)) as ViewConfigureAttribute, out result))
+            {
+                return result;
+            }
+            return null;
         }
     }
 }

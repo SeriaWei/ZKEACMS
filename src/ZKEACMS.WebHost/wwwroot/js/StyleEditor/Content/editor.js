@@ -45,6 +45,7 @@
     var backgroundRepeat = document.getElementById("background-repeat").value;
     var backgroundPosition = document.getElementById("background-position").value;
     var backgroundAttachment = document.getElementById("background-attachment").value;
+    var backgroundSize = document.getElementById("background-size").value;
     var background = document.getElementById("background").value;
 
     //Position Style//
@@ -140,6 +141,9 @@
     }
     if (backgroundAttachment) {
         this.css.push('background-attachment:' + backgroundAttachment);
+    }
+    if (backgroundSize) {
+        this.css.push('background-size:' + backgroundSize);
     }
     if (background) {
         this.css.push('background:' + background);

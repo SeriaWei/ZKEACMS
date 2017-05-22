@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Media
 {
-    public class MediaService : ServiceBase<MediaEntity,CMSDbContext>, IMediaService
+    public class MediaService : ServiceBase<MediaEntity, CMSDbContext>, IMediaService
     {
         public MediaService(IApplicationContext applicationContext) : base(applicationContext)
         {
@@ -77,12 +77,12 @@ namespace ZKEACMS.Media
             }
             base.Add(item);
         }
-        public override void Remove(MediaEntity item)
+        public override void Remove(MediaEntity item, bool saveImmediately = true)
         {
             Remove(m => m.ParentID == item.ID);
-            base.Remove(item);
+            base.Remove(item, saveImmediately);
         }
-        
+
         public override void Remove(Expression<Func<MediaEntity, bool>> filter)
         {
             Get(filter).Each(m =>

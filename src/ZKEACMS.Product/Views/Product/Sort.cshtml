@@ -1,0 +1,78 @@
+﻿@using ZKEACMS.Product.Models
+@using Easy.ViewPort.jsTree
+@{
+    Script.Reqiured("jQueryUi").AtFoot();
+    Script.Reqiured("jsTree").AtFoot();
+    Style.Reqiured("jsTree").AtHead();
+    var categoryTree = Html.Tree<ProductCategory>().Source("GetProductCategoryTree", "ProductCategory")
+        .On(Events.ActiveNode, "ActiveNode");
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    产品类别
+                </div>
+                <div class="panel-body">
+                    @categoryTree
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    产品
+                </div>
+                <div>
+                    <ul id="products" class="fullRowList">
+                        <li class="text-muted">选择类别，进行手动排序</li>
+                    </ul>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        function ActiveNode(node, selected) {
+            var products = $("#products");
+            products.empty();
+            $.post("@Url.Action("GetProducts")", { ProductCategoryID: selected.node.id }, function (data) {
+                $.each(data, function () {
+                    products.append($('<li></li>').data("id",this.id).text(this.title));
+                });
+
+                products.sortable({
+                tolerance: "pointer",
+                placeholder: "sorting",
+                update: function (event, ui) {
+                    var target = ui.item.parent();
+                    var products = [];
+                    target.children().each(function (i, ui) {
+                        products.push({
+                            ID: $(ui).data("id"),
+                            OrderIndex: i + 1
+                        });
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Sort")',
+                        dataType: 'json',
+                        contentType: "application/json;charset=utf-8",
+                        async: true,
+                        data: JSON.stringify(products),
+                        success: function () {
+                        }
+                    });
+                }
+            });
+            }, "json");
+        }
+
+    </script>
+}

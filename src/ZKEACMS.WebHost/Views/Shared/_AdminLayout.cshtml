@@ -2,11 +2,15 @@
 @using Version = ZKEACMS.Version
 @inject IAdminMenuProvider adminMenuProvider
 @{
+    if (ApplicationContext == null || ApplicationContext.CurrentUser == null)
+    {
+        return;
+    }
     Style.Reqiured("bootStrap").AtHead();
     Style.Reqiured("admin").AtHead();
     Script.Reqiured("admin").AtFoot();
     List<AdminMenu> menus = adminMenuProvider.GetAdminMenus().ToList();
-    
+
 }
 <!DOCTYPE html>
 <html lang="zh">
@@ -50,7 +54,7 @@
                             <a href="http://www.zkea.net/zkeacms/extend" target="_blank">扩展插件</a>
                         </li>
                         <li>
-                            <a href="http://www.zkea.net/freewebsite/build" target="_blank">云建站</a>
+                            <a href="http://www.zkea.net/zkeacms/document" target="_blank">文档</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -75,7 +79,7 @@
             <div class="">
                 <div class="navbar-header">
                     <div class="userInfo">
-                        <img src="@Url.PathContent(ApplicationContext.CurrentUser.PhotoUrl)" class="img-circle" />
+                        <img src="@Url.PathContent(ApplicationContext.CurrentUser.PhotoUrl ?? "~/images/head.png")" class="img-circle" />
                         <strong>@ApplicationContext.CurrentUser.UserName</strong>
                     </div>
                 </div>

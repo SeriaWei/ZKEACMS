@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Common.Service
 {
-    public class CarouselService : ServiceBase<CarouselEntity,CMSDbContext>, ICarouselService
+    public class CarouselService : ServiceBase<CarouselEntity, CMSDbContext>, ICarouselService
     {
         private readonly ICarouselItemService _carouselItemService;
 
@@ -72,9 +72,9 @@ namespace ZKEACMS.Common.Service
                     }
             }
         }
-        public override void Update(CarouselEntity item)
+        public override void Update(CarouselEntity item, bool saveImmediately = true)
         {
-            base.Update(item);
+            base.Update(item, saveImmediately);
             if (item.CarouselItems != null)
             {
                 item.CarouselItems.Each(m =>

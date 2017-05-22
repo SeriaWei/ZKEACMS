@@ -30,7 +30,7 @@ namespace ZKEACMS.Product.Service
         {
             return Get(m => m.ParentID == id);
         }
-        public override void Remove(ProductCategory item)
+        public override void Remove(ProductCategory item, bool saveImmediately = true)
         {
             if (item != null)
             {
@@ -41,7 +41,7 @@ namespace ZKEACMS.Product.Service
                 });
                 _productService.Remove(n => n.ProductCategoryID == item.ID);
             }
-            base.Remove(item);
+            base.Remove(item, saveImmediately);
         }
     }
 }
