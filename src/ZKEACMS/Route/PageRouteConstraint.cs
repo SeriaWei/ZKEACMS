@@ -1,5 +1,6 @@
 ﻿
 
+using Easy.Extend;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
@@ -12,7 +13,7 @@ namespace ZKEACMS
             var value = values[routeKey];
             if (routeKey == "path" && value != null)
             {
-                string path = value.ToString();
+                string path = "/" + value.ToString();
                 int postId = 0;
                 int categoryId = 0;
                 int page = 0;
@@ -41,6 +42,10 @@ namespace ZKEACMS
                         int.TryParse(evaluator.Groups[1].Value, out categoryId);
                         return "";
                     });
+                }
+                if (path.IsNullOrWhiteSpace())
+                {
+                    path = "/";
                 }
                 values[routeKey] = path;
                 if (postId > 0)

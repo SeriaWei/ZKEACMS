@@ -11,7 +11,7 @@ namespace ZKEACMS
         {
             if (roteData.Values.ContainsKey(StringKeys.RouteValue_Path) && roteData.Values[StringKeys.RouteValue_Path] != null)
             {
-                return "/" + roteData.Values[StringKeys.RouteValue_Path].ToString();
+                return roteData.Values[StringKeys.RouteValue_Path].ToString();
             }
             return "/";
         }
