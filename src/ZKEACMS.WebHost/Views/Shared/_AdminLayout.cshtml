@@ -2,10 +2,6 @@
 @using Version = ZKEACMS.Version
 @inject IAdminMenuProvider adminMenuProvider
 @{
-    if (ApplicationContext == null || ApplicationContext.CurrentUser == null)
-    {
-        return;
-    }
     Style.Reqiured("bootStrap").AtHead();
     Style.Reqiured("admin").AtHead();
     Script.Reqiured("admin").AtFoot();
@@ -79,8 +75,11 @@
             <div class="">
                 <div class="navbar-header">
                     <div class="userInfo">
-                        <img src="@Url.PathContent(ApplicationContext.CurrentUser.PhotoUrl ?? "~/images/head.png")" class="img-circle" />
-                        <strong>@ApplicationContext.CurrentUser.UserName</strong>
+                        @if (ApplicationContext != null && ApplicationContext.CurrentUser != null)
+                        {
+                            <img src="@Url.PathContent(ApplicationContext.CurrentUser.PhotoUrl ?? "~/images/head.png")" class="img-circle" />
+                            <strong>@ApplicationContext.CurrentUser.UserName</strong>
+                        }
                     </div>
                 </div>
                 <ul id="main-menu" class="nav navbar-nav">
@@ -133,6 +132,5 @@
     </div>
     @StyleAtFoot()
     @ScriptAtFoot()
-    <script type="text/javascript" async src="http://www.zkea.net/openstatistics"></script>
 </body>
 </html>

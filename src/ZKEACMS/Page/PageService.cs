@@ -263,10 +263,17 @@ namespace ZKEACMS.Page
         public void MarkChanged(string pageId)
         {
             var pageEntity = Get(pageId);
-            pageEntity.IsPublish = false;
-            pageEntity.LastUpdateDate = DateTime.Now;
-            pageEntity.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
-            base.Update(pageEntity);
+            if (pageEntity != null)
+            {
+                pageEntity.IsPublish = false;
+                pageEntity.LastUpdateDate = DateTime.Now;
+                if (ApplicationContext.CurrentUser != null)
+                {
+                    pageEntity.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
+                    pageEntity.LastUpdateByName = ApplicationContext.CurrentUser.UserName;
+                }
+                base.Update(pageEntity);
+            }
         }
     }
 }

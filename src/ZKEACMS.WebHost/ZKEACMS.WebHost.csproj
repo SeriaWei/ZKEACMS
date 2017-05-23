@@ -14,38 +14,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\themes\Cerulean\**" />
+    <Content Remove="wwwroot\themes\Cerulean\**" />
+    <EmbeddedResource Remove="wwwroot\themes\Cerulean\**" />
+    <None Remove="wwwroot\themes\Cerulean\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\images\Widget.Breadcrumb.png" />
-    <Content Include="wwwroot\Themes\Cerulean\css\Article.less" />
-    <Content Include="wwwroot\Themes\Cerulean\css\Base.less" />
-    <Content Include="wwwroot\Themes\Cerulean\css\Bootstrap.less" />
-    <Content Include="wwwroot\Themes\Cerulean\css\Carousel.less" />
-    <Content Include="wwwroot\Themes\Cerulean\css\Library.less" />
-    <Content Include="wwwroot\Themes\Cerulean\css\Navigation.less" />
-    <Content Include="wwwroot\Themes\Cerulean\css\Pagination.less" />
-    <Content Include="wwwroot\Themes\Cerulean\css\Product.less" />
-    <Content Include="wwwroot\Themes\Cerulean\css\Section.less" />
-    <Content Include="wwwroot\Themes\Cerulean\css\Theme.css" />
-    <Content Include="wwwroot\Themes\Cerulean\css\Theme.css.map" />
-    <Content Include="wwwroot\Themes\Cerulean\css\Theme.less" />
-    <Content Include="wwwroot\Themes\Cerulean\css\Theme.min.css" />
-    <Content Include="wwwroot\Themes\Cerulean\css\Widget.less" />
-    <Content Include="wwwroot\Themes\Cerulean\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="wwwroot\Themes\Cerulean\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="wwwroot\Themes\Cerulean\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="wwwroot\Themes\Cerulean\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="wwwroot\Themes\Cerulean\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="wwwroot\Themes\Cerulean\images\bg.gif" />
-    <Content Include="wwwroot\Themes\Cerulean\images\col_side_bg.png" />
-    <Content Include="wwwroot\Themes\Cerulean\images\header_bg.png" />
-    <Content Include="wwwroot\Themes\Cerulean\images\icon_point.png" />
-    <Content Include="wwwroot\Themes\Cerulean\images\icon_square.png" />
-    <Content Include="wwwroot\Themes\Cerulean\images\loader.gif" />
-    <Content Include="wwwroot\Themes\Cerulean\images\logo_z.png" />
-    <Content Include="wwwroot\Themes\Cerulean\images\more.png" />
-    <Content Include="wwwroot\Themes\Cerulean\images\prd_sort_title.gif" />
-    <Content Include="wwwroot\Themes\Cerulean\images\video-play.png" />
-    <Content Include="wwwroot\Themes\Cerulean\info.json" />
-    <Content Include="wwwroot\Themes\Cerulean\thumbnail.jpg" />
     <Content Include="wwwroot\Themes\Default\css\Article.less" />
     <Content Include="wwwroot\Themes\Default\css\Base.less" />
     <Content Include="wwwroot\Themes\Default\css\Bootstrap.less" />
