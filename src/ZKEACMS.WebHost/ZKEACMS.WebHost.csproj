@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\images\not-img-available.jpg" />
     <Content Include="wwwroot\images\Widget.Breadcrumb.png" />
     <Content Include="wwwroot\Themes\Default\css\Article.less" />
     <Content Include="wwwroot\Themes\Default\css\Base.less" />
