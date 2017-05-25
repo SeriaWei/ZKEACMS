@@ -26,7 +26,7 @@ namespace ZKEACMS.Product.Models
             ViewConfig(m => m.ProductCategoryID).AsDropDownList().Order(NextOrder()).DataSource(() =>
             {
                 return ServiceLocator.GetService<IProductCategoryService>().GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
-            }).Required();
+            }).Required().AddClass("select").AddProperty("data-url", "/admin/ArticleType/Select"); ;
             ViewConfig(m => m.TargetPage).AsHidden();
         }
     }
