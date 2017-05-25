@@ -13,6 +13,13 @@
 @echo https://docs.microsoft.com/zh-cn/dotnet/articles/core/rid-catalog
 @echo -----------------------------------------------------------------------------
 @pause
+for /f %%a in ('dir src /b') do (
+	@echo ------------------ Build %%a ------------------
+	cd src/%%a
+	dotnet build
+	cd ../../
+)
+@echo ------------------ Release ------------------
 cd src/ZKEACMS.WebHost
 dotnet publish -c Release -o ./bin/Release/PublishOutput
 cd ../../

@@ -13,11 +13,8 @@
                 }
             }
             <div class="@Model.Columns">
-                <div class="thumbnail">
-                    @if (item.ImageThumbUrl.IsNotNullAndWhiteSpace())
-                    {
-                        <img alt="@item.Title" title="@item.Title" src="@Url.Content(item.ImageThumbUrl)" />
-                    }
+                <div class="thumbnail">                    
+                    <img alt="@item.Title" title="@item.Title" src="@Url.ImageContent(item.ImageThumbUrl)" />                    
                     <div class="caption">
                         <h4>
                             @if (url.IsNotNullAndWhiteSpace())

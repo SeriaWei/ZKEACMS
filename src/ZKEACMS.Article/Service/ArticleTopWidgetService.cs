@@ -46,7 +46,7 @@ namespace ZKEACMS.Article.Service
                 Widget = currentWidget
             };
             var categoryIds = _articleTypeService.Get(m => m.ID == currentWidget.ArticleTypeID || m.ParentID == currentWidget.ArticleTypeID).Select(m => m.ID);
-            viewModel.Articles = _articleService.Get(m => m.IsPublish && categoryIds.Any(cate => cate == m.ArticleTypeID), page).OrderByDescending(m => m.ID);
+            viewModel.Articles = _articleService.Get(m => m.IsPublish && categoryIds.Any(cate => cate == m.ArticleTypeID), page).OrderByDescending(m => m.PublishDate);
             return widget.ToWidgetViewModelPart(viewModel);
         }
     }
