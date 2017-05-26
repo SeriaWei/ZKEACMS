@@ -16,6 +16,7 @@
 for /f %%a in ('dir src /b') do (
 	@echo ------------------ Build %%a ------------------
 	cd src/%%a
+	dotnet restore
 	dotnet build
 	cd ../../
 )
