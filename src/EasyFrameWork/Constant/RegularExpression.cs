@@ -31,7 +31,7 @@ namespace Easy.Constant
         /// <summary>
         /// 邮政编码
         /// </summary>
-        public const string ZipCode = @"[1-9]\d{5}(?!\d)";
+        public const string ZipCode = @"[0-9]\d{5}(?!\d)";
         /// <summary>
         /// 身份证
         /// </summary>
