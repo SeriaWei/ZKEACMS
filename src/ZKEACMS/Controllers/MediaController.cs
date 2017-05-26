@@ -94,7 +94,7 @@ namespace ZKEACMS.Controllers
             if (Request.Form.Files.Count > 0)
             {
                 parentId = parentId ?? "#";
-                string fileName = Request.Form.Files[0].FileName;
+                string fileName = Path.GetFileName(Request.Form.Files[0].FileName);
                 var entity = new MediaEntity
                 {
                     ParentID = parentId,
