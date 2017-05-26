@@ -18,9 +18,11 @@ namespace ZKEACMS.Article.Controllers
     [DefaultAuthorize, ViewDataArticleType]
     public class ArticleController : BasicController<ArticleEntity, int, IArticleService>
     {
-        public ArticleController(IArticleService service)
+        private readonly IAuthorizer _authorizer;
+        public ArticleController(IArticleService service, IAuthorizer authorizer)
             : base(service)
         {
+            _authorizer = authorizer;
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewArticle)]
         public override ActionResult Index()
@@ -51,7 +53,7 @@ namespace ZKEACMS.Article.Controllers
         public override ActionResult Edit(ArticleEntity entity)
         {
             var result = base.Edit(entity);
-            if (entity.ActionType == ActionType.Publish)
+            if (entity.ActionType == ActionType.Publish && _authorizer.Authorize(PermissionKeys.PublishArticle))
             {
                 Service.Publish(entity.ID);
                 if (Request.Query["ReturnUrl"].Count > 0)

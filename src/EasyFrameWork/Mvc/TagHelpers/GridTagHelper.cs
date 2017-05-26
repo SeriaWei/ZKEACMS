@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Easy.LINQ;
 using Easy.ViewPort.Descriptor;
+using Easy.Models;
 
 namespace Easy.Mvc.TagHelpers
 {
@@ -51,6 +52,10 @@ namespace Easy.Mvc.TagHelpers
             if (ModelType == null)
             {
                 ModelType = ViewContext.ViewData.ModelMetadata.ModelType;
+                if (OrderAsc.IsNullOrEmpty() && OrderDesc.IsNullOrEmpty() && typeof(EditorEntity).IsAssignableFrom(ModelType))
+                {
+                    OrderDesc = "LastUpdateDate";
+                }
             }
             var viewConfig = ViewConfigureAttribute.GetAttribute(ModelType);
             StringBuilder tableHeaderBuilder = new StringBuilder();

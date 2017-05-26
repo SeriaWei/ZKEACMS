@@ -19,10 +19,12 @@ namespace ZKEACMS.Product.Controllers
     public class ProductController : BasicController<ProductEntity, int, IProductService>
     {
         private readonly IProductCategoryService _productCategoryService;
-        public ProductController(IProductService service, IProductCategoryService productCategoryService)
+        private readonly IAuthorizer _authorizer;
+        public ProductController(IProductService service, IProductCategoryService productCategoryService, IAuthorizer authorizer)
             : base(service)
         {
             _productCategoryService = productCategoryService;
+            _authorizer = authorizer;
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewProduct)]
         public override ActionResult Index()
@@ -53,7 +55,7 @@ namespace ZKEACMS.Product.Controllers
         public override ActionResult Edit(ProductEntity entity)
         {
             var result = base.Edit(entity);
-            if (entity.ActionType == ActionType.Publish)
+            if (entity.ActionType == ActionType.Publish && _authorizer.Authorize(PermissionKeys.PublishProduct))
             {
                 Service.Publish(entity.ID);
                 if (Request.Query["ReturnUrl"].Count > 0)
