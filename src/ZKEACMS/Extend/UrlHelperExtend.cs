@@ -14,6 +14,15 @@ namespace ZKEACMS
             return helper.Content(path.IsNullOrEmpty() ? "~/" : path);
         }
 
+        public static string ImageContent(this IUrlHelper helper,string path)
+        {
+            if (path.IsNullOrEmpty())
+            {
+                return helper.PathContent("~/images/not-img-available.jpg");
+            }
+            return helper.Content(path);
+        }
+
         public static string ValidateCode(this IUrlHelper helper)
         {
             return helper.Action("Code", "Validation", new { module = "Validation" });

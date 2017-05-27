@@ -5,6 +5,7 @@ namespace ZKEACMS.Product
     {
         public const string ViewProduct = "Product_View";
         public const string ManageProduct = "Product_Manage";
+        public const string PublishProduct = "Product_Publish";
         public const string ViewProductCategory = "ProductCategory_View";
         public const string ManageProductCategory = "ProductCategory_Manage";
     }

@@ -47,7 +47,16 @@ namespace Easy.Mvc.Authorize
 
             _userPermissions = _userPermissions ?? new Dictionary<string, IEnumerable<Permission>>();
 
-            var roles = UserRoleRelationService.Get(m => m.UserID == user.UserID).ToList(m => m.RoleID);
+            List<int> roles;
+            if (user.Roles != null)
+            {
+                roles = user.Roles.ToList(m => m.RoleID);
+            }
+            else
+            {
+                roles = UserRoleRelationService.Get(m => m.UserID == user.UserID).ToList(m => m.RoleID);
+            }
+            
             List<Permission> permissions = new List<Permission>();
             RoleService.Get(m => roles.Any(r => r == m.ID) && m.Status == (int)RecordStatus.Active)
                 .Each(r =>

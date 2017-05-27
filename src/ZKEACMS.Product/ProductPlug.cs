@@ -67,6 +67,7 @@ namespace ZKEACMS.Product
         {
             yield return new PermissionDescriptor(PermissionKeys.ViewProduct, "产品", "查看产品", "");
             yield return new PermissionDescriptor(PermissionKeys.ManageProduct, "产品", "管理产品", "");
+            yield return new PermissionDescriptor(PermissionKeys.PublishProduct, "产品", "发布产品", "");
             yield return new PermissionDescriptor(PermissionKeys.ViewProductCategory, "产品", "查看产品类别", "");
             yield return new PermissionDescriptor(PermissionKeys.ManageProductCategory, "产品", "管理产品类别", "");
         }
