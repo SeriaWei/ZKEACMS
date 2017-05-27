@@ -103,23 +103,22 @@ namespace Easy.Mvc.Controllers
         [HttpPost]
         public virtual JsonResult GetList(DataTableOption query)
         {
-            var pagin = new Pagination { PageSize = query.Length, PageIndex = query.Start / query.Length };
+            var pagin = new Pagination<TEntity> { PageSize = query.Length, PageIndex = query.Start / query.Length };
             var expression = query.AsExpression<TEntity>();
-            pagin.RecordCount = Service.Count(expression);
-            var entities = Service.Get(expression);
             var order = query.GetOrderBy<TEntity>();
             if (order != null)
             {
                 if (query.IsOrderDescending())
                 {
-                    entities = entities.OrderByDescending(order);
+                    pagin.OrderByDescending = order;
                 }
                 else
                 {
-                    entities = entities.OrderBy(order);
+                    pagin.OrderBy = order;
                 }
             }
-            return Json(new TableData(entities.Skip(pagin.PageIndex * pagin.PageSize).Take(pagin.PageSize), pagin.RecordCount, query.Draw));
+            var entities = Service.Get(expression, pagin);
+            return Json(new TableData(entities, pagin.RecordCount, query.Draw));
         }
         protected override void Dispose(bool disposing)
         {
