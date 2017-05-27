@@ -40,7 +40,12 @@ namespace ZKEACMS.Article.Service
             var categoryEntity = _articleTypeService.Get(currentWidget.ArticleTypeID);
             int pageIndex = actionContext.RouteData.GetPage();
             int cate = actionContext.RouteData.GetCategory();
-            var page = new Pagination { PageIndex = pageIndex, PageSize = currentWidget.PageSize ?? 20 };
+            var page = new Pagination<ArticleEntity>
+            {
+                PageIndex = pageIndex,
+                PageSize = currentWidget.PageSize ?? 20,
+                OrderByDescending = m => m.PublishDate
+            };
             IEnumerable<ArticleEntity> articles;
 
             Expression<Func<ArticleEntity, bool>> filter = null;
@@ -50,7 +55,7 @@ namespace ZKEACMS.Article.Service
             }
             else
             {
-                var ids = _articleTypeService.Get(m =>m.ID==currentWidget.ArticleTypeID || m.ParentID == currentWidget.ArticleTypeID).Select(m => m.ID);
+                var ids = _articleTypeService.Get(m => m.ID == currentWidget.ArticleTypeID || m.ParentID == currentWidget.ArticleTypeID).Select(m => m.ID);
                 if (ids.Any())
                 {
                     filter = m => m.IsPublish && ids.Any(id => id == m.ArticleTypeID);
@@ -63,8 +68,7 @@ namespace ZKEACMS.Article.Service
             }
             if (currentWidget.IsPageable)
             {
-                page.RecordCount = _articleService.Count(filter);
-                articles = _articleService.Get(filter).OrderByDescending(m => m.PublishDate).Skip(page.PageIndex * page.PageSize).Take(page.PageSize); ;
+                articles = _articleService.Get(filter, page);
             }
             else
             {

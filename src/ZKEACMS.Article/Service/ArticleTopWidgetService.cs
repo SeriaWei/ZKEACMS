@@ -36,17 +36,12 @@ namespace ZKEACMS.Article.Service
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             var currentWidget = widget as ArticleTopWidget;
-            var page = new Pagination
-            {
-                PageIndex = 0,
-                PageSize = currentWidget.Tops ?? 20
-            };
             var viewModel = new ArticleTopWidgetViewModel
             {
                 Widget = currentWidget
             };
             var categoryIds = _articleTypeService.Get(m => m.ID == currentWidget.ArticleTypeID || m.ParentID == currentWidget.ArticleTypeID).Select(m => m.ID);
-            viewModel.Articles = _articleService.Get(m => m.IsPublish && categoryIds.Any(cate => cate == m.ArticleTypeID), page).OrderByDescending(m => m.PublishDate);
+            viewModel.Articles = _articleService.Get(m => m.IsPublish && categoryIds.Any(cate => cate == m.ArticleTypeID)).OrderByDescending(m => m.PublishDate).Take(currentWidget.Tops ?? 10);
             return widget.ToWidgetViewModelPart(viewModel);
         }
     }

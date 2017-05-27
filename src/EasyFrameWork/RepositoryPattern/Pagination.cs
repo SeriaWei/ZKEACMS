@@ -57,4 +57,9 @@ namespace Easy.RepositoryPattern
         /// </summary>
         public int RecordCount { get; set; }
     }
+    public class Pagination<T> : Pagination where T : class
+    {
+        public Func<T,object> OrderBy { get; set; }
+        public Func<T, object> OrderByDescending { get; set; }
+    }
 }

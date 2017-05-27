@@ -77,7 +77,7 @@
                     <div class="userInfo">
                         @if (ApplicationContext != null && ApplicationContext.CurrentUser != null)
                         {
-                            <img src="@Url.PathContent(ApplicationContext.CurrentUser.PhotoUrl ?? "~/images/head.png")" class="img-circle" />
+                            <img src="@Url.ImageContent(ApplicationContext.CurrentUser.PhotoUrl ?? "~/images/head.png")" class="img-circle" />
                             <strong>@ApplicationContext.CurrentUser.UserName</strong>
                         }
                     </div>
