@@ -132,7 +132,7 @@ namespace Easy.RepositoryPattern
                     result = result.OrderByDescending(pagin.OrderByDescending);
                 }
             }
-            return result.Skip(pagination.PageIndex * pagination.PageSize).Take(pagin.PageSize);
+            return result.Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize);
         }
         public virtual T Get(params object[] primaryKey)
         {
