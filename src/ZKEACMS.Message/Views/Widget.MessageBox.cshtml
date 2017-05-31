@@ -11,6 +11,7 @@
                 var last = Model.Last();
                 foreach (var item in Model)
                 {
+                    item.CreateDate = item.CreateDate ?? DateTime.Now;
                     <div class="row">
                         <div class="col-xs-2 col-sm-2 col-md-1 bg-primary text-center">
                             <h4 style="word-break:break-all">@item.CreateDate.Value.Year</h4>
