@@ -37,11 +37,11 @@
     {
         if (hostingEnvironment.IsDevelopment())
         {
-            <link type="text/css" rel="stylesheet" href="@Url.Content(Model.CurrentTheme.UrlDebugger)" />
+            <link type="text/css" async rel="stylesheet" href="@Url.Content(Model.CurrentTheme.UrlDebugger)" />
         }
         else
         {
-            <link type="text/css" rel="stylesheet" href="@Url.Content(Model.CurrentTheme.Url)" />
+            <link type="text/css" async rel="stylesheet" href="@Url.Content(Model.CurrentTheme.Url)" />
         }
     }
 </head>
