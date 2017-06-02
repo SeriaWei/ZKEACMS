@@ -64,7 +64,7 @@ namespace ZKEACMS.Controllers
         }
 
         [ViewDataLayouts, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
-        public ActionResult Create(string ParentID)
+        public ActionResult Create(string ParentID = "#")
         {
             var page = new PageEntity
             {

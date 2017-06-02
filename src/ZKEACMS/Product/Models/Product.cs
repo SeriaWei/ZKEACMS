@@ -12,7 +12,7 @@ using Easy.LINQ;
 namespace ZKEACMS.Product.Models
 {
     [ViewConfigure(typeof(ProductMetaData)), Table("Product")]
-    public class ProductEntity : EditorEntity, IImage, IExtendField
+    public class ProductEntity : EditorEntity, IImage
     {
         [Key]
         public int ID { get; set; }
@@ -73,7 +73,6 @@ namespace ZKEACMS.Product.Models
         public DateTime? PublishDate { get; set; }
         public string TargetFrom { get; set; }
         public string TargetUrl { get; set; }
-        public IEnumerable<ExtendFieldEntity> ExtendFields { get; set; }
 
     }
     class ProductMetaData : ViewMetaData<ProductEntity>
@@ -88,7 +87,7 @@ namespace ZKEACMS.Product.Models
             ViewConfig(m => m.PartNumber).AsTextBox().ShowInGrid().Search(Query.Operators.Contains);
             ViewConfig(m => m.BrandCD).AsHidden();
             ViewConfig(m => m.ProductCategoryID).AsDropDownList().Required().DataSource(ViewDataKeys.ProductCategory, SourceType.ViewData).AddClass("select").AddProperty("data-url", "/admin/ProductCategory/Select");
-            ViewConfig(m => m.ExtendFields).AsListEditor();
+            
             ViewConfig(m => m.ProductContent).AsTextArea().AddClass("html");
             ViewConfig(m => m.Description).AsTextArea();
             ViewConfig(m => m.IsPublish).AsTextBox().Hide();
