@@ -16,16 +16,7 @@ namespace ZKEACMS.MetaData
         private void InitViewBase()
         {
             ViewConfig(m => m.ID).AsHidden();
-            ViewConfig(m => m.WidgetName).AsTextBox().Order(NextOrder()).Required();
-            ViewConfig(m => m.Title).AsTextBox().Order(NextOrder());
-            ViewConfig(m => m.ZoneID).AsDropDownList().Order(NextOrder()).DataSource(ViewDataKeys.Zones, SourceType.ViewData).Required();
-            ViewConfig(m => m.Position).AsTextBox().Order(NextOrder()).RegularExpression(RegularExpression.Integer);
-            ViewConfig(m => m.IsTemplate).AsCheckBox().Order(NextOrder());
-            ViewConfig(m => m.Thumbnail).AsTextBox().Order(NextOrder()).AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
-            ViewConfig(m => m.StyleClass).AsTextBox().Order(NextOrder()).AddClass(StringKeys.StyleEditor).AddProperty("data-url", Urls.StyleEditor).AddProperty("data-width", "1024").MaxLength(1000);
-            ViewConfig(m => m.CustomClass).AsHidden().Ignore();
-            ViewConfig(m => m.CustomStyle).AsHidden().Ignore();
-            
+            ViewConfig(m => m.Position).AsHidden();
             ViewConfig(m => m.AssemblyName).AsHidden();
             ViewConfig(m => m.FormView).AsHidden();
             ViewConfig(m => m.IsSystem).AsHidden();
@@ -35,6 +26,17 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.LayoutID).AsHidden();
             ViewConfig(m => m.PageID).AsHidden();
             ViewConfig(m => m.ExtendData).AsHidden();
+            ViewConfig(m => m.CustomClass).AsHidden().Ignore();
+            ViewConfig(m => m.CustomStyle).AsHidden().Ignore();
+
+            ViewConfig(m => m.WidgetName).AsTextBox().Order(NextOrder()).Required();
+            ViewConfig(m => m.Title).AsTextBox().Order(NextOrder());
+            ViewConfig(m => m.ZoneID).AsDropDownList().Order(NextOrder()).DataSource(ViewDataKeys.Zones, SourceType.ViewData).Required();            
+            ViewConfig(m => m.IsTemplate).AsCheckBox().Order(NextOrder());
+            ViewConfig(m => m.Thumbnail).AsTextBox().Order(NextOrder()).AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
+            ViewConfig(m => m.StyleClass).AsTextBox().Order(NextOrder()).AddClass(StringKeys.StyleEditor).AddProperty("data-url", Urls.StyleEditor).AddProperty("data-width", "1024").MaxLength(1000);
+        
+            
         }
 
         protected override void ViewConfigure()

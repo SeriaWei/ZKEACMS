@@ -64,6 +64,7 @@ namespace ZKEACMS.Page
             
             ViewConfig(m => m.ParentId).AsHidden();
             ViewConfig(m => m.ID).AsHidden();
+            ViewConfig(m => m.DisplayOrder).AsHidden();
             ViewConfig(m => m.ReferencePageID).AsHidden();
             ViewConfig(m => m.Content).AsHidden();
             ViewConfig(m => m.IsHomePage).AsHidden();
