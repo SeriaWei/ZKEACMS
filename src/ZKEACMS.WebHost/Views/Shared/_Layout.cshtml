@@ -30,13 +30,7 @@
 
     <link href="@Url.PathContent(Model.Page.Favicon)" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
-    @if (Model.Page.ExtendFields != null)
-    {
-        foreach (var meta in Model.Page.ExtendFields.Where(m => m.Title.IsNotNullAndWhiteSpace() && m.Title.StartsWith("meta_")))
-        {
-            <meta name="@meta.Title.Replace("meta_","")" content="@meta.Value" />
-        }
-    }
+    
     @StyleAtHead()
     @ScriptAtHead()
     @if (Model.CurrentTheme != null)
