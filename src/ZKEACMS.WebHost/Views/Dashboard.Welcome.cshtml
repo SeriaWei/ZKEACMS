@@ -12,11 +12,11 @@
                 </p>
                 @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                 {
-                    <a class="btn btn-primary" href="@Url.Action("Create", "Page", new { ParentID = "#"})">创建页面</a>
+                    <a class="btn btn-primary" href="@Url.Action("Create", "Page")">创建页面</a>
                 }
                 @if (Authorizer.Authorize(PermissionKeys.ViewPage))
                 {
-                    <a class="btn btn-primary" href="@Url.Action("Index", "Page", new { ParentID = "#"})">查看页面</a>
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Page")">查看页面</a>
                 }
                 @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
                 {
