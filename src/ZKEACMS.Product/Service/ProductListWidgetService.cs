@@ -48,9 +48,7 @@ namespace ZKEACMS.Product.Service
             int pageIndex = actionContext.RouteData.GetPage();
             int cate = actionContext.RouteData.GetCategory();
             var page = new Pagination { PageIndex = pageIndex, PageSize = pwidget.PageSize ?? 20 };
-
             Expression<Func<ProductEntity, bool>> filter = null;
-
             if (cate != 0)
             {
                 filter = m => m.IsPublish && m.ProductCategoryID == cate;
@@ -58,19 +56,12 @@ namespace ZKEACMS.Product.Service
             else
             {
                 var ids = _productCategoryService.Get(m => m.ID == pwidget.ProductCategoryID || m.ParentID == pwidget.ProductCategoryID).Select(m => m.ID);
-                if (ids.Any())
-                {
-                    filter = m => m.IsPublish && ids.Any(id => id == m.ProductCategoryID);
-                }
-                else
-                {
-                    filter = m => m.IsPublish && m.ProductCategoryID == pwidget.ProductCategoryID;
-                }
+                filter = m => m.IsPublish && ids.Any(id => id == m.ProductCategoryID);
             }
             if (pwidget.IsPageable)
             {
                 page.RecordCount = _productService.Count(filter);
-                products = _productService.Get(filter).OrderBy(m=>m.OrderIndex).ThenByDescending(m => m.ID).Skip(page.PageIndex * page.PageSize).Take(page.PageSize);
+                products = _productService.Get(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID).Skip(page.PageIndex * page.PageSize).Take(page.PageSize);
             }
             else
             {

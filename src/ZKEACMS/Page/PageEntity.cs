@@ -12,7 +12,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ZKEACMS.Page
 {
     [ViewConfigure(typeof(PageBaseMetaData)), Table("CMS_Page")]
-    public class PageEntity : EditorEntity, IExtendField
+    public class PageEntity : EditorEntity
     {
         [Key]
         public string ID { get; set; }
@@ -47,7 +47,6 @@ namespace ZKEACMS.Page
 
         public DateTime? PublishDate { get; set; }
         public bool IsPublish { get; set; }
-        public IEnumerable<ExtendFieldEntity> ExtendFields { get; set; }
         [NotMapped]
         public string Favicon { get; set; }
     }
@@ -62,9 +61,10 @@ namespace ZKEACMS.Page
             ViewConfig(m => m.LayoutId).AsDropDownList().DataSource(ViewDataKeys.Layouts, SourceType.ViewData);
             ViewConfig(m => m.Script).AsTextBox().AddClass(StringKeys.SelectMediaClass).AddProperty("data-url", Urls.SelectMedia);
             ViewConfig(m => m.Style).AsTextBox().AddClass(StringKeys.SelectMediaClass).AddProperty("data-url", Urls.SelectMedia);
-            ViewConfig(m => m.ExtendFields).AsListEditor();
+            
             ViewConfig(m => m.ParentId).AsHidden();
             ViewConfig(m => m.ID).AsHidden();
+            ViewConfig(m => m.DisplayOrder).AsHidden();
             ViewConfig(m => m.ReferencePageID).AsHidden();
             ViewConfig(m => m.Content).AsHidden();
             ViewConfig(m => m.IsHomePage).AsHidden();

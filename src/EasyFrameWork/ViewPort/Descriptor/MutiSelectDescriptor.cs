@@ -21,6 +21,8 @@ namespace Easy.ViewPort.Descriptor
             this.TagType = HTMLEnumerate.HTMLTagTypes.MutiSelect;
             this.TemplateName = "MutiSelect";
         }
+
+
         public IDictionary<string, string> OptionItems
         {
             get
@@ -28,6 +30,24 @@ namespace Easy.ViewPort.Descriptor
                 if (_souceFunc != null)
                 {
                     _data = _souceFunc.Invoke();
+                }
+                if (this.SourceType == SourceType.Dictionary)
+                {
+                    IDataDictionaryService dicService = ServiceLocator.GetService<IDataDictionaryService>();
+                    if (dicService != null)
+                    {
+                        _data = new Dictionary<string, string>();
+
+                        var dicts = dicService.Get(m => m.DicName == this.SourceKey).ToList();
+                        foreach (DataDictionaryEntity item in dicts)
+                        {
+                            if (!this._data.ContainsKey(item.DicValue))
+                            {
+                                this._data.Add(item.DicValue, item.Title);
+                            }
+                        }
+                    }
+
                 }
                 return _data ?? (_data = new Dictionary<string, string>());
             }
@@ -42,19 +62,6 @@ namespace Easy.ViewPort.Descriptor
                 builder.AppendFormat("<option value='{0}'>{1}</option>", item.Key, item.Value);
             }
             return builder.ToString();
-        }
-
-        public MutiSelectDescriptor DataSource(string Url)
-        {
-            if (this.Properties.ContainsKey("DataSource"))
-            {
-                this.Properties["DataSource"] = Url;
-            }
-            else
-            {
-                this.Properties.Add("DataSource", Url);
-            }
-            return this;
         }
 
         public MutiSelectDescriptor DataSource(IDictionary<string, string> Data)
@@ -75,55 +82,32 @@ namespace Easy.ViewPort.Descriptor
             for (int i = 0; i < text.Length; i++)
             {
                 this._data.Add(Enum.Format(dataType, Enum.Parse(dataType, text[i], true), "d"), text[i]);
-
             }
-
             return this;
         }
-
+        public MutiSelectDescriptor DataSource(string Url)
+        {
+            if (this.Properties.ContainsKey("DataSource"))
+            {
+                this.Properties["DataSource"] = Url;
+            }
+            else
+            {
+                this.Properties.Add("DataSource", Url);
+            }
+            return this;
+        }
         public MutiSelectDescriptor DataSource(string dictionaryType, SourceType sourceType)
         {
             this.SourceKey = dictionaryType;
             this.SourceType = sourceType;
-            if (sourceType == SourceType.Dictionary)
-            {
-
-                IDataDictionaryService dicService = ServiceLocator.GetService<IDataDictionaryService>();
-                if (dicService != null)
-                {
-                    if (this._data == null)
-                    {
-                        _data = new Dictionary<string, string>();
-                    }
-                    var dicts = dicService.Get(m => m.DicName == dictionaryType).ToList();
-                    foreach (DataDictionaryEntity item in dicts)
-                    {
-                        this._data.Add(item.ID.ToString(), item.Title);
-                    }
-                }
-
-            }
             return this;
         }
 
         public MutiSelectDescriptor DataSource(SourceType type)
         {
-            string dictionaryType = this.ModelType.Name + "@" + this.Name;
-            if (type == SourceType.Dictionary)
-            {
-                var dicService = ServiceLocator.GetService<IDataDictionaryService>();
-                if (dicService != null)
-                {
-                    if (this._data == null)
-                    {
-                        _data = new Dictionary<string, string>();
-                    }
-                    foreach (DataDictionaryEntity item in dicService.Get(m => m.DicName == type.ToString()))
-                    {
-                        this._data.Add(item.DicValue, item.Title);
-                    }
-                }
-            }
+            this.SourceKey = this.ModelType.Name + "@" + this.Name;
+            this.SourceType = type;
             return this;
         }
 

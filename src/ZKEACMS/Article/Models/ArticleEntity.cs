@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ZKEACMS.Article.Models
 {
     [ViewConfigure(typeof(ArticleEntityMeta)), Table("Article")]
-    public class ArticleEntity : EditorEntity, IImage, IExtendField
+    public class ArticleEntity : EditorEntity, IImage
     {
         [Key]
         public int ID { get; set; }
@@ -28,12 +28,7 @@ namespace ZKEACMS.Article.Models
 
         public int? ArticleTypeID { get; set; }
         public DateTime? PublishDate { get; set; }
-        public bool IsPublish { get; set; }
-
-        public IEnumerable<ExtendFieldEntity> ExtendFields
-        {
-            get; set;
-        }
+        public bool IsPublish { get; set; }        
     }
     class ArticleEntityMeta : ViewMetaData<ArticleEntity>
     {
