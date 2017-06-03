@@ -1,7 +1,8 @@
 ﻿/*!
  * http://www.zkea.net/
- * Copyright 2016 ZKEASOFT
+ * Copyright 2019 ZKEASOFT
  * http://www.zkea.net/licenses
+ * 主题的变量定义，通过修改这些值来快速生成主题
  */
 /*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
@@ -7459,10 +7460,10 @@ img {
   max-width: 100%;
 }
 a {
-  color: #209dff;
+  color: #31B0D5;
 }
 a:hover {
-  color: #1a7fce;
+  color: #2890AF;
 }
 a.btn,
 .dropdown-menu a {
@@ -7581,11 +7582,12 @@ p {
 .list-group-item.active:hover,
 .list-group-item.active:focus {
   text-shadow: 0 -1px 0 #2890AF;
-  background-image: -webkit-linear-gradient(top, #2890AF 0%, #2890AF 100%);
-  background-image: -o-linear-gradient(top, #2890AF 0%, #2890AF 100%);
-  background-image: linear-gradient(to bottom, #2890AF 0%, #2890AF 100%);
+  border-color: #31B0D5;
+  background-image: -webkit-linear-gradient(top, #31B0D5 0%, #31B0D5 100%);
+  background-image: -o-linear-gradient(top, #31B0D5 0%, #31B0D5 100%);
+  background-image: linear-gradient(to bottom, #31B0D5 0%, #31B0D5 100%);
   background-repeat: repeat-x;
-  background-color: #2890AF;
+  background-color: #31B0D5;
 }
 .list-group {
   margin-bottom: 0;
@@ -7622,7 +7624,7 @@ p {
   background-repeat: repeat-x;
   background-color: #7ECAE0;
   border-color: #2890AF;
-  text-shadow: none;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
   color: #fff;
 }
 .btn-default:hover,
@@ -7633,8 +7635,7 @@ p {
   background-repeat: repeat-x;
   background-color: #31B0D5;
   background-position: 0;
-  text-shadow: none;
-  color: #444;
+  color: #fff;
 }
 .btn-default:active:hover,
 .btn-default.active:hover,
@@ -7653,18 +7654,18 @@ p {
   background-repeat: repeat-x;
   background-color: #31B0D5;
   border-color: #2890AF;
-  text-shadow: none;
   color: #fff;
 }
 .panel-default {
-  border-color: #31B0D5;
+  border-color: #dedede;
 }
 .panel-default > .panel-heading {
-  background-image: -webkit-linear-gradient(top, #7ECAE0 0%, #31B0D5 100%);
-  background-image: -o-linear-gradient(top, #7ECAE0 0%, #31B0D5 100%);
-  background-image: linear-gradient(to bottom, #7ECAE0 0%, #31B0D5 100%);
+  background-image: -webkit-linear-gradient(top, #f6f6f6 0%, #EEF2F5 100%);
+  background-image: -o-linear-gradient(top, #f6f6f6 0%, #EEF2F5 100%);
+  background-image: linear-gradient(to bottom, #f6f6f6 0%, #EEF2F5 100%);
   background-repeat: repeat-x;
-  background-color: #7ECAE0;
+  background-color: #f6f6f6;
+  border-color: #dedede;
 }
 .pagination {
   display: inline-block;
@@ -7684,7 +7685,7 @@ p {
   text-decoration: none;
   color: #31B0D5;
   background-color: #ffffff;
-  border: 1px solid #dddddd;
+  border: 1px solid #dedede;
   margin-left: -1px;
 }
 .pagination > li:first-child > a,
@@ -7703,9 +7704,9 @@ p {
 .pagination > li > a:focus,
 .pagination > li > span:focus {
   z-index: 3;
-  color: #31B0D5;
-  background-color: #eeeeee;
-  border-color: #dddddd;
+  color: #fff;
+  background-color: #31B0D5;
+  border-color: #31B0D5;
 }
 .pagination > .active > a,
 .pagination > .active > span,
@@ -7725,9 +7726,9 @@ p {
 .pagination > .disabled > a,
 .pagination > .disabled > a:hover,
 .pagination > .disabled > a:focus {
-  color: #777777;
+  color: #b4b4b4;
   background-color: #ffffff;
-  border-color: #dddddd;
+  border-color: #f2f2f2;
   cursor: not-allowed;
 }
 .pagination-lg > li > a,
@@ -8081,6 +8082,9 @@ p {
 }
 .owl-carousel .carousel-content {
   background: rgba(64, 64, 64, 0.5);
+}
+.productlist .thumbnail {
+  border-color: #dedede;
 }
 .productlist .pagination {
   margin: 15px 0;
