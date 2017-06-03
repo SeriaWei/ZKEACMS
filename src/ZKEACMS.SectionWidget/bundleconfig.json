@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "Content/SectionClient.min.css",
+    "inputFiles": [
+      "Content/SectionClient.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/Section.min.css",
+    "inputFiles": [
+      "Content/Section.css"
+    ]
+  }
+]

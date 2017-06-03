@@ -7534,7 +7534,7 @@ p {
 .bs-callout {
   padding: 10px;
   margin: 0;
-  border: 1px solid #dedede;
+  border: 1px solid #31B0D5;
   border-top-width: 5px;
   border-radius: 5px;
 }
@@ -7616,9 +7616,9 @@ p {
   color: #fff;
 }
 .btn-default {
-  background-image: -webkit-linear-gradient(top, #7ECAE0 0%, #2890AF 100%);
-  background-image: -o-linear-gradient(top, #7ECAE0 0%, #2890AF 100%);
-  background-image: linear-gradient(to bottom, #7ECAE0 0%, #2890AF 100%);
+  background-image: -webkit-linear-gradient(top, #7ECAE0 0%, #31B0D5 100%);
+  background-image: -o-linear-gradient(top, #7ECAE0 0%, #31B0D5 100%);
+  background-image: linear-gradient(to bottom, #7ECAE0 0%, #31B0D5 100%);
   background-repeat: repeat-x;
   background-color: #7ECAE0;
   border-color: #2890AF;
@@ -7627,10 +7627,14 @@ p {
 }
 .btn-default:hover,
 .btn-default:focus {
-  background-color: #2890AF;
-  background-position: 0 -15px;
+  background-image: -webkit-linear-gradient(top, #31B0D5 0%, #2890AF 100%);
+  background-image: -o-linear-gradient(top, #31B0D5 0%, #2890AF 100%);
+  background-image: linear-gradient(to bottom, #31B0D5 0%, #2890AF 100%);
+  background-repeat: repeat-x;
+  background-color: #31B0D5;
+  background-position: 0;
   text-shadow: none;
-  color: #EEF2F5;
+  color: #444;
 }
 .btn-default:active:hover,
 .btn-default.active:hover,
@@ -7643,17 +7647,24 @@ p {
 .open > .dropdown-toggle.btn-default.focus,
 .btn-default:active,
 .btn-default.active {
-  background-color: #2890AF;
+  background-image: -webkit-linear-gradient(top, #31B0D5 0%, #2890AF 100%);
+  background-image: -o-linear-gradient(top, #31B0D5 0%, #2890AF 100%);
+  background-image: linear-gradient(to bottom, #31B0D5 0%, #2890AF 100%);
+  background-repeat: repeat-x;
+  background-color: #31B0D5;
   border-color: #2890AF;
   text-shadow: none;
-  color: #EEF2F5;
+  color: #fff;
+}
+.panel-default {
+  border-color: #31B0D5;
 }
 .panel-default > .panel-heading {
-  background-image: -webkit-linear-gradient(top, #fafcff 0%, #fafcff 100%);
-  background-image: -o-linear-gradient(top, #fafcff 0%, #fafcff 100%);
-  background-image: linear-gradient(to bottom, #fafcff 0%, #fafcff 100%);
+  background-image: -webkit-linear-gradient(top, #7ECAE0 0%, #31B0D5 100%);
+  background-image: -o-linear-gradient(top, #7ECAE0 0%, #31B0D5 100%);
+  background-image: linear-gradient(to bottom, #7ECAE0 0%, #31B0D5 100%);
   background-repeat: repeat-x;
-  background-color: #fafcff;
+  background-color: #7ECAE0;
 }
 .pagination {
   display: inline-block;
@@ -7864,6 +7875,7 @@ p {
   background-color: #fff;
   box-shadow: none;
   border-color: #dedede;
+  min-height: 50px;
 }
 .navigation .navbar-default .hoveropen > .dropdown-menu {
   left: 100%;
@@ -8059,6 +8071,16 @@ p {
 }
 .panel-body > .article-category {
   margin: -15px;
+}
+.owl-carousel .owl-prev:hover,
+.owl-carousel .owl-carousel .owl-next:hover {
+  background-color: #31B0D5;
+}
+.owl-carousel .progressBar > .bar {
+  background-color: #31B0D5;
+}
+.owl-carousel .carousel-content {
+  background: rgba(64, 64, 64, 0.5);
 }
 .productlist .pagination {
   margin: 15px 0;
