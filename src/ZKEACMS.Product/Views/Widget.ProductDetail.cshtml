@@ -1,6 +1,6 @@
 ﻿@model ZKEACMS.Product.Models.ProductEntity
 @{
-    var images = Model.GetFields("image");
+   
 }
 <div class="product-detail">
     <div class="page-header">
@@ -32,35 +32,7 @@
                 </footer>
             </blockquote>
         }
-        @if (images.Any())
-        {
-            using (Script.AtFoot())
-            {
-                <script type="text/javascript" src="http://cdn.zkeasoft.com/Scripts/jcarousel/jquery.jcarousel.min.js"></script>
-                <script type="text/javascript" src="http://cdn.zkeasoft.com/Scripts/jcarousel/jcarousel.basic.js"></script>
-            }
-            using (Style.AtFoot())
-            {
-                <link href="http://cdn.zkeasoft.com/Scripts/jcarousel/jcarousel.basic.css" rel="stylesheet" />
-            }
-            <div class="jcarousel-wrapper" style="width:402px;float:left;margin-right:30px;">
-                <div class="jcarousel">
-                    <ul>
-                        @foreach (var item in images)
-                {
-                            <li>
-                                <img src="@Url.PathContent(item.Value)"style="width:400px" />
-                            </li>
-                        }
-                    </ul>
-                </div>
-                <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
-                <a href="#" class="jcarousel-control-next">&rsaquo;</a>
-                <p class="jcarousel-pagination">
-                </p>
-            </div>
-        }
-        else if (Model.ImageUrl.IsNotNullAndWhiteSpace())
+        @if (Model.ImageUrl.IsNotNullAndWhiteSpace())
         {
             <img class="thumbnail" src="@Url.Content(Model.ImageUrl)" alt="@Model.Title" />
         }

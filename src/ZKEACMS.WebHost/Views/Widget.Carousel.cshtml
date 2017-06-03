@@ -15,9 +15,12 @@
     {
         <div class="item" style="background-image: url('@Url.PathContent(item.ImageUrl)');" data-image-url="@Url.PathContent(item.ImageUrl)">
             <div class="slider-inner">
-                <div class="carousel-content">
-                    @Html.SmartLink(Url.PathContent(item.TargetLink), item.Title)
-                </div>
+                @if (item.Title.IsNotNullAndWhiteSpace())
+                {
+                    <div class="carousel-content">
+                        @Html.SmartLink(Url.PathContent(item.TargetLink), item.Title)
+                    </div>
+                }
             </div>
         </div>
     }
