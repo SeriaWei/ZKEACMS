@@ -67,6 +67,10 @@ namespace Easy.RepositoryPattern
                 editor.CreateBy = ApplicationContext.CurrentUser.UserID;
                 editor.CreatebyName = ApplicationContext.CurrentUser.UserName;
                 editor.CreateDate = DateTime.Now;
+
+                editor.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
+                editor.LastUpdateByName = ApplicationContext.CurrentUser.UserName;
+                editor.LastUpdateDate = DateTime.Now;
             }
             CurrentDbSet.Add(item);
             DbContext.SaveChanges();
@@ -81,6 +85,10 @@ namespace Easy.RepositoryPattern
                     editor.CreateBy = ApplicationContext.CurrentUser.UserID;
                     editor.CreatebyName = ApplicationContext.CurrentUser.UserName;
                     editor.CreateDate = DateTime.Now;
+
+                    editor.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
+                    editor.LastUpdateByName = ApplicationContext.CurrentUser.UserName;
+                    editor.LastUpdateDate = DateTime.Now;
                 }
             }
             CurrentDbSet.AddRange(items);
@@ -102,14 +110,29 @@ namespace Easy.RepositoryPattern
         public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter, Pagination pagination)
         {
             pagination.RecordCount = Count(filter);
+            var pagin = pagination as Pagination<T>;
+            IEnumerable<T> result;
             if (filter != null)
             {
-                return CurrentDbSet.Where(filter).Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize);
+                result = CurrentDbSet.Where(filter);
             }
             else
             {
-                return CurrentDbSet.Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize);
+                result = CurrentDbSet;
             }
+
+            if (pagin != null && (pagin.OrderBy != null || pagin.OrderByDescending != null))
+            {
+                if (pagin.OrderBy != null)
+                {
+                    result = result.OrderBy(pagin.OrderBy);
+                }
+                else
+                {
+                    result = result.OrderByDescending(pagin.OrderByDescending);
+                }
+            }
+            return result.Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize);
         }
         public virtual T Get(params object[] primaryKey)
         {
@@ -168,7 +191,7 @@ namespace Easy.RepositoryPattern
             {
                 DbContext.SaveChanges();
             }
-            
+
         }
         public virtual void Remove(Expression<Func<T, bool>> filter)
         {

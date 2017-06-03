@@ -2,5 +2,9 @@
   {
     "outputFile": "wwwroot/themes/konrad/css/Theme.css",
     "inputFile": "wwwroot/themes/konrad/css/Theme.less"
+  },
+  {
+    "outputFile": "wwwroot/Themes/Default/css/Theme.css",
+    "inputFile": "wwwroot/Themes/Default/css/Theme.less"
   }
 ]

@@ -14,7 +14,6 @@ namespace Easy.Models
         string LoginIP { get; set; }
         string PhotoUrl { get; set; }
         int? UserTypeCD { get; set; }
-        DateTime LastLoginDate { get; set; }
         string UserName { get; set; }
         string ApiLoginToken { get; set; }
         string LastName { get; set; }

@@ -13,7 +13,7 @@ using Easy;
 
 namespace ZKEACMS.Widget
 {
-    public class WidgetBase : EditorEntity, IExtendField
+    public class WidgetBase : EditorEntity
     {
         public static Dictionary<string, Type> KnownWidgetModel { get; } = new Dictionary<string, Type>
         {
@@ -146,8 +146,6 @@ namespace ZKEACMS.Widget
             }
             return null;
         }
-        [NotMapped]
-        public virtual IEnumerable<ExtendFieldEntity> ExtendFields { get; set; }
 
         public WidgetBase ToWidgetBase()
         {
@@ -183,7 +181,7 @@ namespace ZKEACMS.Widget
             widget.IsTemplate = IsTemplate;
             widget.Thumbnail = Thumbnail;
             widget.IsSystem = IsSystem;
-            widget.ExtendFields = ExtendFields;
+            
             widget.ExtendData = ExtendData;
             return widget;
         }

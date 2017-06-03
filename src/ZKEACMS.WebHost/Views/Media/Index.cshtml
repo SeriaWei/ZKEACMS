@@ -179,11 +179,11 @@
                     if (data) {
                         var caption = input.closest(".caption");
                         if (caption.data("id")) {
-                            input.replaceWith(data.Title);
+                            input.replaceWith(data.title);
                         } else {
                             input.closest(".new-folder").removeClass("new-folder").find("a").attr("href", "@Url.Action(action)" + "?ParentId=" + data.ID);
                             caption.data("id", data.ID);
-                            input.replaceWith(data.Title);
+                            input.replaceWith(data.title);
                         }
                     }
                 });

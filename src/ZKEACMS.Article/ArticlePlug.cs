@@ -57,6 +57,7 @@ namespace ZKEACMS.Article
         {
             yield return new PermissionDescriptor(PermissionKeys.ViewArticle, "文章", "查看文章", "");
             yield return new PermissionDescriptor(PermissionKeys.ManageArticle, "文章", "管理文章", "");
+            yield return new PermissionDescriptor(PermissionKeys.PublishArticle, "文章", "发布文章", "");
             yield return new PermissionDescriptor(PermissionKeys.ViewArticleType, "文章", "查看文章类别", "");
             yield return new PermissionDescriptor(PermissionKeys.ManageArticleType, "文章", "管理文章类别", "");
         }

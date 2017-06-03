@@ -415,6 +415,14 @@ a.badge:hover {
     opacity: .7;
 }
 
+#media-list .thumbnail .tool {
+    position: absolute;
+    left: 20px;
+    bottom:50px;
+    width:100%;
+    text-align:left;
+}
+
 #media-list .thumbnail .tool a {
     margin: 0 3px;
     color: #3D3E43;

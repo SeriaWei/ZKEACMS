@@ -119,7 +119,7 @@ namespace ZKEACMS.SectionWidget.Controllers
         }
 
         [HttpPost]
-        public JsonResult SplitColumn(List<SectionGroup> groups)
+        public JsonResult SplitColumn([FromBody]List<SectionGroup> groups)
         {
             if (groups != null)
             {

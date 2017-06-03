@@ -44,7 +44,7 @@
                     @foreach (var page in oldVersions)
                     {
                         bool isCurrent = (index + 1) == oldVersions.Count;
-                        <tr>
+                        <tr id="v_@page.ID">
                             <td>
 
                                 @if (isCurrent)
@@ -123,7 +123,7 @@
             Easy.ShowMessageBox("提示", "确定要删除该版本吗？", function () {
                 $.post("@Url.Action("DeleteVersion")", { ID: id }, function (data) {
                     if (data.status == 1) {
-                        window.location.reload();
+                        $("#v_" + id).remove();
                     } else {
                         Easy.ShowMessageBox("提示", data.message);
                     }

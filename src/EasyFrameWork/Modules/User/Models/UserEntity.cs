@@ -34,7 +34,7 @@ namespace Easy.Modules.User.Models
         /// <summary>
         /// 最后登陆时间
         /// </summary>
-        public DateTime LastLoginDate { get; set; }
+        public DateTime? LastLoginDate { get; set; }
 
         public string UserName { get; set; }
 

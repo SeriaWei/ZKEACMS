@@ -9,7 +9,8 @@
     "jstree": "3.3.0",
     "lightbox2": "2.8.2",
     "datatables": "1.10.11",
-    "bootstrap-datepicker": "1.6.0"
+    "bootstrap-datepicker": "1.6.0",
+    "jquery-pjax": "v2.0.1"
   },
   "resolutions": {
     "jquery": ">= 1.7.2",

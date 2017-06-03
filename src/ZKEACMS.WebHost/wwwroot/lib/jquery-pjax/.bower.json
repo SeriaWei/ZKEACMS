@@ -1,0 +1,28 @@
+{
+  "name": "jquery-pjax",
+  "main": "./jquery.pjax.js",
+  "dependencies": {
+    "jquery": ">=1.8"
+  },
+  "ignore": [
+    ".travis.yml",
+    "Gemfile",
+    "Gemfile.lock",
+    "CONTRIBUTING.md",
+    "vendor/",
+    "script/",
+    "test/"
+  ],
+  "homepage": "https://github.com/defunkt/jquery-pjax",
+  "version": "2.0.1",
+  "_release": "2.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.0.1",
+    "commit": "0f63686a4be744c948c2dd7bd64d257d3fe80c20"
+  },
+  "_source": "https://github.com/defunkt/jquery-pjax.git",
+  "_target": "v2.0.1",
+  "_originalSource": "jquery-pjax",
+  "_direct": true
+}

@@ -21,6 +21,15 @@ namespace Easy.Modules.User.Service
                 return DbContext.Users;
             }
         }
+        public override UserEntity Get(params object[] primaryKey)
+        {
+            var userEntity = base.Get(primaryKey);
+            if (userEntity != null)
+            {
+                userEntity.Roles = DbContext.UserRoleRelation.Where(m => m.UserID == userEntity.UserID).ToList();
+            }
+            return userEntity;
+        }
         private string ProtectPassWord(string passWord)
         {
             if (passWord.IsNotNullAndWhiteSpace())
@@ -47,6 +56,10 @@ namespace Easy.Modules.User.Service
             if (item.PassWordNew.IsNotNullAndWhiteSpace())
             {
                 item.PassWord = ProtectPassWord(item.PassWordNew);
+            }
+            if (item.Roles != null)
+            {
+                item.Roles.Where(m => m.ActionType == Constant.ActionType.Delete).Each(m => DbContext.UserRoleRelation.Remove(m));
             }
             base.Update(item, saveImmediately);
         }

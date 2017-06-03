@@ -71,10 +71,7 @@ namespace ZKEACMS.Page
             item.ReferencePageID = item.ID;
             item.IsPublishedPage = true;
             item.PublishDate = DateTime.Now;
-            if (item.ExtendFields != null)
-            {
-                item.ExtendFields.Each(m => m.ActionType = ActionType.Create);
-            }
+            
             var widgets = _widgetService.GetByPageId(item.ID);
             Add(item);
             widgets.Each(m =>
@@ -82,10 +79,6 @@ namespace ZKEACMS.Page
                 using (var widgetService = _widgetActivator.Create(m))
                 {
                     m = widgetService.GetWidget(m);
-                    if (m.ExtendFields != null)
-                    {
-                        m.ExtendFields.Each(f => f.ActionType = ActionType.Create);
-                    }
                     m.PageID = item.ID;
                     widgetService.Publish(m);
                 }
@@ -116,10 +109,7 @@ namespace ZKEACMS.Page
                     page.ReferencePageID = null;
                     page.IsPublish = false;
                     page.IsPublishedPage = false;
-                    if (page.ExtendFields != null)
-                    {
-                        page.ExtendFields.Each(m => m.ActionType = ActionType.Create);
-                    }
+                    
                     base.Add(page);
                 }
                 var widgets = _widgetService.GetByPageId(ID);
@@ -127,10 +117,7 @@ namespace ZKEACMS.Page
                 {
                     var widgetService = _widgetActivator.Create(m);
                     m = widgetService.GetWidget(m);
-                    if (m.ExtendFields != null)
-                    {
-                        m.ExtendFields.Each(f => f.ActionType = ActionType.Create);
-                    }
+                   
                     m.PageID = page.ID;
                     widgetService.Publish(m);
                 });
@@ -247,15 +234,15 @@ namespace ZKEACMS.Page
                 .OrderByDescending(m => m.PublishDate)
                 .FirstOrDefault();
 
-            if (result != null && result.ExtendFields != null)
-            {
-                /*!
-                 * http://www.zkea.net/ 
-                 * Copyright 2017 ZKEASOFT 
-                 * http://www.zkea.net/licenses 
-                 */
-                ((List<ExtendFieldEntity>)result.ExtendFields).Add(new ExtendFieldEntity { Title = "meta_support", Value = "ZKEASOFT" });
-            }
+            //if (result != null && result.ExtendFields != null)
+            //{
+            //    /*!
+            //     * http://www.zkea.net/ 
+            //     * Copyright 2017 ZKEASOFT 
+            //     * http://www.zkea.net/licenses 
+            //     */
+            //    ((List<ExtendFieldEntity>)result.ExtendFields).Add(new ExtendFieldEntity { Title = "meta_support", Value = "ZKEASOFT" });
+            //}
             return result;
 
         }
@@ -263,10 +250,17 @@ namespace ZKEACMS.Page
         public void MarkChanged(string pageId)
         {
             var pageEntity = Get(pageId);
-            pageEntity.IsPublish = false;
-            pageEntity.LastUpdateDate = DateTime.Now;
-            pageEntity.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
-            base.Update(pageEntity);
+            if (pageEntity != null)
+            {
+                pageEntity.IsPublish = false;
+                pageEntity.LastUpdateDate = DateTime.Now;
+                if (ApplicationContext.CurrentUser != null)
+                {
+                    pageEntity.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
+                    pageEntity.LastUpdateByName = ApplicationContext.CurrentUser.UserName;
+                }
+                base.Update(pageEntity);
+            }
         }
     }
 }

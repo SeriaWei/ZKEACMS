@@ -209,7 +209,7 @@
                 groups[i].GroupName = "组" + (i + 1);
                 groups[i].PartialView = "SectionTemplate.Default";
                 groups[i].Order = (i + 1);
-                groups[i].ID = $(".section-group:eq(" + i + ")").data("id") || 0;
+                groups[i].ID = $(".section-group:eq(" + i + ")").data("id") || '';
             });
             var sGroup = $(".section-group");
             if (groups.length !== sGroup.size() && sGroup.size() > 0) {
@@ -228,8 +228,7 @@
                 contentType: 'application/json; charset=utf-8',
                 async: false,
                 success: function (data) {
-                    if (data.Groups) {
-
+                    if (data.groups) {
                         reload();
                     }
                 }
