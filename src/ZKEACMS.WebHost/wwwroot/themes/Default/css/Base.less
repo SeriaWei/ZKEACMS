@@ -65,7 +65,7 @@ p {
 .bs-callout {
     padding: @padding-base;
     margin: 0;
-    border: @border-thin solid @color-border;
+    border: @border-thin solid @color-main;
     border-top-width: @border-heavy;
     border-radius: 5px;
 }
@@ -168,7 +168,7 @@ p {
 }
 
 .btn-default {
-    .background-image(@color-main-light,@color-main-actived);
+    .background-image(@color-main-light,@color-main);
     border-color: @color-main-actived;
     text-shadow: none;
     color: #fff;
@@ -176,10 +176,10 @@ p {
 
 .btn-default:hover,
 .btn-default:focus {
-    background-color: @color-main-actived;
-    background-position: 0 -15px;
+    .background-image(@color-main,@color-main-actived);
+    background-position:0;
     text-shadow: none;
-    color: #EEF2F5;
+    color: @color-text;
 }
 
 .btn-default:active:hover,
@@ -193,11 +193,16 @@ p {
 .open > .dropdown-toggle.btn-default.focus,
 .btn-default:active,
 .btn-default.active {
-    background-color: @color-main-actived;
+    .background-image(@color-main,@color-main-actived);
     border-color: @color-main-actived;
     text-shadow: none;
-    color: #EEF2F5;
+    color: #fff;
 }
-.panel-default>.panel-heading {
-    .background-image(#fafcff,#fafcff);
+
+
+.panel-default {
+    border-color:@color-main;
+}
+.panel-default > .panel-heading {
+    .background-image(@color-main-light,@color-main);
 }
