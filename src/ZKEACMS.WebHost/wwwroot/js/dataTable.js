@@ -50,6 +50,7 @@
             });
         });
         $(this).DataTable({
+            "autoWidth": false,
             "processing": true,
             "serverSide": true,
             "filter": false,

@@ -13,6 +13,7 @@ using System.Net;
 using Easy.LINQ;
 using Easy.ViewPort.Descriptor;
 using Easy.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Easy.Mvc.TagHelpers
 {
@@ -22,7 +23,7 @@ namespace Easy.Mvc.TagHelpers
         private const string DefaultSourceAction = "GetList";
         public const string DefaultEditAction = "Edit";
         public const string DefaultDeleteAction = "Delete";
-        private const string TableStructure = "<table class=\"{0}\" cellspacing=\"0\" width=\"100%\" data-source=\"{1}\"><thead><tr>{2}</tr></thead><tfoot><tr class=\"search\">{3}</tr></tfoot></table>";
+        private const string TableStructure = "<div class=\"table-responsive\"><table class=\"{0}\" cellspacing=\"0\" width=\"100%\" data-source=\"{1}\"><thead><tr>{2}</tr></thead><tfoot><tr class=\"search\">{3}</tr></tfoot></table></div>";
         private const string TableHeadStructure = "<th data-key=\"{0}\" data-template=\"{1}\" data-order=\"{2}\" data-option=\"{4}\" data-search-operator=\"{5}\" data-data-type=\"{6}\" data-format=\"{7}\">{3}</th>";
         private const string TableSearchStructure = "<th></th>";
         public const string EditLinkTemplate = "<a href=\"{0}\" class=\"glyphicon glyphicon-pencil\"></a>";
@@ -105,9 +106,22 @@ namespace Easy.Mvc.TagHelpers
                         StringBuilder optionBuilder = new StringBuilder();
                         if (dropDown != null)
                         {
-                            foreach (var item in dropDown.OptionItems)
+                            if (dropDown.SourceType == Constant.SourceType.Dictionary)
                             {
-                                optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", item.Value, item.Key);
+                                foreach (var item in dropDown.OptionItems)
+                                {
+                                    optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", item.Value, item.Key);
+                                }
+                            }else if(dropDown.SourceType== Constant.SourceType.ViewData)
+                            {
+                                var selectList= ViewContext.ViewData[dropDown.SourceKey] as SelectList;
+                                if (selectList != null)
+                                {
+                                    foreach (var item in selectList)
+                                    {
+                                        optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", item.Text, item.Value);
+                                    }
+                                }
                             }
                         }
                         else if (m.DataType == typeof(bool) || m.DataType == typeof(bool?))
