@@ -456,6 +456,7 @@ a.badge:hover {
 }
 .dataTable .form-control{
     font-weight:normal;
+    width:100%;
 }
 .dataTable .range-search{
     position:relative;
@@ -472,6 +473,9 @@ a.badge:hover {
 
 .dataTable .range-search input.max.show{
     display:block;
+}
+table.table-bordered.dataTable th, table.table-bordered.dataTable td{
+    white-space:nowrap;
 }
 div.dataTables_wrapper div.dataTables_processing {
     text-indent: -5000px;

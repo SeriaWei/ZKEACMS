@@ -39,7 +39,14 @@ namespace ZKEACMS.Article.Models
             ViewConfig(m => m.Status).AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary);
             ViewConfig(m => m.ImageThumbUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
             ViewConfig(m => m.ImageUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
-            ViewConfig(m => m.ArticleTypeID).AsDropDownList().DataSource(ViewDataKeys.ArticleCategory, SourceType.ViewData).Required().AddClass("select").AddProperty("data-url", "/admin/ArticleType/Select");
+            ViewConfig(m => m.ArticleTypeID)
+                .AsDropDownList()
+                .DataSource(ViewDataKeys.ArticleCategory, SourceType.ViewData)
+                .Required()
+                .AddClass("select")
+                .AddProperty("data-url", "/admin/ArticleType/Select")
+                .ShowInGrid();
+
             ViewConfig(m => m.ArticleContent).AsTextArea().AddClass(StringKeys.HtmlEditorClass);
             ViewConfig(m => m.PublishDate).AsTextBox().Hide();
             ViewConfig(m => m.IsPublish).AsTextBox().Hide().ShowInGrid();
