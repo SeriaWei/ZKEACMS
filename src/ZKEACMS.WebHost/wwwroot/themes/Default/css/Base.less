@@ -129,7 +129,8 @@ p {
 .list-group-item.active:hover,
 .list-group-item.active:focus {
     text-shadow: 0 -1px 0 @color-main-actived;
-    .background-image(@color-main-actived,@color-main-actived);
+    border-color:@color-main;
+    .background-image(@color-main,@color-main);
 }
 
 .list-group {
@@ -170,16 +171,15 @@ p {
 .btn-default {
     .background-image(@color-main-light,@color-main);
     border-color: @color-main-actived;
-    text-shadow: none;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
     color: #fff;
 }
 
 .btn-default:hover,
 .btn-default:focus {
     .background-image(@color-main,@color-main-actived);
-    background-position:0;
-    text-shadow: none;
-    color: @color-text;
+    background-position: 0;
+    color: #fff;
 }
 
 .btn-default:active:hover,
@@ -195,14 +195,14 @@ p {
 .btn-default.active {
     .background-image(@color-main,@color-main-actived);
     border-color: @color-main-actived;
-    text-shadow: none;
     color: #fff;
 }
 
 
 .panel-default {
-    border-color:@color-main;
+    border-color: @panel-border-color;
 }
 .panel-default > .panel-heading {
-    .background-image(@color-main-light,@color-main);
+    .background-image(@panel-color,@panel-color-deep);
+    border-color: @panel-border-color;
 }
