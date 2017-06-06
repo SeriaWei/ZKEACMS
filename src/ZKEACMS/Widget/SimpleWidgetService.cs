@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Widget
 {
-    public abstract class SimpleWidgetService<T> : WidgetService<T, CMSDbContext> where T : BasicWidget, new()
+    public abstract class SimpleWidgetService<T> : WidgetService<T, CMSDbContext> where T : SimpleWidgetBase, new()
     {
         public SimpleWidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext) :
             base(widgetBasePartService, applicationContext)

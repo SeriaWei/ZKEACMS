@@ -7,7 +7,7 @@ using ZKEACMS.Widget;
 namespace ZKEACMS.Common.Models
 {
     [ViewConfigure(typeof(BreadcrumbWidgetMetaData))]
-    public class BreadcrumbWidget : BasicWidget
+    public class BreadcrumbWidget : SimpleWidgetBase
     {
     }
 
