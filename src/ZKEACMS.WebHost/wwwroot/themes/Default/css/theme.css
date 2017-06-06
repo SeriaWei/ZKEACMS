@@ -8089,6 +8089,12 @@ p {
 .productlist .pagination {
   margin: 15px 0;
 }
+.productlist .price {
+  line-height: 30px;
+}
+.productlist .price strong {
+  color: #d9534f;
+}
 .panel-body > .product-category {
   margin: -15px;
 }

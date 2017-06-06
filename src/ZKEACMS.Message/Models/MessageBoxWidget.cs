@@ -5,7 +5,7 @@ using ZKEACMS.Widget;
 namespace ZKEACMS.Message.Models
 {
     [ViewConfigure(typeof(MessageBoxWidgetMetaData))]
-    public class MessageBoxWidget : BasicWidget
+    public class MessageBoxWidget : SimpleWidgetBase
     {
     }
     class MessageBoxWidgetMetaData : WidgetMetaData<MessageBoxWidget>

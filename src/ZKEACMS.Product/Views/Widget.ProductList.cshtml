@@ -13,8 +13,8 @@
                 }
             }
             <div class="@Model.Columns">
-                <div class="thumbnail">                    
-                    <img alt="@item.Title" title="@item.Title" src="@Url.ImageContent(item.ImageThumbUrl)" />                    
+                <div class="thumbnail">
+                    <img alt="@item.Title" title="@item.Title" src="@Url.ImageContent(item.ImageThumbUrl)" />
                     <div class="caption">
                         <h4>
                             @if (url.IsNotNullAndWhiteSpace())
@@ -26,7 +26,7 @@
                             else
                             {
                                 @item.Title
-                            }                            
+                            }
                         </h4>
                         @if (item.Description.IsNotNullAndWhiteSpace())
                         {
@@ -34,15 +34,24 @@
                                 @item.Description
                             </p>
                         }
-                        @if (url.IsNotNullAndWhiteSpace() && System.IO.Path.HasExtension(url))
+                        @if (item.RebatePrice.HasValue || item.Price.HasValue)
                         {
-                            <p class="clearfix">
-                                <a href="@Url.Content(url)" class="btn btn-default">
-                                    下载
-                                </a>
-                            </p>
+                            <div class="clearfix">
+                                <div class="pull-left price">                                    
+                                    @if (item.Price.HasValue)
+                                    {
+                                        <del>￥@(string.Format("{0:f2}", item.Price))</del>
+                                    }
+                                    @if (item.RebatePrice.HasValue)
+                                    {
+                                        <strong>￥@(string.Format("{0:f2}", item.RebatePrice))</strong>
+                                    }
+                                </div>
+                                <div class="pull-right">
+                                    <a href="@Url.PathContent(url)" class="btn btn-default btn-sm">立即购买</a>
+                                </div>
+                            </div>
                         }
-
                     </div>
                 </div>
             </div>
