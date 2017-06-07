@@ -142,7 +142,7 @@ namespace ZKEACMS.Widget
         }
     }
 
-    public class SimpleWidgetBase : WidgetBase
+    public class SimpleWidgetBase : BasicWidget
     {
         [Key, JsonIgnore]
         public override string ID
