@@ -54,6 +54,7 @@ namespace Easy.Mvc.Resource
                 {
                     new ResourceEntity { Position = _position, Source = partResult }
                 };
+            resource.Name = "Capture-" + content.GetHashCode();
             resource.Position = _position;
             _onRegisted(resource);
         }
@@ -64,7 +65,7 @@ namespace Easy.Mvc.Resource
         private RazorPage _page;
         private ResourceCollection _resource;
         private Action<ResourceCollection> _onRegisted;
-        public ResourceCapture(RazorPage page, ResourceCollection source,  Action<ResourceCollection> onRegisted)
+        public ResourceCapture(RazorPage page, ResourceCollection source, Action<ResourceCollection> onRegisted)
         {
             _page = page;
             _resource = source;
@@ -107,7 +108,7 @@ namespace Easy.Mvc.Resource
 
         public override IDisposable AtHead()
         {
-            return new Capture(this.CurrentPage, ResourcePosition.Head,OnRegisted);
+            return new Capture(this.CurrentPage, ResourcePosition.Head, OnRegisted);
         }
 
         public override IDisposable AtFoot()

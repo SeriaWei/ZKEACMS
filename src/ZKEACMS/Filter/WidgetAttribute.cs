@@ -65,7 +65,7 @@ namespace ZKEACMS.Filter
             {
                 isPreView = ReView.Review.Equals(
                     filterContext.HttpContext.Request.Query[ReView.QueryKey],
-                    StringComparison.CurrentCultureIgnoreCase);
+                    StringComparison.OrdinalIgnoreCase);
             }
             return isPreView;
         }

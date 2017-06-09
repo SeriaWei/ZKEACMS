@@ -59,7 +59,7 @@ namespace Easy.Mvc.Resource
         {
             get
             {
-                return CNDSetting != null && CNDSetting["Enable"].Equals("true", StringComparison.CurrentCultureIgnoreCase) && CNDSetting["Url"].IsNotNullAndWhiteSpace();
+                return CNDSetting != null && CNDSetting["Enable"].Equals("true", StringComparison.OrdinalIgnoreCase) && CNDSetting["Url"].IsNotNullAndWhiteSpace();
             }
         }
 
