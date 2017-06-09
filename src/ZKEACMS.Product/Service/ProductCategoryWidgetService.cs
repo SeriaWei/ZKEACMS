@@ -32,12 +32,12 @@ namespace ZKEACMS.Product.Service
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             ProductCategoryWidget currentWidget = widget as ProductCategoryWidget;
-            int cate = actionContext.RouteData.GetCategory();
+            int cate = actionContext.RouteData.GetCategory();            
+
             return widget.ToWidgetViewModelPart(new ProductCategoryWidgetViewModel
             {
                 Categorys = _productCategoryService.Get(m => m.ParentID == currentWidget.ProductCategoryID),
-                CurrentCategory = cate,
-                TargetPage = currentWidget.TargetPage.IsNullOrEmpty() ? actionContext.HttpContext.Request.Path.ToString().ToLower() : currentWidget.TargetPage
+                CurrentCategory = cate
             });
         }
     }

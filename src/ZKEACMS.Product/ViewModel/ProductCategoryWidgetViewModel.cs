@@ -8,6 +8,5 @@ namespace ZKEACMS.Product.ViewModel
     {
         public IEnumerable<ProductCategory> Categorys { get; set; }
         public int CurrentCategory { get; set; }
-        public string TargetPage { get; set; }
     }
 }

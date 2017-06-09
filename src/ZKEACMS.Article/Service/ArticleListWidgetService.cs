@@ -40,7 +40,7 @@ namespace ZKEACMS.Article.Service
             var categoryEntity = _articleTypeService.Get(currentWidget.ArticleTypeID);
             int pageIndex = actionContext.RouteData.GetPage();
             int cate = actionContext.RouteData.GetCategory();
-            var page = new Pagination<ArticleEntity>
+            var pagin = new Pagination<ArticleEntity>
             {
                 PageIndex = pageIndex,
                 PageSize = currentWidget.PageSize ?? 20,
@@ -68,19 +68,25 @@ namespace ZKEACMS.Article.Service
             }
             if (currentWidget.IsPageable)
             {
-                articles = _articleService.Get(filter, page);
+                articles = _articleService.Get(filter, pagin);
             }
             else
             {
                 articles = _articleService.Get(filter).OrderByDescending(m => m.PublishDate);
             }
 
+            var currentArticleType = _articleTypeService.Get(cate == 0 ? currentWidget.ArticleTypeID : cate);
+            if (currentArticleType != null)
+            {
+                var page = actionContext.HttpContext.GetLayout().Page;
+                page.Title = (page.Title ?? "") + " - " + currentArticleType.Title;
+            }
 
             return widget.ToWidgetViewModelPart(new ArticleListWidgetViewModel
             {
                 Articles = articles,
                 Widget = currentWidget,
-                Pagin = page,
+                Pagin = pagin,
                 CategoryTitle = categoryEntity == null ? "" : categoryEntity.Title,
                 IsPageable = currentWidget.IsPageable
             });

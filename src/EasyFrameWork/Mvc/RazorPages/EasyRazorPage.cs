@@ -103,11 +103,17 @@ namespace Easy.Mvc.RazorPages
         }
         private void RegistStyle(ResourceCollection resource)
         {
-            _requiredStyles.Add(resource);
+            if (_requiredStyles.All(m => m.Name != resource.Name))
+            {
+                _requiredStyles.Add(resource);
+            }            
         }
         private void RegistScript(ResourceCollection resource)
         {
-            _requiredScripts.Add(resource);
+            if (_requiredScripts.All(m => m.Name != resource.Name))
+            {
+                _requiredScripts.Add(resource);
+            }            
         }
         private IApplicationContext _applicationContext;
         public IApplicationContext ApplicationContext

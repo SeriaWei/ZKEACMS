@@ -32,11 +32,11 @@ namespace ZKEACMS.Article.Service
             ArticleTypeWidget currentWidget = widget as ArticleTypeWidget;
             var types = _articleTypeService.Get(m => m.ParentID == currentWidget.ArticleTypeID);
             int ac = actionContext.RouteData.GetCategory();
+            
+
             return widget.ToWidgetViewModelPart(new ArticleTypeWidgetViewModel
             {
                 ArticleTypes = types,
-                CurrentType = _articleTypeService.Get(currentWidget.ArticleTypeID),
-                TargetPage = currentWidget.TargetPage.IsNullOrEmpty() ? actionContext.HttpContext.Request.Path.ToString().ToLower() : currentWidget.TargetPage,
                 ArticleTypeID = ac
             });
         }

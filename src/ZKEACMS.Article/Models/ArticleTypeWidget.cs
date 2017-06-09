@@ -1,5 +1,6 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy;
+using Easy.Constant;
 using Easy.MetaData;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace ZKEACMS.Article.Models
             {
                 return ServiceLocator.GetService<IArticleTypeService>().GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
             }).Required().AddClass("select").AddProperty("data-url", "/admin/ArticleType/Select");
+            ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary).Required();
             ViewConfig(m => m.TargetPage).AsHidden();
         }
     }
