@@ -18,29 +18,26 @@ namespace ZKEACMS.Common.Service
         {
             _pageService = pageService;
         }
-        
 
-        public List<PageEntity> ParentPages { get; set; }
+
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
-            if (ParentPages == null)
-            {
-                ParentPages = new List<PageEntity>();
-                GetParentPage(actionContext.HttpContext.GetLayout().Page);
-            }
+
+            List<PageEntity> ParentPages = new List<PageEntity>();
+            GetParentPage(ParentPages, actionContext.HttpContext.GetLayout().Page);
 
             return widget.ToWidgetViewModelPart(ParentPages);
         }
 
-        void GetParentPage(PageEntity page)
+        void GetParentPage(List<PageEntity> parentPages, PageEntity page)
         {
-            ParentPages.Insert(0, page);
+            parentPages.Insert(0, page);
             if (page.ParentId.IsNotNullAndWhiteSpace() && page.ParentId != "#")
             {
                 var parentPage = _pageService.Get(m => m.ID == page.ParentId).FirstOrDefault();
                 if (parentPage != null)
                 {
-                    GetParentPage(parentPage);
+                    GetParentPage(parentPages, parentPage);
                 }
             }
         }

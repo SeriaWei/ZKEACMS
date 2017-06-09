@@ -12,13 +12,16 @@
 @echo .NET Core 运行时标识符 (RID) 目录
 @echo https://docs.microsoft.com/zh-cn/dotnet/articles/core/rid-catalog
 @echo -----------------------------------------------------------------------------
-@pause
+
+set /p build=发布前先编译 (y/n)?
+if "%build%" NEQ "n" (
 for /f %%a in ('dir src /b') do (
 	@echo ------------------ Build %%a ------------------
 	cd src/%%a
 	dotnet restore
 	dotnet build
 	cd ../../
+)
 )
 @echo ------------------ Release ------------------
 cd src/ZKEACMS.WebHost

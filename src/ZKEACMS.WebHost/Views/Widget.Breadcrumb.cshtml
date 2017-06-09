@@ -5,7 +5,7 @@
     {
         if (i == Model.Count - 1)
         {
-            <li class="active">@Model[i].PageName</li>
+            <li class="active">@ViewContext.HttpContext.GetLayout().Page.Title</li>
         }
         else
         {

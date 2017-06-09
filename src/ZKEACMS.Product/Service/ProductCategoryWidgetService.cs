@@ -33,6 +33,14 @@ namespace ZKEACMS.Product.Service
         {
             ProductCategoryWidget currentWidget = widget as ProductCategoryWidget;
             int cate = actionContext.RouteData.GetCategory();
+
+            var currentCategory = _productCategoryService.Get(cate == 0 ? currentWidget.ProductCategoryID : cate);
+            if (currentCategory != null)
+            {
+                var page = actionContext.HttpContext.GetLayout().Page;
+                page.Title = page.Title + " - " + currentCategory.Title;
+            }
+
             return widget.ToWidgetViewModelPart(new ProductCategoryWidgetViewModel
             {
                 Categorys = _productCategoryService.Get(m => m.ParentID == currentWidget.ProductCategoryID),
