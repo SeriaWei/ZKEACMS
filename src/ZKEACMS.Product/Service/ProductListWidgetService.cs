@@ -43,11 +43,11 @@ namespace ZKEACMS.Product.Service
         }
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
-            ProductListWidget pwidget = widget as ProductListWidget;
+            ProductListWidget currentWidget = widget as ProductListWidget;
             IEnumerable<ProductEntity> products = null;
             int pageIndex = actionContext.RouteData.GetPage();
             int cate = actionContext.RouteData.GetCategory();
-            var page = new Pagination { PageIndex = pageIndex, PageSize = pwidget.PageSize ?? 20 };
+            var pagin = new Pagination { PageIndex = pageIndex, PageSize = currentWidget.PageSize ?? 20 };
             Expression<Func<ProductEntity, bool>> filter = null;
             if (cate != 0)
             {
@@ -55,26 +55,33 @@ namespace ZKEACMS.Product.Service
             }
             else
             {
-                var ids = _productCategoryService.Get(m => m.ID == pwidget.ProductCategoryID || m.ParentID == pwidget.ProductCategoryID).Select(m => m.ID);
+                var ids = _productCategoryService.Get(m => m.ID == currentWidget.ProductCategoryID || m.ParentID == currentWidget.ProductCategoryID).Select(m => m.ID);
                 filter = m => m.IsPublish && ids.Any(id => id == m.ProductCategoryID);
             }
-            if (pwidget.IsPageable)
+            if (currentWidget.IsPageable)
             {
-                page.RecordCount = _productService.Count(filter);
-                products = _productService.Get(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID).Skip(page.PageIndex * page.PageSize).Take(page.PageSize);
+                pagin.RecordCount = _productService.Count(filter);
+                products = _productService.Get(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID).Skip(pagin.PageIndex * pagin.PageSize).Take(pagin.PageSize);
             }
             else
             {
                 products = _productService.Get(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID);
             }
 
+            var currentCategory = _productCategoryService.Get(cate == 0 ? currentWidget.ProductCategoryID : cate);
+            if (currentCategory != null)
+            {
+                var page = actionContext.HttpContext.GetLayout().Page;
+                page.Title = page.Title + " - " + currentCategory.Title;
+            }
+
             return widget.ToWidgetViewModelPart(new ProductListWidgetViewModel
             {
                 Products = products,
-                Page = page,
-                IsPageable = pwidget.IsPageable,
-                Columns = pwidget.Columns,
-                DetailPageUrl = pwidget.DetailPageUrl
+                Page = pagin,
+                IsPageable = currentWidget.IsPageable,
+                Columns = currentWidget.Columns,
+                DetailPageUrl = currentWidget.DetailPageUrl
             });
         }
     }
