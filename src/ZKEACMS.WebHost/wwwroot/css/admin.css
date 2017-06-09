@@ -31,6 +31,28 @@ img {
     padding-right: 15px;
 }
 
+.field-validation-error {
+    top:10px;
+    position: relative;
+    display: block;
+    background: #ca2026;
+    color: white;
+    padding: .5rem;
+    font-size: 14px;
+}
+
+    .field-validation-error:before {
+        content: " ";
+        display: block;
+        border-top: 2px solid transparent;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid #ca2026;
+        position: absolute;
+        left: 10px;
+        top: -10px;
+    }
+
 @media (min-width: 1300px) {
     .form-horizontal {
         width: 70%;
@@ -41,9 +63,11 @@ img {
 .input-group .form-control {
     position: static;
 }
+
 .form-control.required {
     background-color: #fff0dd;
 }
+
 a.badge:hover {
     background-color: #1F1F1F;
 }
@@ -164,17 +188,6 @@ a.badge:hover {
     border-top: 1px solid #e1e1e8;
     clear: both;
     margin: 15px -15px -15px -15px;
-}
-
-
-
-
-.field-validation-error {
-    display: block;
-    font-size: 13px;
-    color: red;
-    background: url(images/Error-16.png) left center no-repeat;
-    padding: 5px 0 0 20px;
 }
 
 .input-group .mce-panel {
@@ -418,15 +431,15 @@ a.badge:hover {
 #media-list .thumbnail .tool {
     position: absolute;
     left: 20px;
-    bottom:50px;
-    width:100%;
-    text-align:left;
+    bottom: 50px;
+    width: 100%;
+    text-align: left;
 }
 
-#media-list .thumbnail .tool a {
-    margin: 0 3px;
-    color: #3D3E43;
-}
+    #media-list .thumbnail .tool a {
+        margin: 0 3px;
+        color: #3D3E43;
+    }
 
 #media-list .thumbnail .close:hover {
     opacity: 1;
@@ -443,43 +456,50 @@ a.badge:hover {
 .navbar-inverse .navbar-nav > li a:hover {
     background-color: #000;
 }
-.dataTable{
-    background-color:#fff;
-}
-.dataTable thead,
-.dataTable tfoot {
+
+.dataTable {
     background-color: #fff;
 }
 
-.dataTable .input-group-addon{
-    cursor:pointer;
-}
-.dataTable .form-control{
-    font-weight:normal;
-    width:100%;
-}
-.dataTable .range-search{
-    position:relative;
-}
-.dataTable .range-search input.max{
-    display:none;
-    position: absolute;
-    left: 0;
-    bottom: -100%;
-    width: 100%;
-    z-index: 2;
-    margin-bottom:-2px;
+    .dataTable thead,
+    .dataTable tfoot {
+        background-color: #fff;
+    }
+
+    .dataTable .input-group-addon {
+        cursor: pointer;
+    }
+
+    .dataTable .form-control {
+        font-weight: normal;
+        width: 100%;
+    }
+
+    .dataTable .range-search {
+        position: relative;
+    }
+
+        .dataTable .range-search input.max {
+            display: none;
+            position: absolute;
+            left: 0;
+            bottom: -100%;
+            width: 100%;
+            z-index: 2;
+            margin-bottom: -2px;
+        }
+
+            .dataTable .range-search input.max.show {
+                display: block;
+            }
+
+table.table-bordered.dataTable th, table.table-bordered.dataTable td {
+    white-space: nowrap;
 }
 
-.dataTable .range-search input.max.show{
-    display:block;
-}
-table.table-bordered.dataTable th, table.table-bordered.dataTable td{
-    white-space:nowrap;
-}
 div.dataTables_wrapper div.dataTables_processing {
     text-indent: -5000px;
-    background:#fff url('../js/EasyPlug/Css/Images/loader.gif') center center no-repeat;
-    width:50px;
-    margin-left:-25px;
+    background: #fff url('../js/EasyPlug/Css/Images/loader.gif') center center no-repeat;
+    width: 50px;
+    margin-left: -25px;
 }
