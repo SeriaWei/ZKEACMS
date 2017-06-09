@@ -54,7 +54,7 @@ namespace Easy.Mvc.Resource
                 {
                     new ResourceEntity { Position = _position, Source = partResult }
                 };
-            resource.Name = "Capture-" + content.GetHashCode();
+            resource.Name = "Capture-" + partResult.Value.GetHashCode();
             resource.Position = _position;
             _onRegisted(resource);
         }
