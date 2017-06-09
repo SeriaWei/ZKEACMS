@@ -79,7 +79,7 @@ namespace ZKEACMS.Article.Service
             if (currentArticleType != null)
             {
                 var page = actionContext.HttpContext.GetLayout().Page;
-                page.Title = page.Title + " - " + currentArticleType.Title;
+                page.Title = (page.Title ?? "") + " - " + currentArticleType.Title;
             }
 
             return widget.ToWidgetViewModelPart(new ArticleListWidgetViewModel

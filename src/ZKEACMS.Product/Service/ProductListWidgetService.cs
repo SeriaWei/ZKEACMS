@@ -72,7 +72,7 @@ namespace ZKEACMS.Product.Service
             if (currentCategory != null)
             {
                 var page = actionContext.HttpContext.GetLayout().Page;
-                page.Title = page.Title + " - " + currentCategory.Title;
+                page.Title = (page.Title ?? "") + " - " + currentCategory.Title;
             }
 
             return widget.ToWidgetViewModelPart(new ProductListWidgetViewModel
