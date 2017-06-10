@@ -47,7 +47,13 @@ namespace ZKEACMS.Product.Service
             IEnumerable<ProductEntity> products = null;
             int pageIndex = actionContext.RouteData.GetPage();
             int cate = actionContext.RouteData.GetCategory();
-            var pagin = new Pagination { PageIndex = pageIndex, PageSize = currentWidget.PageSize ?? 20 };
+            var pagin = new Pagination<ProductEntity>
+            {
+                PageIndex = pageIndex,
+                PageSize = currentWidget.PageSize ?? 20,
+                OrderBy = m => m.OrderIndex
+            };
+            
             Expression<Func<ProductEntity, bool>> filter = null;
             if (cate != 0)
             {
@@ -55,17 +61,16 @@ namespace ZKEACMS.Product.Service
             }
             else
             {
-                var ids = _productCategoryService.Get(m => m.ID == currentWidget.ProductCategoryID || m.ParentID == currentWidget.ProductCategoryID).Select(m => m.ID);
+                var ids = _productCategoryService.Get(m => m.ID == currentWidget.ProductCategoryID || m.ParentID == currentWidget.ProductCategoryID).Select(m => m.ID).ToList();
                 filter = m => m.IsPublish && ids.Any(id => id == m.ProductCategoryID);
             }
             if (currentWidget.IsPageable)
             {
-                pagin.RecordCount = _productService.Count(filter);
-                products = _productService.Get(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID).Skip(pagin.PageIndex * pagin.PageSize).Take(pagin.PageSize);
+                products = _productService.Get(filter, pagin).ToList();
             }
             else
             {
-                products = _productService.Get(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID);
+                products = _productService.Get(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID).ToList();
             }
 
             var currentCategory = _productCategoryService.Get(cate == 0 ? currentWidget.ProductCategoryID : cate);
