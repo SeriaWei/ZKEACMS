@@ -40,43 +40,51 @@ namespace Easy.Mvc.RazorPages
                 return styles;
             }
         }
-        public IHtmlContent ScriptAtHead()
+        public IHtmlContent ScriptAtHead(bool includeRequired = true)
         {
-            return GetResource(ResourceType.Script, ResourcePosition.Head);
+            return GetResource(includeRequired, ResourceType.Script, ResourcePosition.Head);
         }
 
-        public IHtmlContent ScriptAtFoot()
+        public IHtmlContent ScriptAtFoot(bool includeRequired = true)
         {
-            return GetResource(ResourceType.Script, ResourcePosition.Foot);
+            return GetResource(includeRequired, ResourceType.Script, ResourcePosition.Foot);
         }
 
-        public IHtmlContent StyleAtHead()
+        public IHtmlContent StyleAtHead(bool includeRequired = true)
         {
-            return GetResource(ResourceType.Style, ResourcePosition.Head);
+            return GetResource(includeRequired, ResourceType.Style, ResourcePosition.Head);
         }
 
-        public IHtmlContent StyleAtFoot()
+        public IHtmlContent StyleAtFoot(bool includeRequired = true)
         {
-            return GetResource(ResourceType.Style, ResourcePosition.Foot);
+            return GetResource(includeRequired, ResourceType.Style, ResourcePosition.Foot);
         }
 
-        private IHtmlContent GetResource(ResourceType type, ResourcePosition position)
+        private IHtmlContent GetResource(bool includeRequired, ResourceType type, ResourcePosition position)
         {
             var builder = new HtmlContentBuilder();
             switch (type)
             {
                 case ResourceType.Script:
                     {
-                        ResourceManager.ScriptSource.Where(m => m.Value.Required && m.Value.Position == position)
-                        .Each(m => m.Value.Each(r => builder.AppendHtml(r.ToSource(this))));
+                        if (includeRequired)
+                        {
+                            ResourceManager.ScriptSource.Where(m => m.Value.Required && m.Value.Position == position)
+                                                    .Each(m => m.Value.Each(r => builder.AppendHtml(r.ToSource(this))));
+                        }
+
                         _requiredScripts.Where(m => m.Position == position).Each(m => m.Each(r => builder.AppendHtml(r.ToSource(this))));
                         break;
                     }
 
                 case ResourceType.Style:
                     {
-                        ResourceManager.StyleSource.Where(m => m.Value.Required && m.Value.Position == position)
-                            .Each(m => m.Value.Each(r => builder.AppendHtml(r.ToSource(this))));
+                        if (includeRequired)
+                        {
+                            ResourceManager.StyleSource.Where(m => m.Value.Required && m.Value.Position == position)
+                                                        .Each(m => m.Value.Each(r => builder.AppendHtml(r.ToSource(this))));
+                        }
+
                         _requiredStyles.Where(m => m.Position == position).Each(m => m.Each(r => builder.AppendHtml(r.ToSource(this))));
                         break;
                     }
@@ -106,14 +114,14 @@ namespace Easy.Mvc.RazorPages
             if (_requiredStyles.All(m => m.Name != resource.Name))
             {
                 _requiredStyles.Add(resource);
-            }            
+            }
         }
         private void RegistScript(ResourceCollection resource)
         {
             if (_requiredScripts.All(m => m.Name != resource.Name))
             {
                 _requiredScripts.Add(resource);
-            }            
+            }
         }
         private IApplicationContext _applicationContext;
         public IApplicationContext ApplicationContext
