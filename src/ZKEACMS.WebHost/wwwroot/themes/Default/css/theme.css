@@ -598,15 +598,6 @@ p {
 .section table tr td {
   padding: 5px;
 }
-.section .section-group-default {
-  padding: 0 5px;
-}
-.section .section-group-column {
-  padding: 0 10px;
-}
-.section .section-group-column img {
-  margin-bottom: 10px;
-}
 .border .section .section-content-listgroup {
   margin: -10px -5px -5px;
 }
@@ -624,13 +615,12 @@ p {
   margin: 0;
 }
 .section .section-group-listView {
-  padding: 10px 0;
+  margin: 15px 0;
 }
 .section .section-group-listView h4 {
   color: #000;
 }
 .section .section-group-listView img {
-  margin: 15px auto;
   display: block;
 }
 .article-list .media .media-left {

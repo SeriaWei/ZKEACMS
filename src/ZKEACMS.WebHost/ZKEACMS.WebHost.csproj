@@ -25,8 +25,6 @@
     <Content Include="wwwroot\images\Widget.Breadcrumb.png" />
     <Content Include="wwwroot\Themes\Default\css\Article.less" />
     <Content Include="wwwroot\Themes\Default\css\Base.less" />
-    <Content Include="wwwroot\Themes\Default\css\Bootstrap.less" />
-    <Content Include="wwwroot\Themes\Default\css\Bootstrap.Theme.less" />
     <Content Include="wwwroot\Themes\Default\css\Carousel.less" />
     <Content Include="wwwroot\Themes\Default\css\Library.less" />
     <Content Include="wwwroot\Themes\Default\css\Navigation.less" />

@@ -1,6 +1,7 @@
 ﻿@model SectionGroup
 @{
-    int count = Model.SectionContents.Count() / 2 + 1;
+    int count = Model.SectionContents.Count() / 2;
+    count += Model.SectionContents.Count() % 2 == 0 ? 0 : 1;
     var contents = Model.SectionContents.OrderBy(m => m.Order);
 }
 <div class="section-group-column container-fluid">
