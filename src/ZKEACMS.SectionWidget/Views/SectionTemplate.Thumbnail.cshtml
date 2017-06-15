@@ -6,18 +6,17 @@
     int count = contents.Count() / 4;
     count += contents.Count() % 4 == 0 ? 0 : 1;
 }
-<div class="container-fluid">
-    @for (int i = 0; i < count; i++)
-    {
-        <div class="row">
-            @foreach (var content in contents.Skip(i * 4).Take(4))
-            {
-                <div class="col-xs-12 col-sm-3">
-                    <a class="thumbnail" href="@Url.Content(content.ImageSrc)" data-lightbox="thumbnail" data-title="@content.ImageTitle">
-                        <img src="@Url.Content(content.ImageSrc)" />
-                    </a>
-                </div>
-            }
-        </div>
-    }
-</div>
+
+@for (int i = 0; i < count; i++)
+{
+    <div class="row">
+        @foreach (var content in contents.Skip(i * 4).Take(4))
+        {
+            <div class="col-xs-12 col-sm-3">
+                <a class="thumbnail" href="@Url.Content(content.ImageSrc)" data-lightbox="thumbnail" data-title="@content.ImageTitle">
+                    <img src="@Url.Content(content.ImageSrc)" />
+                </a>
+            </div>
+        }
+    </div>
+}

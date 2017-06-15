@@ -4,7 +4,7 @@
     count += Model.SectionContents.Count() % 2 == 0 ? 0 : 1;
     var contents = Model.SectionContents.OrderBy(m => m.Order);
 }
-<div class="section-group-column container-fluid">
+<div class="section-group-column">
     @for (int i = 0; i < count; i++)
     {
         <div class="row">
