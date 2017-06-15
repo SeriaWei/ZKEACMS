@@ -278,19 +278,26 @@ a.badge:hover {
     }
 
 
-.jstree a[ispublish="false"] {
-    color: #808080;
+.jstree a::after {
+    font-weight: normal;
+    color: #b4b4b4;
+    font-size: 11px;
+    line-height:20px;
+}
+.jstree a[ispublish="false"],
+.jstree a[publishdate="null"] {
+    color: green;
 }
 
-    .jstree a[ispublish="false"]::after {
-        content: " [Modified]";
-    }
+.jstree a[ispublish="false"]::after {
+    content: " (已修改";
+}
 
 .jstree a[publishdate="null"]::after {
-    content: " [Unpublished]";
+    content: " (未发布";
 }
-
-.jstree a[ishomepage="true"] {
+.jstree a[ishomepage="true"],
+.jstree a[url="~/index"] {
     font-weight: bold;
     color: red;
 }
