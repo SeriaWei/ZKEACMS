@@ -19,7 +19,7 @@
         line-height: 1.42857143;
         text-decoration: none;
         color: @color-main;
-        background-color: #ffffff;
+        background-color: @color-white;
         border: 1px solid @color-border;
         margin-left: -1px;
     }
@@ -42,7 +42,7 @@
     > li > a:focus,
     > li > span:focus {
         z-index: 3;
-        color: #fff;
+        color: @color-white;
         background-color: @color-main;
         border-color: @color-main;
     }
@@ -54,7 +54,7 @@
     > .active > a:focus,
     > .active > span:focus {
         z-index: 2;
-        color: #ffffff;
+        color: @color-white;
         background-color: @color-main;
         border-color: @color-main;
         cursor: default;
@@ -67,7 +67,7 @@
     > .disabled > a:hover,
     > .disabled > a:focus {
         color: @color-disabled;
-        background-color: #ffffff;
+        background-color: @color-white;
         border-color: @color-border-disable;
         cursor: not-allowed;
     }

@@ -1,0 +1,40 @@
+﻿@import "Library.less";
+
+.panel-body {
+    .list-group {
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .list-group-item {
+        border-width: 1px 0;
+    }
+
+    .list-group-item:first-child {
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        border-width: 0 0 1px;
+    }
+
+    .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+        .background-image(@color-white,@color-white);
+        text-shadow: none;
+        color: @color-main;
+        border-color: @panel-border-color;
+    }
+}
+
+.panel-default {
+    border-color: @panel-border-color;
+    background: @color-white;
+    
+}
+
+.panel-default > .panel-heading {
+    .background-image(@color-white,@color-white);
+    border-color: @color-main;
+    font-size: @font-size-normal+2;
+    
+}
