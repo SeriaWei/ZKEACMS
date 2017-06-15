@@ -29,6 +29,7 @@
     <Content Include="wwwroot\Themes\Default\css\Library.less" />
     <Content Include="wwwroot\Themes\Default\css\Navigation.less" />
     <Content Include="wwwroot\Themes\Default\css\Pagination.less" />
+    <Content Include="wwwroot\themes\Default\css\Panel.less" />
     <Content Include="wwwroot\Themes\Default\css\Product.less" />
     <Content Include="wwwroot\Themes\Default\css\Section.less" />
     <Content Include="wwwroot\Themes\Default\css\theme.css" />

@@ -283,11 +283,11 @@ a.badge:hover {
 }
 
     .jstree a[ispublish="false"]::after {
-        content: " [已修改]";
+        content: " [Modified]";
     }
 
 .jstree a[publishdate="null"]::after {
-    content: " [未发布]";
+    content: " [Unpublished]";
 }
 
 .jstree a[ishomepage="true"] {
