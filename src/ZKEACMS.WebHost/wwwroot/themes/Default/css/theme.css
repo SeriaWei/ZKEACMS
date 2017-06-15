@@ -155,19 +155,6 @@ p {
 .list-group {
   margin-bottom: 0;
 }
-@media only screen and (max-width: 767px) {
-  #container {
-    border: none;
-    box-shadow: none;
-  }
-  #container .row.container {
-    margin: 0 -15px;
-    padding: 0;
-  }
-  .bs-callout {
-    border-radius: 0;
-  }
-}
 .space {
   padding: 5px 0;
   line-height: normal;
@@ -525,7 +512,7 @@ p {
   background-repeat: repeat-x;
   background-color: #31B0d5;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .navigation {
     padding: 0;
   }
