@@ -10,7 +10,10 @@
         if (item.HideSurroundingHtml)
         {
             <div class="form-group">
-                <div class="col-sm-10">
+                <div class="col-md-offset-12 col-lg-offset-2">
+                    @Html.Label(item.PropertyName, item.DisplayName, new { @class = "control-label" })
+                </div>  
+                <div class="col-md-12 col-lg-10">
                     @Html.Editor(item.PropertyName)
                     @Html.ValidationMessage(item.PropertyName)
                 </div>
@@ -19,8 +22,10 @@
         else
         {
             <div class="form-group">
-                @Html.Label(item.PropertyName, item.DisplayName, new { @class = "col-sm-2 control-label" })
-                <div class="col-sm-10">
+                <div class="col-md-12 col-lg-2">
+                    @Html.Label(item.PropertyName, item.DisplayName, new { @class = "control-label" })
+                </div>                
+                <div class="col-md-12 col-lg-10">
                     @Html.Editor(item.PropertyName)
                     @Html.ValidationMessage(item.PropertyName)
                 </div>

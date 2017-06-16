@@ -30,7 +30,17 @@ img {
     padding-left: 15px;
     padding-right: 15px;
 }
-
+    .form-horizontal .control-label {
+        display: block;
+        text-align: right;
+    }
+    @media (max-width:1199px){
+        .form-horizontal .control-label {
+            padding-top:0;
+            margin-bottom: 7px;
+            text-align: left;
+        }
+    }
 .field-validation-error {
     top:10px;
     position: relative;
@@ -53,9 +63,9 @@ img {
         top: -10px;
     }
 
-@media (min-width: 1300px) {
+@media (min-width: 1440px) {
     .form-horizontal {
-        width: 70%;
+        width: 85%;
     }
 }
 
