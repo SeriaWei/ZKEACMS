@@ -104,7 +104,7 @@
         $(".WeiWindow.BoxShadow").addClass("StyleEditor");
     }).on("click", ".copy-widget", function() {
         $.post($(this).data("action"), function (data) {
-            Easy.MessageTip.Show(data.Message);
+            Easy.MessageTip.Show(data.message);
         });
     }).on("click", ".paste-widget", function () {
         var zone = $(this).closest(".zone");

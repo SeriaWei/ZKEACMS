@@ -419,6 +419,7 @@
     padding: 10px;
     background-color: white;
     color: black;
+    z-index:100;
 }
 
 .HtmlInput {

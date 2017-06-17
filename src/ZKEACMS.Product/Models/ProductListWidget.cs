@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ZKEACMS.Product.Service;
 using System.ComponentModel.DataAnnotations.Schema;
 using Easy.Constant;
+using System.Linq;
 
 namespace ZKEACMS.Product.Models
 {
@@ -31,9 +32,7 @@ namespace ZKEACMS.Product.Models
             base.ViewConfigure();
             ViewConfig(m => m.ProductCategoryID).AsDropDownList().DataSource(() =>
             {
-                var dicts = new Dictionary<string, string>();
-                ServiceLocator.GetService<IProductCategoryService>().GetAll().Each(m => { dicts.Add(m.ID.ToString(), m.Title); });
-                return dicts;
+                return ServiceLocator.GetService<IProductCategoryService>().GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
             }).Required().Order(NextOrder()).AddClass("select").AddProperty("data-url", "/admin/ProductCategory/Select");
 
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);

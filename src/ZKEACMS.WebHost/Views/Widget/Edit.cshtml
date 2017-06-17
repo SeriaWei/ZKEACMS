@@ -35,7 +35,7 @@
         $(function () {
             $(document).on("click", "#copy-widget", function () {
                 $.post("@Url.Action("Copy","Widget",new{module="admin"})", { widgetId: $(this).data("id") }, function (data) {
-                    Easy.MessageTip.Show(data.Message);
+                    Easy.MessageTip.Show(data.message);
                 });
             });
         });
