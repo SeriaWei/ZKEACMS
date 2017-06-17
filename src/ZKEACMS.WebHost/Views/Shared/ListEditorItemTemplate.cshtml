@@ -6,9 +6,12 @@
 <div class="row item">
     @foreach (var item in metaData.Properties.Where(m => m.ShowForEdit).OrderBy(m => m.Order))
     {
-        <div class="col-lg-3 col-md-4 col-sm-6">
-            @Html.Label(item.PropertyName, item.DisplayName, new { @class = "control-label" })
-            <div>
+        <div class="form-group">
+            <div class="col-md-12 col-lg-2">
+                @Html.Label(item.PropertyName, item.DisplayName, new { @class = "control-label" })
+            </div>
+
+            <div class="col-md-12 col-lg-9">
                 @Html.Editor(item.PropertyName)
                 @Html.ValidationMessage(item.PropertyName)
             </div>

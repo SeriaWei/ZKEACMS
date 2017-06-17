@@ -30,19 +30,22 @@ img {
     padding-left: 15px;
     padding-right: 15px;
 }
+
     .form-horizontal .control-label {
         display: block;
         text-align: right;
     }
-    @media (max-width:1199px){
-        .form-horizontal .control-label {
-            padding-top:0;
-            margin-bottom: 7px;
-            text-align: left;
-        }
+
+@media (max-width:1199px) {
+    .form-horizontal .control-label {
+        padding-top: 0;
+        margin-bottom: 7px;
+        text-align: left;
     }
+}
+
 .field-validation-error {
-    top:10px;
+    top: 10px;
     position: relative;
     display: block;
     background: #ca2026;
@@ -270,20 +273,31 @@ a.badge:hover {
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
+    padding-bottom: 8px;
 }
 
-    .input-group-collection .row {
-        margin-top: 3px;
-        margin-bottom: 3px;
-        position: relative;
+    
+
+    .input-group-collection .btn.add {
+        margin-top: 8px;
     }
+    .input-group-collection .items {
+       
+    }
+        .input-group-collection .items .item {
+            display:block;
+            position: relative;
+            border-bottom: 1px solid #f2f2f2;
+        }
+
+        .input-group-collection .item .form-group {
+            margin: 8px 0;
+        }
 
     .input-group-collection .delete {
         position: absolute;
-        left: 2px;
-        top: 50%;
+        right: 10px;
+        top: 10px;
         color: red;
     }
 
@@ -292,20 +306,22 @@ a.badge:hover {
     font-weight: normal;
     color: #b4b4b4;
     font-size: 11px;
-    line-height:20px;
+    line-height: 20px;
 }
+
 .jstree a[ispublish="false"],
 .jstree a[publishdate="null"] {
     color: green;
 }
 
-.jstree a[ispublish="false"]::after {
-    content: " (已修改";
-}
+    .jstree a[ispublish="false"]::after {
+        content: " (已修改";
+    }
 
-.jstree a[publishdate="null"]::after {
-    content: " (未发布";
-}
+    .jstree a[publishdate="null"]::after {
+        content: " (未发布";
+    }
+
 .jstree a[ishomepage="true"],
 .jstree a[url="~/index"] {
     font-weight: bold;
