@@ -19,7 +19,6 @@ cd src/ZKEACMS.WebHost
 dotnet publish -c Release -o ./bin/Release/PublishOutput
 cd ../../
 cd PluginPublisher
-dotnet restore
 dotnet run
 cd ../
 set current_path=%cd%

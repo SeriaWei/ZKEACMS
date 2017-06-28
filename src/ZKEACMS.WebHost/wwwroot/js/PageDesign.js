@@ -89,11 +89,7 @@
             width: 1024,
             title: "编辑样式",
             onLoad: function (box) {
-                var win = this;
-                $(this.document).find("#confirm").click(function () {
-                    obj.val(win.GetSelected());
-                    box.close();
-                });
+                
             },
             callBack: function () {
                 $.post(url, { style: styleTarget.attr("style") }, function () {

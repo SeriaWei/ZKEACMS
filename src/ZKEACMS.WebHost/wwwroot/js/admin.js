@@ -82,17 +82,15 @@ $(function () {
         });
     }).on("click", ".custom-style-editor", function () {
         window.top.Easy.ShowUrlWindow({
-            url: '/Modules/Common/Scripts/StyleEditor/index.html',
+            url: '/js/StyleEditor/index.html',
             width: 1024,
             title: "编辑样式",
             onLoad: function (box) {
-                var win = this;
-                $(this.document).find("#confirm").click(function () {
-                    obj.val(win.GetSelected());
-                    box.close();
-                });
-            }
+                
+            },
+            isDialog: false
         });
+        $(".WeiWindow.BoxShadow").addClass("StyleEditor");
     }).on("click", ".form-group select.select", function () {
         var obj = $(this);
         window.top.Easy.ShowUrlWindow({

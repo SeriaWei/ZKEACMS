@@ -111,6 +111,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\lib\slimscroll\" />
     <Folder Include="wwwroot\Logs\" />
   </ItemGroup>
 
