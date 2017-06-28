@@ -1,41 +1,44 @@
 ﻿@model ZKEACMS.Product.Models.ProductEntity
 @{
-   
-}
-<div class="product-detail">
-    <div class="page-header">
-        <h1 class="align-center">
-            @Model.Title
-        </h1>
-        <div class="align-right">
-            <span>
-                <i class="glyphicon glyphicon-user"></i>
-                @Model.CreatebyName
-            </span>
-            <span>
-                <i class="glyphicon glyphicon-calendar"></i>
-                @((Model.PublishDate ?? DateTime.Now).ToString("yyyy/MM/dd"))
-            </span>
 
-            @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProduct))
+}
+@if (Model != null)
+{
+    <div class="product-detail">
+        <div class="page-header">
+            <h1 class="align-center">
+                @Model.Title
+            </h1>
+            <div class="align-right">
+                <span>
+                    <i class="glyphicon glyphicon-user"></i>
+                    @Model.CreatebyName
+                </span>
+                <span>
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    @((Model.PublishDate ?? DateTime.Now).ToString("yyyy/MM/dd"))
+                </span>
+
+                @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProduct) && Model.ID > 0)
+                {
+                    <a href="@Url.Action("Edit", "Product", new { id = Model.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">编辑</a>
+                }
+            </div>
+        </div>
+        <div class="panel-body detail clearfix">
+            @if (Model.Description.IsNotNullAndWhiteSpace())
             {
-                <a href="@Url.Action("Edit", "Product", new { id = Model.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">编辑</a>
+                <blockquote>
+                    <footer>
+                        @Model.Description
+                    </footer>
+                </blockquote>
             }
+            @if (Model.ImageUrl.IsNotNullAndWhiteSpace())
+            {
+                <img class="thumbnail" src="@Url.Content(Model.ImageUrl)" alt="@Model.Title" />
+            }
+            @Html.Raw(Model.ProductContent)
         </div>
     </div>
-    <div class="panel-body detail clearfix">
-        @if (Model.Description.IsNotNullAndWhiteSpace())
-        {
-            <blockquote>
-                <footer>
-                    @Model.Description
-                </footer>
-            </blockquote>
-        }
-        @if (Model.ImageUrl.IsNotNullAndWhiteSpace())
-        {
-            <img class="thumbnail" src="@Url.Content(Model.ImageUrl)" alt="@Model.Title" />
-        }
-        @Html.Raw(Model.ProductContent)
-    </div>
-</div>
+}

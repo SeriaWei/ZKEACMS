@@ -75,5 +75,11 @@ namespace ZKEACMS.Controllers
 
             return Json(result);
         }
+
+        [HttpPost]
+        public JsonResult GetCurrentTheme()
+        {
+            return Json(Url.Content(Service.GetCurrentTheme().Url));
+        }
     }
 }

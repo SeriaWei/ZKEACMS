@@ -56,10 +56,10 @@ namespace ZKEACMS.Article.Controllers
             if (entity.ActionType == ActionType.Publish && _authorizer.Authorize(PermissionKeys.PublishArticle))
             {
                 Service.Publish(entity.ID);
-                if (Request.Query["ReturnUrl"].Count > 0)
-                {
-                    return Redirect(Request.Query["ReturnUrl"]);
-                }
+            }
+            if (Request.Query["ReturnUrl"].Count > 0)
+            {
+                return Redirect(Request.Query["ReturnUrl"]);
             }
             return result;
         }

@@ -2,33 +2,35 @@
 @{
     Style.Reqiured("Article").AtHead();
 }
-
-<div class="article-detail">
-    <div class="page-header">
-        <h1 class="align-center">
-            @Model.Current.Title
-        </h1>
-        <div class="align-right">
-            <span>
-                <i class="glyphicon glyphicon-user"></i>
-                @Model.Current.CreatebyName
-            </span>
-            <span>
-                <i class="glyphicon glyphicon-calendar"></i>
-                @((Model.Current.PublishDate ?? DateTime.Now).ToString("yyyy/MM/dd"))
-            </span>
-            @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticle))
+@if (Model != null && Model.Current != null)
+{
+    <div class="article-detail">
+        <div class="page-header">
+            <h1 class="align-center">
+                @Model.Current.Title
+            </h1>
+            <div class="align-right">
+                <span>
+                    <i class="glyphicon glyphicon-user"></i>
+                    @Model.Current.CreatebyName
+                </span>
+                <span>
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    @((Model.Current.PublishDate ?? DateTime.Now).ToString("yyyy/MM/dd"))
+                </span>
+                @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticle) && Model.Current.ID > 0)
+                {
+                    <a href="@Url.Action("Edit", "Article", new { id = Model.Current.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">编辑</a>
+                }
+            </div>
+        </div>
+        <div class="panel-body detail clearfix">
+            @if (Model.Current.ImageUrl.IsNotNullAndWhiteSpace())
             {
-                <a href="@Url.Action("Edit", "Article", new { id = Model.Current.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">编辑</a>
+                <img class="thumbnail" src="@Url.Content(Model.Current.ImageUrl)" alt="@Model.Current.Title" />
             }
+            @Html.Raw(Model.Current.ArticleContent)
         </div>
     </div>
-    <div class="panel-body detail clearfix">
-        @if (Model.Current.ImageUrl.IsNotNullAndWhiteSpace())
-        {
-            <img class="thumbnail" src="@Url.Content(Model.Current.ImageUrl)" alt="@Model.Current.Title" />
-        }
-        @Html.Raw(Model.Current.ArticleContent)
-    </div>
-</div>
+}
 
