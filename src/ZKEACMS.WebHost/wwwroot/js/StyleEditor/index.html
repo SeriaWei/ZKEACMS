@@ -15,7 +15,7 @@
 <body>
     <div class="editor-main">
         <div class="examples">
-            <div class="panel-group" id="accordion2">
+            <div id="accordion2">
                 <fieldset>
                     <legend>背景</legend>
                     <div>
@@ -30,6 +30,7 @@
                                 <span class="glyphicon glyphicon-search"></span>
                             </span>
                         </div>
+
                         <div class="input-group">
                             <span class="input-group-addon">重复模式</span>
                             <select class="form-control" onchange="updateDisplay()" id="background-repeat">
@@ -48,6 +49,8 @@
                                 <option value="cover">覆盖</option>
                             </select>
                         </div>
+
+
                         <div class="input-group">
                             <span class="input-group-addon">位置</span>
                             <select class="form-control" onchange="updateDisplay()" id="background-position">
@@ -118,8 +121,8 @@
                         </div>
                     </div>
                 </fieldset>
-                <fieldset class="panel panel-default">
-                    <legend class="panel-heading">
+                <fieldset>
+                    <legend>
                         边框
                     </legend>
                     <div>
