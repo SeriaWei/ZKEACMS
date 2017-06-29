@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{43CF214F-8C1A-4433-824E-CBD46BA7223E}"
 EndProject
@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKEACMS.Product", "src\ZKEA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKEACMS.Article", "src\ZKEACMS.Article\ZKEACMS.Article.csproj", "{1AFB2011-A7F9-40DC-AA29-8B0243CBC72E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginPublisher", "PluginPublisher\PluginPublisher.csproj", "{87028CB7-7FF5-4B94-8636-90870D379873}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginPublisher", "PluginPublisher\PluginPublisher.csproj", "{87028CB7-7FF5-4B94-8636-90870D379873}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{81AA2238-D340-4199-B3B9-76AB9792B3E7}"
 EndProject

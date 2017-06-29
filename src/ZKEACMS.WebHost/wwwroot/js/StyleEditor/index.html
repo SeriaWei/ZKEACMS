@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <div class="editor-main">
+    <div class="editor-main clearfix">
         <div class="examples">
             <div id="accordion2">
                 <fieldset>
@@ -320,17 +320,22 @@
 
                 <fieldset>
                     <legend>
-                        阴影 / 圆角
+                        圆角
                     </legend>
                     <div>
-                        <h3>圆角</h3>
                         <p>
                             <label for="border-radius">大小:</label>
                             <strong class="text-info"><span id="border-radius">0</span>px</strong>
                         </p>
                         <div id="slider_border-radius" class="slider padding">
                         </div>
-                        <h3>文字阴影</h3>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>
+                        文字阴影
+                    </legend>
+                    <div>
                         <p>
                             <label for="text-h-length">水平大小:</label>
                             <strong class="text-info"><span id="text-h-length">0</span>px</strong>
@@ -354,7 +359,13 @@
                             <span class="input-group-addon">颜色</span>
                             <input class="form-control jscolor {pickerPosition:'top',hash:true}" id="text-s-color" value="#000000" type="text" onchange="updateDisplay()" />
                         </div>
-                        <h3>阴影</h3>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>
+                        阴影
+                    </legend>
+                    <div>
                         <p>
                             <label for="box-h-length">水平大小:</label>
                             <strong class="text-info"><span id="box-h-length">0</span>px</strong>
@@ -436,7 +447,26 @@
                 </fieldset>
             </div>
             <input href="javascript:void(0)" class="btn btn-danger reset" value="重置" type="button" />
-            <pre id="output" class="prettyprint lang-css prettyprinted"></pre>
+        </div>
+        <div id="preview">
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <span class="badge">预览</span>
+                    </div>
+                    <div style="background: url('./Content/grid.gif'); padding: 10px;">
+                        <div id="CSS-Display">
+                            <div>
+                                传统的建站，网站所有区域的内容都是固定的，不可改变的，不能够随心所欲的改变页面的结构，布局。而使用ZKEACMS，您可以对网页进行任意的区域划分，每个区域都可随意添加内容。
+                                <br> 您还可以向布局中添加共用的内容，这样所有应用这个布局的页面都会有相同的内容，而不用重复制添加。
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <pre id="output" class="prettyprint lang-css prettyprinted"></pre>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script type="text/javascript" src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>

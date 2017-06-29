@@ -13,7 +13,7 @@
 @echo https://docs.microsoft.com/zh-cn/dotnet/articles/core/rid-catalog
 @echo -----------------------------------------------------------------------------
 @echo ------------------- Build -------------------
-dotnet build ZKEACMS.sln
+dotnet build -c Release ZKEACMS.sln
 @echo ------------------ Release ------------------
 cd src/ZKEACMS.WebHost
 dotnet publish -c Release -o ./bin/Release/PublishOutput

@@ -25,10 +25,8 @@ html::-webkit-scrollbar-track {
     padding-bottom: 10px;
 }
 
-#output {
-    margin-bottom: 0;
-    border: none;
-    display:none;
+#preview {
+    display: none;
 }
 
 .panel-body > div > h3:first-child {
@@ -59,9 +57,11 @@ html::-webkit-scrollbar-track {
 .panel-heading {
     padding: 7px 15px;
 }
+
 .examples {
     padding: 0 10px;
 }
+
 legend {
     display: block;
     width: 100%;
@@ -73,6 +73,41 @@ legend {
     border: 0;
     border-bottom: 1px solid #e5e5e5;
 }
-fieldset{
-    margin-bottom:10px;
+
+fieldset {
+    margin-bottom: 10px;
+}
+
+    fieldset label {
+        font-weight: normal;
+    }
+
+    fieldset .form-control {
+        height: 30px;
+        padding: 3px 6px;
+    }
+
+    fieldset .input-group-addon {
+        background-color: #f8f8f8;
+    }
+
+@media (min-width:500px) {
+    .examples {
+        float:left;
+        width:60%;
+        padding:0;
+    }
+    #accordion2 {
+    padding:0 10px;
+    } 
+    #preview {
+        float: left;
+        display: block;
+        width: 40%;
+    }
+    #preview pre{
+        border:none;
+        padding:0;
+        margin:0;
+    }
 }

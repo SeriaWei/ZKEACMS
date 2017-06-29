@@ -16,7 +16,7 @@ namespace PluginPublisher
         private const string PluginInfoFile = "zkea.plugin";
         private const string PublishTo = @"src\ZKEACMS.WebHost\bin\Release\PublishOutput\";
         private static string[] IgnoreFiles = new string[] { ".cs", ".pdb", ".csproj", ".user" };
-        private static string[] IgnoreFoders = new string[] { "obj" };
+        private static string[] IgnoreFoders = new string[] { "obj", "Debug" };
         static void Main(string[] args)
         {
             var projectFolder = new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.FullName;
