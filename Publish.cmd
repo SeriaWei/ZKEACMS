@@ -12,6 +12,12 @@
 @echo .NET Core 运行时标识符 (RID) 目录
 @echo https://docs.microsoft.com/zh-cn/dotnet/articles/core/rid-catalog
 @echo -----------------------------------------------------------------------------
+@echo 注意：发布前将清空发布目录
+@pause
+@echo ------------------- Clean Publish Output -------------------
+set current_path=%cd%
+rd/s/q %current_path%\src\ZKEACMS.WebHost\bin\Release\PublishOutput
+
 @echo ------------------- Build -------------------
 dotnet build -c Release ZKEACMS.sln
 @echo ------------------ Release ------------------
