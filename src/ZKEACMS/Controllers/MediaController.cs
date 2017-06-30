@@ -28,7 +28,7 @@ namespace ZKEACMS.Controllers
         {
             return base.Index();
         }
-        
+
         public ActionResult Index(string ParentId, int? pageIndex)
         {
             ParentId = ParentId ?? "#";
@@ -64,7 +64,7 @@ namespace ZKEACMS.Controllers
                 }
             }
         }
-        
+
         public ActionResult Select(string ParentId, int? pageIndex)
         {
             ViewBag.PopUp = true;
@@ -89,10 +89,25 @@ namespace ZKEACMS.Controllers
             return Json(entity);
         }
         [HttpPost]
-        public JsonResult Upload(string parentId)
+        public JsonResult Upload(string parentId, string folder)
         {
             if (Request.Form.Files.Count > 0)
             {
+                if (folder.IsNotNullAndWhiteSpace())
+                {
+                    var parent = Service.Get(m => m.Title == folder && m.MediaType == (int)MediaType.Folder).FirstOrDefault();
+                    if (parent == null)
+                    {
+                        parent = new MediaEntity
+                        {
+                            Title = folder,
+                            MediaType = (int)MediaType.Folder,
+                            ParentID = "#"
+                        };
+                        Service.Add(parent);
+                    }
+                    parentId = parent.ID;
+                }
                 parentId = parentId ?? "#";
                 string fileName = Path.GetFileName(Request.Form.Files[0].FileName);
                 var entity = new MediaEntity

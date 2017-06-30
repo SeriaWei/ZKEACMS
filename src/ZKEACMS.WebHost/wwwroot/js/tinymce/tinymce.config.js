@@ -17,6 +17,7 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
         language: "zh_CN",
         setup: function (editor) {
             editor.on('paste', function (e) {
+                var currentEditor = this;
                 var cbData;
                 if (e.clipboardData) {
                     cbData = e.clipboardData;
@@ -28,39 +29,48 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
                     if (fileList.length > 0) {
                         for (var i = 0; i < fileList.length; i++) {
                             var blob = fileList[i];
-                            console.log("Image blob: " + blob);
-                            readPastedBlob(blob);
+                            uploadFile(blob);
                         }
                     }
                 }
                 if (cbData && cbData.items) {
-                    if ((text = cbData.getData("text/plain"))) {
-                        // Text pasting is already handled
+                    if (cbData.getData("text/plain") ||
+                        (cbData.items.length === 2 && cbData.items[0].type === "text/html") && cbData.items[1].type.indexOf('image') !== -1) {
                         return;
                     }
                     for (var i = 0; i < cbData.items.length; i++) {
+                        var reader = new FileReader();
                         if (cbData.items[i].type.indexOf('image') !== -1) {
                             var blob = cbData.items[i].getAsFile();
-                            readPastedBlob(blob);
+                            uploadFile(blob);
                         }
                     }
                 }
-
-                function readPastedBlob(blob) {
-                    if (blob) {
-                        reader = new FileReader();
-                        reader.onload = function (evt) {
-                            pasteImage(evt.target.result);
-                        };
-                        reader.readAsDataURL(blob);
+                
+                function uploadFile(file) {
+                    Easy.Block();
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/admin/media/Upload");
+                    xhr.onload = function (data) {
+                        Easy.UnBlock();
+                        var result = JSON.parse(data.target.response);
+                        if (result.id) {
+                            pasteImage(result.url);
+                        }
                     }
+                    var formData = new FormData();
+                    formData.append('file', file);
+                    formData.append("folder", "图片");
+                    xhr.send(formData)
                 }
-
                 function pasteImage(source) {
-                    var image = "<img src='" + source + "' data-mce-selected='1'></img>";
-                    window.tinyMCE.execCommand('mceInsertContent', false, image);
+                    currentEditor.undoManager.transact(function () {
+                        currentEditor.selection.setContent(currentEditor.dom.createHTML("img", { "src": source }));
+                    });
+                    currentEditor.focus();
+                    currentEditor.nodeChanged();
+
                 }
-            
             })
         }
     });
