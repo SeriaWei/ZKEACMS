@@ -230,6 +230,9 @@ $(function () {
                                     $(target).blur().focus();
                                 }
                             }
+                            xhr.onerror = function () {
+                                target.value = "图片上传失败";
+                            }
                             var formData = new FormData();
                             formData.append('file', file);
                             formData.append("folder", "图片");
