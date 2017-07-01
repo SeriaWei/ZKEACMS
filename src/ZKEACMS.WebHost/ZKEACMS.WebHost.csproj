@@ -23,6 +23,7 @@
   <ItemGroup>
     <Content Include="wwwroot\images\not-img-available.jpg" />
     <Content Include="wwwroot\images\Widget.Breadcrumb.png" />
+    <Content Include="wwwroot\js\tinymce\plugins\pasteImage\plugin.js" />
     <Content Include="wwwroot\Themes\Default\css\Article.less" />
     <Content Include="wwwroot\Themes\Default\css\Base.less" />
     <Content Include="wwwroot\Themes\Default\css\Carousel.less" />

@@ -148,5 +148,11 @@
     "inputFiles": [
       "wwwroot/js/LayoutDesign.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/tinymce/plugins/pasteImage/plugin.min.js",
+    "inputFiles": [
+      "wwwroot/js/tinymce/plugins/pasteImage/plugin.js"
+    ]
   }
 ]
