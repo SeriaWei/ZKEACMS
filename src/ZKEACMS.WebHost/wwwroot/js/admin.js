@@ -202,52 +202,44 @@ $(function () {
             return null;
         },
         placement: "bottom"
-    });
-    
-    document.addEventListener("paste", function (e) {
-        if (e.target.className && e.target.className.indexOf("select-image") >= 0) {
-            var target = e.target;
-            var cbData;
-            if (e.clipboardData) {
-                cbData = e.clipboardData;
-            } else if (window.clipboardData) {
-                cbData = window.clipboardData;
-            }
-            if (e.msConvertURL) {
-                var fileList = cbData.files;
-                if (fileList.length > 0) {
-                    for (var i = 0; i < fileList.length; i++) {
-                        var blob = fileList[i];
-                        uploadFile(blob);
+    }).parent().addClass("loading");
+    if (document.addEventListener) {
+        document.addEventListener("paste", function (e) {
+            if (e.target.className && e.target.className.indexOf("select-image") >= 0) {
+                e.target.parentNode.className = e.target.parentNode.className + " processing";
+                var target = e.target;
+                var cbData;
+                if (e.clipboardData) {
+                    cbData = e.clipboardData;
+                } else if (window.clipboardData) {
+                    cbData = window.clipboardData;
+                }
+                if (cbData && cbData.items) {
+                    for (var i = 0; i < cbData.items.length; i++) {
+                        var reader = new FileReader();
+                        if (cbData.items[i].type.indexOf('image') !== -1) {
+                            target.value = "图片上传中...";
+                            var file = cbData.items[i].getAsFile();
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("POST", "/admin/media/Upload");
+                            xhr.onload = function (data) {
+                                target.parentNode.className = target.parentNode.className.replace(" processing", "");
+                                var result = JSON.parse(data.target.response);
+                                if (result.id) {
+                                    target.value = "~" + result.url;
+                                    $(target).blur().focus();
+                                }
+                            }
+                            var formData = new FormData();
+                            formData.append('file', file);
+                            formData.append("folder", "图片");
+                            xhr.send(formData);
+                        }
                     }
                 }
             }
-            if (cbData && cbData.items) {
-                for (var i = 0; i < cbData.items.length; i++) {
-                    var reader = new FileReader();
-                    if (cbData.items[i].type.indexOf('image') !== -1) {
-                        var blob = cbData.items[i].getAsFile();
-                        uploadFile(blob);
-                    }
-                }
-            }
-            function uploadFile(file) {
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "/admin/media/Upload");
-                xhr.onload = function (data) {
-                    var result = JSON.parse(data.target.response);
-                    if (result.id) {
-                        target.value = result.url;
-                    }
-                }
-                var formData = new FormData();
-                formData.append('file', file);
-                formData.append("folder", "图片");
-                xhr.send(formData)
-            }
-            return false;
-        }
-    });
+        });
+    }
   
     $(".input-group .glyphicon.glyphicon-play").popover({
         trigger: "click",

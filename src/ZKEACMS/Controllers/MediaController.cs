@@ -152,7 +152,7 @@ namespace ZKEACMS.Controllers
             }
             else
             {
-                Service.Get(m => m.ParentID == mediaId).Each(m => DeleteMedia(m.ID));
+                Service.Get(m => m.ParentID == mediaId).ToList().Each(m => DeleteMedia(m.ID));
             }
             Service.Remove(mediaId);
         }
