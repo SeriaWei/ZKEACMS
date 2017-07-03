@@ -1,6 +1,6 @@
 ﻿/*!
  * http://www.zkea.net/
- * Copyright 2016 ZKEASOFT
+ * Copyright 2017 ZKEASOFT
  * http://www.zkea.net/licenses
  */
 
@@ -203,10 +203,10 @@ $(function () {
         },
         placement: "bottom"
     }).parent().addClass("loading");
+
     if (document.addEventListener) {
         document.addEventListener("paste", function (e) {
             if (e.target.className && e.target.className.indexOf("select-image") >= 0) {
-                e.target.parentNode.className = e.target.parentNode.className + " processing";
                 var target = e.target;
                 var cbData;
                 if (e.clipboardData) {
@@ -218,6 +218,7 @@ $(function () {
                     for (var i = 0; i < cbData.items.length; i++) {
                         var reader = new FileReader();
                         if (cbData.items[i].type.indexOf('image') !== -1) {
+                            target.parentNode.className = target.parentNode.className + " processing";
                             target.value = "图片上传中...";
                             var file = cbData.items[i].getAsFile();
                             var xhr = new XMLHttpRequest();
@@ -231,12 +232,14 @@ $(function () {
                                 }
                             }
                             xhr.onerror = function () {
+                                target.parentNode.className = target.parentNode.className.replace(" processing", "");
                                 target.value = "图片上传失败";
                             }
                             var formData = new FormData();
                             formData.append('file', file);
                             formData.append("folder", "图片");
                             xhr.send(formData);
+                            break;
                         }
                     }
                 }

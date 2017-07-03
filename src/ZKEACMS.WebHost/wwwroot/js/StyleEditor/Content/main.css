@@ -90,24 +90,45 @@ fieldset {
     fieldset .input-group-addon {
         background-color: #f8f8f8;
     }
+.input-group .form-control {
+    position: static;
+}
+.input-group.loading::before {
+    display: block;
+    content: " ";
+    position: absolute;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    background: red;
+}
+
+.input-group.loading.processing::before {
+    width: 100%;
+    transition: width 2s;
+}
 
 @media (min-width:500px) {
     .examples {
-        float:left;
-        width:60%;
-        padding:0;
+        float: left;
+        width: 60%;
+        padding: 0;
     }
+
     #accordion2 {
-    padding:0 10px;
-    } 
+        padding: 0 10px;
+    }
+
     #preview {
         float: left;
         display: block;
         width: 40%;
     }
-    #preview pre{
-        border:none;
-        padding:0;
-        margin:0;
-    }
+
+        #preview pre {
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
 }
