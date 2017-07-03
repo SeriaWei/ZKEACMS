@@ -116,7 +116,7 @@ namespace ZKEACMS
             get
             {
                 var attr = typeof(Version).GetTypeInfo().Assembly.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
-                return "ZKEACMS Core v" + attr.InformationalVersion;
+                return "ZKEACMS v" + attr.InformationalVersion;
             }
         }
     }

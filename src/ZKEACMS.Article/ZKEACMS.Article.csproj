@@ -16,6 +16,13 @@
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
+    <Copyright>深圳市纸壳软件有限公司 ZKEASOFT</Copyright>
+    <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS.Core</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>CMS.Article</PackageTags>
+    <Description>Article plugin for ZKEACMS</Description>
   </PropertyGroup>
 
   <ItemGroup>

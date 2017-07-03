@@ -11,6 +11,13 @@
     <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+    <Copyright>深圳市纸壳软件有限公司 ZKEASOFT</Copyright>
+    <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS.Core</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>ZKEACMS.WebHost</PackageTags>
+    <Description>Package Description</Description>
   </PropertyGroup>
 
   <ItemGroup>
