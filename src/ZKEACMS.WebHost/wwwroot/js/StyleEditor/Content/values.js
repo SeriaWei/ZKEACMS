@@ -45,7 +45,6 @@ $(function () {
             }
             if (cbData && cbData.items) {
                 for (var i = 0; i < cbData.items.length; i++) {
-                    var reader = new FileReader();
                     if (cbData.items[i].type.indexOf('image') !== -1) {
                         target.parentNode.className = target.parentNode.className + " processing";
                         target.value = "图片上传中...";
