@@ -18,18 +18,11 @@
             <div id="accordion2">
                 <fieldset>
                     <legend>背景</legend>
-                    <div>
+                    <div class="column">
                         <div class="input-group">
                             <span class="input-group-addon">背景色</span>
                             <input class="form-control jscolor {hash:true,required:false}" id="b-color" type="text" onchange="updateDisplay()" />
-                        </div>
-                        <div class="input-group loading">
-                            <span class="input-group-addon">背景图</span>
-                            <input type="text" class="form-control" data-url="/admin/Media/Select" onchange="updateDisplay()" id="background-image" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </span>
-                        </div>
+                        </div>                   
 
                         <div class="input-group">
                             <span class="input-group-addon">重复模式</span>
@@ -49,7 +42,6 @@
                                 <option value="cover">覆盖</option>
                             </select>
                         </div>
-
 
                         <div class="input-group">
                             <span class="input-group-addon">位置</span>
@@ -72,6 +64,15 @@
                                 <option value="fixed">固定</option>
                                 <option value="scroll">滚动</option>
                             </select>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="input-group loading">
+                            <span class="input-group-addon">背景图</span>
+                            <input type="text" class="form-control" data-url="/admin/Media/Select" onchange="updateDisplay()" id="background-image" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </span>
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">自定义</span>
@@ -110,7 +111,7 @@
                     <legend>
                         宽 / 高
                     </legend>
-                    <div>
+                    <div class="column">
                         <div class="input-group">
                             <span class="input-group-addon">宽(px)</span>
                             <input class="form-control" id="width" type="text" placeholder="50" onchange="updateDisplay()" />
@@ -127,35 +128,37 @@
                     </legend>
                     <div>
                         <p>
-                            <label for="border-width">边框大小:</label>
+                            <label for="border-width">大小:</label>
                             <strong class="text-info"><span id="border-width">0</span>px</strong>
                         </p>
                         <div id="slider_border-width" class="slider border">
                         </div>
-                        <div class="input-group">
-                            <span class="input-group-addon">边框颜色</span>
-                            <input class="form-control jscolor {hash:true}" id="bc-color" value="#6D6D6D" type="text" onchange="updateDisplay()" />
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-addon">边框样式</span>
-                            <select class="form-control" onchange="updateDisplay()" id="border-style">
-                                <option value="solid">实线</option>
-                                <option value="dashed">虚线</option>
-                                <option value="dotted">点划线</option>
-                                <option value="double">双线</option>
-                                <option value="groove">凹槽</option>
-                                <option value="inset">内嵌</option>
-                                <option value="outset">外嵌</option>
-                                <option value="ridge">屋脊</option>
-                            </select>
-                        </div>
+                        <div class="column">
+                            <div class="input-group">
+                                <span class="input-group-addon">颜色</span>
+                                <input class="form-control jscolor {hash:true}" id="bc-color" value="#6D6D6D" type="text" onchange="updateDisplay()" />
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">样式</span>
+                                <select class="form-control" onchange="updateDisplay()" id="border-style">
+                                    <option value="solid">实线</option>
+                                    <option value="dashed">虚线</option>
+                                    <option value="dotted">点划线</option>
+                                    <option value="double">双线</option>
+                                    <option value="groove">凹槽</option>
+                                    <option value="inset">内嵌</option>
+                                    <option value="outset">外嵌</option>
+                                    <option value="ridge">屋脊</option>
+                                </select>
+                            </div>
+                        </div>                        
                     </div>
                 </fieldset>
                 <fieldset>
                     <legend>
                         文本
                     </legend>
-                    <div>
+                    <div class="column">
                         <div class="input-group">
                             <span class="input-group-addon">文本颜色</span>
                             <input class="form-control jscolor {hash:true,required:false}" id="t-color" type="text" onchange="updateDisplay()" />
@@ -192,7 +195,9 @@
                                 <option value="lowercase">小写</option>
                                 <option value="uppercase">大写</option>
                             </select>
-                        </div>
+                        </div>                        
+                    </div>
+                    <div>
                         <p>
                             <label for="text-indent">缩进:</label>
                             <strong class="text-info"><span id="text-indent">0</span>px</strong>
@@ -217,7 +222,7 @@
                     <legend>
                         字体
                     </legend>
-                    <div>
+                    <div class="column">
                         <div class="input-group">
                             <span class="input-group-addon">字体</span>
                             <select class="form-control" onchange="updateDisplay()" id="font-name">
@@ -254,7 +259,7 @@
                             </select>
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon">小型大写字母</span>
+                            <span class="input-group-addon">小型大写</span>
                             <select class="form-control" onchange="updateDisplay()" id="font-variant">
                                 <option value=""></option>
                                 <option value="normal">正常</option>
@@ -394,7 +399,7 @@
                     <legend>
                         其它
                     </legend>
-                    <div>
+                    <div class="column">
                         <div class="input-group">
                             <span class="input-group-addon">鼠标</span>
                             <select class="form-control" onchange="updateDisplay()" id="cursor">
@@ -425,7 +430,7 @@
                             </select>
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon">超出可见性</span>
+                            <span class="input-group-addon">超出</span>
                             <select class="form-control" onchange="updateDisplay()" id="overflow">
                                 <option value=""></option>
                                 <option value="visible">可见</option>
@@ -446,7 +451,7 @@
                     </div>
                 </fieldset>
             </div>
-            <input href="javascript:void(0)" class="btn btn-danger reset" value="重置" type="button" />
+            
         </div>
         <div id="preview">
             <div class="panel-body">
@@ -454,7 +459,7 @@
                     <div class="panel-heading clearfix">
                         <span class="badge">预览</span>
                     </div>
-                    <div style="background: url('./Content/grid.gif'); padding: 10px;">
+                    <div style="background: #212636; padding: 10px;">
                         <div id="CSS-Display">
                             <div>
                                 传统的建站，网站所有区域的内容都是固定的，不可改变的，不能够随心所欲的改变页面的结构，布局。而使用ZKEACMS，您可以对网页进行任意的区域划分，每个区域都可随意添加内容。
