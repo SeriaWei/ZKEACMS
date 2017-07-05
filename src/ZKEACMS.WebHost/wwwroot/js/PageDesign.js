@@ -89,7 +89,7 @@
             width: 1024,
             title: "编辑样式",
             onLoad: function (box) {
-                
+                box.addClass("loaded");
             },
             callBack: function () {
                 $.post(url, { style: styleTarget.attr("style") }, function () {

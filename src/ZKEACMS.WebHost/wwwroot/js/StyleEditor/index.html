@@ -20,14 +20,14 @@
                     <legend>背景</legend>
                     <div class="column">
                         <div class="input-group">
-                            <span class="input-group-addon">背景色</span>
+                            <span class="input-group-addon">颜色</span>
                             <input class="form-control jscolor {hash:true,required:false}" id="b-color" type="text" onchange="updateDisplay()" />
                         </div>                   
 
                         <div class="input-group">
-                            <span class="input-group-addon">重复模式</span>
+                            <span class="input-group-addon">重复</span>
                             <select class="form-control" onchange="updateDisplay()" id="background-repeat">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="repeat">重复</option>
                                 <option value="repeat-x">水平重复</option>
                                 <option value="repeat-y">垂直重复</option>
@@ -35,9 +35,9 @@
                             </select>
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon">背景大小</span>
+                            <span class="input-group-addon">大小</span>
                             <select class="form-control" onchange="updateDisplay()" id="background-size">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="contain">容纳</option>
                                 <option value="cover">覆盖</option>
                             </select>
@@ -46,7 +46,7 @@
                         <div class="input-group">
                             <span class="input-group-addon">位置</span>
                             <select class="form-control" onchange="updateDisplay()" id="background-position">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="left">左对齐</option>
                                 <option value="right">右对齐</option>
                                 <option value="top">顶部对齐</option>
@@ -60,7 +60,7 @@
                         <div class="input-group">
                             <span class="input-group-addon">固定</span>
                             <select class="form-control" onchange="updateDisplay()" id="background-attachment">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="fixed">固定</option>
                                 <option value="scroll">滚动</option>
                             </select>
@@ -160,14 +160,14 @@
                     </legend>
                     <div class="column">
                         <div class="input-group">
-                            <span class="input-group-addon">文本颜色</span>
+                            <span class="input-group-addon">颜色</span>
                             <input class="form-control jscolor {hash:true,required:false}" id="t-color" type="text" onchange="updateDisplay()" />
                         </div>
 
                         <div class="input-group">
                             <span class="input-group-addon">对齐</span>
                             <select class="form-control" onchange="updateDisplay()" id="text-align">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="left">左对齐</option>
                                 <option value="right">右对齐</option>
                                 <option value="center">居中</option>
@@ -177,7 +177,7 @@
                         <div class="input-group">
                             <span class="input-group-addon">修饰</span>
                             <select class="form-control" onchange="updateDisplay()" id="text-decoration">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="none">无</option>
                                 <option value="underline">底线</option>
                                 <option value="overline">顶线</option>
@@ -189,7 +189,7 @@
                         <div class="input-group">
                             <span class="input-group-addon">大小写</span>
                             <select class="form-control" onchange="updateDisplay()" id="text-transform">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="none">无</option>
                                 <option value="capitalize">首字母大写</option>
                                 <option value="lowercase">小写</option>
@@ -226,7 +226,7 @@
                         <div class="input-group">
                             <span class="input-group-addon">字体</span>
                             <select class="form-control" onchange="updateDisplay()" id="font-name">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="arial">Arial</option>
                                 <option value="'arial black'">Arial Black</option>
                                 <option value="'comic sans ms'">Comic Sans MS</option>
@@ -242,7 +242,7 @@
                         <div class="input-group">
                             <span class="input-group-addon">样式</span>
                             <select class="form-control" onchange="updateDisplay()" id="font-style">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="normal">正常</option>
                                 <option value="italic">斜体</option>
                                 <option value="oblique">倾斜</option>
@@ -251,7 +251,7 @@
                         <div class="input-group">
                             <span class="input-group-addon">加粗</span>
                             <select class="form-control" onchange="updateDisplay()" id="font-weight">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="normal">正常</option>
                                 <option value="bold">粗体</option>
                                 <option value="bolder">特粗体</option>
@@ -259,9 +259,9 @@
                             </select>
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon">小型大写</span>
+                            <span class="input-group-addon">大写</span>
                             <select class="form-control" onchange="updateDisplay()" id="font-variant">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="normal">正常</option>
                                 <option value="small-caps">小型</option>
                             </select>
@@ -282,13 +282,43 @@
                 </fieldset>
                 <fieldset>
                     <legend>
+                        文字阴影
+                    </legend>
+                    <div>
+                        <p>
+                            <label for="text-h-length">水平大小:</label>
+                            <strong class="text-info"><span id="text-h-length">0</span>px</strong>
+                        </p>
+                        <div id="slider_text-h-length" class="slider border">
+                        </div>
+                        <p>
+                            <label for="text-v-length">垂直大小:</label>
+                            <strong class="text-info"><span id="text-v-length">0</span>px</strong>
+                        </p>
+                        <div id="slider_text-v-length" class="slider border">
+                        </div>
+                        <p>
+                            <label for="text-b-length">模糊:</label>
+                            <strong class="text-info"><span id="text-b-length">0</span>px</strong>
+                        </p>
+                        <div id="slider_text-b-length" class="slider border">
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon">颜色</span>
+                            <input class="form-control jscolor {pickerPosition:'top',hash:true}" id="text-s-color" value="#000000" type="text" onchange="updateDisplay()" />
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>
                         定位
                     </legend>
                     <div>
                         <div class="input-group">
                             <span class="input-group-addon">定位</span>
                             <select class="form-control" onchange="updateDisplay()" id="position">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="static">静止</option>
                                 <option value="relative">相对</option>
                                 <option value="absolute">绝对</option>
@@ -336,36 +366,7 @@
                         </div>
                     </div>
                 </fieldset>
-                <fieldset>
-                    <legend>
-                        文字阴影
-                    </legend>
-                    <div>
-                        <p>
-                            <label for="text-h-length">水平大小:</label>
-                            <strong class="text-info"><span id="text-h-length">0</span>px</strong>
-                        </p>
-                        <div id="slider_text-h-length" class="slider border">
-                        </div>
-                        <p>
-                            <label for="text-v-length">垂直大小:</label>
-                            <strong class="text-info"><span id="text-v-length">0</span>px</strong>
-                        </p>
-                        <div id="slider_text-v-length" class="slider border">
-                        </div>
-                        <p>
-                            <label for="text-b-length">模糊:</label>
-                            <strong class="text-info"><span id="text-b-length">0</span>px</strong>
-                        </p>
-                        <div id="slider_text-b-length" class="slider border">
-                        </div>
-
-                        <div class="input-group">
-                            <span class="input-group-addon">颜色</span>
-                            <input class="form-control jscolor {pickerPosition:'top',hash:true}" id="text-s-color" value="#000000" type="text" onchange="updateDisplay()" />
-                        </div>
-                    </div>
-                </fieldset>
+                
                 <fieldset>
                     <legend>
                         阴影
@@ -403,7 +404,7 @@
                         <div class="input-group">
                             <span class="input-group-addon">鼠标</span>
                             <select class="form-control" onchange="updateDisplay()" id="cursor">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="crosshair">十字</option>
                                 <option value="default">指针</option>
                                 <option value="pointer">手形</option>
@@ -422,9 +423,9 @@
                             </select>
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon">可见性</span>
+                            <span class="input-group-addon">可见</span>
                             <select class="form-control" onchange="updateDisplay()" id="visibility">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="visible">可见</option>
                                 <option value="hidden">隐藏</option>
                             </select>
@@ -432,7 +433,7 @@
                         <div class="input-group">
                             <span class="input-group-addon">超出</span>
                             <select class="form-control" onchange="updateDisplay()" id="overflow">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="visible">可见</option>
                                 <option value="hidden">隐藏</option>
                                 <option value="scroll">滚动</option>
@@ -442,7 +443,7 @@
                         <div class="input-group">
                             <span class="input-group-addon">浮动</span>
                             <select class="form-control" onchange="updateDisplay()" id="float">
-                                <option value=""></option>
+                                <option value="">默认</option>
                                 <option value="left">左浮动</option>
                                 <option value="right">右浮动</option>
                                 <option value="none">无</option>

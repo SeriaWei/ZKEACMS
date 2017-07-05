@@ -4,12 +4,12 @@ html::-webkit-scrollbar {
 
 html::-webkit-scrollbar-corner,
 html::-webkit-scrollbar-thumb:window-inactive {
-    background: rgba(100,100,100,0.4);
+    background: #212636;
 }
 
 html::-webkit-scrollbar-thumb {
     border-radius: 1em;
-    background-color: rgba(50,50,50,0.3);
+    background-color: #212636;
 }
 
 html::-webkit-scrollbar-thumb {
@@ -17,7 +17,7 @@ html::-webkit-scrollbar-thumb {
 }
 
 html::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    box-shadow: inset 0 0 6px #212636;
 }
 
 body {
@@ -136,6 +136,7 @@ fieldset legend {
 
     fieldset .ui-widget-content {
         background: none;
+        border-color: #151721;
     }
 
 

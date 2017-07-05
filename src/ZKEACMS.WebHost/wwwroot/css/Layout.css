@@ -23,6 +23,7 @@ zone {
     list-style: none;
     margin: 5px;
 }
+
 .designTool {
     margin-top: 10px !important;
 }
@@ -34,7 +35,8 @@ zone {
 .input-group {
     margin: 2px 0;
 }
-.navbar-fixed-top, 
+
+.navbar-fixed-top,
 .navbar-fixed-bottom,
 .navbar.navbar-inverse.navbar-fixed-top {
     z-index: 10;
@@ -309,7 +311,7 @@ label.additional {
     min-height: 500px;
 }
 
-    
+
 
 .zoneName {
     display: none;
@@ -326,9 +328,11 @@ label.additional {
 .design-border .zoneName {
     display: block;
 }
-.design-border .zoneName a.label {
-    margin-right: 10px;
-}
+
+    .design-border .zoneName a.label {
+        margin-right: 10px;
+    }
+
 .dropInfo {
     background-color: #92daef !important;
 }
@@ -363,61 +367,68 @@ label.additional {
     .zoneToolbar .tools {
         padding: 0 10px;
     }
-    .zoneToolbar .tools .transfer-container{
-        display:none;
-    }
-    .zoneToolbar .tools .badge{
-        margin-top:-3px;
-    }
-    .container-fluid.main .zoneToolbar .tools .transfer-container{
-        display:inline;
-    }
-    .zoneToolbar .tools .toggle-widget-class.glyphicon-th-large {
-        display: none;
-    }
-    .widget.full .zoneToolbar .tools .toggle-widget-class.glyphicon-th-large {
-        display: inline;
-    }
-    .zoneToolbar .tools .toggle-widget-class.glyphicon-fullscreen {
-        display: inline;
-    }
-    .widget.full .zoneToolbar .tools .toggle-widget-class.glyphicon-fullscreen {
-        display: none;
-    }
 
-    .widget.align-center .zoneToolbar .tools .toggle-widget-class[data-class=align-center],
-    .widget.align-right .zoneToolbar .tools .toggle-widget-class[data-class=align-right],
-    .widget.border .zoneToolbar .tools .toggle-widget-class[data-class=border],
-    .widget.image-border .zoneToolbar .tools .toggle-widget-class[data-class=image-border],
-    .widget.box-shadow .zoneToolbar .tools .toggle-widget-class[data-class=box-shadow],
-    .widget.image-circle .zoneToolbar .tools .toggle-widget-class[data-class=image-circle] {
-        color: #0f0;
-    }
+        .zoneToolbar .tools .transfer-container {
+            display: none;
+        }
 
-    .zoneToolbar.red {
-        background-color: #c7302b;
-        border: 1px solid #9a221f;
-    }
+        .zoneToolbar .tools .badge {
+            margin-top: -3px;
+        }
 
-    .zoneToolbar.blue {
-        background-color: #428bca;
-        border: 1px solid #25547d;
-    }
+.container-fluid.main .zoneToolbar .tools .transfer-container {
+    display: inline;
+}
 
-    .zoneToolbar.lightBlue {
-        background-color: #5bc0de;
-        border: 1px solid #368da7;
-    }
+.zoneToolbar .tools .toggle-widget-class.glyphicon-th-large {
+    display: none;
+}
 
-    .zoneToolbar.green {
-        background-color: #5cb85c;
-        border: 1px solid #3a863a;
-    }
+.widget.full .zoneToolbar .tools .toggle-widget-class.glyphicon-th-large {
+    display: inline;
+}
 
-    .zoneToolbar.orange {
-        background-color: #f0ad4e;
-        border: 1px solid #db942f;
-    }
+.zoneToolbar .tools .toggle-widget-class.glyphicon-fullscreen {
+    display: inline;
+}
+
+.widget.full .zoneToolbar .tools .toggle-widget-class.glyphicon-fullscreen {
+    display: none;
+}
+
+.widget.align-center .zoneToolbar .tools .toggle-widget-class[data-class=align-center],
+.widget.align-right .zoneToolbar .tools .toggle-widget-class[data-class=align-right],
+.widget.border .zoneToolbar .tools .toggle-widget-class[data-class=border],
+.widget.image-border .zoneToolbar .tools .toggle-widget-class[data-class=image-border],
+.widget.box-shadow .zoneToolbar .tools .toggle-widget-class[data-class=box-shadow],
+.widget.image-circle .zoneToolbar .tools .toggle-widget-class[data-class=image-circle] {
+    color: #0f0;
+}
+
+.zoneToolbar.red {
+    background-color: #c7302b;
+    border: 1px solid #9a221f;
+}
+
+.zoneToolbar.blue {
+    background-color: #428bca;
+    border: 1px solid #25547d;
+}
+
+.zoneToolbar.lightBlue {
+    background-color: #5bc0de;
+    border: 1px solid #368da7;
+}
+
+.zoneToolbar.green {
+    background-color: #5cb85c;
+    border: 1px solid #3a863a;
+}
+
+.zoneToolbar.orange {
+    background-color: #f0ad4e;
+    border: 1px solid #db942f;
+}
 
 .hideToolBar .zoneToolbar {
     display: none;
@@ -426,7 +437,7 @@ label.additional {
 
 .zoneToolbar a {
     color: white;
-    text-decoration:none;
+    text-decoration: none;
 }
 
     .zoneToolbar a:hover,
@@ -536,18 +547,20 @@ label.additional {
             transition: all 0.2s ease-in-out;
         }
 
-        
-     .templates .widget-design {
-         position: relative;
-     }
+
+    .templates .widget-design {
+        position: relative;
+    }
+
     .templates .delete-template {
         position: absolute;
         top: -8px;
         left: -8px;
     }
-    .ui-draggable-dragging .delete-template {
-        display: none;
-    }
+
+.ui-draggable-dragging .delete-template {
+    display: none;
+}
 
 li.ui-sortable-helper {
     width: 200px;
@@ -603,14 +616,38 @@ li.ui-sortable-helper {
     white-space: nowrap;
     list-style: none;
 }
-.widget{
-    transition:all .3s linear;
+
+.widget {
+    transition: all .3s linear;
 }
 
-.WeiWindow.StyleEditor{
-    left:0 !important;
-    top:0 !important;
-    width:300px !important;
-    height:100% !important;
-    z-index:11 !important;
+.WeiWindow.StyleEditor {
+    left: -295px !important;
+    top: 0 !important;
+    width: 300px !important;
+    height: 100% !important;
+    z-index: 11 !important;
+    background: #212636;
+    border-color: #212636;
 }
+
+    .WeiWindow.StyleEditor.loaded {
+        left: 0 !important;
+        transition: left 300ms;
+    }
+
+    .WeiWindow.StyleEditor .TitleBarLeft {
+        background-color: #212636;
+        border-bottom: 1px solid #212636;
+    }
+
+    .WeiWindow.StyleEditor .TitleBarMid {
+        background-color: #212636;
+        border-bottom: 1px solid #212636;
+        color: #B0B8C5;
+    }
+
+    .WeiWindow.StyleEditor .TitleBarRight {
+        background-color: #212636;
+        border-bottom: 1px solid #212636;
+    }
