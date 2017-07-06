@@ -217,3 +217,6 @@
     $('head').append('<style type="text/css">' + cssResult + '</style>');
     return cssResult;
 }
+$(function () {
+    $("body").slimscroll({ height: window.innerHeight, color:"#b0b8c5" });
+});
