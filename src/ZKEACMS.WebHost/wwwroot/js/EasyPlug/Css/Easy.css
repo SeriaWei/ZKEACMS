@@ -1,6 +1,7 @@
 ﻿/*!
  * http://www.zkea.net/
- * Copyright 2016 ZKEASOFT
+ * Copyright 2017 ZKEASOFT
+ * 深圳市纸壳软件有限公司
  * http://www.zkea.net/licenses
  */
 
@@ -51,7 +52,7 @@
 }
 .easy-block{
     z-index:100000;
-    position:absolute;
+    position:fixed;
     left:50%;
     top:50%;
     margin:-32px auto auto -32px;

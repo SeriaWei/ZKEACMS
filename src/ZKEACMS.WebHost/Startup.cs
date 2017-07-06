@@ -1,28 +1,23 @@
 ﻿/*!
  * http://www.zkea.net/
  * Copyright 2017 ZKEASOFT
+ * 深圳市纸壳软件有限公司
  * http://www.zkea.net/licenses
  */
 
 using Easy;
 using Easy.Extend;
-using Easy.Logging;
-using Easy.Mvc.Attribute;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.DataAnnotations;
-using Easy.Mvc.Plugin;
 using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using System.IO;
 using System.Linq;
 using ZKEACMS.ModelBinder;
 
@@ -32,7 +27,7 @@ namespace ZKEACMS.WebHost
     {
         public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
+               var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)

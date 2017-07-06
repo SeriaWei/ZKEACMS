@@ -1,4 +1,10 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/*!
+ * http://www.zkea.net/
+ * Copyright 2017 ZKEASOFT
+ * 深圳市纸壳软件有限公司
+ * http://www.zkea.net/licenses
+ */
+
 using Easy.Constant;
 using Easy.MetaData;
 using ZKEACMS.Widget;
@@ -26,6 +32,8 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.LayoutID).AsHidden();
             ViewConfig(m => m.PageID).AsHidden();
             ViewConfig(m => m.ExtendData).AsHidden();
+            ViewConfig(m => m.Status).AsHidden();
+            ViewConfig(m => m.Description).AsHidden();
             ViewConfig(m => m.CustomClass).AsHidden().Ignore();
             ViewConfig(m => m.CustomStyle).AsHidden().Ignore();
 
