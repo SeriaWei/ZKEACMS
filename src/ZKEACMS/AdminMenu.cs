@@ -111,10 +111,18 @@ namespace ZKEACMS
                     },
                     new AdminMenu
                     {
+                        Title = "错误日志",
+                        Icon = "glyphicon-exclamation-sign",
+                        Url = "~/admin/EventViewer",
+                        Order = 3,
+                        PermissionKey = PermissionKeys.ManageEventViewer
+                    },
+                    new AdminMenu
+                    {
                         Title = "系统设置",
                         Icon = "glyphicon-cog",
                         Url = "~/admin/ApplicationSetting",
-                        Order = 3,
+                        Order = 4,
                         PermissionKey = PermissionKeys.ViewApplicationSetting
                     }
                 }

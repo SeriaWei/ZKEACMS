@@ -32,6 +32,8 @@ namespace ZKEACMS
         public const string ViewApplicationSetting = "ApplicationSetting_View";
         public const string ManageApplicationSetting = "ApplicationSetting_Manage";
 
+        public const string ManageEventViewer = "EventViewer_Manage";
+
         public static List<PermissionDescriptor> KnownPermissions = new List<PermissionDescriptor>
         {
             new PermissionDescriptor { Module="页面",Title="查看页面",Key=ViewPage,Description="查看页面" },
@@ -51,7 +53,8 @@ namespace ZKEACMS
             new PermissionDescriptor { Module="安全",Title="查看角色",Key=ViewRole,Description="查看角色" },
             new PermissionDescriptor { Module="安全",Title="管理角色",Key=ManageRole,Description="管理角色" },
             new PermissionDescriptor { Module="设置",Title="查看设置",Key=ViewApplicationSetting,Description="查看设置" },
-            new PermissionDescriptor { Module="设置",Title="管理设置",Key=ManageApplicationSetting,Description="管理设置" }
+            new PermissionDescriptor { Module="设置",Title="管理设置",Key=ManageApplicationSetting,Description="管理设置" },
+            new PermissionDescriptor { Module="设置",Title="查看错误日志",Key=ManageEventViewer,Description="查看系统异常错误信息" }
         };
     }
 }

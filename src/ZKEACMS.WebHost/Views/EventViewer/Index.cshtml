@@ -1,0 +1,31 @@
+﻿@using System.IO
+
+@model IEnumerable<FileInfo>
+
+<ul class="fullRowList">
+  @foreach (FileInfo file in Model)
+  {
+    <li style="cursor:default">
+        <a class="delete" href="@Url.Action("Delete",new { fileName = file.Name })">
+            <i class="text-danger glyphicon glyphicon-remove"></i>
+        </a>
+        <a href="~/Logs/@file.Name" target="_blank">@file.Name</a>
+    </li>
+  }
+</ul>
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () { 
+            $(document).on("click", "a.delete", function () { 
+                var target = $(this);
+                $.get(target.attr("href"), function (data) {
+                    if (data) {
+                        target.closest("li").remove();
+                    }                    
+                });
+                return false;
+            });
+        });
+    </script>
+}
