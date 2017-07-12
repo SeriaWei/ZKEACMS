@@ -50,16 +50,16 @@
 .OpacityBackGround.busy{
     cursor:wait;
 }
-.easy-block {
-    z-index: 100000;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    margin: -15px auto auto -15px;
+.easy-block{
+    z-index:100000;
+    position:fixed;
+    left:50%;
+    top:50%;
+    margin:-32px auto auto -32px;
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    background: #fff url("Images/loader.gif") center center no-repeat;
+    background:#fff url("Images/loader.gif") center center no-repeat;
 }
 /*消息提示窗*/
 .MessageBox {

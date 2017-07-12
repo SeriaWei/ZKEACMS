@@ -46,7 +46,7 @@
     }
 </head>
 <body class="front">
-    @if (ViewContext.HttpContext.User.Identity.IsAuthenticated && Model.PageMode!= ZKEACMS.Filter.PageViewMode.ViewOnly)
+    @if (ViewContext.HttpContext.User.Identity.IsAuthenticated)
     {
         <div class="preview-toolbar">
             <div class="btn-group">

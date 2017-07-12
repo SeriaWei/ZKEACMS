@@ -87,13 +87,10 @@
                                 <i class="glyphicon glyphicon-th"></i>
                                 概览
                             </a>
-                            @if (Authorizer.Authorize(PermissionKeys.ManageLayout) && !Model.IsTemplate)
-                            {
-                                <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new {Model.ID, PageID = Model.Page.ID})">
-                                    <i class="glyphicon glyphicon-th-list"></i>
-                                    布局
-                                </a>
-                            }                            
+                            <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new {Model.ID, PageID = Model.Page.ID})">
+                                <i class="glyphicon glyphicon-th-list"></i>
+                                布局
+                            </a>
                             <a class="btn btn-primary" href="@Url.Action("Edit", "Page", new { Model.Page.ID})">
                                 <i class="glyphicon glyphicon-edit"></i>
                                 属性
@@ -110,6 +107,7 @@
                                 <i class="glyphicon glyphicon-open"></i>
                                 发布
                             </a>
+
                             @if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
                             {
                                 <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme")">

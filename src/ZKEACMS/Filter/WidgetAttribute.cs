@@ -100,7 +100,6 @@ namespace ZKEACMS.Filter
                 }
                 layout.CurrentTheme = themeService.GetCurrentTheme();
                 layout.ZoneWidgets = new ZoneWidgetCollection();
-                layout.PageMode = GetPageViewMode();
                 filterContext.HttpContext.TrySetLayout(layout);
                 widgetService.GetAllByPage(page, GetPageViewMode() == PageViewMode.Publish && !IsPreView(filterContext)).Each(widget =>
                     {

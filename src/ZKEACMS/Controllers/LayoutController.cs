@@ -30,16 +30,16 @@ namespace ZKEACMS.Controllers
             _widgetService = widgetService;
         }
 
-
+        
         public override ActionResult Index()
         {
-            return View(Service.Get(m => !m.IsTemplate));
+            return View(Service.GetAll());
         }
-
+        
         public ActionResult LayoutWidget(string LayoutID)
         {
             ViewBag.LayoutID = LayoutID;
-            return View(Service.Get(m => !m.IsTemplate));
+            return View(Service.GetAll());
         }
         [HttpPost]
         public ActionResult LayoutZones(string ID)
@@ -55,7 +55,7 @@ namespace ZKEACMS.Controllers
             };
             return View(viewModel);
         }
-
+        
         public override ActionResult Create()
         {
             return View(new LayoutEntity { ImageUrl = LayoutEntity.DefaultThumbnial, ImageThumbUrl = LayoutEntity.DefaultThumbnial });
@@ -66,28 +66,28 @@ namespace ZKEACMS.Controllers
             base.Create(entity);
             return RedirectToAction("Design", new { entity.ID });
         }
-
+        
         public override ActionResult Edit(string ID)
         {
             return base.Edit(ID);
         }
-
+        
         [HttpPost]
         public override ActionResult Edit(LayoutEntity entity)
         {
             if (entity.ActionType == ActionType.Design)
             {
-                return RedirectToAction("Design", new { entity.ID });
+                return RedirectToAction("Design", new {entity.ID });
             }
             return base.Edit(entity);
         }
         public ActionResult Design(string ID, string PageID)
         {
             // Stop Caching in IE
-
+           
 
             // Stop Caching in Firefox
-
+           
             LayoutEntity layout = null;
             if (ID.IsNotNullAndWhiteSpace())
             {
@@ -99,7 +99,7 @@ namespace ZKEACMS.Controllers
             }
             return View(layout ?? new LayoutEntity());
         }
-
+        
         public ActionResult SaveLayout(string[] html, LayoutEntity layout, ZoneCollection zones)
         {
             layout.Html = Helper.GenerateHtml(html, zones);

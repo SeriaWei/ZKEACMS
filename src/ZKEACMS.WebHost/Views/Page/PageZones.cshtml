@@ -125,7 +125,7 @@
                     属性
                 </a>
             }
-            @if (Authorizer.Authorize(PermissionKeys.ManageLayout) && !Model.Layout.IsTemplate)
+            @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
             {
                 <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new { ID = Model.LayoutID, Model.PageID})">
                     <i class="glyphicon glyphicon-th-list"></i>

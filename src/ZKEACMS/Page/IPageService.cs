@@ -11,6 +11,5 @@ namespace ZKEACMS.Page
         void Publish(PageEntity item);
         void Revert(string ID, bool RetainLatest);
         void DeleteVersion(string ID);
-        void Copy(string fromeID,string toID);
     }
 }

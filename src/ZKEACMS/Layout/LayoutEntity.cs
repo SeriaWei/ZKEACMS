@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ZKEACMS.Filter;
 using ZKEACMS.Page;
 using ZKEACMS.Theme;
 using ZKEACMS.Widget;
@@ -44,9 +43,6 @@ namespace ZKEACMS.Layout
 
         [NotMapped]
         public IEnumerable<WidgetBasePart> Templates { get; set; }
-        public bool IsTemplate { get; set; }
-        [NotMapped]
-        public PageViewMode PageMode { get; set; }
     }
 
     class LayoutEntityMetaData : ViewMetaData<LayoutEntity>
@@ -55,7 +51,6 @@ namespace ZKEACMS.Layout
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.ID).AsHidden();
-            ViewConfig(m => m.IsTemplate).AsHidden();
             ViewConfig(m => m.ContainerClass).AsHidden();
             ViewConfig(m => m.Title).AsHidden();
             ViewConfig(m => m.LayoutName).AsTextBox().Required();

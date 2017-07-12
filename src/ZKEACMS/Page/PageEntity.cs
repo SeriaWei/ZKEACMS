@@ -49,8 +49,6 @@ namespace ZKEACMS.Page
         public bool IsPublish { get; set; }
         [NotMapped]
         public string Favicon { get; set; }
-        public bool IsTemplate { get; set; }
-        public string TemplateThumbnail { get; set; }
     }
     class PageBaseMetaData : ViewMetaData<PageEntity>
     {
@@ -63,9 +61,7 @@ namespace ZKEACMS.Page
             ViewConfig(m => m.LayoutId).AsDropDownList().DataSource(ViewDataKeys.Layouts, SourceType.ViewData);
             ViewConfig(m => m.Script).AsTextBox().AddClass(StringKeys.SelectMediaClass).AddProperty("data-url", Urls.SelectMedia);
             ViewConfig(m => m.Style).AsTextBox().AddClass(StringKeys.SelectMediaClass).AddProperty("data-url", Urls.SelectMedia);
-
-            ViewConfig(m => m.IsTemplate).AsHidden();
-            ViewConfig(m => m.TemplateThumbnail).AsHidden();
+            
             ViewConfig(m => m.ParentId).AsHidden();
             ViewConfig(m => m.ID).AsHidden();
             ViewConfig(m => m.DisplayOrder).AsHidden();
