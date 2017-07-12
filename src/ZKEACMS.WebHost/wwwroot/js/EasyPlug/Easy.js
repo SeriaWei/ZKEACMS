@@ -278,7 +278,7 @@ Easy.ShowUrlWindow = function (op) {
     var deOp = { url: "", title: "", width: 800, height: 500, callBack: function () { }, isDialog: true, animate: false, onLoad: function () { } };
     deOp = $.extend(deOp, op);
     if (deOp.isDialog) {
-        Easy.OpacityBackGround.Show(++Easy.MaxZindex);
+        Easy.OpacityBackGround.Show(op.zindex||++Easy.MaxZindex);
     }
     boxWindow.appendTo("body");
     boxWindow.find(".Mid.TitleBarMid").DragElement(boxWindow, boxWindow.find(".CloseWindow"), boxWindow.find(".Right.ContentRight"), boxWindow.find(".Right.BottomRight"), boxWindow.find(".Mid.BottomMid"));

@@ -71,6 +71,9 @@ namespace ZKEACMS.WebHost
 
             script("pjax")
                 .Include($"{LibraryPath}/jquery-pjax/jquery.pjax.js");
+
+            script("slimscroll")
+                .Include($"{LibraryPath}/slimscroll/jquery.slimscroll.min.js", $"{LibraryPath}/slimscroll/jquery.slimscroll.min.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
@@ -113,6 +116,9 @@ namespace ZKEACMS.WebHost
 
             style("datepicker")
                 .Include($"{LibraryPath}/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css", $"{LibraryPath}/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css");
+
+            style("page-template")
+                .Include($"{StylePath}/page-template.css", $"{StylePath}/page-template.min.css");
         }
     }
 }

@@ -74,3 +74,22 @@
         }
     </ul>
 </div>
+
+@if (Model.ZoneWidgets.All(m => m.Value.All(w => w.Widget.PageID.IsNullOrEmpty())))
+{
+    using (Script.AtFoot())
+    {
+        <script type="text/javascript">
+            window.top.Easy.ShowUrlWindow({
+                url: '@Url.Action("SelectTemplate",new { toPageId=Model.Page.ID })',
+                width: 1024,
+                title: "从模板中快速创建页面",
+                onLoad: function (box) {
+                    box.addClass("loaded");
+                },
+                isDialog: false
+            });
+            $(".WeiWindow.BoxShadow").addClass("StyleEditor page-template");
+        </script>
+    }
+}

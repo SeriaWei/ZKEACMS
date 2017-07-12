@@ -53,7 +53,7 @@ namespace ZKEACMS.Controllers
         [DefaultAuthorize(Policy = PermissionKeys.ViewPage)]
         public JsonResult GetPageTree()
         {
-            var pages = Service.Get(m => !m.IsPublishedPage).OrderBy(m => m.DisplayOrder);
+            var pages = Service.Get(m => !m.IsPublishedPage && !m.IsTemplate).OrderBy(m => m.DisplayOrder);
             var node = new Tree<PageEntity>().Source(pages).ToNode(m => m.ID, m => m.PageName, m => m.ParentId, "#");
             return Json(node);
         }
@@ -221,6 +221,17 @@ namespace ZKEACMS.Controllers
         {
             Service.Publish(Service.Get(ID));
             return Redirect(ReturnUrl);
+        }
+        public IActionResult SelectTemplate(string toPageId)
+        {
+
+            return View(new SelectPageTemplateViewModel { ToPageID = toPageId, Templates = Service.Get(m => m.IsTemplate) });
+        }
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
+        public JsonResult Copy(string fromeId, string toId)
+        {
+            Service.Copy(fromeId, toId);
+            return Json(true);
         }
     }
 }

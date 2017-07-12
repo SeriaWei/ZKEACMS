@@ -630,7 +630,10 @@ li.ui-sortable-helper {
     background: #212636;
     border-color: #212636;
 }
-
+    .WeiWindow.StyleEditor.page-template {
+        left: -215px !important;
+        width: 220px !important;
+    }
     .WeiWindow.StyleEditor.loaded {
         left: 0 !important;
         transition: left 300ms;

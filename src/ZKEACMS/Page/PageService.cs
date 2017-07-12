@@ -11,6 +11,7 @@ using ZKEACMS.DataArchived;
 using ZKEACMS.ExtendField;
 using ZKEACMS.Widget;
 using Microsoft.EntityFrameworkCore;
+using ZKEACMS.Layout;
 
 namespace ZKEACMS.Page
 {
@@ -71,7 +72,7 @@ namespace ZKEACMS.Page
             item.ReferencePageID = item.ID;
             item.IsPublishedPage = true;
             item.PublishDate = DateTime.Now;
-            
+
             var widgets = _widgetService.GetByPageId(item.ID);
             Add(item);
             widgets.Each(m =>
@@ -109,7 +110,7 @@ namespace ZKEACMS.Page
                     page.ReferencePageID = null;
                     page.IsPublish = false;
                     page.IsPublishedPage = false;
-                    
+
                     base.Add(page);
                 }
                 var widgets = _widgetService.GetByPageId(ID);
@@ -117,7 +118,7 @@ namespace ZKEACMS.Page
                 {
                     var widgetService = _widgetActivator.Create(m);
                     m = widgetService.GetWidget(m);
-                   
+
                     m.PageID = page.ID;
                     widgetService.Publish(m);
                 });
@@ -147,7 +148,7 @@ namespace ZKEACMS.Page
                 Remove(m => m.ReferencePageID == item.ID);
             }
             _widgetService.RemoveCache(item.ID);
-            base.Remove(item, saveImmediately);
+            base.Remove(item, saveImmediately);            
         }
 
         public override void Remove(Expression<Func<PageEntity, bool>> filter)
@@ -261,6 +262,29 @@ namespace ZKEACMS.Page
                 }
                 base.Update(pageEntity);
             }
+        }
+
+        public void Copy(string fromeID, string toID)
+        {
+            var fromePage = Get(fromeID);
+            var toPage = Get(toID);
+            if (fromePage == null || toPage == null)
+            {
+                return;
+            }
+            
+            toPage.LayoutId = fromePage.LayoutId;
+            var widgets = _widgetService.GetByPageId(fromeID);
+            widgets.Each(m =>
+            {
+                using (var widgetService = _widgetActivator.Create(m))
+                {
+                    m = widgetService.GetWidget(m);
+                    m.PageID = toID;
+                    widgetService.Publish(m);
+                }
+            });
+            Update(toPage);
         }
     }
 }

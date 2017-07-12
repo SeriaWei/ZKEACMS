@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\css\page-template.css" />
     <Content Include="wwwroot\images\not-img-available.jpg" />
     <Content Include="wwwroot\images\Widget.Breadcrumb.png" />
     <Content Include="wwwroot\js\tinymce\plugins\pasteImage\plugin.js" />

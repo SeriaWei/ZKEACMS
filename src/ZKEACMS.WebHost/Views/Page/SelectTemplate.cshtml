@@ -1,0 +1,46 @@
+﻿@using ZKEACMS.Common.ViewModels
+@model SelectPageTemplateViewModel
+@{
+    Layout = Layouts.NormalDefault;
+
+    Style.Reqiured("page-template").AtHead();
+    Style.Reqiured("Easy").AtHead();
+    Script.Reqiured("Easy").AtHead();
+    Script.Reqiured("slimscroll").AtFoot();
+}
+
+<div class="row page-template">
+    @foreach (var item in Model.Templates)
+    {
+        <div class="col-sm-4 col-xs-12">
+            <div class="thumbnail">
+                <a href="javascript:void(0)">
+                    <img src="@Url.Content(item.TemplateThumbnail??"~/themes/Default/thumbnail.jpg")" alt="@item.Title" />
+                </a>
+                <div class="actions">
+                    <a href="javascript:void(0)" data-id="@item.ID" class="preview">预览</a>
+                    <a href="javascript:void(0)" data-id="@item.ID" class="generate">生成</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            $("body").slimscroll({ height: window.innerHeight, color: "#b0b8c5" });
+            $(document).on("click", ".page-template .preview", function () {
+                $(".thumbnail.active").removeClass("active");
+                $(this).closest(".thumbnail").addClass("active");
+                window.top.Easy.ShowUrlWindow({ url: "@Url.Action("ViewPage")" + "/" + $(this).data("id"), width: top.window.innerWidth-100, height: window.innerHeight - 50, zindex: 1000, isDialog: true });
+            });
+            $(document).on("click", ".page-template .generate", function () {
+                Easy.Block();
+                $.post("@Url.Action("Copy")", { fromeId: $(this).data("id"), toId: "@Model.ToPageID" }, function (data) {
+                    window.top.location.reload();
+                });
+            });
+        });
+    </script>
+}

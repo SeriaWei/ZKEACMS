@@ -103,10 +103,13 @@
                                     <i class="glyphicon glyphicon-edit"></i>
                                     属性
                                 </a>
-                                <a class="btn btn-primary" id="save">
-                                    <i class="glyphicon glyphicon-floppy-disk"></i>
-                                    保存
-                                </a>
+                                @if (!Model.IsTemplate)
+                                {
+                                    <a class="btn btn-primary" id="save">
+                                        <i class="glyphicon glyphicon-floppy-disk"></i>
+                                        保存
+                                    </a>
+                                }                                
                                 @Html.Partial("Partial.Menu", Model)
                             </div>
                             <input type="hidden" id="ContainerClass" name="ContainerClass" value="@(Model.ContainerClass)" />
