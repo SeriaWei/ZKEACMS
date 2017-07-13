@@ -3,7 +3,7 @@
 @{
     Layout = null;
     string returnUrl = Url.Action("LayoutWidget", "Layout", new { Model.LayoutID });
-    var noZoneWidgets = Model.Widgets.Where(m => Model.Zones.All(n => n.ID != m.ZoneID));
+    var noZoneWidgets = Model.Widgets.Where(m => Model.Zones.All(n => n.HeadingCode != m.ZoneID));
 }
 
 @if (noZoneWidgets.Any())
@@ -45,19 +45,19 @@
             {
                 i++;
                 itemHtml = Model.LayoutHtml[i];
-                var zone = Model.Zones.Where(m => m.ID == itemHtml.Html);
+                var zone = Model.Zones.Where(m => m.HeadingCode == itemHtml.Html);
 
                 foreach (var item in zone)
                 {
                     <div class="panel panel-success  panel-relative">
                         <div class="panel-toolbar">
-                            <a class="label label-danger" title="添加组件到该区域" href="@Url.Action("SelectWidget", "WidgetTemplate", new { Model.PageID, ZoneID = item.ID, LayoutID = item.LayoutId, ReturnUrl = returnUrl})">
+                            <a class="label label-danger" title="添加组件到该区域" href="@Url.Action("SelectWidget", "WidgetTemplate", new { Model.PageID, ZoneID = item.HeadingCode, LayoutID = item.LayoutId, ReturnUrl = returnUrl})">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 @item.ZoneName
                             </a>
                         </div>
-                        <ul data-zoneid="@item.ID" class="fullRowList widgets connectedSortable">
-                            @foreach (var widget in Model.Widgets.Where(m => m.ZoneID == item.ID).OrderBy(m => m.Position).ThenBy(m => m.WidgetName))
+                        <ul data-zoneid="@item.HeadingCode" class="fullRowList widgets connectedSortable">
+                            @foreach (var widget in Model.Widgets.Where(m => m.ZoneID == item.HeadingCode).OrderBy(m => m.Position).ThenBy(m => m.WidgetName))
                             {
                                 <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
                                     @if (Authorizer.Authorize(PermissionKeys.ManagePage))

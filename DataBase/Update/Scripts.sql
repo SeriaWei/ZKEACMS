@@ -1,0 +1,3 @@
+ALTER TABLE dbo.CMS_Zone ADD HeadingCode NVARCHAR(100) NULL
+UPDATE dbo.CMS_Zone SET HeadingCode = ID
+GO

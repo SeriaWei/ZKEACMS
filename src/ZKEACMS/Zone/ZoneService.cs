@@ -12,10 +12,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Zone
 {
-    public class ZoneService : ServiceBase<ZoneEntity,CMSDbContext>, IZoneService
+    public class ZoneService : ServiceBase<ZoneEntity, CMSDbContext>, IZoneService
     {
         private readonly IServiceProvider _serviceProvder;
-        public ZoneService(IPageService pageService, IApplicationContext applicationContext,IServiceProvider serviceProvder) : base(applicationContext)
+        public ZoneService(IPageService pageService, IApplicationContext applicationContext, IServiceProvider serviceProvder) : base(applicationContext)
         {
             PageService = pageService;
             _serviceProvder = serviceProvder;
@@ -33,9 +33,12 @@ namespace ZKEACMS.Zone
 
         public override void Add(ZoneEntity item)
         {
-            if (item.ID.IsNullOrEmpty())
+
+            item.ID = Guid.NewGuid().ToString("N");
+
+            if (item.HeadingCode.IsNullOrEmpty())
             {
-                item.ID = Guid.NewGuid().ToString("N");
+                item.HeadingCode = item.ID;
             }
             base.Add(item);
         }

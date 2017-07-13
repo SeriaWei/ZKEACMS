@@ -15,13 +15,14 @@
     if (item.Html == ZoneEntity.ZoneTag)
     {
         i++;
-        var zoneId = Model.Html[i].Html;
-        var zone = Model.Zones.FirstOrDefault(m => m.ID == zoneId);
+        var headingCode = Model.Html[i].Html;
+        var zone = Model.Zones.FirstOrDefault(m => m.HeadingCode == headingCode);
         if (zone != null)
         {
             <input class="form-control" type="text" name="ZoneName" placeholder="输入名称" value="@zone.ZoneName" />
             <input class="form-control" type="hidden" name="LayoutId" value="@zone.LayoutId" />
             <input class="form-control" type="hidden" name="ID" value="@zone.ID" />
+            <input class="form-control" type="hidden" name="HeadingCode" value="@zone.HeadingCode" />
         }
     }
 }

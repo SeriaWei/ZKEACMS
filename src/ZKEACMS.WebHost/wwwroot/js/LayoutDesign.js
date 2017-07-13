@@ -30,6 +30,7 @@
         zone.append('<input class="form-control" type="text" name="ZoneName" placeholder="输入名称" value="区域 ' + ($("#containers input[type=text]").size() + 1) + '" />');
         zone.append('<input class="form-control" type="hidden" name="LayoutId" value="' + $("#LayoutId").val() + '" />');
         zone.append('<input class="form-control" type="hidden" name="ID" value="" />');
+        zone.append('<input class="form-control" type="hidden" name="HeadingCode" value="" />');
         zoneParent.append(zone);
         return zoneParent;
     }

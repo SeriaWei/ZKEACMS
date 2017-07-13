@@ -17,12 +17,12 @@ namespace ZKEACMS.Zone
                 if (item == ZoneEntity.ZoneTag)
                 {
                     var zone = zones[zoneIndex];
-                    if (zone.ID.IsNullOrWhiteSpace())
+                    if (zone.HeadingCode.IsNullOrWhiteSpace())
                     {
-                        zone.ID = Guid.NewGuid().ToString("N");
+                        zone.HeadingCode = $"ZONE-{zoneIndex}";
                     }
                     result.Add(new LayoutHtml { Html = ZoneEntity.ZoneTag });
-                    result.Add(new LayoutHtml { Html = zone.ID });
+                    result.Add(new LayoutHtml { Html = zone.HeadingCode });
                     result.Add(new LayoutHtml { Html = ZoneEntity.ZoneEndTag });
                     i += 1;
                     zoneIndex++;

@@ -24,7 +24,7 @@
         var zoneId = Model.Html[i].Html;
         if (zoneId.IsNotNullAndWhiteSpace())
         {
-            if (Model.Zones.Any(m => m.ID == zoneId))
+            if (Model.Zones.Any(m => m.HeadingCode == zoneId))
             {
                 <input type="hidden" class="zoneId" value="@zoneId" />
                 <div class="zoneName">
@@ -32,7 +32,7 @@
                        class="add-widget label label-danger"
                        href="@Url.Action("SelectWidget", "WidgetTemplate", new {pageId = Model.Page.ID, ZoneId = zoneId})">
                         <i class="glyphicon glyphicon-plus"></i>
-                        @Model.Zones.First(m => m.ID == zoneId).ZoneName
+                        @Model.Zones.First(m => m.HeadingCode == zoneId).ZoneName
                     </a>
                     @if (ViewBag.CanPasteWidget == true)
                     {

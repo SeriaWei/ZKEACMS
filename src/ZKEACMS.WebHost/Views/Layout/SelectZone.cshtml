@@ -24,9 +24,9 @@
         {
             i++;
             itemHtml = Model.Html[i];
-            foreach (var item in Model.Zones.Where(m => m.ID == itemHtml.Html))
+            foreach (var item in Model.Zones.Where(m => m.HeadingCode == itemHtml.Html))
             {
-                <div class="panel panel-default @(item.ID == ViewBag.ZoneId ? "active" : "")" style="margin: 5px; text-align: center;" data-zoneid="@item.ID">
+                <div class="panel panel-default @(item.HeadingCode == ViewBag.ZoneId ? "active" : "")" style="margin: 5px; text-align: center;" data-zoneid="@item.HeadingCode">
                     <div class="panel-body">
                         @item.ZoneName
                     </div>

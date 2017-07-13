@@ -15,7 +15,7 @@ namespace ZKEACMS.Zone
         public string ID { get; set; }
         public string LayoutId { get; set; }
         public string ZoneName { get; set; }
-
+        public string HeadingCode { get; set; }
     }
 
     class ZoneEntityMetaData : ViewMetaData<ZoneEntity>
