@@ -2,6 +2,7 @@
 using System;
 using Easy.Extend;
 using ZKEACMS.Layout;
+using System.Linq;
 
 namespace ZKEACMS.Zone
 {
@@ -9,6 +10,20 @@ namespace ZKEACMS.Zone
     {
         public static LayoutHtmlCollection GenerateHtml(string[] html, ZoneCollection zones)
         {
+            int index = 0;
+            foreach (var item in zones)
+            {
+                if (item.HeadingCode.IsNullOrWhiteSpace())
+                {
+                    string zoneCode = $"ZONE-{index}";
+                    while (zones.Any(m => m.HeadingCode == zoneCode))
+                    {
+                        index++;
+                        zoneCode = $"ZONE-{index}";
+                    }
+                    item.HeadingCode = zoneCode;
+                }
+            }
             int zoneIndex = 0;
             var result = new LayoutHtmlCollection();
             for (int i = 0; i < html.Length; i++)
@@ -17,10 +32,6 @@ namespace ZKEACMS.Zone
                 if (item == ZoneEntity.ZoneTag)
                 {
                     var zone = zones[zoneIndex];
-                    if (zone.HeadingCode.IsNullOrWhiteSpace())
-                    {
-                        zone.HeadingCode = $"ZONE-{zoneIndex}";
-                    }
                     result.Add(new LayoutHtml { Html = ZoneEntity.ZoneTag });
                     result.Add(new LayoutHtml { Html = zone.HeadingCode });
                     result.Add(new LayoutHtml { Html = ZoneEntity.ZoneEndTag });
