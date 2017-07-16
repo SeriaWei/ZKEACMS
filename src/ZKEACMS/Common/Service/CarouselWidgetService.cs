@@ -50,7 +50,17 @@ namespace ZKEACMS.Common.Service
                 item.CarouselItems.Each(m =>
                 {
                     m.CarouselWidgetID = item.ID;
-                    _carouselItemService.Add(m);
+                    if (m.ActionType == ActionType.Create)
+                    {
+                        _carouselItemService.Add(new CarouselItemEntity
+                        {
+                            CarouselID = m.CarouselID,
+                            CarouselWidgetID = m.CarouselWidgetID,
+                            TargetLink = m.TargetLink,
+                            ImageUrl = m.ImageUrl,
+                            Status = m.Status
+                        });
+                    }
                 });
             }
 
@@ -64,7 +74,18 @@ namespace ZKEACMS.Common.Service
                 item.CarouselItems.Each(m =>
                 {
                     m.CarouselWidgetID = item.ID;
-                    _carouselItemService.Add(m);
+                    if (m.ActionType == ActionType.Create)
+                    {
+                        _carouselItemService.Add(m);
+                    }
+                    else if (m.ActionType == ActionType.Delete)
+                    {
+                        _carouselItemService.Remove(m);
+                    }
+                    else
+                    {
+                        _carouselItemService.Update(m);
+                    }
                 });
             }
         }
