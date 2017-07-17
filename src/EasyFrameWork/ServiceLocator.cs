@@ -1,27 +1,28 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 
 namespace Easy
 {
     public static class ServiceLocator
     {
-        public static IServiceProvider Current { get; set; }
+        public static IHttpContextAccessor HttpContextAccessor;
         public static T GetService<T>()
         {
-            return Current.GetService<T>();
+            return HttpContextAccessor.HttpContext.RequestServices.GetService<T>();
         }
         public static IEnumerable<T> GetServices<T>()
         {
-            return Current.GetServices<T>();
+            return HttpContextAccessor.HttpContext.RequestServices.GetServices<T>();
         }
         public static object GetService(Type type)
         {
-            return Current.GetService(type);
+            return HttpContextAccessor.HttpContext.RequestServices.GetService(type);
         }
         public static IEnumerable<object> GetServices(Type type)
         {
-            return Current.GetServices(type);
+            return HttpContextAccessor.HttpContext.RequestServices.GetServices(type);
         }
     }
 }

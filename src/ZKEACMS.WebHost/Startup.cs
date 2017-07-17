@@ -92,7 +92,7 @@ namespace ZKEACMS.WebHost
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            ServiceLocator.Current = app.ApplicationServices;
+            ServiceLocator.HttpContextAccessor = app.ApplicationServices.GetService<IHttpContextAccessor>();
 
             if (env.IsDevelopment())
             {

@@ -9,5 +9,6 @@ namespace Easy
     {
         IUser CurrentUser { get; }
         IHostingEnvironment HostingEnvironment { get; }
+        bool IsAuthenticated { get; }
     }
 }

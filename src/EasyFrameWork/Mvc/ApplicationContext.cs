@@ -44,5 +44,9 @@ namespace Easy.Mvc
         {
             get;
         }
+        public bool IsAuthenticated
+        {
+            get { return HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated; }
+        }
     }
 }

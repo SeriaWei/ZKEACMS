@@ -18,8 +18,7 @@ namespace Easy.Mvc.Authorize
             await Task.Factory.StartNew(() =>
             {
                 var authorizer = ServiceLocator.GetService<IAuthorizer>();
-                var applicationContext = ServiceLocator.GetService<IApplicationContext>();
-                if (authorizer.Authorize(Policy, applicationContext.CurrentUser))
+                if (authorizer.Authorize(Policy))
                 {
                     context.Succeed(requirement);
                 }
