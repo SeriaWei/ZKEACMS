@@ -153,7 +153,7 @@ namespace ZKEACMS.Controllers
             ViewBag.CanPasteWidget = _cookie.GetValue<string>(Const.CopyWidgetCookie).IsNotNullAndWhiteSpace();
             return View();
         }
-        [ViewPage]
+        [ViewPage, DefaultAuthorize(Policy = PermissionKeys.ViewPage)]
         public ActionResult ViewPage(string ID)
         {
             return View("PreView");

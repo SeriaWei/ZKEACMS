@@ -5,20 +5,24 @@ using Easy.Constant;
 using Easy.Extend;
 using Easy.Models;
 using Easy.Modules.Role;
+using Microsoft.AspNetCore.Http;
 
 namespace Easy.Mvc.Authorize
 {
     public class DefaultAuthorizer : IAuthorizer
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public DefaultAuthorizer(IApplicationContext applicationContext,
             IRoleService roleService,
             IUserRoleRelationService userRoleRelationService,
-            IPermissionService permissionService)
+            IPermissionService permissionService,
+            IHttpContextAccessor httpContextAccessor)
         {
             ApplicationContext = applicationContext;
             RoleService = roleService;
             UserRoleRelationService = userRoleRelationService;
             PermissionService = permissionService;
+            _httpContextAccessor = httpContextAccessor;
         }
         public IApplicationContext ApplicationContext { get; set; }
         public IRoleService RoleService { get; set; }
@@ -32,6 +36,10 @@ namespace Easy.Mvc.Authorize
 
         public bool Authorize(string permission, IUser user)
         {
+            if (!_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                return false;
+            }
             if (permission.IsNullOrWhiteSpace())
             {
                 return true;
