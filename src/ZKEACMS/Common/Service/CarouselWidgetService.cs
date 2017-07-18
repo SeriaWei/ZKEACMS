@@ -50,7 +50,7 @@ namespace ZKEACMS.Common.Service
                 item.CarouselItems.Each(m =>
                 {
                     m.CarouselWidgetID = item.ID;
-                    if (m.ActionType == ActionType.Create)
+                    if (m.ActionType != ActionType.Delete)
                     {
                         _carouselItemService.Add(new CarouselItemEntity
                         {
