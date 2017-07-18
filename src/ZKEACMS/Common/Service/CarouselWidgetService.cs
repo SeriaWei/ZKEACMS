@@ -49,13 +49,12 @@ namespace ZKEACMS.Common.Service
             {
                 item.CarouselItems.Each(m =>
                 {
-                    m.CarouselWidgetID = item.ID;
                     if (m.ActionType != ActionType.Delete)
                     {
                         _carouselItemService.Add(new CarouselItemEntity
                         {
                             CarouselID = m.CarouselID,
-                            CarouselWidgetID = m.CarouselWidgetID,
+                            CarouselWidgetID = item.ID,
                             TargetLink = m.TargetLink,
                             ImageUrl = m.ImageUrl,
                             Status = m.Status
