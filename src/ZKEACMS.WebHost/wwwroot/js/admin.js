@@ -5,7 +5,10 @@
  */
 
 $(function () {
-    document.querySelector("#main-body").style = "height:" + (window.innerHeight-80) +"px";
+    var mainBody = document.querySelector("#main-body");
+    if (mainBody) {
+        mainBody.style = "height:" + (window.innerHeight - 80) + "px";
+    }
     $(".accordion-group>a").click(function () {
         if ($(this).nextAll(".accordion-inner").hasClass("active")) {
             return false;
