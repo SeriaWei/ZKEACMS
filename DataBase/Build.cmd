@@ -185,12 +185,6 @@ if %ERRORLEVEL% NEQ 0 goto errors
 @echo Article
 sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.Article.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
-@echo Carousel
-sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.Carousel.Table.sql"
-if %ERRORLEVEL% NEQ 0 goto errors
-@echo CarouselItem
-sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.CarouselItem.Table.sql"
-if %ERRORLEVEL% NEQ 0 goto errors
 @echo ProductCategory
 sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.ProductCategory.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
@@ -227,6 +221,15 @@ if %ERRORLEVEL% NEQ 0 goto errors
 @echo CMS_WidgetBase
 sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.CMS_WidgetBase.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
+@echo Carousel
+sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.Carousel.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo CarouselWidget
+sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.CarouselWidget.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo CarouselItem
+sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.CarouselItem.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
 @echo ArticleDetailWidget
 sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.ArticleDetailWidget.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
@@ -241,9 +244,6 @@ sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialDat
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo ArticleTypeWidget
 sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.ArticleTypeWidget.Table.sql"
-if %ERRORLEVEL% NEQ 0 goto errors
-@echo CarouselWidget
-sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.CarouselWidget.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo HtmlWidget
 sqlcmd -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.HtmlWidget.Table.sql"
