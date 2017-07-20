@@ -9,13 +9,14 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <Version>1.1</Version>
-    <Copyright>深圳市纸壳软件有限公司 ZKEASOFT</Copyright>
+    <Version>1.2</Version>
+    <Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>
     <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS.Core</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>CMS</PackageTags>
+    <Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
   </PropertyGroup>
 
   <ItemGroup>

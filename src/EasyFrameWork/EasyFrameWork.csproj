@@ -15,6 +15,7 @@
     <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS.Core</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>EasyFrameWork</PackageTags>
+    <Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
   </PropertyGroup>
 
   <ItemGroup>
