@@ -41,36 +41,38 @@ namespace ZKEACMS.SectionWidget.Service
             List<SectionContent> contents = new List<SectionContent>();
             if (File.Exists(configFile))
             {
-                XmlDocument doc = new XmlDocument();
-                FileStream fileStream = new FileStream(configFile, FileMode.Open);
-                doc.Load(fileStream);
-                var nodes = doc.SelectNodes("/required/item");
-                const string fullNameSpace = "ZKEACMS.SectionWidget.Models.{0}";
-                foreach (XmlNode item in nodes)
+                using (FileStream fileStream = new FileStream(configFile, FileMode.Open))
                 {
-                    var attr = item.Attributes["type"];
-
-                    if (attr != null && attr.Value.IsNotNullAndWhiteSpace())
+                    XmlDocument doc = new XmlDocument();
+                    doc.Load(fileStream);
+                    var nodes = doc.SelectNodes("/required/item");
+                    const string fullNameSpace = "ZKEACMS.SectionWidget.Models.{0}";
+                    foreach (XmlNode item in nodes)
                     {
-                        var typeInfoArray = attr.Value.Split('.');
-                        string fullTypeInfo = fullNameSpace.FormatWith(typeInfoArray[typeInfoArray.Length - 1]);
-                        if (SectionPlug.ContentTypes.ContainsKey(fullTypeInfo))
-                        {
-                            var content = Activator.CreateInstance(SectionPlug.ContentTypes[fullTypeInfo]) as SectionContent;
-                            var properties = item.SelectNodes("property");
-                            foreach (XmlNode property in properties)
-                            {
-                                var name = property.Attributes["name"];
-                                if (name != null && name.Value.IsNotNullAndWhiteSpace() && property.InnerText.IsNotNullAndWhiteSpace())
-                                {
-                                    ClassAction.SetObjPropertyValue(content, name.Value, property.InnerText);
-                                }
-                            }
-                            content.SectionGroupId = group.ID;
-                            content.SectionWidgetId = group.SectionWidgetId;
-                            contents.Add(content);
-                        }
+                        var attr = item.Attributes["type"];
 
+                        if (attr != null && attr.Value.IsNotNullAndWhiteSpace())
+                        {
+                            var typeInfoArray = attr.Value.Split('.');
+                            string fullTypeInfo = fullNameSpace.FormatWith(typeInfoArray[typeInfoArray.Length - 1]);
+                            if (SectionPlug.ContentTypes.ContainsKey(fullTypeInfo))
+                            {
+                                var content = Activator.CreateInstance(SectionPlug.ContentTypes[fullTypeInfo]) as SectionContent;
+                                var properties = item.SelectNodes("property");
+                                foreach (XmlNode property in properties)
+                                {
+                                    var name = property.Attributes["name"];
+                                    if (name != null && name.Value.IsNotNullAndWhiteSpace() && property.InnerText.IsNotNullAndWhiteSpace())
+                                    {
+                                        ClassAction.SetObjPropertyValue(content, name.Value, property.InnerText);
+                                    }
+                                }
+                                content.SectionGroupId = group.ID;
+                                content.SectionWidgetId = group.SectionWidgetId;
+                                contents.Add(content);
+                            }
+
+                        }
                     }
                 }
             }

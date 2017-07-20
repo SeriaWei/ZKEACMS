@@ -16,8 +16,9 @@
         background: #fff;
         cursor: pointer;
         box-shadow: 0 0 3px rgba(0, 0, 0,0.2);
+        margin-bottom:10px;
     }
-
+        .group-template .row.border:hover,
         .group-template .row.border.actived {
             background: #337ab7;
         }

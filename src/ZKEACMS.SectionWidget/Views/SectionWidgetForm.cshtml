@@ -18,7 +18,8 @@
         new List<string>{"col-sm-3","col-sm-9"},
         new List<string>{"col-sm-4","col-sm-4","col-sm-4"},
         new List<string>{"col-sm-3","col-sm-6","col-sm-3"},
-        new List<string>{"col-sm-3","col-sm-3","col-sm-3","col-sm-3"}
+        new List<string>{"col-sm-3","col-sm-3","col-sm-3","col-sm-3"},
+        new List<string>{ "col-sm-2 col-sm-offset-1", "col-sm-2 ", "col-sm-2", "col-sm-2", "col-sm-2" }
     };
 
 }
@@ -62,22 +63,27 @@
                         <div class="row">
                             <div class="col-xs-1">
                                 <div class="text-center">
-                                    组分列
+                                    水平排列
                                 </div>
                             </div>
-                            @foreach (var template in templates)
-                            {
-                                <div class="col-xs-1 item @(template.Count == 1 || !Model.Groups.Any() || template.Count == Model.Groups.Count() ? "" : "hide")">
-                                    <div class="row border">
-                                        @foreach (var col in template)
-                                        {
-                                            <div class="col @col" data-col="@col">
-                                                <div class="content-helper"></div>
+                            <div class="col-xs-11">
+                                <div class="row">
+                                    @foreach (var template in templates)
+                                    {
+                                        <div class="col-xs-2 item @(template.Count == 1 || !Model.Groups.Any() || template.Count == Model.Groups.Count() ? "" : "hide")">
+                                            <div class="row border">
+                                                @foreach (var col in template)
+                                                {
+                                                    <div class="col @col" data-col="@col">
+                                                        <div class="content-helper"></div>
+                                                    </div>
+                                                }
                                             </div>
-                                        }
-                                    </div>
+                                        </div>
+                                    }
                                 </div>
-                            }
+                            </div>
+                            
                         </div>
                     </div>
 
