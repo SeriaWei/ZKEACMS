@@ -152,9 +152,10 @@ namespace ZKEACMS.Filter
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var applicationContext = filterContext.HttpContext.RequestServices.GetService<IApplicationContext>() as CMSApplicationContext;
+            var applicationContext = filterContext.HttpContext.RequestServices.GetService<IApplicationContextAccessor>();
             if (applicationContext != null)
             {
+                applicationContext.Current.PageMode = GetPageViewMode();
                 //applicationContext.RequestUrl = new Uri(filterContext.HttpContext.Request.Path.ToUriComponent());
             }
             var _onPageExecutings = filterContext.HttpContext.RequestServices.GetServices<IOnPageExecuting>();

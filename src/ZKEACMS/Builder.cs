@@ -23,6 +23,7 @@ namespace ZKEACMS
     {
         public static void UseZKEACMS(this IServiceCollection serviceCollection)
         {
+            serviceCollection.TryAddScoped<IApplicationContextAccessor, ApplicationContextAccessor>();
             serviceCollection.TryAddScoped<IApplicationContext, CMSApplicationContext>();
             serviceCollection.TryAddSingleton<IRouteProvider, RouteProvider>();
             serviceCollection.TryAddSingleton<IAdminMenuProvider, AdminMenuProvider>();
