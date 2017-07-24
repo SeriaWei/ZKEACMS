@@ -110,8 +110,8 @@
             @if (Authorizer.Authorize(PermissionKeys.ManagePage))
             {
                 <a class="btn btn-primary" href="@Url.Action("Design", new {ID = Model.PageID})">
-                    <i class="glyphicon glyphicon-wrench"></i>
-                    设计
+                    <i class="glyphicon glyphicon-pencil"></i>
+                    编辑
                 </a>
             }
             <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID})">
