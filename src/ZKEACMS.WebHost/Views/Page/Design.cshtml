@@ -36,7 +36,7 @@
                 <input type="hidden" class="zoneId" value="@zoneId" />
                 <div class="zoneName">
                     <a title="添加内容"
-                       class="add-widget btn btn-info btn-sm"
+                       class="add-widget btn btn-black btn-sm"
                        href="@Url.Action("SelectWidget", "WidgetTemplate", new {pageId = Model.Page.ID, ZoneId = zoneId})">
                         <i class="glyphicon glyphicon-plus"></i>
                         添加内容 | @Model.Zones.First(m => m.HeadingCode == zoneId).ZoneName

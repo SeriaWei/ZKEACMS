@@ -79,7 +79,7 @@
                             <div class="panel-toolbar">
                                 @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                                 {
-                                    <a class="btn btn-primary btn-xs" title="添加内容" href="@Url.Action("SelectWidget", "WidgetTemplate", new { Model.PageID, ZoneID = item.HeadingCode, ReturnUrl = returnUrl})">
+                                    <a class="btn btn-black btn-xs" title="添加内容" href="@Url.Action("SelectWidget", "WidgetTemplate", new { Model.PageID, ZoneID = item.HeadingCode, ReturnUrl = returnUrl})">
                                         <i class="glyphicon glyphicon-plus"></i>
                                         添加内容 | @item.ZoneName
                                     </a>
