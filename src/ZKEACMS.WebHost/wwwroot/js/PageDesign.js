@@ -1,5 +1,6 @@
 ﻿$(function () {
     $(".zone").sortable({
+        items: ">div:not(.zoneName)",
         placeholder: "sorting",
         handle: ".sort-handle",
         tolerance: "pointer",
