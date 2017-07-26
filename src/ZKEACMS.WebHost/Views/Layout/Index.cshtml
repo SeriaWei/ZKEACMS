@@ -25,7 +25,7 @@
                         <span>@item.LayoutName</span>
                         @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
                         {
-                            <a href="@Url.Action("Design", new {item.ID})" class="pull-right badge">设计</a>
+                            <a href="@Url.Action("Design", new {item.ID})" class="pull-right badge">编辑</a>
                         }
                     </div>
                 </li>

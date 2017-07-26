@@ -91,8 +91,8 @@
                                 @if (Model.Page != null)
                                 {
                                     <a class="btn btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
-                                        <i class="glyphicon glyphicon-wrench"></i>
-                                        页面设计
+                                        <i class="glyphicon glyphicon-pencil"></i>
+                                        编辑页面
                                     </a>
                                 }
                                 <a href="@Url.Action("LayoutWidget", "Layout", new { LayoutID = Model.ID })" class="btn btn-primary">
