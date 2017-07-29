@@ -3,8 +3,16 @@
     Style.Reqiured("Layout").AtFoot();
 }
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <div>选择组件</div>
+    <div class="panel-heading">        
+        <div class="form-inline">
+            <div class="form-group">
+                <label for="exampleInputName2">搜索</label>
+                <input id="search" class="form-control" type="text" placeholder="输入关键字进行搜索..." />
+            </div>
+            <div class="form-group">
+                选择组件，<strong>双击</strong>或者点击<strong>下一步</strong>
+            </div>
+        </div>
     </div>
     <div class="panel-body template-list">
         @using (Html.BeginForm("RedirectToWidget", "WidgetTemplate", new { Model.PageID, Model.LayoutID, Model.ZoneID, Model.ReturnUrl }))
@@ -13,7 +21,7 @@
             {
                 foreach (WidgetTemplateEntity template in item.OrderBy(m => m.Order))
                 {
-                    <div class="col-lg-2 col-md-3 col-sm-4">
+                    <div class="col-lg-2 col-md-3 col-sm-4 thumb-item">
                         <div>
                             <input id="template-@template.ID" type="radio" name="WidgetTemplateID" value="@template.ID" />
                             <label for="template-@template.ID" class="thumbnail">
@@ -30,7 +38,7 @@
                 <input id="design" type="submit" class="btn btn-primary" value="下一步" />
                 @if (Model.CanPasteWidget)
                 {
-                    <a class="btn btn-warning" href="@Url.Action("PasteAndRedirect", "Widget", new { Model.LayoutID, Model.PageID,Model.ZoneID,Model.ReturnUrl})">
+                    <a class="btn btn-warning" href="@Url.Action("PasteAndRedirect", "Widget", new { Model.LayoutID, Model.PageID,Model.ZoneID,Model.ReturnUrl })">
                         <i class="glyphicon glyphicon-paste"></i>
                         粘贴
                     </a>
@@ -43,6 +51,25 @@
 @using (Script.AtFoot())
 {
     <script type="text/javascript">
-        $("input[type=radio]:first").attr("checked", "checked");
+        $(function () {
+            $("input[type=radio]:first").attr("checked", "checked");
+            $(document).on("dblclick", function () { $("form").submit(); });
+            $(document).on("keyup", "#search", function () {
+                var keyWord = $(this).val();
+                if (keyWord) {
+                    keyWord = keyWord.toLowerCase();
+                    $(".thumb-item").each(function () {
+                        if ($(this).text().toLowerCase().indexOf(keyWord) < 0) {
+                            $(this).addClass("hide");
+                        } else {
+                            $(this).removeClass("hide");
+                        }
+                    });
+                }
+                else {
+                    $(".thumb-item.hide").removeClass("hide");
+                }
+            });
+        });
     </script>
 }

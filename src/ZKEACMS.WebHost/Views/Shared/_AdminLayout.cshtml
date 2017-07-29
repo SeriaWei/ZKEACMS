@@ -1,5 +1,4 @@
 ﻿@using ZKEACMS.Common.Models
-@using Version = ZKEACMS.Version
 @inject IAdminMenuProvider adminMenuProvider
 @{
     Style.Reqiured("bootStrap").AtHead();
@@ -13,7 +12,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    <title>ZKEASOFT</title>
+    <title>@(ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank + " 深圳市纸壳软件科技有限公司")</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
     @StyleAtHead()
@@ -31,7 +30,7 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <p class="navbar-text">
-                        @Version.CurrentVersion
+                        @ZKEACMS.Version.CurrentVersion @ZKEACMS.Version.Rank
                     </p>
                     <ul class="nav navbar-nav">
                         <li>

@@ -248,7 +248,6 @@ a.badge:hover {
     padding: 1px 0;
     list-style: none;
     color: #717171;
-    min-height: 85px;
 }
 
     .fullRowList li {
@@ -383,9 +382,9 @@ a.badge:hover {
     }
 
     .simplePreview .panel-toolbar {
-        position: absolute;
-        right: 0;
-        top: 0;
+        text-align:center;
+        margin-top:5px;
+        padding:0 0 5px;
     }
 
     .simplePreview .simpleDesign > .container {

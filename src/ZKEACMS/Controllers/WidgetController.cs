@@ -165,6 +165,7 @@ namespace ZKEACMS.Controllers
         [HttpPost]
         public PartialViewResult AppendWidget(WidgetBase widget)
         {
+            HttpContext.RequestServices.GetService<IApplicationContextAccessor>().Current.PageMode = Filter.PageViewMode.Design;
             var widgetPart = _widgetService.ApplyTemplate(widget, ControllerContext);
             if (widgetPart == null)
             {

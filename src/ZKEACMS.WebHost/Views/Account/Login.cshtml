@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = ZKEACMS.Version.CurrentVersion;
+    ViewBag.Title = ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank + " 深圳市纸壳软件科技有限公司";
     Layout = Layouts.NormalDefault;
     Style.Reqiured("admin").AtHead();
     Style.Reqiured("Login").AtHead();
@@ -16,11 +16,11 @@
             </a>
         </div>
         <div class="login-panel-body">
-            <h3 class="version text-center">@ZKEACMS.Version.CurrentVersion <small>CORE</small></h3>
+            <h3 class="version text-center">@ZKEACMS.Version.CurrentVersion <small>@ZKEACMS.Version.Rank</small></h3>
             <p>请输入您的用户信息以登录系统</p>
             <div class="form-input">
                 <h4>用户名</h4>
-                <input type="text" id="userName" name="userName" class="form-control" data-val="true" data-val-required="请输入用户名"/>
+                <input type="text" id="userName" name="userName" class="form-control" data-val="true" data-val-required="请输入用户名" />
                 <span class="field-validation-valid " data-valmsg-for="userName" data-valmsg-replace="true"></span>
             </div>
             <div class="form-input">
@@ -33,7 +33,7 @@
                 <div class="text-center alert alert-danger">
                     @ViewBag.Errormessage
                 </div>
-            }            
+            }
             <div>
                 <input type="submit" class="btn btn-danger btn-login" value="登录" />
             </div>
@@ -44,8 +44,8 @@
             </p>
             <p>
                 @*/*授权以后，可以修改Copyright，但是请保留Powered by*/*@
-                Copyright © 2015-@DateTime.Now.Year ZKEASOFT. All Rights Reserved |
-                Powered by <a href="http://www.zkea.net" target="_blank">ZKEACMS</a>
+                Copyright © 2016-@DateTime.Now.Year <br /><a href="http://www.zkea.net" target="_blank" title="深圳市纸壳软件科技有限公司">ZKEASOFT</a>. All Rights Reserved <br />
+                Powered by <a href="http://www.zkea.net/zkeacms/zkeacmscore" target="_blank">ZKEACMS</a>
             </p>
         </div>
     </div>
