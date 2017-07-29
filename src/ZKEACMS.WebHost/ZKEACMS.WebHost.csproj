@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
@@ -20,50 +20,6 @@
     <Description>Package Description</Description>
     <Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="wwwroot\themes\Cerulean\**" />
-    <Content Remove="wwwroot\themes\Cerulean\**" />
-    <EmbeddedResource Remove="wwwroot\themes\Cerulean\**" />
-    <None Remove="wwwroot\themes\Cerulean\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="wwwroot\images\not-img-available.jpg" />
-    <Content Include="wwwroot\images\Widget.Breadcrumb.png" />
-    <Content Include="wwwroot\js\tinymce\plugins\pasteImage\plugin.js" />
-    <Content Include="wwwroot\Themes\Default\css\Article.less" />
-    <Content Include="wwwroot\Themes\Default\css\Base.less" />
-    <Content Include="wwwroot\Themes\Default\css\Carousel.less" />
-    <Content Include="wwwroot\Themes\Default\css\Library.less" />
-    <Content Include="wwwroot\Themes\Default\css\Navigation.less" />
-    <Content Include="wwwroot\Themes\Default\css\Pagination.less" />
-    <Content Include="wwwroot\themes\Default\css\Panel.less" />
-    <Content Include="wwwroot\Themes\Default\css\Product.less" />
-    <Content Include="wwwroot\Themes\Default\css\Section.less" />
-    <Content Include="wwwroot\Themes\Default\css\theme.css" />
-    <Content Include="wwwroot\Themes\Default\css\Theme.css.map" />
-    <Content Include="wwwroot\Themes\Default\css\Theme.less" />
-    <Content Include="wwwroot\Themes\Default\css\Theme.min.css" />
-    <Content Include="wwwroot\Themes\Default\css\widget.less" />
-    <Content Include="wwwroot\Themes\Default\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="wwwroot\Themes\Default\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="wwwroot\Themes\Default\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="wwwroot\Themes\Default\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="wwwroot\Themes\Default\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="wwwroot\Themes\Default\images\bg.gif" />
-    <Content Include="wwwroot\Themes\Default\images\col_side_bg.png" />
-    <Content Include="wwwroot\Themes\Default\images\header_bg.png" />
-    <Content Include="wwwroot\Themes\Default\images\icon_point.png" />
-    <Content Include="wwwroot\Themes\Default\images\icon_square.png" />
-    <Content Include="wwwroot\Themes\Default\images\loader.gif" />
-    <Content Include="wwwroot\Themes\Default\images\logo_z.png" />
-    <Content Include="wwwroot\Themes\Default\images\more.png" />
-    <Content Include="wwwroot\Themes\Default\images\prd_sort_title.gif" />
-    <Content Include="wwwroot\Themes\Default\images\video-play.png" />
-    <Content Include="wwwroot\Themes\Default\info.json" />
-    <Content Include="wwwroot\Themes\Default\thumbnail.jpg" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Update="wwwroot\**\*">
