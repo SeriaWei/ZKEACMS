@@ -1,6 +1,9 @@
 ﻿# ZKEACMS Build With Asp.Net Core 1.1
 ![BuildSuccess](http://cdn.zkeasoft.com/images/buildsuccess.svg) 
 
+### 演示
+[http://demo.zkea.net](http://demo.zkea.net)
+
 ### 简介
 纸壳CMS 是基于 ZKEACMS 的 Asp.Net Core 版本。
 
@@ -89,7 +92,6 @@ Microsoft Sql Server 2008 以上
 
 [赞助](http://www.zkea.net/zkeacms/donate)
 
-[DEMO站点](http://demo.zkea.net)
 
 ## 关注微信(ZKEASOFT)
 ![关注微信](http://blog.zkea.net/wp-content/uploads/2016/03/263801921375bdf2.jpg)
