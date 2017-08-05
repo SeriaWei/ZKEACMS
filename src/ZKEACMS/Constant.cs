@@ -111,13 +111,22 @@ namespace ZKEACMS
     }
     public static class Version
     {
+        static string _version;
         public static string CurrentVersion
         {
             get
             {
-                var attr = typeof(Version).GetTypeInfo().Assembly.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
-                return "ZKEACMS v" + attr.InformationalVersion;
+                if (_version == null)
+                {
+                    var attr = typeof(Version).GetTypeInfo().Assembly.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
+                    _version = $"ZKEACMS v {attr.InformationalVersion}";
+                }
+                return _version;
             }
+        }
+        public static string Rank
+        {
+            get { return "Basic"; }
         }
     }
 }

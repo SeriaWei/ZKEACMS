@@ -5,15 +5,16 @@ using Easy.Mvc.Extend;
 using Microsoft.AspNetCore.Http;
 using Easy.Modules.User.Service;
 using Microsoft.AspNetCore.Hosting;
+using ZKEACMS.Filter;
 
 namespace ZKEACMS
 {
     public class CMSApplicationContext : ApplicationContext
     {
-        
+
         private Uri _requestUrl;
 
-        public CMSApplicationContext(IHttpContextAccessor httpContextAccessor, IHostingEnvironment hostingEnvironment) : 
+        public CMSApplicationContext(IHttpContextAccessor httpContextAccessor, IHostingEnvironment hostingEnvironment) :
             base(httpContextAccessor, hostingEnvironment)
         {
         }
@@ -41,5 +42,7 @@ namespace ZKEACMS
             }
             return path;
         }
+        public PageViewMode PageMode { get; set; }
+        public bool IsDesignMode { get { return PageMode == PageViewMode.Design; } }
     }
 }

@@ -56,8 +56,8 @@
                 @if (!Model.Page.IsPublishedPage)
                 {
                     <a class="btn btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
-                        <i class="glyphicon glyphicon-wrench"></i>
-                        设计
+                        <i class="glyphicon glyphicon-pencil"></i>
+                        编辑
                     </a>
                     <a class="btn btn-primary" href="@Url.Action("Index", "Page", new { PageID = Model.Page.ID })">
                         <i class="glyphicon glyphicon-th"></i>

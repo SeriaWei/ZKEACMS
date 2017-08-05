@@ -42,7 +42,8 @@
 
 <div class="panel  panel-default">
     <div class="panel-heading">
-        @Model.Page.Title
+        <span class="badge">概览</span>
+        @Model.Page.Title 
     </div>
     <div class="simplePreview">
         <div class="simpleDesign">
@@ -58,22 +59,6 @@
                     foreach (var item in zone)
                     {
                         <div class="panel panel-success panel-relative">
-                            <div class="panel-toolbar">
-                                @if (Authorizer.Authorize(PermissionKeys.ManagePage))
-                                {
-                                    <a class="label label-danger" title="添加组件到该区域" href="@Url.Action("SelectWidget", "WidgetTemplate", new { Model.PageID, ZoneID = item.HeadingCode, ReturnUrl = returnUrl})">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                        @item.ZoneName
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a class="label label-danger" title="区域名称" href="#">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                        @item.ZoneName
-                                    </a>
-                                }
-                            </div>
                             <ul data-zoneid="@item.HeadingCode" class="fullRowList widgets connectedSortable">
                                 @foreach (var widget in Model.Widgets.Where(m => m.ZoneID == item.HeadingCode).OrderBy(m => m.Position).ThenBy(m => m.WidgetName))
                                 {
@@ -91,7 +76,21 @@
                                     </li>
                                 }
                             </ul>
-
+                            <div class="panel-toolbar">
+                                @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+                                {
+                                    <a class="btn btn-black btn-xs" title="添加内容" href="@Url.Action("SelectWidget", "WidgetTemplate", new { Model.PageID, ZoneID = item.HeadingCode, ReturnUrl = returnUrl})">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                        添加内容 | @item.ZoneName
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="label label-info" title="区域名称" href="#">
+                                        @item.ZoneName
+                                    </a>
+                                }
+                            </div>
                         </div>
                     }
 
@@ -110,8 +109,8 @@
             @if (Authorizer.Authorize(PermissionKeys.ManagePage))
             {
                 <a class="btn btn-primary" href="@Url.Action("Design", new {ID = Model.PageID})">
-                    <i class="glyphicon glyphicon-wrench"></i>
-                    设计
+                    <i class="glyphicon glyphicon-pencil"></i>
+                    编辑
                 </a>
             }
             <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID})">

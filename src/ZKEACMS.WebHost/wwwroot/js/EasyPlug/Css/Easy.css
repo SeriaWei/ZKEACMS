@@ -44,22 +44,24 @@
     _overflow: hidden;
 }
 
-.OpacityBackGround{
-    background-color:#000;
+.OpacityBackGround {
+    background-color: #000;
 }
-.OpacityBackGround.busy{
-    cursor:wait;
-}
-.easy-block{
-    z-index:100000;
-    position:fixed;
-    left:50%;
-    top:50%;
-    margin:-32px auto auto -32px;
+
+    .OpacityBackGround.busy {
+        cursor: wait;
+    }
+
+.easy-block {
+    z-index: 100000;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin: -32px auto auto -32px;
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    background:#fff url("Images/loader.gif") center center no-repeat;
+    background: #fff url("Images/loader.gif") center center no-repeat;
 }
 /*消息提示窗*/
 .MessageBox {
@@ -110,7 +112,7 @@
     }
 
         .MessageBox .MBActions > input {
-            margin:0px 4px;
+            margin: 0px 4px;
         }
 /*放大镜查看*/
 .Magnifier_BgPoint {
@@ -420,7 +422,7 @@
     padding: 10px;
     background-color: white;
     color: black;
-    z-index:100;
+    z-index: 100;
 }
 
 .HtmlInput {
@@ -465,3 +467,29 @@
 .BoxShadow {
     box-shadow: 0 4px 23px 5px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0,0,0,0.15);
 }
+
+.btn.btn-black {
+    background-image: -webkit-linear-gradient(top,#545454 0,#000 100%);
+    background-image: -o-linear-gradient(top,#545454 0,#000 100%);
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#545454),to(#000));
+    background-image: linear-gradient(to bottom,#545454 0,#000 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff282828', endColorstr='#ff000000', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    background-repeat: repeat-x;
+    border-color: #000;
+    color: #fff;
+}
+
+    .btn.btn-black:hover, 
+    .btn.btn-black:focus {
+        color: #e6e6e6;
+        background-color: #000;
+        background-position: 0 -15px;
+    }
+
+    .btn.btn-black:active, 
+    .btn.btn-black.active {
+        color: #b2b2b2;
+        background-color: #000;
+        border-color: #000;
+    }

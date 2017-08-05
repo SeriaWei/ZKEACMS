@@ -16,11 +16,11 @@
     if (Authorizer.Authorize(PermissionKeys.ManagePage))
     {
         pageTree.AddPlugin(Plugins.DragAndDrop).AddContextMenuItem(new ContextmenuItem { Label = "新建", Action = "Create", Icon = "glyphicon glyphicon-plus" })
-            .AddContextMenuItem(new ContextmenuItem {Label = "编辑", Action = "Edit", Icon = "glyphicon glyphicon-edit", SeparatorAfter = true})
+            .AddContextMenuItem(new ContextmenuItem { Label = "查看", Action = "View", Icon = "glyphicon glyphicon-new-window" })
+            .AddContextMenuItem(new ContextmenuItem { Label = "编辑", Action = "Design", Icon = "glyphicon glyphicon-pencil" })
             .AddContextMenuItem(new ContextmenuItem {Label = "预览", Action = "PreView", Icon = "glyphicon glyphicon-search"})
-            .AddContextMenuItem(new ContextmenuItem {Label = "查看", Action = "View", Icon = "glyphicon glyphicon-new-window"})
-            .AddContextMenuItem(new ContextmenuItem {Label = "发布", Action = "Publish", Icon = "glyphicon glyphicon-open"})
-            .AddContextMenuItem(new ContextmenuItem {Label = "设计", Action = "Design", Icon = "glyphicon glyphicon-wrench"});
+            .AddContextMenuItem(new ContextmenuItem { Label = "属性", Action = "Edit", Icon = "glyphicon glyphicon-edit", SeparatorAfter = true })
+            .AddContextMenuItem(new ContextmenuItem {Label = "发布", Action = "Publish", Icon = "glyphicon glyphicon-open"});
     }
     else
     {
@@ -72,7 +72,7 @@
                                 添加：添加子页面
                             </li>
                             <li>
-                                编辑：编辑选中页面的属性，像标题，SEO关键字等
+                                属性：编辑选中页面的属性，像标题，SEO关键字等
                             </li>
                             <li>
                                 预览：查看最新修改版本
@@ -84,7 +84,7 @@
                                 发布：将页面发布到前端可查看
                             </li>
                             <li>
-                                设计：进入页面的设计模式
+                                编辑：进入页面的设计模式，编辑内容
                             </li>
                             <li>
                                 布局：修改页面布局。<code>会影响所有使用该布局的页面</code>
