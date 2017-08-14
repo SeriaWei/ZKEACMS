@@ -32,9 +32,9 @@
                 parentUrl = "~/";
             }
             var thisUrl = $(this).val();
-            var replaceValue = ["/", " ", "?", "`", "~", "!", "@@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "+", "[", "]", "{", "}", "\\", "|", ";", ":", "'", "\"", ",", ".", "<", ">"];
+            var replaceValue = ["/", " ", "?", "`", "~", "!", "@@", "#", "$", "%", "^", "&", "*", "(", ")", "+", "[", "]", "{", "}", "\\", "|", ";", ":", "'", "\"", ",", ".", "<", ">"];
             for (var i = 0; i < replaceValue.length; i++) {
-                thisUrl = thisUrl.replaceAll(replaceValue[i], "_");
+                thisUrl = thisUrl.replaceAll(replaceValue[i], "-");
             }
             url.val(parentUrl + thisUrl);
         });

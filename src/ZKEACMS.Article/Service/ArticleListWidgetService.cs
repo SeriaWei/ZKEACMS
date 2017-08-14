@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
+using ZKEACMS.Page;
+using Easy.Extend;
 
 namespace ZKEACMS.Article.Service
 {
@@ -18,12 +20,14 @@ namespace ZKEACMS.Article.Service
     {
         private readonly IArticleTypeService _articleTypeService;
         private readonly IArticleService _articleService;
+        private readonly IPageService _pageService;
         public ArticleListWidgetService(IWidgetBasePartService widgetService, IArticleTypeService articleTypeService,
-            IArticleService articleService, IApplicationContext applicationContext)
+            IArticleService articleService, IApplicationContext applicationContext, IPageService pageService)
             : base(widgetService, applicationContext)
         {
             _articleTypeService = articleTypeService;
             _articleService = articleService;
+            _pageService = pageService;
         }
 
         public override DbSet<ArticleListWidget> CurrentDbSet
@@ -32,6 +36,45 @@ namespace ZKEACMS.Article.Service
             {
                 return DbContext.ArticleListWidget;
             }
+        }
+
+        private string GetDetailPageUrl()
+        {
+            var baseDetail = WidgetBasePartService.Get(m => m.ServiceTypeName == "ZKEACMS.Article.Service.ArticleDetailWidgetService").FirstOrDefault();
+            if (baseDetail != null)
+            {
+                var page = _pageService.Get(baseDetail.PageID);
+                if (page != null)
+                {
+                    return page.Url;
+                }
+            }
+            return "~/View-Article";
+        }
+
+        public override void Add(ArticleListWidget item)
+        {
+            if (item.DetailPageUrl.IsNullOrEmpty())
+            {
+                item.DetailPageUrl = GetDetailPageUrl();
+            }
+            if (!item.PageSize.HasValue || item.PageSize.Value == 0)
+            {
+                item.PageSize = 5;
+            }
+            item.IsPageable = true;
+            base.Add(item);
+        }
+
+        public override ArticleListWidget Get(params object[] primaryKeys)
+        {
+            var widget = base.Get(primaryKeys);
+            if (widget.DetailPageUrl.IsNullOrEmpty())
+            {
+                widget.DetailPageUrl = GetDetailPageUrl();
+                Update(widget);
+            }
+            return widget;
         }
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)

@@ -40,6 +40,9 @@ namespace ZKEACMS.Article.Models
 
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
 
+            ViewConfig(m => m.IsPageable).AsCheckBox().Order(NextOrder());
+            ViewConfig(m => m.PageSize).AsTextBox().Order(NextOrder()).Range(1, 50);
+
             ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary);
         }
     }
