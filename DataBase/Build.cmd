@@ -177,6 +177,9 @@ if %ERRORLEVEL% NEQ 0 goto errors
 @echo DataArchived
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.DataArchived.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
+@echo CMS_Redirection
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.CMS_Redirection.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
 
 @echo InitailData...
 @echo ArticleType
@@ -314,7 +317,6 @@ if %ERRORLEVEL% NEQ 0 goto errors
 @echo Permission
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.Permission.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
-
 @echo ApplicationSetting
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.ApplicationSetting.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
@@ -329,6 +331,9 @@ sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Initial
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo PageView
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.PageView.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo CMS_Redirection
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.CMS_Redirection.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
 
 @echo -----------------------------------------------------------------------------
