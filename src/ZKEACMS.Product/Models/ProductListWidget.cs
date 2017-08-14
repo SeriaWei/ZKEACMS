@@ -12,6 +12,7 @@ using ZKEACMS.Product.Service;
 using System.ComponentModel.DataAnnotations.Schema;
 using Easy.Constant;
 using System.Linq;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Product.Models
 {
@@ -35,7 +36,7 @@ namespace ZKEACMS.Product.Models
                 return ServiceLocator.GetService<IProductCategoryService>().GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
             }).Required().Order(NextOrder()).AddClass("select").AddProperty("data-url", "/admin/ProductCategory/Select");
 
-            ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
+            ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector();
             ViewConfig(m => m.IsPageable).AsCheckBox().Order(NextOrder());
             ViewConfig(m => m.PageSize).AsTextBox().Order(NextOrder()).Range(1, 50);
             ViewConfig(m => m.Columns).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary);

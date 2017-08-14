@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Easy.MetaData;
 using System.ComponentModel.DataAnnotations.Schema;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.SectionWidget.Models
 {
@@ -41,7 +42,7 @@ namespace ZKEACMS.SectionWidget.Models
             ViewConfig(m => m.Status).AsHidden();
             ViewConfig(m => m.Description).AsHidden();
             ViewConfig(m => m.InnerText).AsTextBox().Required();
-            ViewConfig(m => m.Href).AsTextBox().AddClass("select").AddProperty("data-url", Urls.SelectPage);
+            ViewConfig(m => m.Href).AsTextBox().PageSelector();
             ViewConfig(m => m.TitleLevel).AsDropDownList().DataSource(() => new Dictionary<string, string>
             {
                 {SectionContentTitle.H1,"一级标题"},
