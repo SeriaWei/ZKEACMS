@@ -80,8 +80,8 @@ namespace Easy.MetaData
                 ViewConfig("LastUpdateByName").AsTextBox().Hide().ShowInGrid();
                 ViewConfig("LastUpdateDate").AsTextBox().Hide().FormatAsDateTime().ShowInGrid().Search(LINQ.Query.Operators.Range);
                 ViewConfig("ActionType").AsHidden().AddClass("ActionType");
-                ViewConfig("Title").AsTextBox().Order(1).ShowInGrid().Search(LINQ.Query.Operators.Contains);
-                ViewConfig("Description").AsTextArea().Order(101);
+                ViewConfig("Title").AsTextBox().Order(1).ShowInGrid().Search(LINQ.Query.Operators.Contains).MaxLength(200);
+                ViewConfig("Description").AsTextArea().Order(101).MaxLength(500);
                 ViewConfig("Status").AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary).ShowInGrid();
               
             }

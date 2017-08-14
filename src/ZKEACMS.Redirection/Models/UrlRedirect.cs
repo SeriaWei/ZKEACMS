@@ -25,9 +25,9 @@ namespace ZKEACMS.Redirection.Models
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.ID).AsHidden();
-            ViewConfig(m => m.Title).AsTextBox().Required().MaxLength(200);
-            ViewConfig(m => m.InComingUrl).AsTextBox().MaxLength(500).PageSelector().ShowInGrid().Search(Query.Operators.Contains);
-            ViewConfig(m => m.DestinationURL).AsTextBox().MaxLength(500).PageSelector().ShowInGrid().Search(Query.Operators.Contains);
+            ViewConfig(m => m.Title).AsTextBox().Order(0).Required().MaxLength(200).ShowInGrid().Search(Query.Operators.Contains);
+            ViewConfig(m => m.InComingUrl).AsTextBox().Order(1).MaxLength(500).PageSelector().ShowInGrid().Search(Query.Operators.Contains);
+            ViewConfig(m => m.DestinationURL).AsTextBox().Order(2).MaxLength(500).PageSelector().ShowInGrid().Search(Query.Operators.Contains);
         }
     }
 }
