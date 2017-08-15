@@ -38,8 +38,8 @@ namespace ZKEACMS.Controllers
             {
                 var identity = new ClaimsIdentity();
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-
+               // await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                await HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
                 if (ReturnUrl.IsNullOrEmpty())
                 {
                     return RedirectToAction("Index", "Dashboard");
