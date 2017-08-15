@@ -10,6 +10,7 @@ using Easy.Extend;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.DataAnnotations;
 using Easy.RepositoryPattern;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,11 +28,11 @@ namespace ZKEACMS.WebHost
     {
         public Startup(IHostingEnvironment env)
         {
-               var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+            var builder = new ConfigurationBuilder()
+             .SetBasePath(env.ContentRootPath)
+             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+             .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+             .AddEnvironmentVariables();
 
             if (env.IsDevelopment())
             {
@@ -82,12 +83,18 @@ namespace ZKEACMS.WebHost
                         configure.Requirements.Add(new RoleRequirement { Policy = p.Key });
                     });
                 });
-
             });
-            services.AddAuthorization();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(o =>
+                {
+                    o.LoginPath = new PathString("/Account/Login");
+                    o.AccessDeniedPath = new PathString("/Error/Forbidden");
+                });
+
             new ResourceManager().Excute();
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -105,16 +112,6 @@ namespace ZKEACMS.WebHost
                 loggerFactory.UseFileLog(env);
                 app.UseExceptionHandler("/Error");
             }
-
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationScheme = "Cookie",
-                LoginPath = new PathString("/Account/Login"),
-                AccessDeniedPath = new PathString("/Error/Forbidden"),
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true
-            });
-
 
             app.UseStaticFiles();
 

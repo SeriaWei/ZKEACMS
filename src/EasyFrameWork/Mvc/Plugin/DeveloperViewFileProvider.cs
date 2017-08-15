@@ -1,13 +1,8 @@
-﻿using Microsoft.Extensions.FileProviders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Primitives;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.FileProviders.Physical;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Primitives;
 using System.IO;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Easy.Mvc.Plugin
 {

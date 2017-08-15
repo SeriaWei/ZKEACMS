@@ -2,6 +2,6 @@
 	ID:"66BF2F20-69E5-42B7-84BF-3488C6A2EB80",
 	Name:"ZKEACMS.SectionWidget",
 	FileName:"bin\\ZKEACMS.SectionWidget.dll",
-	DeveloperFileName:"bin\\Debug\\netstandard1.6\\ZKEACMS.SectionWidget.dll",
+	DeveloperFileName:"bin\\Debug\\netstandard2.0\\ZKEACMS.SectionWidget.dll",
 	Enable:"true"
 }

@@ -5,15 +5,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>ZKEACMS.Article</AssemblyName>
     <PackageId>ZKEACMS.Article</PackageId>
-    <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
-    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
     <Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>

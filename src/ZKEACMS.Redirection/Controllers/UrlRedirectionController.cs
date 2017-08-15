@@ -16,7 +16,6 @@ using ZKEACMS.Redirection.Service;
 
 namespace ZKEACMS.Redirection.Controllers
 {
-    [DefaultAuthorize]
     public class UrlRedirectionController : BasicController<UrlRedirect, int, IUrlRedirectService>
     {
         public UrlRedirectionController(IUrlRedirectService service) : base(service)

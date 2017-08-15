@@ -4,6 +4,8 @@
 
 using Easy.Extend;
 using Easy.Modules.User.Service;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -34,17 +36,9 @@ namespace ZKEACMS.Controllers
             var user = _userService.Login(userName, password, Request.HttpContext.Connection.RemoteIpAddress.ToString());
             if (user != null)
             {
-                var userClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, userName)
-                };
-
-                var principal = new ClaimsPrincipal(new ClaimsIdentity(userClaims, "local"));
-                await HttpContext.Authentication.SignInAsync("Cookie", principal, new AuthenticationProperties
-                {
-                    IsPersistent = true
-                });
-
+                var identity = new ClaimsIdentity();
+                identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
                 if (ReturnUrl.IsNullOrEmpty())
                 {
@@ -58,7 +52,7 @@ namespace ZKEACMS.Controllers
 
         public async Task<ActionResult> Logout(string returnurl)
         {
-            await HttpContext.Authentication.SignOutAsync("Cookie");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect(returnurl ?? "~/");
         }
     }

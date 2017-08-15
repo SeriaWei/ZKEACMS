@@ -4,7 +4,6 @@
  * http://www.zkea.net/licenses
  */
 
-using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
