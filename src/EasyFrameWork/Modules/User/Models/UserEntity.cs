@@ -7,11 +7,12 @@ using Easy.Constant;
 using Easy.Modules.Role;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Principal;
 
 namespace Easy.Modules.User.Models
 {
     [ViewConfigure(typeof(UserMetaData)),Table("Users")]
-    public class UserEntity : HumanBase, IUser
+    public class UserEntity : HumanBase, IUser, IIdentity
     {
         [Key]
         public string UserID { get; set; }
@@ -46,6 +47,12 @@ namespace Easy.Modules.User.Models
         {
             get;set;
         }
+        [NotMapped]
+        public string AuthenticationType { get; set; }
+        [NotMapped]
+        public bool IsAuthenticated { get; set; }
+        [NotMapped]
+        public string Name { get { return UserID; } }
     }
     class UserMetaData : ViewMetaData<UserEntity>
     {

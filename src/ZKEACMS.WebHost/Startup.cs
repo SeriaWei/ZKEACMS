@@ -74,6 +74,7 @@ namespace ZKEACMS.WebHost
                  }
              }, null);
             services.UseZKEACMS();
+
             services.Configure<AuthorizationOptions>(options =>
             {
                 PermissionKeys.KnownPermissions.Each(p =>
@@ -84,14 +85,14 @@ namespace ZKEACMS.WebHost
                     });
                 });
             });
-
+            //services.AddAuthorization();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(o =>
                 {
                     o.LoginPath = new PathString("/Account/Login");
                     o.AccessDeniedPath = new PathString("/Error/Forbidden");
                 });
-
+            
             new ResourceManager().Excute();
         }
 

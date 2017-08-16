@@ -21,16 +21,19 @@ namespace ZKEACMS.Redirection.Controllers
         public UrlRedirectionController(IUrlRedirectService service) : base(service)
         {
         }
-        private void Valid(UrlRedirect redirect)
+        private bool Valid(UrlRedirect redirect)
         {
             if (redirect.InComingUrl == redirect.DestinationURL)
             {
                 ModelState.AddModelError("InComingUrl", "访问地址和跳转地址不能一样");
+                return false;
             }
             if(Service.Count(m=>m.InComingUrl==redirect.InComingUrl&&m.ID!= redirect.ID) > 0)
             {
                 ModelState.AddModelError("InComingUrl", "访问地址已经存在，不可重复添加");
+                return false;
             }
+            return true;
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewUrlRedirect)]
         public override ActionResult Index()
@@ -45,7 +48,10 @@ namespace ZKEACMS.Redirection.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageUrlRedirect)]
         public override ActionResult Edit(UrlRedirect entity)
         {
-            //Valid(entity);
+           if(!Valid(entity))
+            {
+                return View(entity);
+            }
             return base.Edit(entity);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageUrlRedirect)]
@@ -56,7 +62,10 @@ namespace ZKEACMS.Redirection.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageUrlRedirect)]
         public override ActionResult Create(UrlRedirect entity)
         {
-            //Valid(entity);
+            if (!Valid(entity))
+            {
+                return View(entity);
+            }
             return base.Create(entity);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ViewUrlRedirect)]

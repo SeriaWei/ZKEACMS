@@ -36,10 +36,12 @@ namespace ZKEACMS.Controllers
             var user = _userService.Login(userName, password, Request.HttpContext.Connection.RemoteIpAddress.ToString());
             if (user != null)
             {
-                var identity = new ClaimsIdentity();
-                identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
-               // await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-                await HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                
+                user.AuthenticationType= CookieAuthenticationDefaults.AuthenticationScheme;
+                var identity = new ClaimsIdentity(user);
+                identity.AddClaim(new Claim(ClaimTypes.Name, user.UserID));
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
                 if (ReturnUrl.IsNullOrEmpty())
                 {
                     return RedirectToAction("Index", "Dashboard");

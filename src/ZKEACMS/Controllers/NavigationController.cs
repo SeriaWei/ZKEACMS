@@ -24,7 +24,7 @@ namespace ZKEACMS.Controllers
         {
             return base.Create();
         }
-
+        [DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
         public ActionResult Create(string ParentID)
         {
             var navication = new NavigationEntity
@@ -33,6 +33,21 @@ namespace ZKEACMS.Controllers
                 DisplayOrder = Service.Count(m => m.ParentId == ParentID) + 1
             };
             return View(navication);
+        }
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
+        public override ActionResult Create(NavigationEntity entity)
+        {
+            return base.Create(entity);
+        }
+        [DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
+        public override ActionResult Edit(string Id)
+        {
+            return base.Edit(Id);
+        }
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
+        public override ActionResult Edit(NavigationEntity entity)
+        {
+            return base.Edit(entity);
         }
         public JsonResult GetNavTree()
         {
@@ -49,7 +64,7 @@ namespace ZKEACMS.Controllers
             return Json(root);
         }
 
-        [HttpPost]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
         public JsonResult MoveNav(string id, string parentId, int position, int oldPosition)
         {
             Service.Move(id, parentId, position, oldPosition);
