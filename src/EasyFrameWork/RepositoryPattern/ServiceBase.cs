@@ -111,28 +111,27 @@ namespace Easy.RepositoryPattern
         {
             pagination.RecordCount = Count(filter);
             var pagin = pagination as Pagination<T>;
-            IEnumerable<T> result;
+            IQueryable<T> result;
             if (filter != null)
             {
-                result = CurrentDbSet.Where(filter);
+                result = CurrentDbSet.Where(filter).Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize);
             }
             else
             {
-                result = CurrentDbSet;
+                result = CurrentDbSet.Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize);
             }
-
             if (pagin != null && (pagin.OrderBy != null || pagin.OrderByDescending != null))
             {
                 if (pagin.OrderBy != null)
                 {
-                    result = result.OrderBy(pagin.OrderBy);
+                    return result.OrderBy(pagin.OrderBy);
                 }
                 else
                 {
-                    result = result.OrderByDescending(pagin.OrderByDescending);
+                    return result.OrderByDescending(pagin.OrderByDescending);
                 }
             }
-            return result.Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize);
+            return result;
         }
         public virtual T Get(params object[] primaryKey)
         {
