@@ -21,9 +21,9 @@ namespace ZKEACMS.Product.Service
         private readonly IProductService _productService;
         private readonly IProductCategoryService _productCategoryService;
         private readonly IPageService _pageService;
-        public ProductListWidgetService(IWidgetBasePartService widgetService, 
-            IProductService productService, 
-            IProductCategoryService productCategoryService, 
+        public ProductListWidgetService(IWidgetBasePartService widgetService,
+            IProductService productService,
+            IProductCategoryService productCategoryService,
             IApplicationContext applicationContext,
             IPageService pageService)
             : base(widgetService, applicationContext)
@@ -82,13 +82,13 @@ namespace ZKEACMS.Product.Service
             IEnumerable<ProductEntity> products = null;
             int pageIndex = actionContext.RouteData.GetPage();
             int cate = actionContext.RouteData.GetCategory();
-            var pagin = new Pagination<ProductEntity>
+            var pagin = new Pagination
             {
                 PageIndex = pageIndex,
                 PageSize = currentWidget.PageSize ?? 20,
-                OrderBy = m => m.OrderIndex
+                OrderBy = "OrderIndex"
             };
-            
+
             Expression<Func<ProductEntity, bool>> filter = null;
             if (cate != 0)
             {
@@ -97,7 +97,7 @@ namespace ZKEACMS.Product.Service
             else
             {
                 var ids = _productCategoryService.Get(m => m.ID == currentWidget.ProductCategoryID || m.ParentID == currentWidget.ProductCategoryID).Select(m => m.ID).ToList();
-                filter = m => m.IsPublish && ids.Any(id => id == m.ProductCategoryID);
+                filter = m => m.IsPublish && ids.Contains(m.ProductCategoryID ?? 0);
             }
             if (currentWidget.IsPageable)
             {

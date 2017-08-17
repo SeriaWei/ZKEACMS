@@ -83,11 +83,11 @@ namespace ZKEACMS.Article.Service
             var categoryEntity = _articleTypeService.Get(currentWidget.ArticleTypeID);
             int pageIndex = actionContext.RouteData.GetPage();
             int cate = actionContext.RouteData.GetCategory();
-            var pagin = new Pagination<ArticleEntity>
+            var pagin = new Pagination
             {
                 PageIndex = pageIndex,
                 PageSize = currentWidget.PageSize ?? 20,
-                OrderByDescending = m => m.PublishDate
+                OrderByDescending = "PublishDate"
             };
             IEnumerable<ArticleEntity> articles;
 
@@ -101,7 +101,7 @@ namespace ZKEACMS.Article.Service
                 var ids = _articleTypeService.Get(m => m.ID == currentWidget.ArticleTypeID || m.ParentID == currentWidget.ArticleTypeID).Select(m => m.ID).ToList();
                 if (ids.Any())
                 {
-                    filter = m => m.IsPublish && ids.Any(id => id == m.ArticleTypeID);
+                    filter = m => m.IsPublish && ids.Contains(m.ArticleTypeID ?? 0);
                 }
                 else
                 {
