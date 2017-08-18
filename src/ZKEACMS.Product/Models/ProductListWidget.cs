@@ -33,7 +33,7 @@ namespace ZKEACMS.Product.Models
             base.ViewConfigure();
             ViewConfig(m => m.ProductCategoryID).AsDropDownList().DataSource(() =>
             {
-                return ServiceLocator.GetService<IProductCategoryService>().GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
+                return ServiceLocator.GetService<IProductCategoryService>().Get().ToDictionary(m => m.ID.ToString(), m => m.Title);
             }).Required().Order(NextOrder()).AddClass("select").AddProperty("data-url", "/admin/ProductCategory/Select");
 
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector();

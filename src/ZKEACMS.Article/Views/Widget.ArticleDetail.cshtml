@@ -18,6 +18,10 @@
                     <i class="glyphicon glyphicon-calendar"></i>
                     @((Model.Current.PublishDate ?? DateTime.Now).ToString("yyyy/MM/dd"))
                 </span>
+                <span>
+                    <i class="glyphicon glyphicon-eye-open"></i>
+                    @(Model.Current.Counter ?? 1)
+                </span>
                 @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticle) && Model.Current.ID > 0)
                 {
                     <a href="@Url.Action("Edit", "Article", new { id = Model.Current.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">编辑</a>
@@ -30,6 +34,33 @@
                 <img class="thumbnail" src="@Url.Content(Model.Current.ImageUrl)" alt="@Model.Current.Title" />
             }
             @Html.Raw(Model.Current.ArticleContent)
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    @if (Model.Prev != null)
+                    {
+                        <span>
+                            上一篇
+                        </span>
+                        <a href="@Url.PostUrl(ViewContext.RouteData.GetPath(), Model.Prev.ID.ToString())">
+                            @Model.Prev.Title
+                        </a>
+                    }
+
+                </div>
+                <div class="col-sm-6 text-right">
+                    @if (Model.Next != null)
+                    {
+                        <span>
+                            下一篇
+                        </span>
+                        <a href="@Url.PostUrl(ViewContext.RouteData.GetPath(), Model.Next.ID.ToString())">
+                            @Model.Next.Title
+                        </a>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 }

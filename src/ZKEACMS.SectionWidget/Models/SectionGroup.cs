@@ -131,7 +131,7 @@ namespace ZKEACMS.SectionWidget.Models
             ViewConfig(m => m.PartialView).AsDropDownList().DataSource(() =>
             {
                 return ServiceLocator.GetService<ISectionTemplateService>()
-                    .GetAll()
+                    .Get()
                     .ToDictionary(m => m.TemplateName, m => m.Title);
             });
             ViewConfig(m => m.Title).AsHidden();

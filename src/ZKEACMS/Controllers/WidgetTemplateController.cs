@@ -29,7 +29,7 @@ namespace ZKEACMS.Controllers
                 ZoneID = context.ZoneID,
                 ReturnUrl = context.ReturnUrl,
                 CanPasteWidget = context.ZoneID.IsNotNullAndWhiteSpace() && _cookie.GetValue<string>(Const.CopyWidgetCookie).IsNotNullAndWhiteSpace(),
-                WidgetTemplates = Service.GetAll().OrderBy(m => m.Order).ToList()
+                WidgetTemplates = Service.Get().OrderBy(m => m.Order).ToList()
             };
             return View(viewModel);
         }

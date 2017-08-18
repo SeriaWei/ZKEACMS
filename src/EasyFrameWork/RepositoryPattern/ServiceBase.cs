@@ -94,9 +94,9 @@ namespace Easy.RepositoryPattern
             CurrentDbSet.AddRange(items);
             DbContext.SaveChanges();
         }
-        public virtual IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> Get()
         {
-            return DbContext.Set<T>();
+            return CurrentDbSet;
         }
         public virtual T GetSingle(Expression<Func<T, bool>> filter)
         {
@@ -104,7 +104,6 @@ namespace Easy.RepositoryPattern
         }
         public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter)
         {
-            if (filter == null) return GetAll();
             return CurrentDbSet.Where(filter);
         }
         public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter, Pagination pagination)

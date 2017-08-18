@@ -48,7 +48,7 @@ namespace ZKEACMS.Common.Models
             {
                 Dictionary<string, string> navigations = new Dictionary<string, string>();
                 navigations.Add("root", "导航");
-                ServiceLocator.GetService<INavigationService>().GetAll().Each(navigation => {
+                ServiceLocator.GetService<INavigationService>().Get().Each(navigation => {
                     navigations.Add(navigation.ID, navigation.Title);
                 });
                 return navigations;

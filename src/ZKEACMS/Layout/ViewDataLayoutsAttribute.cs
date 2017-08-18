@@ -14,7 +14,7 @@ namespace ZKEACMS.Layout
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             (filterContext.Controller as Controller).ViewData[ViewDataKeys.Layouts] = 
-                new SelectList(filterContext.HttpContext.RequestServices.GetService<ILayoutService>().GetAll(), "ID", "LayoutName");
+                new SelectList(filterContext.HttpContext.RequestServices.GetService<ILayoutService>().Get(), "ID", "LayoutName");
         }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)

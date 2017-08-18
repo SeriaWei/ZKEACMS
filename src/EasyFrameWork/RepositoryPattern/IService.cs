@@ -14,7 +14,7 @@ namespace Easy.RepositoryPattern
         void BeginTransaction(Action action);
         void Add(T item);
         void AddRange(params T[] items);
-        IEnumerable<T> GetAll();
+        IEnumerable<T> Get();
         T GetSingle(Expression<Func<T, bool>> filter);
         IEnumerable<T> Get(Expression<Func<T, bool>> filter);
         IEnumerable<T> Get(Expression<Func<T, bool>> filter, Pagination pagination);

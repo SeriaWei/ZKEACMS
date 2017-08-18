@@ -62,7 +62,7 @@ namespace ZKEACMS.Product.Controllers
         [DefaultAuthorize(Policy = PermissionKeys.ViewProductCategory)]
         public JsonResult GetProductCategoryTree()
         {
-            var pages = Service.GetAll();
+            var pages = Service.Get();
             var node = new Tree<ProductCategory>().Source(pages).ToNode(m => m.ID.ToString(), m => m.Title, m => m.ParentID.ToString(), "0");
             return Json(node);
         }

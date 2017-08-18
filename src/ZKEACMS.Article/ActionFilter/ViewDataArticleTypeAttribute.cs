@@ -22,7 +22,7 @@ namespace ZKEACMS.Article.ActionFilter
         {
             _articleTypeService = _articleTypeService ?? ServiceLocator.GetService<IArticleTypeService>();
             (filterContext.Controller as Controller)
-                .ViewData[ViewDataKeys.ArticleCategory] = new SelectList(_articleTypeService.GetAll(), "ID", "Title");
+                .ViewData[ViewDataKeys.ArticleCategory] = new SelectList(_articleTypeService.Get(), "ID", "Title");
         }
     }
 }

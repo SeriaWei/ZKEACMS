@@ -7,6 +7,7 @@ using ZKEACMS.Article.Models;
 using ZKEACMS.Article.ViewModel;
 using ZKEACMS.Widget;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace ZKEACMS.Article.Service
 {
@@ -29,10 +30,25 @@ namespace ZKEACMS.Article.Service
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             int articleId = actionContext.RouteData.GetPost();
-            var viewModel = new ArticleDetailViewModel
+            var viewModel = new ArticleDetailViewModel();
+            if (articleId != 0)
             {
-                Current = _articleService.Get(articleId)
-            };
+                viewModel.Current = _articleService.Get(articleId);
+                if (viewModel.Current != null)
+                {
+                    viewModel.Current.Counter = viewModel.Current.Counter ?? 0 + 1;
+                    _articleService.Update(viewModel.Current);
+                    viewModel.Prev = _articleService.Get(m => m.ActionType == viewModel.Current.ActionType && m.PublishDate < viewModel.Current.PublishDate).OrderByDescending(m => m.PublishDate).ThenByDescending(m=>m.ID).Take(1).FirstOrDefault();
+                    viewModel.Next = _articleService.Get(m => m.ActionType == viewModel.Current.ActionType && m.PublishDate > viewModel.Current.PublishDate).OrderBy(m => m.PublishDate).ThenByDescending(m => m.ID).Take(1).FirstOrDefault();
+                }
+            }
+            if (viewModel.Current == null)
+            {
+                foreach (var item in _articleService.Get().OrderByDescending(m => m.ID).Take(1))
+                {
+                    viewModel.Current = item;
+                }
+            }
             if (viewModel.Current == null)
             {
                 viewModel.Current = new ArticleEntity
