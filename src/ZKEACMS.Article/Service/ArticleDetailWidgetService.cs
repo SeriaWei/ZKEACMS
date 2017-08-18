@@ -36,15 +36,15 @@ namespace ZKEACMS.Article.Service
                 viewModel.Current = _articleService.Get(articleId);
                 if (viewModel.Current != null)
                 {
-                    viewModel.Current.Counter = viewModel.Current.Counter ?? 0 + 1;
+                    viewModel.Current.Counter = (viewModel.Current.Counter ?? 0) + 1;
                     _articleService.Update(viewModel.Current);
-                    viewModel.Prev = _articleService.Get(m => m.ActionType == viewModel.Current.ActionType && m.PublishDate < viewModel.Current.PublishDate).OrderByDescending(m => m.PublishDate).ThenByDescending(m=>m.ID).Take(1).FirstOrDefault();
-                    viewModel.Next = _articleService.Get(m => m.ActionType == viewModel.Current.ActionType && m.PublishDate > viewModel.Current.PublishDate).OrderBy(m => m.PublishDate).ThenByDescending(m => m.ID).Take(1).FirstOrDefault();
+                    viewModel.Prev = _articleService.GetPrev(viewModel.Current);
+                    viewModel.Next = _articleService.GetNext(viewModel.Current);
                 }
             }
             if (viewModel.Current == null)
             {
-                foreach (var item in _articleService.Get().OrderByDescending(m => m.ID).Take(1))
+                foreach (var item in _articleService.Get().AsQueryable().OrderByDescending(m => m.ID).Take(1))
                 {
                     viewModel.Current = item;
                 }

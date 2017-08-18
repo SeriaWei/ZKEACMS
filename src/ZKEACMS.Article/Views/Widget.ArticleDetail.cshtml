@@ -11,16 +11,16 @@
             </h1>
             <div class="align-right">
                 <span>
+                    <i class="glyphicon glyphicon-eye-open"></i>
+                    @(Model.Current.Counter ?? 1)
+                </span>
+                <span>
                     <i class="glyphicon glyphicon-user"></i>
                     @Model.Current.CreatebyName
                 </span>
                 <span>
                     <i class="glyphicon glyphicon-calendar"></i>
                     @((Model.Current.PublishDate ?? DateTime.Now).ToString("yyyy/MM/dd"))
-                </span>
-                <span>
-                    <i class="glyphicon glyphicon-eye-open"></i>
-                    @(Model.Current.Counter ?? 1)
                 </span>
                 @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticle) && Model.Current.ID > 0)
                 {
@@ -41,7 +41,7 @@
                     @if (Model.Prev != null)
                     {
                         <span>
-                            上一篇
+                            上一篇:
                         </span>
                         <a href="@Url.PostUrl(ViewContext.RouteData.GetPath(), Model.Prev.ID.ToString())">
                             @Model.Prev.Title
@@ -53,7 +53,7 @@
                     @if (Model.Next != null)
                     {
                         <span>
-                            下一篇
+                            下一篇:
                         </span>
                         <a href="@Url.PostUrl(ViewContext.RouteData.GetPath(), Model.Next.ID.ToString())">
                             @Model.Next.Title
