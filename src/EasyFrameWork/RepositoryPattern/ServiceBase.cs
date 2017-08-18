@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Easy.Extend;
 
 namespace Easy.RepositoryPattern
 {
@@ -109,28 +110,27 @@ namespace Easy.RepositoryPattern
         public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter, Pagination pagination)
         {
             pagination.RecordCount = Count(filter);
-            var pagin = pagination as Pagination<T>;
             IQueryable<T> result;
             if (filter != null)
             {
-                result = CurrentDbSet.Where(filter).Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize);
+                result = CurrentDbSet.Where(filter);
             }
             else
             {
-                result = CurrentDbSet.Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize);
+                result = CurrentDbSet;
             }
-            if (pagin != null && (pagin.OrderBy != null || pagin.OrderByDescending != null))
+            if (pagination.OrderBy != null || pagination.OrderByDescending != null)
             {
-                if (pagin.OrderBy != null)
+                if (pagination.OrderBy != null)
                 {
-                    return result.OrderBy(pagin.OrderBy);
+                    result = result.OrderBy(pagination.OrderBy);
                 }
                 else
                 {
-                    return result.OrderByDescending(pagin.OrderByDescending);
+                    result = result.OrderByDescending(pagination.OrderByDescending);
                 }
             }
-            return result;
+            return result.Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize);
         }
         public virtual T Get(params object[] primaryKey)
         {

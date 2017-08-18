@@ -62,24 +62,17 @@ namespace Easy.Mvc.Controllers
             }
             return queryCollection.AsExpression<T>(Query.Condition.AndAlso);
         }
-        public Func<T, object> GetOrderBy<T>()
+        public string GetOrderBy<T>()
         {
             if (Order == null || Order.Length == 0)
             {
                 return null;
             }
-            Expression exp = null;
-            Type targetType = typeof(T);
-            TypeInfo typeInfo = targetType.GetTypeInfo();
-            var parameter = Expression.Parameter(targetType, "m");
+            TypeInfo typeInfo = typeof(T).GetTypeInfo();
             var property = typeInfo.GetProperties().FirstOrDefault(p => p.Name.Equals(Columns[Order[0].Column].Data, StringComparison.OrdinalIgnoreCase));
             if (property != null)
             {
-                exp = Expression.Property(parameter, property.Name);
-            }
-            if (exp != null)
-            {
-                return Expression.Lambda<Func<T, object>>(Expression.Convert(exp, typeof(object)), parameter).Compile();
+                return property.Name;
             }
             return null;
         }
