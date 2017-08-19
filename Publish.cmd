@@ -16,8 +16,7 @@
 @pause
 @echo ------------------- Clean Publish Output -------------------
 set current_path=%cd%
-rd/s/q %current_path%\src\ZKEACMS.WebHost\bin\Release\PublishOutput
-
+rd/s/q "%current_path%\src\ZKEACMS.WebHost\bin\Release\PublishOutput"
 @echo ------------------- Build -------------------
 dotnet build -c Release ZKEACMS.sln
 @echo ------------------ Release ------------------
