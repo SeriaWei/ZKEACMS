@@ -4,7 +4,6 @@
     <AssemblyName>ZKEACMS.Message</AssemblyName>
     <PackageId>ZKEACMS.Message</PackageId>    
     <OutputTypeEx>library</OutputTypeEx>
-    <StartupObject />
     <Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>
     <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
@@ -18,10 +17,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Content\Image\" />
   </ItemGroup>
 
 </Project>
