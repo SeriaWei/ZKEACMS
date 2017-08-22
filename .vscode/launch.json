@@ -11,7 +11,7 @@
            "preLaunchTask": "build",
            "program": "${workspaceRoot}/src/ZKEACMS.WebHost/bin/Debug/netcoreapp2.0/ZKEACMS.WebHost.dll",
            "args": [],
-           "cwd": "${workspaceRoot}",
+           "cwd": "${workspaceRoot}/src/ZKEACMS.WebHost",
            "stopAtEntry": false,
            "launchBrowser": {
                "enabled": true,
@@ -31,7 +31,7 @@
                "ASPNETCORE_ENVIRONMENT": "Development"
            },
            "sourceFileMap": {
-               "/Views": "${workspaceRoot}/Views"
+               "/Views": "${workspaceRoot}/src/ZKEACMS.WebHost/Views"
            }
        },
         {
