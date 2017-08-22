@@ -18,13 +18,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Easy.Logging;
+using Easy.Options;
 
 namespace Easy
 {
     public static class Builder
     {
-        public static IConfigurationRoot Configuration { get; set; }
-        public static IServiceCollection ServiceCollection { get; set; }
         public static IPluginLoader UseEasyFrameWork(this IServiceCollection services, IConfigurationRoot configuration, IHostingEnvironment hostingEnvironment)
         {
             services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<RazorViewEngineOptions>, PluginRazorViewEngineOptionsSetup>());
@@ -45,11 +44,11 @@ namespace Easy
             services.TryAddTransient<ILanguageService, LanguageService>();
             services.TryAddTransient<IEncryptService, EncryptService>();
             services.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
-            services.AddTransient<IPluginLoader, Loader>();            
+            services.AddTransient<IPluginLoader, Loader>();
 
-            ServiceCollection = services;
+            services.Configure<CDNOption>(configuration.GetSection("CDN"));
+            services.Configure<CultureOption>(configuration.GetSection("Culture"));
 
-            Configuration = configuration;
             return new Loader(hostingEnvironment);
         }
 

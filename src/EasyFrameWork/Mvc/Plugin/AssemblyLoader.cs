@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Easy.Extend;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Easy.Mvc.Plugin
 {
@@ -19,6 +20,7 @@ namespace Easy.Mvc.Plugin
         private List<Assembly> DependencyAssemblies = new List<Assembly>();
         public Action<IPluginStartup> OnLoading { get; set; }
         public Action<Assembly> OnLoaded { get; set; }
+        public Func<IServiceCollection> Services { get; set; }
         public IEnumerable<Assembly> LoadPlugin(string path)
         {
             if (CurrentAssembly == null)
@@ -93,13 +95,17 @@ namespace Easy.Mvc.Plugin
                 else if (PluginType.IsAssignableFrom(typeInfo.AsType()))
                 {
                     var plugin = (Activator.CreateInstance(typeInfo.AsType()) as IPluginStartup);
-                    plugin.ConfigureServices(Builder.ServiceCollection);
+                    if (Services != null)
+                    {
+                        plugin.ConfigureServices(Services());
+                    }
                     OnLoading?.Invoke(plugin);
                 }
             }
-            if (controllers.Count > 0 && !ActionDescriptorProvider.PluginControllers.ContainsKey(assembly.FullName))
+            if (controllers.Count > 0 && !ActionDescriptorProvider.PluginControllers.ContainsKey(assembly.FullName) && Services != null)
             {
-                controllers.Each(c => Builder.ServiceCollection.TryAddTransient(c.AsType()));
+                IServiceCollection services = Services();
+                controllers.Each(c => services.TryAddTransient(c.AsType()));
                 ActionDescriptorProvider.PluginControllers.Add(assembly.FullName, controllers);
             }
         }

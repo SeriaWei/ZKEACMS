@@ -73,8 +73,8 @@ namespace ZKEACMS.WebHost
                  {
                      cmsPlugin.InitPlug();
                  }
-             }, null);
-            services.UseZKEACMS();
+             }, null, () => services);
+            services.UseZKEACMS(Configuration);
 
             services.Configure<AuthorizationOptions>(options =>
             {
@@ -93,8 +93,6 @@ namespace ZKEACMS.WebHost
                     o.LoginPath = new PathString("/Account/Login");
                     o.AccessDeniedPath = new PathString("/Error/Forbidden");
                 });
-
-            services.Configure<DatabaseOption>(Configuration.GetSection("ConnectionStrings"));
 
             new ResourceManager().Excute();
         }

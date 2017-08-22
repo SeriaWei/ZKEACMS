@@ -17,12 +17,13 @@ using ZKEACMS.WidgetTemplate;
 using ZKEACMS.Zone;
 using ZKEACMS.PackageManger;
 using ZKEACMS.Options;
+using Microsoft.Extensions.Configuration;
 
 namespace ZKEACMS
 {
     public static class Builder
     {
-        public static void UseZKEACMS(this IServiceCollection serviceCollection)
+        public static void UseZKEACMS(this IServiceCollection serviceCollection, IConfigurationRoot configuration)
         {
             serviceCollection.TryAddScoped<IApplicationContextAccessor, ApplicationContextAccessor>();
             serviceCollection.TryAddScoped<IApplicationContext, CMSApplicationContext>();
@@ -56,6 +57,8 @@ namespace ZKEACMS
             serviceCollection.AddTransient<IPackageInstaller, DataDictionaryPackageInstaller>();
             serviceCollection.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             serviceCollection.AddTransient<IEventViewerService, EventViewerService>();
+            serviceCollection.Configure<DatabaseOption>(configuration.GetSection("ConnectionStrings"));
+
             foreach (var item in WidgetBase.KnownWidgetService)
             {
                 serviceCollection.TryAddTransient(item.Value);
