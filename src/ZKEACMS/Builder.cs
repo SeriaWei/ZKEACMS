@@ -16,6 +16,7 @@ using ZKEACMS.Widget;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.Zone;
 using ZKEACMS.PackageManger;
+using ZKEACMS.Options;
 
 namespace ZKEACMS
 {
@@ -55,7 +56,6 @@ namespace ZKEACMS
             serviceCollection.AddTransient<IPackageInstaller, DataDictionaryPackageInstaller>();
             serviceCollection.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             serviceCollection.AddTransient<IEventViewerService, EventViewerService>();
-
             foreach (var item in WidgetBase.KnownWidgetService)
             {
                 serviceCollection.TryAddTransient(item.Value);

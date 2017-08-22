@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using ZKEACMS.ModelBinder;
+using ZKEACMS.Options;
 
 namespace ZKEACMS.WebHost
 {
@@ -92,7 +93,9 @@ namespace ZKEACMS.WebHost
                     o.LoginPath = new PathString("/Account/Login");
                     o.AccessDeniedPath = new PathString("/Error/Forbidden");
                 });
-            
+
+            services.Configure<DatabaseOption>(Configuration.GetSection("ConnectionStrings"));
+
             new ResourceManager().Excute();
         }
 
