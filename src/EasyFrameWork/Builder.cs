@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Easy.Logging;
 using Easy.Options;
+using Easy.Mvc.RazorPages;
 
 namespace Easy
 {
@@ -44,6 +45,9 @@ namespace Easy
             services.TryAddTransient<ILanguageService, LanguageService>();
             services.TryAddTransient<IEncryptService, EncryptService>();
             services.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+
+            services.AddTransient<IViewRenderService, ViewRenderService>();
+
             services.AddTransient<IPluginLoader, Loader>();
 
             services.Configure<CDNOption>(configuration.GetSection("CDN"));
