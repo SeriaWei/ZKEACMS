@@ -8,6 +8,12 @@
         新建
     </div>
     <div class="panel-body">
+        @if (ViewBag.Errormessage != null)
+        {
+            <div class="text-center alert alert-danger">
+                @ViewBag.Errormessage
+            </div>
+        }
         <form method="post" action="@Url.Action("Create")" enctype="multipart/form-data">
             @Html.EditorForModel()
             <div class="toolBar">

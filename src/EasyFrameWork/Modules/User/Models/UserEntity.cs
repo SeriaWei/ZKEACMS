@@ -62,6 +62,7 @@ namespace Easy.Modules.User.Models
             ViewConfig(p => p.PassWordNew).AsTextBox();
             ViewConfig(p => p.UserID).AsTextBox().Required().Order(1).ShowInGrid();
             ViewConfig(p => p.NickName).AsTextBox().Required().Order(2).ShowInGrid();
+            ViewConfig(p => p.Email).AsTextBox().Email();
             ViewConfig(p => p.Age).AsTextBox().RegularExpression(RegularExpression.Integer);
             ViewConfig(p => p.LastName).AsTextBox();
             ViewConfig(p => p.FirstName).AsTextBox();

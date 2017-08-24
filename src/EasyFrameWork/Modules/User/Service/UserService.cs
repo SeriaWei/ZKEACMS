@@ -1,4 +1,5 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using Easy.Constant;
 using Easy.Extend;
 using Easy.Modules.User.Models;
 using Easy.RepositoryPattern;
@@ -44,9 +45,21 @@ namespace Easy.Modules.User.Service
         }
         public override void Add(UserEntity item)
         {
+            if (item.UserID.IsNullOrEmpty() && item.Email.IsNotNullAndWhiteSpace())
+            {
+                item.UserID = item.Email;
+            }
             if (item.PassWordNew.IsNotNullAndWhiteSpace())
             {
-                item.PassWord = ProtectPassWord(item.PassWordNew);
+                item.PassWord = item.PassWordNew;
+            }
+            if (item.PassWord.IsNotNullAndWhiteSpace())
+            {
+                item.PassWord = ProtectPassWord(item.PassWord);
+            }            
+            if (Get(item.UserID) != null)
+            {
+                throw new Exception($"用户 {item.UserID} 已存在");
             }
             base.Add(item);
         }
@@ -64,10 +77,10 @@ namespace Easy.Modules.User.Service
             base.Update(item, saveImmediately);
         }
 
-        public UserEntity Login(string userID, string passWord, string ip)
+        public UserEntity Login(string userID, string passWord, UserType userType, string ip)
         {
             if (userID.IsNullOrWhiteSpace() || passWord.IsNullOrWhiteSpace()) return null;
-            var result = Get(m => m.UserID == userID && m.PassWord == ProtectPassWord(passWord)).FirstOrDefault();
+            var result = Get(m => m.UserID == userID && m.UserTypeCD == (int)userType && m.PassWord == ProtectPassWord(passWord)).FirstOrDefault();
             if (result != null)
             {
                 result.LastLoginDate = DateTime.Now;

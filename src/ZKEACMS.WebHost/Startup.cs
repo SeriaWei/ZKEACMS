@@ -88,11 +88,16 @@ namespace ZKEACMS.WebHost
             });
             //services.AddAuthorization();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(o =>
-                {
-                    o.LoginPath = new PathString("/Account/Login");
-                    o.AccessDeniedPath = new PathString("/Error/Forbidden");
-                });
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
+                 {
+                     o.LoginPath = new PathString("/Account/Login");
+                     o.AccessDeniedPath = new PathString("/Error/Forbidden");
+                 })
+                 .AddCookie(CustomerAuthorizeAttribute.CustomerAuthenticationScheme, option =>
+                 {
+                    option.LoginPath = new PathString("/Account/Signin");
+                 });
+
 
             new ResourceManager().Excute();
         }

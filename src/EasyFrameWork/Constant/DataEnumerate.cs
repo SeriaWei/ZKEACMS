@@ -23,4 +23,9 @@ namespace Easy.Constant
         Unattached = 6,
         Continue = 7
     }
+    public enum UserType
+    {
+        Administrator = 1,
+        Customer = 2
+    }
 }

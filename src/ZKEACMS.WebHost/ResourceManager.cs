@@ -97,6 +97,9 @@ namespace ZKEACMS.WebHost
             style("Login")
                 .Include($"{StylePath}/Login.css", $"{StylePath}/Login.min.css");
 
+            style("Customer")
+                .Include($"{StylePath}/Customer.css", $"{StylePath}/Customer.min.css");
+
             style("OWL.Carousel")
                 .Include($"{ScriptPath}/OwlCarousel/owl.carousel.css", $"{ScriptPath}/OwlCarousel/owl.carousel.min.css")
                 .Include($"{ScriptPath}/OwlCarousel/owl.transitions.css", $"{ScriptPath}/OwlCarousel/owl.transitions.min.css");

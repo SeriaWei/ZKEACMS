@@ -154,5 +154,11 @@
     "inputFiles": [
       "wwwroot/js/tinymce/plugins/pasteImage/plugin.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/css/Customer.min.css",
+    "inputFiles": [
+      "wwwroot/css/Customer.css"
+    ]
   }
 ]
