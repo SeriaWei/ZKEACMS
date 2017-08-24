@@ -24,9 +24,11 @@ namespace ZKEACMS.Controllers
         {
             _userService = userService;
         }
-
-        //
-        // GET: /Account/
+        [CustomerAuthorize]
+        public ActionResult Index()
+        {
+            return View();
+        }
 
         public ActionResult Login()
         {
@@ -77,7 +79,7 @@ namespace ZKEACMS.Controllers
 
                 if (ReturnUrl.IsNullOrEmpty())
                 {
-                    return Redirect("~/");
+                    return RedirectToAction("Index");
                 }
                 return Redirect(ReturnUrl);
             }

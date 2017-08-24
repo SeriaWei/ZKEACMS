@@ -43,7 +43,7 @@ namespace ZKEACMS
              {
                 RouteName = "AccountAdmin",
                 Template = "Account/{action}",
-                Defaults = new { controller = "Account", action = "Login"},
+                Defaults = new { controller = "Account", action = "Index"},
                 Priority = 11
              }
         };
