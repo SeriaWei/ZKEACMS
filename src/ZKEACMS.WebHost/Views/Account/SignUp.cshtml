@@ -25,15 +25,15 @@
                 <img src="~/css/Images/picker_account_msa.svg" />
             </div>
             <div class="form-input">
-                <h4>昵称</h4>
+                <h4>姓名</h4>
                 <input type="text"
-                       placeholder="输入昵称"
+                       placeholder="输入姓名"
                        id="UserName"
                        name="UserName"
                        class="form-control"
                        data-val="true"
-                       data-val-required="昵称不能为空"
-                       data-val-length="昵称的长度应小于50"
+                       data-val-required="姓名不能为空"
+                       data-val-length="姓名的长度应小于50"
                        data-val-length-max="50"
                        value="@Model.UserName" />
                 @Html.ValidationMessageFor(m => m.UserName)

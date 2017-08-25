@@ -2,4 +2,35 @@
     ViewBag.Title = "个人中心";
     Layout = Layouts.CustomerCenter;
 }
-<h1>个人中心</h1>
+<div class="panel panel-default">
+    <div class="panel-heading">个人信息</div>
+    <div class="panel-body">
+        <p>
+            <strong>姓名</strong>
+            @ApplicationContext.CurrentCustomer.UserName
+        </p>
+        <p>
+            <strong>邮箱</strong>
+            @ApplicationContext.CurrentCustomer.Email
+        </p>
+        <p>
+            <strong>联系地址</strong>
+            @ApplicationContext.CurrentCustomer.Address
+        </p>
+        <p>
+            <strong>QQ</strong>
+            @ApplicationContext.CurrentCustomer.QQ
+        </p>
+        <p>
+            <strong>电话</strong>
+            @ApplicationContext.CurrentCustomer.Telephone
+        </p>
+        <p>
+            <strong>爱好</strong>
+            @ApplicationContext.CurrentCustomer.Hobby
+        </p>
+        <div>
+            <a href="#" class="btn btn-primary">修改</a>
+        </div>
+    </div>
+</div>
