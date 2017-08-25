@@ -18,6 +18,7 @@ using ZKEACMS.Zone;
 using ZKEACMS.PackageManger;
 using ZKEACMS.Options;
 using Microsoft.Extensions.Configuration;
+using ZKEACMS.Notification;
 
 namespace ZKEACMS
 {
@@ -39,6 +40,7 @@ namespace ZKEACMS
             serviceCollection.TryAddTransient<IDashboardPartDriveService, DashboardWelcomePartService>();
             serviceCollection.TryAddTransient<IDataArchivedService, DataArchivedService>();
             serviceCollection.TryAddTransient<IExtendFieldService, ExtendFieldService>();
+            serviceCollection.TryAddTransient<INotifyService, NotifyService>();
 
             serviceCollection.TryAddTransient<ILayoutService, LayoutService>();
             serviceCollection.TryAddTransient<ILayoutHtmlService, LayoutHtmlService>();
@@ -50,7 +52,7 @@ namespace ZKEACMS
             serviceCollection.TryAddTransient<IWidgetBasePartService, WidgetBasePartService>();
             serviceCollection.TryAddTransient<IZoneService, ZoneService>();
             serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
-
+            serviceCollection.AddTransient<Easy.Notification.ISmtpProvider, SmtpProvider>();
             serviceCollection.AddTransient<IPackageInstaller, ThemePackageInstaller>();
             serviceCollection.AddTransient<IPackageInstaller, WidgetPackageInstaller>();
             serviceCollection.AddTransient<IPackageInstaller, FilePackageInstaller>();

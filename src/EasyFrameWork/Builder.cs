@@ -20,6 +20,7 @@ using Microsoft.Extensions.Logging;
 using Easy.Logging;
 using Easy.Options;
 using Easy.Mvc.RazorPages;
+using Easy.Notification;
 
 namespace Easy
 {
@@ -28,7 +29,7 @@ namespace Easy
         public static IPluginLoader UseEasyFrameWork(this IServiceCollection services, IConfigurationRoot configuration, IHostingEnvironment hostingEnvironment)
         {
             services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<RazorViewEngineOptions>, PluginRazorViewEngineOptionsSetup>());
-            
+
             services.Replace(ServiceDescriptor.Transient<IControllerActivator, Mvc.Controllers.ServiceBasedControllerActivator>());
             services.TryAddEnumerable(ServiceDescriptor.Transient<IActionDescriptorProvider, ActionDescriptorProvider>());
             services.TryAddSingleton<IPluginLoader, Loader>();
@@ -47,7 +48,9 @@ namespace Easy
             services.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             services.AddTransient<IViewRenderService, ViewRenderService>();
-
+            services.AddTransient<INotificationManager, NotificationManager>();
+            services.AddTransient<INotifyService, EmailNotifyService>();
+            services.AddTransient<INotifyService, RazorEmailNotifyService>();
             services.AddTransient<IPluginLoader, Loader>();
 
             services.Configure<CDNOption>(configuration.GetSection("CDN"));

@@ -8,8 +8,8 @@
 
 @using (Html.BeginForm())
 {
-    <input type="hidden" name="PhotoUrl" value="~/images/head.png" />
-    <div class="login-panel sign-up">
+    @Html.HiddenFor(m => m.ResetToken)
+    <div class="login-panel sign-in">
         <div class="login-panel-heading">
             <p>
                 <a href="http://www.zkea.net/" target="_blank">
@@ -20,42 +20,12 @@
         <div class="login-panel-body">
             <div class="info-bar">
                 <p>
-                    请输入您的用户信息以注册
+                    请输入您的新密码
                 </p>
                 <img src="~/css/Images/picker_account_msa.svg" />
             </div>
             <div class="form-input">
-                <h4>昵称</h4>
-                <input type="text"
-                       placeholder="输入昵称"
-                       id="UserName"
-                       name="UserName"
-                       class="form-control"
-                       data-val="true"
-                       data-val-required="昵称不能为空"
-                       data-val-length="昵称的长度应小于50"
-                       data-val-length-max="50"
-                       value="@Model.UserName" />
-                @Html.ValidationMessageFor(m => m.UserName)
-            </div>
-            <div class="form-input">
-                <h4>邮箱</h4>
-                <input type="text"
-                       placeholder="输入您常使用的邮箱地址"
-                       id="Email"
-                       name="Email"
-                       class="form-control"
-                       data-val="true"
-                       data-val-required="登录邮箱不能为空"
-                       data-val-length="邮箱的长度应小于200"
-                       data-val-length-max="200"
-                       data-val-regex-pattern="@(Easy.Constant.RegularExpression.Email)"
-                       data-val-regex="输入的邮件格式不正确"
-                       value="@Model.Email" />
-                @Html.ValidationMessageFor(m => m.Email)
-            </div>
-            <div class="form-input">
-                <h4>密码</h4>
+                <h4>新密码</h4>
                 <input type="password"
                        placeholder="输入密码"
                        id="PassWord"
@@ -71,8 +41,8 @@
                 <h4>确认密码</h4>
                 <input type="password"
                        placeholder="输入密码"
-                       id="PassWordConfirm"
-                       name="PassWordConfirm"
+                       id="PassWordNew"
+                       name="PassWordNew"
                        class="form-control"
                        data-val="true"
                        data-val-required="请确认密码"
@@ -80,7 +50,7 @@
                        data-val-equalto-other="PassWord"
                        data-val-length="密码的长度应小于20"
                        data-val-length-max="20" />
-                <span class="field-validation-valid" data-valmsg-for="PassWordConfirm" data-valmsg-replace="true"></span>
+                <span class="field-validation-valid" data-valmsg-for="PassWordNew" data-valmsg-replace="true"></span>
             </div>
             @if (ViewBag.Errormessage != null)
             {
@@ -89,11 +59,11 @@
                 </div>
             }
             <div class="form-input">
-                <input type="submit" class="btn-login" value="立即注册" />
+                <input type="submit" class="btn-login" value="重置密码" />
             </div>
-        </div>
-        <div class="login-panel-footer ">
-            已有账号？<a href="@Url.Action("SignIn")">立即登录</a>
+            <div class="login-panel-footer">
+                重置失败？<a href="@Url.Action("Forgotten")">申请重置密码</a>
+            </div>
         </div>
     </div>
 }

@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,13 +15,16 @@ namespace Easy.Mvc.RazorPages
 {
     public class ViewRenderService : IViewRenderService
     {
-        IRazorViewEngine _viewEngine;
-        IHttpContextAccessor _httpContextAccessor;
+        private readonly IRazorViewEngine _viewEngine;
+        private readonly ITempDataProvider _tempDataProvider;
+        private readonly IServiceProvider _serviceProvider;
 
-        public ViewRenderService(IRazorViewEngine viewEngine, IHttpContextAccessor httpContextAccessor)
+        public ViewRenderService(IRazorViewEngine viewEngine, ITempDataProvider tempDataProvider,
+            IServiceProvider serviceProvider)
         {
             _viewEngine = viewEngine;
-            _httpContextAccessor = httpContextAccessor;
+            _tempDataProvider = tempDataProvider;
+            _serviceProvider = serviceProvider;
         }
         public string Render(string viewPath)
         {
@@ -26,25 +32,33 @@ namespace Easy.Mvc.RazorPages
         }
         public string Render<TModel>(string viewPath, TModel model)
         {
-            var viewEngineResult = _viewEngine.GetView(null, viewPath, false);
-            if (!viewEngineResult.Success)
+            var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };
+            var actionContext = new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
+
+            var viewResult = _viewEngine.GetView(null, viewPath, false);
+            if (!viewResult.Success)
             {
-                throw new InvalidOperationException($"找不到视图 {viewPath}");
+                throw new InvalidOperationException($"找不到视图模板 {viewPath}");
             }
 
-            var view = viewEngineResult.View;
-
-            using (var output = new StringWriter())
+            var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
             {
-                var viewContext = new ViewContext();
-                viewContext.HttpContext = _httpContextAccessor.HttpContext;
-                viewContext.ViewData = new ViewDataDictionary<TModel>(new EmptyModelMetadataProvider(), new ModelStateDictionary())
-                {
-                    Model = model
-                };
-                viewContext.Writer = output;
-                view.RenderAsync(viewContext).GetAwaiter().GetResult();
-                return output.ToString();
+                Model = model
+            };
+
+            using (var writer = new StringWriter())
+            {
+                var viewContext = new ViewContext(
+                     actionContext,
+                     viewResult.View,
+                     viewDictionary,
+                     new TempDataDictionary(actionContext.HttpContext, _tempDataProvider),
+                     writer,
+                     new HtmlHelperOptions()
+                 );
+                var render = viewResult.View.RenderAsync(viewContext);
+                render.Wait();
+                return writer.ToString();
             }
         }
     }

@@ -1,13 +1,13 @@
 ﻿@model Easy.Modules.User.Models.UserEntity
 @{
-    ViewBag.Title = ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank + " 深圳市纸壳软件科技有限公司";
+    ViewBag.Title = ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank;
     Layout = Layouts.NormalDefault;
     Style.Reqiured("Customer").AtHead();
     Script.Reqiured("validate").AtFoot();
     string link = "~/";
-    if (Model.Email.IsNotNullAndWhiteSpace()&& Model.Email.IndexOf("@")>0)
+    if (Model.Email.IsNotNullAndWhiteSpace() && Model.Email.IndexOf("@") > 0)
     {
-        link = "http://mail." + Model.Email.Substring(Model.Email.IndexOf("@")+1);
+        link = "http://mail." + Model.Email.Substring(Model.Email.IndexOf("@") + 1);
     }
 }
 
@@ -30,13 +30,22 @@
                 <img src="~/css/Images/picker_account_msa.svg" />
             </div>
             <br />
-            <h4>
-                我们已经给您的邮箱发送了一封找回密码的邮件，请及时查收并修改密码。
-            </h4>           
-            <br />
+            <p>
+                我们已经给您的邮箱
+            </p>
+            <p>
+                <strong>
+                    @Model.Email
+                </strong>
+            </p>
+
+            <p>
+                发送了一封找回密码的邮件，请及时查收并修改密码。
+            </p>
+
             <div class="form-input">
-                <a href="@Url.Content(link)" target="_blank" class="btn-login" >查收邮件</a>
+                <a href="@Url.Content(link)" target="_blank" class="btn-login">查收邮件</a>
             </div>
-        </div>        
+        </div>
     </div>
 }

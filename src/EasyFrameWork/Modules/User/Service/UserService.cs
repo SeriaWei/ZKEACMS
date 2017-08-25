@@ -56,7 +56,7 @@ namespace Easy.Modules.User.Service
             if (item.PassWord.IsNotNullAndWhiteSpace())
             {
                 item.PassWord = ProtectPassWord(item.PassWord);
-            }            
+            }
             if (Get(item.UserID) != null)
             {
                 throw new Exception($"用户 {item.UserID} 已存在");
@@ -89,6 +89,35 @@ namespace Easy.Modules.User.Service
                 return result;
             }
             return null;
+        }
+
+        public UserEntity SetResetToken(string userID, UserType userType)
+        {
+            var user = Get(m => m.UserID == userID && m.UserTypeCD == (int)userType).FirstOrDefault();
+            if (user != null)
+            {
+                user.ResetToken = Guid.NewGuid().ToString("N");
+                user.ResetTokenDate = DateTime.Now;
+                Update(user);
+            }
+            return user;
+        }
+
+        public bool ResetPassWord(string token, string newPassword)
+        {
+            var user = Get(m => m.ResetToken == token && m.UserTypeCD == (int)UserType.Customer).FirstOrDefault();
+            if (user != null)
+            {
+                if (user.ResetTokenDate.HasValue && (DateTime.Now - user.ResetTokenDate.Value).TotalHours < 24)
+                {
+                    user.ResetToken = null;
+                    user.ResetTokenDate = null;
+                    user.PassWordNew = newPassword;
+                    Update(user);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

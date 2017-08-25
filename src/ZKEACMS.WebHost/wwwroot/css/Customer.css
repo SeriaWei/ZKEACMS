@@ -8,6 +8,10 @@ body {
     background: url(./Images/sign-bg.jpg) center center no-repeat;
 }
 
+    body.customer-center {
+        background: url(./Images/center-bg.jpg) center center no-repeat;
+    }
+
 .login-panel {
     width: 412px;
     min-height: 364px;
@@ -139,12 +143,15 @@ body {
         top: -10px;
     }
 
+.customer-center .container {
+    border: 1px solid #ccc;
+    margin-top: 120px;
+}
 
 .customer-center header {
     padding-top: 1px;
-    margin-top: 120px;
     min-height: 150px;
-    background: #808080;
+    background: url(http://www.zkea.net/UpLoad/Images/20160527/1293d6938ad7482b81df6e7a32f69059.jpg) 0 0 no-repeat;
     text-align: center;
     color: #fff;
 }
@@ -156,6 +163,7 @@ body {
         margin-right: auto;
         margin-bottom: 0;
     }
+
     .customer-center header h1 {
         font-size: 4rem;
         margin-bottom: 0;
@@ -163,4 +171,14 @@ body {
 
 .customer-center .navigation {
     margin: 0;
+}
+
+.customer-center .navbar-inverse {
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.customer-center article.main {
+    padding: 1rem;
+    background: #fff;
 }

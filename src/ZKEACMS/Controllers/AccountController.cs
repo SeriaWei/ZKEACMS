@@ -7,6 +7,7 @@ using Easy.Extend;
 using Easy.Modules.User.Models;
 using Easy.Modules.User.Service;
 using Easy.Mvc.Authorize;
+using ZKEACMS.Notification;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -19,10 +20,11 @@ namespace ZKEACMS.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
-
-        public AccountController(IUserService userService)
+        private readonly INotifyService _notifyService;
+        public AccountController(IUserService userService, INotifyService notifyService)
         {
             _userService = userService;
+            _notifyService = notifyService;
         }
         [CustomerAuthorize]
         public ActionResult Index()
@@ -122,12 +124,31 @@ namespace ZKEACMS.Controllers
         [HttpPost]
         public ActionResult Forgotten(string Email)
         {
+            var user = _userService.SetResetToken(Email, UserType.Customer);
+            if (user != null)
+            {
+                _notifyService.ResetPassword(user);
+            }
             return RedirectToAction("Sended", new { Email = Email });
         }
 
         public ActionResult Sended(string Email)
         {
             return View(new UserEntity { Email = Email });
+        }
+        public ActionResult Reset(string token)
+        {
+            return View(new UserEntity { ResetToken = token });
+        }
+        [HttpPost]
+        public ActionResult Reset(UserEntity user)
+        {
+            if (_userService.ResetPassWord(user.ResetToken, user.PassWordNew))
+            {
+                return RedirectToAction("SignIn");
+            }
+            ViewBag.Errormessage = "重置密码失败";
+            return View(user);
         }
     }
 }

@@ -53,6 +53,8 @@ namespace Easy.Modules.User.Models
         public bool IsAuthenticated { get; set; }
         [NotMapped]
         public string Name { get { return UserID; } }
+        public string ResetToken { get; set; }
+        public DateTime? ResetTokenDate { get; set; }
     }
     class UserMetaData : ViewMetaData<UserEntity>
     {
