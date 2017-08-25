@@ -1,4 +1,4 @@
-﻿@model Easy.Modules.User.Models.UserEntity
+﻿@model ZKEACMS.Account.ResetViewModel
 @{
     ViewBag.Title = ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank;
     Layout = Layouts.NormalDefault;
@@ -9,6 +9,7 @@
 @using (Html.BeginForm())
 {
     @Html.HiddenFor(m => m.ResetToken)
+    @Html.HiddenFor(m => m.Protect)
     <div class="login-panel sign-in">
         <div class="login-panel-heading">
             <p>

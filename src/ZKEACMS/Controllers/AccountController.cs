@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.DataProtection;
+using ZKEACMS.Account;
+using Microsoft.Extensions.Logging;
 
 namespace ZKEACMS.Controllers
 {
@@ -21,10 +24,14 @@ namespace ZKEACMS.Controllers
     {
         private readonly IUserService _userService;
         private readonly INotifyService _notifyService;
-        public AccountController(IUserService userService, INotifyService notifyService)
+        private readonly IDataProtector _dataProtector;
+        private readonly ILogger<AccountController> _logger;
+        public AccountController(IUserService userService, INotifyService notifyService, IDataProtectionProvider dataProtectionProvider, ILogger<AccountController> logger)
         {
             _userService = userService;
             _notifyService = notifyService;
+            _dataProtector = dataProtectionProvider.CreateProtector("ResetPassword");
+            _logger = logger;
         }
         [CustomerAuthorize]
         public ActionResult Index()
@@ -129,23 +136,46 @@ namespace ZKEACMS.Controllers
             {
                 _notifyService.ResetPassword(user);
             }
-            return RedirectToAction("Sended", new { Email = Email });
+            return RedirectToAction("Sended", new { to = Email });
         }
 
-        public ActionResult Sended(string Email)
+        public ActionResult Sended(string to)
         {
-            return View(new UserEntity { Email = Email });
+            ViewBag.Email = to;
+            return View();
         }
-        public ActionResult Reset(string token)
+        public ActionResult Reset(string token, string pt)
         {
-            return View(new UserEntity { ResetToken = token });
+            try
+            {
+                if (pt.IsNullOrWhiteSpace() || _dataProtector.Unprotect(pt) != token)
+                {
+                    ViewBag.Errormessage = "访问的重置链接无效，请重新申请";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                ViewBag.Errormessage = "访问的重置链接无效，请重新申请";
+            }
+            return View(new ResetViewModel { ResetToken = token, Protect = pt });
         }
         [HttpPost]
-        public ActionResult Reset(UserEntity user)
+        public ActionResult Reset(ResetViewModel user)
         {
-            if (_userService.ResetPassWord(user.ResetToken, user.PassWordNew))
+            try
             {
-                return RedirectToAction("SignIn");
+                if (user.Protect.IsNotNullAndWhiteSpace() && _dataProtector.Unprotect(user.Protect) == user.ResetToken)
+                {
+                    if (_userService.ResetPassWord(user.ResetToken, user.PassWordNew))
+                    {
+                        return RedirectToAction("SignIn");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
             }
             ViewBag.Errormessage = "重置密码失败";
             return View(user);

@@ -60,6 +60,7 @@ namespace ZKEACMS
             serviceCollection.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             serviceCollection.AddTransient<IEventViewerService, EventViewerService>();
             serviceCollection.Configure<DatabaseOption>(configuration.GetSection("ConnectionStrings"));
+            
 
             foreach (var item in WidgetBase.KnownWidgetService)
             {

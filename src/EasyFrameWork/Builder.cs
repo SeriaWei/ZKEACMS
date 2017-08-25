@@ -56,6 +56,9 @@ namespace Easy
             services.Configure<CDNOption>(configuration.GetSection("CDN"));
             services.Configure<CultureOption>(configuration.GetSection("Culture"));
 
+
+            services.AddDataProtection();
+
             return new Loader(hostingEnvironment);
         }
 
