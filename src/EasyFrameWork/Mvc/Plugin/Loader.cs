@@ -30,6 +30,7 @@ namespace Easy.Mvc.Plugin
             GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>
             {
                 var loader = new AssemblyLoader();
+                loader.HostingEnvironment = HostingEnvironment;
                 loader.OnLoading = onLoading;
                 loader.OnLoaded = onLoaded;
                 loader.Services = services;

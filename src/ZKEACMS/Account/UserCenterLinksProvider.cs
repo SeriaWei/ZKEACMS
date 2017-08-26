@@ -8,7 +8,7 @@ namespace ZKEACMS.Account
     {
         public IEnumerable<AdminMenu> GetLinks()
         {
-            yield return new AdminMenu { Order = 1, Title = "个人中心", Url = "~/Account" };
+            yield return new AdminMenu { Order = 20, Title = "个人中心", Url = "~/Account" };
         }
     }
 }

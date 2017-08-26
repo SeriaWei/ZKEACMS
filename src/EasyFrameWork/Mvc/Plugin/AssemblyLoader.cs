@@ -10,6 +10,7 @@ using Easy.Extend;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Easy.Mvc.Plugin
 {
@@ -21,6 +22,7 @@ namespace Easy.Mvc.Plugin
         public Action<IPluginStartup> OnLoading { get; set; }
         public Action<Assembly> OnLoaded { get; set; }
         public Func<IServiceCollection> Services { get; set; }
+        public IHostingEnvironment HostingEnvironment { get; set; }
         public IEnumerable<Assembly> LoadPlugin(string path)
         {
             if (CurrentAssembly == null)
@@ -97,6 +99,7 @@ namespace Easy.Mvc.Plugin
                     var plugin = (Activator.CreateInstance(typeInfo.AsType()) as IPluginStartup);
                     if (Services != null)
                     {
+                        plugin.HostingEnvironment = HostingEnvironment;
                         plugin.ConfigureServices(Services());
                     }
                     OnLoading?.Invoke(plugin);
