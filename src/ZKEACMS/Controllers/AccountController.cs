@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.DataProtection;
 using ZKEACMS.Account;
 using Microsoft.Extensions.Logging;
+using Easy.Mvc.Extend;
 
 namespace ZKEACMS.Controllers
 {
@@ -25,20 +26,21 @@ namespace ZKEACMS.Controllers
         private readonly IUserService _userService;
         private readonly INotifyService _notifyService;
         private readonly IDataProtector _dataProtector;
+        private readonly IApplicationContextAccessor _applicationContextAccessor;
         private readonly ILogger<AccountController> _logger;
-        public AccountController(IUserService userService, INotifyService notifyService, IDataProtectionProvider dataProtectionProvider, ILogger<AccountController> logger)
+        public AccountController(IUserService userService,
+            INotifyService notifyService,
+            IDataProtectionProvider dataProtectionProvider,
+            ILogger<AccountController> logger,
+            IApplicationContextAccessor applicationContextAccessor)
         {
             _userService = userService;
             _notifyService = notifyService;
             _dataProtector = dataProtectionProvider.CreateProtector("ResetPassword");
+            _applicationContextAccessor = applicationContextAccessor;
             _logger = logger;
         }
-        [CustomerAuthorize]
-        public ActionResult Index()
-        {
-            return View();
-        }
-
+        #region Admin
         public ActionResult Login()
         {
             return View();
@@ -70,7 +72,52 @@ namespace ZKEACMS.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect(returnurl ?? "~/");
         }
+        #endregion
 
+        #region Customer
+        [CustomerAuthorize]
+        public ActionResult Index()
+        {
+            return View();
+        }
+        [CustomerAuthorize]
+        public ActionResult Edit()
+        {
+            return View(_applicationContextAccessor.Current.CurrentCustomer);
+        }
+        [HttpPost, CustomerAuthorize]
+        public ActionResult Edit(UserEntity user)
+        {
+            if (_applicationContextAccessor.Current.CurrentCustomer.UserID == user.UserID)
+            {
+                user.UserTypeCD = (int)UserType.Customer;
+                var newPhoto = Request.SaveImage();
+                if (newPhoto.IsNotNullAndWhiteSpace())
+                {
+                    user.PhotoUrl = newPhoto;
+                }
+                _userService.Update(user);
+            }
+            return RedirectToAction("Index");
+        }
+        [CustomerAuthorize]
+        public ActionResult PassWord()
+        {
+            return View();
+        }
+        [HttpPost, CustomerAuthorize]
+        public ActionResult PassWord(UserEntity user)
+        {
+            var logOnUser = _userService.Login(_applicationContextAccessor.Current.CurrentCustomer.UserID, user.PassWord, UserType.Customer, Request.HttpContext.Connection.RemoteIpAddress.ToString());
+            if (logOnUser != null)
+            {
+                logOnUser.PassWordNew = user.PassWordNew;
+                _userService.Update(logOnUser);
+                return RedirectToAction("SignOut", new { returnurl = "~/Account/SignIn" });
+            }
+            ViewBag.Message = "原密码错误";
+            return View();
+        }
         public ActionResult SignIn()
         {
             return View();
@@ -96,6 +143,15 @@ namespace ZKEACMS.Controllers
             return View();
         }
 
+        public async Task<ActionResult> SignOut(string returnurl)
+        {
+            await HttpContext.SignOutAsync(CustomerAuthorizeAttribute.CustomerAuthenticationScheme);
+            if (returnurl.IsNotNullAndWhiteSpace())
+            {
+                return Redirect(returnurl);
+            }
+            return RedirectToAction("SignIn");
+        }
         public ActionResult SignUp()
         {
             return View(new UserEntity());
@@ -180,5 +236,6 @@ namespace ZKEACMS.Controllers
             ViewBag.Errormessage = "重置密码失败";
             return View(user);
         }
+        #endregion
     }
 }

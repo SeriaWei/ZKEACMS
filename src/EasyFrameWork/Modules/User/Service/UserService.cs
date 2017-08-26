@@ -57,6 +57,10 @@ namespace Easy.Modules.User.Service
             {
                 item.PassWord = ProtectPassWord(item.PassWord);
             }
+            if (!item.Status.HasValue)
+            {
+                item.Status = (int)RecordStatus.Active;
+            }
             if (Get(item.UserID) != null)
             {
                 throw new Exception($"用户 {item.UserID} 已存在");
@@ -72,7 +76,7 @@ namespace Easy.Modules.User.Service
             }
             if (item.Roles != null)
             {
-                item.Roles.Where(m => m.ActionType == Constant.ActionType.Delete).Each(m => DbContext.UserRoleRelation.Remove(m));
+                item.Roles.Where(m => m.ActionType == ActionType.Delete).Each(m => DbContext.UserRoleRelation.Remove(m));
             }
             base.Update(item, saveImmediately);
         }
@@ -80,7 +84,7 @@ namespace Easy.Modules.User.Service
         public UserEntity Login(string userID, string passWord, UserType userType, string ip)
         {
             if (userID.IsNullOrWhiteSpace() || passWord.IsNullOrWhiteSpace()) return null;
-            var result = Get(m => m.UserID == userID && m.UserTypeCD == (int)userType && m.PassWord == ProtectPassWord(passWord)).FirstOrDefault();
+            var result = Get(m => m.UserID == userID && m.UserTypeCD == (int)userType && m.Status == (int)RecordStatus.Active && m.PassWord == ProtectPassWord(passWord)).FirstOrDefault();
             if (result != null)
             {
                 result.LastLoginDate = DateTime.Now;

@@ -1,7 +1,7 @@
 ﻿html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    min-height: 100%;
 }
 
 body {
@@ -16,19 +16,19 @@ body {
 
 .login-panel {
     width: 412px;
-    min-height: 364px;
+    min-height: 366px;
     background: #fff;
     position: absolute;
     left: 50%;
     top: 50%;
     margin-left: -206px;
-    margin-top: -182px;
+    margin-top: -183px;
     padding: 3rem;
     border: 1px solid #f2f2f2;
 }
 
     .login-panel.sign-up {
-        margin-top: -250px;
+        margin-top: -256px;
     }
 
     .login-panel.sign-up-success {
@@ -37,13 +37,13 @@ body {
     }
 
     .login-panel.forgotten {
-        min-height: 280px;
-        margin-top: -140px;
+        min-height:293px;
+        margin-top: -147px;
     }
 
     .login-panel.sended {
-        min-height: 280px;
-        margin-top: -140px;
+        min-height: 300px;
+        margin-top: -150px;
     }
 
     .login-panel .alert {
@@ -148,9 +148,9 @@ body {
 .customer-center .container {
     padding-top: 120px;
 }
-.customer-center .container>.row{
-    border:1px solid #858585;
-}
+    .customer-center .container > .row {
+        border: 1px solid #929292;
+    }
 .customer-center header {
     padding-top: 1px;
     min-height: 150px;
@@ -161,10 +161,12 @@ body {
 
     .customer-center header .thumbnail {
         height: 120px;
+        width: 120px;
         margin-top: -60px;
         margin-left: auto;
         margin-right: auto;
         margin-bottom: 0;
+        padding: 2px;
     }
 
     .customer-center header h1 {
@@ -185,3 +187,11 @@ body {
     padding: 1rem;
     background: #fff;
 }
+ .user-info label{
+     font-weight:normal;
+     color:#808080;
+     display:inline-block;
+     width:80px;
+     text-align:right;
+     margin-right:10px;
+ }

@@ -19,6 +19,7 @@ using ZKEACMS.PackageManger;
 using ZKEACMS.Options;
 using Microsoft.Extensions.Configuration;
 using ZKEACMS.Notification;
+using ZKEACMS.Account;
 
 namespace ZKEACMS
 {
@@ -41,7 +42,7 @@ namespace ZKEACMS
             serviceCollection.TryAddTransient<IDataArchivedService, DataArchivedService>();
             serviceCollection.TryAddTransient<IExtendFieldService, ExtendFieldService>();
             serviceCollection.TryAddTransient<INotifyService, NotifyService>();
-
+            serviceCollection.TryAddTransient<IUserCenterLinksProvider, UserCenterLinksProvider>();
             serviceCollection.TryAddTransient<ILayoutService, LayoutService>();
             serviceCollection.TryAddTransient<ILayoutHtmlService, LayoutHtmlService>();
             serviceCollection.TryAddTransient<IMediaService, MediaService>();

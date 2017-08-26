@@ -2,35 +2,45 @@
     ViewBag.Title = "个人中心";
     Layout = Layouts.CustomerCenter;
 }
-<div class="panel panel-default">
-    <div class="panel-heading">个人信息</div>
+<div class="panel panel-default user-info">
+    <div class="panel-heading clearfix">
+        <div class="pull-left">基本信息</div>
+        <div class="pull-right">
+            <a href="@Url.Action("Edit","Account")">编辑</a>
+        </div>
+    </div>
     <div class="panel-body">
         <p>
-            <strong>姓名</strong>
+            <label>姓 名</label>
             @ApplicationContext.CurrentCustomer.UserName
         </p>
         <p>
-            <strong>邮箱</strong>
+            <label>邮 箱</label>
             @ApplicationContext.CurrentCustomer.Email
         </p>
         <p>
-            <strong>联系地址</strong>
-            @ApplicationContext.CurrentCustomer.Address
-        </p>
-        <p>
-            <strong>QQ</strong>
-            @ApplicationContext.CurrentCustomer.QQ
-        </p>
-        <p>
-            <strong>电话</strong>
+            <label>电 话</label>
             @ApplicationContext.CurrentCustomer.Telephone
         </p>
         <p>
-            <strong>爱好</strong>
+            <label>手 机</label>
+            @ApplicationContext.CurrentCustomer.MobilePhone
+        </p>
+        <p>
+            <label>QQ</label>
+            @ApplicationContext.CurrentCustomer.QQ
+        </p>
+        <p>
+            <label>爱 好</label>
             @ApplicationContext.CurrentCustomer.Hobby
         </p>
-        <div>
-            <a href="#" class="btn btn-primary">修改</a>
-        </div>
+        <p>
+            <label>收货地址</label>
+            @ApplicationContext.CurrentCustomer.Address
+        </p>
+        <p>
+            <label>邮政编码</label>
+            @ApplicationContext.CurrentCustomer.ZipCode
+        </p>
     </div>
 </div>

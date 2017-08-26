@@ -1,8 +1,12 @@
-﻿@{
+﻿@using ZKEACMS.Account
+@{
     Style.Reqiured("Customer").AtHead();
     var current = themeService.GetCurrentTheme();
+    List<AdminMenu> menu = new List<AdminMenu>();
+    userCenterLinksProvider.Each(p => menu.AddRange(p.GetLinks()));
 }
 @inject IThemeService themeService
+@inject IEnumerable<IUserCenterLinksProvider> userCenterLinksProvider
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->
@@ -42,10 +46,20 @@
                         <div class="navbar-collapse collapse navbar-responsive-collapse">
                             <ul class="nav navbar-nav">
                                 <li class="">
-                                    <a target="_self" href="~/">首页</a>
+                                    <a target="_blank" href="~/">首页</a>
                                 </li>
-                                <li class="active">
-                                    <a target="_self" href="@Url.Action("Index")">个人中心</a>
+                                @foreach (var item in menu.OrderBy(m => m.Order))
+                                {
+                                    <li>
+                                        <a target="_self" href="@Url.PathContent(item.Url)">@item.Title</a>
+                                    </li>
+                                }
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="">
+                                    <a target="_self" href="@Url.Action("SignOut","Account")" title="安全退出">
+                                        <i class="glyphicon glyphicon-off"></i>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -56,7 +70,7 @@
                 @RenderBody()
             </article>
         </div>
-       
+
     </div>
     @StyleAtFoot()
     @ScriptAtFoot()

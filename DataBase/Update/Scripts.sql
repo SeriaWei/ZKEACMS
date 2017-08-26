@@ -5,15 +5,17 @@ INSERT INTO dbo.DataDictionary
         ( DicName ,
           Title ,
           DicValue ,
+		  [Status],
           [Order] ,
           Pid ,
           IsSystem 
         )
-VALUES  ( N'UserEntity@UserTypeCD' , -- DicName - nvarchar(255)
-          N'前端用户' , -- Title - nvarchar(255)
-          N'2' , -- DicValue - nvarchar(255)
-          2 , -- Order - int
-          0 , -- Pid - int
+VALUES  ( N'UserEntity@UserTypeCD' ,
+          N'前端用户' , 
+          N'2' ,
+		  0,
+          2 , 
+          0 ,
           1 
         )
 GO
