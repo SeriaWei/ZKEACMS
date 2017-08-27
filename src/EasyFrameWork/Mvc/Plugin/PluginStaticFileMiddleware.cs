@@ -45,7 +45,9 @@ namespace Easy.Mvc.Plugin
                     }
                     using (var readStream = file.CreateReadStream())
                     {
-                        return StreamCopyOperation.CopyToAsync(readStream, context.Response.Body, file.Length, 64 * 1024, context.RequestAborted);
+                        var task = StreamCopyOperation.CopyToAsync(readStream, context.Response.Body, file.Length, 64 * 1024, context.RequestAborted);
+                        task.Wait();
+                        return task;
                     }
                 }
 

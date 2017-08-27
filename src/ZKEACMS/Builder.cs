@@ -42,7 +42,7 @@ namespace ZKEACMS
             serviceCollection.TryAddTransient<IDataArchivedService, DataArchivedService>();
             serviceCollection.TryAddTransient<IExtendFieldService, ExtendFieldService>();
             serviceCollection.TryAddTransient<INotifyService, NotifyService>();
-            serviceCollection.TryAddTransient<IUserCenterLinksProvider, UserCenterLinksProvider>();
+            serviceCollection.AddTransient<IUserCenterLinksProvider, UserCenterLinksProvider>();
             serviceCollection.TryAddTransient<ILayoutService, LayoutService>();
             serviceCollection.TryAddTransient<ILayoutHtmlService, LayoutHtmlService>();
             serviceCollection.TryAddTransient<IMediaService, MediaService>();
