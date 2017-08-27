@@ -155,9 +155,10 @@ body {
 .customer-center header {
     padding-top: 1px;
     min-height: 150px;
-    background: url(./Images/head-bg.jpg) top right no-repeat;
+    background: url(./Images/head-bg.jpg) bottom center no-repeat;
     text-align: center;
     color: #fff;
+    background-size:cover;
 }
 
     .customer-center header .thumbnail {
