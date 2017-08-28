@@ -82,10 +82,15 @@ namespace ZKEACMS.WebHost
                 {
                     options.AddPolicy(p.Key, configure =>
                     {
-                        configure.Requirements.Add(new RoleRequirement { Policy = p.Key });
+                        configure.Requirements.Add(new RolePolicyRequirement { Policy = p.Key });
                     });
                 });
+                KnownRequirements.Requirments.Each(p =>
+                {
+                    options.AddPolicy(p.Key, configure => { configure.Requirements.Add(p.Value); });
+                });
             });
+            services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
             //services.AddAuthorization();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
@@ -95,7 +100,7 @@ namespace ZKEACMS.WebHost
                  })
                  .AddCookie(CustomerAuthorizeAttribute.CustomerAuthenticationScheme, option =>
                  {
-                    option.LoginPath = new PathString("/Account/Signin");
+                     option.LoginPath = new PathString("/Account/Signin");
                  });
 
 
