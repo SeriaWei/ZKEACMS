@@ -88,39 +88,39 @@
                     </div>
                 </div>
                 <ul id="main-menu" class="nav navbar-nav">
-                    @foreach (AdminMenu menu in menus.Where(m => Authorizer.Authorize(m.PermissionKey)).OrderBy(m => m.Order))
+                    @foreach (AdminMenu menu in menus.Where(m => Authorizer.Authorize(m.PermissionKey) && (m.HasPermission == null || m.HasPermission())).OrderBy(m => m.Order))
                     {
-                        if (menu.Children != null && menu.Children.Any())
-                        {
-                            if (menu.Children.Any(m => Authorizer.Authorize(m.PermissionKey)))
+                    if (menu.Children != null && menu.Children.Any())
+                    {
+                    if (menu.Children.Any(m => Authorizer.Authorize(m.PermissionKey) && (m.HasPermission == null || m.HasPermission())))
+                    {
+                    <li class="accordion-group">
+                        <a class="b_9FDDF6 group-item" href="#">
+                            <i class="glyphicon @menu.Icon"></i>
+                            @menu.Title
+                            <i class="glyphicon group"></i>
+                        </a>
+                        <div class="accordion-inner">
+                            @foreach (AdminMenu child in menu.Children.Where(m => Authorizer.Authorize(m.PermissionKey) && (m.HasPermission == null || m.HasPermission())).OrderBy(m => m.Order))
                             {
-                                <li class="accordion-group">
-                                    <a class="b_9FDDF6 group-item" href="#">
-                                        <i class="glyphicon @menu.Icon"></i>
-                                        @menu.Title
-                                        <i class="glyphicon group"></i>
-                                    </a>
-                                    <div class="accordion-inner">
-                                        @foreach (AdminMenu child in menu.Children.Where(m => Authorizer.Authorize(m.PermissionKey)).OrderBy(m => m.Order))
-                                        {
-                                            <a id="menu@((child.Url ?? child.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(child.Url ?? "~/")">
-                                                <i class="glyphicon @child.Icon"></i>
-                                                @child.Title
-                                            </a>
-                                        }
-                                    </div>
-                                </li>
-                            }
-                        }
-                        else
-                        {
-                            <li>
-                                <a id="menu@((menu.Url ?? menu.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(menu.Url ?? "~/")">
-                                    <i class="glyphicon @menu.Icon"></i>
-                                    @menu.Title
+                                <a id="menu@((child.Url ?? child.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(child.Url ?? "~/")">
+                                    <i class="glyphicon @child.Icon"></i>
+                                    @child.Title
                                 </a>
-                            </li>
-                        }
+                            }
+                        </div>
+                    </li>
+                    }
+                    }
+                    else
+                    {
+                    <li>
+                        <a id="menu@((menu.Url ?? menu.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(menu.Url ?? "~/")">
+                            <i class="glyphicon @menu.Icon"></i>
+                            @menu.Title
+                        </a>
+                    </li>
+                    }
                     }
                 </ul>
             </div>
@@ -128,7 +128,7 @@
         </nav>
         <div class="main-container">
             <div class="site-map">
-                
+
             </div>
             <div id="main-body">
                 @RenderBody()
