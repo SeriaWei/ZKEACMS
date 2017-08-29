@@ -21,6 +21,7 @@ using Easy.Logging;
 using Easy.Options;
 using Easy.Mvc.RazorPages;
 using Easy.Notification;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Easy
 {
@@ -52,7 +53,7 @@ namespace Easy
             services.AddTransient<INotifyService, EmailNotifyService>();
             services.AddTransient<INotifyService, RazorEmailNotifyService>();
             services.AddTransient<IPluginLoader, Loader>();
-
+            services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
             services.Configure<CDNOption>(configuration.GetSection("CDN"));
             services.Configure<CultureOption>(configuration.GetSection("Culture"));
 

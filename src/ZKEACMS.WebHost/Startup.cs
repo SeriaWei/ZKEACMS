@@ -78,19 +78,10 @@ namespace ZKEACMS.WebHost
 
             services.Configure<AuthorizationOptions>(options =>
             {
-                PermissionKeys.KnownPermissions.Each(p =>
-                {
-                    options.AddPolicy(p.Key, configure =>
-                    {
-                        configure.Requirements.Add(new RolePolicyRequirement { Policy = p.Key });
-                    });
-                });
-                KnownRequirements.Requirments.Each(p =>
-                {
-                    options.AddPolicy(p.Key, configure => { configure.Requirements.Add(p.Value); });
-                });
+                PermissionKeys.Configure(options);
+                KnownRequirements.Configure(options);
             });
-            services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
+            
             //services.AddAuthorization();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
