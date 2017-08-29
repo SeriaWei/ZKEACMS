@@ -12,9 +12,9 @@ namespace Easy.Mvc.Authorize
 {
     public class RolePolicyRequirementHandler : AuthorizationHandler<RolePolicyRequirement>
     {
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, RolePolicyRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, RolePolicyRequirement requirement)
         {
-            await Task.Factory.StartNew(() =>
+            if (context.User.Identity.IsAuthenticated)
             {
                 IAuthorizer authorizer = null;
                 if (context.Resource is Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext mvcContext)
@@ -24,7 +24,7 @@ namespace Easy.Mvc.Authorize
                 else
                 {
                     authorizer = ServiceLocator.GetService<IAuthorizer>();
-                }                
+                }
                 if (authorizer.Authorize(requirement.Policy))
                 {
                     context.Succeed(requirement);
@@ -33,8 +33,12 @@ namespace Easy.Mvc.Authorize
                 {
                     context.Fail();
                 }
-            });
-
+            }
+            else
+            {
+                context.Fail();
+            }
+            return Task.CompletedTask;
         }
     }
 }
