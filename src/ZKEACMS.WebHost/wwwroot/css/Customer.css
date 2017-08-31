@@ -174,6 +174,7 @@ body {
     .customer-center header h1 {
         font-size: 4rem;
         margin-bottom: 0;
+        text-shadow: 0 0 5px #225da9;
     }
 
 .customer-center .navigation {
@@ -185,29 +186,9 @@ body {
     margin-bottom: 0;
 }
 
-.customer-center article.main {
+.customer-center section.main {
     padding: 1rem;
     background: #fff;
-}
-
-.customer-center .media-list .media {
-    padding-bottom:15px;
-    border-bottom:1px solid #ddd;
-}
-.customer-center .media-list .media:last-child {
-    padding-bottom:15px;
-    border-bottom-color:transparent;
-}
-.customer-center .media-list .media .form-control{
-    width:auto;
-    display:inline-block;
-}
-.customer-center .media-left {
-    width: 150px;
-}
-
-.customer-center .media-body {
-    width: auto;
 }
 
 .user-info label {
@@ -217,8 +198,4 @@ body {
     width: 80px;
     text-align: right;
     margin-right: 10px;
-}
-
-.theme-template input[type=radio] {
-    display: none;
 }
