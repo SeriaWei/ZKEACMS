@@ -87,7 +87,7 @@ namespace Easy.Mvc.Extend
                 if (Common.IsImage(ext))
                 {
                     fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
-                    path += fileName;
+                    path = Path.Combine(path, fileName);
                     request.Form.Files[name].SaveAs(path);
                     var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
                     if (storage != null)
@@ -118,7 +118,7 @@ namespace Easy.Mvc.Extend
                 if (Common.FileCanUp(ext))
                 {
                     fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
-                    path += fileName;
+                    path = Path.Combine(path, fileName);
                     request.Form.Files[0].SaveAs(path);
                     var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
                     if (storage != null)
@@ -144,7 +144,7 @@ namespace Easy.Mvc.Extend
                 if (Common.FileCanUp(ext))
                 {
                     fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
-                    path += fileName;
+                    path = Path.Combine(path, fileName);
                     request.Form.Files[0].SaveAs(path);
                     var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
                     if (storage != null)

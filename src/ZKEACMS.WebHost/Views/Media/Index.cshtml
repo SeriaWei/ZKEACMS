@@ -208,6 +208,33 @@
                 $("#fileUp").trigger("click");
             });
             $(document).on("change", "#fileUp", function () {
+                function complete(e) {
+                    var result = JSON.parse(e.target.response);
+                    if (result.id) {
+                        this.target.find(".img").attr("src", "@Url.Content("~/Images/")" + result.mediaTypeImage + ".png")
+                            .parent().attr("href", "javascript:void(0)")
+                            .addClass("confirm").attr("data-result", result.url);
+                        this.target.find(".caption").html(result.title).data("id", result.id);
+                        this.target.removeClass("new-folder");
+                        if (result.mediaType == '@(MediaType.Image.ToString("D"))') {
+                            this.target.find(".img").attr("src", result.url);
+                            var preview = $('<a target="_blank" class="preview" data-lightbox="thumbnail"><i class="glyphicon glyphicon-eye-open"></i></a>');
+                            preview.attr("href", result.url);
+                            preview.data("title", result.title);
+                            this.target.find(".tool").append(preview);
+                        }
+                        var downLoad = $('<a target="_blank" class="download" download="' + result.title + '"><i class="glyphicon glyphicon-download-alt"></i></a>');
+                        downLoad.attr("href", result.url);
+                        this.target.find(".tool").append(downLoad);
+                    } else {
+                        Easy.MessageTip.Show("文件上传失败。可能是因为上传的文件不被允许！");
+                        this.target.remove();
+                    }
+                    if (threads.length > 0) {
+                        var task = threads.pop();
+                        task.Req.send(task.Data);
+                    }
+                }
                 var threads = [];
                 for (var i = 0; i < this.files.length; i++) {
                     var newitem = $($("#item-template").html());
@@ -225,33 +252,7 @@
                         var xhr = new XMLHttpRequest();
                         xhr.open('POST', '@Url.Action("Upload")');
                         xhr.target = newitem;
-                        xhr.onload = function (e) {
-                            var result = JSON.parse(e.target.response);
-                            if (result.id) {
-                                this.target.find(".img").attr("src", "@Url.Content("~/Images/")" + result.mediaTypeImage + ".png")
-                                    .parent().attr("href", "javascript:void(0)")
-                                    .addClass("confirm").attr("data-result", result.url);
-                                this.target.find(".caption").html(result.title).data("id", result.id);
-                                this.target.removeClass("new-folder");
-                                if (result.mediaType == '@(MediaType.Image.ToString("D"))') {
-                                    this.target.find(".img").attr("src", result.url);
-                                    var preview = $('<a target="_blank" class="preview" data-lightbox="thumbnail"><i class="glyphicon glyphicon-eye-open"></i></a>');
-                                    preview.attr("href", result.url);
-                                    preview.data("title", result.title);
-                                    this.target.find(".tool").append(preview);
-                                }
-                                var downLoad = $('<a target="_blank" class="download" download="' + result.title + '"><i class="glyphicon glyphicon-download-alt"></i></a>');
-                                downLoad.attr("href", result.url);
-                                this.target.find(".tool").append(downLoad);
-                            } else {
-                                Easy.MessageTip.Show("文件上传失败。可能是因为上传的文件不被允许！");
-                                this.target.remove();
-                            }
-                            if (threads.length > 0) {
-                                var task = threads.pop();
-                                task.Req.send(task.Data);
-                            }
-                        };
+                        xhr.onload = complete;
                         xhr.upload.target = newitem;
                         xhr.upload.onprogress = function (e) {
                             var persecnt = e.loaded / e.total * 100;
@@ -260,32 +261,45 @@
                         threads.push({ Req: xhr, Data: formData });
                     } else {
                         //大于1M分片上传
-                        var BYTES_PER_CHUNK = 1024 * 1024; 
-                        var blob = this.files[i];
-                        var start = 0;
-                        var end;
-                        var index = 0;
-
-
-                        // 计算文件切片总数
-                        var slices = Math.ceil(blob.size / BYTES_PER_CHUNK);
-                        while (start < blob.size) {
-                            end = start + BYTES_PER_CHUNK;
-                            if (end > blob.size) {
-                                end = blob.size;
-                            }                            
-                            var sliceIndex = blob.name + index;
-                            var chunk = blob.slice(start, end);
-                            var fd = new FormData();
-                            fd.append("UpgradeFileName", chunk, sliceIndex);
-                            var xhr = new XMLHttpRequest();
-                            xhr.open('POST', '', false);
-                            xhr.send(fd);
-                            start = end;
-                            index++;
-                        }
-                        
-                        
+                        var formData = { Data: this.files[i], target: newitem };
+                        threads.push({
+                            Req: {
+                                send: function (fileData) {
+                                    var item = fileData.target;
+                                    function sliceSend(start, url, result) {
+                                        var range = 1024 * 1024;
+                                        var end = start + range;
+                                        if (end > fileData.Data.size) {
+                                            end = fileData.Data.size;
+                                        }
+                                        var chunk = fileData.Data.slice(start, end);
+                                        var fd = new FormData();
+                                        fd.append("file", chunk, fileData.Data.name);
+                                        fd.append("parentId", $("#media-list").data("parent"));
+                                        if (result) {
+                                            fd.append("id", result.id);
+                                        }
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.target = item;
+                                        xhr.open('POST', url);
+                                        if (end == fileData.Data.size) {
+                                            xhr.onload = complete;
+                                        }
+                                        else {
+                                            xhr.onload = function (e) {
+                                                var result = JSON.parse(e.target.response);
+                                                sliceSend(end, '@Url.Action("AppendFile")', result);
+                                            }
+                                        }
+                                        xhr.upload.target = item;
+                                        xhr.upload.onprogress = function (e) {
+                                            var persecnt = (e.loaded + start) / fileData.Data.size * 100;
+                                            this.target.find(".caption").html('<label class="label label-danger">' + Math.round(persecnt) + "%" + '</label>');
+                                        };
+                                        xhr.send(fd);
+                                    }
+                                    sliceSend(0,'@Url.Action("Upload")')
+                        } }, Data: formData });
                     }
 
                 }

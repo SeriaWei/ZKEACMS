@@ -71,6 +71,9 @@ namespace ZKEACMS.WebHost
 
             script("pjax")
                 .Include($"{LibraryPath}/jquery-pjax/jquery.pjax.js");
+
+            script("FileUploader")
+                .Include($"{ScriptPath}/FileUploader.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)

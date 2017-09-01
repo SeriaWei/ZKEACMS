@@ -133,6 +133,24 @@ namespace ZKEACMS.Controllers
             }
             return Json(false);
         }
+        [HttpPost]
+        public JsonResult AppendFile(string id)
+        {
+            var media = Service.Get(id);
+            if (media != null && Request.Form.Files.Count > 0)
+            {
+                var file = Request.MapPath(media.Url);
+                if (System.IO.File.Exists(file))
+                {
+                    using (var fileStream = new FileStream(file, FileMode.Append))
+                    {
+                        Request.Form.Files[0].CopyTo(fileStream);
+                    }
+                    return Json(media);
+                }
+            }
+            return Json(false);
+        }
         public override JsonResult Delete(string ids)
         {
             DeleteMedia(ids);
