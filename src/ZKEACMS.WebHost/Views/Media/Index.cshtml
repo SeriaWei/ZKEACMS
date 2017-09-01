@@ -51,7 +51,7 @@
                         }
                         else
                         {
-                            <a href="@(media.MediaType==(int)MediaType.Folder?Url.Action(action, new {ParentId = media.ID}):"javascript:void(0)")" 
+                            <a href="@(media.MediaType==(int)MediaType.Folder?Url.Action(action, new {ParentId = media.ID}):"javascript:void(0)")"
                                class="img-link @(media.MediaType==(int)MediaType.Folder?"":"confirm")" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
                                 <img class="img" src="@Url.Content("~/images/{0}.png".FormatWith(media.MediaTypeImage))" />
                             </a>
@@ -60,14 +60,14 @@
                             @media.Title
                         </div>
                         <div class="tool">
-                            @if (media.MediaType == (int) MediaType.Image && media.Url.IsNotNullAndWhiteSpace())
+                            @if (media.MediaType == (int)MediaType.Image && media.Url.IsNotNullAndWhiteSpace())
                             {
                                 <a target="_blank" class="preview" href="@Url.Content(media.Url)"
                                    data-lightbox="thumbnail" data-title="@media.Title">
                                     <i class="glyphicon glyphicon-eye-open"></i>
                                 </a>
                             }
-                            @if (media.MediaType != (int) MediaType.Folder && media.Url.IsNotNullAndWhiteSpace())
+                            @if (media.MediaType != (int)MediaType.Folder && media.Url.IsNotNullAndWhiteSpace())
                             {
                                 <a target="_blank" class="download" download="@media.Title" href="@Url.Content(media.Url)">
                                     <i class="glyphicon glyphicon-download-alt"></i>
@@ -210,10 +210,6 @@
             $(document).on("change", "#fileUp", function () {
                 var threads = [];
                 for (var i = 0; i < this.files.length; i++) {
-                    if (this.files[i].size > 4194304) {
-                        Easy.MessageTip.Show(this.files[i].name + " 文件大小超过限制！");
-                        continue;
-                    }
                     var newitem = $($("#item-template").html());
                     newitem.find(".img").attr("src", "@Url.Content("~/images/loader.gif")");
                     newitem.find(".caption").html('<label class="label label-danger">排队中...</label>');
@@ -222,45 +218,76 @@
                     } else {
                         $("#media-list").append(newitem);
                     }
-                    var formData = new FormData();
-                    formData.append('file', this.files[i]);
-                    formData.append("parentId", $("#media-list").data("parent"));
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('POST', '@Url.Action("Upload")');
-                    xhr.target = newitem;
-                    xhr.onload = function (e) {
-                        var result = JSON.parse(e.target.response);
-                        if (result.id) {
-                            this.target.find(".img").attr("src", "@Url.Content("~/Images/")" + result.mediaTypeImage+".png")
-                                .parent().attr("href", "javascript:void(0)")
-                                .addClass("confirm").attr("data-result", result.url);
-                            this.target.find(".caption").html(result.title).data("id",result.id);
-                            this.target.removeClass("new-folder");
-                            if (result.mediaType == '@(MediaType.Image.ToString("D"))') {
-                                this.target.find(".img").attr("src",result.url);
-                                var preview = $('<a target="_blank" class="preview" data-lightbox="thumbnail"><i class="glyphicon glyphicon-eye-open"></i></a>');
-                                preview.attr("href", result.url);
-                                preview.data("title", result.title);
-                                this.target.find(".tool").append(preview);
+                    if (this.files[i].size <= 1051648) {
+                        var formData = new FormData();
+                        formData.append('file', this.files[i]);
+                        formData.append("parentId", $("#media-list").data("parent"));
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '@Url.Action("Upload")');
+                        xhr.target = newitem;
+                        xhr.onload = function (e) {
+                            var result = JSON.parse(e.target.response);
+                            if (result.id) {
+                                this.target.find(".img").attr("src", "@Url.Content("~/Images/")" + result.mediaTypeImage + ".png")
+                                    .parent().attr("href", "javascript:void(0)")
+                                    .addClass("confirm").attr("data-result", result.url);
+                                this.target.find(".caption").html(result.title).data("id", result.id);
+                                this.target.removeClass("new-folder");
+                                if (result.mediaType == '@(MediaType.Image.ToString("D"))') {
+                                    this.target.find(".img").attr("src", result.url);
+                                    var preview = $('<a target="_blank" class="preview" data-lightbox="thumbnail"><i class="glyphicon glyphicon-eye-open"></i></a>');
+                                    preview.attr("href", result.url);
+                                    preview.data("title", result.title);
+                                    this.target.find(".tool").append(preview);
+                                }
+                                var downLoad = $('<a target="_blank" class="download" download="' + result.title + '"><i class="glyphicon glyphicon-download-alt"></i></a>');
+                                downLoad.attr("href", result.url);
+                                this.target.find(".tool").append(downLoad);
+                            } else {
+                                Easy.MessageTip.Show("文件上传失败。可能是因为上传的文件不被允许！");
+                                this.target.remove();
                             }
-                            var downLoad = $('<a target="_blank" class="download" download="'+result.title+'"><i class="glyphicon glyphicon-download-alt"></i></a>');
-                            downLoad.attr("href", result.url);
-                            this.target.find(".tool").append(downLoad);
-                        } else {
-                            Easy.MessageTip.Show("文件上传失败。可能是因为上传的文件不被允许！");
-                            this.target.remove();
+                            if (threads.length > 0) {
+                                var task = threads.pop();
+                                task.Req.send(task.Data);
+                            }
+                        };
+                        xhr.upload.target = newitem;
+                        xhr.upload.onprogress = function (e) {
+                            var persecnt = e.loaded / e.total * 100;
+                            this.target.find(".caption").html('<label class="label label-danger">' + Math.round(persecnt) + "%" + '</label>');
                         }
-                        if (threads.length > 0) {
-                            var task = threads.pop();
-                            task.Req.send(task.Data);
+                        threads.push({ Req: xhr, Data: formData });
+                    } else {
+                        //大于1M分片上传
+                        var BYTES_PER_CHUNK = 1024 * 1024; 
+                        var blob = this.files[i];
+                        var start = 0;
+                        var end;
+                        var index = 0;
+
+
+                        // 计算文件切片总数
+                        var slices = Math.ceil(blob.size / BYTES_PER_CHUNK);
+                        while (start < blob.size) {
+                            end = start + BYTES_PER_CHUNK;
+                            if (end > blob.size) {
+                                end = blob.size;
+                            }                            
+                            var sliceIndex = blob.name + index;
+                            var chunk = blob.slice(start, end);
+                            var fd = new FormData();
+                            fd.append("UpgradeFileName", chunk, sliceIndex);
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('POST', '', false);
+                            xhr.send(fd);
+                            start = end;
+                            index++;
                         }
-                    };
-                    xhr.upload.target = newitem;
-                    xhr.upload.onprogress = function (e) {
-                        var persecnt = e.loaded / e.total * 100;
-                        this.target.find(".caption").html('<label class="label label-danger">' + Math.round(persecnt) + "%" + '</label>');
+                        
+                        
                     }
-                    threads.push({ Req: xhr, Data: formData });
+
                 }
                 if (threads.length > 0) {
                     var task = threads.pop();
