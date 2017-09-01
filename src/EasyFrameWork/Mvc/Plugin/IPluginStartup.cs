@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace Easy.Mvc.Plugin
 {
     public interface IPluginStartup
     {
+        IHostingEnvironment HostingEnvironment { get; set; }
         void ConfigureServices(IServiceCollection services);
     }
 }

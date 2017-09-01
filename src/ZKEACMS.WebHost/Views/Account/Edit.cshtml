@@ -1,0 +1,114 @@
+﻿@model Easy.Modules.User.Models.UserEntity
+@{
+    ViewBag.Title = "个人中心";
+    Layout = Layouts.CustomerCenter;
+    Script.Reqiured("validate").AtFoot();
+}
+<form action="@Url.Action("Edit","Account")" method="post" enctype="multipart/form-data">
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.PassWord)
+    @Html.HiddenFor(m => m.ApiLoginToken)
+    @Html.HiddenFor(m => m.LastLoginDate)
+    @Html.HiddenFor(m => m.LoginIP)
+    @Html.HiddenFor(m => m.PhotoUrl)
+    @Html.HiddenFor(m => m.Timestamp)
+    @Html.HiddenFor(m => m.Email)
+    @Html.HiddenFor(m => m.Age)
+    @Html.HiddenFor(m => m.Birthplace)
+    @Html.HiddenFor(m => m.EnglishName)
+    @Html.HiddenFor(m => m.FirstName)
+    @Html.HiddenFor(m => m.LastName)
+    @Html.HiddenFor(m => m.Birthday)
+    @Html.HiddenFor(m => m.MaritalStatus)
+    @Html.HiddenFor(m => m.NickName)
+    @Html.HiddenFor(m => m.Profession)
+    @Html.HiddenFor(m => m.School)
+    @Html.HiddenFor(m => m.Status)
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            <div class="pull-left">修改基本信息</div>
+            <div class="pull-right">
+                <a href="@Url.Action("PassWord")">修改密码</a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label for="UserName" class="col-sm-1 control-label">姓 名</label>
+                    <div class="col-sm-11">
+                        @Html.EditorFor(m => m.UserName)
+                        @Html.ValidationMessageFor(m => m.UserName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Email" class="col-sm-1 control-label">邮 箱</label>
+                    <div class="col-sm-11">
+                        <input type="text" readonly disabled value="@Model.Email" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Telephone" class="col-sm-1 control-label">头 像</label>
+                    <div class="col-sm-11">
+                        <input type="file" name="file" class="form-control" accept="image/*" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Telephone" class="col-sm-1 control-label">电 话</label>
+                    <div class="col-sm-11">
+                        @Html.EditorFor(m => m.Telephone)
+                        @Html.ValidationMessageFor(m => m.Telephone)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="MobilePhone" class="col-sm-1 control-label">手 机</label>
+                    <div class="col-sm-11">
+                        @Html.EditorFor(m => m.MobilePhone)
+                        @Html.ValidationMessageFor(m => m.MobilePhone)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="QQ" class="col-sm-1 control-label">QQ</label>
+                    <div class="col-sm-11">
+                        @Html.EditorFor(m => m.QQ)
+                        @Html.ValidationMessageFor(m => m.QQ)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Sex" class="col-sm-1 control-label">性别</label>
+                    <div class="col-sm-11">
+                        @Html.EditorFor(m => m.Sex)
+                        @Html.ValidationMessageFor(m => m.Sex)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Hobby" class="col-sm-1 control-label">爱 好</label>
+                    <div class="col-sm-11">
+                        @Html.EditorFor(m => m.Hobby)
+                        @Html.ValidationMessageFor(m => m.Hobby)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Address" class="col-sm-1 control-label">收货地址</label>
+                    <div class="col-sm-11">
+                        @Html.EditorFor(m => m.Address)
+                        @Html.ValidationMessageFor(m => m.Address)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ZipCode" class="col-sm-1 control-label">邮政编码</label>
+                    <div class="col-sm-11">
+                        @Html.EditorFor(m => m.ZipCode)
+                        @Html.ValidationMessageFor(m => m.ZipCode)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ZipCode" class="col-sm-1 control-label"></label>
+                    <div class="col-sm-11">
+                        <input type="submit" value="保存修改" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

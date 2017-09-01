@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Easy.Modules.Role.Permission>
 
 @{
-    var AllPermission = PermissionKeys.KnownPermissions;  
+    var AllPermission = PermissionKeys.KnownPermissions.Where(m => m.IsAvailable == null || m.IsAvailable());
     var permissions = AllPermission.GroupBy(m => m.Module);
     int rows = permissions.Count() / 3;
     rows += permissions.Count() % 3 == 0 ? 0 : 1;

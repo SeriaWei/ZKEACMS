@@ -53,6 +53,8 @@ namespace Easy.Modules.User.Models
         public bool IsAuthenticated { get; set; }
         [NotMapped]
         public string Name { get { return UserID; } }
+        public string ResetToken { get; set; }
+        public DateTime? ResetTokenDate { get; set; }
     }
     class UserMetaData : ViewMetaData<UserEntity>
     {
@@ -61,7 +63,8 @@ namespace Easy.Modules.User.Models
             ViewConfig(p => p.PassWord).AsHidden();
             ViewConfig(p => p.PassWordNew).AsTextBox();
             ViewConfig(p => p.UserID).AsTextBox().Required().Order(1).ShowInGrid();
-            ViewConfig(p => p.NickName).AsTextBox().Required().Order(2).ShowInGrid();
+            ViewConfig(p => p.UserName).AsTextBox().Required().Order(2).ShowInGrid();
+            ViewConfig(p => p.Email).AsTextBox().Email();
             ViewConfig(p => p.Age).AsTextBox().RegularExpression(RegularExpression.Integer);
             ViewConfig(p => p.LastName).AsTextBox();
             ViewConfig(p => p.FirstName).AsTextBox();
@@ -81,6 +84,13 @@ namespace Easy.Modules.User.Models
             ViewConfig(p => p.UserTypeCD).AsDropDownList().DataSource(SourceType.Dictionary);
             ViewConfig(p => p.Title).AsHidden();
             ViewConfig(m => m.ApiLoginToken).AsTextBox().ReadOnly().Hide();
+
+
+            ViewConfig(p => p.AuthenticationType).AsHidden().Ignore();
+            ViewConfig(p => p.IsAuthenticated).AsHidden().Ignore();
+            ViewConfig(p => p.Name).AsHidden().Ignore();
+            ViewConfig(p => p.ResetToken).AsHidden().Ignore();
+            ViewConfig(p => p.ResetTokenDate).AsHidden().Ignore();
         }
     }
 }

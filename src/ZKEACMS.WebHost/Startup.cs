@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using ZKEACMS.ModelBinder;
+using ZKEACMS.Options;
 
 namespace ZKEACMS.WebHost
 {
@@ -72,27 +73,28 @@ namespace ZKEACMS.WebHost
                  {
                      cmsPlugin.InitPlug();
                  }
-             }, null);
-            services.UseZKEACMS();
+             }, null, () => services);
+            services.UseZKEACMS(Configuration);
 
             services.Configure<AuthorizationOptions>(options =>
             {
-                PermissionKeys.KnownPermissions.Each(p =>
-                {
-                    options.AddPolicy(p.Key, configure =>
-                    {
-                        configure.Requirements.Add(new RoleRequirement { Policy = p.Key });
-                    });
-                });
+                PermissionKeys.Configure(options);
+                KnownRequirements.Configure(options);
             });
+            
             //services.AddAuthorization();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(o =>
-                {
-                    o.LoginPath = new PathString("/Account/Login");
-                    o.AccessDeniedPath = new PathString("/Error/Forbidden");
-                });
-            
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
+                 {
+                     o.LoginPath = new PathString("/Account/Login");
+                     o.AccessDeniedPath = new PathString("/Error/Forbidden");
+                 })
+                 .AddCookie(CustomerAuthorizeAttribute.CustomerAuthenticationScheme, option =>
+                 {
+                     option.LoginPath = new PathString("/Account/Signin");
+                 });
+
+
             new ResourceManager().Excute();
         }
 

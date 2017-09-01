@@ -2,6 +2,7 @@
 using Easy.Mvc.Plugin;
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace ZKEACMS
 {
     public abstract class PluginBase : ResourceManager, IRouteRegister, IPluginStartup
     {
+        public IHostingEnvironment HostingEnvironment { get; set; }
         public abstract IEnumerable<RouteDescriptor> RegistRoute();
         public abstract IEnumerable<AdminMenu> AdminMenu();
         public abstract IEnumerable<PermissionDescriptor> RegistPermission();
@@ -44,7 +46,7 @@ namespace ZKEACMS
                     string name = $"{item.GetTypeInfo().Assembly.GetName().Name},{item.FullName}";
                     if (!WidgetBase.KnownWidgetService.ContainsKey(name))
                     {
-                        
+
                         WidgetBase.KnownWidgetService.Add(name, item);
                     }
                     foreach (var widgetModel in item.GetTypeInfo().BaseType.GetGenericArguments())

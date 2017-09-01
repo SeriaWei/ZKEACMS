@@ -7,7 +7,7 @@
         {
             "taskName": "build",
             "args": [
-                "${workspaceRoot}\\project.json"
+                "${workspaceRoot}/ZKEACMS.sln"
             ],
             "isBuildCommand": true,
             "problemMatcher": "$msCompile"

@@ -1,4 +1,5 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using Easy.Constant;
 using Easy.Extend;
 using Easy.Modules.User.Models;
 using Easy.RepositoryPattern;
@@ -44,9 +45,25 @@ namespace Easy.Modules.User.Service
         }
         public override void Add(UserEntity item)
         {
+            if (item.UserID.IsNullOrEmpty() && item.Email.IsNotNullAndWhiteSpace())
+            {
+                item.UserID = item.Email;
+            }
             if (item.PassWordNew.IsNotNullAndWhiteSpace())
             {
-                item.PassWord = ProtectPassWord(item.PassWordNew);
+                item.PassWord = item.PassWordNew;
+            }
+            if (item.PassWord.IsNotNullAndWhiteSpace())
+            {
+                item.PassWord = ProtectPassWord(item.PassWord);
+            }
+            if (!item.Status.HasValue)
+            {
+                item.Status = (int)RecordStatus.Active;
+            }
+            if (Get(item.UserID) != null)
+            {
+                throw new Exception($"用户 {item.UserID} 已存在");
             }
             base.Add(item);
         }
@@ -59,15 +76,15 @@ namespace Easy.Modules.User.Service
             }
             if (item.Roles != null)
             {
-                item.Roles.Where(m => m.ActionType == Constant.ActionType.Delete).Each(m => DbContext.UserRoleRelation.Remove(m));
+                item.Roles.Where(m => m.ActionType == ActionType.Delete).Each(m => DbContext.UserRoleRelation.Remove(m));
             }
             base.Update(item, saveImmediately);
         }
 
-        public UserEntity Login(string userID, string passWord, string ip)
+        public UserEntity Login(string userID, string passWord, UserType userType, string ip)
         {
             if (userID.IsNullOrWhiteSpace() || passWord.IsNullOrWhiteSpace()) return null;
-            var result = Get(m => m.UserID == userID && m.PassWord == ProtectPassWord(passWord)).FirstOrDefault();
+            var result = Get(m => m.UserID == userID && m.UserTypeCD == (int)userType && m.Status == (int)RecordStatus.Active && m.PassWord == ProtectPassWord(passWord)).FirstOrDefault();
             if (result != null)
             {
                 result.LastLoginDate = DateTime.Now;
@@ -76,6 +93,35 @@ namespace Easy.Modules.User.Service
                 return result;
             }
             return null;
+        }
+
+        public UserEntity SetResetToken(string userID, UserType userType)
+        {
+            var user = Get(m => m.UserID == userID && m.UserTypeCD == (int)userType).FirstOrDefault();
+            if (user != null)
+            {
+                user.ResetToken = Guid.NewGuid().ToString("N");
+                user.ResetTokenDate = DateTime.Now;
+                Update(user);
+            }
+            return user;
+        }
+
+        public bool ResetPassWord(string token, string newPassword)
+        {
+            var user = Get(m => m.ResetToken == token && m.UserTypeCD == (int)UserType.Customer).FirstOrDefault();
+            if (user != null)
+            {
+                if (user.ResetTokenDate.HasValue && (DateTime.Now - user.ResetTokenDate.Value).TotalHours < 24)
+                {
+                    user.ResetToken = null;
+                    user.ResetTokenDate = null;
+                    user.PassWordNew = newPassword;
+                    Update(user);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

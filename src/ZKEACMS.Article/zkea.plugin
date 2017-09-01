@@ -2,6 +2,6 @@
 	ID:"034F2233-6BD2-410D-86ED-8CA5175E6F5C",
 	Name:"ZKEACMS.Article",
 	FileName:"bin\\ZKEACMS.Article.dll",
-	DeveloperFileName:"bin\\Debug\\netstandard2.0\\ZKEACMS.Article.dll",
+	DeveloperFileName:"bin\\Debug\\netcoreapp2.0\\ZKEACMS.Article.dll",
 	Enable:"true"
 }

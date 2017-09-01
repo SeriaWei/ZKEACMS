@@ -10,26 +10,32 @@ using Pomelo.EntityFrameworkCore.MySql;
 
 using Easy.Extend;
 using System;
+using Microsoft.Extensions.Options;
+using ZKEACMS.Options;
 
 namespace ZKEACMS.WebHost
 {
     public class EntityFrameWorkConfigure : IOnConfiguring
     {
+        private readonly IOptions<DatabaseOption> _dataBaseOption;
+        public EntityFrameWorkConfigure(IOptions<DatabaseOption> dataBaseOption)
+        {
+            _dataBaseOption = dataBaseOption;
+        }
         public void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connections = Easy.Builder.Configuration.GetSection("ConnectionStrings");
-            var connectionString = connections["DefaultConnection"];
-            if (connectionString.IsNotNullAndWhiteSpace())
+           
+            if (_dataBaseOption.Value.DefaultConnection.IsNotNullAndWhiteSpace())
             {
-                optionsBuilder.UseSqlServer(connectionString);
+                optionsBuilder.UseSqlServer(_dataBaseOption.Value.DefaultConnection);
             }
-            else if ((connectionString = connections["Sqlite"]).IsNotNullAndWhiteSpace())
+            else if (_dataBaseOption.Value.Sqlite.IsNotNullAndWhiteSpace())
             {
-                optionsBuilder.UseSqlite(connectionString);
+                optionsBuilder.UseSqlite(_dataBaseOption.Value.Sqlite);
             }
-            else if ((connectionString = connections["MySql"]).IsNotNullAndWhiteSpace())
+            else if (_dataBaseOption.Value.MySql.IsNotNullAndWhiteSpace())
             {
-                optionsBuilder.UseMySql(connectionString);
+                optionsBuilder.UseMySql(_dataBaseOption.Value.MySql);
             }
 
         }

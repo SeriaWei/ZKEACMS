@@ -5,23 +5,14 @@ using System.Linq;
 
 namespace Easy.RepositoryPattern
 {
-    public static class DbContextConfig
-    {
-        static DbContextConfig()
-        {
-            OnModelCreatings = ServiceLocator.GetServices<IOnModelCreating>();
-            OnConfiguring = ServiceLocator.GetService<IOnConfiguring>();
-        }
-        public static IEnumerable<IOnModelCreating> OnModelCreatings { get; }
-        public static IOnConfiguring OnConfiguring { get; }
-    }
     public class DbContextBase : DbContext
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            if (DbContextConfig.OnModelCreatings != null)
+            var creatings = ServiceLocator.GetServices<IOnModelCreating>();
+            if (creatings != null)
             {
-                foreach (var item in DbContextConfig.OnModelCreatings)
+                foreach (var item in creatings)
                 {
                     item.OnModelCreating(modelBuilder);
                 }
@@ -29,9 +20,10 @@ namespace Easy.RepositoryPattern
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (DbContextConfig.OnConfiguring != null)
+            var config = ServiceLocator.GetService<IOnConfiguring>();
+            if (config != null)
             {
-                DbContextConfig.OnConfiguring.OnConfiguring(optionsBuilder);
+                config.OnConfiguring(optionsBuilder);
             }
         }
     }
