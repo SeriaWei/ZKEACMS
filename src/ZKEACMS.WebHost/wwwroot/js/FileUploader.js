@@ -4,20 +4,7 @@ var FileUploader = (function () {
         this.FileData = fileData;
     }
     FileUploader.prototype.Send = function (url) {
-        if (this.FileData.size <= 1051648) {
-            var formData = new FormData();
-            formData.append('file', this.FileData);
-            for (var i = 0; i < this.OtherData.length; i++) {
-                formData.append(this.OtherData[i].Name, this.OtherData[i].Vale);
-            }
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', url);
-            xhr.onload = this.OnComplete;
-            xhr.onprogress = this.OnProgress;
-            xhr.send(formData);
-        }
-        else {
-        }
+        this.SliceSend(0, url);
     };
     FileUploader.prototype.AddFormData = function (data) {
         if (this.OtherData == null) {
@@ -30,6 +17,7 @@ var FileUploader = (function () {
     FileUploader.prototype.OnProgress = function (e) {
     };
     FileUploader.prototype.SliceSend = function (start, url) {
+        var uploader = this;
         var range = 1024 * 1024;
         var end = start + range;
         if (end > this.FileData.size) {
@@ -38,20 +26,25 @@ var FileUploader = (function () {
         var chunk = this.FileData.slice(start, end);
         var fd = new FormData();
         fd.append("file", chunk, this.FileData.name);
+        if (this.OtherData != null) {
+            for (var i = 0; i < this.OtherData.length; i++) {
+                fd.append(this.OtherData[i].Name, this.OtherData[i].Vale);
+            }
+        }
+        fd.append("position", start.toString());
         var xhr = new XMLHttpRequest();
         xhr.open('POST', url);
         if (end == this.FileData.size) {
             xhr.onload = this.OnComplete;
         }
         else {
-            var uploader_1 = this;
             xhr.onload = function (e) {
-                uploader_1.SliceSend(end + 1, url);
+                uploader.SliceSend(end, url);
             };
         }
-        var progress = this.OnProgress;
         xhr.onprogress = function (e) {
-            progress.call(this, e);
+            var event = new ProgressEvent("ProgressEvent", { loaded: e.loaded + start, total: uploader.FileData.size });
+            uploader.OnProgress.call(this, event);
         };
         xhr.send(fd);
     };

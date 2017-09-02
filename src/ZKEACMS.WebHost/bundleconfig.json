@@ -160,5 +160,11 @@
     "inputFiles": [
       "wwwroot/css/Customer.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/FileUploader.min.js",
+    "inputFiles": [
+      "wwwroot/js/FileUploader.js"
+    ]
   }
 ]

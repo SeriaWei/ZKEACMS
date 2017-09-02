@@ -9,22 +9,7 @@ class FileUploader {
         this.FileData = fileData;
     }
     Send(url: string): void {
-        if (this.FileData.size <= 1051648) {
-            var formData = new FormData();
-            formData.append('file', this.FileData);
-            for (var i = 0; i < this.OtherData.length; i++) {
-                formData.append(this.OtherData[i].Name, this.OtherData[i].Vale);
-            }
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', url);
-            xhr.onload = this.OnComplete;
-            xhr.onprogress = this.OnProgress;
-            xhr.send(formData);
-        } else {
-            
-           
-
-        }
+        this.SliceSend(0, url);
     }
     AddFormData(data: KeyValue): void {
         if (this.OtherData == null) {
@@ -33,12 +18,14 @@ class FileUploader {
         this.OtherData.push(data);
     }
     OnComplete(this: XMLHttpRequestEventTarget, e: Event): any {
-        
+
     }
     OnProgress(this: XMLHttpRequestEventTarget, e: ProgressEvent): any {
 
     }
+
     SliceSend(start: number, url: string): void {
+        let uploader = this;
         let range = 1024 * 1024;
         let end = start + range;
         if (end > this.FileData.size) {
@@ -47,23 +34,24 @@ class FileUploader {
         var chunk = this.FileData.slice(start, end);
         var fd = new FormData();
         fd.append("file", chunk, this.FileData.name);
+        if (this.OtherData != null) {
+            for (var i = 0; i < this.OtherData.length; i++) {
+                fd.append(this.OtherData[i].Name, this.OtherData[i].Vale);
+            }
+        }
+        fd.append("position", start.toString());
         var xhr = new XMLHttpRequest();
         xhr.open('POST', url);
         if (end == this.FileData.size) {
             xhr.onload = this.OnComplete;
         } else {
-            let uploader = this;
             xhr.onload = function (e) {
-                uploader.SliceSend(end + 1, url);
+                uploader.SliceSend(end, url);
             };
-        }       
-       
-        var progress = this.OnProgress;
+        }
         xhr.onprogress = function (e) {
-           
-
-            
-            progress.call(this, e);
+            let event = new ProgressEvent("ProgressEvent", { loaded: e.loaded + start, total: uploader.FileData.size, });
+            uploader.OnProgress.call(this, event);
         }
         xhr.send(fd);
     }
