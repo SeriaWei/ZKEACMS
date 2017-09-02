@@ -224,8 +224,7 @@
                             send: function (fileData) {
                                 var item = fileData.target;
                                 function sliceSend(start, url, result) {
-                                    var range = 1048576;
-                                    var end = start + range;
+                                    var end = start + 1048576;
                                     if (end > fileData.Data.size) {
                                         end = fileData.Data.size;
                                     }
@@ -238,30 +237,29 @@
                                         fd.append("position", start);
                                     }
                                     var xhr = new XMLHttpRequest();
-                                    xhr.target = item;
                                     xhr.open('POST', url);
                                     if (end == fileData.Data.size) {
                                         xhr.onload = function (e) {
                                             var result = JSON.parse(e.target.response);
                                             if (result.id) {
-                                                this.target.find(".img").attr("src", "@Url.Content("~/Images/")" + result.mediaTypeImage + ".png")
+                                                item.find(".img").attr("src", "@Url.Content("~/Images/")" + result.mediaTypeImage + ".png")
                                                     .parent().attr("href", "javascript:void(0)")
                                                     .addClass("confirm").attr("data-result", result.url);
-                                                this.target.find(".caption").html(result.title).data("id", result.id);
-                                                this.target.removeClass("new-folder");
+                                                item.find(".caption").html(result.title).data("id", result.id);
+                                                item.removeClass("new-folder");
                                                 if (result.mediaType == '@(MediaType.Image.ToString("D"))') {
-                                                    this.target.find(".img").attr("src", result.url);
+                                                    item.find(".img").attr("src", result.url);
                                                     var preview = $('<a target="_blank" class="preview" data-lightbox="thumbnail"><i class="glyphicon glyphicon-eye-open"></i></a>');
                                                     preview.attr("href", result.url);
                                                     preview.data("title", result.title);
-                                                    this.target.find(".tool").append(preview);
+                                                    item.find(".tool").append(preview);
                                                 }
                                                 var downLoad = $('<a target="_blank" class="download" download="' + result.title + '"><i class="glyphicon glyphicon-download-alt"></i></a>');
                                                 downLoad.attr("href", result.url);
-                                                this.target.find(".tool").append(downLoad);
+                                                item.find(".tool").append(downLoad);
                                             } else {
                                                 Easy.MessageTip.Show("文件上传失败。可能是因为上传的文件不被允许！");
-                                                this.target.remove();
+                                                item.remove();
                                             }
                                             if (threads.length > 0) {
                                                 var task = threads.pop();
@@ -277,14 +275,13 @@
                                             }
                                             else {
                                                 Easy.MessageTip.Show("文件上传失败。可能是因为上传的文件不被允许！");
-                                                this.target.remove();
+                                                item.remove();
                                             }
                                         }
                                     }
-                                    xhr.upload.target = item;
                                     xhr.upload.onprogress = function (e) {
                                         var persecnt = (e.loaded + start) / fileData.Data.size * 100;
-                                        this.target.find(".caption").html('<label class="label label-danger">' + Math.round(persecnt) + "%" + '</label>');
+                                        item.find(".caption").html('<label class="label label-danger">' + Math.round(persecnt) + "%" + '</label>');
                                     };
                                     xhr.send(fd);
                                 }
