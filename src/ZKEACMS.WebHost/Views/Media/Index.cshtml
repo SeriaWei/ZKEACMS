@@ -42,7 +42,7 @@
             foreach (var media in Model.Medias)
             {
                 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
-                    <div class="thumbnail">
+                    <div class="thumbnail status-@media.Status">
                         @if (media.MediaType == (int)MediaType.Image)
                         {
                             <a href="javascript:void(0)" class="img-link confirm" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
@@ -232,6 +232,7 @@
                                     var fd = new FormData();
                                     fd.append("file", chunk, fileData.Data.name);
                                     fd.append("parentId", $("#media-list").data("parent"));
+                                    fd.append("size", fileData.Data.size);
                                     if (result) {
                                         fd.append("id", result.id);
                                         fd.append("position", start);

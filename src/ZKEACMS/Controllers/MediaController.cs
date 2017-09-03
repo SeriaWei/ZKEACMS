@@ -13,6 +13,7 @@ using Easy.Mvc.Extend;
 using Easy.Image;
 using Easy.RepositoryPattern;
 using System.Linq;
+using Easy.Constant;
 
 namespace ZKEACMS.Controllers
 {
@@ -89,7 +90,7 @@ namespace ZKEACMS.Controllers
             return Json(entity);
         }
         [HttpPost]
-        public JsonResult Upload(string parentId, string folder)
+        public JsonResult Upload(string parentId, string folder, long size)
         {
             if (Request.Form.Files.Count > 0)
             {
@@ -113,7 +114,8 @@ namespace ZKEACMS.Controllers
                 var entity = new MediaEntity
                 {
                     ParentID = parentId,
-                    Title = fileName
+                    Title = fileName,
+                    Status = Request.Form.Files[0].Length == size ? (int)RecordStatus.Active : (int)RecordStatus.InActive
                 };
                 string extension = Path.GetExtension(fileName).ToLower();
                 if (ImageHelper.IsImage(extension))
@@ -134,11 +136,16 @@ namespace ZKEACMS.Controllers
             return Json(false);
         }
         [HttpPost]
-        public JsonResult AppendFile(string id)
+        public JsonResult AppendFile(string id, long position, long size)
         {
             var media = Service.Get(id);
             if (media != null && Request.Form.Files.Count > 0)
             {
+                if (position + Request.Form.Files[0].Length == size)
+                {
+                    media.Status = (int)RecordStatus.Active;
+                    Service.Update(media);
+                }
                 var file = Request.MapPath(media.Url);
                 if (System.IO.File.Exists(file))
                 {

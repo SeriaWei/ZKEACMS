@@ -462,8 +462,20 @@ a.badge:hover {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    position:relative;
 }
-
+#media-list .thumbnail.status-2 .caption:after {
+    display: block;
+    content: "文件不完整";
+    color: #fff;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: #ca2026;
+    line-height: 30px;
+}
     #media-list .thumbnail .caption .edit {
         text-align: center;
     }
