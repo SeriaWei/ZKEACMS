@@ -14,8 +14,8 @@ namespace PluginPublisher
     {
         private const string PluginInfoFile = "zkea.plugin";
         private const string PublishTo = @"src\ZKEACMS.WebHost\bin\Release\PublishOutput\";
-        private static string[] IgnoreFiles = new string[] { ".cs", ".pdb", ".csproj", ".user" };
-        private static string[] IgnoreFoders = new string[] { "obj", "Debug", "refs" };
+        private static string[] IgnoreFiles = new string[] { ".cs", ".pdb", ".csproj", ".user", };
+        private static string[] IgnoreFoders = new string[] { "bin", "obj", "Debug", "refs", "Views" };
         static void Main(string[] args)
         {
             var projectFolder = new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.FullName;
@@ -29,8 +29,6 @@ namespace PluginPublisher
                     RecurrenceDirectory(item.FullName, Path.Combine(projectFolder, PublishTo, "wwwroot\\Plugins", item.Name));
                 }
             }
-            Console.WriteLine("Complete!");
-            Console.ReadKey();
         }
         static void RecurrenceDirectory(string path, string pluginFolder)
         {
@@ -41,6 +39,11 @@ namespace PluginPublisher
                 if (IgnoreFiles.Any(m => m == exten))
                 {
                     continue;
+                }
+                var refs = Path.Combine(pluginFolder, "refs");
+                if (Directory.Exists(refs))
+                {
+                    Directory.Delete(refs, true);
                 }
                 var target = Path.Combine(pluginFolder, Path.GetFileName(item.Name));
                 var dir = Path.GetDirectoryName(target);

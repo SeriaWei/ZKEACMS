@@ -22,18 +22,25 @@ set /P r=输入运行时 RID:
 @echo ------------------- Clean Publish Output -------------------
 set current_path=%cd%
 rd/s/q "%current_path%\src\ZKEACMS.WebHost\bin\Release\PublishOutput"
-@echo ------------------- Build -------------------
-dotnet build -c Release ZKEACMS.sln
 @echo ------------------ Release ------------------
 cd src/ZKEACMS.WebHost
 if not "%i%"=="y" (
-dotnet publish -c Release -o ./bin/Release/PublishOutput
+    dotnet publish -c Release -o ./bin/Release/PublishOutput
 )
 if "%i%"=="y" (
-dotnet publish -c Release -o ./bin/Release/PublishOutput -r %r%
+    dotnet publish -c Release -o ./bin/Release/PublishOutput -r %r%
 )
 cd ../../
+for /f %%a in ('dir src /b') do (
+	if exist "src/%%a/zkea.plugin" (
+        @echo Publish plugin %%a
+        cd src/%%a
+        dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/%%a
+        cd ../../
+    )
+)
 cd PluginPublisher
+dotnet build
 dotnet run
 cd ../
 set current_path=%cd%

@@ -12,6 +12,7 @@
     <PackageTags>CMS.Message</PackageTags>
     <Description>Message plugin for ZKEACMS</Description>
     <Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
 
   <ItemGroup>
