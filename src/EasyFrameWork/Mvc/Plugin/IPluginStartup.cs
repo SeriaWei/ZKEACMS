@@ -9,6 +9,7 @@ namespace Easy.Mvc.Plugin
 {
     public interface IPluginStartup
     {
+        string CurrentPluginPath { get; set; }
         IHostingEnvironment HostingEnvironment { get; set; }
         void ConfigureServices(IServiceCollection services);
     }

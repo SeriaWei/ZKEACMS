@@ -97,6 +97,12 @@ namespace Easy.Mvc.Plugin
                 else if (PluginType.IsAssignableFrom(typeInfo.AsType()))
                 {
                     var plugin = (Activator.CreateInstance(typeInfo.AsType()) as IPluginStartup);
+                    plugin.CurrentPluginPath = Path.GetDirectoryName(assembly.Location);
+                    var binIndex = plugin.CurrentPluginPath.IndexOf("\\bin\\");
+                    if (binIndex >= 0)
+                    {
+                        plugin.CurrentPluginPath = plugin.CurrentPluginPath.Substring(0, binIndex);
+                    }
                     if (Services != null)
                     {
                         plugin.HostingEnvironment = HostingEnvironment;

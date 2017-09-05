@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using ZKEACMS.Widget;
+using Easy.Extend;
+using System.IO;
 
 namespace ZKEACMS
 {
@@ -19,9 +21,28 @@ namespace ZKEACMS
         public abstract IEnumerable<PermissionDescriptor> RegistPermission();
         public abstract IEnumerable<Type> WidgetServiceTypes();
         public abstract void ConfigureServices(IServiceCollection serviceCollection);
-
+        public static Dictionary<Type, string> pluginPathCache = new Dictionary<Type, string>();
+        public string CurrentPluginPath
+        {
+            get;
+            set;
+        }
+        public static string GetPath<T>() where T : PluginBase
+        {
+            Type pluginType = typeof(T);
+            if (pluginPathCache.ContainsKey(pluginType))
+            {
+                return pluginPathCache[pluginType];
+            }
+            return string.Empty;
+        }
         public virtual void InitPlug()
         {
+            var pluginType = this.GetType();            
+            if (!pluginPathCache.ContainsKey(pluginType))
+            {
+                pluginPathCache.Add(pluginType, CurrentPluginPath);
+            }
             var menus = this.AdminMenu();
             if (menus != null)
             {
@@ -46,7 +67,6 @@ namespace ZKEACMS
                     string name = $"{item.GetTypeInfo().Assembly.GetName().Name},{item.FullName}";
                     if (!WidgetBase.KnownWidgetService.ContainsKey(name))
                     {
-
                         WidgetBase.KnownWidgetService.Add(name, item);
                     }
                     foreach (var widgetModel in item.GetTypeInfo().BaseType.GetGenericArguments())
