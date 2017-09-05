@@ -19,6 +19,7 @@ namespace Easy.Mvc.Plugin
         private const string ControllerTypeNameSuffix = "Controller";
         private Assembly CurrentAssembly;
         private List<Assembly> DependencyAssemblies = new List<Assembly>();
+        private List<CompilationLibrary> DependencyCompilationLibrary;
         public Action<IPluginStartup> OnLoading { get; set; }
         public Action<Assembly> OnLoaded { get; set; }
         public Func<IServiceCollection> Services { get; set; }
@@ -59,6 +60,8 @@ namespace Easy.Mvc.Plugin
                     DependencyAssemblies.Add(assembly);
                 }
             }
+            string currentName = CurrentAssembly.GetName().Name;
+            DependencyCompilationLibrary = DependencyContext.Load(CurrentAssembly).CompileLibraries.Where(de => de.Name != currentName && !DependencyContext.Default.CompileLibraries.Any(m => m.Name == de.Name)).ToList();
         }
         protected override Assembly Load(AssemblyName assemblyName)
         {
@@ -79,7 +82,20 @@ namespace Easy.Mvc.Plugin
                     return item;
                 }
             }
-
+            if (DependencyCompilationLibrary != null)
+            {
+                var dep = DependencyCompilationLibrary.FirstOrDefault(m => m.Name == assemblyName.Name);
+                if (dep != null)
+                {
+                    foreach (var item in dep.ResolveReferencePaths())
+                    {
+                        if (File.Exists(item.ToFilePath()))
+                        {
+                            return LoadFromAssemblyPath(item);
+                        }
+                    }
+                }
+            }
             return null;
         }
         private void RegistAssembly(Assembly assembly)
