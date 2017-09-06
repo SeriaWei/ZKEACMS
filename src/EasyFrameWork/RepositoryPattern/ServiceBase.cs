@@ -63,14 +63,17 @@ namespace Easy.RepositoryPattern
         public virtual void Add(T item)
         {
             var editor = item as EditorEntity;
-            if (editor != null && ApplicationContext.CurrentUser != null)
+            if (editor != null)
             {
-                editor.CreateBy = ApplicationContext.CurrentUser.UserID;
-                editor.CreatebyName = ApplicationContext.CurrentUser.UserName;
-                editor.CreateDate = DateTime.Now;
+                if (ApplicationContext.CurrentUser != null)
+                {
+                    editor.CreateBy = ApplicationContext.CurrentUser.UserID;
+                    editor.CreatebyName = ApplicationContext.CurrentUser.UserName;
 
-                editor.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
-                editor.LastUpdateByName = ApplicationContext.CurrentUser.UserName;
+                    editor.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
+                    editor.LastUpdateByName = ApplicationContext.CurrentUser.UserName;
+                }
+                editor.CreateDate = DateTime.Now;
                 editor.LastUpdateDate = DateTime.Now;
             }
             CurrentDbSet.Add(item);
@@ -81,14 +84,17 @@ namespace Easy.RepositoryPattern
             foreach (var item in items)
             {
                 var editor = item as EditorEntity;
-                if (editor != null && ApplicationContext.CurrentUser != null)
+                if (editor != null)
                 {
-                    editor.CreateBy = ApplicationContext.CurrentUser.UserID;
-                    editor.CreatebyName = ApplicationContext.CurrentUser.UserName;
-                    editor.CreateDate = DateTime.Now;
+                    if (ApplicationContext.CurrentUser != null)
+                    {
+                        editor.CreateBy = ApplicationContext.CurrentUser.UserID;
+                        editor.CreatebyName = ApplicationContext.CurrentUser.UserName;
 
-                    editor.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
-                    editor.LastUpdateByName = ApplicationContext.CurrentUser.UserName;
+                        editor.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
+                        editor.LastUpdateByName = ApplicationContext.CurrentUser.UserName;
+                    }
+                    editor.CreateDate = DateTime.Now;
                     editor.LastUpdateDate = DateTime.Now;
                 }
             }
@@ -147,10 +153,13 @@ namespace Easy.RepositoryPattern
         public virtual void Update(T item, bool saveImmediately = true)
         {
             var editor = item as EditorEntity;
-            if (editor != null && ApplicationContext.CurrentUser != null)
+            if (editor != null)
             {
-                editor.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
-                editor.LastUpdateByName = ApplicationContext.CurrentUser.UserName;
+                if (ApplicationContext.CurrentUser != null)
+                {
+                    editor.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
+                    editor.LastUpdateByName = ApplicationContext.CurrentUser.UserName;
+                }
                 editor.LastUpdateDate = DateTime.Now;
             }
             CurrentDbSet.Update(item);
@@ -164,10 +173,13 @@ namespace Easy.RepositoryPattern
             foreach (var item in items)
             {
                 var editor = item as EditorEntity;
-                if (editor != null && ApplicationContext.CurrentUser != null)
+                if (editor != null)
                 {
-                    editor.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
-                    editor.LastUpdateByName = ApplicationContext.CurrentUser.UserName;
+                    if (ApplicationContext.CurrentUser != null)
+                    {
+                        editor.LastUpdateBy = ApplicationContext.CurrentUser.UserID;
+                        editor.LastUpdateByName = ApplicationContext.CurrentUser.UserName;
+                    }
                     editor.LastUpdateDate = DateTime.Now;
                 }
             }
