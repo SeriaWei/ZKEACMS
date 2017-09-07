@@ -101,11 +101,11 @@ namespace ZKEACMS.Product.Service
             }
             if (currentWidget.IsPageable)
             {
-                products = _productService.Get(filter, pagin).ToList();
+                products = _productService.Get(filter, pagin);
             }
             else
             {
-                products = _productService.Get(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID).ToList();
+                products = _productService.Get().Where(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID).ToList();
             }
 
             var currentCategory = _productCategoryService.Get(cate == 0 ? currentWidget.ProductCategoryID : cate);

@@ -155,10 +155,10 @@ namespace ZKEACMS.Page
             var deletes = Get(filter).ToList(m => m.ID);
             if (deletes.Any())
             {
-                Remove(m => deletes.Any(d => d == m.ParentId));
-                Remove(m => deletes.Any(d => d == m.ReferencePageID));
+                Remove(m => deletes.Contains(m.ParentId));
+                Remove(m => deletes.Contains(m.ReferencePageID));
 
-                var widgets = _widgetService.Get(m => deletes.Any(n => n == m.PageID)).ToList();
+                var widgets = _widgetService.Get(m => deletes.Contains(m.PageID));
                 widgets.Each(m =>
                 {
                     using (var widgetService = _widgetActivator.Create(m))

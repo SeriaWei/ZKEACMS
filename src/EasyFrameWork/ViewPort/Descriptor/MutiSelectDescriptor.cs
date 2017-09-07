@@ -38,7 +38,7 @@ namespace Easy.ViewPort.Descriptor
                     {
                         _data = new Dictionary<string, string>();
 
-                        var dicts = dicService.Get(m => m.DicName == this.SourceKey).ToList();
+                        var dicts = dicService.Get(m => m.DicName == this.SourceKey);
                         foreach (DataDictionaryEntity item in dicts)
                         {
                             if (!this._data.ContainsKey(item.DicValue))

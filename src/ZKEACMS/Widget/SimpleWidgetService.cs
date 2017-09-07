@@ -50,30 +50,27 @@ namespace ZKEACMS.Widget
             }
             WidgetBasePartService.UpdateRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
         }
-        public override IEnumerable<T> Get(Expression<Func<T, bool>> filter)
+        public override IList<T> Get(Expression<Func<T, bool>> filter)
         {
             IEnumerable<WidgetBase> widgetBases = WidgetBasePartService.Get(Expression.Lambda<Func<WidgetBasePart, bool>>(filter.Body, filter.Parameters)).Select(m => m.ToWidgetBase());
+            List<T> result = new List<T>();
             foreach (var item in widgetBases)
             {
-                yield return item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData)) as T;
+                result.Add(item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData)) as T);
             }
+            return result;
         }
-        public override IEnumerable<T> Get(Expression<Func<T, bool>> filter, Pagination pagination)
+        public override IList<T> Get(Expression<Func<T, bool>> filter, Pagination pagination)
         {
             IEnumerable<WidgetBase> widgetBases = WidgetBasePartService.Get(Expression.Lambda<Func<WidgetBasePart, bool>>(filter.Body, filter.Parameters), pagination).Select(m => m.ToWidgetBase());
+            List<T> result = new List<T>();
             foreach (var item in widgetBases)
             {
-                yield return item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData)) as T;
+                result.Add(item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData)) as T);
             }
+            return result;
         }
-        public override IEnumerable<T> Get()
-        {
-            IEnumerable<WidgetBase> widgetBases = WidgetBasePartService.Get().Select(m => m.ToWidgetBase());
-            foreach (var item in widgetBases)
-            {
-                yield return item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData)) as T;
-            }
-        }
+       
         public override T GetSingle(Expression<Func<T, bool>> filter)
         {
             var widgetBase = WidgetBasePartService.GetSingle(Expression.Lambda<Func<WidgetBasePart, bool>>(filter.Body, filter.Parameters));

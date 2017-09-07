@@ -36,7 +36,7 @@ namespace ZKEACMS.Common.Service
         {
             var carouselWidget = base.GetWidget(widget) as CarouselWidget;
 
-            carouselWidget.CarouselItems = _carouselItemService.Get(m => m.CarouselWidgetID == carouselWidget.ID).ToList();
+            carouselWidget.CarouselItems = _carouselItemService.Get(m => m.CarouselWidgetID == carouselWidget.ID);
             carouselWidget.CarouselItems.Each(m => m.ActionType = ActionType.Update);
             return carouselWidget;
         }
@@ -101,7 +101,7 @@ namespace ZKEACMS.Common.Service
             var carouselWidget = widget as CarouselWidget;
             if (carouselWidget.CarouselID.HasValue)
             {
-                carouselWidget.CarouselItems = _carouselItemService.Get(m => m.CarouselID == carouselWidget.CarouselID).ToList();
+                carouselWidget.CarouselItems = _carouselItemService.Get(m => m.CarouselID == carouselWidget.CarouselID);
             }
             carouselWidget.CarouselItems = carouselWidget.CarouselItems.Where(m => m.Status == (int)RecordStatus.Active);
             return base.Display(widget, actionContext);
