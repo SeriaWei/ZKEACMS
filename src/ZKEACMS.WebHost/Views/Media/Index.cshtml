@@ -224,7 +224,7 @@
                             send: function (fileData) {
                                 var item = fileData.target;
                                 function sliceSend(start, url, result) {
-                                    var end = start + 1048576;
+                                    var end = start + 1048000;
                                     if (end > fileData.Data.size) {
                                         end = fileData.Data.size;
                                     }
@@ -243,7 +243,7 @@
                                         xhr.onload = function (e) {
                                             var result = JSON.parse(e.target.response);
                                             if (result.id) {
-                                                item.find(".img").attr("src", "@Url.Content("~/Images/")" + result.mediaTypeImage + ".png")
+                                                item.find(".img").attr("src", "@Url.Content("~/images/")" + result.mediaTypeImage + ".png")
                                                     .parent().attr("href", "javascript:void(0)")
                                                     .addClass("confirm").attr("data-result", result.url);
                                                 item.find(".caption").html(result.title).data("id", result.id);

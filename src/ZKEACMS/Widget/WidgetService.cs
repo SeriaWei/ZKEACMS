@@ -65,9 +65,10 @@ namespace ZKEACMS.Widget
             }
             return model;
         }
-        public override IEnumerable<T> Get(Expression<Func<T, bool>> filter)
+        
+        public override IList<T> Get(Expression<Func<T, bool>> filter)
         {
-            var widgets = base.Get(filter)?.ToList();
+            var widgets = base.Get(filter);
 
             if (widgets != null && typeof(T) != typeof(WidgetBase))
             {

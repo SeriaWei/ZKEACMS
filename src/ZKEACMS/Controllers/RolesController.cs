@@ -51,7 +51,7 @@ namespace ZKEACMS.Controllers
         }
         public override ActionResult Edit(int Id)
         {
-            ViewBag.Permissions = _permissionService.Get(m => m.RoleId == Id).ToList();
+            ViewBag.Permissions = _permissionService.Get(m => m.RoleId == Id);
             return base.Edit(Id);
         }
         [NonAction]
@@ -62,7 +62,7 @@ namespace ZKEACMS.Controllers
         [HttpPost]
         public ActionResult Edit(RoleEntity entity, List<PermissionDescriptor> PermissionSet)
         {
-            var permissions = _permissionService.Get(m => m.RoleId == entity.ID).ToList();
+            var permissions = _permissionService.Get(m => m.RoleId == entity.ID);
             permissions.Each(m => m.ActionType = ActionType.Delete);
             PermissionSet.Where(m => m.Checked ?? false).Each(m =>
             {

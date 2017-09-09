@@ -127,7 +127,7 @@ namespace ZKEACMS.Filter
                     layout.Layout = GetLayout();
                     if (GetPageViewMode() == PageViewMode.Design)
                     {
-                        layout.Templates = widgetService.Get(m => m.IsTemplate == true).ToList();
+                        layout.Templates = widgetService.Get(m => m.IsTemplate == true);
                     }
                     (filterContext.Controller as Controller).ViewData.Model = layout;
                 }

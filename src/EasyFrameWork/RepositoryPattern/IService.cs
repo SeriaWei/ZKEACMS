@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Linq;
 
 namespace Easy.RepositoryPattern
 {
@@ -14,10 +15,10 @@ namespace Easy.RepositoryPattern
         void BeginTransaction(Action action);
         void Add(T item);
         void AddRange(params T[] items);
-        IEnumerable<T> Get();
+        IQueryable<T> Get();
         T GetSingle(Expression<Func<T, bool>> filter);
-        IEnumerable<T> Get(Expression<Func<T, bool>> filter);
-        IEnumerable<T> Get(Expression<Func<T, bool>> filter, Pagination pagination);
+        IList<T> Get(Expression<Func<T, bool>> filter);
+        IList<T> Get(Expression<Func<T, bool>> filter, Pagination pagination);
         T Get(params object[] primaryKey);
         int Count(Expression<Func<T, bool>> filter);
         void Update(T item, bool saveImmediately = true);

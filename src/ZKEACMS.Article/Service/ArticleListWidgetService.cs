@@ -111,11 +111,11 @@ namespace ZKEACMS.Article.Service
             }
             if (currentWidget.IsPageable)
             {
-                articles = _articleService.Get(filter, pagin).ToList();
+                articles = _articleService.Get(filter, pagin);
             }
             else
             {
-                articles = _articleService.Get(filter).OrderByDescending(m => m.PublishDate).ToList();
+                articles = _articleService.Get().Where(filter).OrderByDescending(m => m.PublishDate).ToList();
             }
 
             var currentArticleType = _articleTypeService.Get(cate == 0 ? currentWidget.ArticleTypeID : cate);

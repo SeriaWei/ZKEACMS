@@ -101,7 +101,7 @@ namespace Easy.RepositoryPattern
             CurrentDbSet.AddRange(items);
             DbContext.SaveChanges();
         }
-        public virtual IEnumerable<T> Get()
+        public virtual IQueryable<T> Get()
         {
             return CurrentDbSet;
         }
@@ -109,11 +109,11 @@ namespace Easy.RepositoryPattern
         {
             return CurrentDbSet.Single(filter);
         }
-        public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter)
+        public virtual IList<T> Get(Expression<Func<T, bool>> filter)
         {
-            return CurrentDbSet.Where(filter);
+            return CurrentDbSet.Where(filter).ToList();
         }
-        public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter, Pagination pagination)
+        public virtual IList<T> Get(Expression<Func<T, bool>> filter, Pagination pagination)
         {
             pagination.RecordCount = Count(filter);
             IQueryable<T> result;
@@ -136,7 +136,7 @@ namespace Easy.RepositoryPattern
                     result = result.OrderByDescending(pagination.OrderByDescending);
                 }
             }
-            return result.Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize);
+            return result.Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize).ToList();
         }
         public virtual T Get(params object[] primaryKey)
         {

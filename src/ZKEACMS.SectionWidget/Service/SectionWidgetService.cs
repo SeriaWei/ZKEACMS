@@ -60,8 +60,8 @@ namespace ZKEACMS.SectionWidget.Service
         {
             if (widget == null) return null;
 
-            widget.Groups = _sectionGroupService.Get(m => m.SectionWidgetId == widget.ID).ToList();
-            var contents = _sectionContentProviderService.Get(m => m.SectionWidgetId == widget.ID).ToList();
+            widget.Groups = _sectionGroupService.Get(m => m.SectionWidgetId == widget.ID);
+            var contents = _sectionContentProviderService.Get(m => m.SectionWidgetId == widget.ID);
             List<SectionContent> filled = new List<SectionContent>();
             contents.AsParallel().Each(content =>
             {

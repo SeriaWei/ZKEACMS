@@ -108,7 +108,7 @@ namespace ZKEACMS.SectionWidget.Service
         {
             if (item != null)
             {
-                var contents = _sectionContentProviderService.Get(m => m.SectionGroupId == item.ID).ToList();
+                var contents = _sectionContentProviderService.Get(m => m.SectionGroupId == item.ID);
                 contents.Each(m =>
                 {
                     _sectionContentProviderService.Remove(m.ID);

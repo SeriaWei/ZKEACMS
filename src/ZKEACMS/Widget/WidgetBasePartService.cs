@@ -68,7 +68,7 @@ namespace ZKEACMS.Widget
         }
         public IEnumerable<WidgetBase> GetByPageId(string pageId)
         {
-            return Get(m => m.PageID == pageId).ToList();
+            return Get(m => m.PageID == pageId);
         }
 
         public IEnumerable<WidgetBase> GetAllByPage(PageEntity page, bool formCache = false)

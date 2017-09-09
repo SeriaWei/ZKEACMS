@@ -81,7 +81,7 @@ namespace ZKEACMS.Layout
 
             if (item.Zones != null)
             {
-                var zones = ZoneService.Get(m => m.LayoutId == item.ID).ToList();
+                var zones = ZoneService.Get(m => m.LayoutId == item.ID);
 
                 item.Zones.Where(m => zones.All(n => n.ID != m.ID)).Each(m =>
                 {

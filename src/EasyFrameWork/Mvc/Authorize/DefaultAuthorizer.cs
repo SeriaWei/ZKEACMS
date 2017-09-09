@@ -67,7 +67,7 @@ namespace Easy.Mvc.Authorize
             RoleService.Get(m => roles.Any(r => r == m.ID) && m.Status == (int)RecordStatus.Active)
                 .Each(r =>
                 {
-                    var pers = PermissionService.Get(m => m.RoleId == r.ID).ToList();
+                    var pers = PermissionService.Get(m => m.RoleId == r.ID);
                     if (pers.Any())
                     {
                         permissions.AddRange(pers);
