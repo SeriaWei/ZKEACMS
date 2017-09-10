@@ -27,7 +27,7 @@ namespace ZKEACMS.Controllers
 
         public override ActionResult Index()
         {
-            return View(Service.GetAll());
+            return View(Service.Get());
         }
 
         public ActionResult PreView(string id)

@@ -1,0 +1,7 @@
+{
+	ID:"20E16007-8100-4805-B677-A7DD3DCBA674",
+	Name:"ZKEACMS.Redirection",
+	FileName:"bin\\ZKEACMS.Redirection.dll",
+	DeveloperFileName:"bin\\Debug\\netcoreapp2.0\\ZKEACMS.Redirection.dll",
+	Enable:"true"
+}

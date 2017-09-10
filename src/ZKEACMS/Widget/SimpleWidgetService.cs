@@ -66,9 +66,9 @@ namespace ZKEACMS.Widget
                 yield return item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData)) as T;
             }
         }
-        public override IEnumerable<T> GetAll()
+        public override IEnumerable<T> Get()
         {
-            IEnumerable<WidgetBase> widgetBases = WidgetBasePartService.GetAll().Select(m => m.ToWidgetBase());
+            IEnumerable<WidgetBase> widgetBases = WidgetBasePartService.Get().Select(m => m.ToWidgetBase());
             foreach (var item in widgetBases)
             {
                 yield return item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData)) as T;

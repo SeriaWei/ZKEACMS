@@ -1,4 +1,10 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* 
+ * http://www.zkea.net/ 
+ * Copyright 2017 ZKEASOFT 
+ * http://www.zkea.net/licenses 
+ */
+using System;
+
 namespace ZKEACMS
 {
     public class PermissionDescriptor
@@ -19,5 +25,6 @@ namespace ZKEACMS
         public string Title { get; set; }
         public string Description { get; set; }
         public bool? Checked { get; set; }
+        public Func<bool> IsAvailable { get; set; }
     }
 }

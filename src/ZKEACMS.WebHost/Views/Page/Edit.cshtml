@@ -41,10 +41,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var page in oldVersions)
+                    @foreach (var pageVersion in oldVersions)
                     {
                         bool isCurrent = (index + 1) == oldVersions.Count;
-                        <tr id="v_@page.ID">
+                        <tr id="v_@pageVersion.ID">
                             <td>
 
                                 @if (isCurrent)
@@ -57,21 +57,21 @@
                                 }
                             </td>
                             <td>
-                                <a href="@Url.Action("ViewPage", new {ID = page.ID})" class="glyphicon glyphicon-eye-open" title="查看" target="_blank"></a>
+                                <a href="@Url.Action("ViewPage", new {ID = pageVersion.ID})" class="glyphicon glyphicon-eye-open" title="查看" target="_blank"></a>
                                 @if (!isCurrent)
                                 {
-                                    <a href="javascript:void(0)" class="glyphicon glyphicon-share-alt revert" title="撤回到该版本" data-id="@page.ID"></a>
-                                    <a href="javascript:void(0)" class="glyphicon glyphicon-remove remove" title="删除该版本" data-id="@page.ID"></a>
+                                    <a href="javascript:void(0)" class="glyphicon glyphicon-share-alt revert" title="撤回到该版本" data-id="@pageVersion.ID"></a>
+                                    <a href="javascript:void(0)" class="glyphicon glyphicon-remove remove" title="删除该版本" data-id="@pageVersion.ID"></a>
                                 }
                             </td>
                             <td>
-                                @(page.PublishDate.HasValue ? page.PublishDate.Value.ToString("f") : "")
+                                @(pageVersion.PublishDate.HasValue ? pageVersion.PublishDate.Value.ToString("f") : "")
                             </td>
                             <td>
-                                @page.Description
+                                @pageVersion.Description
                             </td>
                             <td>
-                                @page.CreatebyName
+                                @pageVersion.CreatebyName
                             </td>
                         </tr>
                         index++;
@@ -99,9 +99,9 @@
                 parentUrl = "~/";
             }
             var thisUrl = $(this).val();
-            var replaceValue = ["/", " ", "?", "`", "~", "!", "@@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "+", "[", "]", "{", "}", "\\", "|", ";", ":", "'", "\"", ",", ".", "<", ">"];
+            var replaceValue = ["/", " ", "?", "`", "~", "!", "@@", "#", "$", "%", "^", "&", "*", "(", ")", "+", "[", "]", "{", "}", "\\", "|", ";", ":", "'", "\"", ",", ".", "<", ">"];
             for (var i = 0; i < replaceValue.length; i++) {
-                thisUrl = thisUrl.replaceAll(replaceValue[i], "_");
+                thisUrl = thisUrl.replaceAll(replaceValue[i], "-");
             }
             url.val(parentUrl + thisUrl);
         });

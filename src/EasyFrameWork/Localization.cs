@@ -5,6 +5,9 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using CacheManager.Core;
+using Microsoft.Extensions.Options;
+using Easy.Options;
+using Easy.Extend;
 
 namespace Easy
 {
@@ -24,7 +27,12 @@ namespace Easy
             {
                 using (var languageService = ServiceLocator.GetService<ILanguageService>())
                 {
-                    var culture = Builder.Configuration["Culture"] ?? CultureInfo.CurrentUICulture.Name;
+                    string culture = CultureInfo.CurrentUICulture.Name;
+                    var cultureOption = ServiceLocator.GetService<IOptions<CultureOption>>();
+                    if (cultureOption != null && cultureOption.Value.Code.IsNotNullAndWhiteSpace())
+                    {
+                        culture = cultureOption.Value.Code;
+                    }
                     var language = languageService.Get(n => n.LanKey == key && n.CultureName == culture).FirstOrDefault();
 
                     if (language == null)

@@ -1,4 +1,5 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using System;
 using System.Collections.Generic;
 
 namespace ZKEACMS
@@ -10,7 +11,8 @@ namespace ZKEACMS
         public string Icon { get; set; }
         public int Order { get; set; }
         public string PermissionKey { get; set; }
-        public IEnumerable<AdminMenu> Children { get; set; } 
+        public Func<bool> HasPermission { get; set; }
+        public IEnumerable<AdminMenu> Children { get; set; }
     }
     public static class AdminMenus
     {

@@ -19,6 +19,9 @@
         border-right: none;
     }
 
+    .navbar-nav > li > a {
+        line-height: @navigation-logo-height;
+    }
 
     .caret.right {
         border-left: 4px solid;
@@ -34,8 +37,8 @@
     .navbar-default {
         .background-image(@navigation-background-top,@navigation-background-bottom);
         box-shadow: none;
-        border-color:@navigation-border-color;
-        min-height:@navigation-height;
+        border-color: @navigation-border-color;
+        min-height: @navigation-height;
 
         .hoveropen {
             > .dropdown-menu {

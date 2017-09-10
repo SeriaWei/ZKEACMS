@@ -1,5 +1,4 @@
-﻿/// <reference path="jquery-1.7.1.min.js" />
-/*!
+﻿/*!
  * http://www.zkea.net/
  * Copyright 2016 ZKEASOFT
  * http://www.zkea.net/licenses

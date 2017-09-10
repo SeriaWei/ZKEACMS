@@ -73,6 +73,10 @@ namespace Easy.ViewPort.Descriptor
 
         public DropDownListDescriptor DataSource<T>()
         {
+            if (_data == null)
+            {
+                _data = new Dictionary<string, string>();
+            }
             Type dataType = typeof(T);
             if (!dataType.GetTypeInfo().IsEnum)
             {

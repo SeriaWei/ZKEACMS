@@ -26,7 +26,7 @@ namespace ZKEACMS.Product.Models
             base.ViewConfigure();
             ViewConfig(m => m.ProductCategoryID).AsDropDownList().Order(NextOrder()).DataSource(() =>
             {
-                return ServiceLocator.GetService<IProductCategoryService>().GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
+                return ServiceLocator.GetService<IProductCategoryService>().Get().ToDictionary(m => m.ID.ToString(), m => m.Title);
             }).Required().AddClass("select").AddProperty("data-url", "/admin/ProductCategory/Select"); ;
             ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary).Required();
             ViewConfig(m => m.TargetPage).AsHidden();

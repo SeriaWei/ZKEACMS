@@ -34,7 +34,7 @@ namespace ZKEACMS.Common.Service
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             var currentWidget = widget as NavigationWidget;
-            var navs = _navigationService.GetAll()
+            var navs = _navigationService.Get()
                 .Where(m => m.Status == (int)RecordStatus.Active).OrderBy(m => m.DisplayOrder).ToList();
             string path = "~" + actionContext.RouteData.GetPath();
             NavigationEntity current = null;

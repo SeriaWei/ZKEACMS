@@ -51,8 +51,9 @@ img {
     display: block;
     background: #ca2026;
     color: white;
-    padding: .5rem;
+    padding: .7rem 1rem;
     font-size: 14px;
+    margin-bottom: 10px;
 }
 
     .field-validation-error:before {

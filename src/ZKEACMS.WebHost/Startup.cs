@@ -10,6 +10,7 @@ using Easy.Extend;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.DataAnnotations;
 using Easy.RepositoryPattern;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using ZKEACMS.ModelBinder;
+using ZKEACMS.Options;
 
 namespace ZKEACMS.WebHost
 {
@@ -27,11 +29,11 @@ namespace ZKEACMS.WebHost
     {
         public Startup(IHostingEnvironment env)
         {
-               var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+            var builder = new ConfigurationBuilder()
+             .SetBasePath(env.ContentRootPath)
+             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+             .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+             .AddEnvironmentVariables();
 
             if (env.IsDevelopment())
             {
@@ -71,25 +73,34 @@ namespace ZKEACMS.WebHost
                  {
                      cmsPlugin.InitPlug();
                  }
-             }, null);
-            services.UseZKEACMS();
+             }, null, () => services);
+            services.UseZKEACMS(Configuration);
+
             services.Configure<AuthorizationOptions>(options =>
             {
-                PermissionKeys.KnownPermissions.Each(p =>
-                {
-                    options.AddPolicy(p.Key, configure =>
-                    {
-                        configure.Requirements.Add(new RoleRequirement { Policy = p.Key });
-                    });
-                });
-
+                PermissionKeys.Configure(options);
+                KnownRequirements.Configure(options);
             });
-            services.AddAuthorization();
+            
+            //services.AddAuthorization();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
+                 {
+                     o.LoginPath = new PathString("/Account/Login");
+                     o.AccessDeniedPath = new PathString("/Error/Forbidden");
+                 })
+                 .AddCookie(CustomerAuthorizeAttribute.CustomerAuthenticationScheme, option =>
+                 {
+                     option.LoginPath = new PathString("/Account/Signin");
+                 });
+
+
             new ResourceManager().Excute();
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseAuthentication();
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             ServiceLocator.HttpContextAccessor = app.ApplicationServices.GetService<IHttpContextAccessor>();
@@ -105,16 +116,6 @@ namespace ZKEACMS.WebHost
                 loggerFactory.UseFileLog(env);
                 app.UseExceptionHandler("/Error");
             }
-
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationScheme = "Cookie",
-                LoginPath = new PathString("/Account/Login"),
-                AccessDeniedPath = new PathString("/Error/Forbidden"),
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true
-            });
-
 
             app.UseStaticFiles();
 

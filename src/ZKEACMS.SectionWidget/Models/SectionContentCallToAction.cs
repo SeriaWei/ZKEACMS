@@ -2,6 +2,7 @@
 using System;
 using Easy.MetaData;
 using System.ComponentModel.DataAnnotations.Schema;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.SectionWidget.Models
 {
@@ -24,7 +25,7 @@ namespace ZKEACMS.SectionWidget.Models
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.InnerText).AsTextBox().Required();
-            ViewConfig(m => m.Href).AsTextBox().Required().AddClass("select").AddProperty("data-url", Urls.SelectPage);
+            ViewConfig(m => m.Href).AsTextBox().Required().PageSelector();
             ViewConfig(m => m.ID).AsHidden();
             ViewConfig(m => m.Title).AsHidden();
             ViewConfig(m => m.SectionContentType).AsHidden();

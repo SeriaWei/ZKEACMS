@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank;
+    Layout = Layouts.NormalDefault;
+    Style.Reqiured("Customer").AtHead();
+    Script.Reqiured("validate").AtFoot();
+}
+
+@using (Html.BeginForm())
+{
+
+    <div class="login-panel sign-in">
+        <div class="login-panel-heading">
+            <p>
+                <a href="http://www.zkea.net/" target="_blank">
+                    <img class="logo" src="~/images/logo_min.png" alt="ZKEACMS" />
+                </a>
+            </p>
+        </div>
+        <div class="login-panel-body">
+            <div class="info-bar">
+                <p>
+                    请输入您的用户信息以登录
+                </p>
+                <img src="~/css/Images/picker_account_msa.svg" />
+            </div>
+            <div class="form-input">
+                <h4>邮箱</h4>
+                <input type="text" 
+                       placeholder="输入您注册时使用的邮箱地址" 
+                       id="userName" 
+                       name="userName" 
+                       class="form-control"
+                       data-val="true" 
+                       data-val-required="登录邮箱不能为空"
+                       data-val-length="邮箱的长度应小于200"
+                       data-val-regex-pattern="@(Easy.Constant.RegularExpression.Email)"
+                       data-val-regex="输入的邮件格式不正确"
+                       data-val-length-max="200"/>
+                <span class="field-validation-valid " data-valmsg-for="userName" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-input">
+                <h4>密码</h4>
+                <input type="password" 
+                       placeholder="输入您的密码" 
+                       id="password" 
+                       name="password" 
+                       class="form-control" 
+                       data-val="true" 
+                       data-val-required="密码不能为空"
+                       data-val-length="密码的长度应小于20"
+                       data-val-length-max="20" />
+                <span class="field-validation-valid" data-valmsg-for="password" data-valmsg-replace="true"></span>
+            </div>
+            @if (ViewBag.Errormessage != null)
+            {
+                <div class="text-center alert alert-danger">
+                    @ViewBag.Errormessage
+                </div>
+            }
+            <div class="form-input">
+                <input type="submit" class="btn-login" value="登录" />
+            </div>
+        </div>
+        <div class="login-panel-footer clearfix">
+            <div class="pull-left">
+                还没有账号？<a href="@Url.Action("SignUp")">立即注册</a>
+            </div>
+            <div class="pull-right">
+                <a href="@Url.Action("Forgotten")">忘记密码？</a>
+            </div>
+        </div>
+    </div>
+}

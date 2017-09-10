@@ -103,7 +103,7 @@ namespace Easy.Mvc.Controllers
         [HttpPost]
         public virtual JsonResult GetList(DataTableOption query)
         {
-            var pagin = new Pagination<TEntity> { PageSize = query.Length, PageIndex = query.Start / query.Length };
+            var pagin = new Pagination { PageSize = query.Length, PageIndex = query.Start / query.Length };
             var expression = query.AsExpression<TEntity>();
             var order = query.GetOrderBy<TEntity>();
             if (order != null)

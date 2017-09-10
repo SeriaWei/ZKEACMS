@@ -5,10 +5,11 @@ using Easy.Models;
 using ZKEACMS;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Common.Models
 {
-    [ViewConfigure(typeof(CarouselItemEntityMeta)),Table("CarouselItem")]
+    [ViewConfigure(typeof(CarouselItemEntityMeta)), Table("CarouselItem")]
     public class CarouselItemEntity : EditorEntity
     {
         [Key]
@@ -30,8 +31,8 @@ namespace ZKEACMS.Common.Models
             ViewConfig(m => m.CarouselID).AsHidden();
             ViewConfig(m => m.CarouselWidgetID).AsHidden();
             ViewConfig(m => m.Description).AsHidden();
-            ViewConfig(m => m.TargetLink).AsTextBox().AddClass("select").AddProperty("data-url", Urls.SelectPage);
-            ViewConfig(m => m.ImageUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
+            ViewConfig(m => m.TargetLink).AsTextBox().PageSelector();
+            ViewConfig(m => m.ImageUrl).AsTextBox().MediaSelector();
         }
     }
 

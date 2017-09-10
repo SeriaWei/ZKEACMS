@@ -18,17 +18,19 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Easy.Logging;
+using Easy.Options;
+using Easy.Mvc.RazorPages;
+using Easy.Notification;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Easy
 {
     public static class Builder
     {
-        public static IConfigurationRoot Configuration { get; set; }
-        public static IServiceCollection ServiceCollection { get; set; }
         public static IPluginLoader UseEasyFrameWork(this IServiceCollection services, IConfigurationRoot configuration, IHostingEnvironment hostingEnvironment)
         {
             services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<RazorViewEngineOptions>, PluginRazorViewEngineOptionsSetup>());
-            
+
             services.Replace(ServiceDescriptor.Transient<IControllerActivator, Mvc.Controllers.ServiceBasedControllerActivator>());
             services.TryAddEnumerable(ServiceDescriptor.Transient<IActionDescriptorProvider, ActionDescriptorProvider>());
             services.TryAddSingleton<IPluginLoader, Loader>();
@@ -45,11 +47,19 @@ namespace Easy
             services.TryAddTransient<ILanguageService, LanguageService>();
             services.TryAddTransient<IEncryptService, EncryptService>();
             services.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
-            services.AddTransient<IPluginLoader, Loader>();            
 
-            ServiceCollection = services;
+            services.AddTransient<IViewRenderService, ViewRenderService>();
+            services.AddTransient<INotificationManager, NotificationManager>();
+            services.AddTransient<INotifyService, EmailNotifyService>();
+            services.AddTransient<INotifyService, RazorEmailNotifyService>();
+            services.AddTransient<IPluginLoader, Loader>();
+            services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
+            services.Configure<CDNOption>(configuration.GetSection("CDN"));
+            services.Configure<CultureOption>(configuration.GetSection("Culture"));
 
-            Configuration = configuration;
+
+            services.AddDataProtection();
+
             return new Loader(hostingEnvironment);
         }
 

@@ -418,6 +418,9 @@ p {
   border-left: none;
   border-right: none;
 }
+.navigation .navbar-nav > li > a {
+  line-height: 20px;
+}
 .navigation .caret.right {
   border-left: 4px solid;
   border-top: 4px solid transparent;

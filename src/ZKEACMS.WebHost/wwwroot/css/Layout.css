@@ -365,16 +365,17 @@ label.additional {
 }
 
 .widget:hover .zoneToolbar {
-    margin-top: -28px;
+    margin-top: -20px;
     opacity: 1;
 }
 
     .zoneToolbar:hover {
-        z-index: 2;
+        z-index: 12;
     }
 
     .zoneToolbar .tools {
         padding: 0 10px;
+        vertical-align:baseline;
     }
 
         .zoneToolbar .tools .transfer-container {
@@ -384,9 +385,38 @@ label.additional {
         .zoneToolbar .tools .badge {
             margin-top: -3px;
         }
+        .zoneToolbar .tools .glyphicon {
+            position: relative;
+        }
+            .zoneToolbar .tools .glyphicon > span {
+                position: absolute;
+                display: none;
+                top: -43px;
+                white-space: nowrap;
+                background: #000;
+                padding: 3px 6px 8px;
+                border-radius: 3px;
+                transform: translateX(-50%);
+                margin-left: 50%;
+                color:#fff;
+            }
+            .zoneToolbar .tools .glyphicon > span::after {
+                position: absolute;
+                content: " ";
+                border: 6px solid #000;
+                border-bottom-color: transparent;
+                border-left-color: transparent;
+                border-right-color: transparent;
+                left: 50%;
+                bottom: -12px;
+                margin-left: -6px;
+            }
+        .zoneToolbar .tools .glyphicon:hover > span {
+            display:block;
+        }
 
 .container-fluid.main .zoneToolbar .tools .transfer-container {
-    display: inline;
+    display: inline-block;
 }
 
 .zoneToolbar .tools .toggle-widget-class.glyphicon-th-large {
@@ -394,11 +424,11 @@ label.additional {
 }
 
 .widget.full .zoneToolbar .tools .toggle-widget-class.glyphicon-th-large {
-    display: inline;
+    display: inline-block;
 }
 
 .zoneToolbar .tools .toggle-widget-class.glyphicon-fullscreen {
-    display: inline;
+    display: inline-block;
 }
 
 .widget.full .zoneToolbar .tools .toggle-widget-class.glyphicon-fullscreen {

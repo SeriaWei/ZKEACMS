@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{43CF214F-8C1A-4433-824E-CBD46BA7223E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{04ECD372-B558-40B1-ADBC-E626596BB91F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{81AA2238-D340-4199-B3B9-76AB9792B3E7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKEACMS.WebHost", "src\ZKEACMS.WebHost\ZKEACMS.WebHost.csproj", "{E85E1857-F210-4499-B3FC-7F876DE513B3}"
 EndProject
@@ -21,9 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKEACMS.Article", "src\ZKEA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginPublisher", "PluginPublisher\PluginPublisher.csproj", "{87028CB7-7FF5-4B94-8636-90870D379873}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{81AA2238-D340-4199-B3B9-76AB9792B3E7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKEACMS.Message", "src\ZKEACMS.Message\ZKEACMS.Message.csproj", "{7EF16BD2-5552-4680-ABBC-13506752EB6D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKEACMS.Redirection", "src\ZKEACMS.Redirection\ZKEACMS.Redirection.csproj", "{F5EB417D-588B-40DB-A9BC-8CB714F8BA7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{7EF16BD2-5552-4680-ABBC-13506752EB6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EF16BD2-5552-4680-ABBC-13506752EB6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EF16BD2-5552-4680-ABBC-13506752EB6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5EB417D-588B-40DB-A9BC-8CB714F8BA7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5EB417D-588B-40DB-A9BC-8CB714F8BA7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5EB417D-588B-40DB-A9BC-8CB714F8BA7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5EB417D-588B-40DB-A9BC-8CB714F8BA7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,5 +82,9 @@ Global
 		{1AFB2011-A7F9-40DC-AA29-8B0243CBC72E} = {81AA2238-D340-4199-B3B9-76AB9792B3E7}
 		{87028CB7-7FF5-4B94-8636-90870D379873} = {04ECD372-B558-40B1-ADBC-E626596BB91F}
 		{7EF16BD2-5552-4680-ABBC-13506752EB6D} = {81AA2238-D340-4199-B3B9-76AB9792B3E7}
+		{F5EB417D-588B-40DB-A9BC-8CB714F8BA7C} = {81AA2238-D340-4199-B3B9-76AB9792B3E7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ABBB3E10-D2E8-438B-B5BB-AB4E824BCB6A}
 	EndGlobalSection
 EndGlobal

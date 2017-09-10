@@ -1,14 +1,10 @@
-﻿using Microsoft.Extensions.FileProviders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Primitives;
-using Microsoft.Extensions.FileProviders.Physical;
+﻿using Easy.Extend;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.FileProviders.Physical;
+using Microsoft.Extensions.Primitives;
+using System;
 using System.IO;
-using Microsoft.Extensions.DependencyInjection;
-using Easy.Extend;
 
 namespace Easy.Mvc.Plugin
 {
@@ -26,7 +22,7 @@ namespace Easy.Mvc.Plugin
 
         public IFileInfo GetFileInfo(string subpath)
         {
-            if (subpath.StartsWith("/Porject.RootPath/",StringComparison.Ordinal))
+            if (subpath.StartsWith("/Porject.RootPath/", StringComparison.Ordinal))
             {
                 var parent = new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent;
                 var file = Path.Combine(parent.FullName, subpath.Replace("/Porject.RootPath/", "").ToFilePath());
@@ -40,7 +36,7 @@ namespace Easy.Mvc.Plugin
 
         public IChangeToken Watch(string filter)
         {
-            if (filter.StartsWith("/Porject.RootPath/",StringComparison.Ordinal))
+            if (filter.StartsWith("/Porject.RootPath/", StringComparison.Ordinal))
             {
                 var parent = new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent;
                 var file = Path.Combine(parent.FullName, filter.Replace("/Porject.RootPath/", "").ToFilePath());

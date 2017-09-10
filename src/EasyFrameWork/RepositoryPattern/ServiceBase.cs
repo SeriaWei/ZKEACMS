@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Easy.Extend;
 
 namespace Easy.RepositoryPattern
 {
@@ -94,9 +95,9 @@ namespace Easy.RepositoryPattern
             CurrentDbSet.AddRange(items);
             DbContext.SaveChanges();
         }
-        public virtual IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> Get()
         {
-            return DbContext.Set<T>();
+            return CurrentDbSet;
         }
         public virtual T GetSingle(Expression<Func<T, bool>> filter)
         {
@@ -104,14 +105,12 @@ namespace Easy.RepositoryPattern
         }
         public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter)
         {
-            if (filter == null) return GetAll();
             return CurrentDbSet.Where(filter);
         }
         public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter, Pagination pagination)
         {
             pagination.RecordCount = Count(filter);
-            var pagin = pagination as Pagination<T>;
-            IEnumerable<T> result;
+            IQueryable<T> result;
             if (filter != null)
             {
                 result = CurrentDbSet.Where(filter);
@@ -120,16 +119,15 @@ namespace Easy.RepositoryPattern
             {
                 result = CurrentDbSet;
             }
-
-            if (pagin != null && (pagin.OrderBy != null || pagin.OrderByDescending != null))
+            if (pagination.OrderBy != null || pagination.OrderByDescending != null)
             {
-                if (pagin.OrderBy != null)
+                if (pagination.OrderBy != null)
                 {
-                    result = result.OrderBy(pagin.OrderBy);
+                    result = result.OrderBy(pagination.OrderBy);
                 }
                 else
                 {
-                    result = result.OrderByDescending(pagin.OrderByDescending);
+                    result = result.OrderByDescending(pagination.OrderByDescending);
                 }
             }
             return result.Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize);

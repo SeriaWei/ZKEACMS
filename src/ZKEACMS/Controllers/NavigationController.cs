@@ -24,7 +24,7 @@ namespace ZKEACMS.Controllers
         {
             return base.Create();
         }
-
+        [DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
         public ActionResult Create(string ParentID)
         {
             var navication = new NavigationEntity
@@ -34,22 +34,37 @@ namespace ZKEACMS.Controllers
             };
             return View(navication);
         }
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
+        public override ActionResult Create(NavigationEntity entity)
+        {
+            return base.Create(entity);
+        }
+        [DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
+        public override ActionResult Edit(string Id)
+        {
+            return base.Edit(Id);
+        }
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
+        public override ActionResult Edit(NavigationEntity entity)
+        {
+            return base.Edit(entity);
+        }
         public JsonResult GetNavTree()
         {
-            var navs = Service.GetAll().OrderBy(m => m.DisplayOrder);
+            var navs = Service.Get().OrderBy(m => m.DisplayOrder);
             var node = new Tree<NavigationEntity>().Source(navs).ToNode(m => m.ID, m => m.Title, m => m.ParentId, "#");
             return Json(node);
         }
 
         public JsonResult GetSelectNavTree()
         {
-            var navs = Service.GetAll().OrderBy(m => m.DisplayOrder);
+            var navs = Service.Get().OrderBy(m => m.DisplayOrder);
             var node = new Tree<NavigationEntity>().Source(navs).ToNode(m => m.ID, m => m.Title, m => m.ParentId, "#");
             Node root = new Node { id = "root", text = "µ¼º½", children = node, state = new State { opened = true }, a_attr = new { id = "root" } };
             return Json(root);
         }
 
-        [HttpPost]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
         public JsonResult MoveNav(string id, string parentId, int position, int oldPosition)
         {
             Service.Move(id, parentId, position, oldPosition);

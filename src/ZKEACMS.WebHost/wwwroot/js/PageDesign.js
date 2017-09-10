@@ -50,15 +50,13 @@
     });
 
     $(".templates ul li").draggable({ helper: "clone", connectToSortable: ".zone" });
-    $(document).on("click", ".delete", function () {
-        var th = $(this);
-        Easy.ShowMessageBox("提示", "确定要删除该内容吗？", function () {
-            $.post(th.data("url"), { ID: th.data("id") }, function (data) {
-                if (data) {
-                    $("#widget_" + data).parent().remove();
-                }
-            }, "json");
-        }, true, 10);
+    $(document).on("click", ".zoneToolbar .delete", function () {
+        var th = $(this);        
+        $.post(th.data("url"), { ID: th.data("id") }, function (data) {
+            if (data) {
+                $("#widget_" + data).parent().remove();
+            }
+        }, "json");
     });
     $(document).on("click", ".templates .tool-open", function () {
         $(this).parent().toggleClass("active");

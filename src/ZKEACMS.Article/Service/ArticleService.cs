@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using ZKEACMS.Article.Models;
 using Easy;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace ZKEACMS.Article.Service
 {
@@ -20,6 +21,16 @@ namespace ZKEACMS.Article.Service
             {
                 return DbContext.Article;
             }
+        }
+
+        public ArticleEntity GetNext(ArticleEntity article)
+        {
+            return CurrentDbSet.Where(m => m.IsPublish && m.ArticleTypeID == article.ArticleTypeID && m.PublishDate > article.PublishDate).OrderBy(m => m.PublishDate).ThenBy(m => m.ID).Take(1).FirstOrDefault();
+        }
+
+        public ArticleEntity GetPrev(ArticleEntity article)
+        {
+            return CurrentDbSet.Where(m => m.IsPublish && m.ArticleTypeID == article.ArticleTypeID && m.PublishDate < article.PublishDate).OrderByDescending(m => m.PublishDate).ThenByDescending(m => m.ID).Take(1).FirstOrDefault();
         }
 
         public void Publish(int ID)

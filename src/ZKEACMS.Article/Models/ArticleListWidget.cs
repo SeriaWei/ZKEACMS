@@ -13,6 +13,7 @@ using System.Linq;
 using ZKEACMS.Article.Service;
 using ZKEACMS.MetaData;
 using ZKEACMS.Widget;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Article.Models
 {
@@ -34,11 +35,14 @@ namespace ZKEACMS.Article.Models
                 .DataSource(() =>
                 {
                     var articleTypeService = ServiceLocator.GetService<IArticleTypeService>();
-                    return articleTypeService.GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
+                    return articleTypeService.Get().ToDictionary(m => m.ID.ToString(), m => m.Title);
                 })
                 .Required().AddClass("select").AddProperty("data-url", "/admin/ArticleType/Select");
 
-            ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
+            ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector();
+
+            ViewConfig(m => m.IsPageable).AsCheckBox().Order(NextOrder());
+            ViewConfig(m => m.PageSize).AsTextBox().Order(NextOrder()).Range(1, 50);
 
             ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary);
         }

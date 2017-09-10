@@ -7,11 +7,12 @@ using Easy.Constant;
 using Easy.Modules.Role;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Principal;
 
 namespace Easy.Modules.User.Models
 {
     [ViewConfigure(typeof(UserMetaData)),Table("Users")]
-    public class UserEntity : HumanBase, IUser
+    public class UserEntity : HumanBase, IUser, IIdentity
     {
         [Key]
         public string UserID { get; set; }
@@ -46,6 +47,14 @@ namespace Easy.Modules.User.Models
         {
             get;set;
         }
+        [NotMapped]
+        public string AuthenticationType { get; set; }
+        [NotMapped]
+        public bool IsAuthenticated { get; set; }
+        [NotMapped]
+        public string Name { get { return UserID; } }
+        public string ResetToken { get; set; }
+        public DateTime? ResetTokenDate { get; set; }
     }
     class UserMetaData : ViewMetaData<UserEntity>
     {
@@ -54,7 +63,8 @@ namespace Easy.Modules.User.Models
             ViewConfig(p => p.PassWord).AsHidden();
             ViewConfig(p => p.PassWordNew).AsTextBox();
             ViewConfig(p => p.UserID).AsTextBox().Required().Order(1).ShowInGrid();
-            ViewConfig(p => p.NickName).AsTextBox().Required().Order(2).ShowInGrid();
+            ViewConfig(p => p.UserName).AsTextBox().Required().Order(2).ShowInGrid();
+            ViewConfig(p => p.Email).AsTextBox().Email();
             ViewConfig(p => p.Age).AsTextBox().RegularExpression(RegularExpression.Integer);
             ViewConfig(p => p.LastName).AsTextBox();
             ViewConfig(p => p.FirstName).AsTextBox();
@@ -74,6 +84,13 @@ namespace Easy.Modules.User.Models
             ViewConfig(p => p.UserTypeCD).AsDropDownList().DataSource(SourceType.Dictionary);
             ViewConfig(p => p.Title).AsHidden();
             ViewConfig(m => m.ApiLoginToken).AsTextBox().ReadOnly().Hide();
+
+
+            ViewConfig(p => p.AuthenticationType).AsHidden().Ignore();
+            ViewConfig(p => p.IsAuthenticated).AsHidden().Ignore();
+            ViewConfig(p => p.Name).AsHidden().Ignore();
+            ViewConfig(p => p.ResetToken).AsHidden().Ignore();
+            ViewConfig(p => p.ResetTokenDate).AsHidden().Ignore();
         }
     }
 }

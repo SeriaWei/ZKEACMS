@@ -1,0 +1,70 @@
+﻿@model ZKEACMS.Account.ResetViewModel
+@{
+    ViewBag.Title = ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank;
+    Layout = Layouts.NormalDefault;
+    Style.Reqiured("Customer").AtHead();
+    Script.Reqiured("validate").AtFoot();
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.ResetToken)
+    @Html.HiddenFor(m => m.Protect)
+    <div class="login-panel sign-in">
+        <div class="login-panel-heading">
+            <p>
+                <a href="http://www.zkea.net/" target="_blank">
+                    <img class="logo" src="~/images/logo_min.png" alt="ZKEACMS" />
+                </a>
+            </p>
+        </div>
+        <div class="login-panel-body">
+            <div class="info-bar">
+                <p>
+                    请输入您的新密码
+                </p>
+                <img src="~/css/Images/picker_account_msa.svg" />
+            </div>
+            <div class="form-input">
+                <h4>新密码</h4>
+                <input type="password"
+                       placeholder="输入密码"
+                       id="PassWord"
+                       name="PassWord"
+                       class="form-control"
+                       data-val="true"
+                       data-val-required="密码不能为空"
+                       data-val-length="密码的长度应小于20"
+                       data-val-length-max="20" />
+                @Html.ValidationMessageFor(m => m.PassWord)
+            </div>
+            <div class="form-input">
+                <h4>确认密码</h4>
+                <input type="password"
+                       placeholder="输入密码"
+                       id="PassWordNew"
+                       name="PassWordNew"
+                       class="form-control"
+                       data-val="true"
+                       data-val-required="请确认密码"
+                       data-val-equalto="密码不一致"
+                       data-val-equalto-other="PassWord"
+                       data-val-length="密码的长度应小于20"
+                       data-val-length-max="20" />
+                <span class="field-validation-valid" data-valmsg-for="PassWordNew" data-valmsg-replace="true"></span>
+            </div>
+            @if (ViewBag.Errormessage != null)
+            {
+                <div class="text-center alert alert-danger">
+                    @ViewBag.Errormessage
+                </div>
+            }
+            <div class="form-input">
+                <input type="submit" class="btn-login" value="重置密码" />
+            </div>
+            <div class="login-panel-footer">
+                重置失败？<a href="@Url.Action("Forgotten")">申请重置密码</a>
+            </div>
+        </div>
+    </div>
+}

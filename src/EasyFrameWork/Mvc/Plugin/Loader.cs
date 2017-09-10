@@ -4,6 +4,7 @@
 
 using Easy.Extend;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -24,14 +25,15 @@ namespace Easy.Mvc.Plugin
         {
             HostingEnvironment = hostEnvironment;
         }
-        public void LoadEnablePlugins(Action<IPluginStartup> onLoading, Action<Assembly> onLoaded)
+        public void LoadEnablePlugins(Action<IPluginStartup> onLoading, Action<Assembly> onLoaded, Func<IServiceCollection> services)
         {
             GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>
             {
                 var loader = new AssemblyLoader();
+                loader.HostingEnvironment = HostingEnvironment;
                 loader.OnLoading = onLoading;
                 loader.OnLoaded = onLoaded;
-
+                loader.Services = services;
                 var assemblies = loader.LoadPlugin(Path.Combine(m.RelativePath, (HostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName).ToFilePath()));
                 assemblies.Each(assembly =>
                 {

@@ -3,7 +3,7 @@ using Easy.MetaData;
 using Easy.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ZKEACMS;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Common.Models
 {
@@ -27,7 +27,7 @@ namespace ZKEACMS.Common.Models
             ViewConfig(m => m.ParentId).AsHidden();
             ViewConfig(m => m.DisplayOrder).AsHidden();
             ViewConfig(m => m.Title).AsTextBox().Required().Order(1);
-            ViewConfig(m => m.Url).AsTextBox().Required().Order(2).AddClass("select").AddProperty("data-url", Urls.SelectPage);
+            ViewConfig(m => m.Url).AsTextBox().Required().Order(2).PageSelector();
             ViewConfig(m => m.IsMobile).AsCheckBox();
             ViewConfig(m => m.IsCurrent).AsHidden();
         }

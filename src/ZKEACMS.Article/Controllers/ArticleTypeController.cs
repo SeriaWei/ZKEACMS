@@ -53,7 +53,7 @@ namespace ZKEACMS.Article.Controllers
         [DefaultAuthorize(Policy = PermissionKeys.ViewArticleType)]
         public JsonResult GetArticleTypeTree()
         {
-            var allNodes = Service.GetAll();
+            var allNodes = Service.Get();
             var node = new Tree<ArticleType>().Source(allNodes).ToNode(m => m.ID.ToString(), m => m.Title, m => m.ParentID.ToString(), "0");
             return Json(node);
         }

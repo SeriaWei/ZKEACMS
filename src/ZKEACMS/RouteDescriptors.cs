@@ -30,21 +30,21 @@ namespace ZKEACMS
                 RouteName = "Validation",
                 Template = "validation/{action}",
                 Defaults = new { controller = "Validation" },
-                Priority = 10
+                Priority = 11
              },
              new RouteDescriptor
              {
                 RouteName = "error",
                 Template = "error/{action}",
                 Defaults = new { controller = "Error", action = "index" },
-                Priority = 10
+                Priority = 11
              },
              new RouteDescriptor
              {
                 RouteName = "AccountAdmin",
                 Template = "Account/{action}",
-                Defaults = new { controller = "Account", action = "Login"},
-                Priority = 10
+                Defaults = new { controller = "Account", action = "Index"},
+                Priority = 11
              }
         };
     }

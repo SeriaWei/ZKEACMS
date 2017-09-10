@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using Easy.Options;
 
 namespace Easy.Mvc.Resource
 {
@@ -18,11 +20,7 @@ namespace Easy.Mvc.Resource
     {
         const string StyleFormt = "<link href=\"{0}\" rel=\"stylesheet\" />";
         const string ScriptFormt = "<script src=\"{0}\" type=\"text/javascript\"></script>";
-        static readonly IConfigurationSection CNDSetting;
-        static ResourceEntity()
-        {
-            CNDSetting = Builder.Configuration.GetSection("CDN");
-        }
+        
         public ResourcePosition Position { get; set; }
         public IHtmlContent Source { get; set; }
 
@@ -44,22 +42,23 @@ namespace Easy.Mvc.Resource
                 }
                 if (ReleaseSource.StartsWith("~"))
                 {
-                    return _CDNSource = ReleaseSource.Replace("~", CNDSetting["Url"]);
+                    return _CDNSource = ReleaseSource.Replace("~", CDN.Value.Url);
                 }
                 if (ReleaseSource.StartsWith("/"))
                 {
-                    return _CDNSource = CNDSetting["Url"].TrimEnd('/') + ReleaseSource;
+                    return _CDNSource = CDN.Value.Url.TrimEnd('/') + ReleaseSource;
                 }
-                return _CDNSource = CNDSetting["Url"].TrimEnd('/') + "/" + ReleaseSource;
+                return _CDNSource = CDN.Value.Url.TrimEnd('/') + "/" + ReleaseSource;
             }
         }
         public IUrlHelper UrlHelper { get; private set; }
         public IHostingEnvironment HostingEnvironment { get; private set; }
+        public IOptions<CDNOption> CDN { get; set; }
         public bool UseCNDSource
         {
             get
             {
-                return CNDSetting != null && CNDSetting["Enable"].Equals("true", StringComparison.OrdinalIgnoreCase) && CNDSetting["Url"].IsNotNullAndWhiteSpace();
+                return CDN != null && CDN.Value.Enable && CDN.Value.Url.IsNotNullAndWhiteSpace();
             }
         }
 
@@ -76,6 +75,10 @@ namespace Easy.Mvc.Resource
             if (HostingEnvironment == null)
             {
                 HostingEnvironment = page.Context.RequestServices.GetService<IHostingEnvironment>();
+            }
+            if (CDN == null)
+            {
+                CDN = page.Context.RequestServices.GetService<IOptions<CDNOption>>();
             }
             string source = null;
             if (System.Diagnostics.Debugger.IsAttached || HostingEnvironment.IsDevelopment())

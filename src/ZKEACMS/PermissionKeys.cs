@@ -1,4 +1,7 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using Easy.Extend;
+using Easy.Mvc.Authorize;
+using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 
 namespace ZKEACMS
@@ -56,5 +59,15 @@ namespace ZKEACMS
             new PermissionDescriptor { Module="设置",Title="管理设置",Key=ManageApplicationSetting,Description="管理设置" },
             new PermissionDescriptor { Module="设置",Title="查看错误日志",Key=ManageEventViewer,Description="查看系统异常错误信息" }
         };
+        public static void Configure(AuthorizationOptions options)
+        {
+            KnownPermissions.Each(p =>
+             {
+                 options.AddPolicy(p.Key, configure =>
+                 {
+                     configure.Requirements.Add(new RolePolicyRequirement { Policy = p.Key });
+                 });
+             });
+        }
     }
 }

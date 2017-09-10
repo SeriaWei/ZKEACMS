@@ -8,6 +8,7 @@ namespace Easy
     public interface IApplicationContext
     {
         IUser CurrentUser { get; }
+        IUser CurrentCustomer { get; }
         IHostingEnvironment HostingEnvironment { get; }
         bool IsAuthenticated { get; }
     }

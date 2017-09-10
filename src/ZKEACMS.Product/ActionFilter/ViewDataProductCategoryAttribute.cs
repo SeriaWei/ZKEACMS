@@ -21,7 +21,7 @@ namespace ZKEACMS.Product.ActionFilter
         {
             var productCategoryService = filterContext.HttpContext.RequestServices.GetService<IProductCategoryService>();
             (filterContext.Controller as Controller) .ViewData[ViewDataKeys.ProductCategory] = 
-                new SelectList(productCategoryService.GetAll(), "ID", "Title");
+                new SelectList(productCategoryService.Get(), "ID", "Title");
         }
     }
 }

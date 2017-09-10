@@ -23,7 +23,7 @@ namespace ZKEACMS.Article.Models
             base.ViewConfigure();
             ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).DataSource(() =>
             {
-                return ServiceLocator.GetService<IArticleTypeService>().GetAll().ToDictionary(m => m.ID.ToString(), m => m.Title);
+                return ServiceLocator.GetService<IArticleTypeService>().Get().ToDictionary(m => m.ID.ToString(), m => m.Title);
             }).Required().AddClass("select").AddProperty("data-url", "/admin/ArticleType/Select");
             ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary).Required();
             ViewConfig(m => m.TargetPage).AsHidden();

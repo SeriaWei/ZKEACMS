@@ -9,6 +9,7 @@ using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
 using Easy.Mvc.Extend;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace ZKEACMS.Controllers
@@ -31,8 +32,16 @@ namespace ZKEACMS.Controllers
         [HttpPost]
         public override ActionResult Create(UserEntity entity)
         {
-            entity.PhotoUrl = Request.SaveImage();
-            return base.Create(entity);
+            try
+            {
+                entity.PhotoUrl = Request.SaveImage();
+                return base.Create(entity);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Errormessage = ex.Message;
+            }
+            return View(entity);
         }
         [HttpPost]
         public override ActionResult Edit(UserEntity entity)

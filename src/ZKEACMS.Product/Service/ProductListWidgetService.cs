@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
+using Easy.Extend;
+using ZKEACMS.Page;
 
 namespace ZKEACMS.Product.Service
 {
@@ -18,11 +20,17 @@ namespace ZKEACMS.Product.Service
     {
         private readonly IProductService _productService;
         private readonly IProductCategoryService _productCategoryService;
-        public ProductListWidgetService(IWidgetBasePartService widgetService, IProductService productService, IProductCategoryService productCategoryService, IApplicationContext applicationContext)
+        private readonly IPageService _pageService;
+        public ProductListWidgetService(IWidgetBasePartService widgetService,
+            IProductService productService,
+            IProductCategoryService productCategoryService,
+            IApplicationContext applicationContext,
+            IPageService pageService)
             : base(widgetService, applicationContext)
         {
             _productService = productService;
             _productCategoryService = productCategoryService;
+            _pageService = pageService;
         }
 
         public override DbSet<ProductListWidget> CurrentDbSet
@@ -32,14 +40,41 @@ namespace ZKEACMS.Product.Service
                 return DbContext.ProductListWidget;
             }
         }
-
+        private string GetDetailPageUrl()
+        {
+            var baseDetail = WidgetBasePartService.Get(m => m.ServiceTypeName == "ZKEACMS.Product.Service.ProductDetailWidgetService").FirstOrDefault();
+            if (baseDetail != null)
+            {
+                var page = _pageService.Get(baseDetail.PageID);
+                if (page != null)
+                {
+                    return page.Url;
+                }
+            }
+            return "~/View-Product";
+        }
         public override void Add(ProductListWidget item)
         {
             if (!item.PageSize.HasValue || item.PageSize.Value == 0)
             {
-                item.PageSize = 20;
+                item.PageSize = 12;
+            }
+            item.IsPageable = true;
+            if (item.DetailPageUrl.IsNullOrWhiteSpace())
+            {
+                item.DetailPageUrl = GetDetailPageUrl();
             }
             base.Add(item);
+        }
+        public override ProductListWidget Get(params object[] primaryKeys)
+        {
+            var widget = base.Get(primaryKeys);
+            if (widget.DetailPageUrl.IsNullOrWhiteSpace())
+            {
+                widget.DetailPageUrl = GetDetailPageUrl();
+                Update(widget);
+            }
+            return widget;
         }
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
@@ -47,13 +82,13 @@ namespace ZKEACMS.Product.Service
             IEnumerable<ProductEntity> products = null;
             int pageIndex = actionContext.RouteData.GetPage();
             int cate = actionContext.RouteData.GetCategory();
-            var pagin = new Pagination<ProductEntity>
+            var pagin = new Pagination
             {
                 PageIndex = pageIndex,
                 PageSize = currentWidget.PageSize ?? 20,
-                OrderBy = m => m.OrderIndex
+                OrderBy = "OrderIndex"
             };
-            
+
             Expression<Func<ProductEntity, bool>> filter = null;
             if (cate != 0)
             {
@@ -62,7 +97,7 @@ namespace ZKEACMS.Product.Service
             else
             {
                 var ids = _productCategoryService.Get(m => m.ID == currentWidget.ProductCategoryID || m.ParentID == currentWidget.ProductCategoryID).Select(m => m.ID).ToList();
-                filter = m => m.IsPublish && ids.Any(id => id == m.ProductCategoryID);
+                filter = m => m.IsPublish && ids.Contains(m.ProductCategoryID ?? 0);
             }
             if (currentWidget.IsPageable)
             {

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Easy.Extend;
+using Microsoft.AspNetCore.Authentication;
+using Easy.Mvc.Authorize;
 
 namespace Easy.Mvc
 {
@@ -39,7 +41,40 @@ namespace Easy.Mvc
                 return null;
             }
         }
+        IUser _currentCustomer;
+        public IUser CurrentCustomer
+        {
+            get
+            {
+                if (_currentCustomer != null)
+                {
+                    return _currentCustomer;
+                }
+                var httpContext = HttpContextAccessor.HttpContext;
+                if (httpContext != null)
+                {
+                    try
+                    {
+                        var authenticate = httpContext.AuthenticateAsync(CustomerAuthorizeAttribute.CustomerAuthenticationScheme);
+                        authenticate.Wait();
+                        if (authenticate.Result.Succeeded)
+                        {
+                            using (var userService = httpContext.RequestServices.GetService<IUserService>())
+                            {
+                                _currentCustomer = userService.Get(authenticate.Result.Principal.Identity.Name);
+                                return _currentCustomer;
+                            }
+                        }
 
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                }
+                return null;
+            }
+        }
         public IHostingEnvironment HostingEnvironment
         {
             get;

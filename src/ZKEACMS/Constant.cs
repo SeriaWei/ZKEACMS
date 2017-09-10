@@ -119,7 +119,7 @@ namespace ZKEACMS
                 if (_version == null)
                 {
                     var attr = typeof(Version).GetTypeInfo().Assembly.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
-                    _version = $"ZKEACMS v {attr.InformationalVersion}";
+                    _version = $"ZKEACMS v{attr.InformationalVersion}";
                 }
                 return _version;
             }

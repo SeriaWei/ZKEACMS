@@ -1,4 +1,4 @@
-﻿# ZKEACMS Build With Asp.Net Core 1.1
+﻿# ZKEACMS Build With Asp.Net Core 2.0
 ![BuildSuccess](http://cdn.zkeasoft.com/images/buildsuccess.svg) 
 
 ### 演示
@@ -9,18 +9,15 @@
 
 ### 架设环境：
 
-.Net Core 1.1
+.Net Core 2.0
 
-Microsoft Sql Serverl 2008 或以上
-
-.Net Core 1.1 
-ASP.NET Core MVC
+Microsoft Sql Serverl 2008+
 
 ### 开发环境
 
-Microsoft VisualStudio 2017
+Microsoft VisualStudio 2017 15.3+
 
-Microsoft Sql Server 2008 以上
+Microsoft Sql Server 2008+
 
 ## 创建页面的简单流程和基本思想
 [http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)

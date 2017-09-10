@@ -56,10 +56,7 @@ namespace Easy.RepositoryPattern
         /// 总数据量
         /// </summary>
         public int RecordCount { get; set; }
-    }
-    public class Pagination<T> : Pagination where T : class
-    {
-        public Func<T,object> OrderBy { get; set; }
-        public Func<T, object> OrderByDescending { get; set; }
+        public string OrderBy { get; set; }
+        public string OrderByDescending { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using Easy.Constant;
 using Easy.MetaData;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using ZKEACMS.Extend;
 using ZKEACMS.MetaData;
 using ZKEACMS.Widget;
 
@@ -23,7 +24,7 @@ namespace ZKEACMS.Article.Models
             base.ViewConfigure();
             ViewConfig(m => m.SubTitle).AsTextBox().Order(NextOrder());
             ViewConfig(m => m.Style).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary);
-            ViewConfig(m => m.DetailLink).AsTextBox().Order(NextOrder()).AddClass("select").AddProperty("data-url", Urls.SelectPage);
+            ViewConfig(m => m.DetailLink).AsTextBox().Order(NextOrder()).PageSelector();
             ViewConfig(m => m.Summary).AsTextArea().Order(NextOrder()).AddClass("html");
             ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary);
         }
