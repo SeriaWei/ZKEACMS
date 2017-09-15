@@ -13,7 +13,7 @@
     }
 
 }
-<div class="container-fluid">
+<div>
     <div class="clearfix thumbnail">
         <div class="pull-left">
             <span style="line-height: 30px">
@@ -36,55 +36,57 @@
             </div>
         }
     </div>
-    <div id="media-list" class="row" data-parent="@Model.ParentID">
-        @if (Model.Medias != null)
-        {
-            foreach (var media in Model.Medias)
+    <div class="container-fluid">
+        <div id="media-list" class="row" data-parent="@Model.ParentID">
+            @if (Model.Medias != null)
             {
-                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
-                    <div class="thumbnail status-@media.Status">
-                        @if (media.MediaType == (int)MediaType.Image)
-                        {
-                            <a href="javascript:void(0)" class="img-link confirm" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
-                                <img class="img" src="@Url.Content(media.Url)" />
-                            </a>
-                        }
-                        else
-                        {
-                            <a href="@(media.MediaType==(int)MediaType.Folder?Url.Action(action, new {ParentId = media.ID}):"javascript:void(0)")"
-                               class="img-link @(media.MediaType==(int)MediaType.Folder?"":"confirm")" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
-                                <img class="img" src="@Url.Content("~/images/{0}.png".FormatWith(media.MediaTypeImage))" />
-                            </a>
-                        }
-                        <div class="caption" data-id="@media.ID">
-                            @media.Title
-                        </div>
-                        <div class="tool">
-                            @if (media.MediaType == (int)MediaType.Image && media.Url.IsNotNullAndWhiteSpace())
+                foreach (var media in Model.Medias)
+                {
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+                        <div class="thumbnail status-@media.Status">
+                            @if (media.MediaType == (int)MediaType.Image)
                             {
-                                <a target="_blank" class="preview" href="@Url.Content(media.Url)"
-                                   data-lightbox="thumbnail" data-title="@media.Title">
-                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                <a href="javascript:void(0)" class="img-link confirm" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
+                                    <img class="img" src="@Url.Content(media.Url)" />
                                 </a>
                             }
-                            @if (media.MediaType != (int)MediaType.Folder && media.Url.IsNotNullAndWhiteSpace())
+                            else
                             {
-                                <a target="_blank" class="download" download="@media.Title" href="@Url.Content(media.Url)">
-                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                <a href="@(media.MediaType==(int)MediaType.Folder?Url.Action(action, new {ParentId = media.ID}):"javascript:void(0)")"
+                                   class="img-link @(media.MediaType==(int)MediaType.Folder?"":"confirm")" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
+                                    <img class="img" src="@Url.Content("~/images/{0}.png".FormatWith(media.MediaTypeImage))" />
                                 </a>
                             }
-                        </div>
-                        @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
-                        {
-                            <div class="close">
-                                <img src="~/images/close_red.png" />
+                            <div class="caption" data-id="@media.ID">
+                                @media.Title
                             </div>
-                        }
+                            <div class="tool">
+                                @if (media.MediaType == (int)MediaType.Image && media.Url.IsNotNullAndWhiteSpace())
+                                {
+                                    <a target="_blank" class="preview" href="@Url.Content(media.Url)"
+                                       data-lightbox="thumbnail" data-title="@media.Title">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </a>
+                                }
+                                @if (media.MediaType != (int)MediaType.Folder && media.Url.IsNotNullAndWhiteSpace())
+                                {
+                                    <a target="_blank" class="download" download="@media.Title" href="@Url.Content(media.Url)">
+                                        <i class="glyphicon glyphicon-download-alt"></i>
+                                    </a>
+                                }
+                            </div>
+                            @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
+                            {
+                                <div class="close">
+                                    <img src="~/images/close_red.png" />
+                                </div>
+                            }
+                        </div>
                     </div>
-                </div>
+                }
             }
-        }
-    </div>
+        </div>
+    </div>    
 
     <ul class="pagination">
         @if (Model.Pagin.PageIndex >= 1)
