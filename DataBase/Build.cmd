@@ -4,7 +4,7 @@ set server=(local)
 set dataBase=ZKEACMS_Core
 set dbUserId=sa
 set dbPassword=sa
-set dbPath=%cd%\App_Data
+set dbPath=%cd%\App_Data2
 @echo -----------------------------------------------------------------------------
 @echo *** 欢迎使用 ZKEACMS ***
 @echo -----------------------------------------------------------------------------
@@ -18,9 +18,14 @@ set dbPath=%cd%\App_Data
 @echo 登录名: %dbUserId%
 @echo 密码: %dbPassword%
 @echo 保存路径: %dbPath%\%database%.mdf
-@echo *** 请确保文件夹已经存在 ***
 @echo -----------------------------------------------------------------------------
 @pause
+if exist %dbPath% (
+	@echo 目录存在，开始创建数据库
+) else (
+	@echo 目录不存在，尝试创建目录
+	mkdir %dbPath%
+)
 @echo -----------------------------------------------------------------------------
 @echo Creating DataBase %dataBase%
 sqlcmd -S %server% -d master -U %dbUserId% -P %dbPassword% -b -i "CreateDataBase.sql"
