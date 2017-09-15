@@ -1,32 +1,32 @@
 @echo off
-REM: 请根据您的个人实际情况修改以下信息：
-set server=(local)
-set dataBase=ZKEACMS_Core
-set dbUserId=sa
-set dbPassword=sa
-set dbPath=%cd%\App_Data2
+REM:请根据您的个人实际情况修改以下信息：
+REM:如果您运行该批处理时出现乱码，请参考
+REM:http://www.zkea.net/zkeacms/document/issues
 @echo -----------------------------------------------------------------------------
-@echo *** 欢迎使用 ZKEACMS ***
+@echo ****** 欢迎使用 ZKEACMS Core ******
 @echo -----------------------------------------------------------------------------
-@echo 运行该命令将初始化 ZKEACMS 的数据库。
-@echo 在开始之前，请根据您的个人实际情况修改以下信息。（用记事打开这个文件）
+@echo ZKEACMS的相关文档请参阅
+@echo http://www.zkea.net/zkeacms/document
 @echo -----------------------------------------------------------------------------
-@echo 请认真核对以下信息，确保正确：
+@echo 运行该命令将帮助您初始化 ZKEACMS 的数据库
+@echo 如果您想要升级您的数据库，请执行 Update 目录下的脚本
 @echo -----------------------------------------------------------------------------
-@echo 数据库服务器: %server%
-@echo 数据库名称: %dataBase%
-@echo 登录名: %dbUserId%
-@echo 密码: %dbPassword%
-@echo 保存路径: %dbPath%\%database%.mdf
+@echo 在开始之前，我们需要收集一些您的数据库服务器的配置信息
+@echo 如果打算使用默认值，请直接按回车，共4步
 @echo -----------------------------------------------------------------------------
-@pause
-if exist %dbPath% (
-	@echo 目录存在，开始创建数据库
-) else (
-	@echo 目录不存在，尝试创建目录
-	mkdir %dbPath%
+set /P server=1.输入服务器地址，默认(local):
+if "%server%"=="" set server=(local)
+set /P dataBase=2.输入数据库名称，默认(ZKEACMS_Core):
+if "%dataBase%"=="" set dataBase=ZKEACMS_Core
+set /P dbUserId=3.输入数据库用户名，默认(sa):
+if "%dbUserId%"=="" set dbUserId=sa
+set /P dbPassword=4.输入数据库密码，默认(sa):
+if "%dbPassword%"=="" set dbPassword=sa
+set dbPath=%cd%\App_Data
+if not exist "%dbPath%" (
+mkdir "%dbPath%"
 )
-@echo -----------------------------------------------------------------------------
+@echo 创建数据库可能要花一点时间，请稍后...
 @echo Creating DataBase %dataBase%
 sqlcmd -S %server% -d master -U %dbUserId% -P %dbPassword% -b -i "CreateDataBase.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
@@ -347,7 +347,7 @@ goto done
 
 :errors
 @echo -----------------------------------------------------------------------------
-@echo 警告，在数据库创建过程中，出现了错误。
+@echo 警告，在数据库创建过程中，出现了错误。请重新检查您的配置信息并重试。
 goto done
 :done
 @pause
