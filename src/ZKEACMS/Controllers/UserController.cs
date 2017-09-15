@@ -11,16 +11,18 @@ using Easy.Mvc.Extend;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using ZKEACMS;
 
 namespace ZKEACMS.Controllers
 {
     [DefaultAuthorize]
     public class UserController : BasicController<UserEntity, string, IUserService>
     {
-        public UserController(IUserService userService)
+        private IApplicationContextAccessor _applicationContextAccessor;
+        public UserController(IUserService userService, IApplicationContextAccessor applicationContextAccessor)
             : base(userService)
         {
-
+            _applicationContextAccessor = applicationContextAccessor;
         }
         public override ActionResult Create()
         {
@@ -56,6 +58,24 @@ namespace ZKEACMS.Controllers
                 entity.PhotoUrl = url;
             }
             return base.Edit(entity);
+        }
+
+        public ActionResult PassWord()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult PassWord(UserEntity user)
+        {
+            var logOnUser = Service.Login(_applicationContextAccessor.Current.CurrentUser.UserID, user.PassWord, UserType.Administrator, Request.HttpContext.Connection.RemoteIpAddress.ToString());
+            if (logOnUser != null)
+            {
+                logOnUser.PassWordNew = user.PassWordNew;
+                Service.Update(logOnUser);
+                return RedirectToAction("Logout", "Account", new { returnurl = "~/Account/Login" });
+            }
+            ViewBag.Message = "‘≠√‹¬Î¥ÌŒÛ";
+            return View();
         }
     }
 }
