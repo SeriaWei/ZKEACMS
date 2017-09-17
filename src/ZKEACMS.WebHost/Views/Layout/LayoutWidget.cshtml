@@ -41,12 +41,15 @@
 @using (Script.AtFoot())
 {
     <script type="text/javascript">
-        $(function () {
+        $(function () {            
             if (!location.hash) {
                 location.hash = '@ViewBag.LayoutID';
             }
             if (location.hash && location.hash != "#") {
                 $("li" + location.hash).trigger("click");
+            }
+            else if ($("#layouts>li.actived").size() === 0) {
+                $("#layouts>li").first().trigger("click");
             }
         });
 
@@ -68,6 +71,6 @@
             $.post("@Url.Action("LayoutZones", "Layout", new { module="admin"})", { ID: $(this).data("id") }, function (html) {
                 layoutZones.html(html);
             }, "html");
-        });
+            });
     </script>
 }

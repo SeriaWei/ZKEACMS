@@ -105,10 +105,17 @@ namespace ZKEACMS
                     },
                     new AdminMenu
                     {
+                        Title = "修改密码",
+                        Icon = "glyphicon-lock",
+                        Url = "~/admin/User/PassWord",
+                        Order = 2
+                    },
+                    new AdminMenu
+                    {
                         Title = "角色",
                         Icon = "glyphicon-eye-open",
                         Url = "~/admin/Roles",
-                        Order = 2,
+                        Order = 3,
                         PermissionKey = PermissionKeys.ViewRole
                     },
                     new AdminMenu
@@ -116,7 +123,7 @@ namespace ZKEACMS
                         Title = "错误日志",
                         Icon = "glyphicon-exclamation-sign",
                         Url = "~/admin/EventViewer",
-                        Order = 3,
+                        Order = 4,
                         PermissionKey = PermissionKeys.ManageEventViewer
                     },
                     new AdminMenu
@@ -124,7 +131,7 @@ namespace ZKEACMS
                         Title = "系统设置",
                         Icon = "glyphicon-cog",
                         Url = "~/admin/ApplicationSetting",
-                        Order = 4,
+                        Order = 5,
                         PermissionKey = PermissionKeys.ViewApplicationSetting
                     }
                 }

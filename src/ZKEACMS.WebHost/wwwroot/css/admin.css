@@ -5,10 +5,6 @@
  * http://www.zkea.net/licenses
  */
 
-html, body {
-    height: 100%;
-}
-
 body {
     background: url(../images/dotted.png);
 }
@@ -136,7 +132,7 @@ a.badge:hover {
     }
 
 .main-container {
-    margin: 60px 0 0 190px;
+    padding: 65px 15px 0 205px;
 }
 
 #main-body {
@@ -217,7 +213,11 @@ a.badge:hover {
     clear: both;
     margin: 15px -15px -15px -15px;
 }
-
+#toolBar {
+    padding-bottom:10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
 .input-group .mce-panel {
     border: 1px solid #ccc;
     border-radius: 0;
@@ -343,7 +343,7 @@ a.badge:hover {
 }
 
 .site-map {
-    margin-bottom: 10px;
+    
 }
 
 .form-control[type=checkbox] {

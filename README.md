@@ -1,4 +1,4 @@
-﻿# ZKEACMS Build With Asp.Net Core 1.1
+﻿# ZKEACMS Build With Asp.Net Core 2.0
 ![BuildSuccess](http://cdn.zkeasoft.com/images/buildsuccess.svg) 
 
 ### 演示
