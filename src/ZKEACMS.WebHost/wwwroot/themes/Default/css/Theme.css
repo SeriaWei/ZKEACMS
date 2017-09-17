@@ -42,6 +42,9 @@ a.btn,
 p {
   margin: 0 0 7.5px;
 }
+p:last-child {
+  margin-bottom: 0;
+}
 .preview-toolbar {
   position: fixed;
   left: 5px;

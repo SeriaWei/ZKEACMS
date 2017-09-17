@@ -37,7 +37,7 @@ namespace ZKEACMS.SectionWidget.Service
 
         public SectionGroup GenerateContentFromConfig(SectionGroup group)
         {
-            string configFile = _pluginLoader.GetPlugins().First(m => m.ID == SectionPlug.PluginID).RelativePath + @"\Thumbnail\{0}.xml".FormatWith(group.PartialView);
+            string configFile = PluginBase.GetPath<SectionPlug>() + @"\Thumbnail\{0}.xml".FormatWith(group.PartialView).ToFilePath();
             List<SectionContent> contents = new List<SectionContent>();
             if (File.Exists(configFile))
             {

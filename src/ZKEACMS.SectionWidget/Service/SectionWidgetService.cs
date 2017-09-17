@@ -22,18 +22,16 @@ namespace ZKEACMS.SectionWidget.Service
         private readonly ISectionGroupService _sectionGroupService;
         private readonly ISectionContentProviderService _sectionContentProviderService;
         private readonly ISectionTemplateService _sectionTemplateService;
-        private readonly IPluginLoader _pluginLoader;
         private readonly string[] packFiles = new[] { "Views/{0}.cshtml", "Thumbnail/{0}.png", "Thumbnail/{0}.xml" };
 
         public SectionWidgetService(IWidgetBasePartService widgetService, ISectionGroupService sectionGroupService,
             ISectionContentProviderService sectionContentProviderService, ISectionTemplateService sectionTemplateService,
-            IApplicationContext applicationContext, IPluginLoader pluginLoader)
+            IApplicationContext applicationContext)
             : base(widgetService, applicationContext)
         {
             _sectionGroupService = sectionGroupService;
             _sectionContentProviderService = sectionContentProviderService;
             _sectionTemplateService = sectionTemplateService;
-            _pluginLoader = pluginLoader;
         }
 
         public override DbSet<Models.SectionWidget> CurrentDbSet
@@ -106,7 +104,7 @@ namespace ZKEACMS.SectionWidget.Service
         {
             var package = base.PackWidget(widget);
             var sectionWidget = package.Widget as Models.SectionWidget;
-            var pluginRootPath = _pluginLoader.GetPlugins().First(m => m.ID == SectionPlug.PluginID).RelativePath;
+            var pluginRootPath = PluginBase.GetPath<SectionPlug>();
             var cmsApplicationContext = ApplicationContext as CMSApplicationContext;
             var rootPath = cmsApplicationContext.MapPath("~/");
 
@@ -134,7 +132,7 @@ namespace ZKEACMS.SectionWidget.Service
         }
         public override void InstallWidget(WidgetPackage pack)
         {
-            var pluginRootPath = _pluginLoader.GetPlugins().First(m => m.ID == SectionPlug.PluginID).RelativePath;
+            var pluginRootPath = PluginBase.GetPath<SectionPlug>();
 
             pack.Files.Each(file =>
             {

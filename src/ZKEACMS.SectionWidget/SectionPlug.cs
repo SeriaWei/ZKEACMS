@@ -15,7 +15,6 @@ namespace ZKEACMS.SectionWidget
 {
     public class SectionPlug : PluginBase
     {
-        public const string PluginID = "66BF2F20-69E5-42B7-84BF-3488C6A2EB80";
         public static Dictionary<string, Type> ContentTypes { get; } = new Dictionary<string, Type>
         {
            { "ZKEACMS.SectionWidget.Models.SectionContentCallToAction",typeof(SectionContentCallToAction)},
