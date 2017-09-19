@@ -3,7 +3,9 @@
  * Copyright 2016 ZKEASOFT
  * http://www.zkea.net/licenses
  */
-
+html,body{
+    min-height:100%;
+}
 body {
     background: url(./Images/login-bg.jpg) center center no-repeat;
     background-size: cover;
@@ -18,9 +20,9 @@ body {
     width: 280px;
     padding: 0 50px;
     background-color: #2d3336;
-    border-left:1px solid #000;
-    border-right:1px solid #000;
-    height: 100%;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    min-height: 100%;
 }
 
     .login-panel .logo {
