@@ -24,20 +24,29 @@ namespace ZKEACMS.WebHost
         }
         public void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           
-            if (_dataBaseOption.Value.DefaultConnection.IsNotNullAndWhiteSpace())
+            switch (_dataBaseOption.Value.DbType)
             {
-                optionsBuilder.UseSqlServer(_dataBaseOption.Value.DefaultConnection);
+                case Easy.DbTypes.MsSql:
+                    {
+                        optionsBuilder.UseSqlServer(_dataBaseOption.Value.ConnectionString);
+                        break;
+                    }
+                case Easy.DbTypes.MsSqlEarly:
+                    {
+                        optionsBuilder.UseSqlServer(_dataBaseOption.Value.ConnectionString, option => option.UseRowNumberForPaging());
+                        break;
+                    }
+                case Easy.DbTypes.Sqlite:
+                    {
+                        optionsBuilder.UseSqlite(_dataBaseOption.Value.ConnectionString);
+                        break;
+                    }
+                case Easy.DbTypes.MySql:
+                    {
+                        optionsBuilder.UseMySql(_dataBaseOption.Value.ConnectionString);
+                        break;
+                    }
             }
-            else if (_dataBaseOption.Value.Sqlite.IsNotNullAndWhiteSpace())
-            {
-                optionsBuilder.UseSqlite(_dataBaseOption.Value.Sqlite);
-            }
-            else if (_dataBaseOption.Value.MySql.IsNotNullAndWhiteSpace())
-            {
-                optionsBuilder.UseMySql(_dataBaseOption.Value.MySql);
-            }
-
         }
     }
 }
