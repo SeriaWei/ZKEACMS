@@ -19,9 +19,11 @@ if not "%i%"=="y" goto start
 @echo win7-x64,win10-x64,ubuntu.16.04-x64,centos.7-x64,osx.10.12-x64
 set /P r=输入运行时 RID:
 :start
+set output=%cd%\src\ZKEACMS.WebHost\bin\Release\PublishOutput
+if exist "%output%" (
 @echo ------------------- Clean Publish Output -------------------
-set current_path=%cd%
-rd/s/q "%current_path%\src\ZKEACMS.WebHost\bin\Release\PublishOutput"
+rd/s/q "%output%"
+)
 @echo ------------------ Release ------------------
 cd src/ZKEACMS.WebHost
 if not "%i%"=="y" (
