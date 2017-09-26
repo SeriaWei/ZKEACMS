@@ -27,7 +27,10 @@ namespace ZKEACMS.Widget
         static ICacheManager<IEnumerable<WidgetBase>> PageWidgetCacheManage;
         static WidgetBasePartService()
         {
-            PageWidgetCacheManage = CacheFactory.Build<IEnumerable<WidgetBase>>(setting => setting.WithDictionaryHandle("PageWidgets"));
+            PageWidgetCacheManage = CacheFactory.Build<IEnumerable<WidgetBase>>(setting =>
+            {
+                setting.WithDictionaryHandle("PageWidgets").WithExpiration(ExpirationMode.Sliding, new TimeSpan(0, 10, 0));
+            });
         }
         public WidgetBasePartService(IApplicationContext applicationContext, IWidgetActivator widgetActivator, IServiceProvider serviceProvider, IHttpContextAccessor httpContextAccessor)
             : base(applicationContext)

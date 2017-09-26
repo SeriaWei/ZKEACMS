@@ -8,6 +8,7 @@ using CacheManager.Core;
 using Microsoft.Extensions.Options;
 using Easy.Options;
 using Easy.Extend;
+using System;
 
 namespace Easy
 {
@@ -18,7 +19,7 @@ namespace Easy
         {
             LanguageCache = CacheFactory.Build<LanguageEntity>(settings =>
             {
-                settings.WithDictionaryHandle("Localization");
+                settings.WithDictionaryHandle("Localization").WithExpiration(ExpirationMode.Sliding, new TimeSpan(0, 10, 0));
             });
         }
         public static string Get(string lanKey)
