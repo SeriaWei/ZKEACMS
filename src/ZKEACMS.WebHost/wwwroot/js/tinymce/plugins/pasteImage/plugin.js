@@ -36,23 +36,27 @@ tinymce.PluginManager.add('pasteImage', function (editor) {
         }
 
         function uploadFile(file) {
-            var loading = currentEditor.dom.createHTML("img", { "src": "/images/loader.gif", "id": (new Date()).valueOf() })
-            currentEditor.selection.setContent(loading);
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/admin/media/Upload");
-            xhr.onload = function (data) {
-                var result = JSON.parse(data.target.response);
-                if (result.id) {
-                    var r = currentEditor.getContent();
-                    r = r.replace(loading, currentEditor.dom.createHTML("img", { "src": result.url }));
-                    currentEditor.setContent(r);
-                    currentEditor.focus()
+            if (file.size <= 1048000) {
+                var loading = currentEditor.dom.createHTML("img", { "src": "/images/loader.gif", "id": (new Date()).valueOf() })
+                currentEditor.selection.setContent(loading);
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/admin/media/Upload");
+                xhr.onload = function (data) {
+                    var result = JSON.parse(data.target.response);
+                    if (result.id) {
+                        var r = currentEditor.getContent();
+                        r = r.replace(loading, currentEditor.dom.createHTML("img", { "src": result.url }));
+                        currentEditor.setContent(r);
+                        currentEditor.focus()
+                    }
                 }
+                var formData = new FormData();
+                formData.append('file', file);
+                formData.append("folder", "图片");
+                formData.append("size", file.size);
+                xhr.send(formData);
             }
-            var formData = new FormData();
-            formData.append('file', file);
-            formData.append("folder", "图片");
-            xhr.send(formData)
+
         }
 
     })
