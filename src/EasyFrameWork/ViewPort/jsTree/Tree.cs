@@ -130,11 +130,11 @@ namespace Easy.ViewPort.jsTree
             _check_callback = fun;
             return this;
         }
-        public List<Node> ToNode(Expression<Func<T, string>> value, Expression<Func<T, string>> text, Expression<Func<T, string>> parent, string rootId)
+        public List<Node> ToNode(Func<T, string> value, Func<T, string> text, Func<T, string> parent, string rootId)
         {
-            valueProperty = value.Compile();
-            parentProperty = parent.Compile();
-            textProperty = text.Compile();
+            valueProperty = value;
+            parentProperty = parent;
+            textProperty = text;
             _rootId = rootId;
             InitDode();
             return nodes;
