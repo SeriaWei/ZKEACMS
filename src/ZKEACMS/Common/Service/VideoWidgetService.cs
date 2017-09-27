@@ -7,10 +7,10 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Common.Service
 {
-    public class VideoWidgetService : WidgetService<VideoWidget, CMSDbContext>
+    public class VideoWidgetService : WidgetService<VideoWidget>
     {
-        public VideoWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext) :
-            base(widgetService, applicationContext)
+        public VideoWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
         }
 
@@ -18,7 +18,7 @@ namespace ZKEACMS.Common.Service
         {
             get
             {
-                return DbContext.VideoWidget;
+                return (DbContext as CMSDbContext).VideoWidget;
             }
         }
     }

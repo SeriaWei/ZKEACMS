@@ -72,6 +72,8 @@ namespace ZKEACMS.SectionWidget
             serviceCollection.AddTransient<ISectionWidgetService, SectionWidgetService>();
             serviceCollection.AddTransient<ISectionTemplateService, SectionTemplateService>();
 
+            serviceCollection.AddDbContext<SectionDbContext>();
+
         }
 
     }

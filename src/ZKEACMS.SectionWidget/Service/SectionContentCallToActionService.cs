@@ -7,9 +7,9 @@ using System;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionContentCallToActionService : ServiceBase<SectionContentCallToAction, SectionDbContext>, ISectionContentService
+    public class SectionContentCallToActionService : ServiceBase<SectionContentCallToAction>, ISectionContentService
     {
-        public SectionContentCallToActionService(IApplicationContext applicationContext) : base(applicationContext)
+        public SectionContentCallToActionService(IApplicationContext applicationContext, SectionDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
 
@@ -17,7 +17,7 @@ namespace ZKEACMS.SectionWidget.Service
         {
             get
             {
-                return DbContext.SectionContentCallToAction;
+                return (DbContext as SectionDbContext).SectionContentCallToAction;
             }
         }
         public SectionContentBase.Types ContentType

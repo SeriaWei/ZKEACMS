@@ -16,7 +16,7 @@ using ZKEACMS.Page;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductListWidgetService : WidgetService<ProductListWidget, ProductDbContext>
+    public class ProductListWidgetService : WidgetService<ProductListWidget>
     {
         private readonly IProductService _productService;
         private readonly IProductCategoryService _productCategoryService;
@@ -25,8 +25,9 @@ namespace ZKEACMS.Product.Service
             IProductService productService,
             IProductCategoryService productCategoryService,
             IApplicationContext applicationContext,
-            IPageService pageService)
-            : base(widgetService, applicationContext)
+            IPageService pageService,
+            ProductDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
             _productService = productService;
             _productCategoryService = productCategoryService;
@@ -37,7 +38,7 @@ namespace ZKEACMS.Product.Service
         {
             get
             {
-                return DbContext.ProductListWidget;
+                return (DbContext as ProductDbContext).ProductListWidget;
             }
         }
         private string GetDetailPageUrl()

@@ -14,14 +14,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Page
 {
-    public class PageService : ServiceBase<PageEntity, CMSDbContext>, IPageService
+    public class PageService : ServiceBase<PageEntity>, IPageService
     {
         private readonly IWidgetBasePartService _widgetService;
         private readonly IWidgetActivator _widgetActivator;
 
 
-        public PageService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, IWidgetActivator widgetActivator)
-            : base(applicationContext)
+        public PageService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, IWidgetActivator widgetActivator, CMSDbContext dbContext)
+            : base(applicationContext, dbContext)
         {
             _widgetService = widgetService;
             _widgetActivator = widgetActivator;
@@ -30,7 +30,7 @@ namespace ZKEACMS.Page
         {
             get
             {
-                return DbContext.Page;
+                return (DbContext as CMSDbContext).Page;
             }
         }
         public override void Add(PageEntity item)
@@ -71,7 +71,7 @@ namespace ZKEACMS.Page
             item.ReferencePageID = item.ID;
             item.IsPublishedPage = true;
             item.PublishDate = DateTime.Now;
-            
+
             var widgets = _widgetService.GetByPageId(item.ID);
             Add(item);
             widgets.Each(m =>
@@ -109,7 +109,7 @@ namespace ZKEACMS.Page
                     page.ReferencePageID = null;
                     page.IsPublish = false;
                     page.IsPublishedPage = false;
-                    
+
                     base.Add(page);
                 }
                 var widgets = _widgetService.GetByPageId(ID);
@@ -117,7 +117,7 @@ namespace ZKEACMS.Page
                 {
                     var widgetService = _widgetActivator.Create(m);
                     m = widgetService.GetWidget(m);
-                   
+
                     m.PageID = page.ID;
                     widgetService.Publish(m);
                 });

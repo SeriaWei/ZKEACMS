@@ -83,6 +83,7 @@ namespace ZKEACMS.Product
         {
             serviceCollection.AddTransient<IProductService, ProductService>();
             serviceCollection.AddTransient<IProductCategoryService, ProductCategoryService>();
+            serviceCollection.AddDbContext<ProductDbContext>();
         }
         
     }

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 namespace Easy.RepositoryPattern
 {
-    public interface IOnConfiguring
+    public interface IOnDatabaseConfiguring
     {
         void OnConfiguring(DbContextOptionsBuilder optionsBuilder);
     }

@@ -2,7 +2,9 @@
  * Copyright 2017 ZKEASOFT 
  * http://www.zkea.net/licenses */
 
+using System.Collections.Generic;
 using Easy;
+using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Common.Models;
 using ZKEACMS.ExtendField;
@@ -19,6 +21,10 @@ namespace ZKEACMS
 {
     public class CMSDbContext : EasyDbContext
     {
+        public CMSDbContext(IEnumerable<IOnModelCreating> modelCreatings, IOnDatabaseConfiguring configuring) : base(modelCreatings, configuring)
+        {
+        }
+
         internal DbSet<WidgetBasePart> WidgetBasePart { get; set; }
         internal DbSet<ApplicationSetting> ApplicationSetting { get; set; }
         internal DbSet<CarouselEntity> Carousel { get; set; }

@@ -10,7 +10,6 @@ namespace Easy.RepositoryPattern
     public interface IService<T> : IDisposable
         where T : class
     {
-        void SetDbContext(DbContext dbContext);
         IApplicationContext ApplicationContext { get; set; }
         void BeginTransaction(Action action);
         void Add(T item);

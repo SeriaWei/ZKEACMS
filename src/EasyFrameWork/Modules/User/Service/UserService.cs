@@ -10,16 +10,16 @@ using System.Security.Cryptography;
 
 namespace Easy.Modules.User.Service
 {
-    public class UserService : ServiceBase<UserEntity, EasyDbContext>, IUserService
+    public class UserService : ServiceBase<UserEntity>, IUserService
     {
-        public UserService(IApplicationContext applicationContext) : base(applicationContext)
+        public UserService(IApplicationContext applicationContext,EasyDbContext easyDbContext) : base(applicationContext,easyDbContext)
         {
         }
         public override DbSet<UserEntity> CurrentDbSet
         {
             get
             {
-                return DbContext.Users;
+                return (DbContext as EasyDbContext).Users;
             }
         }
         public override UserEntity Get(params object[] primaryKey)
@@ -27,7 +27,7 @@ namespace Easy.Modules.User.Service
             var userEntity = base.Get(primaryKey);
             if (userEntity != null)
             {
-                userEntity.Roles = DbContext.UserRoleRelation.Where(m => m.UserID == userEntity.UserID).ToList();
+                userEntity.Roles = (DbContext as EasyDbContext).UserRoleRelation.Where(m => m.UserID == userEntity.UserID).ToList();
             }
             return userEntity;
         }
@@ -76,7 +76,7 @@ namespace Easy.Modules.User.Service
             }
             if (item.Roles != null)
             {
-                item.Roles.Where(m => m.ActionType == ActionType.Delete).Each(m => DbContext.UserRoleRelation.Remove(m));
+                item.Roles.Where(m => m.ActionType == ActionType.Delete).Each(m => (DbContext as EasyDbContext).UserRoleRelation.Remove(m));
             }
             base.Update(item, saveImmediately);
         }

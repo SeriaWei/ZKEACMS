@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Setting
 {
-    public class ApplicationSettingService : ServiceBase<ApplicationSetting, CMSDbContext>, IApplicationSettingService
+    public class ApplicationSettingService : ServiceBase<ApplicationSetting>, IApplicationSettingService
     {
-        public ApplicationSettingService(IApplicationContext applicationContext) : base(applicationContext)
+        public ApplicationSettingService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
 
@@ -17,7 +17,7 @@ namespace ZKEACMS.Setting
         {
             get
             {
-                return DbContext.ApplicationSetting;
+                return (DbContext as CMSDbContext).ApplicationSetting;
             }
         }
 

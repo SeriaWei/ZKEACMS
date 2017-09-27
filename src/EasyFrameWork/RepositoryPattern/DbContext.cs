@@ -7,12 +7,19 @@ namespace Easy.RepositoryPattern
 {
     public class DbContextBase : DbContext
     {
+        public DbContextBase(IEnumerable<IOnModelCreating> modelCreatings, IOnDatabaseConfiguring configuring)
+        {
+            Creatings = modelCreatings;
+            DatabaseConfiguring = configuring;
+        }
+        public IEnumerable<IOnModelCreating> Creatings { get; set; }
+        public IOnDatabaseConfiguring DatabaseConfiguring { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var creatings = ServiceLocator.GetServices<IOnModelCreating>();
-            if (creatings != null)
+
+            if (Creatings != null)
             {
-                foreach (var item in creatings)
+                foreach (var item in Creatings)
                 {
                     item.OnModelCreating(modelBuilder);
                 }
@@ -20,10 +27,9 @@ namespace Easy.RepositoryPattern
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var config = ServiceLocator.GetService<IOnConfiguring>();
-            if (config != null)
+            if (DatabaseConfiguring != null)
             {
-                config.OnConfiguring(optionsBuilder);
+                DatabaseConfiguring.OnConfiguring(optionsBuilder);
             }
         }
     }

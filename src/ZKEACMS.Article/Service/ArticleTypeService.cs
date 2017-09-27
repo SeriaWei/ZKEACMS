@@ -9,11 +9,12 @@ using System;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleTypeService : ServiceBase<ArticleType, ArticleDbContext>, IArticleTypeService
+    public class ArticleTypeService : ServiceBase<ArticleType>, IArticleTypeService
     {
         private IArticleService _articleService;
 
-        public ArticleTypeService(IApplicationContext applicationContext, IArticleService articleService) : base(applicationContext)
+        public ArticleTypeService(IApplicationContext applicationContext, IArticleService articleService, ArticleDbContext dbContext) 
+            : base(applicationContext, dbContext)
         {
             _articleService = articleService;
         }
@@ -22,7 +23,7 @@ namespace ZKEACMS.Article.Service
         {
             get
             {
-                return DbContext.ArticleType;
+                return (DbContext as ArticleDbContext).ArticleType;
             }
         }
 

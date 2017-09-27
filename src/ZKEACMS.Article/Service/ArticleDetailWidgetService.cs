@@ -11,10 +11,11 @@ using System.Linq;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleDetailWidgetService : WidgetService<ArticleDetailWidget, ArticleDbContext>
+    public class ArticleDetailWidgetService : WidgetService<ArticleDetailWidget>
     {
         private readonly IArticleService _articleService;
-        public ArticleDetailWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext) : base(widgetService, applicationContext)
+        public ArticleDetailWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext, ArticleDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
             _articleService = articleService;
         }
@@ -23,7 +24,7 @@ namespace ZKEACMS.Article.Service
         {
             get
             {
-                return DbContext.ArticleDetailWidget;
+                return (DbContext as ArticleDbContext).ArticleDetailWidget;
             }
         }
 

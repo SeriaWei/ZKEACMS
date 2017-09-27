@@ -15,13 +15,13 @@ using Easy.Mvc.Plugin;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionGroupService : ServiceBase<SectionGroup, SectionDbContext>, ISectionGroupService
+    public class SectionGroupService : ServiceBase<SectionGroup>, ISectionGroupService
     {
         private readonly ISectionContentProviderService _sectionContentProviderService;
         private readonly IPluginLoader _pluginLoader;
 
         public SectionGroupService(ISectionContentProviderService sectionContentProviderService,
-            IPluginLoader pluginLoader, IApplicationContext applicationContext) : base(applicationContext)
+            IPluginLoader pluginLoader, IApplicationContext applicationContext, SectionDbContext dbContext) : base(applicationContext, dbContext)
         {
             _sectionContentProviderService = sectionContentProviderService;
             _pluginLoader = pluginLoader;
@@ -31,7 +31,7 @@ namespace ZKEACMS.SectionWidget.Service
         {
             get
             {
-                return DbContext.SectionGroup;
+                return (DbContext as SectionDbContext).SectionGroup;
             }
         }
 

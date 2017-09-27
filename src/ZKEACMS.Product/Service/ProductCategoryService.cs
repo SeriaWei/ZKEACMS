@@ -9,11 +9,11 @@ using System;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductCategoryService : ServiceBase<ProductCategory, ProductDbContext>, IProductCategoryService
+    public class ProductCategoryService : ServiceBase<ProductCategory>, IProductCategoryService
     {
         private readonly IProductService _productService;
-        public ProductCategoryService(IProductService productService, IApplicationContext applicationContext)
-            : base(applicationContext)
+        public ProductCategoryService(IProductService productService, IApplicationContext applicationContext, ProductDbContext dbContext)
+            : base(applicationContext, dbContext)
         {
             _productService = productService;
         }
@@ -22,7 +22,7 @@ namespace ZKEACMS.Product.Service
         {
             get
             {
-                return DbContext.ProductCategory;
+                return (DbContext as ProductDbContext).ProductCategory;
             }
         }
 

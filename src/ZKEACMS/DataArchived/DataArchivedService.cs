@@ -10,11 +10,11 @@ using Newtonsoft.Json;
 
 namespace ZKEACMS.DataArchived
 {
-    public class DataArchivedService : ServiceBase<DataArchived, CMSDbContext>, IDataArchivedService
+    public class DataArchivedService : ServiceBase<DataArchived>, IDataArchivedService
     {
         private const string ArchiveLock = "ArchiveLock";
 
-        public DataArchivedService(IApplicationContext applicationContext) : base(applicationContext)
+        public DataArchivedService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
 
@@ -24,7 +24,7 @@ namespace ZKEACMS.DataArchived
         {
             get
             {
-                return DbContext.DataArchived;
+                return (DbContext as CMSDbContext).DataArchived;
             }
         }
 

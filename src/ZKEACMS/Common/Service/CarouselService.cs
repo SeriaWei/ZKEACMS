@@ -12,22 +12,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Common.Service
 {
-    public class CarouselService : ServiceBase<CarouselEntity, CMSDbContext>, ICarouselService
+    public class CarouselService : ServiceBase<CarouselEntity>, ICarouselService
     {
         private readonly ICarouselItemService _carouselItemService;
 
+
+
+        public CarouselService(ICarouselItemService carouselItemService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(applicationContext, dbContext)
+        {
+            _carouselItemService = carouselItemService;
+        }
         public override DbSet<CarouselEntity> CurrentDbSet
         {
             get
             {
-                return DbContext.Carousel;
+                return (DbContext as CMSDbContext).Carousel;
             }
-        }
-
-        public CarouselService(ICarouselItemService carouselItemService, IApplicationContext applicationContext)
-            : base(applicationContext)
-        {
-            _carouselItemService = carouselItemService;
         }
         public override CarouselEntity Get(params object[] primaryKey)
         {

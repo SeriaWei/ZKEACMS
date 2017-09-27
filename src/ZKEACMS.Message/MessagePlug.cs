@@ -55,6 +55,8 @@ namespace ZKEACMS.Message
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IMessageService, MessageService>();
+
+            serviceCollection.AddDbContext<MessageDbContext>();
         }
 
         protected override void InitScript(Func<string, ResourceHelper> script)

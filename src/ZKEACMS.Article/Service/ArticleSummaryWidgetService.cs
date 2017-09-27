@@ -7,10 +7,10 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleSummaryWidgetService : WidgetService<ArticleSummaryWidget, ArticleDbContext>
+    public class ArticleSummaryWidgetService : WidgetService<ArticleSummaryWidget>
     {
-        public ArticleSummaryWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext)
-            : base(widgetService, applicationContext)
+        public ArticleSummaryWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, ArticleDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
         }
 
@@ -18,7 +18,7 @@ namespace ZKEACMS.Article.Service
         {
             get
             {
-                return DbContext.ArticleSummaryWidget;
+                return (DbContext as ArticleDbContext).ArticleSummaryWidget;
             }
         }
     }

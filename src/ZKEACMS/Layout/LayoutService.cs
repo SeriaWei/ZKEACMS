@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Layout
 {
-    public class LayoutService : ServiceBase<LayoutEntity, CMSDbContext>, ILayoutService
+    public class LayoutService : ServiceBase<LayoutEntity>, ILayoutService
     {
         public LayoutService(IDataArchivedService dataArchivedService,
             IPageService pageService,
@@ -23,8 +23,9 @@ namespace ZKEACMS.Layout
             IWidgetBasePartService widgetService,
             IApplicationContext applicationContext,
             ILayoutHtmlService layoutHtmlService,
-            IWidgetActivator widgetActivator)
-            : base(applicationContext)
+            IWidgetActivator widgetActivator,
+            CMSDbContext dbContext)
+            : base(applicationContext, dbContext)
         {
             DataArchivedService = dataArchivedService;
             PageService = pageService;
@@ -37,7 +38,7 @@ namespace ZKEACMS.Layout
         {
             get
             {
-                return DbContext.Layout;
+                return (DbContext as CMSDbContext).Layout;
             }
         }
         public IDataArchivedService DataArchivedService { get; set; }

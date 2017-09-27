@@ -7,9 +7,9 @@ using System;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionContentImageService : ServiceBase<SectionContentImage, SectionDbContext>, ISectionContentService
+    public class SectionContentImageService : ServiceBase<SectionContentImage>, ISectionContentService
     {
-        public SectionContentImageService(IApplicationContext applicationContext) : base(applicationContext)
+        public SectionContentImageService(IApplicationContext applicationContext, SectionDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
 
@@ -17,7 +17,7 @@ namespace ZKEACMS.SectionWidget.Service
         {
             get
             {
-                return DbContext.SectionContentImage;
+                return (DbContext as SectionDbContext).SectionContentImage;
             }
         }
 

@@ -17,10 +17,10 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace ZKEACMS.Widget
 {
-    public abstract class WidgetService<T, TDB> : ServiceBase<T, TDB>, IWidgetPartDriver where T : WidgetBase where TDB : CMSDbContext, new()
+    public abstract class WidgetService<T> : ServiceBase<T>, IWidgetPartDriver where T : WidgetBase
     {
-        public WidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext)
-            : base(applicationContext)
+        public WidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(applicationContext, dbContext)
         {
             WidgetBasePartService = widgetBasePartService;
         }
@@ -65,7 +65,7 @@ namespace ZKEACMS.Widget
             }
             return model;
         }
-        
+
         public override IList<T> Get(Expression<Func<T, bool>> filter)
         {
             var widgets = base.Get(filter);

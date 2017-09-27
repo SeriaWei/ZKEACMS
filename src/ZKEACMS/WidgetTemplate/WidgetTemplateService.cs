@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.WidgetTemplate
 {
-    public class WidgetTemplateService : ServiceBase<WidgetTemplateEntity,CMSDbContext>, IWidgetTemplateService
+    public class WidgetTemplateService : ServiceBase<WidgetTemplateEntity>, IWidgetTemplateService
     {
-        public WidgetTemplateService(IApplicationContext applicationContext) : base(applicationContext)
+        public WidgetTemplateService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
 
@@ -16,7 +16,7 @@ namespace ZKEACMS.WidgetTemplate
         {
             get
             {
-                return DbContext.WidgetTemplate;
+                return (DbContext as CMSDbContext).WidgetTemplate;
             }
         }
     }

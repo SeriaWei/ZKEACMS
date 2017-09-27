@@ -9,9 +9,9 @@ using System;
 
 namespace ZKEACMS.Common.Service
 {
-    public class CarouselItemService : ServiceBase<CarouselItemEntity, CMSDbContext>, ICarouselItemService
+    public class CarouselItemService : ServiceBase<CarouselItemEntity>, ICarouselItemService
     {
-        public CarouselItemService(IApplicationContext applicationContext) : base(applicationContext)
+        public CarouselItemService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
 
@@ -19,7 +19,7 @@ namespace ZKEACMS.Common.Service
         {
             get
             {
-                return DbContext.CarouselItem;
+                return (DbContext as CMSDbContext).CarouselItem;
             }
         }
 

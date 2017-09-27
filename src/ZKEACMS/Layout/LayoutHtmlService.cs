@@ -9,9 +9,9 @@ using System;
 
 namespace ZKEACMS.Layout
 {
-    public class LayoutHtmlService : ServiceBase<LayoutHtml, CMSDbContext>, ILayoutHtmlService
+    public class LayoutHtmlService : ServiceBase<LayoutHtml>, ILayoutHtmlService
     {
-        public LayoutHtmlService(IApplicationContext applicationContext) : base(applicationContext)
+        public LayoutHtmlService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
 
@@ -19,7 +19,7 @@ namespace ZKEACMS.Layout
         {
             get
             {
-                return DbContext.LayoutHtml;
+                return (DbContext as CMSDbContext).LayoutHtml;
             }
         }
 

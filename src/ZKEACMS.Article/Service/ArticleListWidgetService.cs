@@ -16,14 +16,14 @@ using Easy.Extend;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleListWidgetService : WidgetService<ArticleListWidget, ArticleDbContext>
+    public class ArticleListWidgetService : WidgetService<ArticleListWidget>
     {
         private readonly IArticleTypeService _articleTypeService;
         private readonly IArticleService _articleService;
         private readonly IPageService _pageService;
         public ArticleListWidgetService(IWidgetBasePartService widgetService, IArticleTypeService articleTypeService,
-            IArticleService articleService, IApplicationContext applicationContext, IPageService pageService)
-            : base(widgetService, applicationContext)
+            IArticleService articleService, IApplicationContext applicationContext, IPageService pageService, ArticleDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
             _articleTypeService = articleTypeService;
             _articleService = articleService;
@@ -34,7 +34,7 @@ namespace ZKEACMS.Article.Service
         {
             get
             {
-                return DbContext.ArticleListWidget;
+                return (DbContext as ArticleDbContext).ArticleListWidget;
             }
         }
 

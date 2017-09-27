@@ -12,37 +12,25 @@ using Easy.Extend;
 
 namespace Easy.RepositoryPattern
 {
-    public abstract class ServiceBase<T, TDB> : IService<T>
+    public abstract class ServiceBase<T> : IService<T>
         where T : class
-        where TDB : DbContext, new()
     {
-        public ServiceBase(IApplicationContext applicationContext)
+        public ServiceBase(IApplicationContext applicationContext, DbContextBase dbContext)
         {
             ApplicationContext = applicationContext;
+            DbContext = dbContext;
+            DbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
-        private TDB _dbContext;
-        public virtual TDB DbContext
+        
+        public virtual DbContextBase DbContext
         {
-            get
-            {
-                return _dbContext ?? (_dbContext = new TDB());
-            }
-            set { _dbContext = value; }
+            get;
+            set;
         }
         public abstract DbSet<T> CurrentDbSet { get; }
 
         public IApplicationContext ApplicationContext { get; set; }
 
-
-        public virtual void SetDbContext(DbContext dbContext)
-        {
-            var target = DbContext as TDB;
-            if (target != null)
-            {
-                DbContext = target;
-            }
-            else throw new Exception("DbContext must inherit from:" + typeof(TDB).FullName);
-        }
         public void BeginTransaction(Action action)
         {
             using (var transaction = DbContext.Database.BeginTransaction())

@@ -9,9 +9,9 @@ using System.Linq;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleService : ServiceBase<ArticleEntity, ArticleDbContext>, IArticleService
+    public class ArticleService : ServiceBase<ArticleEntity>, IArticleService
     {
-        public ArticleService(IApplicationContext applicationContext) : base(applicationContext)
+        public ArticleService(IApplicationContext applicationContext, ArticleDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
 
@@ -19,7 +19,7 @@ namespace ZKEACMS.Article.Service
         {
             get
             {
-                return DbContext.Article;
+                return (DbContext as ArticleDbContext).Article;
             }
         }
 

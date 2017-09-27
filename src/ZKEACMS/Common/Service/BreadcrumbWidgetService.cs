@@ -14,7 +14,8 @@ namespace ZKEACMS.Common.Service
     {
         private readonly IPageService _pageService;
 
-        public BreadcrumbWidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext, IPageService pageService) : base(widgetBasePartService, applicationContext)
+        public BreadcrumbWidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext, IPageService pageService, CMSDbContext dbContext) :
+            base(widgetBasePartService, applicationContext, dbContext)
         {
             _pageService = pageService;
         }

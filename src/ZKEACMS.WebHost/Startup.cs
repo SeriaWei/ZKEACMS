@@ -64,7 +64,7 @@ namespace ZKEACMS.WebHost
              {
                  option.SerializerSettings.DateFormatString = "yyyy-MM-dd";
              });
-            services.TryAddTransient<IOnConfiguring, EntityFrameWorkConfigure>();
+            services.TryAddTransient<IOnDatabaseConfiguring, EntityFrameWorkConfigure>();
 
             services.UseEasyFrameWork(Configuration, HostingEnvironment).LoadEnablePlugins(plugin =>
              {

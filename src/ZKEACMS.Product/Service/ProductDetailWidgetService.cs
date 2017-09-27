@@ -10,11 +10,11 @@ using System.Linq;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductDetailWidgetService : WidgetService<ProductDetailWidget, ProductDbContext>
+    public class ProductDetailWidgetService : WidgetService<ProductDetailWidget>
     {
         private readonly IProductService _productService;
-        public ProductDetailWidgetService(IWidgetBasePartService widgetService, IProductService productService, IApplicationContext applicationContext)
-            : base(widgetService, applicationContext)
+        public ProductDetailWidgetService(IWidgetBasePartService widgetService, IProductService productService, IApplicationContext applicationContext, ProductDbContext dbContext)
+            : base(widgetService, applicationContext,dbContext)
         {
             _productService = productService;
         }
@@ -23,7 +23,7 @@ namespace ZKEACMS.Product.Service
         {
             get
             {
-                return DbContext.ProductDetailWidget;
+                return (DbContext as ProductDbContext).ProductDetailWidget;
             }
         }
 

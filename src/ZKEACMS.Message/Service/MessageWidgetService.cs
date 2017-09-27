@@ -7,8 +7,8 @@ namespace ZKEACMS.Message.Service
 {
     public class MessageWidgetService : SimpleWidgetService<MessageWidget>
     {
-        public MessageWidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext) 
-            : base(widgetBasePartService, applicationContext)
+        public MessageWidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetBasePartService, applicationContext, dbContext)
         {
         }
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)

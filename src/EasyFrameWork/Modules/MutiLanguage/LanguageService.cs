@@ -5,16 +5,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Easy.Modules.MutiLanguage
 {
-    public class LanguageService : ServiceBase<LanguageEntity, EasyDbContext>, ILanguageService
+    public class LanguageService : ServiceBase<LanguageEntity>, ILanguageService
     {
-        public LanguageService(IApplicationContext applicationContext) : base(applicationContext)
+        public LanguageService(IApplicationContext applicationContext, EasyDbContext easyDbContext) : base(applicationContext, easyDbContext)
         {
         }
 
         public override DbSet<LanguageEntity> CurrentDbSet
         {
-            get { return DbContext.Language; }
+            get { return (DbContext as EasyDbContext).Language; }
         }
-        
+
     }
 }

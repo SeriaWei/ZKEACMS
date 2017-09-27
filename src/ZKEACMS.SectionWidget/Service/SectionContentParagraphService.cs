@@ -7,16 +7,16 @@ using System;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionContentParagraphService : ServiceBase<SectionContentParagraph, SectionDbContext>, ISectionContentService
+    public class SectionContentParagraphService : ServiceBase<SectionContentParagraph>, ISectionContentService
     {
-        public SectionContentParagraphService(IApplicationContext applicationContext) : base(applicationContext)
+        public SectionContentParagraphService(IApplicationContext applicationContext, SectionDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
         public override DbSet<SectionContentParagraph> CurrentDbSet
         {
             get
             {
-                return DbContext.SectionContentParagraph;
+                return (DbContext as SectionDbContext).SectionContentParagraph;
             }
         }
         public SectionContentBase.Types ContentType

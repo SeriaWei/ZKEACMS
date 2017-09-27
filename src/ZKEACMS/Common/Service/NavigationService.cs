@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Common.Service
 {
-    public class NavigationService : ServiceBase<NavigationEntity, CMSDbContext>, INavigationService
+    public class NavigationService : ServiceBase<NavigationEntity>, INavigationService
     {
-        public NavigationService(IApplicationContext applicationContext) : base(applicationContext)
+        public NavigationService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
 
@@ -21,7 +21,7 @@ namespace ZKEACMS.Common.Service
         {
             get
             {
-                return DbContext.Navigation;
+                return (DbContext as CMSDbContext).Navigation;
             }
         }
 

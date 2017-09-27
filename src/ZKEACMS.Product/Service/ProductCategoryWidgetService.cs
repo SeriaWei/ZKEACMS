@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductCategoryWidgetService : WidgetService<ProductCategoryWidget, ProductDbContext>
+    public class ProductCategoryWidgetService : WidgetService<ProductCategoryWidget>
     {
         private readonly IProductCategoryService _productCategoryService;
-        public ProductCategoryWidgetService(IWidgetBasePartService widgetService, IProductCategoryService productCategoryService, IApplicationContext applicationContext)
-            : base(widgetService, applicationContext)
+        public ProductCategoryWidgetService(IWidgetBasePartService widgetService, IProductCategoryService productCategoryService, IApplicationContext applicationContext, ProductDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
             _productCategoryService = productCategoryService;
         }
@@ -25,14 +25,14 @@ namespace ZKEACMS.Product.Service
         {
             get
             {
-                return DbContext.ProductCategoryWidget;
+                return (DbContext  as ProductDbContext).ProductCategoryWidget;
             }
         }
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             ProductCategoryWidget currentWidget = widget as ProductCategoryWidget;
-            int cate = actionContext.RouteData.GetCategory();            
+            int cate = actionContext.RouteData.GetCategory();
 
             return widget.ToWidgetViewModelPart(new ProductCategoryWidgetViewModel
             {

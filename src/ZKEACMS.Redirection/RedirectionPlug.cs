@@ -80,6 +80,7 @@ namespace ZKEACMS.Redirection
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.TryAddTransient<IUrlRedirectService, UrlRedirectService>();
+            serviceCollection.AddDbContext<RedirectionDbContext>();
         }
     }
 }

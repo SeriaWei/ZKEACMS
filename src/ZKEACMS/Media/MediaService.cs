@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Media
 {
-    public class MediaService : ServiceBase<MediaEntity, CMSDbContext>, IMediaService
+    public class MediaService : ServiceBase<MediaEntity>, IMediaService
     {
-        public MediaService(IApplicationContext applicationContext) : base(applicationContext)
+        public MediaService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
 
@@ -20,7 +20,7 @@ namespace ZKEACMS.Media
         {
             get
             {
-                return DbContext.Media;
+                return (DbContext as CMSDbContext).Media;
             }
         }
 

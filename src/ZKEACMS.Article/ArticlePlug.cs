@@ -75,6 +75,8 @@ namespace ZKEACMS.Article
         {
             serviceCollection.AddTransient<IArticleService, ArticleService>();
             serviceCollection.AddTransient<IArticleTypeService, ArticleTypeService>();
+
+            serviceCollection.AddDbContext<ArticleDbContext>();
         }
     }
 }

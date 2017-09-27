@@ -4,11 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ZKEACMS.Article.Models;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Article
 {
     public class ArticleDbContext : CMSDbContext
     {
+        public ArticleDbContext(IEnumerable<IOnModelCreating> modelCreatings, IOnDatabaseConfiguring configuring) : base(modelCreatings, configuring)
+        {
+        }
+
         internal DbSet<ArticleEntity> Article { get; set; }
         internal DbSet<ArticleType> ArticleType { get; set; }
         internal DbSet<ArticleDetailWidget> ArticleDetailWidget { get; set; }

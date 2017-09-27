@@ -11,10 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleTypeWidgetService : WidgetService<ArticleTypeWidget, ArticleDbContext>
+    public class ArticleTypeWidgetService : WidgetService<ArticleTypeWidget>
     {
         private readonly IArticleTypeService _articleTypeService;
-        public ArticleTypeWidgetService(IWidgetBasePartService widgetService, IArticleTypeService articleTypeService, IApplicationContext applicationContext) : base(widgetService, applicationContext)
+        public ArticleTypeWidgetService(IWidgetBasePartService widgetService, IArticleTypeService articleTypeService, IApplicationContext applicationContext, ArticleDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
             _articleTypeService = articleTypeService;
         }
@@ -23,7 +24,7 @@ namespace ZKEACMS.Article.Service
         {
             get
             {
-                return DbContext.ArticleTypeWidget;
+                return (DbContext as ArticleDbContext).ArticleTypeWidget;
             }
         }
 
@@ -32,7 +33,7 @@ namespace ZKEACMS.Article.Service
             ArticleTypeWidget currentWidget = widget as ArticleTypeWidget;
             var types = _articleTypeService.Get(m => m.ParentID == currentWidget.ArticleTypeID);
             int ac = actionContext.RouteData.GetCategory();
-            
+
 
             return widget.ToWidgetViewModelPart(new ArticleTypeWidgetViewModel
             {

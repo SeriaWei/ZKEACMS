@@ -7,9 +7,9 @@ using System;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionContentVideoService : ServiceBase<SectionContentVideo, SectionDbContext>, ISectionContentService
+    public class SectionContentVideoService : ServiceBase<SectionContentVideo>, ISectionContentService
     {
-        public SectionContentVideoService(IApplicationContext applicationContext) : base(applicationContext)
+        public SectionContentVideoService(IApplicationContext applicationContext, SectionDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
 
@@ -17,7 +17,7 @@ namespace ZKEACMS.SectionWidget.Service
         {
             get
             {
-                return DbContext.SectionContentVideo;
+                return (DbContext as SectionDbContext).SectionContentVideo;
             }
         }
 

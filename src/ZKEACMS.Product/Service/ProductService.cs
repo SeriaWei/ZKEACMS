@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductService : ServiceBase<ProductEntity,ProductDbContext>, IProductService
+    public class ProductService : ServiceBase<ProductEntity>, IProductService
     {
-        public ProductService(IApplicationContext applicationContext) : base(applicationContext)
+        public ProductService(IApplicationContext applicationContext, ProductDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
 
@@ -18,7 +18,7 @@ namespace ZKEACMS.Product.Service
         {
             get
             {
-                return DbContext.Product;
+                return (DbContext as ProductDbContext).Product;
             }
         }
 

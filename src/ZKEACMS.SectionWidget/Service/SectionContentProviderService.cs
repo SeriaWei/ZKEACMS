@@ -9,12 +9,12 @@ using System;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionContentProviderService : ServiceBase<SectionContentBasePart, SectionDbContext>, ISectionContentProviderService
+    public class SectionContentProviderService : ServiceBase<SectionContentBasePart>, ISectionContentProviderService
     {
         private readonly IEnumerable<ISectionContentService> _sectionContentServices;
 
-        public SectionContentProviderService(IEnumerable<ISectionContentService> sectionContentServices, IApplicationContext applicationContext)
-            : base(applicationContext)
+        public SectionContentProviderService(IEnumerable<ISectionContentService> sectionContentServices, IApplicationContext applicationContext, SectionDbContext dbContext)
+            : base(applicationContext, dbContext)
         {
             _sectionContentServices = sectionContentServices;
         }
@@ -23,7 +23,7 @@ namespace ZKEACMS.SectionWidget.Service
         {
             get
             {
-                return DbContext.SectionContentBasePart;
+                return (DbContext as SectionDbContext).SectionContentBasePart;
             }
         }
         public void Add(SectionContent item)

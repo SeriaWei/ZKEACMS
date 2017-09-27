@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Http;
 namespace ZKEACMS.Widget
 {
 
-    public class WidgetBasePartService : ServiceBase<WidgetBasePart, CMSDbContext>, IWidgetBasePartService
+    public class WidgetBasePartService : ServiceBase<WidgetBasePart>, IWidgetBasePartService
     {
         protected const string EncryptWidgetTemplate = "EncryptWidgetTemplate";
         private readonly IWidgetActivator _widgetActivator;
@@ -32,8 +32,8 @@ namespace ZKEACMS.Widget
                 setting.WithDictionaryHandle("PageWidgets").WithExpiration(ExpirationMode.Sliding, new TimeSpan(0, 10, 0));
             });
         }
-        public WidgetBasePartService(IApplicationContext applicationContext, IWidgetActivator widgetActivator, IServiceProvider serviceProvider, IHttpContextAccessor httpContextAccessor)
-            : base(applicationContext)
+        public WidgetBasePartService(IApplicationContext applicationContext, IWidgetActivator widgetActivator, IServiceProvider serviceProvider, IHttpContextAccessor httpContextAccessor, CMSDbContext dbContext)
+            : base(applicationContext, dbContext)
         {
             _widgetActivator = widgetActivator;
             _serviceProvider = serviceProvider;
@@ -43,7 +43,7 @@ namespace ZKEACMS.Widget
         {
             get
             {
-                return DbContext.WidgetBasePart;
+                return (DbContext as CMSDbContext).WidgetBasePart;
             }
         }
         private void TriggerChange(WidgetBase widget)

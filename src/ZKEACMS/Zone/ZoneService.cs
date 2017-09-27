@@ -12,10 +12,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Zone
 {
-    public class ZoneService : ServiceBase<ZoneEntity, CMSDbContext>, IZoneService
+    public class ZoneService : ServiceBase<ZoneEntity>, IZoneService
     {
         private readonly IServiceProvider _serviceProvder;
-        public ZoneService(IPageService pageService, IApplicationContext applicationContext, IServiceProvider serviceProvder) : base(applicationContext)
+        public ZoneService(IPageService pageService, IApplicationContext applicationContext, IServiceProvider serviceProvder, CMSDbContext dbContext) 
+            : base(applicationContext, dbContext)
         {
             PageService = pageService;
             _serviceProvder = serviceProvder;
@@ -27,7 +28,7 @@ namespace ZKEACMS.Zone
         {
             get
             {
-                return DbContext.Zone;
+                return (DbContext as CMSDbContext).Zone;
             }
         }
 

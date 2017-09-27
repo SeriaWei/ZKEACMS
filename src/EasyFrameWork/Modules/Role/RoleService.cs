@@ -7,11 +7,11 @@ using System;
 
 namespace Easy.Modules.Role
 {
-    public class RoleService : ServiceBase<RoleEntity, EasyDbContext>, IRoleService
+    public class RoleService : ServiceBase<RoleEntity>, IRoleService
     {
         private readonly IPermissionService _permissionService;
-        public RoleService(IPermissionService permissionService, IApplicationContext applicationContext)
-            : base(applicationContext)
+        public RoleService(IPermissionService permissionService, IApplicationContext applicationContext, EasyDbContext easyDbContext)
+            : base(applicationContext, easyDbContext)
         {
             _permissionService = permissionService;
         }
@@ -20,7 +20,7 @@ namespace Easy.Modules.Role
         {
             get
             {
-                return DbContext.Roles;
+                return (DbContext as EasyDbContext).Roles;
             }
         }
     }

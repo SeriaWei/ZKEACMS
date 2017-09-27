@@ -54,11 +54,13 @@ namespace Easy
             services.AddTransient<INotifyService, RazorEmailNotifyService>();
             services.AddTransient<IPluginLoader, Loader>();
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
+
             services.Configure<CDNOption>(configuration.GetSection("CDN"));
             services.Configure<CultureOption>(configuration.GetSection("Culture"));
 
-
             services.AddDataProtection();
+
+            services.AddDbContext<EasyDbContext>();
 
             return new Loader(hostingEnvironment);
         }

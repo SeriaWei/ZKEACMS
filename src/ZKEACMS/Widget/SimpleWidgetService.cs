@@ -10,10 +10,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Widget
 {
-    public abstract class SimpleWidgetService<T> : WidgetService<T, CMSDbContext> where T : SimpleWidgetBase, new()
+    public abstract class SimpleWidgetService<T> : WidgetService<T> where T : SimpleWidgetBase, new()
     {
-        public SimpleWidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext) :
-            base(widgetBasePartService, applicationContext)
+        public SimpleWidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext, CMSDbContext dbContext) :
+            base(widgetBasePartService, applicationContext, dbContext)
         {
         }
 
@@ -70,7 +70,7 @@ namespace ZKEACMS.Widget
             }
             return result;
         }
-       
+
         public override T GetSingle(Expression<Func<T, bool>> filter)
         {
             var widgetBase = WidgetBasePartService.GetSingle(Expression.Lambda<Func<WidgetBasePart, bool>>(filter.Body, filter.Parameters));

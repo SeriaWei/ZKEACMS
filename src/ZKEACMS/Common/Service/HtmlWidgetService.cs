@@ -9,10 +9,10 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Common.Service
 {
-    public class HtmlWidgetService : WidgetService<HtmlWidget, CMSDbContext>
+    public class HtmlWidgetService : WidgetService<HtmlWidget>
     {
-        public HtmlWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext)
-            : base(widgetService, applicationContext)
+        public HtmlWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
         }
 
@@ -20,7 +20,7 @@ namespace ZKEACMS.Common.Service
         {
             get
             {
-                return DbContext.HtmlWidget;
+                return (DbContext as CMSDbContext).HtmlWidget;
             }
         }
     }

@@ -25,51 +25,52 @@ namespace ZKEACMS
 {
     public static class Builder
     {
-        public static void UseZKEACMS(this IServiceCollection serviceCollection, IConfigurationRoot configuration)
+        public static void UseZKEACMS(this IServiceCollection services, IConfigurationRoot configuration)
         {
-            serviceCollection.TryAddScoped<IApplicationContextAccessor, ApplicationContextAccessor>();
-            serviceCollection.TryAddScoped<IApplicationContext, CMSApplicationContext>();
-            serviceCollection.TryAddSingleton<IRouteProvider, RouteProvider>();
-            serviceCollection.TryAddSingleton<IAdminMenuProvider, AdminMenuProvider>();
+            services.TryAddScoped<IApplicationContextAccessor, ApplicationContextAccessor>();
+            services.TryAddScoped<IApplicationContext, CMSApplicationContext>();
+            services.TryAddSingleton<IRouteProvider, RouteProvider>();
+            services.TryAddSingleton<IAdminMenuProvider, AdminMenuProvider>();
 
-            serviceCollection.TryAddTransient<IWidgetActivator, DefaultWidgetActivator>();
+            services.TryAddTransient<IWidgetActivator, DefaultWidgetActivator>();
 
-            serviceCollection.TryAddTransient<ICarouselItemService, CarouselItemService>();
-            serviceCollection.TryAddTransient<ICarouselService, CarouselService>();
-            serviceCollection.TryAddTransient<INavigationService, NavigationService>();
-            serviceCollection.TryAddTransient<IDashboardProviderService, DashboardProviderService>();
-            serviceCollection.TryAddTransient<IDashboardPartDriveService, DashboardWelcomePartService>();
-            serviceCollection.TryAddTransient<IDataArchivedService, DataArchivedService>();
-            serviceCollection.TryAddTransient<IExtendFieldService, ExtendFieldService>();
-            serviceCollection.TryAddTransient<INotifyService, NotifyService>();
-            serviceCollection.AddTransient<IUserCenterLinksProvider, UserCenterLinksProvider>();
-            serviceCollection.TryAddTransient<ILayoutService, LayoutService>();
-            serviceCollection.TryAddTransient<ILayoutHtmlService, LayoutHtmlService>();
-            serviceCollection.TryAddTransient<IMediaService, MediaService>();
-            serviceCollection.TryAddTransient<IPageService, PageService>();
-            serviceCollection.TryAddTransient<IApplicationSettingService, ApplicationSettingService>();
-            serviceCollection.TryAddTransient<IThemeService, ThemeService>();
-            serviceCollection.TryAddTransient<IWidgetTemplateService, WidgetTemplateService>();
-            serviceCollection.TryAddTransient<IWidgetBasePartService, WidgetBasePartService>();
-            serviceCollection.TryAddTransient<IZoneService, ZoneService>();
-            serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
-            serviceCollection.AddTransient<Easy.Notification.ISmtpProvider, SmtpProvider>();
-            serviceCollection.AddTransient<IPackageInstaller, ThemePackageInstaller>();
-            serviceCollection.AddTransient<IPackageInstaller, WidgetPackageInstaller>();
-            serviceCollection.AddTransient<IPackageInstaller, FilePackageInstaller>();
-            serviceCollection.AddTransient<IPackageInstaller, DataDictionaryPackageInstaller>();
-            serviceCollection.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
-            serviceCollection.AddTransient<IEventViewerService, EventViewerService>();
-            serviceCollection.Configure<DatabaseOption>(configuration.GetSection("Database"));
-            
+            services.TryAddTransient<ICarouselItemService, CarouselItemService>();
+            services.TryAddTransient<ICarouselService, CarouselService>();
+            services.TryAddTransient<INavigationService, NavigationService>();
+            services.TryAddTransient<IDashboardProviderService, DashboardProviderService>();
+            services.TryAddTransient<IDashboardPartDriveService, DashboardWelcomePartService>();
+            services.TryAddTransient<IDataArchivedService, DataArchivedService>();
+            services.TryAddTransient<IExtendFieldService, ExtendFieldService>();
+            services.TryAddTransient<INotifyService, NotifyService>();
+            services.AddTransient<IUserCenterLinksProvider, UserCenterLinksProvider>();
+            services.TryAddTransient<ILayoutService, LayoutService>();
+            services.TryAddTransient<ILayoutHtmlService, LayoutHtmlService>();
+            services.TryAddTransient<IMediaService, MediaService>();
+            services.TryAddTransient<IPageService, PageService>();
+            services.TryAddTransient<IApplicationSettingService, ApplicationSettingService>();
+            services.TryAddTransient<IThemeService, ThemeService>();
+            services.TryAddTransient<IWidgetTemplateService, WidgetTemplateService>();
+            services.TryAddTransient<IWidgetBasePartService, WidgetBasePartService>();
+            services.TryAddTransient<IZoneService, ZoneService>();
+            services.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+            services.AddTransient<Easy.Notification.ISmtpProvider, SmtpProvider>();
+            services.AddTransient<IPackageInstaller, ThemePackageInstaller>();
+            services.AddTransient<IPackageInstaller, WidgetPackageInstaller>();
+            services.AddTransient<IPackageInstaller, FilePackageInstaller>();
+            services.AddTransient<IPackageInstaller, DataDictionaryPackageInstaller>();
+            services.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
+            services.AddTransient<IEventViewerService, EventViewerService>();
+            services.Configure<DatabaseOption>(configuration.GetSection("Database"));
+
+            services.AddDbContext<CMSDbContext>();
 
             foreach (var item in WidgetBase.KnownWidgetService)
             {
-                serviceCollection.TryAddTransient(item.Value);
+                services.TryAddTransient(item.Value);
             }
             foreach (var item in WidgetBase.KnownWidgetModel)
             {
-                serviceCollection.TryAddTransient(item.Value);
+                services.TryAddTransient(item.Value);
             }
         }
     }

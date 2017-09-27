@@ -4,11 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ZKEACMS.SectionWidget.Models;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.SectionWidget
 {
     public class SectionDbContext : CMSDbContext
     {
+        public SectionDbContext(IEnumerable<IOnModelCreating> modelCreatings, IOnDatabaseConfiguring configuring) : base(modelCreatings, configuring)
+        {
+        }
+
         internal DbSet<SectionContentBasePart> SectionContentBasePart { get; set; }
         internal DbSet<SectionContentCallToAction> SectionContentCallToAction { get; set; }
         internal DbSet<SectionContentImage> SectionContentImage { get; set; }

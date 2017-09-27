@@ -14,24 +14,24 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Common.Service
 {
-    public class CarouselWidgetService : WidgetService<CarouselWidget, CMSDbContext>
+    public class CarouselWidgetService : WidgetService<CarouselWidget>
     {
         private readonly ICarouselItemService _carouselItemService;
+
+
+        public CarouselWidgetService(IWidgetBasePartService widgetService, ICarouselItemService carouselItemService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
+        {
+            _carouselItemService = carouselItemService;
+        }
 
         public override DbSet<CarouselWidget> CurrentDbSet
         {
             get
             {
-                return DbContext.CarouselWidget;
+                return (DbContext as CMSDbContext).CarouselWidget;
             }
         }
-
-        public CarouselWidgetService(IWidgetBasePartService widgetService, ICarouselItemService carouselItemService, IApplicationContext applicationContext)
-            : base(widgetService, applicationContext)
-        {
-            _carouselItemService = carouselItemService;
-        }
-
         public override WidgetBase GetWidget(WidgetBase widget)
         {
             var carouselWidget = base.GetWidget(widget) as CarouselWidget;

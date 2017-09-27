@@ -14,11 +14,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Common.Service
 {
-    public class NavigationWidgetService : WidgetService<NavigationWidget, CMSDbContext>
+    public class NavigationWidgetService : WidgetService<NavigationWidget>
     {
         private readonly INavigationService _navigationService;
-        public NavigationWidgetService(IWidgetBasePartService widgetService, INavigationService navigationService, IApplicationContext applicationContext)
-            : base(widgetService, applicationContext)
+        public NavigationWidgetService(IWidgetBasePartService widgetService, INavigationService navigationService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
             _navigationService = navigationService;
         }
@@ -27,7 +27,7 @@ namespace ZKEACMS.Common.Service
         {
             get
             {
-                return DbContext.NavigationWidget;
+                return (DbContext as CMSDbContext).NavigationWidget;
             }
         }
 

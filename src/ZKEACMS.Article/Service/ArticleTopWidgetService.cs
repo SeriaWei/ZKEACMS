@@ -12,14 +12,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleTopWidgetService : WidgetService<ArticleTopWidget, ArticleDbContext>
+    public class ArticleTopWidgetService : WidgetService<ArticleTopWidget>
     {
         private readonly IArticleService _articleService;
         private readonly IArticleTypeService _articleTypeService;
         public ArticleTopWidgetService(IWidgetBasePartService widgetService,
             IArticleService articleService,
             IApplicationContext applicationContext,
-            IArticleTypeService articleTypeService) : base(widgetService, applicationContext)
+            IArticleTypeService articleTypeService,
+            ArticleDbContext dbContext) : base(widgetService, applicationContext, dbContext)
         {
             _articleService = articleService;
             _articleTypeService = articleTypeService;
@@ -29,7 +30,7 @@ namespace ZKEACMS.Article.Service
         {
             get
             {
-                return DbContext.ArticleTopWidget;
+                return (DbContext as ArticleDbContext).ArticleTopWidget;
             }
         }
 
