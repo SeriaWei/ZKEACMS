@@ -15,14 +15,14 @@ namespace Easy.RepositoryPattern
     public abstract class ServiceBase<T> : IService<T>
         where T : class
     {
-        public ServiceBase(IApplicationContext applicationContext, DbContextBase dbContext)
+        public ServiceBase(IApplicationContext applicationContext, DbContext dbContext)
         {
             ApplicationContext = applicationContext;
             DbContext = dbContext;
             DbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
         
-        public virtual DbContextBase DbContext
+        public virtual DbContext DbContext
         {
             get;
             set;
