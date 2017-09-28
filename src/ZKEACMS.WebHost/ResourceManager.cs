@@ -74,6 +74,9 @@ namespace ZKEACMS.WebHost
 
             script("FileUploader")
                 .Include($"{ScriptPath}/FileUploader.js");
+
+            script("angular")
+                .Include($"{LibraryPath}/angular/angular.js", $"{LibraryPath}/angular/angular.min.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)

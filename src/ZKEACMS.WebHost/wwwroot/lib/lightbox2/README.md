@@ -13,31 +13,68 @@ by [Lokesh Dhakar](http://www.lokeshdhakar.com)
 
 ### Actively being worked on
 
-- **Maintenance.** Get open Issues and PRs number down.
+- **Maintenance.** Geting open Issues and PRs number down. Not working on new features for v2.x.
 
-### Not on the roadmap
+### Features *NOT* on the roadmap
 
-- **HTML or video content.** The goal of the script from the start has been to provide a better image viewing experience and I am planning on staying focused on that vision. Don't worry though there are plenty of alternative scripts a google away for those who need HTML or video content support.
+The goal of this script from it's beginnings till today is to to provide a better *image viewing experience*.
+
+- **HTML or video content.**  If you need to show html or video content, I recommend googling for an alternative script as there are many options.
+- **Social sharing buttons.** 
 
 ### v3.0 - In Brainstorming Phase
 
+**Interactions**
 - Add touch gesture support.
-- Rewrite animations for performance and flexibility.
+- Exploring using tilt gesture on mobile devices with extra-wide images.
+- If user attempts to go forward when at end of image set, animation (shake?) indicating the end or option to close Lightbox.
+- Make sure right-click/long pressing works to access the image's context menu.
+
+**Layout**
+- Allow vertical centering.
+- Update sizing on window resize.
+- Should the dev be able to choose the position of the caption, close button, and nav controls?
 - Optimize layout for mobile.
 - Optimize layout for screens of varying densities.
+- Should the close button still live in the bottom right corner?
+
+**Animations**
+- Evaluate start, end, and transition animations.
+- Rewrite animations for performance and flexibility.
+
+**Assets**
 - Use inline SVG for UI elements.
+
+**Caching**
+- Review if and how images should be preloaded
+
+**Accessibility**
+- Should opening lightbox update the url? and should this url be parsed on page load to show Lightbox automatically?
+- Review alt attributes.
+- Review ARIA roles.
+- Review constrast ratios.
+- Review keyboard input and tabbing.
+- Review click/touch target size.
+- Test with screen reader.
+
+**API**
 - Do not initialize automatically and allow multiple instances.
 - Add event handlers.
-- Allow the setting of options from HTML.
+- Allow setting options on the fly.
+- Allow the setting of options from HTML?
 - Allow instantiation with jQuery plugin syntax.
-- If one of the two options, maxWidth or maxHeight, is set, maintain aspect ratio.
-- Evaluate start, end, and transition animations.
 - Evaluate preloading and caching.
 - Evaluate droppping jQuery requirement.
-- If user attempts to go forward when at end of image set, animation (shake?) indicating the end or option to close Lightbox.
-
+- Allow placement inside of a specified element? Orig feature requester was dealing with iframe.
 
 ## Changelog
+
+### v2.9.0 - 2016-10-30
+
+- [Fix] Allow loading of lightbox.js anywhere on page. Prev requirement was at the end of the body tag. [Commit](https://github.com/lokesh/lightbox2/commit/7047214f77cfc8f892e8513426b57d45bf29e9cd)
+- [Add] Add imageFadeDuration option. [Commit](https://github.com/lokesh/lightbox2/commit/6d5f99a65f189a5d2bd7bbfac4682fe36e62871e)
+- [Change] Right-clicking image now shows context menu for image. [Commit](https://github.com/lokesh/lightbox2/commit/363c3cb8af8fae1b6f95d6679df976022290f878)
+- [Change] Allow controlling of image border with a simpler css border vs a parent container padding _hack_. [Commit](https://github.com/lokesh/lightbox2/commit/214361297f1dd5f0c19c1d80ff37c398cdda55cb)
 
 ### v2.8.2 - 2015-12-13
 

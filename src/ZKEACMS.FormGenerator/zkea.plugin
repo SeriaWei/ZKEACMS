@@ -1,0 +1,7 @@
+{
+	ID:"4FA5527B-9FA0-4974-8735-F56AFC9A87F5",
+	Name:"ZKEACMS.FormGenerator",
+	FileName:"ZKEACMS.FormGenerator.dll",
+	DeveloperFileName:"bin\\Debug\\netcoreapp2.0\\ZKEACMS.FormGenerator.dll",
+	Enable:"true"
+}

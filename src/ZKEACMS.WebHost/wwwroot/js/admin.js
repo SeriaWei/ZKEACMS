@@ -138,10 +138,11 @@ $(function () {
         }
     }
 
-
-    $(".Date").each(function () {
-        $(this).datepicker({ language: "zh-CN", format: $(this).attr("JsDateFormat") });
-    });
+    if ($.fn.datepicker) {
+        $(".Date").each(function () {
+            $(this).datepicker({ language: "zh-CN", format: $(this).attr("JsDateFormat") });
+        });
+    }
     $(document).on("click", ".nav.nav-tabs a", function () {
         $(this).tab('show');
         return false;

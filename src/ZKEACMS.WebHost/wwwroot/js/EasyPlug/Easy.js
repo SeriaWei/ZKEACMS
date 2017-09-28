@@ -712,6 +712,9 @@ jQuery.fn.extend({
         });
     }
 });
+$.fn.size = function () {
+    return this.length;
+}
 $.ajaxSetup({
     beforeSend: function (xhr) {
         xhr.busyTimer = setTimeout(function() {

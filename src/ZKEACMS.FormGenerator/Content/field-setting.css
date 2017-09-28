@@ -1,0 +1,25 @@
+﻿.field-item {
+    background: url(images/fields.png) no-repeat 10px 0;
+    padding: 6px 5px 7px 50px;
+    list-style: none;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+}
+    .field-item.Checkbox {
+        background-position: 10px -36px;
+    }
+    .field-item.Date {
+        background-position: 10px -247px;
+    }
+    .field-item.Dropdown {
+        background-position: 10px -141px;
+    }
+    .field-item.Paragraph {
+        background-position: 10px -70px;
+    }
+    .field-item.Radio {
+        background-position: 10px -106px;
+    }
+    .field-item.SingleLine {
+        background-position: 10px -1px;
+    }

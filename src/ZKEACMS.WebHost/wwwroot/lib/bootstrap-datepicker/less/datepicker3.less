@@ -4,8 +4,9 @@
 		width: 220px;
 	}
 	direction: ltr;
-	&&-rtl {
+	&-rtl {
 		direction: rtl;
+		&.dropdown-menu { left: auto; }
 		table tr td span {
 			float: right;
 		}
@@ -49,9 +50,6 @@
 			border-bottom: 0;
 			border-top:    6px solid @dropdown-bg;
 		}
-	}
-	> div {
-		display: none;
 	}
 	table {
 		margin: 0;
@@ -216,6 +214,12 @@
 		cursor: pointer;
 		&:hover {
 			background: @gray-lighter;
+		}
+	}
+
+	.prev, .next {
+		&.disabled {
+			visibility: hidden;
 		}
 	}
 

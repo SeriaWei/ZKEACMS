@@ -47,6 +47,7 @@
 		 * * `separator_after` - a boolean indicating if there should be a separator after this item
 		 * * `_disabled` - a boolean indicating if this action should be disabled
 		 * * `label` - a string - the name of the action (could be a function returning a string)
+		 * * `title` - a string - an optional tooltip for the item
 		 * * `action` - a function to be executed if this item is chosen, the function will receive 
 		 * * `icon` - a string, can be a path to an icon or a className, if using an image that is in the current directory use a `./` prefix, otherwise it will be detected as a class
 		 * * `shortcut` - keyCode which will trigger the action if the menu is open (for example `113` for rename, which equals F2)
@@ -67,7 +68,11 @@
 						var inst = $.jstree.reference(data.reference),
 							obj = inst.get_node(data.reference);
 						inst.create_node(obj, {}, "last", function (new_node) {
-							setTimeout(function () { inst.edit(new_node); },0);
+							try {
+								inst.edit(new_node);
+							} catch (ex) {
+								setTimeout(function () { inst.edit(new_node); },0);
+							}
 						});
 					}
 				},
@@ -168,7 +173,13 @@
 
 			var last_ts = 0, cto = null, ex, ey;
 			this.element
+				.on("init.jstree loading.jstree ready.jstree", $.proxy(function () {
+						this.get_container_ul().addClass('jstree-contextmenu');
+					}, this))
 				.on("contextmenu.jstree", ".jstree-anchor", $.proxy(function (e, data) {
+						if (e.target.tagName.toLowerCase() === 'input') {
+							return;
+						}
 						e.preventDefault();
 						last_ts = e.ctrlKey ? +new Date() : 0;
 						if(data || cto) {
@@ -191,14 +202,14 @@
 						if(!e.originalEvent || !e.originalEvent.changedTouches || !e.originalEvent.changedTouches[0]) {
 							return;
 						}
-						ex = e.pageX;
-						ey = e.pageY;
+						ex = e.originalEvent.changedTouches[0].clientX;
+						ey = e.originalEvent.changedTouches[0].clientY;
 						cto = setTimeout(function () {
 							$(e.currentTarget).trigger('contextmenu', true);
 						}, 750);
 					})
 				.on('touchmove.vakata.jstree', function (e) {
-						if(cto && e.originalEvent && e.originalEvent.changedTouches && e.originalEvent.changedTouches[0] && (Math.abs(ex - e.pageX) > 50 || Math.abs(ey - e.pageY) > 50)) {
+						if(cto && e.originalEvent && e.originalEvent.changedTouches && e.originalEvent.changedTouches[0] && (Math.abs(ex - e.originalEvent.changedTouches[0].clientX) > 50 || Math.abs(ey - e.originalEvent.changedTouches[0].clientY) > 50)) {
 							clearTimeout(cto);
 						}
 					})
@@ -231,7 +242,7 @@
 			*/
 			$(document).on("context_hide.vakata.jstree", $.proxy(function (e, data) {
 				this._data.contextmenu.visible = false;
-				data.reference.removeClass('jstree-context');
+				$(data.reference).removeClass('jstree-context');
 			}, this));
 		};
 		this.teardown = function () {
@@ -371,7 +382,7 @@
 					}
 					sep = false;
 					str += "<"+"li class='" + (val._class || "") + (val._disabled === true || ($.isFunction(val._disabled) && val._disabled({ "item" : val, "reference" : vakata_context.reference, "element" : vakata_context.element })) ? " vakata-contextmenu-disabled " : "") + "' "+(val.shortcut?" data-shortcut='"+val.shortcut+"' ":'')+">";
-					str += "<"+"a href='#' rel='" + (vakata_context.items.length - 1) + "'>";
+					str += "<"+"a href='#' rel='" + (vakata_context.items.length - 1) + "' " + (val.title ? "title='" + val.title + "'" : "") + ">";
 					if($.vakata.context.settings.icons) {
 						str += "<"+"i ";
 						if(val.icon) {
@@ -576,7 +587,7 @@
 						switch(e.which) {
 							case 13:
 							case 32:
-								e.type = "mouseup";
+								e.type = "click";
 								e.preventDefault();
 								$(e.currentTarget).trigger(e);
 								break;
@@ -631,7 +642,7 @@
 
 			$(document)
 				.on("mousedown.vakata.jstree", function (e) {
-					if(vakata_context.is_visible && !$.contains(vakata_context.element[0], e.target)) {
+					if(vakata_context.is_visible && vakata_context.element[0] !== e.target  && !$.contains(vakata_context.element[0], e.target)) {
 						$.vakata.context.hide();
 					}
 				})

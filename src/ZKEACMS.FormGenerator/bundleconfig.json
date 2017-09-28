@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "Content/field-setting.min.css",
+    "inputFiles": [
+      "Content/field-setting.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/fieldSettings.min.js",
+    "inputFiles": [
+      "Scripts/fieldSettings.js"
+    ]
+  }
+]
