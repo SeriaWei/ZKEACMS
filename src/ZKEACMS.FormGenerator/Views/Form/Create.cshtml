@@ -20,12 +20,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading">表单</div>
                 <div class="panel-body"  ondrop="angular.element(this).scope().drop(event)">
-                    <div class="form-group" ng-class="{required:template.Required}"
+                    <div class="form-group" ng-class="{required:field.Required,ondrop:field.onDrop}"
                          ng-repeat="field in Fields" 
                          ng-include="field.displayTemplate" 
                          ng-click="editTemplate(field)"
-                         index="{{$index}}"
-                         ondragover="angular.element(this).scope().allowDrop(event)"
+                         ondragover="angular.element(this).scope().dragOver(event)"
+                         ondragleave="angular.element(this).scope().dragLeave(event)"
                          >
 
                     </div>

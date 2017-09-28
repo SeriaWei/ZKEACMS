@@ -23,3 +23,6 @@
     .field-item.SingleLine {
         background-position: 10px -1px;
     }
+.form-group.ondrop {
+    background-color:#ccc;
+}

@@ -108,9 +108,28 @@
         }
     }
 
-    $scope.allowDrop = function (ev) {
-        //ev.currentTarget.attributes["index"].nodeValue
-        //alert(ev.currentTarget);
+    $scope.dragOver = function (ev) {       
+        var index = 0;
+        for (var i = 0; i < ev.currentTarget.parentNode.children.length; i++) {
+            if (ev.currentTarget === ev.currentTarget.parentNode.children[i]) {
+                index = i;
+                break;
+            }
+        }
+        $scope.Fields[index].onDrop = true;
+        $scope.$apply();
+        ev.preventDefault();
+    };
+    $scope.dragLeave = function (ev) {
+        var index = 0;
+        for (var i = 0; i < ev.currentTarget.parentNode.children.length; i++) {
+            if (ev.currentTarget === ev.currentTarget.parentNode.children[i]) {
+                index = i;
+                break;
+            }
+        }
+        $scope.Fields[index].onDrop = false;
+        $scope.$apply();
         ev.preventDefault();
     };
 
@@ -118,12 +137,20 @@
         ev.dataTransfer.setData("Field", ev.target.id);
     };
 
-    $scope.drop = function (ev) {        
+    $scope.drop = function (ev) {
         ev.preventDefault();
-        var data = ev.dataTransfer.getData("Field");        
+        var data = ev.dataTransfer.getData("Field");
+        var index = 0;
+        for (var i = 0; i < ev.currentTarget.children.length; i++) {
+            if (ev.target.parentNode === ev.currentTarget.children[i]) {
+                index = i;
+                break;
+            }
+        }
+        $scope.Fields[index].onDrop = false;
         for (var i = 0; i < $scope.templates.length; i++) {
             if (data == $scope.templates[i].Name) {
-                $scope.Fields.push(angular.copy($scope.templates[i]));
+                $scope.Fields.splice(index+1, 0, angular.copy($scope.templates[i]));
             }
         }
         $scope.$apply();
