@@ -10,7 +10,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">选择字段</div>
                 <div class="panel-body">
-                    <div class="field-item" id="{{template.Name}}" ng-class="template.Name" ng-repeat="template in templates" ng-bind="template.DisplayName" 
+                    <div class="field-item" id="{{template.Name}}" ng-class="template.Name" ng-repeat="template in templates" ng-bind="template.DisplayName"
                          draggable="true" ondragstart="angular.element(this).scope().drag(event)">
                     </div>
                 </div>
@@ -19,15 +19,14 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">表单</div>
-                <div class="panel-body"  ondrop="angular.element(this).scope().drop(event)">
-                    <div class="form-group" ng-class="{required:field.Required,ondrop:field.onDrop}"
-                         ng-repeat="field in Fields" 
-                         ng-include="field.displayTemplate" 
+                <div class="panel-body form-display">
+                    <div class="form-group" ng-class="{required:field.Required,ondrop:field.onDrop,active:field==fieldInfo}"
+                         ng-repeat="field in Fields"
+                         ng-include="field.displayTemplate"
                          ng-click="editTemplate(field)"
                          ondragover="angular.element(this).scope().dragOver(event)"
                          ondragleave="angular.element(this).scope().dragLeave(event)"
-                         >
-
+                         ondrop="angular.element(this).scope().drop(event)">
                     </div>
                 </div>
             </div>
@@ -65,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>
@@ -73,7 +72,7 @@
 {
     <script type="text/javascript">
         angular.module("fild", ["fieldSetting"]).controller("formgenerator", function ($scope) {
-            $scope.Fields =[];
+            $scope.Fields = [];
         });
 
     </script>

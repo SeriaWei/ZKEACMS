@@ -1,9 +1,7 @@
-﻿<div class="form-group">
-    <label class="control-label" ng-bind="field.DisplayName"></label>
-    <code ng-if="field.Description" ng-bind="field.Description"></code>
-    <div class="checkbox" ng-repeat="option in field.FieldOptions | orderBy:'Order'">
-        <label>
-            <input type="checkbox" ng-checked="option.DefaultSelected"> <span ng-bind="option.DisplayText" />
-        </label>
-    </div>
+﻿<label class="control-label" ng-bind="field.DisplayName"></label>
+<div class="checkbox" ng-repeat="option in field.FieldOptions | orderBy:'Order'">
+    <label>
+        <input type="checkbox" ng-checked="option.DefaultSelected"> <span ng-bind="option.DisplayText" />
+    </label>
 </div>
+<div class="text-muted" ng-if="field.Description" ng-bind="field.Description"></div>

@@ -1,7 +1,5 @@
-﻿<div class="form-group">
-    <label class="control-label" ng-bind="field.DisplayName"></label>
-    <code ng-if="field.Description" ng-bind="field.Description"></code>
-    <div class="controls">
-        <input class="form-control" type="text" />
-    </div>
+﻿<label class="control-label" ng-bind="field.DisplayName"></label>
+<div class="controls">
+    <input class="form-control" type="text" />
 </div>
+<div class="text-muted" ng-if="field.Description" ng-bind="field.Description"></div>

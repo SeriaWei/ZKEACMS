@@ -2,7 +2,7 @@
     $scope.templates = [
         {
             Name: "SingleLine",
-            DisplayName: "单行",
+            DisplayName: "单行文本",
             Description: "",
             Width: 200,
             Required: true,
@@ -11,7 +11,7 @@
         },
         {
             Name: "Paragraph",
-            DisplayName: "多行",
+            DisplayName: "多行文本",
             Description: "",
             Width: 200,
             Required: false,
@@ -52,7 +52,7 @@
         },
         {
             Name: "Dropdown",
-            DisplayName: "下拉菜单",
+            DisplayName: "下拉选项",
             Description: "",
             Width: 200,
             Format: 1,
@@ -90,7 +90,7 @@
         options.splice(removeIndex, 1);
     }
     $scope.addOption = function (options) {
-        options.push({ DisplayText: "", Value: "", DefaultSelected: false, Order: options.length + 1 });
+        options.push({ DisplayText: "", Value: "", DefaultSelected: false });
     }
     var orderBy = $filter('orderBy');
     $scope.sortOptions = function (options, reverse) {
@@ -141,8 +141,8 @@
         ev.preventDefault();
         var data = ev.dataTransfer.getData("Field");
         var index = 0;
-        for (var i = 0; i < ev.currentTarget.children.length; i++) {
-            if (ev.target.parentNode === ev.currentTarget.children[i]) {
+        for (var i = 0; i < ev.currentTarget.parentNode.children.length; i++) {
+            if (ev.currentTarget === ev.currentTarget.parentNode.children[i]) {
                 index = i;
                 break;
             }
