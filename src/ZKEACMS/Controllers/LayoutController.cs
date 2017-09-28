@@ -102,7 +102,7 @@ namespace ZKEACMS.Controllers
         
         public ActionResult SaveLayout(string[] html, LayoutEntity layout, ZoneCollection zones)
         {
-            layout.Html = Helper.GenerateHtml(html, zones);
+            layout.Html = Zone.Helper.GenerateHtml(html, zones);
             layout.Zones = zones;
             Service.UpdateDesign(layout);
             if (layout.Page != null)
