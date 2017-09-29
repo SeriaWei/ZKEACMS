@@ -58,3 +58,32 @@
 .control-label + .radio {
     margin-top: 0;
 }
+
+.input-group.size-1,
+.form-control.size-1 {
+    width: 25%;
+}
+
+.input-group.size-2,
+.form-control.size-2 {
+    width: 50%;
+}
+
+.input-group.size-3,
+.form-control.size-3 {
+    width: 75%;
+}
+.input-group.size-4,
+.form-control.size-4 {
+}
+
+.form-group .close {
+    float: none;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    z-index: 1;
+}
+.form-group .close:hover{
+    color:red;
+}

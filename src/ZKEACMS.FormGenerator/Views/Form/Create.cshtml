@@ -20,7 +20,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">表单</div>
                 <div class="panel-body form-display">
-                    <div class="form-group" ng-class="{required:field.Required,ondrop:field.onDrop,active:field==fieldInfo}"
+                    <div class="form-group clearfix" ng-class="{required:field.Required,ondrop:field.onDrop,active:field==fieldInfo}"
                          ng-repeat="field in Fields"
                          ng-include="field.displayTemplate"
                          ng-click="editTemplate(field)"

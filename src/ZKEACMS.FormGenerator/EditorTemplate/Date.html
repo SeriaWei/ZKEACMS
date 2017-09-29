@@ -1,9 +1,17 @@
 ﻿<div class="control-group">
 	<label>选项</label>
-	<div class="controls">
-		<label class="checkbox">
+	<div class="checkbox">
+		<label>
 			<input type="checkbox" ng-model="fieldInfo.ShowCurrentDate"/>
-			Display the current date
+			默认当天日期
 		</label>
 	</div>
+</div>
+<div class="form-group">
+    <div class="btn-group">
+        <a class="btn btn-default btn-small" ng-class="{disabled:fieldInfo.Size==1}" ng-click="fieldInfo.Size=1">窄</a>
+        <a class="btn btn-default btn-small" ng-class="{disabled:fieldInfo.Size==2}" ng-click="fieldInfo.Size=2">中等</a>
+        <a class="btn btn-default btn-small" ng-class="{disabled:fieldInfo.Size==3}" ng-click="fieldInfo.Size=3">宽</a>
+        <a class="btn btn-default btn-small" ng-class="{disabled:fieldInfo.Size==4}" ng-click="fieldInfo.Size=4">占满</a>
+    </div>
 </div>

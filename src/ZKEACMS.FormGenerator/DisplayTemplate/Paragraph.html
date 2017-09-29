@@ -1,3 +1,4 @@
 ﻿<label class="control-label" ng-bind="field.DisplayName"></label>
-<textarea class="form-control" rows="3" cols="10"></textarea>
+<textarea class="form-control" rows="3" cols="10" ng-class="'size-' + field.Size" placeholder="{{field.Placeholder}}"></textarea>
 <div class="text-muted" ng-if="field.Description" ng-bind="field.Description"></div>
+<button type="button" class="close" ng-click="removeField(field)"><span aria-hidden="true">&times;</span></button>

@@ -4,7 +4,8 @@
             Name: "SingleLine",
             DisplayName: "单行文本",
             Description: "",
-            Width: 200,
+            Placeholder:"",
+            Size: 2,
             Required: true,
             displayTemplate: "/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/SingleLine.html",
             editorTemplate: "/Plugins/ZKEACMS.FormGenerator/EditorTemplate/SingleLine.html"
@@ -13,7 +14,8 @@
             Name: "Paragraph",
             DisplayName: "多行文本",
             Description: "",
-            Width: 200,
+            Placeholder: "",
+            Size: 2,
             Required: false,
             displayTemplate: "/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/Paragraph.html",
             editorTemplate: "/Plugins/ZKEACMS.FormGenerator/EditorTemplate/Paragraph.html"
@@ -22,7 +24,7 @@
             Name: "Date",
             DisplayName: "日期",
             Description: "",
-            Width: 200,
+            Size: 2,
             Required: false,
             displayTemplate: "/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/Date.html",
             editorTemplate: "/Plugins/ZKEACMS.FormGenerator/EditorTemplate/Date.html"
@@ -31,7 +33,6 @@
             Name: "Radio",
             DisplayName: "单选",
             Description: "",
-            Width: 200,
             Required: false,
             DefaultSelect: {},
             FieldOptions: [{ DisplayText: "选项1", Value: "" }, { DisplayText: "选项2", Value: "" }],
@@ -42,7 +43,6 @@
             Name: "Checkbox",
             DisplayName: "多选",
             Description: "",
-            Width: 200,
             Format: 1,
             Required: false,
             DefaultSelect: {},
@@ -54,7 +54,7 @@
             Name: "Dropdown",
             DisplayName: "下拉选项",
             Description: "",
-            Width: 200,
+            Size: 2,
             Format: 1,
             Required: false,
             DefaultSelect: {},
@@ -79,6 +79,9 @@
         }
         option.DefaultSelected = true;
         data.DefaultSelect = option;
+    }
+    $scope.removeField = function (field) {
+        $scope.Fields = $scope.Fields.filter(function (item) { return item != field });
     }
     $scope.removeOption = function (options, option) {
         var removeIndex = 0;

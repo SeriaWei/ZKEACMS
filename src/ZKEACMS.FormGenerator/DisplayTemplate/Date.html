@@ -1,5 +1,7 @@
 ﻿<label class="control-label" ng-bind="field.DisplayName"></label>
-<div class="controls">
-    <input class="form-control" type="text" />
+<div class="input-group" ng-class="'size-' + field.Size">
+    <input type="text" class="form-control" placeholder="{{field.Placecholder}}">
+    <span class="input-group-addon">@</span>
 </div>
 <div class="text-muted" ng-if="field.Description" ng-bind="field.Description"></div>
+<button type="button" class="close" ng-click="removeField(field)"><span aria-hidden="true">&times;</span></button>
