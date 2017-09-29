@@ -4,4 +4,4 @@
     <span class="input-group-addon">@</span>
 </div>
 <div class="text-muted" ng-if="field.Description" ng-bind="field.Description"></div>
-<button type="button" class="close" ng-click="removeField(field)"><span aria-hidden="true">&times;</span></button>
+<button type="button" class="close" ng-click="removeField(field)" ng-if="Fields.length>1"><span aria-hidden="true">&times;</span></button>

@@ -1,4 +1,4 @@
 ﻿<label class="control-label" ng-bind="field.DisplayName"></label>
 <select class="form-control" ng-model="field.DefaultSelect" ng-options="option.Value as option.DisplayText for option in field.FieldOptions"></select>
 <div class="text-muted" ng-if="field.Description" ng-bind="field.Description"></div>
-<button type="button" class="close" ng-click="removeField(field)"><span aria-hidden="true">&times;</span></button>
+<button type="button" class="close" ng-click="removeField(field)" ng-if="Fields.length>1"><span aria-hidden="true">&times;</span></button>

@@ -54,10 +54,27 @@
         cursor: pointer;
     }
 
-.control-label + .checkbox,
-.control-label + .radio {
+.form-group .checkbox:first-child,
+.form-group .radio:first-child {
     margin-top: 0;
 }
+
+.form-group .checkbox:last-child,
+.form-group .radio:last-child {
+    margin-bottom: 0;
+}
+
+.form-group .close {
+    float: none;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    z-index: 1;
+}
+
+    .form-group .close:hover {
+        color: red;
+    }
 
 .input-group.size-1,
 .form-control.size-1 {
@@ -73,17 +90,7 @@
 .form-control.size-3 {
     width: 75%;
 }
+
 .input-group.size-4,
 .form-control.size-4 {
-}
-
-.form-group .close {
-    float: none;
-    position: absolute;
-    right: 5px;
-    bottom: 5px;
-    z-index: 1;
-}
-.form-group .close:hover{
-    color:red;
 }
