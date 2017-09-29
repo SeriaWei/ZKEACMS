@@ -25,3 +25,6 @@ CREATE TABLE [dbo].[Forms](
 GO
 
 
+insert into CMS_WidgetTemplate(Title,GroupName,PartialView,AssemblyName,ServiceTypeName,ViewModelTypeName,Thumbnail,[Order],[Status]) values
+(N'表单',N'1.通用',N'Widget.Form',N'ZKEACMS.FormGenerator',N'ZKEACMS.FormGenerator.Service.FormWidgetService',N'ZKEACMS.FormGenerator.Models.FormWidget',N'~/Plugins/ZKEACMS.FormGenerator/Content/Image/Widget.Form.png',12,1)
+

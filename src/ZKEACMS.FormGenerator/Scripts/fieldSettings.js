@@ -150,12 +150,17 @@
 
     //Saving
     $scope.save = function () {
+        if (!$.trim($scope.Title)) {
+            $scope.Message = "请输入这个表单的名称";
+            return;
+        }
         Easy.Block();
         $.ajax({
             type: 'POST',
             dataType: 'json',
             url: $scope.saveUrl,
             data: JSON.stringify({
+                ID: $scope.ID,
                 Title: $scope.Title,
                 Description: $scope.Description,
                 FormFields: $scope.Fields

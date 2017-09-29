@@ -21,7 +21,7 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label class="control-label" for="Title">名称</label>
-                        <input type="text" class="form-control" id="Title" ng-model="Title">
+                        <input type="text" class="form-control required" id="Title" ng-model="Title">
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="Description">描述</label>
@@ -32,7 +32,6 @@
         </div>
         <div class="col-md-6">
             <div class="alert alert-warning alert-dismissible" role="alert" ng-if="Message">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 {{Message}}
             </div>
             <div class="panel panel-default">

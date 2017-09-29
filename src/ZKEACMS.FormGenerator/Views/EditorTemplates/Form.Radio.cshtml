@@ -1,0 +1,15 @@
+﻿@model ZKEACMS.FormGenerator.Models.FormField
+<div class="form-group size-@Model.Size">
+    <label class="control-label" for="@Model.ID">@Model.DisplayName</label>
+    <div>
+        @foreach (var item in Model.FieldOptions)
+        {
+            <div class="radio">
+                <label>
+                    <input type="radio" value="@item.Value" name="@Model.ID">
+                    @item.DisplayText
+                </label>
+            </div>
+        }
+    </div>
+</div>
