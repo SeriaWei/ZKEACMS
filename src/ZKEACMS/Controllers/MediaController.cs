@@ -25,12 +25,12 @@ namespace ZKEACMS.Controllers
         {
         }
         [NonAction]
-        public override ActionResult Index()
+        public override IActionResult Index()
         {
             return base.Index();
         }
 
-        public ActionResult Index(string ParentId, int? pageIndex)
+        public IActionResult Index(string ParentId, int? pageIndex)
         {
             ParentId = ParentId ?? "#";
             Pagination pagin = new Pagination { PageIndex = pageIndex ?? 0 };
@@ -66,7 +66,7 @@ namespace ZKEACMS.Controllers
             }
         }
 
-        public ActionResult Select(string ParentId, int? pageIndex)
+        public IActionResult Select(string ParentId, int? pageIndex)
         {
             ViewBag.PopUp = true;
             return Index(ParentId, pageIndex);
@@ -158,7 +158,7 @@ namespace ZKEACMS.Controllers
             }
             return Json(false);
         }
-        public override JsonResult Delete(string ids)
+        public override IActionResult Delete(string ids)
         {
             DeleteMedia(ids);
             return base.Delete(ids);

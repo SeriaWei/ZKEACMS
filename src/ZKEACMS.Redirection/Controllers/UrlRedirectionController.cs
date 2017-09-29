@@ -36,17 +36,17 @@ namespace ZKEACMS.Redirection.Controllers
             return true;
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewUrlRedirect)]
-        public override ActionResult Index()
+        public override IActionResult Index()
         {
             return base.Index();
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageUrlRedirect)]
-        public override ActionResult Edit(int Id)
+        public override IActionResult Edit(int Id)
         {
             return base.Edit(Id);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageUrlRedirect)]
-        public override ActionResult Edit(UrlRedirect entity)
+        public override IActionResult Edit(UrlRedirect entity)
         {
            if(!Valid(entity))
             {
@@ -55,12 +55,12 @@ namespace ZKEACMS.Redirection.Controllers
             return base.Edit(entity);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageUrlRedirect)]
-        public override ActionResult Create()
+        public override IActionResult Create()
         {
             return base.Create();
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageUrlRedirect)]
-        public override ActionResult Create(UrlRedirect entity)
+        public override IActionResult Create(UrlRedirect entity)
         {
             if (!Valid(entity))
             {
@@ -69,7 +69,7 @@ namespace ZKEACMS.Redirection.Controllers
             return base.Create(entity);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ViewUrlRedirect)]
-        public override JsonResult GetList(DataTableOption query)
+        public override IActionResult GetList(DataTableOption query)
         {
             return base.GetList(query);
         }

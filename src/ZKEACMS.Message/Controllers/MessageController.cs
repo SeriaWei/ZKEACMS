@@ -13,22 +13,22 @@ namespace ZKEACMS.Message.Controllers
         {
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
-        public override ActionResult Create()
+        public override IActionResult Create()
         {
             return base.Create();
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
-        public override ActionResult Create(MessageEntity entity)
+        public override IActionResult Create(MessageEntity entity)
         {
             return base.Create(entity);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
-        public override ActionResult Edit(int Id)
+        public override IActionResult Edit(int Id)
         {
             return base.Edit(Id);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
-        public override ActionResult Edit(MessageEntity entity)
+        public override IActionResult Edit(MessageEntity entity)
         {
             return base.Edit(entity);
         }

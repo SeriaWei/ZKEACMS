@@ -4,11 +4,9 @@
             Name: "SingleLine",
             DisplayName: "单行文本",
             Description: "",
-            Placeholder:"",
+            Placeholder: "",
             Size: 2,
-            Required: true,
-            displayTemplate: "/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/SingleLine.html",
-            editorTemplate: "/Plugins/ZKEACMS.FormGenerator/EditorTemplate/SingleLine.html"
+            Required: true
         },
         {
             Name: "Paragraph",
@@ -16,18 +14,14 @@
             Description: "",
             Placeholder: "",
             Size: 2,
-            Required: false,
-            displayTemplate: "/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/Paragraph.html",
-            editorTemplate: "/Plugins/ZKEACMS.FormGenerator/EditorTemplate/Paragraph.html"
+            Required: false
         },
         {
             Name: "Date",
             DisplayName: "日期",
             Description: "",
             Size: 2,
-            Required: false,
-            displayTemplate: "/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/Date.html",
-            editorTemplate: "/Plugins/ZKEACMS.FormGenerator/EditorTemplate/Date.html"
+            Required: false
         },
         {
             Name: "Radio",
@@ -35,9 +29,7 @@
             Description: "",
             Required: false,
             DefaultSelect: {},
-            FieldOptions: [{ DisplayText: "选项1", Value: "" }, { DisplayText: "选项2", Value: "" }],
-            displayTemplate: "/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/RadioButton.html",
-            editorTemplate: "/Plugins/ZKEACMS.FormGenerator/EditorTemplate/RadioButton.html"
+            FieldOptions: [{ DisplayText: "选项1", Value: "" }, { DisplayText: "选项2", Value: "" }]
         },
         {
             Name: "Checkbox",
@@ -46,9 +38,7 @@
             Format: 1,
             Required: false,
             DefaultSelect: {},
-            FieldOptions: [{ DisplayText: "选项1", Value: "" }, { DisplayText: "选项2", Value: "" }],
-            displayTemplate: "/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/Checkbox.html",
-            editorTemplate: "/Plugins/ZKEACMS.FormGenerator/EditorTemplate/Checkbox.html"
+            FieldOptions: [{ DisplayText: "选项1", Value: "" }, { DisplayText: "选项2", Value: "" }]
         },
         {
             Name: "Dropdown",
@@ -58,11 +48,10 @@
             Format: 1,
             Required: false,
             DefaultSelect: {},
-            FieldOptions: [{ DisplayText: "选项1", Value: "" }, { DisplayText: "选项2", Value: "" }],
-            displayTemplate: "/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/DropDown.html",
-            editorTemplate: "/Plugins/ZKEACMS.FormGenerator/EditorTemplate/DropDown.html"
+            FieldOptions: [{ DisplayText: "选项1", Value: "" }, { DisplayText: "选项2", Value: "" }]
         }
     ];
+    
     if ($scope.Fields == null || $scope.Fields.length == 0) {
         $scope.Fields = [angular.copy($scope.templates[0])];
     }
@@ -111,7 +100,7 @@
         }
     }
 
-    $scope.dragOver = function (ev) {       
+    $scope.dragOver = function (ev) {
         var index = 0;
         for (var i = 0; i < ev.currentTarget.parentNode.children.length; i++) {
             if (ev.currentTarget === ev.currentTarget.parentNode.children[i]) {
@@ -153,9 +142,35 @@
         $scope.Fields[index].onDrop = false;
         for (var i = 0; i < $scope.templates.length; i++) {
             if (data == $scope.templates[i].Name) {
-                $scope.Fields.splice(index+1, 0, angular.copy($scope.templates[i]));
+                $scope.Fields.splice(index + 1, 0, angular.copy($scope.templates[i]));
             }
         }
         $scope.$apply();
     };
+
+    //Saving
+    $scope.save = function () {
+        Easy.Block();
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: $scope.saveUrl,
+            data: JSON.stringify({
+                Title: $scope.Title,
+                Description: $scope.Description,
+                FormFields: $scope.Fields
+            }),
+            contentType: 'application/json; charset=utf-8',
+            async: true,
+            success: function (data) {
+                if (data.Message) {
+                    $scope.Message = data.Message;
+                    $scope.$apply();
+                }
+                else {
+                    window.location.href = '/Admin/Form';
+                }
+            }
+        });
+    }
 }]);

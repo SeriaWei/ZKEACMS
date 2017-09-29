@@ -14,5 +14,15 @@ namespace ZKEACMS.FormGenerator.Controllers
         public FormController(IFormService service) : base(service)
         {
         }
+        [HttpPost]
+        public override IActionResult Create([FromBody]Form entity)
+        {
+            if (ModelState.IsValid)
+            {
+                Service.Add(entity);
+                return Json(new Easy.Mvc.AjaxResult { Status = Easy.Mvc.AjaxStatus.Normal });
+            }
+            return Json(new Easy.Mvc.AjaxResult { Status = Easy.Mvc.AjaxStatus.Error, Message = "s" });
+        }
     }
 }

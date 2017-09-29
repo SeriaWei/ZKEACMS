@@ -16,12 +16,12 @@ namespace ZKEACMS.Article.Controllers
         {
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewArticleType)]
-        public override ActionResult Index()
+        public override IActionResult Index()
         {
             return base.Index();
         }
 
-        public override ActionResult Create()
+        public override IActionResult Create()
         {
             var parentId = Request.Query["ParentID"];
             var articleType = new ArticleType { ParentID = 0 };
@@ -36,17 +36,17 @@ namespace ZKEACMS.Article.Controllers
             return View(articleType);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageArticleType)]
-        public override ActionResult Create(ArticleType entity)
+        public override IActionResult Create(ArticleType entity)
         {
             return base.Create(entity);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageArticleType)]
-        public override ActionResult Edit(int Id)
+        public override IActionResult Edit(int Id)
         {
             return base.Edit(Id);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageArticleType)]
-        public override ActionResult Edit(ArticleType entity)
+        public override IActionResult Edit(ArticleType entity)
         {
             return base.Edit(entity);
         }
@@ -58,12 +58,12 @@ namespace ZKEACMS.Article.Controllers
             return Json(node);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageArticleType)]
-        public override JsonResult Delete(int id)
+        public override IActionResult Delete(int id)
         {
             return base.Delete(id);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewArticleType)]
-        public ActionResult Select(int? selected)
+        public IActionResult Select(int? selected)
         {
             ViewBag.Selected = selected;
             return View();

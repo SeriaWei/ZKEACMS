@@ -25,18 +25,18 @@ namespace ZKEACMS.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public override ActionResult Index()
+        public override IActionResult Index()
         {
             return View(Service.Get());
         }
 
-        public ActionResult PreView(string id)
+        public IActionResult PreView(string id)
         {
             Service.SetPreview(id);
             return Redirect("~/");
         }
 
-        public ActionResult CancelPreView()
+        public IActionResult CancelPreView()
         {
             Service.CancelPreview();
             return RedirectToAction("Index");
