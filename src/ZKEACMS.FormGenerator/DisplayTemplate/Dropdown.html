@@ -3,5 +3,5 @@
     <option>请选择</option>
     <option ng-repeat="op in field.FieldOptions" value="op.Value" ng-bind="op.DisplayText"></option>
 </select>
-<div class="text-muted" ng-if="field.Description" ng-bind="field.Description"></div>
+<code ng-if="field.Description" ng-bind="field.Description"></code>
 <button type="button" class="close" ng-click="removeField(field)" ng-if="Fields.length>1"><span aria-hidden="true">&times;</span></button>

@@ -1,5 +1,5 @@
 ﻿@model ZKEACMS.FormGenerator.Models.FormField
-@{ 
+@{
     var attributes = Model.Attributes;
     if (attributes.ContainsKey("class"))
     {
@@ -7,7 +7,13 @@
     }
 }
 <div class="form-group size-@Model.Size">
-    <label class="control-label" for="@Model.ID">@Model.DisplayName</label>
+    <label class="control-label" for="@Model.ID">
+        @Model.DisplayName
+        @if (Model.IsRequired)
+            {
+            <span class="required">*</span>
+        }
+    </label>
     <div>
         @foreach (var item in Model.FieldOptions)
         {
@@ -20,4 +26,10 @@
         }
     </div>
     <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
+    @if (Model.Description.IsNotNullAndWhiteSpace())
+    {
+        <code>
+            @Model.Description
+        </code>
+    }
 </div>

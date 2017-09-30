@@ -3,17 +3,23 @@
     List<SelectListItem> items = new List<SelectListItem>();
     foreach (var item in Model.FieldOptions)
     {
-        items.Add(new SelectListItem { Value = item.Value, Text = item.DisplayText, Selected = item.Selected??false });
+        items.Add(new SelectListItem { Value = item.Value, Text = item.DisplayText, Selected = item.Selected ?? false });
     }
 }
 <div class="form-group size-@Model.Size">
-    <label for="@Model.ID" class="control-label">@Model.DisplayName</label>
-    @Html.DropDownList(Model.ID, items,"-- 请选择 --",Model.Attributes)
+    <label for="@Model.ID" class="control-label">
+        @Model.DisplayName
+        @if (Model.IsRequired)
+            {
+            <span class="required">*</span>
+        }
+    </label>
+    @Html.DropDownList(Model.ID, items, "-- 请选择 --", Model.Attributes)
     <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
-        <div class="text-muted">
+        <code>
             @Model.Description
-        </div>
+        </code>
     }
 </div>

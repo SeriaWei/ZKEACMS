@@ -1,10 +1,18 @@
 ﻿@model ZKEACMS.FormGenerator.Models.FormField
 <div class="form-group size-@Model.Size">
-    <label class="control-label" for="@Model.ID">@Model.DisplayName</label>
+    <label class="control-label" for="@Model.ID">
+        @Model.DisplayName
+        @if (Model.IsRequired)
+            {
+            <span class="required">*</span>
+        }
+    </label>
     @Html.TextArea(Model.ID, Model.Value, Model.Attributes)
     <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
-        <div class="text-muted">@Model.Description</div>
+        <code>
+            @Model.Description
+        </code>
     }
 </div>

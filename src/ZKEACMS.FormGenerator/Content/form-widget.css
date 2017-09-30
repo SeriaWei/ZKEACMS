@@ -1,5 +1,5 @@
 ﻿.form-widget .form-group.size-1 {
-    width:25%;
+    width: 25%;
 }
 
 .form-widget .form-group.size-2 {
@@ -12,6 +12,22 @@
 
 .form-widget .form-group.size-4 {
 }
+
 .form-widget .field-validation-valid {
     display: none;
+}
+
+.form-widget .control-label span.required {
+    font-weight: normal;
+    color: red;
+}
+
+.form-widget .form-group .checkbox:first-child,
+.form-widget .form-group .radio:first-child {
+    margin-top: 0;
+}
+
+.form-widget .form-group .checkbox:last-child,
+.form-widget .form-group .radio:last-child {
+    margin-bottom: 0;
 }
