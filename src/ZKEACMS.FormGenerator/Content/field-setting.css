@@ -30,6 +30,9 @@
     .field-item.SingleLine {
         background-position: 10px -1px;
     }
+    .field-item.Number {
+        background-position: 10px -385px;
+    }
 
 .form-group.ondrop, .form-group.active {
     background-color: #f4f4f4;

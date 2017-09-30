@@ -42,9 +42,9 @@ namespace ZKEACMS.FormGenerator.Models
                 {
                     attirbutes = new Dictionary<string, object>();
                     attirbutes.Add("class", (IsRequired ? "required " : "") + "form-control ");
+                    attirbutes.Add("data-val", "true");
                     if (IsRequired)
                     {
-                        attirbutes.Add("data-val", "true");
                         attirbutes.Add("data-val-required", DisplayName + "不能为空");
                     }
                     if (Placeholder.IsNotNullAndWhiteSpace())
@@ -56,5 +56,6 @@ namespace ZKEACMS.FormGenerator.Models
             }
         }
         public List<FieldOption> FieldOptions { get; set; }
+        public List<AdditionalSetting> AdditionalSettings { get; set; }
     }
 }

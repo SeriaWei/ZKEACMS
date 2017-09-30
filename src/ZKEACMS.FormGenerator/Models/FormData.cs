@@ -24,7 +24,7 @@ namespace ZKEACMS.FormGenerator.Models
     {
         protected override void ViewConfigure()
         {
-            
+            ViewConfig(m => m.Status).AsHidden();
         }
     }
 }

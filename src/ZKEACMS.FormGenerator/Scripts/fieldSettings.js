@@ -9,6 +9,23 @@
             IsRequired: false
         },
         {
+            Name: "Label",
+            DisplayName: "文本",
+            Description: "",
+            Placeholder: "",
+            Size: 2,
+            IsRequired: false
+        },
+        {
+            Name: "Number",
+            DisplayName: "数字",
+            Description: "",
+            Placeholder: "",
+            Size: 2,
+            IsRequired: false
+            //AdditionalSettings: [{ DisplayText: "最大值", Name: "num-max", Value: "" }, { DisplayText: "最小值", Name: "mum-min", Value: "" }]
+        },
+        {
             Name: "Paragraph",
             DisplayName: "多行文本",
             Description: "",

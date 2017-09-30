@@ -1,0 +1,12 @@
+﻿<div class="form-group">
+    <label class="control-label" for="placeholder">占位文字</label>
+    <input type="text" class="form-control" name="placeholder" id="placeholder" ng-model="fieldInfo.Placeholder" />
+</div>
+<div class="form-group">
+    <div class="btn-group">
+        <a class="btn btn-default btn-small" ng-class="{disabled:fieldInfo.Size==1}" ng-click="fieldInfo.Size=1">窄</a>
+        <a class="btn btn-default btn-small" ng-class="{disabled:fieldInfo.Size==2}" ng-click="fieldInfo.Size=2">中等</a>
+        <a class="btn btn-default btn-small" ng-class="{disabled:fieldInfo.Size==3}" ng-click="fieldInfo.Size=3">宽</a>
+        <a class="btn btn-default btn-small" ng-class="{disabled:fieldInfo.Size==4}" ng-click="fieldInfo.Size=4">占满</a>
+    </div>
+</div>
