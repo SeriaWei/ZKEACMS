@@ -1,4 +1,4 @@
-﻿<label class="control-label" ng-bind="field.DisplayName"></label>
+﻿<label class="control-label" ng-if="field.DisplayName" ng-bind="field.DisplayName"></label>
 <input class="form-control" type="text" ng-class="'size-' + field.Size"  placeholder="{{field.Placeholder}}" />
 <code ng-if="field.Description" ng-bind="field.Description"></code>
 <button type="button" class="close" ng-click="removeField(field)" ng-if="Fields.length>1"><span aria-hidden="true">&times;</span></button>

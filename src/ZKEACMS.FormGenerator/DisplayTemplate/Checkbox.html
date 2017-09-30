@@ -1,4 +1,4 @@
-﻿<label class="control-label" ng-bind="field.DisplayName"></label>
+﻿<label class="control-label" ng-if="field.DisplayName" ng-bind="field.DisplayName"></label>
 <div>
     <div class="checkbox" ng-repeat="option in field.FieldOptions">
         <label>

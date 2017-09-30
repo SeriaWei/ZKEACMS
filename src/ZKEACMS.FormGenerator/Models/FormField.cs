@@ -32,23 +32,27 @@ namespace ZKEACMS.FormGenerator.Models
         public string Placeholder { get; set; }
         public bool IsRequired { get; set; }
         public int? Size { get; set; }
+        Dictionary<string, object> attirbutes;
         [JsonIgnore]
         public Dictionary<string, object> Attributes
         {
             get
             {
-                Dictionary<string, object> dictionary = new Dictionary<string, object>();
-                dictionary.Add("class", (IsRequired ? "required " : "") + "form-control ");
-                if (IsRequired)
+                if (attirbutes == null)
                 {
-                    dictionary.Add("data-val", "true");
-                    dictionary.Add("data-val-required", DisplayName + " 不能为空");
+                    attirbutes = new Dictionary<string, object>();
+                    attirbutes.Add("class", (IsRequired ? "required " : "") + "form-control ");
+                    if (IsRequired)
+                    {
+                        attirbutes.Add("data-val", "true");
+                        attirbutes.Add("data-val-required", DisplayName + "不能为空");
+                    }
+                    if (Placeholder.IsNotNullAndWhiteSpace())
+                    {
+                        attirbutes.Add("placeholder", Placeholder);
+                    }
                 }
-                if (Placeholder.IsNotNullAndWhiteSpace())
-                {
-                    dictionary.Add("placeholder", Placeholder);
-                }
-                return dictionary;
+                return attirbutes;
             }
         }
         public List<FieldOption> FieldOptions { get; set; }

@@ -1,12 +1,15 @@
 ﻿@model ZKEACMS.FormGenerator.Models.FormField
 <div class="form-group size-@Model.Size">
-    <label class="control-label" for="@Model.ID">
-        @Model.DisplayName
-        @if (Model.IsRequired)
-        {
-            <span class="required">*</span>
-        }
-    </label>
+    @if (Model.DisplayName.IsNotNullAndWhiteSpace())
+    {
+        <label class="control-label" for="@Model.ID">
+            @Model.DisplayName
+            @if (Model.IsRequired)
+            {
+                <span class="required">*</span>
+            }
+        </label>
+    }
     <div>
         @for (int i = 0; i < Model.FieldOptions.Count; i++)
         {

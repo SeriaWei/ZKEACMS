@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Easy.Extend;
 
 namespace ZKEACMS.FormGenerator.Models
 {
@@ -13,7 +15,7 @@ namespace ZKEACMS.FormGenerator.Models
         {
             get
             {
-                if (_value == null)
+                if (_value.IsNullOrEmpty())
                 {
                     _value = Guid.NewGuid().ToString("N");
                 }
@@ -21,6 +23,7 @@ namespace ZKEACMS.FormGenerator.Models
             }
             set { _value = value; }
         }
+        [JsonIgnore]
         public bool? Selected { get; set; }
     }
 }

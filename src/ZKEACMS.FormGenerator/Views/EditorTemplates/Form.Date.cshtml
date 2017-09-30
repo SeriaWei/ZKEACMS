@@ -1,12 +1,20 @@
 ﻿@model ZKEACMS.FormGenerator.Models.FormField
+@{
+    string maxLength = "50";
+    Model.Attributes.Add("data-val-length", "{0}的长度应小于{1}".FormatWith(Model.DisplayName, maxLength));
+    Model.Attributes.Add("data-val-length-max", maxLength);
+}
 <div class="form-group size-@Model.Size">
-    <label class="control-label" for="@Model.ID">
-        @Model.DisplayName
-        @if (Model.IsRequired)
-        {
-            <span class="required">*</span>
-        }
-    </label>
+    @if (Model.DisplayName.IsNotNullAndWhiteSpace())
+    {
+        <label class="control-label" for="@Model.ID">
+            @Model.DisplayName
+            @if (Model.IsRequired)
+            {
+                <span class="required">*</span>
+            }
+        </label>
+    }
     <div class="input-group date size-@Model.Size" data-provide="datepicker" data-date-format="yyyy/mm/dd" data-date-language="zh-CN">
         @Html.TextBox(Model.ID, Model.Value, Model.Attributes)
         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>

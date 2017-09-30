@@ -1,4 +1,4 @@
-﻿<label class="control-label" ng-bind="field.DisplayName"></label>
+﻿<label class="control-label" ng-if="field.DisplayName" ng-bind="field.DisplayName"></label>
 <div class="input-group" ng-class="'size-' + field.Size">
     <input type="text" class="form-control" placeholder="{{field.Placeholder}}">
     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>

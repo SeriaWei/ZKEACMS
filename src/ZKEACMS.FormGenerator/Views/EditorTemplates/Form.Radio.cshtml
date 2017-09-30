@@ -7,13 +7,16 @@
     }
 }
 <div class="form-group size-@Model.Size">
-    <label class="control-label" for="@Model.ID">
-        @Model.DisplayName
-        @if (Model.IsRequired)
+    @if (Model.DisplayName.IsNotNullAndWhiteSpace())
+    {
+        <label class="control-label" for="@Model.ID">
+            @Model.DisplayName
+            @if (Model.IsRequired)
             {
-            <span class="required">*</span>
-        }
-    </label>
+                <span class="required">*</span>
+            }
+        </label>
+    }
     <div>
         @foreach (var item in Model.FieldOptions)
         {
