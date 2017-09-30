@@ -1,0 +1,14 @@
+﻿@model ZKEACMS.FormGenerator.Models.FormField
+<div class="form-group size-@Model.Size">
+    <label class="control-label" for="@Model.ID">@Model.DisplayName</label>
+    <div class="input-group size-@Model.Size">
+        <input type="text" class="form-control" id="@Model.ID" name="@Model.ID">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+    </div>
+    @if (Model.Description.IsNotNullAndWhiteSpace())
+    {
+        <div class="text-muted">
+            @Model.Description
+        </div>
+    }
+</div>

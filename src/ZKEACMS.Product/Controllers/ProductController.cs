@@ -27,17 +27,17 @@ namespace ZKEACMS.Product.Controllers
             _authorizer = authorizer;
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewProduct)]
-        public override ActionResult Index()
+        public override IActionResult Index()
         {
             return base.Index();
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
-        public override ActionResult Create()
+        public override IActionResult Create()
         {
             return base.Create();
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
-        public override ActionResult Create(ProductEntity entity)
+        public override IActionResult Create(ProductEntity entity)
         {
             var result = base.Create(entity);
             if (entity.ActionType == ActionType.Publish)
@@ -47,12 +47,12 @@ namespace ZKEACMS.Product.Controllers
             return result;
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
-        public override ActionResult Edit(int Id)
+        public override IActionResult Edit(int Id)
         {
             return base.Edit(Id);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
-        public override ActionResult Edit(ProductEntity entity)
+        public override IActionResult Edit(ProductEntity entity)
         {
             var result = base.Edit(entity);
             if (entity.ActionType == ActionType.Publish && _authorizer.Authorize(PermissionKeys.PublishProduct))
@@ -66,12 +66,12 @@ namespace ZKEACMS.Product.Controllers
             return result;
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
-        public override JsonResult GetList(DataTableOption query)
+        public override IActionResult GetList(DataTableOption query)
         {
             return base.GetList(query);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
-        public override JsonResult Delete(int id)
+        public override IActionResult Delete(int id)
         {
             return base.Delete(id);
         }

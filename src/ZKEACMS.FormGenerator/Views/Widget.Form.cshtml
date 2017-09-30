@@ -1,0 +1,8 @@
+﻿@model ZKEACMS.FormGenerator.Models.Form
+<div class="form-widget form-ho">
+    @for (int i = 0; i < Model.FormFields.Count; i++)
+    {
+        @Html.EditorFor(n => n.FormFields[i], "Form.{0}".FormatWith(Model.FormFields[i].Name))
+    }
+    <button class="btn btn-primary">提交</button>
+</div>

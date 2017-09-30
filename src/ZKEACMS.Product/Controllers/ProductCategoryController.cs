@@ -19,12 +19,12 @@ namespace ZKEACMS.Product.Controllers
         {
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewProductCategory)]
-        public override ActionResult Index()
+        public override IActionResult Index()
         {
             return base.Index();
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageProductCategory)]
-        public override ActionResult Create()
+        public override IActionResult Create()
         {
 
             var parentId = Request.Query["ParentID"];
@@ -40,22 +40,22 @@ namespace ZKEACMS.Product.Controllers
             return View(productCategory);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProductCategory)]
-        public override ActionResult Create(ProductCategory entity)
+        public override IActionResult Create(ProductCategory entity)
         {
             return base.Create(entity);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageProductCategory)]
-        public override ActionResult Edit(int Id)
+        public override IActionResult Edit(int Id)
         {
             return base.Edit(Id);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProductCategory)]
-        public override ActionResult Edit(ProductCategory entity)
+        public override IActionResult Edit(ProductCategory entity)
         {
             return base.Edit(entity);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProductCategory)]
-        public override JsonResult Delete(int id)
+        public override IActionResult Delete(int id)
         {
             return base.Delete(id);
         }
@@ -68,7 +68,7 @@ namespace ZKEACMS.Product.Controllers
         }
 
         [DefaultAuthorize(Policy = PermissionKeys.ViewProductCategory)]
-        public ActionResult Select(int? selected)
+        public IActionResult Select(int? selected)
         {
             ViewBag.Selected = selected;
             return View();

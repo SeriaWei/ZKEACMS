@@ -1,11 +1,12 @@
-﻿@{
+﻿@model ZKEACMS.FormGenerator.Models.Form
+@{
     Style.Reqiured("field-setting").AtHead();
     Script.Reqiured("angular").AtFoot();
     Script.Reqiured("field-setting").AtFoot();
 }
 
 <div class="container-fluid" ng-app="fild" ng-controller="formgenerator">
-    <div class="row" ng-app="fieldSetting" ng-controller="setting">
+    <div class="row" ng-app="fieldSetting" ng-controller="setting" ng-init="saveUrl='@Url.Action("Create")'">
         <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">选择字段</div>
@@ -15,19 +16,39 @@
                     </div>
                 </div>
             </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">基本信息</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label" for="Title">名称</label>
+                        <input type="text" class="form-control required" id="Title" ng-model="Title">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="Description">描述</label>
+                        <textarea class="form-control" id="Description" ng-model="Description"></textarea>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-md-6">
+            <div class="alert alert-warning alert-dismissible" role="alert" ng-if="Message">
+                {{Message}}
+            </div>
             <div class="panel panel-default">
                 <div class="panel-heading">表单</div>
                 <div class="panel-body form-display">
                     <div class="form-group clearfix" ng-class="{required:field.Required,ondrop:field.onDrop,active:field==fieldInfo}"
                          ng-repeat="field in Fields"
-                         ng-include="field.displayTemplate"
+                         ng-include="'/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/' + field.Name + '.html'"
                          ng-click="editTemplate(field)"
                          ondragover="angular.element(this).scope().dragOver(event)"
                          ondragleave="angular.element(this).scope().dragLeave(event)"
                          ondrop="angular.element(this).scope().drop(event)">
                     </div>
+                </div>
+                <div class="panel-footer">
+                    <a ng-click="save()" class="btn btn-primary">保存</a>
+                    <a class="btn btn-default cancel">取消</a>
                 </div>
             </div>
         </div>
@@ -47,7 +68,7 @@
                                 <label class="control-label" for="Description">备注</label>
                                 <textarea name="Description" id="Description" class="form-control" rows="3" cols="10" ng-model="fieldInfo.Description"></textarea>
                             </div>
-                            <div ng-include="fieldInfo.editorTemplate">
+                            <div ng-include="'/Plugins/ZKEACMS.FormGenerator/EditorTemplate/' + fieldInfo.Name + '.html'">
 
                             </div>
                             <hr />
@@ -74,6 +95,5 @@
         angular.module("fild", ["fieldSetting"]).controller("formgenerator", function ($scope) {
             $scope.Fields = [];
         });
-
     </script>
 }

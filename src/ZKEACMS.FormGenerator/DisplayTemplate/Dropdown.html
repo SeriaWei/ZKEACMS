@@ -1,5 +1,5 @@
 ﻿<label class="control-label" ng-bind="field.DisplayName"></label>
-<select class="form-control">
+<select class="form-control" ng-class="'size-' + field.Size">
     <option ng-repeat="op in field.FieldOptions" value="op.Value" ng-bind="op.DisplayText"></option>
 </select>
 <div class="text-muted" ng-if="field.Description" ng-bind="field.Description"></div>

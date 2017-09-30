@@ -63,7 +63,7 @@ namespace ZKEACMS.FormGenerator
 
         public override IEnumerable<Type> WidgetServiceTypes()
         {
-            return null;
+            yield return typeof(FormWidgetService);
         }
 
         public override void ConfigureServices(IServiceCollection serviceCollection)

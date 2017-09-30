@@ -15,7 +15,7 @@ namespace ZKEACMS.FormGenerator.Models
         [Key]
         public string ID { get; set; }
         [NotMapped]
-        public IEnumerable<FormField> FormFields { get; set; }
+        public List<FormField> FormFields { get; set; }
         public string FieldsData { get; set; }
     }
     class FormMetaData : ViewMetaData<Form>

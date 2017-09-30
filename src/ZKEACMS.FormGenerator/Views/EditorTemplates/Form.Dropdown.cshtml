@@ -1,0 +1,16 @@
+﻿@model ZKEACMS.FormGenerator.Models.FormField
+<div class="form-group size-@Model.Size">
+    <label for="@Model.ID">@Model.DisplayName</label>
+    <select class="form-control" id="@Model.ID" name="@Model.ID">
+        @foreach (var item in Model.FieldOptions)
+        {
+            <option value="@item.Value">@item.DisplayText</option>
+        }
+    </select>
+    @if (Model.Description.IsNotNullAndWhiteSpace())
+    {
+        <div class="text-muted">
+            @Model.Description
+        </div>
+    }
+</div>
