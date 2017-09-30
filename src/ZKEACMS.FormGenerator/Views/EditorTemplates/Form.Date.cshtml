@@ -1,10 +1,11 @@
 ﻿@model ZKEACMS.FormGenerator.Models.FormField
 <div class="form-group size-@Model.Size">
     <label class="control-label" for="@Model.ID">@Model.DisplayName</label>
-    <div class="input-group size-@Model.Size">
-        <input type="text" class="form-control" id="@Model.ID" name="@Model.ID">
+    <div class="input-group date size-@Model.Size" data-provide="datepicker" data-date-format="yyyy/mm/dd" data-date-language="zh-CN">
+        @Html.TextBox(Model.ID,Model.Value,Model.Attributes)
         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
     </div>
+    <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
         <div class="text-muted">

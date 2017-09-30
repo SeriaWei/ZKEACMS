@@ -2,16 +2,25 @@
 <div class="form-group size-@Model.Size">
     <label class="control-label" for="@Model.ID">@Model.DisplayName</label>
     <div>
-        @foreach (var item in Model.FieldOptions)
+        @for (int i = 0; i < Model.FieldOptions.Count; i++)
         {
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" value="@item.Value" name="@Model.ID"> 
-                    @item.DisplayText
+                    <input type="checkbox" 
+                           data-val="false"
+                           class="@(Model.IsRequired?"required-one":"")"
+                           value="@Model.FieldOptions[i].Value" 
+                           checked="@Model.FieldOptions[i].Selected"
+                           name="@("{0}[{1}]".FormatWith(Model.ID,i))">
+                    @Model.FieldOptions[i].DisplayText
                 </label>
             </div>
         }
+        
     </div>
+    <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true">
+        <span id="@(Model.ID)-error" class="">请至少选择一个选项</span>
+    </span>
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
         <div class="text-muted">

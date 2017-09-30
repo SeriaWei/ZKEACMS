@@ -3,5 +3,10 @@
     <label class="control-label" for="@Model.ID">
         @Model.DisplayName
     </label>
-    <input type="text" class="form-control" name="@Model.ID" id="@Model.ID" />
+    @Html.TextBox(Model.ID, Model.Value, Model.Attributes)
+    <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
+    @if (Model.Description.IsNotNullAndWhiteSpace())
+    {
+        <div class="text-muted">@Model.Description</div>
+    }
 </div>

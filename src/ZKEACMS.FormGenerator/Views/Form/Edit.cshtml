@@ -1,92 +1,11 @@
 ﻿@model ZKEACMS.FormGenerator.Models.Form
 @{
-    Style.Reqiured("field-setting").AtHead();
-    Script.Reqiured("angular").AtFoot();
-    Script.Reqiured("field-setting").AtFoot();
+
 }
 
 <div class="container-fluid" ng-app="fild" ng-controller="formgenerator">
     <div class="row" ng-app="fieldSetting" ng-controller="setting" ng-init="saveUrl='@Url.Action("Edit")'">
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">选择字段</div>
-                <div class="panel-body">
-                    <div class="field-item" id="{{template.Name}}" ng-class="template.Name" ng-repeat="template in templates" ng-bind="template.DisplayName"
-                         draggable="true" ondragstart="angular.element(this).scope().drag(event)">
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">基本信息</div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label class="control-label" for="Title">名称</label>
-                        <input type="text" class="form-control required" id="Title" ng-model="Title">
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="Description">描述</label>
-                        <textarea class="form-control" id="Description" ng-model="Description"></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="alert alert-warning alert-dismissible" role="alert" ng-if="Message">
-                {{Message}}
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">表单</div>
-                <div class="panel-body form-display">
-                    <div class="form-group clearfix" ng-class="{required:field.Required,ondrop:field.onDrop,active:field==fieldInfo}"
-                         ng-repeat="field in Fields"
-                         ng-include="'/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/' + field.Name + '.html'"
-                         ng-click="editTemplate(field)"
-                         ondragover="angular.element(this).scope().dragOver(event)"
-                         ondragleave="angular.element(this).scope().dragLeave(event)"
-                         ondrop="angular.element(this).scope().drop(event)">
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <a ng-click="save()" class="btn btn-primary">保存</a>
-                    <a class="btn btn-default cancel">取消</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">字段设置</div>
-                <div class="panel-body">
-                    <div ng-if="fieldInfo">
-                        <form name="fieldForm">
-                            <div class="form-group">
-                                <label class="control-label" for="DisplayName">名称</label>
-                                <input class="form-control" type="text" id="DisplayName" name="DisplayName" ng-model="fieldInfo.DisplayName" required ng-maxlength="100" />
-                                <code ng-show="fieldForm.DisplayName.$error.required">请输入名称</code>
-                                <code ng-show="fieldForm.DisplayName.$error.maxlength">Label max-length is 10</code>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="Description">备注</label>
-                                <textarea name="Description" id="Description" class="form-control" rows="3" cols="10" ng-model="fieldInfo.Description"></textarea>
-                            </div>
-                            <div ng-include="'/Plugins/ZKEACMS.FormGenerator/EditorTemplate/' + fieldInfo.Name + '.html'">
-
-                            </div>
-                            <hr />
-                            <div class="form-group">
-                                <label class="control-label">其它设置</label>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" ng-checked="fieldInfo.Required" ng-click="fieldInfo.Required=!fieldInfo.Required" />
-                                        作为必填字段
-                                    </label>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        @Html.Partial("Setting")
     </div>
 </div>
 @using (Script.AtFoot())

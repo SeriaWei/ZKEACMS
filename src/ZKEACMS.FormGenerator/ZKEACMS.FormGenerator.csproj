@@ -21,4 +21,8 @@
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\FormData\" />
+  </ItemGroup>
+
 </Project>

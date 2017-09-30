@@ -76,6 +76,10 @@
         color: red;
     }
 
+.form-group.required > label.control-label{
+    color:red;
+}
+
 .input-group.size-1,
 .form-control.size-1 {
     width: 25%;

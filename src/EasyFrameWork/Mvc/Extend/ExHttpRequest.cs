@@ -174,5 +174,10 @@ namespace Easy.Mvc.Extend
                 storage.DeleteFile(file);
             }
         }
+
+        public static string GetAbsoluteUrl(this HttpRequest request)
+        {
+            return request.Path.Value + request.QueryString;
+        }
     }
 }

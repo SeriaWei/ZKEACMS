@@ -1,4 +1,11 @@
 ﻿@model ZKEACMS.FormGenerator.Models.FormField
+@{ 
+    var attributes = Model.Attributes;
+    if (attributes.ContainsKey("class"))
+    {
+        attributes["class"] = attributes["class"].ToString().Replace("form-control", "");
+    }
+}
 <div class="form-group size-@Model.Size">
     <label class="control-label" for="@Model.ID">@Model.DisplayName</label>
     <div>
@@ -6,10 +13,11 @@
         {
             <div class="radio">
                 <label>
-                    <input type="radio" value="@item.Value" name="@Model.ID">
+                    @Html.RadioButton(Model.ID, item.Value, item.Selected, attributes)
                     @item.DisplayText
                 </label>
             </div>
         }
     </div>
+    <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
 </div>

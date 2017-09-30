@@ -15,5 +15,7 @@ namespace ZKEACMS.FormGenerator
         {
         }
         internal DbSet<Form> Form { get; set; }
+        internal DbSet<FormData> FormData { get; set; }
+        internal DbSet<FormDataItem> FormDataItem { get; set; }
     }
 }

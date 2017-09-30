@@ -18,7 +18,13 @@ namespace ZKEACMS.FormGenerator
     {
         public override IEnumerable<RouteDescriptor> RegistRoute()
         {
-            return null;
+            yield return new RouteDescriptor
+            {
+                RouteName = "FormData",
+                Template = "FormDataHandle/Submit",
+                Defaults = new { controller = "FormData", action = "Submit" },
+                Priority = 11
+            };
         }
 
         public override IEnumerable<AdminMenu> AdminMenu()
@@ -36,7 +42,9 @@ namespace ZKEACMS.FormGenerator
                     },
                     new AdminMenu
                     {
-                        Title="表单数据"
+                        Title="表单数据",
+                        Url="~/Admin/FormData",
+                        Icon="glyphicon-record"
                     }
                 },
                 Icon = "glyphicon-list-alt",
@@ -48,12 +56,17 @@ namespace ZKEACMS.FormGenerator
         {
             script("field-setting")
                 .Include("~/Plugins/ZKEACMS.FormGenerator/Scripts/fieldSettings.js", "~/Plugins/ZKEACMS.FormGenerator/Scripts/fieldSettings.min.js");
+            script("form-widget")
+                .Include("~/Plugins/ZKEACMS.FormGenerator/Scripts/form-widget.js", "~/Plugins/ZKEACMS.FormGenerator/Scripts/form-widget.min.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
             style("field-setting")
                 .Include("~/Plugins/ZKEACMS.FormGenerator/Content/field-setting.css", "~/Plugins/ZKEACMS.FormGenerator/Content/field-setting.min.css");
+
+            style("form-widget")
+                .Include("~/Plugins/ZKEACMS.FormGenerator/Content/form-widget.css", "~/Plugins/ZKEACMS.FormGenerator/Content/form-widget.min.css");
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
@@ -69,6 +82,8 @@ namespace ZKEACMS.FormGenerator
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.TryAddTransient<IFormService, FormService>();
+            serviceCollection.TryAddTransient<IFormDataService, FormDataService>();
+            serviceCollection.TryAddTransient<IFormDataItemService, FormDataItemService>();
 
             serviceCollection.AddDbContext<FormGeneratorDbContext>();
         }

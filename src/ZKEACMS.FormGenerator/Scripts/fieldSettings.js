@@ -6,7 +6,7 @@
             Description: "",
             Placeholder: "",
             Size: 2,
-            Required: true
+            IsRequired: false
         },
         {
             Name: "Paragraph",
@@ -14,31 +14,31 @@
             Description: "",
             Placeholder: "",
             Size: 2,
-            Required: false
+            IsRequired: false
         },
         {
             Name: "Date",
             DisplayName: "日期",
             Description: "",
             Size: 2,
-            Required: false
+            IsRequired: false
         },
         {
             Name: "Radio",
             DisplayName: "单选",
             Description: "",
-            Required: false,
+            IsRequired: false,
             DefaultSelect: {},
-            FieldOptions: [{ DisplayText: "选项1", Value: "" }, { DisplayText: "选项2", Value: "" }]
+            FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }]
         },
         {
             Name: "Checkbox",
             DisplayName: "多选",
             Description: "",
             Format: 1,
-            Required: false,
+            IsRequired: false,
             DefaultSelect: {},
-            FieldOptions: [{ DisplayText: "选项1", Value: "" }, { DisplayText: "选项2", Value: "" }]
+            FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }]
         },
         {
             Name: "Dropdown",
@@ -46,12 +46,12 @@
             Description: "",
             Size: 2,
             Format: 1,
-            Required: false,
+            IsRequired: false,
             DefaultSelect: {},
-            FieldOptions: [{ DisplayText: "-- 请选择 --", Value: "" }, { DisplayText: "选项1", Value: "" }],
+            FieldOptions: [{ DisplayText: "选项1" }],
         }
     ];
-    
+
     if ($scope.Fields == null || $scope.Fields.length == 0) {
         $scope.Fields = [angular.copy($scope.templates[0])];
     }
