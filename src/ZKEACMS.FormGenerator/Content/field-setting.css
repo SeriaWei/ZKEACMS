@@ -68,7 +68,7 @@
     float: none;
     position: absolute;
     right: 5px;
-    bottom: 5px;
+    top: 5px;
     z-index: 1;
 }
 

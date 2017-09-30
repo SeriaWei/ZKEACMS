@@ -58,7 +58,7 @@
             Format: 1,
             Required: false,
             DefaultSelect: {},
-            FieldOptions: [{ DisplayText: "选项1", Value: "" }, { DisplayText: "选项2", Value: "" }],
+            FieldOptions: [{ DisplayText: "-- 请选择 --", Value: "" }, { DisplayText: "选项1", Value: "" }],
             displayTemplate: "/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/DropDown.html",
             editorTemplate: "/Plugins/ZKEACMS.FormGenerator/EditorTemplate/DropDown.html"
         }
