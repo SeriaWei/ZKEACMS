@@ -1,4 +1,12 @@
 ﻿<div class="form-group">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-checked="fieldInfo.IsRequired" ng-click="fieldInfo.IsRequired=!fieldInfo.IsRequired" />
+            必填？
+        </label>
+    </div>
+</div>
+<div class="form-group">
     <label class="control-label" for="placeholder">占位文字</label>
     <input type="text" class="form-control" name="placeholder" id="placeholder" ng-model="fieldInfo.Placeholder" />
 </div>

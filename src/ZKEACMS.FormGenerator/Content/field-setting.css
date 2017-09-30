@@ -28,34 +28,47 @@
     }
 
     .field-item.SingleLine {
-        background-position: 10px -1px;
+        background-position: 10px -2px;
     }
+
     .field-item.Number {
         background-position: 10px -385px;
     }
 
-.form-group.ondrop, .form-group.active {
-    background-color: #f4f4f4;
-}
+    .field-item.Email {
+        background-position: 10px -526px;
+    }
+
+    .field-item.Label {
+        background-position: 10px -2px;
+    }
+
 
 .form-display .form-group {
     padding: 5px;
     border-radius: 5px;
     overflow: hidden;
     position: relative;
+    border: 1px solid transparent;
+    margin-bottom:8px;
 }
 
-    .form-display .form-group::after {
-        display: block;
-        content: " ";
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background-color: transparent;
-        cursor: pointer;
-    }
+.form-group.ondrop, .form-group.active {
+    background-color: #f4f4f4;
+    border: 1px solid #e2e2e2;
+}
+
+.form-display .form-group::after {
+    display: block;
+    content: " ";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
 
 .form-group .checkbox:first-child,
 .form-group .radio:first-child {
@@ -79,9 +92,9 @@
         color: red;
     }
 
-.form-group.required > label.control-label:after{
-    content:" *";
-    color:red;
+.form-group.required > label.control-label:after {
+    content: " *";
+    color: red;
 }
 
 .input-group.size-1,

@@ -42,6 +42,8 @@
                     ng-repeat="field in Fields"
                     ng-include="'/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/' + field.Name + '.html'"
                     ng-click="editTemplate(field)"
+                    draggable="true"
+                    ondragstart="angular.element(this).scope().drag(event)"
                     ondragover="angular.element(this).scope().dragOver(event)"
                     ondragleave="angular.element(this).scope().dragLeave(event)"
                     ondrop="angular.element(this).scope().drop(event)">
@@ -62,14 +64,6 @@
                     <div class="form-group">
                         <label class="control-label" for="Description">备注</label>
                         <textarea name="Description" id="Description" class="form-control" rows="3" cols="10" maxlength="500" ng-model="fieldInfo.Description"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" ng-checked="fieldInfo.IsRequired" ng-click="fieldInfo.IsRequired=!fieldInfo.IsRequired" />
-                                必填？
-                            </label>
-                        </div>
                     </div>
                     <div class="form-group" ng-if="fieldInfo.AdditionalSettings" ng-repeat="setting in fieldInfo.AdditionalSettings">
                         <label class="control-label" for="{{setting.Name}}">{{setting.DisplayText}}</label>

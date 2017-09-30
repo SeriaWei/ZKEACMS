@@ -2,14 +2,14 @@
 <div class="form-group">
     @if (Model.DisplayName.IsNotNullAndWhiteSpace())
     {
-        <label class="control-label" for="@Model.ID">
+        <h3>
             @Model.DisplayName
-        </label>
+        </h3>
     }
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
-        <code>
+        <p>
             @Model.Description
-        </code>
+        </p>
     }
 </div>

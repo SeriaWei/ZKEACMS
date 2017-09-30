@@ -2,18 +2,10 @@
     $scope.templates = [
         {
             Name: "SingleLine",
-            DisplayName: "单行文本",
+            DisplayName: "单行输入",
             Description: "",
             Placeholder: "",
-            Size: 2,
-            IsRequired: false
-        },
-        {
-            Name: "Label",
-            DisplayName: "文本",
-            Description: "",
-            Placeholder: "",
-            Size: 2,
+            Size: 3,
             IsRequired: false
         },
         {
@@ -21,28 +13,36 @@
             DisplayName: "数字",
             Description: "",
             Placeholder: "",
-            Size: 2,
+            Size: 3,
             IsRequired: false
             //AdditionalSettings: [{ DisplayText: "最大值", Name: "num-max", Value: "" }, { DisplayText: "最小值", Name: "mum-min", Value: "" }]
         },
         {
-            Name: "Paragraph",
-            DisplayName: "多行文本",
+            Name: "Email",
+            DisplayName: "邮箱地址",
             Description: "",
             Placeholder: "",
-            Size: 2,
+            Size: 3,
+            IsRequired: false
+        },
+        {
+            Name: "Paragraph",
+            DisplayName: "多行输入",
+            Description: "",
+            Placeholder: "",
+            Size: 3,
             IsRequired: false
         },
         {
             Name: "Date",
             DisplayName: "日期",
             Description: "",
-            Size: 2,
+            Size: 3,
             IsRequired: false
         },
         {
             Name: "Radio",
-            DisplayName: "单选",
+            DisplayName: "单项选择",
             Description: "",
             IsRequired: false,
             DefaultSelect: {},
@@ -50,7 +50,7 @@
         },
         {
             Name: "Checkbox",
-            DisplayName: "多选",
+            DisplayName: "多项选择",
             Description: "",
             Format: 1,
             IsRequired: false,
@@ -61,11 +61,19 @@
             Name: "Dropdown",
             DisplayName: "下拉选项",
             Description: "",
-            Size: 2,
+            Size: 3,
             Format: 1,
             IsRequired: false,
             DefaultSelect: {},
             FieldOptions: [{ DisplayText: "选项1" }],
+        },
+        {
+            Name: "Label",
+            DisplayName: "文本",
+            Description: "",
+            Placeholder: "",
+            Size: 3,
+            IsRequired: false
         }
     ];
 
@@ -144,6 +152,14 @@
 
     $scope.drag = function (ev) {
         ev.dataTransfer.setData("Field", ev.target.id);
+        var index = 0;
+        for (var i = 0; i < ev.currentTarget.parentNode.children.length; i++) {
+            if (ev.currentTarget === ev.currentTarget.parentNode.children[i]) {
+                index = i;
+                break;
+            }
+        }
+        ev.dataTransfer.setData("StartIndex", index);
     };
 
     $scope.drop = function (ev) {
@@ -157,11 +173,17 @@
             }
         }
         $scope.Fields[index].onDrop = false;
-        for (var i = 0; i < $scope.templates.length; i++) {
-            if (data == $scope.templates[i].Name) {
-                $scope.Fields.splice(index + 1, 0, angular.copy($scope.templates[i]));
+        if (data) {
+            for (var i = 0; i < $scope.templates.length; i++) {
+                if (data == $scope.templates[i].Name) {
+                    $scope.Fields.splice(index + 1, 0, angular.copy($scope.templates[i]));
+                }
             }
+        } else {
+            var startIndex = parseInt(ev.dataTransfer.getData("StartIndex"));
+            $scope.Fields.splice(index, 0, $scope.Fields.splice(startIndex, 1)[0]);
         }
+        
         $scope.$apply();
     };
 

@@ -107,7 +107,11 @@ VALUES  ( N'表单' ,
           N'ZKEACMS.FormGenerator' ,
           N'ZKEACMS.FormGenerator.Service.FormWidgetService' ,
           N'ZKEACMS.FormGenerator.Models.FormWidget' ,
-          N'~/Plugins/ZKEACMS.FormGenerator/Content/Image/Widget.Form.png' ,
+          N'~/Plugins/ZKEACMS.FormGenerator/Content/images/Widget.Form.png' ,
           12 ,
           1
         );
+
+GO
+INSERT INTO [Language](LanKey,CultureName,LanValue,Module,LanType)
+VALUES(N'FormWidget@FormID',N'zh-CN',N'表单',N'FormWidget',N'EntityProperty')

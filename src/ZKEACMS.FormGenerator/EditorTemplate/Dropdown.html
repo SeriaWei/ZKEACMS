@@ -1,4 +1,12 @@
 ﻿<div class="form-group">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-checked="fieldInfo.IsRequired" ng-click="fieldInfo.IsRequired=!fieldInfo.IsRequired" />
+            必填？
+        </label>
+    </div>
+</div>
+<div class="form-group">
     <div class="btn-group">
         <a class="btn btn-default btn-small" ng-class="{disabled:fieldInfo.Size==1}" ng-click="fieldInfo.Size=1">窄</a>
         <a class="btn btn-default btn-small" ng-class="{disabled:fieldInfo.Size==2}" ng-click="fieldInfo.Size=2">中等</a>
@@ -6,7 +14,7 @@
         <a class="btn btn-default btn-small" ng-class="{disabled:fieldInfo.Size==4}" ng-click="fieldInfo.Size=4">占满</a>
     </div>
 </div>
-<div class="control-group">
+<div class="form-group">
 	<label class="control-label">
 		选项
 	</label>
