@@ -69,7 +69,7 @@
         },
         {
             Name: "Label",
-            DisplayName: "文本",
+            DisplayName: "纯文本",
             Description: "",
             Placeholder: "",
             Size: 3,

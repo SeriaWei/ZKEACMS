@@ -38,13 +38,15 @@ namespace ZKEACMS.FormGenerator
                     {
                         Title="表单",
                         Url="~/Admin/Form",
-                        Icon="glyphicon-list-alt"
+                        Icon="glyphicon-list-alt",
+                        PermissionKey=PermissionKeys.ViewForm
                     },
                     new AdminMenu
                     {
                         Title="表单数据",
                         Url="~/Admin/FormData",
-                        Icon="glyphicon-record"
+                        Icon="glyphicon-record",
+                        PermissionKey=PermissionKeys.ViewFormData
                     }
                 },
                 Icon = "glyphicon-list-alt",
@@ -71,7 +73,10 @@ namespace ZKEACMS.FormGenerator
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
         {
-            return null;
+            yield return new PermissionDescriptor(PermissionKeys.ViewForm, "自定义表单", "查看表单", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageForm, "自定义表单", "管理表单", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewFormData, "自定义表单", "查看表单数据", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageFormData, "自定义表单", "管理表单数据", "");
         }
 
         public override IEnumerable<Type> WidgetServiceTypes()

@@ -26,7 +26,10 @@
             </div>
         </div>
         <div class="panel-footer">
-            <a ng-click="save()" class="btn btn-primary">保存</a>
+            @if (Authorizer.Authorize(ZKEACMS.FormGenerator.PermissionKeys.ManageForm))
+            {
+                <a ng-click="save()" class="btn btn-primary">保存</a>
+            }            
             <a class="btn btn-default cancel">取消</a>
         </div>
     </div>

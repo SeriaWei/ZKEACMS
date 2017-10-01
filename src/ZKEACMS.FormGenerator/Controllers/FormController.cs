@@ -7,15 +7,22 @@ using System.Threading.Tasks;
 using ZKEACMS.FormGenerator.Models;
 using ZKEACMS.FormGenerator.Service;
 using Easy.Extend;
+using Easy.Mvc.Authorize;
 
 namespace ZKEACMS.FormGenerator.Controllers
 {
+    [DefaultAuthorize(Policy = PermissionKeys.ViewForm)]
     public class FormController : BasicController<Form, string, IFormService>
     {
         public FormController(IFormService service) : base(service)
         {
         }
-        [HttpPost]
+        [DefaultAuthorize(Policy = PermissionKeys.ManageForm)]
+        public override IActionResult Create()
+        {
+            return base.Create();
+        }
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageForm)]
         public override IActionResult Create([FromBody]Form entity)
         {
             if (ModelState.IsValid)
@@ -25,7 +32,7 @@ namespace ZKEACMS.FormGenerator.Controllers
             }
             return Json(new Easy.Mvc.AjaxResult { Status = Easy.Mvc.AjaxStatus.Error, Message = ModelState.CombineErrorMessage() });
         }
-        [HttpPost]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageForm)]
         public override IActionResult Edit([FromBody]Form entity)
         {
             if (ModelState.IsValid)
@@ -34,6 +41,11 @@ namespace ZKEACMS.FormGenerator.Controllers
                 return Json(new Easy.Mvc.AjaxResult { Status = Easy.Mvc.AjaxStatus.Normal });
             }
             return Json(new Easy.Mvc.AjaxResult { Status = Easy.Mvc.AjaxStatus.Error, Message = ModelState.CombineErrorMessage() });
+        }
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageForm)]
+        public override IActionResult Delete(string id)
+        {
+            return base.Delete(id);
         }
     }
 }
