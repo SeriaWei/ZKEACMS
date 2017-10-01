@@ -5,16 +5,18 @@
             DisplayName: "单行输入",
             Description: "",
             Placeholder: "",
-            Size: 3,
-            IsRequired: false
+            IsRequired: false,
+            Size: 4,
+            Column: "col-md-12"
         },
         {
             Name: "Number",
             DisplayName: "数字",
             Description: "",
             Placeholder: "",
-            Size: 3,
-            IsRequired: false
+            IsRequired: false,
+            Size: 4,
+            Column: "col-md-12"
             //AdditionalSettings: [{ DisplayText: "最大值", Name: "num-max", Value: "" }, { DisplayText: "最小值", Name: "mum-min", Value: "" }]
         },
         {
@@ -22,58 +24,62 @@
             DisplayName: "邮箱地址",
             Description: "",
             Placeholder: "",
-            Size: 3,
-            IsRequired: false
+            IsRequired: false,
+            Size: 4,
+            Column: "col-md-12"
         },
         {
             Name: "Paragraph",
             DisplayName: "多行输入",
             Description: "",
             Placeholder: "",
-            Size: 3,
-            IsRequired: false
+            IsRequired: false,
+            Size: 4,
+            Column: "col-md-12"
         },
         {
             Name: "Date",
             DisplayName: "日期",
             Description: "",
-            Size: 3,
-            IsRequired: false
+            IsRequired: false,
+            Size: 4,
+            Column: "col-md-12"
         },
         {
             Name: "Radio",
             DisplayName: "单项选择",
             Description: "",
             IsRequired: false,
-            DefaultSelect: {},
+            Size: 4,
+            Column: "col-md-12",
             FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }]
         },
         {
             Name: "Checkbox",
             DisplayName: "多项选择",
             Description: "",
-            Format: 1,
             IsRequired: false,
-            DefaultSelect: {},
+            Size: 4,
+            Column: "col-md-12",
             FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }]
         },
         {
             Name: "Dropdown",
             DisplayName: "下拉选项",
             Description: "",
-            Size: 3,
-            Format: 1,
             IsRequired: false,
-            DefaultSelect: {},
+            Size: 4,
+            Column: "col-md-12",
             FieldOptions: [{ DisplayText: "选项1" }],
         },
         {
             Name: "Label",
-            DisplayName: "纯文本",
+            DisplayName: "标题",
             Description: "",
             Placeholder: "",
-            Size: 3,
-            IsRequired: false
+            IsRequired: false,
+            Size: 4,
+            Column: "col-md-12"
         }
     ];
 
@@ -183,10 +189,12 @@
             var startIndex = parseInt(ev.dataTransfer.getData("StartIndex"));
             $scope.Fields.splice(index, 0, $scope.Fields.splice(startIndex, 1)[0]);
         }
-        
+
         $scope.$apply();
     };
-
+    $scope.columnCute = function (field, index) {
+        return field.Column || "col-md-12";
+    }
     //Saving
     $scope.save = function () {
         if (!$.trim($scope.Title)) {

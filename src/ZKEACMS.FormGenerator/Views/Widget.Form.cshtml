@@ -1,5 +1,5 @@
 ﻿@model ZKEACMS.FormGenerator.Models.Form
-@{ 
+@{
     Style.Reqiured("datepicker").AtFoot();
     Style.Reqiured("form-widget").AtFoot();
 
@@ -12,10 +12,15 @@
     <form method="post" asp-action="Submit" asp-controller="FormData">
         <input type="hidden" name="next" value="@ViewContext.HttpContext.Request.GetAbsoluteUrl()" />
         <input type="hidden" name="FormId" value="@Model.ID" />
-        @for (int i = 0; i < Model.FormFields.Count; i++)
-        {
-            @Html.Partial(string.Format("EditorTemplates/Form.{0}", Model.FormFields[i].Name), Model.FormFields[i])
-        }
+        <div class="row">
+            @for (int i = 0; i < Model.FormFields.Count; i++)
+            {
+                <div class="@Model.FormFields[i].Column">
+                    @Html.Partial(string.Format("EditorTemplates/Form.{0}", Model.FormFields[i].Name), Model.FormFields[i])
+                </div>
+            }
+        </div>
+        <hr />
         <button class="btn btn-primary">提交</button>
     </form>
 </div>

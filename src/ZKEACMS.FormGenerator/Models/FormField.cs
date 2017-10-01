@@ -32,6 +32,7 @@ namespace ZKEACMS.FormGenerator.Models
         public string Placeholder { get; set; }
         public bool IsRequired { get; set; }
         public int? Size { get; set; }
+        public string Column { get; set; }
         Dictionary<string, object> attirbutes;
         [JsonIgnore]
         public Dictionary<string, object> Attributes

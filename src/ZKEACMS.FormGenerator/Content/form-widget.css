@@ -31,3 +31,6 @@
 .form-widget .form-group .radio:last-child {
     margin-bottom: 0;
 }
+.form-widget hr{
+    margin-top:0;
+}

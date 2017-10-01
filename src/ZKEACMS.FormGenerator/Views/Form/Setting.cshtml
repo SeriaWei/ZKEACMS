@@ -9,7 +9,7 @@
         <div class="panel-heading">选择字段</div>
         <div class="panel-body">
             <div class="field-item" id="{{template.Name}}" ng-class="template.Name" ng-repeat="template in templates" ng-bind="template.DisplayName"
-                    draggable="true" ondragstart="angular.element(this).scope().drag(event)">
+                 draggable="true" ondragstart="angular.element(this).scope().drag(event)">
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
             @if (Authorizer.Authorize(ZKEACMS.FormGenerator.PermissionKeys.ManageForm))
             {
                 <a ng-click="save()" class="btn btn-primary">保存</a>
-            }            
+            }
             <a class="btn btn-default cancel">取消</a>
         </div>
     </div>
@@ -41,15 +41,18 @@
     <div class="panel panel-default">
         <div class="panel-heading">表单</div>
         <div class="panel-body form-display">
-            <div class="form-group clearfix" ng-class="{required:field.IsRequired,ondrop:field.onDrop,active:field==fieldInfo}"
-                    ng-repeat="field in Fields"
-                    ng-include="'/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/' + field.Name + '.html'"
-                    ng-click="editTemplate(field)"
-                    draggable="true"
-                    ondragstart="angular.element(this).scope().drag(event)"
-                    ondragover="angular.element(this).scope().dragOver(event)"
-                    ondragleave="angular.element(this).scope().dragLeave(event)"
-                    ondrop="angular.element(this).scope().drop(event)">
+            <div class="row">
+                <div ng-class="columnCute(field,$index)" ng-repeat="field in Fields"
+                     draggable="true"
+                     ondragstart="angular.element(this).scope().drag(event)"
+                     ondragover="angular.element(this).scope().dragOver(event)"
+                     ondragleave="angular.element(this).scope().dragLeave(event)"
+                     ondrop="angular.element(this).scope().drop(event)">
+                    <div class="form-group clearfix" ng-class="{required:field.IsRequired,ondrop:field.onDrop,active:field==fieldInfo}"
+                         ng-include="'/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/' + field.Name + '.html'"
+                         ng-click="editTemplate(field)">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -72,13 +75,19 @@
                         <label class="control-label" for="{{setting.Name}}">{{setting.DisplayText}}</label>
                         <input class="form-control" type="text" id="{{setting.Name}}" ng-model="setting.Value" />
                     </div>
-                    <div ng-include="'/Plugins/ZKEACMS.FormGenerator/EditorTemplate/' + fieldInfo.Name + '.html'">
-
+                    <div class="form-group">
+                        <label class="control-label">布局</label>
+                        <div>
+                            <div class="btn-group">
+                                <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Column=='col-md-12'}" ng-click="fieldInfo.Column='col-md-12'">整行</a>
+                                <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Column=='col-md-6'}" ng-click="fieldInfo.Column='col-md-6'">1/2行</a>
+                            </div>
+                        </div>
                     </div>
+                    <div ng-include="'/Plugins/ZKEACMS.FormGenerator/EditorTemplate/' + fieldInfo.Name + '.html'"></div>
                 </form>
             </div>
         </div>
     </div>
 
 </div>
-    
