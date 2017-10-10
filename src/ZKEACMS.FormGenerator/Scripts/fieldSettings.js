@@ -55,15 +55,6 @@
             FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }]
         },
         {
-            Name: "Checkbox",
-            DisplayName: "多项选择",
-            Description: "",
-            IsRequired: false,
-            Size: 4,
-            Column: "col-md-12",
-            FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }]
-        },
-        {
             Name: "Dropdown",
             DisplayName: "下拉选项",
             Description: "",
@@ -71,6 +62,15 @@
             Size: 4,
             Column: "col-md-12",
             FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }],
+        },
+        {
+            Name: "Checkbox",
+            DisplayName: "多项选择",
+            Description: "",
+            IsRequired: false,
+            Size: 4,
+            Column: "col-md-12",
+            FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }]
         },
         {
             Name: "Address",

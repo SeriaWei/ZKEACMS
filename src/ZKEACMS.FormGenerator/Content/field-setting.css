@@ -14,7 +14,7 @@
     .field-item.Date {
         background-position: 10px -247px;
     }
-
+    .field-item.Address,
     .field-item.Dropdown {
         background-position: 10px -141px;
     }
@@ -90,6 +90,11 @@
 
     .form-group .close:hover {
         color: red;
+    }
+    .form-group dl{
+        margin-bottom:0;
+        font-size:88%;
+        color:#7d7d7d;
     }
 
 .form-group.required > label.control-label:after {

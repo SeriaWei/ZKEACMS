@@ -1,2 +1,4 @@
 ﻿<h4 class="control-label" ng-if="field.DisplayName" ng-bind="field.DisplayName"></h4>
-<p ng-if="field.Description" ng-bind="field.Description"></p>
+<dl ng-if="field.Description">
+    <dd ng-bind="field.Description"></dd>
+</dl>

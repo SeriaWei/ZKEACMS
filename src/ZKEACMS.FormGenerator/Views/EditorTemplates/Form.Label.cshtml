@@ -8,8 +8,10 @@
     }
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
-        <p>
-            @Model.Description
-        </p>
+        <dl>
+            <dd>
+                @Model.Description
+            </dd>
+        </dl>
     }
 </div>

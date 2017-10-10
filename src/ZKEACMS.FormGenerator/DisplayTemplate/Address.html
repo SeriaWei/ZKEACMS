@@ -18,6 +18,7 @@
         </div>
     </div>
 </div>
-
-<code ng-if="field.Description" ng-bind="field.Description"></code>
+<dl ng-if="field.Description">
+    <dd ng-bind="field.Description"></dd>
+</dl>
 <button type="button" class="close" ng-click="removeField(field)" ng-if="Fields.length>1"><span aria-hidden="true">&times;</span></button>

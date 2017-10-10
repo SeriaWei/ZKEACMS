@@ -15,15 +15,17 @@
             }
         </label>
     }
-    <div class="input-group date size-@Model.Size" data-provide="datepicker" data-date-format="yyyy/mm/dd" data-date-language="zh-CN">
+    <div class="input-group date size-@Model.Size" data-provide="datepicker" data-date-format="yyyy/mm/dd" data-date-language="zh-CN" data-date-today-highlight="true">
         @Html.TextBox(Model.ID, Model.Value, Model.Attributes)
         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
     </div>
     <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
-        <code>
-            @Model.Description
-        </code>
+        <dl>
+            <dd>
+                @Model.Description
+            </dd>
+        </dl>
     }
 </div>

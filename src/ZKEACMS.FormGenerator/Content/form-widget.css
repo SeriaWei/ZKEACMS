@@ -34,3 +34,8 @@
 .form-widget hr{
     margin-top:0;
 }
+.form-widget .form-group dl {
+    margin-bottom: 0;
+    font-size: 88%;
+    color: #7d7d7d;
+}

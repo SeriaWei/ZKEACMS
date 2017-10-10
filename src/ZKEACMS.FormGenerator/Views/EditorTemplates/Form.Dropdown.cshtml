@@ -21,8 +21,10 @@
     <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
-        <code>
-            @Model.Description
-        </code>
+        <dl>
+            <dd>
+                @Model.Description
+            </dd>
+        </dl>
     }
 </div>

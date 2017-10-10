@@ -32,8 +32,10 @@
     </span>
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
-        <code>
-            @Model.Description
-        </code>
+        <dl>
+            <dd>
+                @Model.Description
+            </dd>
+        </dl>
     }
 </div>
