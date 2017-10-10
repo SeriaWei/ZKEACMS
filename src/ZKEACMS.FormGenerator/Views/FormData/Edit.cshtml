@@ -31,15 +31,21 @@
                 }
             </tbody>
         </table>
-        
+
     </div>
     <div class="panel-footer">
         <a class="btn btn-default cancel">返回</a>
+        <a class="btn btn-primary" href="@Url.Action("Export",new { id = Model.ID })">
+            导出Excel
+        </a>
+        <a class="btn btn-danger" href="@Url.Action("ExportForm",new { id = Model.FormId })">
+            导出 @(Model.Form.Title) 的所有数据
+        </a>
     </div>
 </div>
 <div class="panel panel-default">
     <div class="panel-heading">
-       还原表单 @Model.Form.Title
+        还原表单 @Model.Form.Title
     </div>
     <div class="panel-body form-widget">
         @for (int i = 0; i < Model.Form.FormFields.Count; i++)

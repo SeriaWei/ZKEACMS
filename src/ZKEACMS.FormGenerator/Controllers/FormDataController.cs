@@ -29,5 +29,13 @@ namespace ZKEACMS.FormGenerator.Controllers
         {
             return base.Delete(id);
         }
+        public IActionResult Export(int id)
+        {
+            return File(Service.Export(id), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        }
+        public IActionResult ExportForm(string id)
+        {
+            return File(Service.ExportByForm(id), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        }
     }
 }

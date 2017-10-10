@@ -10,6 +10,11 @@ using Microsoft.AspNetCore.Http;
 using System.Text.RegularExpressions;
 using Easy.Extend;
 using Newtonsoft.Json;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml;
+using System.IO;
+using EasyFrameWork.Export;
 
 namespace ZKEACMS.FormGenerator.Service
 {
@@ -110,6 +115,63 @@ namespace ZKEACMS.FormGenerator.Service
         {
             _formDataItemService.Remove(m => m.FormDataId == item.ID);
             base.Remove(item, saveImmediately);
+        }
+
+        public MemoryStream Export(int id)
+        {
+            FormData formData = Get(id);
+
+            Excel excel = new Excel();
+            excel.GetHeaderData = () =>
+            {
+                return formData.Form.FormFields;
+            };
+            excel.GetHeaderText = h =>
+            {
+                return (h as FormField).DisplayName;
+            };
+            excel.GetDataRow = () =>
+            {
+                return new List<FormData> { formData };
+            };
+            excel.GetDataColumn = row =>
+            {
+                return (row as FormData).Form.FormFields;
+            };
+            excel.GetDataText = (cell) =>
+            {
+                return (cell as FormField).DisplayValue();
+            };
+            return excel.Export(formData.Title);
+        }
+
+        public MemoryStream ExportByForm(string formId)
+        {
+            var form = _formService.Get(formId);
+            var formDatas = Get(m => m.FormId == formId);
+
+            Excel excel = new Excel();
+            excel.GetHeaderData = () =>
+            {
+                return form.FormFields;
+            };
+            excel.GetHeaderText = h =>
+            {
+                return (h as FormField).DisplayName;
+            };
+            excel.GetDataRow = () =>
+            {
+                return formDatas;
+            };
+            excel.GetDataColumn = row =>
+            {
+                return Get((row as FormData).ID).Form.FormFields;
+            };
+            excel.GetDataText = (cell) =>
+            {
+                return (cell as FormField).DisplayValue();
+            };
+            return excel.Export(form.Title);
         }
     }
 }

@@ -89,7 +89,7 @@ namespace Easy.Mvc.Plugin
                 {
                     foreach (var item in dep.ResolveReferencePaths())
                     {
-                        if (File.Exists(item.ToFilePath()))
+                        if (File.Exists(item))
                         {
                             return LoadFromAssemblyPath(item);
                         }
