@@ -58,8 +58,12 @@ namespace ZKEACMS.FormGenerator
         {
             script("field-setting")
                 .Include("~/Plugins/ZKEACMS.FormGenerator/Scripts/fieldSettings.js", "~/Plugins/ZKEACMS.FormGenerator/Scripts/fieldSettings.min.js");
+
             script("form-widget")
                 .Include("~/Plugins/ZKEACMS.FormGenerator/Scripts/form-widget.js", "~/Plugins/ZKEACMS.FormGenerator/Scripts/form-widget.min.js");
+
+            script("distpicker")
+                .Include("~/Plugins/ZKEACMS.FormGenerator/Scripts/distpicker.js", "~/Plugins/ZKEACMS.FormGenerator/Scripts/distpicker.min.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)

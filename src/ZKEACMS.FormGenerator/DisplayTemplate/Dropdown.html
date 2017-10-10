@@ -1,4 +1,4 @@
-﻿<label class="control-label" ng-bind="field.DisplayName"></label>
+﻿<label class="control-label" ng-if="field.DisplayName" ng-bind="field.DisplayName"></label>
 <select class="form-control" ng-class="'size-' + field.Size">
     <option>-- 请选择 --</option>
     <option ng-repeat="op in field.FieldOptions" value="op.Value" ng-bind="op.DisplayText"></option>

@@ -70,7 +70,15 @@
             IsRequired: false,
             Size: 4,
             Column: "col-md-12",
-            FieldOptions: [{ DisplayText: "选项1" }],
+            FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }],
+        },
+        {
+            Name: "Address",
+            DisplayName: "省份地址",
+            Description: "",
+            IsRequired: false,
+            Size: 4,
+            Column: "col-md-12"
         },
         {
             Name: "Label",

@@ -9,6 +9,7 @@ using Easy;
 using Microsoft.AspNetCore.Http;
 using System.Text.RegularExpressions;
 using Easy.Extend;
+using Newtonsoft.Json;
 
 namespace ZKEACMS.FormGenerator.Service
 {
@@ -42,6 +43,7 @@ namespace ZKEACMS.FormGenerator.Service
             formData.Datas = _formDataItemService.Get(m => m.FormDataId == formData.ID).ToList();
             foreach (var item in formData.Form.FormFields)
             {
+                List<string> values = new List<string>();
                 foreach (var value in formData.Datas.Where(m => m.FieldId == item.ID))
                 {
                     if (value.OptionValue.IsNotNullAndWhiteSpace() && item.FieldOptions != null && item.FieldOptions.Any())
@@ -54,9 +56,18 @@ namespace ZKEACMS.FormGenerator.Service
                     }
                     else
                     {
-                        item.Value = value.FieldValue;
+                        values.Add(value.FieldValue);
                     }
                 }
+                if (values.Count == 1)
+                {
+                    item.Value = values[0];
+                }
+                else if (values.Count > 1)
+                {
+                    item.Value = JsonConvert.SerializeObject(values);
+                }
+
             }
 
 

@@ -22,5 +22,11 @@
     "inputFiles": [
       "Scripts/form-widget.js"
     ]
+  },
+  {
+    "outputFileName": "Scripts/distpicker.min.js",
+    "inputFiles": [
+      "Scripts/distpicker.js"
+    ]
   }
 ]
