@@ -310,7 +310,7 @@ Easy.ShowUrlWindow = function (op) {
     boxWindow.find(".Mid.TitleBarMid").html(deOp.title);
 
     var reSet = true;
-    boxWindow.find("iframe").load(function () {
+    boxWindow.find("iframe").on("load", function () {
         if (deOp.title == "") {
             boxWindow.find(".Mid.TitleBarMid").html(this.contentWindow.document.title);
         }
