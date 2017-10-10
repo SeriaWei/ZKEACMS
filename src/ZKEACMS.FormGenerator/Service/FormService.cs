@@ -32,7 +32,10 @@ namespace ZKEACMS.FormGenerator.Service
         public override Form Get(params object[] primaryKey)
         {
             var form = base.Get(primaryKey);
-            form.FormFields = JsonConvert.DeserializeObject<List<FormField>>(form.FieldsData);
+            if (form != null)
+            {
+                form.FormFields = JsonConvert.DeserializeObject<List<FormField>>(form.FieldsData);
+            }            
             return form;
         }
     }

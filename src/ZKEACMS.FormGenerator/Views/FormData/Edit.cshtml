@@ -35,12 +35,16 @@
     </div>
     <div class="panel-footer">
         <a class="btn btn-default cancel">返回</a>
-        <a class="btn btn-primary" href="@Url.Action("Export",new { id = Model.ID })">
-            导出Excel
-        </a>
-        <a class="btn btn-danger" href="@Url.Action("ExportForm",new { id = Model.FormId })">
-            导出 @(Model.Form.Title) 的所有数据
-        </a>
+        @if (Authorizer.Authorize(ZKEACMS.FormGenerator.PermissionKeys.ExportFormData))
+        {
+            <a class="btn btn-primary" href="@Url.Action("Export",new { id = Model.ID })" download="@Model.Form.Title">
+                导出Excel
+            </a>
+            <a class="btn btn-danger" href="@Url.Action("ExportForm",new { id = Model.FormId })" download="@Model.Form.Title">
+                导出表单 @(Model.Form.Title) 的所有数据
+            </a>
+        }
+        
     </div>
 </div>
 <div class="panel panel-default">

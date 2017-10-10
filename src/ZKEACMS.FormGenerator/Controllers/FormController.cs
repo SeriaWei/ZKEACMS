@@ -8,6 +8,7 @@ using ZKEACMS.FormGenerator.Models;
 using ZKEACMS.FormGenerator.Service;
 using Easy.Extend;
 using Easy.Mvc.Authorize;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ZKEACMS.FormGenerator.Controllers
 {
@@ -45,6 +46,11 @@ namespace ZKEACMS.FormGenerator.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageForm)]
         public override IActionResult Delete(string id)
         {
+            var formDataService = HttpContext.RequestServices.GetService<IFormDataService>();
+            formDataService.Get(m => m.FormId == id).Each(data =>
+            {
+                formDataService.Remove(data);
+            });
             return base.Delete(id);
         }
     }

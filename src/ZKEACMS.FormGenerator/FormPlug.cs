@@ -81,6 +81,7 @@ namespace ZKEACMS.FormGenerator
             yield return new PermissionDescriptor(PermissionKeys.ManageForm, "自定义表单", "管理表单", "");
             yield return new PermissionDescriptor(PermissionKeys.ViewFormData, "自定义表单", "查看表单数据", "");
             yield return new PermissionDescriptor(PermissionKeys.ManageFormData, "自定义表单", "管理表单数据", "");
+            yield return new PermissionDescriptor(PermissionKeys.ExportFormData, "自定义表单", "导出表单数据", "");
         }
 
         public override IEnumerable<Type> WidgetServiceTypes()

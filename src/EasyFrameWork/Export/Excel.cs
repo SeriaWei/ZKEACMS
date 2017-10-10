@@ -9,56 +9,54 @@ using System.Text;
 
 namespace EasyFrameWork.Export
 {
-    public class Excel
+    public class Excel : IDisposable
     {
-        public Func<IEnumerable> GetHeaderData { get; set; }
-        public Func<object, string> GetHeaderText { get; set; }
-        public Func<IEnumerable> GetDataRow { get; set; }
-        public Func<object, IEnumerable> GetDataColumn { get; set; }
-        public Func<object, string> GetDataText { get; set; }
-
-        public MemoryStream Export(string sheetName = null)
+        private MemoryStream memoryStream;
+        private SheetData sheetData;
+        private WorkbookPart workbookpart;
+        private SpreadsheetDocument spreadsheetDocument;
+        public Excel()
         {
-            MemoryStream ms = new MemoryStream();
-            SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Create(ms, SpreadsheetDocumentType.Workbook);
-            WorkbookPart workbookpart = spreadsheetDocument.AddWorkbookPart();
+            memoryStream = new MemoryStream();
+            spreadsheetDocument = SpreadsheetDocument.Create(memoryStream, SpreadsheetDocumentType.Workbook);
+            workbookpart = spreadsheetDocument.AddWorkbookPart();
             workbookpart.Workbook = new Workbook();
             WorksheetPart worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
             worksheetPart.Worksheet = new Worksheet(new SheetData());
             Sheets sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild(new Sheets());
-            Sheet sheet = new Sheet() { Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = sheetName ?? "sheet" };
+            Sheet sheet = new Sheet() { Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = "Sheet1" };
             sheets.Append(sheet);
-            SheetData sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
-            Row header = new Row() { RowIndex = 1 };
-            sheetData.Append(header);
+            sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
+        }
 
-
-            foreach (var item in GetHeaderData())
-            {
-                Cell newCell = new Cell();
-                header.InsertBefore(newCell, null);
-                newCell.CellValue = new CellValue(GetHeaderText(item));
-                newCell.DataType = new EnumValue<CellValues>(CellValues.String);
-            }
-
-            foreach (var item in GetDataRow())
-            {
-                Row rowData = new Row();
-                sheetData.Append(rowData);
-
-                foreach (var field in GetDataColumn(item))
-                {
-                    Cell dataCell = new Cell();
-                    rowData.InsertBefore(dataCell, null);
-                    dataCell.CellValue = new CellValue(GetDataText(field));
-                    dataCell.DataType = new EnumValue<CellValues>(CellValues.String);
-                }
-            }
-
+        public void Dispose()
+        {
+            spreadsheetDocument.Dispose();
+            memoryStream.Close();
+            memoryStream.Dispose();
+        }
+        public void AddRow(Action<Row> newrow)
+        {
+            Row row = new Row();
+            sheetData.Append(row);
+            newrow(row);
+        }
+        public MemoryStream ToMemoryStream()
+        {
             workbookpart.Workbook.Save();
             spreadsheetDocument.Close();
-            ms.Position = 0;
-            return ms;
+            memoryStream.Position = 0;
+            return new MemoryStream(memoryStream.ToArray());
+        }
+    }
+    public static class OpenXmlExt
+    {
+        public static void AppendCell(this Row row, string value)
+        {
+            Cell dataCell = new Cell();
+            row.AppendChild(dataCell);
+            dataCell.CellValue = new CellValue(value);
+            dataCell.DataType = new EnumValue<CellValues>(CellValues.String);
         }
     }
 }

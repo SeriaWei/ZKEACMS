@@ -15,6 +15,8 @@ namespace ZKEACMS.FormGenerator.Controllers
     [DefaultAuthorize(Policy = PermissionKeys.ViewFormData)]
     public class FormDataController : BasicController<FormData, int, IFormDataService>
     {
+        private const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
         public FormDataController(IFormDataService service) : base(service)
         {
         }
@@ -29,13 +31,15 @@ namespace ZKEACMS.FormGenerator.Controllers
         {
             return base.Delete(id);
         }
+        [DefaultAuthorize(Policy = PermissionKeys.ExportFormData)]
         public IActionResult Export(int id)
         {
-            return File(Service.Export(id), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            return File(Service.Export(id), ExcelContentType);
         }
+        [DefaultAuthorize(Policy = PermissionKeys.ExportFormData)]
         public IActionResult ExportForm(string id)
         {
-            return File(Service.ExportByForm(id), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            return File(Service.ExportByForm(id), ExcelContentType);
         }
     }
 }

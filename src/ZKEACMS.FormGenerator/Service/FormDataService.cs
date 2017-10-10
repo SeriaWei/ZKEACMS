@@ -46,36 +46,37 @@ namespace ZKEACMS.FormGenerator.Service
             var formData = base.Get(primaryKey);
             formData.Form = _formService.Get(formData.FormId);
             formData.Datas = _formDataItemService.Get(m => m.FormDataId == formData.ID).ToList();
-            foreach (var item in formData.Form.FormFields)
+            if (formData.Form != null)
             {
-                List<string> values = new List<string>();
-                foreach (var value in formData.Datas.Where(m => m.FieldId == item.ID))
+                foreach (var item in formData.Form.FormFields)
                 {
-                    if (value.OptionValue.IsNotNullAndWhiteSpace() && item.FieldOptions != null && item.FieldOptions.Any())
+                    List<string> values = new List<string>();
+                    foreach (var value in formData.Datas.Where(m => m.FieldId == item.ID))
                     {
-                        var option = item.FieldOptions.FirstOrDefault(o => o.Value == value.OptionValue);
-                        if (option != null)
+                        if (value.OptionValue.IsNotNullAndWhiteSpace() && item.FieldOptions != null && item.FieldOptions.Any())
                         {
-                            option.Selected = true;
+                            var option = item.FieldOptions.FirstOrDefault(o => o.Value == value.OptionValue);
+                            if (option != null)
+                            {
+                                option.Selected = true;
+                            }
+                        }
+                        else
+                        {
+                            values.Add(value.FieldValue);
                         }
                     }
-                    else
+                    if (values.Count == 1)
                     {
-                        values.Add(value.FieldValue);
+                        item.Value = values[0];
                     }
-                }
-                if (values.Count == 1)
-                {
-                    item.Value = values[0];
-                }
-                else if (values.Count > 1)
-                {
-                    item.Value = JsonConvert.SerializeObject(values);
-                }
+                    else if (values.Count > 1)
+                    {
+                        item.Value = JsonConvert.SerializeObject(values);
+                    }
 
+                }
             }
-
-
             return formData;
         }
         public void SaveForm(IFormCollection formCollection, string formId)
@@ -119,59 +120,52 @@ namespace ZKEACMS.FormGenerator.Service
 
         public MemoryStream Export(int id)
         {
-            FormData formData = Get(id);
-
-            Excel excel = new Excel();
-            excel.GetHeaderData = () =>
+            using (Excel excel = new Excel())
             {
-                return formData.Form.FormFields;
-            };
-            excel.GetHeaderText = h =>
-            {
-                return (h as FormField).DisplayName;
-            };
-            excel.GetDataRow = () =>
-            {
-                return new List<FormData> { formData };
-            };
-            excel.GetDataColumn = row =>
-            {
-                return (row as FormData).Form.FormFields;
-            };
-            excel.GetDataText = (cell) =>
-            {
-                return (cell as FormField).DisplayValue();
-            };
-            return excel.Export(formData.Title);
+                FormData formData = Get(id);
+                excel.AddRow(row =>
+                {
+                    foreach (var item in formData.Form.FormFields)
+                    {
+                        row.AppendCell(item.DisplayName);
+                    }
+                });
+                excel.AddRow(row =>
+                {
+                    foreach (var item in formData.Form.FormFields)
+                    {
+                        row.AppendCell(item.DisplayValue());
+                    }
+                });
+                return excel.ToMemoryStream();
+            }
         }
 
         public MemoryStream ExportByForm(string formId)
         {
-            var form = _formService.Get(formId);
-            var formDatas = Get(m => m.FormId == formId);
-
-            Excel excel = new Excel();
-            excel.GetHeaderData = () =>
+            using(Excel excel = new Excel())
             {
-                return form.FormFields;
-            };
-            excel.GetHeaderText = h =>
-            {
-                return (h as FormField).DisplayName;
-            };
-            excel.GetDataRow = () =>
-            {
-                return formDatas;
-            };
-            excel.GetDataColumn = row =>
-            {
-                return Get((row as FormData).ID).Form.FormFields;
-            };
-            excel.GetDataText = (cell) =>
-            {
-                return (cell as FormField).DisplayValue();
-            };
-            return excel.Export(form.Title);
+                var form = _formService.Get(formId);
+                var formDatas = Get(m => m.FormId == formId);
+                excel.AddRow(row =>
+                {
+                    foreach (var item in form.FormFields)
+                    {
+                        row.AppendCell(item.DisplayName);
+                    }
+                });
+                foreach (var data in formDatas)
+                {
+                    excel.AddRow(row =>
+                    {
+                        foreach (var item in Get(data.ID).Form.FormFields)
+                        {
+                            row.AppendCell(item.DisplayValue());
+                        }
+                    });
+                }
+                return excel.ToMemoryStream();
+            }
         }
     }
 }

@@ -1,5 +1,9 @@
 ﻿@model ZKEACMS.FormGenerator.Models.Form
 @{
+    if (Model == null)
+    {
+        return;
+    }
     Style.Reqiured("datepicker").AtFoot();
     Style.Reqiured("form-widget").AtFoot();
 
