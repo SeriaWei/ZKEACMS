@@ -11,8 +11,11 @@
         {
             @Html.EditorForModel()
             <div class="toolBar">
-                <input type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Update"/>
-                <input type="button" class="btn btn-default cancel" value="取消"/>
+                @if (Authorizer.Authorize(PermissionKeys.ManageApplicationSetting))
+                {
+                    <input type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Update" />
+                }
+                <input type="button" class="btn btn-default cancel" value="取消" />
             </div>
         }
     </div>
@@ -20,7 +23,7 @@
 @using (Script.AtFoot())
 {
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             $("#SettingKey").attr("readonly", "readonly");
         });
     </script>

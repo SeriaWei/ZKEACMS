@@ -13,10 +13,13 @@
         {
             @Html.EditorForModel()
             <div class="toolBar">
-                <input type="submit" value="保存" class="btn btn-primary" data-value="@ActionType.Update" />
-                <input type="submit" value="设计" class="btn btn-success" data-value="@ActionType.Design" />
-                <input type="submit" value="发布" class="btn btn-info publish" data-value="@((int)ActionType.Publish)" />
-                <input type="submit" value="删除" class="btn btn-danger delete" data-value="@ActionType.Delete" />
+                @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+                {
+                    <input type="submit" value="保存" class="btn btn-primary" data-value="@ActionType.Update" />
+                    <input type="submit" value="设计" class="btn btn-success" data-value="@ActionType.Design" />
+                    <input type="submit" value="发布" class="btn btn-info publish" data-value="@((int)ActionType.Publish)" />
+                    <input type="submit" value="删除" class="btn btn-danger delete" data-value="@ActionType.Delete" />
+                }
                 <input type="button" class="btn btn-default cancel" value="取消" />
             </div>
         }

@@ -12,7 +12,10 @@
         {
             @Html.EditorForModel()
             <div class="toolBar">
-                <input type="submit" class="btn btn-primary" value="保存"/>
+                @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+                {
+                    <input type="submit" class="btn btn-primary" value="保存" />
+                }
                 <input type="button" class="btn btn-default cancel" value="取消"/>
             </div>
         }
