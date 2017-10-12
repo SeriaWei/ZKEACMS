@@ -36,16 +36,15 @@ namespace ZKEACMS.Widget
                     }
                 }
             }
-            return null;
+            throw new Exception($"Fail to create {key} instance. May be the plugin is not exists or not regist.");
         }
 
         public WidgetBase CreateWidgetViewModel(WidgetBase widget)
         {
             string key = $"{widget.AssemblyName},{widget.ViewModelTypeName}";
-            WidgetBase viewModel = null;
             if (WidgetBase.KnownWidgetModel.ContainsKey(key))
             {
-                viewModel = _serviceProvider.GetService(WidgetBase.KnownWidgetModel[key]) as WidgetBase;
+                return widget.CopyTo(_serviceProvider.GetService(WidgetBase.KnownWidgetModel[key]) as WidgetBase);
             }
             else
             {
@@ -58,11 +57,11 @@ namespace ZKEACMS.Widget
                     key = $"{widget.AssemblyName},{widget.ServiceTypeName}";
                     if (WidgetBase.KnownWidgetService.ContainsKey(key))
                     {
-                        viewModel = _serviceProvider.GetService(WidgetBase.KnownWidgetModel[key]) as WidgetBase;
+                        return widget.CopyTo(_serviceProvider.GetService(WidgetBase.KnownWidgetModel[key]) as WidgetBase);
                     }
                 }
             }
-            return viewModel == null ? null : widget.CopyTo(viewModel);
+            throw new Exception($"Fail to create {key} instance. May be the plugin is not exists or not regist.");
         }
     }
 }
