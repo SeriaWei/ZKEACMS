@@ -158,6 +158,7 @@ namespace ZKEACMS.SectionWidget.Service
             widget.ZoneID = null;
             widget.IsSystem = false;
             widget.IsTemplate = true;
+            widget.Thumbnail = Helper.Url.Combine(Loader.PluginFolder, new DirectoryInfo(pluginRootPath).Name, "Thumbnail", Path.GetFileName(widget.Thumbnail));
             AddWidget(widget);
         }
     }
