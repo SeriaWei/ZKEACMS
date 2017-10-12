@@ -108,8 +108,10 @@ namespace ZKEACMS.FormGenerator.Service
                     formData.Datas.Add(dataitem);
                 }
             }
-            formData.Title = "数据来自：" + form.Title;
-
+            if (formData.Datas.Any())
+            {
+                formData.Title = formData.Datas.FirstOrDefault().FieldValue;
+            }
             Add(formData);
         }
         public override void Remove(FormData item, bool saveImmediately = true)

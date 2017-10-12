@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using ZKEACMS.FormGenerator.Service;
 
 namespace ZKEACMS.FormGenerator.Models
 {
@@ -25,6 +26,10 @@ namespace ZKEACMS.FormGenerator.Models
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.Status).AsHidden();
+            ViewConfig(m => m.FormId).AsDropDownList().DataSource(() =>
+            {
+                return Easy.ServiceLocator.GetService<IFormService>().Get().ToDictionary(m => m.ID, m => m.Title);
+            }).ShowInGrid();
         }
     }
 }

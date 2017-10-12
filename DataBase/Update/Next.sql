@@ -115,3 +115,6 @@ VALUES  ( N'表单' ,
 GO
 INSERT INTO [Language](LanKey,CultureName,LanValue,Module,LanType)
 VALUES(N'FormWidget@FormID',N'zh-CN',N'表单',N'FormWidget',N'EntityProperty')
+
+INSERT INTO [Language](LanKey,CultureName,LanValue,Module,LanType)
+VALUES(N'FormData@FormId',N'zh-CN',N'表单',N'FormWidget',N'EntityProperty')

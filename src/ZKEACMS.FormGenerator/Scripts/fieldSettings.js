@@ -1,5 +1,14 @@
 ﻿angular.module("fieldSetting", []).controller("setting", ['$scope', '$filter', function ($scope, $filter) {
-    $scope.templates = [
+    $scope.templates = [        
+        {
+            Name: "Label",
+            DisplayName: "标题",
+            Description: "",
+            Placeholder: "",
+            IsRequired: false,
+            Size: 4,
+            Column: "col-md-12"
+        },
         {
             Name: "SingleLine",
             DisplayName: "单行输入",
@@ -76,15 +85,6 @@
             Name: "Address",
             DisplayName: "省份地址",
             Description: "",
-            IsRequired: false,
-            Size: 4,
-            Column: "col-md-12"
-        },
-        {
-            Name: "Label",
-            DisplayName: "标题",
-            Description: "",
-            Placeholder: "",
             IsRequired: false,
             Size: 4,
             Column: "col-md-12"
@@ -205,8 +205,9 @@
     }
     //Saving
     $scope.save = function () {
+        $scope.Message = null;
         if (!$.trim($scope.Title)) {
-            $scope.Message = "请输入这个表单的名称";
+            $scope.Message = "请输入表单的名称";
             return;
         }
         Easy.Block();
