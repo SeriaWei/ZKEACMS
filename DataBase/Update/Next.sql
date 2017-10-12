@@ -118,3 +118,9 @@ VALUES(N'FormWidget@FormID',N'zh-CN',N'表单',N'FormWidget',N'EntityProperty')
 
 INSERT INTO [Language](LanKey,CultureName,LanValue,Module,LanType)
 VALUES(N'FormData@FormId',N'zh-CN',N'表单',N'FormWidget',N'EntityProperty')
+GO
+INSERT [dbo].[Permission] ([PermissionKey], [RoleId], [Title], [Description], [Module], [Status]) VALUES (N'Form_Manage', 1, N'管理表单', NULL, N'自定义表单', NULL)
+INSERT [dbo].[Permission] ([PermissionKey], [RoleId], [Title], [Description], [Module], [Status]) VALUES (N'Form_View', 1, N'查看表单', NULL, N'自定义表单', NULL)
+INSERT [dbo].[Permission] ([PermissionKey], [RoleId], [Title], [Description], [Module], [Status]) VALUES (N'FormData_Export', 1, N'导出表单数据', NULL, N'自定义表单', NULL)
+INSERT [dbo].[Permission] ([PermissionKey], [RoleId], [Title], [Description], [Module], [Status]) VALUES (N'FormData_Manage', 1, N'管理表单数据', NULL, N'自定义表单', NULL)
+INSERT [dbo].[Permission] ([PermissionKey], [RoleId], [Title], [Description], [Module], [Status]) VALUES (N'FormData_View', 1, N'查看表单数据', NULL, N'自定义表单', NULL)

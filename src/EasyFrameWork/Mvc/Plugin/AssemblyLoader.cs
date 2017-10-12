@@ -19,7 +19,6 @@ namespace Easy.Mvc.Plugin
         private const string ControllerTypeNameSuffix = "Controller";
         private Assembly CurrentAssembly;
         private List<Assembly> DependencyAssemblies = new List<Assembly>();
-        private List<CompilationLibrary> DependencyCompilationLibrary;
         public Action<IPluginStartup> OnLoading { get; set; }
         public Action<Assembly> OnLoaded { get; set; }
         public Func<IServiceCollection> Services { get; set; }
@@ -49,19 +48,34 @@ namespace Easy.Mvc.Plugin
         }
         private void ResolveDenpendency()
         {
-            var assemblies = new DirectoryInfo(new FileInfo(CurrentAssembly.Location).DirectoryName).GetFiles("*.dll");
-            foreach (var item in assemblies)
-            {
-                if (item.FullName == CurrentAssembly.Location) continue;
-
-                var assembly = LoadFromAssemblyPath(item.FullName);
-                if (!DependencyContext.Default.CompileLibraries.Any(m => m.Name == assembly.GetName().Name))
-                {
-                    DependencyAssemblies.Add(assembly);
-                }
-            }
             string currentName = CurrentAssembly.GetName().Name;
-            DependencyCompilationLibrary = DependencyContext.Load(CurrentAssembly).CompileLibraries.Where(de => de.Name != currentName && !DependencyContext.Default.CompileLibraries.Any(m => m.Name == de.Name)).ToList();
+            var dependencyCompilationLibrary = DependencyContext.Load(CurrentAssembly)
+                .CompileLibraries.Where(de => de.Name != currentName && !DependencyContext.Default.CompileLibraries.Any(m => m.Name == de.Name))
+                .ToList();
+
+            dependencyCompilationLibrary.Each(libaray =>
+            {
+                bool depLoaded = false;
+                var files = new DirectoryInfo(Path.GetDirectoryName(CurrentAssembly.Location)).GetFiles($"{libaray.Name}.dll");
+                foreach (var file in files)
+                {
+                    Console.WriteLine(file.FullName);
+                    DependencyAssemblies.Add(LoadFromAssemblyPath(file.FullName));
+                    depLoaded = true;
+                    break;
+                }
+                if (!depLoaded)
+                {
+                    foreach (var item in libaray.ResolveReferencePaths())
+                    {
+                        if (File.Exists(item))
+                        {
+                            DependencyAssemblies.Add(LoadFromAssemblyPath(item));
+                            break;
+                        }
+                    }
+                }
+            });
         }
         protected override Assembly Load(AssemblyName assemblyName)
         {
@@ -80,20 +94,6 @@ namespace Easy.Mvc.Plugin
                 if (item.FullName == assemblyName.FullName)
                 {
                     return item;
-                }
-            }
-            if (DependencyCompilationLibrary != null)
-            {
-                var dep = DependencyCompilationLibrary.FirstOrDefault(m => m.Name == assemblyName.Name);
-                if (dep != null)
-                {
-                    foreach (var item in dep.ResolveReferencePaths())
-                    {
-                        if (File.Exists(item))
-                        {
-                            return LoadFromAssemblyPath(item);
-                        }
-                    }
                 }
             }
             return null;

@@ -185,6 +185,15 @@ if %ERRORLEVEL% NEQ 0 goto errors
 @echo CMS_Redirection
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.CMS_Redirection.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
+@echo Forms
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.Forms.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo FormData
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.FormData.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo FormDataItem
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.FormDataItem.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
 
 @echo InitailData...
 @echo ArticleType
@@ -339,6 +348,15 @@ sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Initial
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo CMS_Redirection
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.CMS_Redirection.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo Forms
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.Forms.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo FormData
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.FormData.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo FormDataItem
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.FormDataItem.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
 
 @echo -----------------------------------------------------------------------------

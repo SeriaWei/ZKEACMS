@@ -14,7 +14,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml;
 using System.IO;
-using EasyFrameWork.Export;
+using Easy.DataTransfer;
 
 namespace ZKEACMS.FormGenerator.Service
 {
@@ -122,7 +122,7 @@ namespace ZKEACMS.FormGenerator.Service
 
         public MemoryStream Export(int id)
         {
-            using (Excel excel = new Excel())
+            using (ExcelGenerator excel = new ExcelGenerator())
             {
                 FormData formData = Get(id);
                 excel.AddRow(row =>
@@ -145,7 +145,7 @@ namespace ZKEACMS.FormGenerator.Service
 
         public MemoryStream ExportByForm(string formId)
         {
-            using(Excel excel = new Excel())
+            using(ExcelGenerator excel = new ExcelGenerator())
             {
                 var form = _formService.Get(formId);
                 var formDatas = Get(m => m.FormId == formId);
