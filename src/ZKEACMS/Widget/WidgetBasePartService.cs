@@ -38,6 +38,7 @@ namespace ZKEACMS.Widget
             _widgetActivator = widgetActivator;
             _serviceProvider = serviceProvider;
             _httpContextAccessor = httpContextAccessor;
+            IsNeedNotifyChange = true;
         }
         public override DbSet<WidgetBasePart> CurrentDbSet
         {
@@ -46,23 +47,30 @@ namespace ZKEACMS.Widget
                 return (DbContext as CMSDbContext).WidgetBasePart;
             }
         }
+
+        public bool IsNeedNotifyChange { get; set; }
+
         private void TriggerChange(WidgetBase widget)
         {
-            if (widget != null && widget.PageID.IsNotNullAndWhiteSpace())
+            if (IsNeedNotifyChange)
             {
-                using (var pageService = _serviceProvider.GetService<IPageService>())
+                if (widget != null && widget.PageID.IsNotNullAndWhiteSpace())
                 {
-                    pageService.MarkChanged(widget.PageID);
+                    using (var pageService = _serviceProvider.GetService<IPageService>())
+                    {
+                        pageService.MarkChanged(widget.PageID);
+                    }
+                }
+                else if (widget != null && widget.LayoutID.IsNotNullAndWhiteSpace())
+                {
+                    using (var layoutService = _serviceProvider.GetService<ILayoutService>())
+                    {
+                        layoutService.MarkChanged(widget.LayoutID);
+                    }
+                    PageWidgetCacheManage.ClearRegion(_httpContextAccessor.HttpContext.Request.Host.Value);
                 }
             }
-            else if (widget != null && widget.LayoutID.IsNotNullAndWhiteSpace())
-            {
-                using (var layoutService = _serviceProvider.GetService<ILayoutService>())
-                {
-                    layoutService.MarkChanged(widget.LayoutID);
-                }
-                PageWidgetCacheManage.ClearRegion(_httpContextAccessor.HttpContext.Request.Host.Value);
-            }
+            
         }
 
         public IEnumerable<WidgetBase> GetByLayoutId(string layoutId)

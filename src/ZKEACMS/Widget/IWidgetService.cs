@@ -11,6 +11,7 @@ namespace ZKEACMS.Widget
 {
     public interface IWidgetBasePartService : IService<WidgetBasePart>
     {
+        bool IsNeedNotifyChange { get; set; }
         IEnumerable<WidgetBase> GetByLayoutId(string layoutId);
         IEnumerable<WidgetBase> GetByPageId(string pageId);
         IEnumerable<WidgetBase> GetAllByPage(PageEntity page, bool formCache = false);

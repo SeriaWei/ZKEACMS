@@ -26,8 +26,11 @@ namespace ZKEACMS.Widget
         }
 
         public IWidgetBasePartService WidgetBasePartService { get; private set; }
-
-
+        public bool IsNeedNotifyChange
+        {
+            get { return WidgetBasePartService.IsNeedNotifyChange; }
+            set { WidgetBasePartService.IsNeedNotifyChange = value; }
+        }
         public override void Add(T item)
         {
             item.ID = Guid.NewGuid().ToString("N");
@@ -106,7 +109,7 @@ namespace ZKEACMS.Widget
 
             base.Remove(item, saveImmediately);
 
-            WidgetBasePartService.Remove(WidgetBasePartService.Get(item.ID));
+            WidgetBasePartService.Remove(item.ToWidgetBasePart());
 
         }
         public override void RemoveRange(params T[] items)

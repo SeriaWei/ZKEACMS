@@ -139,6 +139,7 @@ namespace ZKEACMS.Page
             {
                 using (var widgetService = _widgetActivator.Create(m))
                 {
+                    widgetService.IsNeedNotifyChange = false;
                     widgetService.DeleteWidget(m.ID);
                 }
             });
@@ -152,7 +153,7 @@ namespace ZKEACMS.Page
 
         public override void Remove(Expression<Func<PageEntity, bool>> filter)
         {
-            var deletes = Get(filter).ToList(m => m.ID);
+            var deletes = Get(filter).Select(m => m.ID);
             if (deletes.Any())
             {
                 Remove(m => deletes.Contains(m.ParentId));
@@ -163,6 +164,7 @@ namespace ZKEACMS.Page
                 {
                     using (var widgetService = _widgetActivator.Create(m))
                     {
+                        widgetService.IsNeedNotifyChange = false;
                         widgetService.DeleteWidget(m.ID);
                     }
                 });
