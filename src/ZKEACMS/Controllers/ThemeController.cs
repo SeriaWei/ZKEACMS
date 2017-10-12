@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2016 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using Easy;
 using Easy.Mvc;
 using Easy.Mvc.Authorize;
@@ -11,7 +14,7 @@ using ZKEACMS.Theme;
 
 namespace ZKEACMS.Controllers
 {
-    [DefaultAuthorize]
+    [DefaultAuthorize(Policy = PermissionKeys.ViewTheme)]
     public class ThemeController : BasicController<ThemeEntity, string, IThemeService>
     {
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -41,7 +44,7 @@ namespace ZKEACMS.Controllers
             Service.CancelPreview();
             return RedirectToAction("Index");
         }
-        [HttpPost]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTheme)]
         public JsonResult ChangeTheme(string id)
         {
             Service.ChangeTheme(id);
@@ -53,7 +56,7 @@ namespace ZKEACMS.Controllers
             var package = _packageInstallerProvider.CreateInstaller("ThemePackageInstaller").Pack(id) as ThemePackage;
             return File(package.ToFilePackage(), "Application/zip", package.Theme.Title + ".theme");
         }
-        [HttpPost]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTheme)]
         public JsonResult UploadTheme()
         {
             var result = new AjaxResult(AjaxStatus.Normal, "主题安装成功，正在刷新...");

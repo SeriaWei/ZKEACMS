@@ -1,4 +1,8 @@
-﻿using Easy.Mvc.Controllers;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2016 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
+using Easy.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

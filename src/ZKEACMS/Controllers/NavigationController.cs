@@ -11,7 +11,7 @@ using ZKEACMS.Common.Service;
 
 namespace ZKEACMS.Controllers
 {
-    [DefaultAuthorize]
+    [DefaultAuthorize(Policy = PermissionKeys.ViewNavigation)]
     public class NavigationController : BasicController<NavigationEntity, string, INavigationService>
     {
         public NavigationController(INavigationService service)
