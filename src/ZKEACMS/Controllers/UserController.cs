@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2016 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using Easy.Constant;
 using Easy.Extend;
 using Easy.Modules.Role;
@@ -15,7 +18,7 @@ using ZKEACMS;
 
 namespace ZKEACMS.Controllers
 {
-    [DefaultAuthorize]
+    [DefaultAuthorize(Policy = PermissionKeys.ViewUser)]
     public class UserController : BasicController<UserEntity, string, IUserService>
     {
         private IApplicationContextAccessor _applicationContextAccessor;
@@ -31,7 +34,7 @@ namespace ZKEACMS.Controllers
             entity.Roles = new List<UserRoleRelation>();
             return View(entity);
         }
-        [HttpPost]
+        [HttpPost,DefaultAuthorize(Policy = PermissionKeys.ManageUser)]
         public override IActionResult Create(UserEntity entity)
         {
             try
@@ -45,7 +48,7 @@ namespace ZKEACMS.Controllers
             }
             return View(entity);
         }
-        [HttpPost]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageUser)]
         public override IActionResult Edit(UserEntity entity)
         {
             if (ModelState.IsValid)

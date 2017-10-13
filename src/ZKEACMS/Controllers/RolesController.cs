@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Controllers
 {
-    [DefaultAuthorize]
+    [DefaultAuthorize(Policy = PermissionKeys.ViewRole)]
     public class RolesController : BasicController<RoleEntity, int, IRoleService>
     {
         private readonly IPermissionService _permissionService;
@@ -30,7 +30,7 @@ namespace ZKEACMS.Controllers
         {
             return base.Create(entity);
         }
-        [HttpPost]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageRole)]
         public IActionResult Create(RoleEntity entity, List<PermissionDescriptor> PermissionSet)
         {
             Service.Add(entity);
@@ -54,12 +54,14 @@ namespace ZKEACMS.Controllers
             ViewBag.Permissions = _permissionService.Get(m => m.RoleId == Id);
             return base.Edit(Id);
         }
+
         [NonAction]
         public override IActionResult Edit(RoleEntity entity)
         {
             return base.Edit(entity);
         }
-        [HttpPost]
+
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageRole)]
         public IActionResult Edit(RoleEntity entity, List<PermissionDescriptor> PermissionSet)
         {
             var permissions = _permissionService.Get(m => m.RoleId == entity.ID);
@@ -112,6 +114,12 @@ namespace ZKEACMS.Controllers
             });
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageRole)]
+        public override IActionResult Delete(int id)
+        {
+            return base.Delete(id);
         }
     }
 }

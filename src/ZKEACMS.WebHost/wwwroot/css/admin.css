@@ -132,11 +132,17 @@ a.badge:hover {
     }
 
 .main-container {
-    padding: 65px 15px 0 205px;
+    padding: 65px 0 0 190px;
 }
 
 #main-body {
     overflow: auto;
+    padding:0 15px;
+    position:absolute;
+    left:190px;
+    right:0;
+    bottom:0;
+    top:65px;
 }
 
 

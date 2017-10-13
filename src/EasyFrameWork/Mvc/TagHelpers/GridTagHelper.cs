@@ -26,18 +26,20 @@ namespace Easy.Mvc.TagHelpers
         private const string TableStructure = "<div class=\"table-responsive\"><table class=\"{0}\" cellspacing=\"0\" width=\"100%\" data-source=\"{1}\"><thead><tr>{2}</tr></thead><tfoot><tr class=\"search\">{3}</tr></tfoot></table></div>";
         private const string TableHeadStructure = "<th data-key=\"{0}\" data-template=\"{1}\" data-order=\"{2}\" data-option=\"{4}\" data-search-operator=\"{5}\" data-data-type=\"{6}\" data-format=\"{7}\">{3}</th>";
         private const string TableSearchStructure = "<th></th>";
-        public const string EditLinkTemplate = "<a href=\"{0}\" class=\"glyphicon glyphicon-pencil\"></a>";
+        public const string EditLinkTemplate = "<a href=\"{0}\" class=\"glyphicon glyphicon-edit\"></a>";
         public const string DeleteLinkTemplate = "<a href=\"{0}\" class=\"glyphicon glyphicon-remove\"></a>";
 
         public string Source { get; set; }
         public string Edit { get; set; }
+        public string EditTemplate { get; set; }
         public string Delete { get; set; }
+        public string DeleteTemplate { get; set; }
         public string GridClass { get; set; }
         public bool? EditAble { get; set; }
         public bool? DeleteAble { get; set; }
         public string OrderAsc { get; set; }
         public string OrderDesc { get; set; }
-
+        public string ActionLable { get; set; }
         public Type ModelType { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
@@ -81,16 +83,16 @@ namespace Easy.Mvc.TagHelpers
                     {
                         Delete = Url.Action(DefaultDeleteAction) + "/{" + name + "}";
                     }
-                    string manager = EditLinkTemplate.FormatWith(Edit);
+                    string manager = (EditTemplate ?? EditLinkTemplate).FormatWith(Edit);
                     if (DeleteAble ?? true)
                     {
-                        manager += " " + DeleteLinkTemplate.FormatWith(Delete);
+                        manager += " " + (DeleteTemplate ?? DeleteLinkTemplate).FormatWith(Delete);
                     }
                     tableHeaderBuilder.AppendFormat(TableHeadStructure,
                         string.Empty,
                         WebUtility.HtmlEncode(manager),
                         string.Empty,
-                        "操作",
+                        ActionLable ?? "操作",
                         string.Empty,
                         Query.Operators.None,
                         string.Empty,
@@ -106,15 +108,16 @@ namespace Easy.Mvc.TagHelpers
                         StringBuilder optionBuilder = new StringBuilder();
                         if (dropDown != null)
                         {
-                            if (dropDown.SourceType == Constant.SourceType.Dictionary)
+                            if (dropDown.OptionItems != null && dropDown.OptionItems.Any())
                             {
                                 foreach (var item in dropDown.OptionItems)
                                 {
                                     optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", item.Value, item.Key);
                                 }
-                            }else if(dropDown.SourceType== Constant.SourceType.ViewData)
+                            }
+                            else if (dropDown.SourceType == Constant.SourceType.ViewData)
                             {
-                                var selectList= ViewContext.ViewData[dropDown.SourceKey] as SelectList;
+                                var selectList = ViewContext.ViewData[dropDown.SourceKey] as SelectList;
                                 if (selectList != null)
                                 {
                                     foreach (var item in selectList)
@@ -142,7 +145,7 @@ namespace Easy.Mvc.TagHelpers
                     });
             }
             output.TagName = "div";
-            output.Attributes.Add("class", "container-fluid");
+            //output.Attributes.Add("class", "container-fluid");
             output.Content.SetHtmlContent(TableStructure.FormatWith(GridClass, Source, tableHeaderBuilder, tableSearchBuilder));
         }
     }

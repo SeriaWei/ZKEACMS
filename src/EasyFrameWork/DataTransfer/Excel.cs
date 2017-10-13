@@ -7,15 +7,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace EasyFrameWork.Export
+namespace Easy.DataTransfer
 {
-    public class Excel : IDisposable
+    public class ExcelGenerator : IDisposable
     {
         private MemoryStream memoryStream;
         private SheetData sheetData;
         private WorkbookPart workbookpart;
         private SpreadsheetDocument spreadsheetDocument;
-        public Excel()
+        public ExcelGenerator()
         {
             memoryStream = new MemoryStream();
             spreadsheetDocument = SpreadsheetDocument.Create(memoryStream, SpreadsheetDocumentType.Workbook);

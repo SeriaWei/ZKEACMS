@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2016 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
 using Easy.ViewPort.jsTree;
