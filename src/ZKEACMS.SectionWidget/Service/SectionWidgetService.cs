@@ -58,7 +58,7 @@ namespace ZKEACMS.SectionWidget.Service
         {
             if (widget == null) return null;
 
-            widget.Groups = _sectionGroupService.Get(m => m.SectionWidgetId == widget.ID);
+            widget.Groups = _sectionGroupService.Get(m => m.SectionWidgetId == widget.ID).OrderBy(m => m.Order).ToList();
             var contents = _sectionContentProviderService.Get(m => m.SectionWidgetId == widget.ID);
             List<SectionContent> filled = new List<SectionContent>();
             contents.AsParallel().Each(content =>
@@ -72,7 +72,7 @@ namespace ZKEACMS.SectionWidget.Service
 
             widget.Groups.Each(m =>
             {
-                m.SectionContents = filled.Where(n => n.SectionGroupId == m.ID).ToList();
+                m.SectionContents = filled.Where(n => n.SectionGroupId == m.ID).OrderBy(c => c.Order).ToList();
             });
             return widget;
         }
