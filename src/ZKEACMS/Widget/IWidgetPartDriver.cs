@@ -8,6 +8,7 @@ namespace ZKEACMS.Widget
 {
     public interface IWidgetPartDriver : IDisposable
     {
+        bool IsNeedNotifyChange { get; set; }
         void AddWidget(WidgetBase widget);
         void DeleteWidget(string widgetId);
         void UpdateWidget(WidgetBase widget);
