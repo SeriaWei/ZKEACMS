@@ -78,7 +78,7 @@ namespace Easy.Mvc.Plugin
             GetPlugins().Where(m => m.ID == pluginId).Each(m =>
             {
                 m.Enable = false;
-                File.WriteAllText(m.RelativePath + $"\\{PluginInfoFile}", JsonConvert.SerializeObject(m));
+                File.WriteAllText(m.RelativePath.PathCombine(PluginInfoFile), JsonConvert.SerializeObject(m));
             });
         }
 
@@ -87,7 +87,7 @@ namespace Easy.Mvc.Plugin
             GetPlugins().Where(m => m.ID == pluginId).Each(m =>
             {
                 m.Enable = true;
-                File.WriteAllText(m.RelativePath + $"\\{PluginInfoFile}", JsonConvert.SerializeObject(m));
+                File.WriteAllText(m.RelativePath.PathCombine(PluginInfoFile), JsonConvert.SerializeObject(m));
             });
         }
 
