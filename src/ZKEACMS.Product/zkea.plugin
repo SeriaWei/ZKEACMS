@@ -2,6 +2,5 @@
 	ID:"683441B2-64F4-43CE-9383-608FB92FE20A",
 	Name:"ZKEACMS.Product",
 	FileName:"ZKEACMS.Product.dll",
-	DeveloperFileName:"bin\\Debug\\netcoreapp2.0\\ZKEACMS.Product.dll",
 	Enable:"true"
 }

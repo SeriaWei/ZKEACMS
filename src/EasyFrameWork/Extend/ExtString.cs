@@ -196,7 +196,7 @@ namespace Easy.Extend
         {
             return string.Join(Path.DirectorySeparatorChar.ToString(), path.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
         }
-        public static string PathCombine(this string p,string path)
+        public static string CombinePath(this string p,string path)
         {
             return p + Path.DirectorySeparatorChar + path;
         }
