@@ -2,6 +2,5 @@
 	ID:"1E9E1389-C94A-45B4-8B8F-21D6C7440A87",
 	Name:"ZKEACMS.Message",
 	FileName:"ZKEACMS.Message.dll",
-	DeveloperFileName:"bin\\Debug\\netcoreapp2.0\\ZKEACMS.Message.dll",
 	Enable:"true"
 }

@@ -51,11 +51,10 @@ namespace ZKEACMS.Layout
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.ID).AsHidden();
+            ViewConfig(m => m.Layout).AsHidden();
             ViewConfig(m => m.ContainerClass).AsHidden();
             ViewConfig(m => m.Title).AsHidden();
-            ViewConfig(m => m.LayoutName).AsTextBox().Required();
-
-
+            ViewConfig(m => m.LayoutName).AsTextBox().Required();            
             ViewConfig(m => m.ImageThumbUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
             ViewConfig(m => m.ImageUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
         }

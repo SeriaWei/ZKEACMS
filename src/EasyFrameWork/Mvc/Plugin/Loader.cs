@@ -18,6 +18,7 @@ namespace Easy.Mvc.Plugin
     {
         public const string PluginFolder = "Plugins";
         private const string PluginInfoFile = "zkea.plugin";
+        private string[] AltDevelopmentPath = new[] { "bin", "Debug", "netcoreapp2.0" };
         public IHostingEnvironment HostingEnvironment { get; set; }
         private static List<AssemblyLoader> Loaders = new List<AssemblyLoader>();
         private static Dictionary<string, Assembly> LoadedAssemblies = new Dictionary<string, Assembly>();
@@ -34,7 +35,7 @@ namespace Easy.Mvc.Plugin
                 loader.OnLoading = onLoading;
                 loader.OnLoaded = onLoaded;
                 loader.Services = services;
-                var assemblies = loader.LoadPlugin(Path.Combine(m.RelativePath, (HostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName).ToFilePath()));
+                var assemblies = loader.LoadPlugin(Path.Combine(m.RelativePath, (HostingEnvironment.IsDevelopment() ? Path.Combine(AltDevelopmentPath) : string.Empty), m.FileName));
                 assemblies.Each(assembly =>
                 {
                     if (!LoadedAssemblies.ContainsKey(assembly.FullName))
@@ -78,7 +79,7 @@ namespace Easy.Mvc.Plugin
             GetPlugins().Where(m => m.ID == pluginId).Each(m =>
             {
                 m.Enable = false;
-                File.WriteAllText(m.RelativePath + $"\\{PluginInfoFile}", JsonConvert.SerializeObject(m));
+                File.WriteAllText(m.RelativePath.CombinePath(PluginInfoFile), JsonConvert.SerializeObject(m));
             });
         }
 
@@ -87,7 +88,7 @@ namespace Easy.Mvc.Plugin
             GetPlugins().Where(m => m.ID == pluginId).Each(m =>
             {
                 m.Enable = true;
-                File.WriteAllText(m.RelativePath + $"\\{PluginInfoFile}", JsonConvert.SerializeObject(m));
+                File.WriteAllText(m.RelativePath.CombinePath(PluginInfoFile), JsonConvert.SerializeObject(m));
             });
         }
 
