@@ -8,6 +8,10 @@
 Linux下MySql安装完后默认是区分表名的大小写的，脚本生成的表名都是小写的，所以要先设置表名不区分大小写，编辑 /etc/my.cnf 添加 lower_case_table_names=1 配置，重启MySql服务
 > vi /etc/my.cnf
 
+修改结果如下图所示：
+
+![image](https://user-images.githubusercontent.com/6006218/31671046-96a1b7e2-b38b-11e7-89ac-770c24786999.png)
+
 > service mysqld restart
 
 ## Centos7 安装MySql
