@@ -51,5 +51,5 @@ use zkeacms_core;
 ```
 使用脚本初始化数据库中的表和数据
 ```
-source /root/Dump[X].sql
+source /root/Dump[X].sql;
 ```
