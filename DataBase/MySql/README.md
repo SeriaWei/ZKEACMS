@@ -55,11 +55,6 @@ sudo mysql_secure_installation
 ```
 mysql -u root -p
 ```
-创建一个数据库
-```
-create database zkeacms_core;
-use zkeacms_core;
-```
 使用脚本初始化数据库中的表和数据
 ```
 source /root/Dump[X].sql;
