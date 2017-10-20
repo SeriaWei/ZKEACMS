@@ -183,8 +183,8 @@
                         if (caption.data("id")) {
                             input.replaceWith(data.title);
                         } else {
-                            input.closest(".new-folder").removeClass("new-folder").find("a").attr("href", "@Url.Action(action)" + "?ParentId=" + data.ID);
-                            caption.data("id", data.ID);
+                            input.closest(".new-folder").removeClass("new-folder").find("a").attr("href", "@Url.Action(action)" + "?ParentId=" + data.id);
+                            caption.data("id", data.id);
                             input.replaceWith(data.title);
                         }
                     }
@@ -195,9 +195,10 @@
                     save($(this));
                 }
             });
+            @* 这儿会引起创建目录时直接创建了两个
             $(document).on("blur", ".edit", function () {
                 save($(this));
-            });
+            });*@
             $(document).on("click", ".caption", function () {
                 var cap = $(this);
                 if (cap.find(".edit").size() === 0) {
