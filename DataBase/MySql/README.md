@@ -5,7 +5,7 @@
 ![image](https://user-images.githubusercontent.com/6006218/31644506-51e86d88-b329-11e7-8dcc-81bcfbc5113d.png)
 
 ## Linux 中注意事项(Centos.7)
-Linux下MySql安装完后默认是区分表名的大小写的，脚本生成的表名都是小写的，所以要先设置表名不区分大小写，编辑 /etc/my.cnf 添加 lower_case_table_names=1 配置，重启MySql服务
+Linux下MySql安装完后默认是区分表名的大小写的，脚本生成的表名都是小写的，所以要先设置表名小写，编辑 /etc/my.cnf 添加 **lower_case_table_names=1** 配置，重启MySql服务
 ```
 vi /etc/my.cnf
 ```
@@ -13,6 +13,7 @@ vi /etc/my.cnf
 
 ![image](https://user-images.githubusercontent.com/6006218/31671046-96a1b7e2-b38b-11e7-89ac-770c24786999.png)
 ### Ubuntu.16.04
+Ubuntu 的MySql的配置文件、目录在 /etc/mysql/my.cnf
 ```
 vi /etc/mysql/my.cnf
 ```
@@ -21,9 +22,9 @@ vi /etc/mysql/my.cnf
 [mysqld]
 lower_case_table_names=1
 ```
-
+然后重启MySql服务
 ```
-service mysqld restart
+systemctl restart mysqld
 ```
 ## Centos7 安装MySql
 使用以下命令安装MySql
@@ -53,11 +54,6 @@ sudo mysql_secure_installation
 登录MySql
 ```
 mysql -u root -p
-```
-创建一个数据库
-```
-create database zkeacms_core;
-use zkeacms_core;
 ```
 使用脚本初始化数据库中的表和数据
 ```
