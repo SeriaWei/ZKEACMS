@@ -91,7 +91,7 @@ namespace ZKEACMS.Widget
 
         public override WidgetBase GetWidget(WidgetBase widget)
         {
-            return widget.CopyTo(JsonConvert.DeserializeObject<T>(widget.ExtendData)) as T;
+            return widget.CopyTo(JsonConvert.DeserializeObject<T>(widget.ExtendData ?? "{}")) as T;
         }
     }
 }
