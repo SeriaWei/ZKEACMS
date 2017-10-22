@@ -177,6 +177,7 @@
                 if (!$.trim(input.val())) {
                     return false;
                 }
+                input.data("saving", true);
                 $.post("@Url.Action("Save")", { id: input.closest(".caption").data("id"), title: input.val(), parentId: $("#media-list").data("parent") }, function (data) {
                     if (data) {
                         var caption = input.closest(".caption");
@@ -190,15 +191,16 @@
                     }
                 });
             }
-            $(document).on("keyup", ".edit", function (e) {
+            $(document).on("keyup", "input.edit", function (e) {
                 if (e.keyCode === 13) {
                     save($(this));
                 }
             });
-            @* 这儿会引起创建目录时直接创建了两个
-            $(document).on("blur", ".edit", function () {
-                save($(this));
-            });*@
+            $(document).on("blur", "input.edit", function () {
+                if (!$(this).data("saving")) {
+                    save($(this));
+                }
+            });
             $(document).on("click", ".caption", function () {
                 var cap = $(this);
                 if (cap.find(".edit").size() === 0) {
