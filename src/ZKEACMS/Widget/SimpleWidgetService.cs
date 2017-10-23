@@ -21,7 +21,7 @@ namespace ZKEACMS.Widget
         public override T Get(params object[] primaryKeys)
         {
             var item = WidgetBasePartService.Get(primaryKeys);
-            return item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData)) as T;
+            return item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData ?? "{}")) as T;
         }
         public override void Add(T item)
         {
@@ -56,7 +56,7 @@ namespace ZKEACMS.Widget
             List<T> result = new List<T>();
             foreach (var item in widgetBases)
             {
-                result.Add(item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData)) as T);
+                result.Add(item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData ?? "{}")) as T);
             }
             return result;
         }
@@ -66,7 +66,7 @@ namespace ZKEACMS.Widget
             List<T> result = new List<T>();
             foreach (var item in widgetBases)
             {
-                result.Add(item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData)) as T);
+                result.Add(item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData ?? "{}")) as T);
             }
             return result;
         }
@@ -74,7 +74,7 @@ namespace ZKEACMS.Widget
         public override T GetSingle(Expression<Func<T, bool>> filter)
         {
             var widgetBase = WidgetBasePartService.GetSingle(Expression.Lambda<Func<WidgetBasePart, bool>>(filter.Body, filter.Parameters));
-            return widgetBase.CopyTo(JsonConvert.DeserializeObject<T>(widgetBase.ExtendData)) as T;
+            return widgetBase.CopyTo(JsonConvert.DeserializeObject<T>(widgetBase.ExtendData ?? "{}")) as T;
         }
         public override void Remove(Expression<Func<T, bool>> filter)
         {
