@@ -96,7 +96,15 @@ namespace ZKEACMS.Controllers
                 {
                     user.PhotoUrl = newPhoto;
                 }
-                _userService.Update(user);
+                try
+                {
+                    _userService.Update(user);
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Errormessage = ex.Message;
+                    return View(user);
+                }
             }
             return RedirectToAction("Index");
         }
