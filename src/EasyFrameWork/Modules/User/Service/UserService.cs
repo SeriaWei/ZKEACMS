@@ -65,7 +65,7 @@ namespace Easy.Modules.User.Service
             {
                 throw new Exception($"用户 {item.UserID} 已存在");
             }
-            if (item.Email.IsNotNullAndWhiteSpace() && Count(m => m.Email == item.Email) > 0)
+            if (item.Email.IsNotNullAndWhiteSpace() && Count(m => m.Email == item.Email && m.UserTypeCD == item.UserTypeCD) > 0)
             {
                 throw new Exception($"邮件地址 {item.Email} 已被使用");
             }
@@ -82,7 +82,7 @@ namespace Easy.Modules.User.Service
             {
                 item.Roles.Where(m => m.ActionType == ActionType.Delete).Each(m => (DbContext as EasyDbContext).UserRoleRelation.Remove(m));
             }
-            if (item.Email.IsNotNullAndWhiteSpace() && Count(m => m.UserID != item.UserID && m.Email == item.Email) > 0)
+            if (item.Email.IsNotNullAndWhiteSpace() && Count(m => m.UserID != item.UserID && m.Email == item.Email && m.UserTypeCD == item.UserTypeCD) > 0)
             {
                 throw new Exception($"邮件地址 {item.Email} 已被使用");
             }
