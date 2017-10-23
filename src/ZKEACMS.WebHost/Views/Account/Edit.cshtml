@@ -4,6 +4,12 @@
     Layout = Layouts.CustomerCenter;
     Script.Reqiured("validate").AtFoot();
 }
+@if (ViewBag.Errormessage != null)
+{
+    <div class="text-center alert alert-danger">
+        @ViewBag.Errormessage
+    </div>
+}
 <form action="@Url.Action("Edit","Account")" method="post" enctype="multipart/form-data">
     @Html.HiddenFor(m => m.UserID)
     @Html.HiddenFor(m => m.PassWord)

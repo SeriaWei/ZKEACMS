@@ -51,16 +51,20 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageUser)]
         public override IActionResult Edit(UserEntity entity)
         {
-            if (ModelState.IsValid)
+            try
             {
-
+                var url = Request.SaveImage();
+                if (url.IsNotNullAndWhiteSpace())
+                {
+                    entity.PhotoUrl = url;
+                }
+                return base.Edit(entity);
             }
-            var url = Request.SaveImage();
-            if (url.IsNotNullAndWhiteSpace())
+            catch (Exception ex)
             {
-                entity.PhotoUrl = url;
+                ViewBag.Errormessage = ex.Message;
             }
-            return base.Edit(entity);
+            return View(entity);
         }
 
         public IActionResult PassWord()
