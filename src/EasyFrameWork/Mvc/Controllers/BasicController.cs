@@ -72,8 +72,7 @@ namespace Easy.Mvc.Controllers
                 Service.Remove(entity);
                 return RedirectToAction("Index");
             }
-
-            ViewBag.Title = entity.Title;
+            
             if (ModelState.IsValid)
             {
                 UpLoadImage(entity as IImage);

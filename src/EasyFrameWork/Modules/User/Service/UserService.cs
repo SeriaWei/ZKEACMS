@@ -12,7 +12,7 @@ namespace Easy.Modules.User.Service
 {
     public class UserService : ServiceBase<UserEntity>, IUserService
     {
-        public UserService(IApplicationContext applicationContext,EasyDbContext easyDbContext) : base(applicationContext,easyDbContext)
+        public UserService(IApplicationContext applicationContext, EasyDbContext easyDbContext) : base(applicationContext, easyDbContext)
         {
         }
         public override DbSet<UserEntity> CurrentDbSet
@@ -65,6 +65,10 @@ namespace Easy.Modules.User.Service
             {
                 throw new Exception($"用户 {item.UserID} 已存在");
             }
+            if (item.Email.IsNotNullAndWhiteSpace() && Count(m => m.Email == item.Email && m.UserTypeCD == item.UserTypeCD) > 0)
+            {
+                throw new Exception($"邮件地址 {item.Email} 已被使用");
+            }
             base.Add(item);
         }
 
@@ -78,13 +82,17 @@ namespace Easy.Modules.User.Service
             {
                 item.Roles.Where(m => m.ActionType == ActionType.Delete).Each(m => (DbContext as EasyDbContext).UserRoleRelation.Remove(m));
             }
+            if (item.Email.IsNotNullAndWhiteSpace() && Count(m => m.UserID != item.UserID && m.Email == item.Email && m.UserTypeCD == item.UserTypeCD) > 0)
+            {
+                throw new Exception($"邮件地址 {item.Email} 已被使用");
+            }
             base.Update(item, saveImmediately);
         }
 
         public UserEntity Login(string userID, string passWord, UserType userType, string ip)
         {
             if (userID.IsNullOrWhiteSpace() || passWord.IsNullOrWhiteSpace()) return null;
-            var result = Get(m => m.UserID == userID && m.UserTypeCD == (int)userType && m.Status == (int)RecordStatus.Active && m.PassWord == ProtectPassWord(passWord)).FirstOrDefault();
+            var result = Get(m => (m.UserID == userID || m.Email == userID) && m.UserTypeCD == (int)userType && m.Status == (int)RecordStatus.Active && m.PassWord == ProtectPassWord(passWord)).FirstOrDefault();
             if (result != null)
             {
                 result.LastLoginDate = DateTime.Now;
