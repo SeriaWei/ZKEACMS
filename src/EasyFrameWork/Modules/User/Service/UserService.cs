@@ -105,7 +105,7 @@ namespace Easy.Modules.User.Service
 
         public UserEntity SetResetToken(string userID, UserType userType)
         {
-            var user = Get(m => m.UserID == userID && m.UserTypeCD == (int)userType).FirstOrDefault();
+            var user = Get(m => (m.UserID == userID || m.Email == userID) && m.UserTypeCD == (int)userType).FirstOrDefault();
             if (user != null)
             {
                 user.ResetToken = Guid.NewGuid().ToString("N");

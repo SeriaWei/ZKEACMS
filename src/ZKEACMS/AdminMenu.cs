@@ -41,7 +41,7 @@ namespace ZKEACMS
                     },
                     new AdminMenu
                     {
-                        Title = "布局组件",
+                        Title = "布局内容",
                         Url = "~/admin/Layout/LayoutWidget",
                         Icon = "glyphicon-th-list",
                         PermissionKey = PermissionKeys.ViewLayout
