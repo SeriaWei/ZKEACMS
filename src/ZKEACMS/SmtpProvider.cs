@@ -29,7 +29,6 @@ namespace ZKEACMS
             bool.TryParse(_applicationSettingService.Get(SettingKeys.SMTP_UseSSL, "false"), out ssl);
 
             SmtpClient client = new SmtpClient(host, port);
-            client.Timeout = 10000;
             client.UseDefaultCredentials = true;
             client.EnableSsl = ssl;
             client.Credentials = new NetworkCredential(email, password);
