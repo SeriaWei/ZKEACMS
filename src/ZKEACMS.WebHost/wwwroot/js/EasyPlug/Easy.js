@@ -719,7 +719,7 @@ $.ajaxSetup({
     beforeSend: function (xhr) {
         xhr.busyTimer = setTimeout(function() {
             Easy.Block();
-        }, 1000);
+        }, 3000);
     },
     complete: function (xhr, status) {
         clearTimeout(xhr.busyTimer);
