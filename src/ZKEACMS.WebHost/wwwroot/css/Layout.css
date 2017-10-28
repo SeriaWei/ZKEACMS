@@ -46,9 +46,13 @@ zone {
     padding-right: 4px;
 }
 
-.AddRow,
-.AddCol,
-.AddZone {
+.btn.AddContainer {
+    cursor: move;
+}
+
+.btn.AddRow,
+.btn.AddCol,
+.btn.AddZone {
     cursor: move;
 }
 
@@ -149,6 +153,7 @@ label.additional {
 .container-fluid.design .additional,
 .container.design .additional {
     position: relative;
+    transition:width 500ms;
 }
 
     .container-fluid.design .additional.zone,
@@ -220,81 +225,100 @@ label.additional {
     cursor: pointer;
 }
 
-.layout.templates .widget-design .row > div::before,
-.design .additional.row > .additional::before {
-    color: #e0e0e0;
-    position: absolute;
-    left: 15px;
-    top: 10px;
-    font-size: 20px;
-    font-weight: bold;
+.design .widget-design {
+    width: 190px;
+    position: relative;
 }
 
-.layout.templates .widget-design .row > div::before {
-    left: 50%;
-    top: 50%;
-    margin: -14px auto auto -7px;
-}
+    .design .widget-design .row > div::before,
+    .layout.templates .widget-design .row > div::before,
+    .design .additional.row > .additional::before {
+        color: #e0e0e0;
+        position: absolute;
+        left: 15px;
+        top: 10px;
+        font-size: 20px;
+        font-weight: bold;
+    }
 
-.layout.templates .widget-design .col-md-12::before,
-.design .additional.row .col-md-12::before {
-    content: "12";
-}
+    .design .widget-design .row > div::before,
+    .layout.templates .widget-design .row > div::before {
+        left: 50%;
+        top: 50%;
+        margin: -14px auto auto -7px;
+    }
 
-.layout.templates .widget-design .col-md-11::before,
-.design .additional.row .col-md-11::before {
-    content: "11";
-}
+    .design .widget-design .col-md-12::before,
+    .layout.templates .widget-design .col-md-12::before,
+    .design .additional.row .col-md-12::before {
+        content: "12";
+    }
 
-.layout.templates .widget-design .col-md-10::before,
-.design .additional.row .col-md-10::before {
-    content: "10";
-}
+    .design .widget-design .col-md-11::before,
+    .layout.templates .widget-design .col-md-11::before,
+    .design .additional.row .col-md-11::before {
+        content: "11";
+    }
 
-.layout.templates .widget-design .col-md-9::before,
-.design .additional.row .col-md-9::before {
-    content: "9";
-}
+    .design .widget-design .col-md-10::before,
+    .layout.templates .widget-design .col-md-10::before,
+    .design .additional.row .col-md-10::before {
+        content: "10";
+    }
 
-.layout.templates .widget-design .col-md-8::before,
-.design .additional.row .col-md-8::before {
-    content: "8";
-}
+    .design .widget-design .col-md-9::before,
+    .layout.templates .widget-design .col-md-9::before,
+    .design .additional.row .col-md-9::before {
+        content: "9";
+    }
 
-.layout.templates .widget-design .col-md-7::before,
-.design .additional.row .col-md-7::before {
-    content: "7";
-}
+    .design .widget-design .col-md-8::before,
+    .layout.templates .widget-design .col-md-8::before,
+    .design .additional.row .col-md-8::before {
+        content: "8";
+    }
 
-.layout.templates .widget-design .col-md-6::before,
-.design .additional.row .col-md-6::before {
-    content: "6";
-}
+    .design .widget-design .col-md-7::before,
+    .layout.templates .widget-design .col-md-7::before,
+    .design .additional.row .col-md-7::before {
+        content: "7";
+    }
 
-.layout.templates .widget-design .col-md-5::before,
-.design .additional.row .col-md-5::before {
-    content: "5";
-}
+    .design .widget-design .col-md-6::before,
+    .layout.templates .widget-design .col-md-6::before,
+    .design .additional.row .col-md-6::before {
+        content: "6";
+    }
 
-.layout.templates .widget-design .col-md-4::before,
-.design .additional.row .col-md-4::before {
-    content: "4";
-}
+    .design .widget-design .col-md-5::before,
+    .layout.templates .widget-design .col-md-5::before,
+    .design .additional.row .col-md-5::before {
+        content: "5";
+    }
 
-.layout.templates .widget-design .col-md-3::before,
-.design .additional.row .col-md-3::before {
-    content: "3";
-}
+    .design .widget-design .col-md-4::before,
+    .layout.templates .widget-design .col-md-4::before,
+    .design .additional.row .col-md-4::before {
+        content: "4";
+    }
 
-.layout.templates .widget-design .col-md-2::before,
-.design .additional.row .col-md-2::before {
-    content: "2";
-}
+    .design .widget-design .col-md-3::before,
+    .layout.templates .widget-design .col-md-3::before,
+    .design .additional.row .col-md-3::before {
+        content: "3";
+    }
 
-.layout.templates .widget-design .col-md-1::before,
-.design .additional.row .col-md-1::before {
-    content: "1";
-}
+    .design .widget-design .col-md-2::before,
+    .layout.templates .widget-design .col-md-2::before,
+    .design .additional.row .col-md-2::before {
+        content: "2";
+    }
+
+    .design .widget-design .col-md-1::before,
+    .layout.templates .widget-design .col-md-1::before,
+    .design .additional.row .col-md-1::before {
+        content: "1";
+    }
 
 
 
@@ -369,37 +393,40 @@ label.additional {
     opacity: 1;
 }
 
-    .zoneToolbar:hover {
-        z-index: 12;
+.zoneToolbar:hover {
+    z-index: 12;
+}
+
+.zoneToolbar .tools {
+    padding: 0 10px;
+    vertical-align: baseline;
+}
+
+    .zoneToolbar .tools .transfer-container {
+        display: none;
     }
 
-    .zoneToolbar .tools {
-        padding: 0 10px;
-        vertical-align:baseline;
+    .zoneToolbar .tools .badge {
+        margin-top: -3px;
     }
 
-        .zoneToolbar .tools .transfer-container {
+    .zoneToolbar .tools .glyphicon {
+        position: relative;
+    }
+
+        .zoneToolbar .tools .glyphicon > span {
+            position: absolute;
             display: none;
+            top: -43px;
+            white-space: nowrap;
+            background: #000;
+            padding: 3px 6px 8px;
+            border-radius: 3px;
+            transform: translateX(-50%);
+            margin-left: 50%;
+            color: #fff;
         }
 
-        .zoneToolbar .tools .badge {
-            margin-top: -3px;
-        }
-        .zoneToolbar .tools .glyphicon {
-            position: relative;
-        }
-            .zoneToolbar .tools .glyphicon > span {
-                position: absolute;
-                display: none;
-                top: -43px;
-                white-space: nowrap;
-                background: #000;
-                padding: 3px 6px 8px;
-                border-radius: 3px;
-                transform: translateX(-50%);
-                margin-left: 50%;
-                color:#fff;
-            }
             .zoneToolbar .tools .glyphicon > span::after {
                 position: absolute;
                 content: " ";
@@ -411,8 +438,9 @@ label.additional {
                 bottom: -12px;
                 margin-left: -6px;
             }
+
         .zoneToolbar .tools .glyphicon:hover > span {
-            display:block;
+            display: block;
         }
 
 .container-fluid.main .zoneToolbar .tools .transfer-container {
@@ -588,6 +616,7 @@ label.additional {
 
 
     .templates .widget-design {
+        cursor:move;
         position: relative;
     }
 

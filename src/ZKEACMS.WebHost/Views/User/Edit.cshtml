@@ -7,6 +7,12 @@
         编辑
     </div>
     <div class="panel-body">
+        @if (ViewBag.Errormessage != null)
+        {
+            <div class="text-center alert alert-danger">
+                @ViewBag.Errormessage
+            </div>
+        }
         <form method="post" action="@Url.Action("Edit")" enctype="multipart/form-data">
             @Html.EditorForModel()
             <div class="toolBar">
@@ -19,3 +25,11 @@
         </form>
     </div>
 </div>
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#UserID").prop("readonly", true);
+        });
+    </script>
+}

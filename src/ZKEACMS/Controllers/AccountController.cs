@@ -96,7 +96,15 @@ namespace ZKEACMS.Controllers
                 {
                     user.PhotoUrl = newPhoto;
                 }
-                _userService.Update(user);
+                try
+                {
+                    _userService.Update(user);
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Errormessage = ex.Message;
+                    return View(user);
+                }
             }
             return RedirectToAction("Index");
         }
@@ -187,12 +195,16 @@ namespace ZKEACMS.Controllers
         [HttpPost]
         public ActionResult Forgotten(string Email)
         {
-            var user = _userService.SetResetToken(Email, UserType.Customer);
-            if (user != null)
+            if (Email.IsNotNullAndWhiteSpace())
             {
-                _notifyService.ResetPassword(user);
+                var user = _userService.SetResetToken(Email, UserType.Customer);
+                if (user != null)
+                {
+                    _notifyService.ResetPassword(user);
+                }
+                return RedirectToAction("Sended", new { to = Email, status = (user != null ? 1 : 2) });
             }
-            return RedirectToAction("Sended", new { to = Email });
+            return RedirectToAction("Forgotten");
         }
 
         public ActionResult Sended(string to)

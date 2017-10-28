@@ -177,26 +177,29 @@
                 if (!$.trim(input.val())) {
                     return false;
                 }
+                input.data("saving", true);
                 $.post("@Url.Action("Save")", { id: input.closest(".caption").data("id"), title: input.val(), parentId: $("#media-list").data("parent") }, function (data) {
                     if (data) {
                         var caption = input.closest(".caption");
                         if (caption.data("id")) {
                             input.replaceWith(data.title);
                         } else {
-                            input.closest(".new-folder").removeClass("new-folder").find("a").attr("href", "@Url.Action(action)" + "?ParentId=" + data.ID);
-                            caption.data("id", data.ID);
+                            input.closest(".new-folder").removeClass("new-folder").find("a").attr("href", "@Url.Action(action)" + "?ParentId=" + data.id);
+                            caption.data("id", data.id);
                             input.replaceWith(data.title);
                         }
                     }
                 });
             }
-            $(document).on("keyup", ".edit", function (e) {
+            $(document).on("keyup", "input.edit", function (e) {
                 if (e.keyCode === 13) {
                     save($(this));
                 }
             });
-            $(document).on("blur", ".edit", function () {
-                save($(this));
+            $(document).on("blur", "input.edit", function () {
+                if (!$(this).data("saving")) {
+                    save($(this));
+                }
             });
             $(document).on("click", ".caption", function () {
                 var cap = $(this);

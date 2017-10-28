@@ -96,8 +96,8 @@
                                     </a>
                                 }
                                 <a href="@Url.Action("LayoutWidget", "Layout", new { LayoutID = Model.ID })" class="btn btn-primary">
-                                    <i class="glyphicon glyphicon-compressed"></i>
-                                    组件
+                                    <i class="glyphicon glyphicon-th-list"></i>
+                                    内容
                                 </a>
                                 <a href="@Url.Action("Edit", "Layout", new {Model.ID})" class="btn btn-primary">
                                     <i class="glyphicon glyphicon-edit"></i>
@@ -196,6 +196,14 @@
                             <p>列，只能加入到“行”中。列宽分成12等分，选择任意宽度划分行。</p>
                         </li>
                     </ol>
+                    <h3>
+                        帮助
+                    </h3>
+                    <ul>
+                        <li>
+                            <a href="http://www.zkea.net/zkeacms/document/layout" target="_blank">教我操作</a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

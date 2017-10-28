@@ -20,8 +20,8 @@
         '</div>'].join('');
     var colTools = [
         '<div class="tools">',
-        '<i class="glyphicon glyphicon-menu-left" title="减小宽度 -1"></i>',
-        '<i class="glyphicon glyphicon glyphicon-menu-right" title="增加宽度 +1"></i>',
+        '<i class="glyphicon glyphicon-menu-left" title="宽度 - 1"></i>',
+        '<i class="glyphicon glyphicon glyphicon-menu-right" title="宽度 + 1"></i>',
         '<i class="glyphicon glyphicon-remove-circle" title="删除"></i>',
         '</div>'].join('');
     function getNewZone() {
