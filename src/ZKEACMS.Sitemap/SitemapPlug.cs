@@ -20,7 +20,7 @@ namespace ZKEACMS.Sitemap
             {
                 RouteName = "Sitemap",
                 Template = "sitemap.xml",
-                Defaults = new { controller= "Sitemap",action= "Index" },
+                Defaults = new { controller = "Sitemap", action = "Index" },
                 Priority = 11
             };
         }
@@ -54,6 +54,9 @@ namespace ZKEACMS.Sitemap
         {
             serviceCollection.AddDbContext<SitemapDbContext>();
             serviceCollection.AddTransient<ISitemapService, SitemapService>();
+            serviceCollection.AddTransient<ISiteUrlProvider, PageSiteUrlProvider>();
+            serviceCollection.AddTransient<ISiteUrlProvider, ProductPageSiteUrlProvider>();
+            serviceCollection.AddTransient<ISiteUrlProvider, ArticlePageSiteUrlProvider>();
         }
     }
 }
