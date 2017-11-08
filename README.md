@@ -1,10 +1,10 @@
 ﻿# ZKEACMS Build With Asp.Net Core 2.0
 ![BuildSuccess](http://cdn.zkeasoft.com/images/buildsuccess.svg) 
 
-### 演示 / DEMO
+### 演示 / Demo Site
 [http://demo.zkea.net](http://demo.zkea.net)
 
-### 简介 / SUMMARY
+### 简介 / Summary
 ZKEACMS For .Net Core
 
 纸壳CMS 是基于 ZKEACMS 的 Asp.Net Core 版本。
@@ -76,7 +76,7 @@ In the preview page, users can add widgets to any area. You can sort widgets in 
 
 After you have added widget areas to your layout, these areas are available for adding widgets, and different widgets have different capabilities.
 
-widgets, is to enrich the site content widget. You can add a wide range of widgets to meet the needs of your site. Multiple widgets can be added to the same widget area and can be dragged and dropped.
+Widgets that is to enrich the site content widget. You can add a wide range of widgets to meet the needs of your site. Multiple widgets can be added to the same widget area and can be dragged and dropped.
 
 在布局中添加了组件区域后，这些区域就可用于添加组件，不同的组件拥有不同的功能。
 
@@ -117,7 +117,7 @@ Using LESS to create a theme, by modifying the variables, you can easily create 
 
 
 ## 关注微信(ZKEASOFT)
-![关注微信](http://blog.zkea.net/wp-content/uploads/2016/03/263801921375bdf2.jpg)
+![关注微信](http://www.zkea.net/UpLoad/Images/20160318/263801921375bdf2.jpg)
 
 ## QQ群(493586356)
 ![QQ群493586356](http://ww3.sinaimg.cn/mw690/005zTNGqgw1f7l3g7ybdfj307609uq3m.jpg)
