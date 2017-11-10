@@ -46,6 +46,13 @@ namespace ZKEACMS.Product
                         Url = "~/admin/ProductCategory",
                         Icon = "glyphicon-th-list",
                         PermissionKey = PermissionKeys.ViewProductCategory
+                    },
+                    new AdminMenu
+                    {
+                        Title = "产品标签",
+                        Url = "~/admin/ProductCategoryTag",
+                        Icon = "glyphicon-tag",
+                        PermissionKey = PermissionKeys.ViewProductCategoryTag
                     }
                 }
             };
@@ -70,6 +77,8 @@ namespace ZKEACMS.Product
             yield return new PermissionDescriptor(PermissionKeys.PublishProduct, "产品", "发布产品", "");
             yield return new PermissionDescriptor(PermissionKeys.ViewProductCategory, "产品", "查看产品类别", "");
             yield return new PermissionDescriptor(PermissionKeys.ManageProductCategory, "产品", "管理产品类别", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewProductCategoryTag, "产品", "查看产品标签", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageProductCategoryTag, "产品", "管理产品标签", "");
         }
 
         public override IEnumerable<Type> WidgetServiceTypes()
@@ -83,6 +92,8 @@ namespace ZKEACMS.Product
         {
             serviceCollection.AddTransient<IProductService, ProductService>();
             serviceCollection.AddTransient<IProductCategoryService, ProductCategoryService>();
+            serviceCollection.AddTransient<IProductCategoryTagService, ProductCategoryTagService>();
+            serviceCollection.AddTransient<IProductTagService, ProductTagService>();
             serviceCollection.AddDbContext<ProductDbContext>();
         }
         
