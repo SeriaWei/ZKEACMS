@@ -22,19 +22,34 @@
         </div>
     </div>
     <div class="col-md-8" id="tags">
-        
+
     </div>
 </div>
-
+<div id="tag-template" class="hidden">
+    <ul class="fullRowList widgets">
+        <li>
+            <div>
+                <a href="javascript:"><i class="glyphicon glyphicon-plus"></i></a>
+                <a href="javascript:"><i class="glyphicon glyphicon-trash"></i></a>
+                <input type="text" value="颜色" />
+            </div>
+            <ul>
+            </ul>
+        </li>
+    </ul>
+</div>
 
 @using (Script.AtFoot())
 {
     <script type="text/javascript">
         function ActiveNode(node, selected) {
-            $.post("@Url.Action("GetTags")", { ProductCategoryID: selected.node.id }, function (data) {
+            $.post("@Url.Action("GetTags")", { ProductCategoryId: selected.node.id }, function (data) {
                 $("#tags").html(data);
             }, "html");
         }
 
+        $(document).on("click", ".btn-add-tag", function () {
+            $("#category-tags").append($("#tag-template").html());
+        });
     </script>
 }

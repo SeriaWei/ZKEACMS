@@ -39,9 +39,10 @@ namespace ZKEACMS.Product.Controllers
             return base.Delete(id);
         }
         [HttpPost]
-        public IActionResult GetTags(int ProductCategoryID)
+        public IActionResult GetTags(int ProductCategoryId)
         {
-            return View("Tags", Service.Get(m => m.ProductCategoryId == ProductCategoryID));
+            ViewBag.ProductCategoryId = ProductCategoryId;
+            return View("Tags", Service.Get(m => m.ProductCategoryId == ProductCategoryId));
         }
     }
 }
