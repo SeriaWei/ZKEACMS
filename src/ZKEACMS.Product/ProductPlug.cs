@@ -68,6 +68,9 @@ namespace ZKEACMS.Product
         {
             style("PhotoWall")
                 .Include("~/Plugins/ZKEACMS.Product/Scripts/jquery-photowall/jquery-photowall.css");
+
+            style("product-tag")
+                .Include("~/Plugins/ZKEACMS.Product/Content/product-tag.css", "~/Plugins/ZKEACMS.Product/Content/product-tag.min.css");
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()

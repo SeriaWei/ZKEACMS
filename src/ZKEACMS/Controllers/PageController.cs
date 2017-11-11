@@ -120,6 +120,15 @@ namespace ZKEACMS.Controllers
         [HttpPost]
         public override IActionResult Edit(PageEntity entity)
         {
+            try
+            {
+                Service.Update(entity);
+            }
+            catch (PageExistException ex)
+            {
+                ModelState.AddModelError("PageUrl", ex.Message);
+                return View(entity);
+            }
             if (entity.ActionType == ActionType.Design)
             {
                 return RedirectToAction("Design", new { entity.ID });
@@ -129,15 +138,6 @@ namespace ZKEACMS.Controllers
             {
                 Service.Remove(id);
                 return RedirectToAction("Index");
-            }
-            try
-            {
-                Service.Update(entity);
-            }
-            catch (PageExistException ex)
-            {
-                ModelState.AddModelError("PageUrl", ex.Message);
-                return View(entity);
             }
             if (entity.ActionType == ActionType.Publish)
             {

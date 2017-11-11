@@ -1,41 +1,35 @@
 ﻿@using ZKEACMS.Product.Models
 @model List<ProductCategoryTag>
 
-@if (Model == null)
-{
-    <div style="padding-top: 7px;">
-        <code>保存产品后再设置标签</code>
-    </div>    
-    return;
-}
-
 <div class="tag-selector">
-    @if (!Model.Any())
+    @if (Model != null)
     {
-        <div style="padding-top: 7px;">
-            <code>该类别下没有标签</code> <a target="_blank" href="@Url.Action("Index","ProductCategoryTag")">设置标签</a>
-        </div>
-    }
-    @foreach (var item in Model.Where(m => m.ParentId == 0).OrderBy(m => m.ID))
-    {
-        <div class="panel panel-default">
-            @Html.HiddenFor(m => Model[Model.IndexOf(item)].ID)
-            @Html.HiddenFor(m => Model[Model.IndexOf(item)].ProductCategoryId)
-            @Html.HiddenFor(m => Model[Model.IndexOf(item)].ParentId)
-            <div class="panel-heading">@item.Title</div>
-            <div class="panel-body">
-                @foreach (var child in Model.Where(m => m.ParentId == item.ID).OrderBy(m => m.ID))
-                {
-                    <label class="checkbox-inline">
-                        @Html.HiddenFor(m => Model[Model.IndexOf(child)].ID)
-                        @Html.HiddenFor(m => Model[Model.IndexOf(child)].ProductCategoryId)
-                        @Html.HiddenFor(m => Model[Model.IndexOf(child)].ParentId)
-                        @Html.CheckBoxFor(m => Model[Model.IndexOf(child)].Selected)
-                        @child.Title
-                    </label>
-                }
+        foreach (var item in Model.Where(m => m.ParentId == 0).OrderBy(m => m.ID))
+        {
+            <div class="panel panel-default">
+                @Html.HiddenFor(m => Model[Model.IndexOf(item)].ID)
+                @Html.HiddenFor(m => Model[Model.IndexOf(item)].ProductCategoryId)
+                @Html.HiddenFor(m => Model[Model.IndexOf(item)].ParentId)
+                <div class="panel-heading">@item.Title</div>
+                <div class="panel-body">
+                    @foreach (var child in Model.Where(m => m.ParentId == item.ID).OrderBy(m => m.ID))
+                    {
+                        <label class="checkbox-inline">
+                            @Html.HiddenFor(m => Model[Model.IndexOf(child)].ID)
+                            @Html.HiddenFor(m => Model[Model.IndexOf(child)].ProductCategoryId)
+                            @Html.HiddenFor(m => Model[Model.IndexOf(child)].ParentId)
+                            @Html.CheckBoxFor(m => Model[Model.IndexOf(child)].Selected)
+                            @child.Title
+                        </label>
+                    }
+                </div>
             </div>
-        </div>
 
+        }
     }
+</div>
+
+<div style="padding-top: 7px;">
+    <a target="_blank" href="@Url.Action("Index","ProductCategoryTag")">设置</a>
+    <a href="javascript:" class="reload-tag">刷新</a>
 </div>

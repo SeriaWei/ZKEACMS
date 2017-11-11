@@ -34,6 +34,17 @@ namespace ZKEACMS.Product.Service
             product.PublishDate = DateTime.Now;
             base.Update(product);
         }
+        public override void Add(ProductEntity item)
+        {
+            base.Add(item);
+            if (item.ProductTags != null)
+            {
+                foreach (var tag in item.ProductTags.Where(m => m.Selected))
+                {
+                    _productTagService.Add(new ProductTag { ProductId = item.ID, TagId = tag.ID });
+                }
+            }
+        }
         public override void Update(ProductEntity item, bool saveImmediately = true)
         {
             base.Update(item, saveImmediately);

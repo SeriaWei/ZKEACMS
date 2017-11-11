@@ -1,43 +1,108 @@
 ﻿@model ZKEACMS.Product.Models.ProductEntity
 @{
-
+    Style.Reqiured("product-tag").AtHead();
 }
 @if (Model != null)
 {
     <div class="product-detail">
         <div class="page-header">
-            <h1 class="align-center">
-                @Model.Title
-            </h1>
-            <div class="align-right">
-                <span>
-                    <i class="glyphicon glyphicon-user"></i>
-                    @Model.CreatebyName
-                </span>
-                <span>
-                    <i class="glyphicon glyphicon-calendar"></i>
-                    @((Model.PublishDate ?? DateTime.Now).ToString("yyyy/MM/dd"))
-                </span>
-
-                @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProduct) && Model.ID > 0)
-                {
-                    <a href="@Url.Action("Edit", "Product", new { id = Model.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">编辑</a>
-                }
+            <div class="product-header">
+                <div class="container-fluid">
+                    <div class="col-md-6">
+                        @if (Model.ImageUrl.IsNotNullAndWhiteSpace())
+                        {
+                            <img class="thumbnail" src="@Url.Content(Model.ImageUrl)" alt="@Model.Title" />
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <h1>@Model.Title</h1>
+                        @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProduct) && Model.ID > 0)
+                        {
+                            <p>
+                                <a href="@Url.Action("Edit", "Product", new { id = Model.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">编辑</a>
+                            </p>
+                        }
+                        @if (Model.Description.IsNotNullAndWhiteSpace())
+                        {
+                                <p>
+                                    <small class="text-muted">
+                                        @Model.Description
+                                    </small>
+                                </p>
+                           
+                        }
+                        @if (Model.Price.HasValue || Model.RebatePrice.HasValue)
+                        {
+                            <p>
+                                价格
+                                @if (Model.RebatePrice.HasValue)
+                                {
+                                    <del class="text-muted">￥@((Model.Price ?? 0).ToString("F2"))</del>
+                                    <span class="price">￥@((Model.RebatePrice ?? 0).ToString("F2"))</span>
+                                }
+                                else
+                                {
+                                    <span class="price">￥@Model.Price</span>
+                                }
+                            </p>
+                        }
+                        @if (Model.PartNumber.IsNotNullAndWhiteSpace())
+                        {
+                            <p>
+                                型号
+                                <span class="text-muted">@Model.PartNumber</span>
+                            </p>
+                        }
+                        @if (Model.Color.IsNotNullAndWhiteSpace())
+                        {
+                            <p>
+                                颜色
+                                <span class="text-muted">@Model.Color</span>
+                            </p>
+                        }
+                        @if (Model.Norm.IsNotNullAndWhiteSpace())
+                        {
+                            <p>
+                                规格
+                                <span class="text-muted">@Model.Norm</span>
+                            </p>
+                        }
+                        @if (Model.ShelfLife.IsNotNullAndWhiteSpace())
+                        {
+                            <p>
+                                保质期
+                                <span class="text-muted">@Model.ShelfLife</span>
+                            </p>
+                        }
+                        @if (Model.ProductTags != null && Model.ProductTags.Any(m => m.Selected))
+                        {
+                            <div class="tag-select">
+                                @foreach (var item in Model.ProductTags.Where(m => m.ParentId == 0))
+                                {
+                                    var childTags = Model.ProductTags.Where(m => m.ParentId == item.ID && m.Selected).ToList();
+                                    if (childTags.Any())
+                                    {
+                                        <div class="tag-grop">
+                                            <h4>
+                                                @item.Title
+                                            </h4>
+                                            <div>
+                                                @foreach (var tag in childTags)
+                                                {
+                                                    <input type="radio" id="tag-@tag.ID" name="group-@item.ID" value="@tag.Title" />
+                                                    <label for="tag-@tag.ID">@tag.Title</label>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
         <div class="panel-body detail clearfix">
-            @if (Model.Description.IsNotNullAndWhiteSpace())
-            {
-                <blockquote>
-                    <footer>
-                        @Model.Description
-                    </footer>
-                </blockquote>
-            }
-            @if (Model.ImageUrl.IsNotNullAndWhiteSpace())
-            {
-                <img class="thumbnail" src="@Url.Content(Model.ImageUrl)" alt="@Model.Title" />
-            }
             @Html.Raw(Model.ProductContent)
         </div>
     </div>

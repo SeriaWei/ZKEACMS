@@ -12,6 +12,8 @@ using System.Linq;
 using ZKEACMS.Product.ActionFilter;
 using ZKEACMS.Product.Models;
 using ZKEACMS.Product.Service;
+using Microsoft.Extensions.DependencyInjection;
+using ZKEACMS.Product.ViewModel;
 
 namespace ZKEACMS.Product.Controllers
 {
@@ -51,14 +53,7 @@ namespace ZKEACMS.Product.Controllers
         [DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
         public override IActionResult Edit(int Id)
         {
-            var entity = Service.Get(Id);
-            int category;
-            if (Request.Query["category"].Count > 0 && int.TryParse(Request.Query["category"], out category))
-            {
-                entity.ProductCategoryID = category;
-                entity.ProductTags = _productCategoryTagService.Get(m => m.ProductCategoryId == category);
-            }
-            return View(entity);
+            return base.Edit(Id);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
         public override IActionResult Edit(ProductEntity entity)
@@ -113,6 +108,20 @@ namespace ZKEACMS.Product.Controllers
             return Json(Service.Get(m => ids.Contains(m.ProductCategoryID ?? 0))
                 .OrderBy(m => m.OrderIndex)
                 .ThenByDescending(m => m.ID).Select(m => new { m.ID, m.Title }));
+        }
+        [HttpPost]
+        public IActionResult ProduceTags(int productId, int ProductCategoryId)
+        {
+            var tags = _productCategoryTagService.Get(m => m.ProductCategoryId == ProductCategoryId);
+            if (productId != 0)
+            {
+                var productTags = HttpContext.RequestServices.GetService<IProductTagService>().Get(m => m.ProductId == productId);
+                foreach (var item in tags)
+                {
+                    item.Selected = productTags.Any(m => m.TagId == item.ID);
+                }
+            }
+            return View(new ProductTagViewModel { ProductTags = tags });
         }
     }
 }
