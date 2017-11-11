@@ -3,7 +3,7 @@
 }
 .product-header .thumbnail {
   margin: 0 0 0 auto;
-  max-width: 80%;
+  /*max-width: 80%;*/
 }
 .product-header .price {
   font-size: 2rem;
