@@ -26,3 +26,14 @@
         }
     </div>
 </div>
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#ProductCategoryID").change(function () {
+                window.location.href = "@Url.Action("Edit",new { id=Model.ID})" + "?category="+$(this).val();
+            });
+        });
+    </script>
+}

@@ -101,10 +101,12 @@ $(function () {
                 $(this.document).find("#confirm").click(function () {
                     obj.val(win.GetSelected());
                     box.close();
+                    obj.trigger("change");
                 });
                 $(this.document).on("click", ".confirm", function () {
                     obj.val($(this).data("result"));
                     box.close();
+                    obj.trigger("change");
                 });
             }
         });

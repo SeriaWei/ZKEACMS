@@ -74,20 +74,23 @@ img {
 .input-group .form-control {
     position: static;
 }
-.input-group.loading::before{
-    display:block;
-    content:" ";
-    position:absolute;
-    height:2px;
-    bottom:0;
-    left:0;
-    width:0;
-    background:red;
+
+.input-group.loading::before {
+    display: block;
+    content: " ";
+    position: absolute;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    background: red;
 }
+
 .input-group.loading.processing::before {
     width: 100%;
     transition: width 2s;
 }
+
 .form-control.required {
     background-color: #fff0dd;
 }
@@ -137,12 +140,12 @@ a.badge:hover {
 
 #main-body {
     overflow: auto;
-    padding:0 15px;
-    position:absolute;
-    left:190px;
-    right:0;
-    bottom:0;
-    top:65px;
+    padding: 0 15px;
+    position: absolute;
+    left: 190px;
+    right: 0;
+    bottom: 0;
+    top: 65px;
 }
 
 
@@ -219,11 +222,13 @@ a.badge:hover {
     clear: both;
     margin: 15px -15px -15px -15px;
 }
+
 #toolBar {
-    padding-bottom:10px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
 }
+
 .input-group .mce-panel {
     border: 1px solid #ccc;
     border-radius: 0;
@@ -262,7 +267,6 @@ a.badge:hover {
         border: 1px solid #ddd;
         border-left: 5px solid green;
         margin: 5px;
-        cursor: pointer;
         background-color: white;
     }
 
@@ -276,6 +280,11 @@ a.badge:hover {
         cursor: move;
     }
 
+    .fullRowList li ul {
+        list-style: none;
+        padding-left: 2.2rem;
+    }
+
     .fullRowList li.actived {
         border-left: 5px solid #E28271;
         color: #E28271;
@@ -285,8 +294,33 @@ a.badge:hover {
         background-color: #9FDDF6;
     }
 
-    .fullRowList.widgets .glyphicon {
+    .fullRowList .glyphicon {
         font-size: 12px;
+    }
+
+    .fullRowList.tags input {
+        border: 1px solid #fff;
+        padding: 2px 4px;
+    }
+
+        .fullRowList.tags input:hover {
+            border: 1px solid #ddd;
+        }
+
+        .fullRowList.tags input:focus {
+            border: 1px solid #ddd;
+        }
+
+        .fullRowList.tags input + code {
+            display: none;
+        }
+
+        .fullRowList.tags input:focus + code {
+            display: inline;
+        }
+
+    .fullRowList.ui-sortable li {
+        cursor: move;
     }
 
 .input-group-collection {
@@ -296,23 +330,24 @@ a.badge:hover {
     padding-bottom: 8px;
 }
 
-    
+
 
     .input-group-collection .btn.add {
         margin-top: 8px;
     }
+
     .input-group-collection .items {
-       
     }
+
         .input-group-collection .items .item {
-            display:block;
+            display: block;
             position: relative;
             border-bottom: 1px solid #f2f2f2;
         }
 
-        .input-group-collection .item .form-group {
-            margin: 8px 0;
-        }
+    .input-group-collection .item .form-group {
+        margin: 8px 0;
+    }
 
     .input-group-collection .delete {
         position: absolute;
@@ -349,7 +384,6 @@ a.badge:hover {
 }
 
 .site-map {
-    
 }
 
 .form-control[type=checkbox] {
@@ -389,9 +423,9 @@ a.badge:hover {
     }
 
     .simplePreview .panel-toolbar {
-        text-align:center;
-        margin-top:5px;
-        padding:0 0 5px;
+        text-align: center;
+        margin-top: 5px;
+        padding: 0 0 5px;
     }
 
     .simplePreview .simpleDesign > .container {
@@ -468,8 +502,9 @@ a.badge:hover {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    position:relative;
+    position: relative;
 }
+
 #media-list .thumbnail.status-2 .caption:after {
     display: block;
     content: "文件不完整";
@@ -482,9 +517,10 @@ a.badge:hover {
     background: #ca2026;
     line-height: 30px;
 }
-    #media-list .thumbnail .caption .edit {
-        text-align: center;
-    }
+
+#media-list .thumbnail .caption .edit {
+    text-align: center;
+}
 
 #media-list .thumbnail .close {
     position: absolute;
@@ -497,7 +533,7 @@ a.badge:hover {
     position: absolute;
     left: 20px;
     bottom: 50px;
-    text-shadow:0px 0px 5px #fff;
+    text-shadow: 0px 0px 5px #fff;
     text-align: left;
 }
 
@@ -557,9 +593,11 @@ a.badge:hover {
             .dataTable .range-search input.max.show {
                 display: block;
             }
-            .dataTable .glyphicon{
-                margin:0 3px;
-            }
+
+    .dataTable .glyphicon {
+        margin: 0 3px;
+    }
+
 table.table-bordered.dataTable th, table.table-bordered.dataTable td {
     white-space: nowrap;
 }
@@ -569,4 +607,8 @@ div.dataTables_wrapper div.dataTables_processing {
     background: #fff url('../js/EasyPlug/Css/Images/loader.gif') center center no-repeat;
     width: 50px;
     margin-left: -25px;
+}
+
+.tag-selector .panel:last-child{
+    margin-bottom:0;
 }

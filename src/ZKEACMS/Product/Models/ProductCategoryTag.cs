@@ -14,5 +14,7 @@ namespace ZKEACMS.Product.Models
         public int ID { get; set; }
         public int ProductCategoryId { get; set; }
         public int ParentId { get; set; }
+        [NotMapped]
+        public bool Selected { get; set; }
     }
 }

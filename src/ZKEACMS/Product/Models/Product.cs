@@ -73,6 +73,8 @@ namespace ZKEACMS.Product.Models
         public DateTime? PublishDate { get; set; }
         public string TargetFrom { get; set; }
         public string TargetUrl { get; set; }
+        [NotMapped]
+        public IList<ProductCategoryTag> ProductTags { get; set; }
 
     }
     class ProductMetaData : ViewMetaData<ProductEntity>
@@ -93,7 +95,9 @@ namespace ZKEACMS.Product.Models
                 .AddClass("select")
                 .AddProperty("data-url", "/admin/ProductCategory/Select")
                 .ShowInGrid();
-            
+
+            ViewConfig(m => m.ProductTags).AsTextBox().SetTemplate("TagSelector");
+
             ViewConfig(m => m.ProductContent).AsTextArea().AddClass("html");
             ViewConfig(m => m.Description).AsTextArea();
             ViewConfig(m => m.IsPublish).AsTextBox().Hide();

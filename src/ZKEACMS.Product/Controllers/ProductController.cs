@@ -19,11 +19,13 @@ namespace ZKEACMS.Product.Controllers
     public class ProductController : BasicController<ProductEntity, int, IProductService>
     {
         private readonly IProductCategoryService _productCategoryService;
+        private readonly IProductCategoryTagService _productCategoryTagService;
         private readonly IAuthorizer _authorizer;
-        public ProductController(IProductService service, IProductCategoryService productCategoryService, IAuthorizer authorizer)
+        public ProductController(IProductService service, IProductCategoryService productCategoryService, IAuthorizer authorizer, IProductCategoryTagService productCategoryTagService)
             : base(service)
         {
             _productCategoryService = productCategoryService;
+            _productCategoryTagService = productCategoryTagService;
             _authorizer = authorizer;
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewProduct)]
@@ -49,7 +51,14 @@ namespace ZKEACMS.Product.Controllers
         [DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
         public override IActionResult Edit(int Id)
         {
-            return base.Edit(Id);
+            var entity = Service.Get(Id);
+            int category;
+            if (Request.Query["category"].Count > 0 && int.TryParse(Request.Query["category"], out category))
+            {
+                entity.ProductCategoryID = category;
+                entity.ProductTags = _productCategoryTagService.Get(m => m.ProductCategoryId == category);
+            }
+            return View(entity);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
         public override IActionResult Edit(ProductEntity entity)

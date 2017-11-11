@@ -26,12 +26,14 @@ namespace ZKEACMS.Product.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProductCategoryTag)]
         public override IActionResult Create(ProductCategoryTag entity)
         {
-            return base.Create(entity);
+            Service.Add(entity);
+            return Json(new { entity.ID });
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProductCategoryTag)]
         public override IActionResult Edit(ProductCategoryTag entity)
         {
-            return base.Edit(entity);
+            Service.Update(entity);
+            return Json(new { entity.ID });
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProductCategoryTag)]
         public override IActionResult Delete(int id)

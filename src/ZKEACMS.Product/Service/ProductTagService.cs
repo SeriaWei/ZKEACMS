@@ -1,4 +1,8 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2017 ZKEASOFT 
+ * http://www.zkea.net/licenses 
+ */
+
 using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
@@ -21,6 +25,6 @@ namespace ZKEACMS.Product.Service
                 return (DbContext as ProductDbContext).ProductTag;
             }
         }
-        
+
     }
 }

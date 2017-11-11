@@ -10,8 +10,10 @@ namespace ZKEACMS.Product.Service
 {
     public class ProductCategoryTagService : ServiceBase<ProductCategoryTag>, IProductCategoryTagService
     {
-        public ProductCategoryTagService(IApplicationContext applicationContext, ProductDbContext dbContext) : base(applicationContext, dbContext)
+        private readonly IProductTagService _productTagService;
+        public ProductCategoryTagService(IApplicationContext applicationContext,IProductTagService productTagService, ProductDbContext dbContext) : base(applicationContext, dbContext)
         {
+            _productTagService = productTagService;
         }
 
         public override DbSet<ProductCategoryTag> CurrentDbSet
@@ -20,6 +22,15 @@ namespace ZKEACMS.Product.Service
             {
                 return (DbContext as ProductDbContext).ProductCategoryTag;
             }
+        }
+        public override void Remove(ProductCategoryTag item, bool saveImmediately = true)
+        {
+            _productTagService.Remove(m => m.TagId == item.ID);
+            if (item.ParentId == 0)
+            {
+                Remove(m => m.ParentId == item.ID);
+            }
+            base.Remove(item, saveImmediately);
         }
     }
 }
