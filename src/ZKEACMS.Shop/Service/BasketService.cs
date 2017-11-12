@@ -1,0 +1,20 @@
+﻿using Easy.RepositoryPattern;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using ZKEACMS.Shop.Models;
+using Microsoft.EntityFrameworkCore;
+using Easy;
+
+namespace ZKEACMS.Shop.Service
+{
+    public class BasketService : ServiceBase<Basket>, IBasketService
+    {
+        public BasketService(IApplicationContext applicationContext, OrderDbContext dbContext) : base(applicationContext, dbContext)
+        {
+        }
+
+        public override DbSet<Basket> CurrentDbSet => (DbContext as OrderDbContext).Basket;
+    }
+}
