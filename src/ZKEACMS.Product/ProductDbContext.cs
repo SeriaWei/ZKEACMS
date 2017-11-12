@@ -21,5 +21,6 @@ namespace ZKEACMS.Product
         internal DbSet<ProductListWidget> ProductListWidget { get; set; }
         internal DbSet<ProductTag> ProductTag { get; set; }
         internal DbSet<ProductCategoryTag> ProductCategoryTag { get; set; }
+        internal DbSet<ProductImage> ProductImage { get; set; }
     }
 }

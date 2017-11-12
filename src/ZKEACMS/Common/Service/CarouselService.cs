@@ -101,5 +101,13 @@ namespace ZKEACMS.Common.Service
                 }
             });
         }
+        public override void Remove(CarouselEntity item, bool saveImmediately = true)
+        {
+            if (item.CarouselItems != null)
+            {
+                item.CarouselItems.Each(m => _carouselItemService.Remove(m));
+            }            
+            base.Remove(item, saveImmediately);
+        }
     }
 }

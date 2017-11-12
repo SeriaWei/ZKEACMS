@@ -194,9 +194,14 @@ if %ERRORLEVEL% NEQ 0 goto errors
 @echo FormDataItem
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.FormDataItem.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
+@echo ProductTag
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.ProductTag.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
+@echo ProductCategoryTag
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.ProductCategoryTag.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo ProductImage
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.ProductImage.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
 
 @echo InitailData...
@@ -362,9 +367,14 @@ if %ERRORLEVEL% NEQ 0 goto errors
 @echo FormDataItem
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.FormDataItem.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
+@echo ProductTag
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.ProductTag.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
+@echo ProductCategoryTag
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.ProductCategoryTag.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo ProductImage
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.ProductImage.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
 
 @echo -----------------------------------------------------------------------------

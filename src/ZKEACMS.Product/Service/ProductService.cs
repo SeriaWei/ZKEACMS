@@ -6,6 +6,8 @@ using ZKEACMS.Product.Models;
 using Easy;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Easy.Extend;
+using Easy.Constant;
 
 namespace ZKEACMS.Product.Service
 {
@@ -13,10 +15,12 @@ namespace ZKEACMS.Product.Service
     {
         private readonly IProductTagService _productTagService;
         private readonly IProductCategoryTagService _productCategoryTagService;
-        public ProductService(IApplicationContext applicationContext, IProductTagService productTagService, IProductCategoryTagService productCategoryTagService, ProductDbContext dbContext) : base(applicationContext, dbContext)
+        private readonly IProductImageService _productImageService;
+        public ProductService(IApplicationContext applicationContext, IProductTagService productTagService, IProductCategoryTagService productCategoryTagService, IProductImageService productImageService, ProductDbContext dbContext) : base(applicationContext, dbContext)
         {
             _productTagService = productTagService;
             _productCategoryTagService = productCategoryTagService;
+            _productImageService = productImageService;
         }
 
         public override DbSet<ProductEntity> CurrentDbSet
@@ -44,6 +48,38 @@ namespace ZKEACMS.Product.Service
                     _productTagService.Add(new ProductTag { ProductId = item.ID, TagId = tag.ID });
                 }
             }
+            if (item.ProductImages != null)
+            {
+                item.ProductImages.Each(m =>
+                {
+                    m.ProductId = item.ID;
+                    if (m.ActionType == ActionType.Create)
+                    {
+                        _productImageService.Add(m);
+                    }
+                });
+            }
+        }
+        private void SaveImages(ProductImage item)
+        {
+            switch (item.ActionType)
+            {
+                case ActionType.Create:
+                    {
+                        _productImageService.Add(item);
+                        break;
+                    }
+                case ActionType.Update:
+                    {
+                        _productImageService.Update(item);
+                        break;
+                    }
+                case ActionType.Delete:
+                    {
+                        _productImageService.Remove(item);
+                        break;
+                    }
+            }
         }
         public override void Update(ProductEntity item, bool saveImmediately = true)
         {
@@ -56,17 +92,45 @@ namespace ZKEACMS.Product.Service
                     _productTagService.Add(new ProductTag { ProductId = item.ID, TagId = tag.ID });
                 }
             }
+            if (item.ProductImages != null)
+            {
+                item.ProductImages.Each(m =>
+                {
+                    m.ProductId = item.ID;
+                    SaveImages(m);
+                });
+            }
         }
         public override ProductEntity Get(params object[] primaryKey)
         {
             var product = base.Get(primaryKey);
-            product.ProductTags = _productCategoryTagService.Get(m => m.ProductCategoryId == product.ProductCategoryID);
-            var tags = _productTagService.Get(m => m.ProductId == product.ID);
-            foreach (var item in product.ProductTags)
+            if (product != null)
             {
-                item.Selected = tags.Any(m => m.TagId == item.ID);
+                product.ProductTags = _productCategoryTagService.Get(m => m.ProductCategoryId == product.ProductCategoryID);
+                var tags = _productTagService.Get(m => m.ProductId == product.ID);
+                foreach (var item in product.ProductTags)
+                {
+                    item.Selected = tags.Any(m => m.TagId == item.ID);
+                }
+                product.ProductImages = _productImageService.Get(m => m.ProductId == product.ID);
             }
+
             return product;
+        }
+        public override void Remove(ProductEntity item, bool saveImmediately = true)
+        {
+            if (item.ProductTags != null)
+            {
+                _productTagService.Remove(m => m.ProductId == item.ID);
+            }
+            if (item.ProductImages != null)
+            {
+                item.ProductImages.Each(m =>
+                {
+                    _productImageService.Remove(m);
+                });
+            }
+            base.Remove(item, saveImmediately);
         }
     }
 }

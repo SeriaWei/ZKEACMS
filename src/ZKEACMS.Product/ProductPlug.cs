@@ -62,6 +62,9 @@ namespace ZKEACMS.Product
         {
             script("PhotoWall")
                 .Include("~/Plugins/ZKEACMS.Product/Scripts/jquery-photowall/jquery-photowall.js");
+
+            script("product-ecommerce")
+                .Include("~/Plugins/ZKEACMS.Product/Scripts/product-ecommerce.js", "~/Plugins/ZKEACMS.Product/Scripts/product-ecommerce.min.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
@@ -69,8 +72,8 @@ namespace ZKEACMS.Product
             style("PhotoWall")
                 .Include("~/Plugins/ZKEACMS.Product/Scripts/jquery-photowall/jquery-photowall.css");
 
-            style("product-tag")
-                .Include("~/Plugins/ZKEACMS.Product/Content/product-tag.css", "~/Plugins/ZKEACMS.Product/Content/product-tag.min.css");
+            style("product-ecommerce")
+                .Include("~/Plugins/ZKEACMS.Product/Content/product-ecommerce.css", "~/Plugins/ZKEACMS.Product/Content/product-ecommerce.min.css");
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
@@ -97,6 +100,7 @@ namespace ZKEACMS.Product
             serviceCollection.AddTransient<IProductCategoryService, ProductCategoryService>();
             serviceCollection.AddTransient<IProductCategoryTagService, ProductCategoryTagService>();
             serviceCollection.AddTransient<IProductTagService, ProductTagService>();
+            serviceCollection.AddTransient<IProductImageService, ProductImageService>();
             serviceCollection.AddDbContext<ProductDbContext>();
         }
         

@@ -1,21 +1,42 @@
 ﻿@model ZKEACMS.Product.Models.ProductEntity
 @{
-    Style.Reqiured("product-tag").AtHead();
+    Style.Reqiured("product-ecommerce").AtHead();
+    Script.Reqiured("product-ecommerce").AtFoot();
+    var firstImage = Model.ProductImages.FirstOrDefault(m => m.Status == (int)RecordStatus.Active);
 }
 @if (Model != null)
 {
     <div class="product-detail">
         <div class="page-header">
-            <div class="product-header">
+            <div class="product-ecommerce">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-6">
-                            @if (Model.ImageUrl.IsNotNullAndWhiteSpace())
-                            {
-                                <img class="thumbnail" src="@Url.Content(Model.ImageUrl)" alt="@Model.Title" />
-                            }
+                        <div class="col-sm-6">                            
+                            <div class="thumbnail">
+                                @if (firstImage != null)
+                                {
+                                    <img class="stage" src="@Url.Content(firstImage.ImageUrl)" alt="@firstImage.Title" />
+                                }
+                                else
+                                {
+                                    <img class="stage" src="@Url.Content(Model.ImageUrl)" alt="@Model.Title" />
+                                }
+                            </div>
+                            <ul class="thumbnails">
+                                @if (firstImage != null)
+                                {
+                                    foreach (var item in Model.ProductImages.Where(m => m.Status == (int)RecordStatus.Active))
+                                    {
+                                        <li class="@(item==firstImage?"active":"")">
+                                            <a href="javascript:" data-src="@Url.Content(item.ImageUrl)">
+                                                <img src="@Url.Content(item.ImageUrl)" alt="@item.Title" />
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             <h1>@Model.Title</h1>
                             @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProduct) && Model.ID > 0)
                             {
@@ -35,7 +56,7 @@
                             @if (Model.Price.HasValue || Model.RebatePrice.HasValue)
                             {
                                 <p>
-                                    价格
+                                    @Html.LabelFor(m => m.Price)
                                     @if (Model.RebatePrice.HasValue)
                                     {
                                         <del class="text-muted">￥@((Model.Price ?? 0).ToString("F2"))</del>
@@ -50,28 +71,28 @@
                             @if (Model.PartNumber.IsNotNullAndWhiteSpace())
                             {
                                 <p>
-                                    型号
+                                    @Html.LabelFor(m=>m.PartNumber)
                                     <span class="text-muted">@Model.PartNumber</span>
                                 </p>
                             }
                             @if (Model.Color.IsNotNullAndWhiteSpace())
                             {
                                 <p>
-                                    颜色
+                                    @Html.LabelFor(m => m.Color)
                                     <span class="text-muted">@Model.Color</span>
                                 </p>
                             }
                             @if (Model.Norm.IsNotNullAndWhiteSpace())
                             {
                                 <p>
-                                    规格
+                                    @Html.LabelFor(m => m.Norm)
                                     <span class="text-muted">@Model.Norm</span>
                                 </p>
                             }
                             @if (Model.ShelfLife.IsNotNullAndWhiteSpace())
                             {
                                 <p>
-                                    保质期
+                                    @Html.LabelFor(m => m.ShelfLife)
                                     <span class="text-muted">@Model.ShelfLife</span>
                                 </p>
                             }
@@ -99,6 +120,11 @@
                                     }
                                 </div>
                             }
+                            <p>
+                                <a class="btn btn-primary" href="javascript:">
+                                    <i class="glyphicon glyphicon-shopping-cart"></i> 加入购物车
+                                </a>
+                            </p>
                         </div>
                     </div>
                  

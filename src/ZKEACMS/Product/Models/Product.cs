@@ -14,6 +14,11 @@ namespace ZKEACMS.Product.Models
     [ViewConfigure(typeof(ProductMetaData)), Table("Product")]
     public class ProductEntity : EditorEntity, IImage
     {
+        public ProductEntity()
+        {
+            ProductImages = new List<ProductImage>();
+        }
+
         [Key]
         public int ID { get; set; }
         /// <summary>
@@ -75,6 +80,8 @@ namespace ZKEACMS.Product.Models
         public string TargetUrl { get; set; }
         [NotMapped]
         public IList<ProductCategoryTag> ProductTags { get; set; }
+        [NotMapped]
+        public IList<ProductImage> ProductImages { get; set; }
 
     }
     class ProductMetaData : ViewMetaData<ProductEntity>
@@ -83,9 +90,12 @@ namespace ZKEACMS.Product.Models
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.ID).AsHidden();
+            ViewConfig(m => m.TargetFrom).AsHidden();
+            ViewConfig(m => m.TargetUrl).AsHidden();
+            ViewConfig(m => m.Url).AsHidden();
             ViewConfig(m => m.Title).AsTextBox().Required().Order(0).ShowInGrid().Search(Query.Operators.Contains);
-            ViewConfig(m => m.ImageUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
-            ViewConfig(m => m.ImageThumbUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
+            ViewConfig(m => m.ImageUrl).AsTextBox().Required().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
+            ViewConfig(m => m.ImageThumbUrl).AsTextBox().Required().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
             ViewConfig(m => m.PartNumber).AsTextBox().ShowInGrid().Search(Query.Operators.Contains);
             ViewConfig(m => m.BrandCD).AsHidden();
             ViewConfig(m => m.ProductCategoryID)
@@ -97,6 +107,7 @@ namespace ZKEACMS.Product.Models
                 .ShowInGrid();
 
             ViewConfig(m => m.ProductTags).AsTextBox().SetTemplate("TagSelector");
+            ViewConfig(m => m.ProductImages).AsListEditor();
 
             ViewConfig(m => m.ProductContent).AsTextArea().AddClass("html");
             ViewConfig(m => m.Description).AsTextArea();
