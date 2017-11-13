@@ -33,12 +33,13 @@ namespace ZKEACMS.Shop
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
-
+            style("shop").Include("~/Plugins/ZKEACMS.Shop/Content/shop.css", "~/Plugins/ZKEACMS.Shop/Content/shop.min.css");
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
         {
-            return null;
+            yield return new PermissionDescriptor { Module = "商城", Title = "查看订单", Key = PermissionKeys.ViewOrder };
+            yield return new PermissionDescriptor { Module = "商城", Title = "管理订单", Key = PermissionKeys.ManageOrder };
         }
 
         public override IEnumerable<Type> WidgetServiceTypes()
