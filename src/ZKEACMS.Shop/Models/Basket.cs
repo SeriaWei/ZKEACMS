@@ -1,4 +1,10 @@
-﻿using Easy.Models;
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2017 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+using Easy.MetaData;
+using Easy.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.Shop.Models
 {
-    [Table("Basket")]
+    [ViewConfigure(typeof(BasketMetaData)), Table("Basket")]
     public class Basket : EditorEntity
     {
         [Key]
@@ -19,5 +25,12 @@ namespace ZKEACMS.Shop.Models
         public decimal Price { get; set; }
         public int ProductId { get; set; }
         public string PromoCode { get; set; }
+    }
+    class BasketMetaData : ViewMetaData<Basket>
+    {
+        protected override void ViewConfigure()
+        {
+            
+        }
     }
 }

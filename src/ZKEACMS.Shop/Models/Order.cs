@@ -1,4 +1,10 @@
-﻿using Easy.Models;
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2017 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+using Easy.MetaData;
+using Easy.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.Shop.Models
 {
-    [Table("Order")]
+    [ViewConfigure(typeof(OrderMetaData)), Table("Order")]
     public class Order : EditorEntity
     {
         [Key]
@@ -19,6 +25,16 @@ namespace ZKEACMS.Shop.Models
         public DateTime? PayTime { get; set; }
         public DateTime? CompletePayTime { get; set; }
         public string TrackingNumber { get; set; }
-        public int LogisticsCompany { get; set; }
+        public string LogisticsCompany { get; set; }
+        public string ShippingAddress { get; set; }
+    }
+    class OrderMetaData : ViewMetaData<Order>
+    {
+        protected override void ViewConfigure()
+        {
+            ViewConfig(m => m.ID).AsHidden();
+            ViewConfig(m => m.UserId).AsHidden();
+            ViewConfig(m => m.Title).AsHidden();
+        }
     }
 }
