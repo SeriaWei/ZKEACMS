@@ -55,7 +55,12 @@ namespace ZKEACMS.Shop.Controllers
             return Json(new AjaxResult { Status = AjaxStatus.Normal, Data = new BasketData(_basketService.Get()) });
         }
         [HttpPost]
-        public IActionResult MyItems()
+        public IActionResult GetBaskets()
+        {
+            return Json(new AjaxResult { Status = AjaxStatus.Normal, Data = new BasketData(_basketService.Get()) });
+        }
+        [HttpPost]
+        public IActionResult Index()
         {
             return View(new BasketData(_basketService.Get()));
         }

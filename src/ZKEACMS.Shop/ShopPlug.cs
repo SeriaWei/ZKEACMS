@@ -41,7 +41,8 @@ namespace ZKEACMS.Shop
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
-            style("shop").Include("~/Plugins/ZKEACMS.Shop/Content/shop.css", "~/Plugins/ZKEACMS.Shop/Content/shop.min.css");
+            style("shop").Include("~/Plugins/ZKEACMS.Shop/Content/shop.css", "~/Plugins/ZKEACMS.Shop/Content/shop.min.css")
+                .RequiredAtHead();
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()

@@ -22,7 +22,7 @@ namespace ZKEACMS.Shop.Service
         public override DbSet<Basket> CurrentDbSet => (DbContext as OrderDbContext).Basket;
         public override IQueryable<Basket> Get()
         {
-            if (ApplicationContext.CurrentUser != null)
+            if (ApplicationContext.CurrentCustomer != null)
             {
                 return base.Get().Where(m => m.UserId == ApplicationContext.CurrentCustomer.UserID);
             }
@@ -49,13 +49,14 @@ namespace ZKEACMS.Shop.Service
                 if (basket != null && product != null)
                 {
                     basket.Quantity += item.Quantity;
-                    basket.ImageUrl = product.ImageThumbUrl;
-                    basket.Title = product.Title;
                     base.Update(basket);
                 }
                 else
                 {
+                    item.ImageUrl = product.ImageThumbUrl ?? product.ImageUrl;
+                    item.Title = product.Title;
                     item.UserId = ApplicationContext.CurrentCustomer.UserID;
+                    item.Price = product.RebatePrice ?? product.Price ?? 0;
                     base.Add(item);
                 }
             }

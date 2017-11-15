@@ -1,11 +1,15 @@
 ﻿.basket {
   position: fixed;
-  right: 0;
+  right: -320px;
   top: 0;
   bottom: 0;
   background: #353535;
   width: 320px;
   color: #fff;
+  transition: right 300ms ease-in;
+}
+.basket.active {
+  right: 0;
 }
 .basket a {
   color: #fff;
