@@ -10,8 +10,17 @@
 .basket a {
   color: #fff;
 }
+.basket a:focus,
+.basket a:visited {
+  color: #fff;
+  text-decoration: none;
+}
 .basket a:hover {
-  color: #efefef;
+  color: #d7d7d7;
+  text-decoration: none;
+}
+.basket a:active {
+  color: #bababa;
   text-decoration: none;
 }
 .basket .close {
@@ -28,13 +37,31 @@
   color: #fff;
   opacity: 1;
 }
+.basket .price {
+  margin-right: 2rem;
+}
+.basket .price small {
+  color: #d7d7d7;
+  font-size: 70%;
+}
 .basket .basket-header,
 .basket .basket-footer {
   background: #272727;
 }
+.basket .basket-header {
+  height: 50px;
+}
 .basket .basket-header h4 {
   padding: 1.5rem;
   margin: 0;
+}
+.basket .basket-body {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  bottom: 105px;
+  overflow: auto;
 }
 .basket .basket-body ul {
   list-style: none;
@@ -43,21 +70,47 @@
 .basket .basket-body ul > li {
   padding-top: 15px;
   padding-bottom: 15px;
+  background-color: #3e3e3e;
 }
 .basket .basket-body ul > li:nth-child(even) {
-  background: #303030;
+  background: #262626;
+}
+.basket .basket-body ul > li.empty {
+  padding: 1.5rem 1rem;
 }
 .basket .basket-body ul > li img {
   max-width: 100%;
-  margin-bottom: 5px;
+  margin-bottom: 1rem;
 }
 .basket .basket-body ul > li h5 {
   font-size: 16px;
+}
+.basket .basket-body ul > li .tag {
+  color: #d7d7d7;
+}
+.basket .basket-body ul > li .quantity {
+  word-spacing: 5px;
+  font-size: 16px;
+}
+.basket .basket-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+}
+.basket .basket-footer .total {
   margin-bottom: 2rem;
 }
-.basket .basket-body ul > li .description {
-  color: #e6e6e6;
+.basket a.ckeck-out {
+  background: #ff6a00;
+  display: block;
+  padding: 1rem 2rem;
+  text-align: center;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
 }
-.basket .basket-body ul > li .description a {
-  color: #e6e6e6;
+.basket a.ckeck-out:active {
+  background: #ea6100;
 }

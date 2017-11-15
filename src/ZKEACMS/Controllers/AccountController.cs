@@ -126,8 +126,9 @@ namespace ZKEACMS.Controllers
             ViewBag.Message = "原密码错误";
             return View();
         }
-        public ActionResult SignIn()
+        public ActionResult SignIn(string ReturnUrl)
         {
+            ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
         [HttpPost]

@@ -1,125 +1,86 @@
-﻿@{
-    Layout = Layouts.NormalDefault;
+﻿@using System.Text.RegularExpressions
+@model ZKEACMS.Shop.ViewModel.BasketData
+@{
+    Layout = null;
     Style.Reqiured("shop").AtHead();
 }
+@StyleAtHead(false)
+@ScriptAtHead(false)
 <div class="basket">
-
     <div class="basket-header clearfix">
         <div class="pull-left">
             <h4>购物车</h4>
-        </div>   
+        </div>
         <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
     <div class="basket-body">
+     
         <ul class="container-fluid">
-            <li class="clearfix row">
-                <div class="col-xs-4">
-                    <img src="https://media.kingston.com/hyperx/product/hyperx_headset_revolver_bk_1-lg.jpg" />
-                    <div class="text-center">
-                        <a href="javascript:" class="glyphicon glyphicon-minus-sign"></a>
-                        <span>1</span>
-                        <a href="javascript:" class="glyphicon glyphicon-plus-sign"></a>
-                    </div>
-                </div>
-                <div class="col-xs-8">
-                    <h5>HyperX Cloud Revolver</h5>
-                    <div class="description clearfix">
-                        <div class="pull-left">
-                            ￥300.00 X 1
+            @if (Model.Basket != null)
+            {
+                foreach (var item in Model.Basket)
+                {
+                    <li class="row">
+                        <div class="col-xs-4">
+                            <img src="@Url.PathContent(item.ImageUrl)" />
                         </div>
-                        <div class="pull-right">
-                            <a href="javascript:" class="glyphicon glyphicon-trash"></a>
+                        <div class="col-xs-8">
+                            <h5>@item.Title</h5>
+                            <div class="tag">
+                                @item.Description
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </li>
-            <li class="clearfix row">
-                <div class="col-xs-4">
-                    <img src="https://media.kingston.com/hyperx/product/hyperx_headset_revolver_bk_1-lg.jpg" />
-                    <div class="text-center">
-                        <a href="javascript:" class="glyphicon glyphicon-minus-sign"></a>
-                        <span>1</span>
-                        <a href="javascript:" class="glyphicon glyphicon-plus-sign"></a>
-                    </div>
-                </div>
-                <div class="col-xs-8">
-                    <h5>HyperX Cloud Revolver</h5>
-                    <div class="description clearfix">
-                        <div class="pull-left">
-                            ￥300.00 X 1
+                        <div class="clearfix"></div>
+                        <div class="col-xs-4">
+                            <div class="text-center quantity">
+                                <a href="javascript:" class="glyphicon glyphicon-minus-sign"></a>
+                                <span>1</span>
+                                <a href="javascript:" class="glyphicon glyphicon-plus-sign"></a>
+                            </div>
                         </div>
-                        <div class="pull-right">
-                            <a href="javascript:" class="glyphicon glyphicon-trash"></a>
+                        <div class="col-xs-8">
+                            <div class="clearfix">
+                                <div class="text-right">
+                                    <span class="price">
+                                        ￥@Html.Raw(Regex.Replace(Convert.ToString(item.Price), @"\.(\d+)", "<small>.$1</small>"))
+                                        x @item.Quantity
+                                    </span>
+                                    <a href="javascript:" class="glyphicon glyphicon-trash"></a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </li>
-            <li class="clearfix row">
-                <div class="col-xs-4">
-                    <img src="https://media.kingston.com/hyperx/product/hyperx_headset_revolver_bk_1-lg.jpg" />
-                    <div class="text-center">
-                        <a href="javascript:" class="glyphicon glyphicon-minus-sign"></a>
-                        <span>1</span>
-                        <a href="javascript:" class="glyphicon glyphicon-plus-sign"></a>
-                    </div>
-                </div>
-                <div class="col-xs-8">
-                    <h5>HyperX Cloud Revolver</h5>
-                    <div class="description clearfix">
-                        <div class="pull-left">
-                            ￥300.00 X 1
-                        </div>
-                        <div class="pull-right">
-                            <a href="javascript:" class="glyphicon glyphicon-trash"></a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="clearfix row">
-                <div class="col-xs-4">
-                    <img src="https://media.kingston.com/hyperx/product/hyperx_headset_revolver_bk_1-lg.jpg" />
-                    <div class="text-center">
-                        <a href="javascript:" class="glyphicon glyphicon-minus-sign"></a>
-                        <span>1</span>
-                        <a href="javascript:" class="glyphicon glyphicon-plus-sign"></a>
-                    </div>
-                </div>
-                <div class="col-xs-8">
-                    <h5>HyperX Cloud Revolver</h5>
-                    <div class="description clearfix">
-                        <div class="pull-left">
-                            ￥300.00 X 1
-                        </div>
-                        <div class="pull-right">
-                            <a href="javascript:" class="glyphicon glyphicon-trash"></a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="clearfix row">
-                <div class="col-xs-4">
-                    <img src="https://media.kingston.com/hyperx/product/hyperx_headset_revolver_bk_1-lg.jpg" />
-                    <div class="text-center">
-                        <a href="javascript:" class="glyphicon glyphicon-minus-sign"></a>
-                        <span>1</span>
-                        <a href="javascript:" class="glyphicon glyphicon-plus-sign"></a>
-                    </div>
-                </div>
-                <div class="col-xs-8">
-                    <h5>HyperX Cloud Revolver</h5>
-                    <div class="description clearfix">
-                        <div class="pull-left">
-                            ￥300.00 X 1
-                        </div>
-                        <div class="pull-right">
-                            <a href="javascript:" class="glyphicon glyphicon-trash"></a>
-                        </div>
-                    </div>
-                </div>
-            </li>
+                    </li>
+                }
+
+            }
+            @if (Model.Basket == null || !Model.Basket.Any())
+            {
+                <li class="row empty text-center">
+                    您的购物车是空的
+                </li>
+            }
         </ul>
-    </div>    
+    </div>
     <div class="basket-footer">
-        <a class="btn btn-primary">立即购买</a>
+        <div class="row total">
+            <div class="col-xs-4">
+                <div class="text-center">
+                    @Model.Quantity 件
+                </div>
+            </div>
+            <div class="col-xs-8">
+                <div class="clearfix">
+                    <div class="text-right">
+                        总计
+                        <span class="price">
+                            ￥@Html.Raw(Regex.Replace(Convert.ToString(Model.Total), @"\.(\d+)", "<small>.$1</small>"))
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="ckeck-out">结 算</a>
     </div>
 </div>
+@StyleAtFoot(false)
+@ScriptAtFoot(false)

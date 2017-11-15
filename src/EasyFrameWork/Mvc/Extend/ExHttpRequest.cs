@@ -179,5 +179,9 @@ namespace Easy.Mvc.Extend
         {
             return request.Path.Value + request.QueryString;
         }
+        public static string GetReferer(this HttpRequest request)
+        {
+            return request.Headers["Referer"].ToString();
+        }
     }
 }

@@ -18,7 +18,13 @@ namespace ZKEACMS.Shop
     {
         public override IEnumerable<RouteDescriptor> RegistRoute()
         {
-            return null;
+            yield return new RouteDescriptor
+            {
+                RouteName = "Basket",
+                Template = "Basket/{action}",
+                Defaults = new { controller = "Basket", action = "Add" },
+                Priority = 11
+            };
         }
 
         public override IEnumerable<AdminMenu> AdminMenu()
@@ -28,7 +34,9 @@ namespace ZKEACMS.Shop
 
         protected override void InitScript(Func<string, ResourceHelper> script)
         {
-
+            script("basket")
+                .Include("~/Plugins/ZKEACMS.Shop/Scripts/ZKEACMS.Basket.js", "~/Plugins/ZKEACMS.Shop/Scripts/ZKEACMS.Basket.min.js")
+                .RequiredAtFoot();
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)

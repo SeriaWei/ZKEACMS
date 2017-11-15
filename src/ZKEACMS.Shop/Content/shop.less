@@ -10,8 +10,18 @@
     a {
         color: #fff;
 
+        &:focus, &:visited {
+            color: #fff;
+            text-decoration: none;
+        }
+
         &:hover {
-            color: #efefef;
+            color: #d7d7d7;
+            text-decoration: none;
+        }
+
+        &:active {
+            color: #bababa;
             text-decoration: none;
         }
     }
@@ -32,12 +42,22 @@
         }
     }
 
+    .price {
+        margin-right: 2rem;
+
+        small {
+            color: #d7d7d7;
+            font-size: 70%;
+        }
+    }
+
     .basket-header,
     .basket-footer {
         background: #272727;
     }
 
     .basket-header {
+        height: 50px;
 
         h4 {
             padding: 1.5rem;
@@ -46,6 +66,13 @@
     }
 
     .basket-body {
+        position: absolute;
+        top: 50px;
+        left: 0;
+        right: 0;
+        bottom: 105px;
+        overflow: auto;
+
         ul {
             list-style: none;
             margin: 0;
@@ -55,27 +82,59 @@
                 padding-bottom: 15px;
 
                 &:nth-child(even) {
-                    background: #303030;
+                    background: #262626;
+                }
+
+                background-color: #3e3e3e;
+
+                &.empty {
+                    padding: 1.5rem 1rem;
                 }
 
                 img {
                     max-width: 100%;
-                    margin-bottom: 5px;
+                    margin-bottom: 1rem;
                 }
 
                 h5 {
                     font-size: 16px;
-                    margin-bottom: 2rem;
                 }
 
-                .description {
-                    color: #e6e6e6;
+                .tag {
+                    color: #d7d7d7;
+                }
 
-                    a {
-                        color: #e6e6e6;
-                    }
+                .quantity {
+                    word-spacing: 5px;
+                    font-size: 16px;
                 }
             }
+        }
+    }
+
+    .basket-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1rem;
+
+        .total {
+            margin-bottom: 2rem;
+        }
+    }
+
+    a.ckeck-out {
+        background: #ff6a00;
+        display: block;
+        padding: 1rem 2rem;
+        text-align: center;
+        font-size: 16px;
+        color: #fff;
+        cursor: pointer;
+
+        &:active {
+            background: #ea6100;
         }
     }
 }
