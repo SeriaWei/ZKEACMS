@@ -25,7 +25,7 @@
         for (; start < Model.AllPage && start <= end; start++)
         {
             <li class="@(start == Model.PageIndex ? "active" : "")">
-                <a href="@Model.BaseUrlFormat.FormatWith(start)">@(start + 1)</a>
+                <a href="@Url.Content(Model.BaseUrlFormat.FormatWith(start))">@(start + 1)</a>
             </li>
         }
         if (Model.AllPage - Model.PageIndex > 5)
@@ -39,7 +39,7 @@
     @if (Model.PageIndex < Model.AllPage - 1)
     {
         <li>
-            <a href="@Model.BaseUrlFormat.FormatWith(Model.PageIndex + 1)">»</a>
+            <a href="@Url.Content(Model.BaseUrlFormat.FormatWith(Model.PageIndex + 1))">»</a>
         </li>
     }
     else

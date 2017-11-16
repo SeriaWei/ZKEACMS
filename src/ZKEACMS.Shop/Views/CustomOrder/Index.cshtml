@@ -1,0 +1,75 @@
+﻿@using ZKEACMS.Shop.ViewModel
+@model OrderListViewModel
+@{
+    Layout = Layouts.CustomerCenter;
+    ViewBag.Title = "我的订单";
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        我的订单
+    </div>
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                订单号
+            </th>
+            <th>
+                金额
+            </th>
+            <th>
+                联系人
+            </th>
+            <th>
+                联系电话
+            </th>
+            <th>
+                收货货地址
+            </th>
+            <th>
+                订单日期
+            </th>
+            <th>
+                状态
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+        @foreach (var item in Model.Orders)
+        {
+            <tr class="@(item.OrderStatus == (int)ZKEACMS.Shop.OrderStatus.UnPaid?"warning":"")">
+                <td>
+                    <a href="@Url.Action("Detail", new { Id = item.ID })">@item.ID</a>
+                </td>
+                <td>
+                    @item.Total.ToString("F2")
+                </td>
+                <td>
+                    @item.Contact
+                </td>
+                <td>
+                    @item.PhoneNumber
+                </td>
+                <td>
+                    @item.ShippingAddress
+                </td>
+                <td>
+                    @item.CreateDate.Value.ToString("yyyy/MM/dd")
+                </td>
+                <td>
+                    @item.OrderStatusText()
+                    @if (item.OrderStatus == (int)ZKEACMS.Shop.OrderStatus.UnPaid)
+                    {
+                        <a href="@Url.Action("Pay", "AliPay", new { orderId = item.ID })">付款</a>
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("Remove", new { Id = item.ID })">删除</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+@{
+    Html.Pagin(Model.Pagin);
+}

@@ -9,5 +9,7 @@ namespace ZKEACMS.Shop.Service
 {
     public interface IOrderService : IService<Order>
     {
+        void BeginPay(Order order);
+        void CompletePay(Order order, string paymentGateway, string paymentID);
     }
 }

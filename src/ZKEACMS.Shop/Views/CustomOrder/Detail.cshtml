@@ -1,0 +1,50 @@
+﻿@using ZKEACMS.Shop.ViewModel
+@model OrderDetailViewModel
+@{
+    Layout = Layouts.CustomerCenter;
+    ViewBag.Title = "订单明细";
+    if (Model.Order == null)
+    {
+        return;
+    }
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @Model.Order.CreateDate.Value.ToString("yyyy/MM/dd")
+        订单号：@Model.Order.ID
+        <label class="badge">
+            @Model.Order.OrderStatusText()
+        </label>
+        @if (Model.Order.TrackingNumber.IsNotNullAndWhiteSpace())
+        {
+            <span>运单：</span>
+            @Model.Order.LogisticsCompany
+            @Model.Order.TrackingNumber
+        }
+    </div>
+    <table class="table table-bordered">
+        @foreach (var item in Model.OrderItems)
+        {
+            <tr>
+                <td width="150">
+                    <img src="@Url.Content(item.ImageUrl)" />
+                </td>
+                <td>
+                    <h4>@item.Title</h4>
+                    <p>@item.Description</p>
+                    <p>
+                        ￥@item.Price.ToString("F2")
+                        x @item.Quantity
+                    </p>
+                </td>
+                @if (item == Model.OrderItems.First())
+                {
+                    <td width="200" align="center" style="vertical-align:middle" rowspan="@Model.OrderItems.Count">
+                       合计： ￥@Model.Order.Total.ToString("F2")
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+
+</div>

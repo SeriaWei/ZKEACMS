@@ -29,6 +29,22 @@ namespace ZKEACMS.Shop.Models
         public string TrackingNumber { get; set; }
         public string LogisticsCompany { get; set; }
         public string ShippingAddress { get; set; }
+        public string PaymentGateway { get; set; }
+        public string PaymentID { get; set; }
+        public string OrderStatusText()
+        {
+            switch ((Shop.OrderStatus)OrderStatus)
+            {
+                case Shop.OrderStatus.Cancel:return "已取消";
+                case Shop.OrderStatus.Complete: return "完成";
+                case Shop.OrderStatus.Paid: return "已付款";
+                case Shop.OrderStatus.Refund: return "已退款";
+                case Shop.OrderStatus.Shiped: return "已发货";
+                case Shop.OrderStatus.UnPaid: return "未支付";
+                case Shop.OrderStatus.Refunding: return "退款中";
+            }
+            return "完成";
+        }
     }
     class OrderMetaData : ViewMetaData<Order>
     {

@@ -183,5 +183,9 @@ namespace Easy.Mvc.Extend
         {
             return request.Headers["Referer"].ToString();
         }
+        public static string GetHostWithScheme(this HttpRequest request)
+        {
+            return request.Scheme + "://" + request.Host;
+        }
     }
 }

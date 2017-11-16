@@ -15,6 +15,7 @@ using Alipay.AopSdk.AspnetCore;
 using Microsoft.Extensions.Configuration;
 using Alipay.AopSdk.F2FPay.AspnetCore;
 using ZKEACMS.Shop.Payment;
+using ZKEACMS.Account;
 
 namespace ZKEACMS.Shop
 {
@@ -34,6 +35,13 @@ namespace ZKEACMS.Shop
                 RouteName = "AliPay",
                 Template = "AliPay/{action}",
                 Defaults = new { controller = "AliPay", action = "Pay" },
+                Priority = 11
+            };
+            yield return new RouteDescriptor
+            {
+                RouteName = "CustomOrder",
+                Template = "MyOrder/{action}/{Id?}",
+                Defaults = new { controller = "CustomOrder", action = "Index" },
                 Priority = 11
             };
         }
@@ -72,6 +80,7 @@ namespace ZKEACMS.Shop
             serviceCollection.TryAddTransient<IBasketService, BasketService>();
             serviceCollection.TryAddTransient<IOrderService, OrderService>();
             serviceCollection.TryAddTransient<IOrderItemService, OrderItemService>();
+            serviceCollection.AddTransient<IUserCenterLinksProvider, ShopCenterLinksProvider>();
             serviceCollection.AddDbContext<OrderDbContext>();
 
             var configuration = new ConfigurationBuilder()

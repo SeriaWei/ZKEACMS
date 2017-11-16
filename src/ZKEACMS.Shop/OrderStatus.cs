@@ -37,6 +37,10 @@ namespace ZKEACMS.Shop
         /// <summary>
         /// 已退款
         /// </summary>
-        Refund = 6
+        Refund = 6,
+        /// <summary>
+        /// 退款中
+        /// </summary>
+        Refunding = 7
     }
 }

@@ -21,5 +21,21 @@ namespace ZKEACMS.Shop.Service
             item.ID = Guid.NewGuid().ToString("N");
             base.Add(item);
         }
+
+        public void BeginPay(Order order)
+        {
+            order.OrderStatus = (int)OrderStatus.UnPaid;
+            order.PayTime = DateTime.Now;
+            Update(order);
+        }
+
+        public void CompletePay(Order order, string paymentGateway, string paymentID)
+        {
+            order.OrderStatus = (int)OrderStatus.Paid;
+            order.CompletePayTime = DateTime.Now;
+            order.PaymentGateway = paymentGateway;
+            order.PaymentID = paymentID;
+            Update(order);
+        }
     }
 }

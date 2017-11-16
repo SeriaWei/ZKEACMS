@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ZKEACMS.Shop.Payment;
 using ZKEACMS.Shop.Service;
+using Easy.Mvc.Extend;
 
 namespace ZKEACMS.Shop.Controllers
 {
@@ -41,16 +42,14 @@ namespace ZKEACMS.Shop.Controllers
             };
             AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
             // 设置同步回调地址
-            request.SetReturnUrl("http://localhost:5000/AliPay/Callback");
+            request.SetReturnUrl($"{HttpContext.Request.GetHostWithScheme()}/AliPay/Callback");
+
             // 设置异步通知接收地址
-            request.SetNotifyUrl("");
+            request.SetNotifyUrl($"{HttpContext.Request.GetHostWithScheme()}/AliPay/Notify");
             request.SetBizModel(model);
             var response = _alipayService.SdkExecute(request);
 
-
-            order.OrderStatus = (int)OrderStatus.UnPaid;
-            order.PayTime = DateTime.Now;
-            _orderService.Update(order);
+            _orderService.BeginPay(order);
 
             return Redirect(_aliPayConfig.Value.Gatewayurl + "?" + response.Body);
         }
@@ -60,12 +59,13 @@ namespace ZKEACMS.Shop.Controllers
             Dictionary<string, string> sArray = RequestGet();
             if (sArray.Count != 0)
             {
-                if (ProcessOrder(sArray))
+                string orderId;
+                if (ProcessOrder(sArray, out orderId))
                 {
-
+                    return RedirectToAction("Detail", "CustomOrder", new { Id = orderId });
                 }
             }
-            return View();
+            return RedirectToAction("Failed", "CustomOrder");
         }
 
         [HttpPost]
@@ -74,7 +74,8 @@ namespace ZKEACMS.Shop.Controllers
             Dictionary<string, string> sArray = RequestPost();
             if (sArray.Count != 0)
             {
-                if (ProcessOrder(sArray))
+                string orderId;
+                if (ProcessOrder(sArray, out orderId))
                 {
                     return Content("success");
                 }
@@ -82,18 +83,16 @@ namespace ZKEACMS.Shop.Controllers
             return Content("fail");
         }
 
-        private bool ProcessOrder(Dictionary<string, string> sArray)
+        private bool ProcessOrder(Dictionary<string, string> sArray, out string orderId)
         {
             bool flag = _alipayService.RSACheckV1(sArray);
             if (flag)
             {
-                string orderId = sArray["out_trade_no"];
+                orderId = sArray["out_trade_no"];
                 var order = _orderService.Get(orderId);
                 if (order != null && order.OrderStatus == (int)OrderStatus.UnPaid && order.Total == Decimal.Parse(sArray["total_amount"]) && _aliPayConfig.Value.AppId == sArray["app_id"])
                 {
-                    order.OrderStatus = (int)OrderStatus.Paid;
-                    order.CompletePayTime = DateTime.Now;
-                    _orderService.Update(order);
+                    _orderService.CompletePay(order, "Alipay", sArray["trade_no"]);
                     return true;
                 }
                 else if (order != null && order.OrderStatus == (int)OrderStatus.Paid)
@@ -101,7 +100,8 @@ namespace ZKEACMS.Shop.Controllers
                     return true;
                 }
             }
-            return flag;
+            orderId = string.Empty;
+            return false;
         }
 
         #region 解析请求参数
