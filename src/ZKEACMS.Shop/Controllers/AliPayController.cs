@@ -35,15 +35,15 @@ namespace ZKEACMS.Shop.Controllers
             {
                 Body = string.Join(",", items.Select(m => m.Title)),
                 Subject = items.First().Title,
-                TotalAmount = order.Total.ToString(),
+                TotalAmount = order.Total.ToString("F2"),
                 OutTradeNo = orderId,
                 ProductCode = "FAST_INSTANT_TRADE_PAY"
             };
             AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
             // 设置同步回调地址
-            request.SetReturnUrl("http://localhost:5000/Pay/Callback");
+            request.SetReturnUrl("http://localhost:5000/AliPay/Callback");
             // 设置异步通知接收地址
-            request.SetNotifyUrl("http://localhost:5000/Pay/Callback");
+            request.SetNotifyUrl("");
             request.SetBizModel(model);
             var response = _alipayService.SdkExecute(request);
 
@@ -89,7 +89,7 @@ namespace ZKEACMS.Shop.Controllers
             {
                 string orderId = sArray["out_trade_no"];
                 var order = _orderService.Get(orderId);
-                if (order != null && order.OrderStatus == (int)OrderStatus.UnPaid && order.Total.ToString() == sArray["total_amount"] && _aliPayConfig.Value.AppId == sArray["app_id"])
+                if (order != null && order.OrderStatus == (int)OrderStatus.UnPaid && order.Total == Decimal.Parse(sArray["total_amount"]) && _aliPayConfig.Value.AppId == sArray["app_id"])
                 {
                     order.OrderStatus = (int)OrderStatus.Paid;
                     order.CompletePayTime = DateTime.Now;
