@@ -106,6 +106,7 @@
 .basket .basket-footer .total {
   margin-bottom: 2rem;
 }
+.basket a.confirm-order,
 .basket a.ckeck-out {
   background: #ff6a00;
   display: block;
@@ -115,6 +116,15 @@
   color: #fff;
   cursor: pointer;
 }
+.basket a.confirm-order:active,
 .basket a.ckeck-out:active {
   background: #ea6100;
+}
+.basket.confirm-order .contact {
+  padding: 15px;
+}
+.basket.confirm-order input,
+.basket.confirm-order textarea {
+  border-radius: 0;
+  outline: none;
 }

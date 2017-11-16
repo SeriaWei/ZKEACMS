@@ -129,6 +129,7 @@
         }
     }
 
+    a.confirm-order,
     a.ckeck-out {
         background: #ff6a00;
         display: block;
@@ -142,7 +143,20 @@
             background: #ea6100;
         }
     }
-}
 
-.order {
+    &.confirm-order {
+        .contact {
+            padding: 15px;
+        }
+
+        input, textarea {
+            border-radius: 0;
+            outline: none;
+        }
+
+        a.confirm-order {
+            &:active {
+            }
+        }
+    }
 }

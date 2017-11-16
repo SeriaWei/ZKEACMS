@@ -20,6 +20,8 @@ namespace ZKEACMS.Shop.Models
         [Key]
         public string ID { get; set; }
         public string UserId { get; set; }
+        public string Contact { get; set; }
+        public string PhoneNumber { get; set; }
         public decimal Total { get; set; }
         public int OrderStatus { get; set; }
         public DateTime? PayTime { get; set; }

@@ -14,9 +14,13 @@ namespace ZKEACMS.Shop.Service
     public class BasketService : ServiceBase<Basket>, IBasketService
     {
         private readonly IProductService _productService;
-        public BasketService(IApplicationContext applicationContext, IProductService productService, OrderDbContext dbContext) : base(applicationContext, dbContext)
+        private readonly IOrderService _orderService;
+        private readonly IOrderItemService _orderItemService;
+        public BasketService(IApplicationContext applicationContext, IProductService productService, IOrderService orderService, IOrderItemService orderItemService, OrderDbContext dbContext) : base(applicationContext, dbContext)
         {
             _productService = productService;
+            _orderService = orderService;
+            _orderItemService = orderItemService;
         }
 
         public override DbSet<Basket> CurrentDbSet => (DbContext as OrderDbContext).Basket;
@@ -74,6 +78,24 @@ namespace ZKEACMS.Shop.Service
             {
                 base.Remove(item, saveImmediately);
             }
+        }
+
+        public Order CheckOut(Order order)
+        {
+            if (ApplicationContext.CurrentCustomer != null)
+            {
+                var baskets = Get().ToList();
+                order.UserId = ApplicationContext.CurrentCustomer.UserID;
+                order.OrderStatus = (int)OrderStatus.UnPaid;
+                order.Total = baskets.Sum(m => m.Price * m.Quantity);
+                _orderService.Add(order);
+                foreach (var item in baskets)
+                {
+                    _orderItemService.Add(item.ToOrderItem(order.ID));
+                }
+                RemoveRange(baskets.ToArray());
+            }
+            return order;
         }
     }
 }

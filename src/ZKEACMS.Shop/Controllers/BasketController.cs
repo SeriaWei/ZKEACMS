@@ -31,6 +31,11 @@ namespace ZKEACMS.Shop.Controllers
 
         }
         [HttpPost]
+        public IActionResult Index()
+        {
+            return View(new BasketData(_basketService.Get()));
+        }
+        [HttpPost]
         public IActionResult Add(int productId, int? quantity)
         {
             var basket = new Basket { ProductId = productId, Quantity = quantity ?? 1 };
@@ -60,9 +65,15 @@ namespace ZKEACMS.Shop.Controllers
             return Json(new AjaxResult { Status = AjaxStatus.Normal, Data = new BasketData(_basketService.Get()) });
         }
         [HttpPost]
-        public IActionResult Index()
+        public IActionResult CheckOut()
         {
             return View(new BasketData(_basketService.Get()));
+        }
+        [HttpPost]
+        public IActionResult ConfirmOrder(Order order)
+        {
+            order = _basketService.CheckOut(order);
+            return RedirectToAction("Pay", "AliPay", new { orderId = order.ID });
         }
     }
 }

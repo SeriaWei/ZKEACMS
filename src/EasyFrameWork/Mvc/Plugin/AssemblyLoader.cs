@@ -19,6 +19,9 @@ namespace Easy.Mvc.Plugin
         private const string ControllerTypeNameSuffix = "Controller";
         private Assembly CurrentAssembly;
         private List<Assembly> DependencyAssemblies = new List<Assembly>();
+        private IPluginStartup pluginStartup;
+        private Type PluginType = typeof(IPluginStartup);
+
         public Action<IPluginStartup> OnLoading { get; set; }
         public Action<Assembly> OnLoaded { get; set; }
         public Func<IServiceCollection> Services { get; set; }
@@ -30,8 +33,8 @@ namespace Easy.Mvc.Plugin
                 AssemblyLoadContext.Default.Resolving += Default_Resolving;
                 var assembly = this.LoadFromAssemblyPath(path);
                 CurrentAssembly = assembly;
-                RegistAssembly(assembly);
                 ResolveDenpendency();
+                RegistAssembly(assembly);
                 OnLoaded?.Invoke(assembly);
                 yield return assembly;
                 foreach (var item in DependencyAssemblies)
@@ -76,6 +79,8 @@ namespace Easy.Mvc.Plugin
                     }
                 }
             });
+
+
         }
         protected override Assembly Load(AssemblyName assemblyName)
         {
@@ -101,7 +106,7 @@ namespace Easy.Mvc.Plugin
         private void RegistAssembly(Assembly assembly)
         {
             List<TypeInfo> controllers = new List<TypeInfo>();
-            Type PluginType = typeof(IPluginStartup);
+
             foreach (var typeInfo in assembly.DefinedTypes)
             {
                 if (typeInfo.IsAbstract || typeInfo.IsInterface) continue;

@@ -25,12 +25,28 @@ namespace ZKEACMS.Shop.Models
         public decimal Price { get; set; }
         public int ProductId { get; set; }
         public string PromoCode { get; set; }
+
+        public OrderItem ToOrderItem(string orderid)
+        {
+            return new OrderItem
+            {
+                UserId = UserId,
+                ImageUrl = ImageUrl,
+                Quantity = Quantity,
+                Price = Price,
+                ProductId = ProductId,
+                PromoCode = PromoCode,
+                OrderId = orderid,
+                Title = Title,
+                Description = Description
+            };
+        }
     }
     class BasketMetaData : ViewMetaData<Basket>
     {
         protected override void ViewConfigure()
         {
-            
+
         }
     }
 }

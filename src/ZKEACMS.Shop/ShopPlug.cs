@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Easy.RepositoryPattern;
 using ZKEACMS.Shop.Service;
+using Alipay.AopSdk.AspnetCore;
+using Microsoft.Extensions.Configuration;
+using Alipay.AopSdk.F2FPay.AspnetCore;
+using ZKEACMS.Shop.Payment;
 
 namespace ZKEACMS.Shop
 {
@@ -23,6 +27,13 @@ namespace ZKEACMS.Shop
                 RouteName = "Basket",
                 Template = "Basket/{action}",
                 Defaults = new { controller = "Basket", action = "Add" },
+                Priority = 11
+            };
+            yield return new RouteDescriptor
+            {
+                RouteName = "AliPay",
+                Template = "AliPay/{action}",
+                Defaults = new { controller = "AliPay", action = "Pay" },
                 Priority = 11
             };
         }
@@ -62,6 +73,23 @@ namespace ZKEACMS.Shop
             serviceCollection.TryAddTransient<IOrderService, OrderService>();
             serviceCollection.TryAddTransient<IOrderItemService, OrderItemService>();
             serviceCollection.AddDbContext<OrderDbContext>();
+
+            var configuration = new ConfigurationBuilder()
+             .SetBasePath(CurrentPluginPath)
+             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();
+
+            serviceCollection.Configure<AliPayConfig>(configuration.GetSection("Alipay"));
+
+            serviceCollection.AddAlipay(options =>
+            {
+                options.AlipayPublicKey = configuration["Alipay:AlipayPublicKey"];
+                options.AppId = configuration["Alipay:AppId"];
+                options.CharSet = configuration["Alipay:CharSet"];
+                options.Gatewayurl = configuration["Alipay:Gatewayurl"];
+                options.PrivateKey = configuration["Alipay:PrivateKey"];
+                options.SignType = configuration["Alipay:SignType"];
+                options.Uid = configuration["Alipay:Uid"];
+            }).AddAlipayF2F();
         }
     }
 }

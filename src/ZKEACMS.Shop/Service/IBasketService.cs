@@ -9,5 +9,6 @@ namespace ZKEACMS.Shop.Service
 {
     public interface IBasketService : IService<Basket>
     {
+        Order CheckOut(Order order);
     }
 }

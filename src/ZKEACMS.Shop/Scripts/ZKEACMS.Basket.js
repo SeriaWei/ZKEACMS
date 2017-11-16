@@ -109,4 +109,24 @@ $(function () {
             }
         });
     });
+    $(document).on("click", ".basket .ckeck-out", function () {
+        $.post("/Basket/CheckOut", function (data) {
+            if (data.location) {
+                window.location = data.location;
+            } else {
+                var basket = $("body>.basket");
+                var newBasket = $(data);
+                if (basket.length > 0) {
+                    newBasket.addClass("active")
+                    basket.replaceWith(newBasket);
+                } else {
+                    $("body").append(newBasket);
+                    setTimeout(function () { newBasket.addClass("active") }, 10);
+                }
+            }
+        }, "html");
+    });
+    $(document).on("click", ".basket .confirm-order", function () {
+        $(this).closest("form").submit();
+    });
 });
