@@ -214,3 +214,34 @@ body {
         border: 1px solid #f2f2f2;
     }
 }
+
+@media screen and (max-width:768px) {
+    .table-response thead {
+        display: none;
+    }
+
+    .table-response tbody > tr {
+        display: block;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+        .table-response tbody > tr:last-child {
+            margin-bottom: 0;
+            border-bottom: 0;
+        }
+
+        .table-response tbody > tr > td {
+            display: block;
+            border-top: none;
+        }
+
+    .table-response > tbody > tr > td::before {
+        content: attr(head);
+        display: inline-block;
+        min-width: 60px;
+        text-align: right;
+        margin-right: 10px;
+        font-weight: bold;
+    }
+}

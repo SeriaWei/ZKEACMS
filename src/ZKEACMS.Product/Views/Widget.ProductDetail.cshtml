@@ -121,8 +121,14 @@
                             }
                             @if (Model.Price.HasValue || Model.RebatePrice.HasValue)
                             {
+                                <p class="quantity-set">
+                                    <label>数量</label>
+                                    <a href="javascript:" class="quantity-minus glyphicon glyphicon-minus-sign"></a>
+                                    <span class="quantity">1</span>
+                                    <a href="javascript:" class="quantity-plus glyphicon glyphicon-plus-sign"></a>
+                                </p>
                                 <p>
-                                    <a class="btn btn-primary add-to-basket" href="javascript:" data-productid="@Model.ID" data-quantity="1">
+                                    <a class="btn btn-primary btn-lg add-to-basket" href="javascript:" data-productid="@Model.ID" data-quantity="1">
                                         <i class="glyphicon glyphicon-shopping-cart"></i> 加入购物车
                                     </a>
                                 </p>
