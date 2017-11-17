@@ -76,7 +76,7 @@ $(function () {
                 tags = tagArray.join(";");
             }
         }
-        ZKEACMS.Basket.Add({ productId: $(this).data("productid"), quantity: $(this).data("quantity"), tags: tags}, function () {
+        ZKEACMS.Basket.Add({ productId: $(this).data("productid"), quantity: $(this).data("quantity"), tags: tags }, function () {
             ZKEACMS.Basket.ShowBasket();
         });
     });
@@ -114,6 +114,7 @@ $(function () {
             $(".basket " + "#basket-" + id).remove();
             if ($(".basket .basket-body>ul>li").length == 0) {
                 $(".basket .basket-body>ul").append('<li class="row empty text-center">您的购物车是空的</li >');
+                $(".basket .basket-footer").remove();
             }
         });
     });
@@ -135,6 +136,7 @@ $(function () {
         }, "html");
     });
     $(document).on("click", ".basket .confirm-order", function () {
+        $("#PaymentGateway").val($(this).data("payment"));
         $(this).closest("form").submit();
     });
 });

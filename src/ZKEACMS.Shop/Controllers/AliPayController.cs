@@ -92,7 +92,7 @@ namespace ZKEACMS.Shop.Controllers
                 var order = _orderService.Get(orderId);
                 if (order != null && order.OrderStatus == (int)OrderStatus.UnPaid && order.Total == Decimal.Parse(sArray["total_amount"]) && _aliPayConfig.Value.AppId == sArray["app_id"])
                 {
-                    _orderService.CompletePay(order, "Alipay", sArray["trade_no"]);
+                    _orderService.CompletePay(order, Gateways.AliPay, sArray["trade_no"]);
                     return true;
                 }
                 else if (order != null && order.OrderStatus == (int)OrderStatus.Paid)

@@ -16,6 +16,7 @@ using Easy.Mvc.Authorize;
 using Easy.Mvc;
 using ZKEACMS.Shop.ViewModel;
 using ZKEACMS.Shop.Filter;
+using ZKEACMS.Shop.Payment;
 
 namespace ZKEACMS.Shop.Controllers
 {

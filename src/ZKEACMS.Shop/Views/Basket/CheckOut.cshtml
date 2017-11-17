@@ -7,6 +7,7 @@
 <div class="basket confirm-order">
     @using (Html.BeginForm("ConfirmOrder", "Basket"))
     {
+        <input type="hidden" name="PaymentGateway" id="PaymentGateway" />
         <div class="basket-header clearfix">
             <div class="pull-left">
                 <h4>确认定单</h4>
@@ -92,8 +93,8 @@
                     </div>
                 </div>
             </div>
-            <a class="confirm-order">
-                确认支付
+            <a class="confirm-order" data-payment="@ZKEACMS.Shop.Payment.Gateways.AliPay">
+               支付宝支付
             </a>
         </div>
     }

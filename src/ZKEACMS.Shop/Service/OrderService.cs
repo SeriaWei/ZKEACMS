@@ -11,8 +11,10 @@ namespace ZKEACMS.Shop.Service
 {
     public class OrderService : ServiceBase<Order>, IOrderService
     {
-        public OrderService(IApplicationContext applicationContext, OrderDbContext dbContext) : base(applicationContext, dbContext)
+        private readonly IOrderItemService _orderItemService;
+        public OrderService(IApplicationContext applicationContext, IOrderItemService orderItemService, OrderDbContext dbContext) : base(applicationContext, dbContext)
         {
+            _orderItemService = orderItemService;
         }
 
         public override DbSet<Order> CurrentDbSet => (DbContext as OrderDbContext).Order;
@@ -36,6 +38,11 @@ namespace ZKEACMS.Shop.Service
             order.PaymentGateway = paymentGateway;
             order.PaymentID = paymentID;
             Update(order);
+        }
+        public override void Remove(Order item, bool saveImmediately = true)
+        {
+            _orderItemService.Remove(m => m.OrderId == item.ID);
+            base.Remove(item, saveImmediately);
         }
     }
 }

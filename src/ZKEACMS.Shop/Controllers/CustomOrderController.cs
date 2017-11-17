@@ -47,8 +47,11 @@ namespace ZKEACMS.Shop.Controllers
         }
         public IActionResult Remove(string Id)
         {
-            _orderItemService.Remove(m => m.OrderId == Id && m.UserId == _applicationContextAccessor.Current.CurrentCustomer.UserID);
-            _orderService.Remove(m => m.ID == Id && m.UserId == _applicationContextAccessor.Current.CurrentCustomer.UserID);
+            var order = _orderService.Get(Id);
+            if (order != null && order.UserId == _applicationContextAccessor.Current.CurrentCustomer.UserID)
+            {
+                _orderService.Remove(order);
+            }
             return RedirectToAction("Index");
         }
     }

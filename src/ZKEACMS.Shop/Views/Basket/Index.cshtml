@@ -57,24 +57,27 @@
             }
         </ul>
     </div>
-    <div class="basket-footer">
-        <div class="row total">
-            <div class="col-xs-4">
-                <div class="text-center">
-                    <span class="total-items">@Model.Quantity</span> 件
+    @if (Model.Basket != null && Model.Basket.Any())
+    {
+        <div class="basket-footer">
+            <div class="row total">
+                <div class="col-xs-4">
+                    <div class="text-center">
+                        <span class="total-items">@Model.Quantity</span> 件
+                    </div>
                 </div>
-            </div>
-            <div class="col-xs-8">
-                <div class="clearfix">
-                    <div class="text-right">
-                        总计
-                        <span class="price">
-                            ￥<span class="total-price">@Model.Total.ToString("F2")</span>
-                        </span>
+                <div class="col-xs-8">
+                    <div class="clearfix">
+                        <div class="text-right">
+                            总计
+                            <span class="price">
+                                ￥<span class="total-price">@Model.Total.ToString("F2")</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
+            <a class="ckeck-out">结 算</a>
         </div>
-        <a class="ckeck-out">结 算</a>
-    </div>
+    }    
 </div>

@@ -1,6 +1,7 @@
 ﻿@using ZKEACMS.Account
 @{
     Style.Reqiured("Customer").AtHead();
+    Style.Reqiured("Easy").AtHead();
     var current = themeService.GetCurrentTheme();
     List<AdminMenu> menu = new List<AdminMenu>();
     userCenterLinksProvider.Each(p => menu.AddRange(p.GetLinks()));

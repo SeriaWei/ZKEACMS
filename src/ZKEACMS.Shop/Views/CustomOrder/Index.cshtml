@@ -64,7 +64,7 @@
                     {
                         <a href="@Url.Action("Pay", "AliPay", new { orderId = item.ID })">付款</a>
                     }
-                    <a href="@Url.Action("Remove", new { Id = item.ID })">删除</a>
+                    <a class="remove-order" href="javascript:" data-href="@Url.Action("Remove", new { Id = item.ID })">删除</a>
                 </td>
             </tr>
         }
@@ -72,4 +72,14 @@
 </div>
 @{
     Html.Pagin(Model.Pagin);
+}
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(document).on("click", ".remove-order", function () {
+            var href = $(this).data("href");
+            Easy.ShowMessageBox('提示', '确定删除订单吗？', function () { window.location.href = href; }, true);
+        })
+    </script>
+
 }
