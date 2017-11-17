@@ -35,12 +35,8 @@ ZKEACMS.Basket = {
     },
     Get: function (callBack) {
         $.post("/Basket/GetBaskets", function (data) {
-            if (data.location) {
-                window.location = data.location;
-            } else {
-                if (callBack) {
-                    callBack.call(data);
-                }
+            if (callBack) {
+                callBack.call(data);
             }
         });
     },
@@ -151,12 +147,14 @@ $(function () {
         basketIcon.click(ZKEACMS.Basket.ShowBasket)
     }
     function updateBasketIcon(data) {
-        if (basketIcon.length > 0 && data.data && data.data.quantity > 0) {
-            basketIcon.children().addClass("active");
-            basketIcon.children(".quantity").text(data.data.quantity);
-        } else {
-            basketIcon.children().removeClass("active");
-            basketIcon.children(".quantity").text('');
+        if (basketIcon.length > 0) {
+            if (data.data && data.data.quantity > 0) {
+                basketIcon.children().addClass("active");
+                basketIcon.children(".quantity").text(data.data.quantity);
+            } else {
+                basketIcon.children().removeClass("active");
+                basketIcon.children(".quantity").text('');
+            }
         }
     }
 });

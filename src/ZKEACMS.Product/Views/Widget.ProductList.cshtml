@@ -40,11 +40,11 @@
                                 <div class="pull-left price">                                    
                                     @if (item.Price.HasValue)
                                     {
-                                        <del>￥@(string.Format("{0:f2}", item.Price))</del>
+                                        <del><small>@(string.Format("{0:f2}", item.Price))</small></del>
                                     }
                                     @if (item.RebatePrice.HasValue)
                                     {
-                                        <strong>￥@(string.Format("{0:f2}", item.RebatePrice))</strong>
+                                        <strong>@(string.Format("{0:f2}", item.RebatePrice))</strong>
                                     }
                                 </div>
                                 <div class="pull-right">
