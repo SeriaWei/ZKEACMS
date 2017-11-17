@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>ZKEACMS</AssemblyName>
     <PackageId>ZKEACMS</PackageId>
-    <Version>2.2</Version>
+    <Version>2.3</Version>
     <Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>
     <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>

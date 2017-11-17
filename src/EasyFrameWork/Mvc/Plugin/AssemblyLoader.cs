@@ -19,7 +19,6 @@ namespace Easy.Mvc.Plugin
         private const string ControllerTypeNameSuffix = "Controller";
         private Assembly CurrentAssembly;
         private List<Assembly> DependencyAssemblies = new List<Assembly>();
-        private IPluginStartup pluginStartup;
         private Type PluginType = typeof(IPluginStartup);
 
         public Action<IPluginStartup> OnLoading { get; set; }
