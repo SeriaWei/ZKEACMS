@@ -78,6 +78,7 @@ $(function () {
         }
         ZKEACMS.Basket.Add({ productId: $(this).data("productid"), quantity: $(this).data("quantity"), tags: tags }, function () {
             ZKEACMS.Basket.ShowBasket();
+            updateBasketIcon(this);
         });
     });
     $(document).on("click", ".basket .quantity-minus", function () {
@@ -91,6 +92,7 @@ $(function () {
                 ZKEACMS.Basket.Update({ basketId: id, quantity: quantity }, function () {
                     $(".basket .total-items").text(this.data.quantity);
                     $(".basket .total-price").text(this.data.total.toFixed(2));
+                    updateBasketIcon(this);
                 });
             }, 300);
         }
@@ -105,6 +107,7 @@ $(function () {
             ZKEACMS.Basket.Update({ basketId: id, quantity: quantity }, function () {
                 $(".basket .total-items").text(this.data.quantity);
                 $(".basket .total-price").text(this.data.total.toFixed(2));
+                updateBasketIcon(this);
             });
         }, 300);
     });
@@ -116,6 +119,7 @@ $(function () {
                 $(".basket .basket-body>ul").append('<li class="row empty text-center">您的购物车是空的</li >');
                 $(".basket .basket-footer").remove();
             }
+            updateBasketIcon(this);
         });
     });
     $(document).on("click", ".basket .ckeck-out", function () {
@@ -142,11 +146,17 @@ $(function () {
     var basketIcon = $(".navigation .show-basket");
     if (basketIcon.length > 0) {
         ZKEACMS.Basket.Get(function () {
-            if (this.data && this.data.quantity > 0) {
-                basketIcon.children().addClass("active");
-                basketIcon.children(".quantity").text(this.data.quantity);
-            }
+            updateBasketIcon(this);
         });
         basketIcon.click(ZKEACMS.Basket.ShowBasket)
+    }
+    function updateBasketIcon(data) {
+        if (basketIcon.length > 0 && data.data && data.data.quantity > 0) {
+            basketIcon.children().addClass("active");
+            basketIcon.children(".quantity").text(data.data.quantity);
+        } else {
+            basketIcon.children().removeClass("active");
+            basketIcon.children(".quantity").text('');
+        }
     }
 });
