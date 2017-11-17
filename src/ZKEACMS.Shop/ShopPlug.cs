@@ -33,7 +33,7 @@ namespace ZKEACMS.Shop
             yield return new RouteDescriptor
             {
                 RouteName = "AliPay",
-                Template = "AliPay/{action}",
+                Template = "AliPay/{action}/{orderId?}",
                 Defaults = new { controller = "AliPay", action = "Pay" },
                 Priority = 11
             };
@@ -48,7 +48,23 @@ namespace ZKEACMS.Shop
 
         public override IEnumerable<AdminMenu> AdminMenu()
         {
-            return null;
+            yield return new AdminMenu
+            {
+                Title = "电子商务",
+                Icon = "glyphicon-shopping-cart",
+                Order = 9,
+                Children = new List<AdminMenu>
+                {
+                    new AdminMenu
+                    {
+                        Title = "订单",
+                        Icon = "glyphicon-shopping-cart",
+                        Url="~/admin/Order",
+                        Order = 1,
+                        PermissionKey = PermissionKeys.ManageOrder
+                    }
+                }
+            };
         }
 
         protected override void InitScript(Func<string, ResourceHelper> script)

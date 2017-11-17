@@ -28,6 +28,7 @@
                     <textarea class="form-control" rows="3" cols="10" name="ShippingAddress" id="ShippingAddress" placeholder="详细的收货地址">@ApplicationContext.CurrentCustomer.Address</textarea>
                 </div>
             </div>
+            <hr />
             <ul class="container-fluid">
                 @if (Model.Basket != null)
                 {
@@ -58,7 +59,6 @@
                                             ￥@Html.Raw(Regex.Replace(item.Price.ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))
                                             x <span class="quantity">@item.Quantity</span>
                                         </span>
-                                        <a href="javascript:" class="remove glyphicon glyphicon-trash"></a>
                                     </div>
                                 </div>
                             </div>
@@ -92,7 +92,9 @@
                     </div>
                 </div>
             </div>
-            <a class="confirm-order">确认订单</a>
+            <a class="confirm-order">
+                确认支付
+            </a>
         </div>
     }
 

@@ -25,7 +25,7 @@ namespace ZKEACMS.Shop.Controllers
         public IActionResult Index(int Id)
         {
             OrderListViewModel viewModel = new OrderListViewModel();
-            Pagin pagin = new Pagin { PageIndex = Id };
+            Pagin pagin = new Pagin { PageIndex = Id, OrderByDescending = "CreateDate" };
             viewModel.Orders = _orderService.Get(m => m.UserId == _applicationContextAccessor.Current.CurrentCustomer.UserID, pagin);
             viewModel.Pagin = pagin;
             viewModel.Pagin.BaseUrlFormat = "~/MyOrder/Index/{0}";

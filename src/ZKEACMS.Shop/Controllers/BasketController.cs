@@ -36,9 +36,9 @@ namespace ZKEACMS.Shop.Controllers
             return View(new BasketData(_basketService.Get()));
         }
         [HttpPost]
-        public IActionResult Add(int productId, int? quantity)
+        public IActionResult Add(int productId, int? quantity, string tags)
         {
-            var basket = new Basket { ProductId = productId, Quantity = quantity ?? 1 };
+            var basket = new Basket { ProductId = productId, Quantity = quantity ?? 1, Description = tags };
             _basketService.Add(basket);
             return Json(new AjaxResult { Status = AjaxStatus.Normal, Data = new BasketData(_basketService.Get()) });
         }

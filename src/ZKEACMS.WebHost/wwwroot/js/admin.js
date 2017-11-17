@@ -139,7 +139,9 @@ $(function () {
 
     if ($.fn.datepicker) {
         $(".Date").each(function () {
-            $(this).datepicker({ language: "zh-CN", format: $(this).attr("JsDateFormat") });
+            if (!$(this).prop("readonly") && !$(this).prop("disabled")) {
+                $(this).datepicker({ language: "zh-CN", format: $(this).attr("JsDateFormat") });
+            }            
         });
     }
     $(document).on("click", ".nav.nav-tabs a", function () {

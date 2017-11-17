@@ -58,12 +58,12 @@
                 </td>
                 <td>
                     @item.OrderStatusText()
+                </td>
+                <td>
                     @if (item.OrderStatus == (int)ZKEACMS.Shop.OrderStatus.UnPaid)
                     {
                         <a href="@Url.Action("Pay", "AliPay", new { orderId = item.ID })">付款</a>
                     }
-                </td>
-                <td>
                     <a href="@Url.Action("Remove", new { Id = item.ID })">删除</a>
                 </td>
             </tr>

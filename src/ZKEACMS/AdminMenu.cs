@@ -133,6 +133,14 @@ namespace ZKEACMS
                         Url = "~/admin/ApplicationSetting",
                         Order = 5,
                         PermissionKey = PermissionKeys.ViewApplicationSetting
+                    },
+                    new AdminMenu
+                    {
+                        Title = "З­вы",
+                        Icon = "glyphicon-cog",
+                        Url = "~/admin/Language",
+                        Order = 6,
+                        PermissionKey = PermissionKeys.ManageLanguage
                     }
                 }
             }

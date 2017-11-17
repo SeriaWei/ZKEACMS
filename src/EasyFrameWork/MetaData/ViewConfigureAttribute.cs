@@ -80,5 +80,9 @@ namespace Easy.MetaData
             }
             return null;
         }
+        public static void ClearCache()
+        {
+            AttributeCache.Clear();
+        }
     }
 }

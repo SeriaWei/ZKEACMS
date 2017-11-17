@@ -48,12 +48,16 @@ namespace ZKEACMS.Shop.Service
         {
             if (ApplicationContext.CurrentCustomer != null)
             {
-                var basket = Get(m => m.UserId == ApplicationContext.CurrentCustomer.UserID && m.ProductId == item.ProductId).FirstOrDefault();
+                var baskets = Get(m => m.UserId == ApplicationContext.CurrentCustomer.UserID && m.ProductId == item.ProductId);
                 var product = _productService.Get(item.ProductId);
-                if (basket != null && product != null)
+                if (baskets.Any(m => m.Description == item.Description) && product != null)
                 {
-                    basket.Quantity += item.Quantity;
-                    base.Update(basket);
+                    foreach (var basket in baskets.Where(m => m.Description == item.Description))
+                    {
+                        basket.Quantity += item.Quantity;
+                        base.Update(basket);
+                    }
+                    
                 }
                 else
                 {

@@ -2,10 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using Easy.MetaData;
 using System.ComponentModel.DataAnnotations.Schema;
+using Easy.Models;
 
 namespace Easy.Modules.MutiLanguage
 {
-    [ViewConfigure(typeof(LanguageEntityMetaData)),Table("Language")]
+    [ViewConfigure(typeof(LanguageEntityMetaData)), Table("Language")]
     public class LanguageEntity
     {
         [Key]
@@ -19,11 +20,11 @@ namespace Easy.Modules.MutiLanguage
     {
         protected override void ViewConfigure()
         {
-            ViewConfig(m => m.CultureName).AsTextBox().ReadOnly();
-            ViewConfig(m => m.LanKey).AsTextBox().ReadOnly();
+            ViewConfig(m => m.CultureName).AsTextBox().ReadOnly().ShowInGrid();
+            ViewConfig(m => m.LanKey).AsTextBox().ReadOnly().ShowInGrid().Search(LINQ.Query.Operators.Contains);
             ViewConfig(m => m.LanType).AsTextBox().ReadOnly();
             ViewConfig(m => m.Module).AsTextBox().ReadOnly();
-            ViewConfig(m => m.LanValue).AsTextBox().Required();
+            ViewConfig(m => m.LanValue).AsTextBox().Required().ShowInGrid().Search(LINQ.Query.Operators.Contains);
         }
     }
 

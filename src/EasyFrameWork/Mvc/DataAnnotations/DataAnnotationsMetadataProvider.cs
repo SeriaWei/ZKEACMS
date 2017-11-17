@@ -35,11 +35,13 @@ namespace Easy.Mvc.DataAnnotations
                     displayMetadata.AdditionalValues.Add("ViewPortDescriptor", descriptor);
                     if (displayMetadata.DisplayName == null)
                     {
-                        if (descriptor.DisplayName.IsNullOrWhiteSpace())
+                        displayMetadata.DisplayName = () =>
                         {
-                            viewConfig.InitDisplayName();
-                        }
-                        displayMetadata.DisplayName = () => descriptor.DisplayName;
+                            var attr = ViewConfigureAttribute.GetAttribute(context.Key.ContainerType);
+                            attr.InitDisplayName();
+                            var descriptop = attr.GetViewPortDescriptor(context.Key.Name);
+                            return descriptop.DisplayName;
+                        };
                     }
 
                     displayMetadata.Order = descriptor.OrderIndex;

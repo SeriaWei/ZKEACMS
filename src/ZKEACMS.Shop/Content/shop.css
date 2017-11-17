@@ -67,6 +67,10 @@
   bottom: 105px;
   overflow: auto;
 }
+.basket .basket-body hr {
+  margin-top: 0;
+  border-top-color: #272727;
+}
 .basket .basket-body ul {
   list-style: none;
   margin: 0;
@@ -88,6 +92,7 @@
 }
 .basket .basket-body ul > li h5 {
   font-size: 16px;
+  margin-top: 0;
 }
 .basket .basket-body ul > li .tag {
   color: #d7d7d7;
@@ -123,8 +128,37 @@
 .basket.confirm-order .contact {
   padding: 15px;
 }
+.basket.confirm-order .contact .form-group {
+  margin-bottom: 10px;
+}
+.basket.confirm-order .contact .form-group:last-child {
+  margin-bottom: 0;
+}
+.basket.confirm-order .contact .form-group label {
+  font-weight: normal;
+}
 .basket.confirm-order input,
 .basket.confirm-order textarea {
   border-radius: 0;
   outline: none;
+  padding: 3px 6px;
+  height: auto;
+  background-color: #3e3e3e;
+  color: #fff;
+  border-color: #2d2d2d;
+}
+.basket.confirm-order input:focus,
+.basket.confirm-order textarea:focus {
+  outline: none;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 5px rgba(204, 204, 204, 0.75);
+}
+.basket.confirm-order a.confirm-order {
+  background: #108ee9;
+}
+.basket.confirm-order a.confirm-order:hover,
+.basket.confirm-order a.confirm-order:active {
+  background: #117fcf;
+}
+.basket.confirm-order a.confirm-order img {
+  width: 22px;
 }

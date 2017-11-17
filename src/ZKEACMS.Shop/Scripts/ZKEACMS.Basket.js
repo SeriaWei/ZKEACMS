@@ -56,8 +56,8 @@ ZKEACMS.Basket = {
                     basket.replaceWith(newBasket);
                 } else {
                     $("body").append(newBasket);
-                    setTimeout(function () { newBasket.addClass("active") },10);
-                }                
+                    setTimeout(function () { newBasket.addClass("active") }, 10);
+                }
             }
         }, "html");
     }
@@ -68,7 +68,15 @@ $(function () {
         setTimeout(function () { $("body>.basket").remove(); }, 300);
     });
     $(document).on("click", ".add-to-basket", function () {
-        ZKEACMS.Basket.Add({ productId: $(this).data("productid"), quantity: $(this).data("quantity") }, function () {
+        var tags = $(this).data("tags");
+        if (!tags) {
+            var tagArray = [];
+            $(this).closest(".product-ecommerce").find("input[type=radio]:checked").each(function () { tagArray.push($(this).val()) });
+            if (tagArray.length > 0) {
+                tags = tagArray.join(";");
+            }
+        }
+        ZKEACMS.Basket.Add({ productId: $(this).data("productid"), quantity: $(this).data("quantity"), tags: tags}, function () {
             ZKEACMS.Basket.ShowBasket();
         });
     });

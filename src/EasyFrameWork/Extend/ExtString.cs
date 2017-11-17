@@ -186,9 +186,13 @@ namespace Easy.Extend
 
         public static string FirstCharToLowerCase(this string instance)
         {
-            if (instance.IsNotNullAndWhiteSpace() && instance.Length > 1 && char.IsUpper(instance[0]))
+            if (instance.IsNotNullAndWhiteSpace() && instance.Length > 2 && char.IsUpper(instance[0]))
             {
                 return char.ToLower(instance[0]) + instance.Substring(1);
+            }
+            if (instance.Length == 2)
+            {
+                return instance.ToLower();
             }
             return instance;
         }

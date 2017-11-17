@@ -35,7 +35,7 @@ namespace ZKEACMS.Shop.Models
         {
             switch ((Shop.OrderStatus)OrderStatus)
             {
-                case Shop.OrderStatus.Cancel:return "已取消";
+                case Shop.OrderStatus.Cancel: return "已取消";
                 case Shop.OrderStatus.Complete: return "完成";
                 case Shop.OrderStatus.Paid: return "已付款";
                 case Shop.OrderStatus.Refund: return "已退款";
@@ -50,9 +50,20 @@ namespace ZKEACMS.Shop.Models
     {
         protected override void ViewConfigure()
         {
-            ViewConfig(m => m.ID).AsHidden();
             ViewConfig(m => m.UserId).AsHidden();
             ViewConfig(m => m.Title).AsHidden();
+            ViewConfig(m => m.Status).AsHidden();
+            ViewConfig(m => m.CreatebyName).AsHidden();
+            ViewConfig(m => m.ID).AsTextBox().ReadOnly().ShowInGrid();
+            ViewConfig(m => m.OrderStatus).AsDropDownList().DataSource(Easy.Constant.SourceType.Dictionary).ShowInGrid();
+            ViewConfig(m => m.Contact).AsTextBox().ShowInGrid();
+            ViewConfig(m => m.PhoneNumber).AsTextBox().ShowInGrid();
+            ViewConfig(m => m.ShippingAddress).AsTextBox().ShowInGrid();
+            ViewConfig(m => m.PaymentGateway).AsTextBox().ReadOnly();
+            ViewConfig(m => m.PaymentID).AsTextBox().ReadOnly();
+            ViewConfig(m => m.PayTime).AsTextBox().ReadOnly().FormatAsDateTime();
+            ViewConfig(m => m.CompletePayTime).AsTextBox().ReadOnly().FormatAsDateTime();
+            ViewConfig(m => m.Total).AsTextBox().ShowInGrid().RegularExpression(Easy.Constant.RegularExpression.Float);
         }
     }
 }

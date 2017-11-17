@@ -78,6 +78,11 @@
         bottom: 105px;
         overflow: auto;
 
+        hr {
+            margin-top: 0;
+            border-top-color: #272727;
+        }
+
         ul {
             list-style: none;
             margin: 0;
@@ -103,6 +108,7 @@
 
                 h5 {
                     font-size: 16px;
+                    margin-top: 0;
                 }
 
                 .tag {
@@ -147,15 +153,44 @@
     &.confirm-order {
         .contact {
             padding: 15px;
+
+            .form-group {
+                margin-bottom: 10px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                label {
+                    font-weight: normal;
+                }
+            }
         }
 
         input, textarea {
             border-radius: 0;
             outline: none;
+            padding: 3px 6px;
+            height: auto;
+            background-color: #3e3e3e;
+            color: #fff;
+            border-color: #2d2d2d;
+
+            &:focus {
+                outline: none;
+                box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 5px rgba(204, 204, 204, 0.75);
+            }
         }
 
         a.confirm-order {
-            &:active {
+            background: #108ee9;
+
+            &:hover, &:active {
+                background: #117fcf;
+            }
+
+            img {
+                width: 22px;
             }
         }
     }
