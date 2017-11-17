@@ -55,7 +55,7 @@ ZKEACMS.Basket = {
                     setTimeout(function () { newBasket.addClass("active") }, 10);
                 }
             }
-        }, "html");
+        });
     }
 };
 $(function () {
