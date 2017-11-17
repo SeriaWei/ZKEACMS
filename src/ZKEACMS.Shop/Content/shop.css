@@ -162,3 +162,6 @@
 .basket.confirm-order a.confirm-order img {
   width: 22px;
 }
+.navigation .show-basket .active {
+  color: #ca2026;
+}

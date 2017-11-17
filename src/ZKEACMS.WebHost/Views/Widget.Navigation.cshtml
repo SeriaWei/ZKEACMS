@@ -76,7 +76,27 @@
                             </li>
                         }
                     }
+                    @if (ApplicationContext.CurrentCustomer != null && Model.Widget.AlignClass == "navbar-right")
+                    {
+                        <li>
+                            <a href="javascript:" class="show-basket" title="购物车">
+                                <i class="glyphicon glyphicon-shopping-cart"></i>
+                                <sup class="quantity"></sup>
+                            </a>
+                        </li>
+                    }   
                 </ul>
+                @if (ApplicationContext.CurrentCustomer != null && Model.Widget.AlignClass != "navbar-right")
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="javascript:" class="show-basket" title="购物车">
+                                <i class="glyphicon glyphicon-shopping-cart"></i>
+                                <sup class="quantity"></sup>
+                            </a>
+                        </li>
+                    </ul>
+                }                
             </div>
         </div>
     </div>

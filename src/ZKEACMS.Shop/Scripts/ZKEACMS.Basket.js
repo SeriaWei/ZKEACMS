@@ -34,7 +34,7 @@ ZKEACMS.Basket = {
         });
     },
     Get: function (callBack) {
-        $.post("/Basket/GetBaskets", { basketId: basketId }, function (data) {
+        $.post("/Basket/GetBaskets", function (data) {
             if (data.location) {
                 window.location = data.location;
             } else {
@@ -139,4 +139,14 @@ $(function () {
         $("#PaymentGateway").val($(this).data("payment"));
         $(this).closest("form").submit();
     });
+    var basketIcon = $(".navigation .show-basket");
+    if (basketIcon.length > 0) {
+        ZKEACMS.Basket.Get(function () {
+            if (this.data && this.data.quantity > 0) {
+                basketIcon.children().addClass("active");
+                basketIcon.children(".quantity").text(this.data.quantity);
+            }
+        });
+        basketIcon.click(ZKEACMS.Basket.ShowBasket)
+    }
 });
