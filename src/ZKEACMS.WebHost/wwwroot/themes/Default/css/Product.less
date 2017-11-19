@@ -1,16 +1,20 @@
 ﻿@import "Library.less";
 
 .productlist {
-    .thumbnail{
-        border-color:@color-border;
+    .thumbnail {
+        border-color: @color-border;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 1px;
     }
+
     .pagination {
         margin: @margin-base 0;
     }
-    .price{
-        line-height:30px;
-        strong{
-            color:@color-danger;
+
+    .price {
+        strong {
+            color: @color-danger;
         }
     }
 }

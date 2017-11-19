@@ -19,10 +19,10 @@
     }
 
     .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
-        .background-image(@color-white,@color-white);
+        .background-image(@color-main,@color-main);
         text-shadow: none;
-        color: @color-main;
-        border-color: @panel-border-color;
+        color: @color-white;
+        border-color: @color-main;
     }
 }
 
@@ -34,7 +34,7 @@
 
 .panel-default > .panel-heading {
     .background-image(@color-white,@color-white);
-    border-color: @color-main;
+    border-color: @color-border;
     font-size: @font-size-normal+2;
     
 }
