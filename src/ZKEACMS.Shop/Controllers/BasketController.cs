@@ -3,20 +3,14 @@
  * Copyright 2017 ZKEASOFT
  * http://www.zkea.net/licenses
  */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Easy.Mvc;
 using Microsoft.AspNetCore.Mvc;
-using Easy.Mvc.Controllers;
+using System.Linq;
+using ZKEACMS.Shop.Filter;
 using ZKEACMS.Shop.Models;
 using ZKEACMS.Shop.Service;
-using Easy.Mvc.Extend;
-using Easy.Mvc.Authorize;
-using Easy.Mvc;
 using ZKEACMS.Shop.ViewModel;
-using ZKEACMS.Shop.Filter;
-using ZKEACMS.Shop.Payment;
+using Easy.Extend;
 
 namespace ZKEACMS.Shop.Controllers
 {
@@ -68,13 +62,22 @@ namespace ZKEACMS.Shop.Controllers
         [HttpPost]
         public IActionResult CheckOut()
         {
-            return View(new BasketData(_basketService.Get()));
+            var basket = _basketService.Get();
+            if (basket.Any())
+            {
+                return View(new BasketData(basket));
+            }
+            return View("Index", new BasketData(basket));
         }
         [HttpPost]
         public IActionResult ConfirmOrder(Order order)
         {
             order = _basketService.CheckOut(order);
-            return RedirectToAction("Pay", "AliPay", new { orderId = order.ID });
+            if (order.ID.IsNotNullAndWhiteSpace())
+            {
+                return RedirectToAction("Pay", "AliPay", new { orderId = order.ID });
+            }
+            return Redirect("~/");
         }
     }
 }

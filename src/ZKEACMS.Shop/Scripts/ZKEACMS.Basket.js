@@ -81,7 +81,7 @@ $(function () {
         var quantity = Number($.trim($(this).closest(".quantity-set").find(".quantity").text()));
         if (quantity > 1) {
             quantity -= 1;
-            var row = $(this).closest(".row")
+            var row = $(this).closest(".basket-item")
             row.find(".quantity").text(quantity);
             var id = row.data("id");
             Easy.Processor(function () {
@@ -96,7 +96,7 @@ $(function () {
     $(document).on("click", ".basket .quantity-plus", function () {
         var quantity = Number($.trim($(this).closest(".quantity-set").find(".quantity").text()));
         quantity += 1;
-        var row = $(this).closest(".row")
+        var row = $(this).closest(".basket-item")
         row.find(".quantity").text(quantity);
         var id = row.data("id");
         Easy.Processor(function () {
@@ -108,7 +108,7 @@ $(function () {
         }, 300);
     });
     $(document).on("click", ".basket .remove", function () {
-        var id = $(this).closest(".row").data("id");
+        var id = $(this).closest(".basket-item").data("id");
         ZKEACMS.Basket.Remove(id, function () {
             $(".basket " + "#basket-" + id).remove();
             if ($(".basket .basket-body>ul>li").length == 0) {

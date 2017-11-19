@@ -1,4 +1,5 @@
-﻿@model ZKEACMS.Product.Models.ProductEntity
+﻿@using System.Text.RegularExpressions
+@model ZKEACMS.Product.Models.ProductEntity
 @{
     Style.Reqiured("product-ecommerce").AtHead();
     Script.Reqiured("product-ecommerce").AtFoot();
@@ -11,7 +12,7 @@
             <div class="product-ecommerce">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-sm-6">                            
+                        <div class="col-sm-6">
                             <div class="thumbnail">
                                 @if (firstImage != null)
                                 {
@@ -58,19 +59,19 @@
                                     @Html.LabelFor(m => m.Price)
                                     @if (Model.RebatePrice.HasValue)
                                     {
-                                        <del class="text-muted">￥@((Model.Price ?? 0).ToString("F2"))</del>
-                                        <span class="price">￥@((Model.RebatePrice ?? 0).ToString("F2"))</span>
+                                        <del class="text-muted"><small>￥</small>@Html.Raw(Regex.Replace((Model.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</del>
+                                        <span class="price"><small>￥</small>@Html.Raw(Regex.Replace((Model.RebatePrice ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</span>
                                     }
                                     else
                                     {
-                                        <span class="price">￥@Model.Price</span>
+                                        <span class="price"><small>￥</small>@Html.Raw(Regex.Replace((Model.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</span>
                                     }
                                 </p>
                             }
                             @if (Model.PartNumber.IsNotNullAndWhiteSpace())
                             {
                                 <p>
-                                    @Html.LabelFor(m=>m.PartNumber)
+                                    @Html.LabelFor(m => m.PartNumber)
                                     <span class="text-muted">@Model.PartNumber</span>
                                 </p>
                             }
@@ -132,10 +133,10 @@
                                         <i class="glyphicon glyphicon-shopping-cart"></i> 加入购物车
                                     </a>
                                 </p>
-                            }                            
+                            }
                         </div>
                     </div>
-                 
+
                 </div>
             </div>
         </div>

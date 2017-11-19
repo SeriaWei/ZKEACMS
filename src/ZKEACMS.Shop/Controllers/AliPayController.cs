@@ -32,6 +32,10 @@ namespace ZKEACMS.Shop.Controllers
         {
             var order = _orderService.Get(orderId);
             var items = _orderItemService.Get(m => m.OrderId == orderId);
+            if (!items.Any())
+            {
+                return Redirect("~/");
+            }
             AlipayTradePagePayModel model = new AlipayTradePagePayModel
             {
                 Body = string.Join(",", items.Select(m => m.Title)),

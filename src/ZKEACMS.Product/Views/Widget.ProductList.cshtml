@@ -1,4 +1,5 @@
-﻿@model ZKEACMS.Product.ViewModel.ProductListWidgetViewModel
+﻿@using System.Text.RegularExpressions
+@model ZKEACMS.Product.ViewModel.ProductListWidgetViewModel
 
 <div class="productlist">
     <div class="row">
@@ -33,13 +34,14 @@
                         {
                             <div class="clearfix">
                                 <div class="pull-left price">
-                                    @if (item.Price.HasValue)
-                                    {
-                                        <del><small>￥@(string.Format("{0:f2}", item.Price))</small></del>
-                                    }
                                     @if (item.RebatePrice.HasValue)
                                     {
-                                        <strong>￥@(string.Format("{0:f2}", item.RebatePrice))</strong>
+                                        <del class="text-muted"><small><small>￥</small>@Html.Raw(Regex.Replace((item.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</small></del>
+                                        <strong><small>￥</small>@Html.Raw(Regex.Replace((item.RebatePrice ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</strong>
+                                    }
+                                    else
+                                    {
+                                        <strong><small>￥</small>@Html.Raw(Regex.Replace((item.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</strong>
                                     }
                                 </div>
                             </div>

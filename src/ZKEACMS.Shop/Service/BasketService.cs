@@ -57,7 +57,7 @@ namespace ZKEACMS.Shop.Service
                         basket.Quantity += item.Quantity;
                         base.Update(basket);
                     }
-                    
+
                 }
                 else
                 {
@@ -89,6 +89,10 @@ namespace ZKEACMS.Shop.Service
             if (ApplicationContext.CurrentCustomer != null)
             {
                 var baskets = Get().ToList();
+                if (!baskets.Any())
+                {
+                    return order;
+                }
                 order.UserId = ApplicationContext.CurrentCustomer.UserID;
                 order.OrderStatus = (int)OrderStatus.UnPaid;
                 order.Total = baskets.Sum(m => m.Price * m.Quantity);

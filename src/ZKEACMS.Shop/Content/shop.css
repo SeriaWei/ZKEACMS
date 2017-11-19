@@ -98,9 +98,12 @@
 .basket .basket-body ul > li .tag {
   color: #d7d7d7;
 }
-.basket .basket-body ul > li .quantity {
-  word-spacing: 5px;
+.basket .basket-body ul > li .quantity-set {
   font-size: 16px;
+  white-space: nowrap;
+}
+.basket .basket-body ul > li .quantity-set .quantity {
+  margin: 0 4px;
 }
 .basket .basket-footer {
   position: absolute;

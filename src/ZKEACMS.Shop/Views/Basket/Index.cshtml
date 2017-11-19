@@ -16,7 +16,7 @@
             {
                 foreach (var item in Model.Basket)
                 {
-                    <li id="basket-@item.ID" class="row" data-id="@item.ID">
+                    <li id="basket-@item.ID" class="row basket-item" data-id="@item.ID">
                         <div class="col-xs-4">
                             <img src="@Url.PathContent(item.ImageUrl)" />
                         </div>
@@ -28,7 +28,7 @@
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-xs-4">
-                            <div class="text-center quantity-set">
+                            <div class="row text-center quantity-set">
                                 <a href="javascript:" class="quantity-minus glyphicon glyphicon-minus-sign"></a>
                                 <span class="quantity">@item.Quantity</span>
                                 <a href="javascript:" class="quantity-plus glyphicon glyphicon-plus-sign"></a>

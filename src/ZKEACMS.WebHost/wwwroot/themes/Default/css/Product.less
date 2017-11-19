@@ -6,6 +6,26 @@
         border-radius: 0;
         box-shadow: none;
         padding: 1px;
+
+        img {
+            height: 225px;
+        }
+
+        h4 {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .caption p {
+            height: 36px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+
+            &::after {
+                content: "...";
+            }
+        }
     }
 
     .pagination {
