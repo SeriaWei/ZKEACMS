@@ -27,6 +27,10 @@ echo ------------------ Release ZKEACMS.SectionWidget ------------------
 cd ../../src/ZKEACMS.SectionWidget
 dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.SectionWidget
 
+echo ------------------ Release ZKEACMS.Shop ------------------
+cd ../../src/ZKEACMS.Shop
+dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.Shop
+
 cd ../../PluginPublisher
 dotnet restore
 dotnet build
