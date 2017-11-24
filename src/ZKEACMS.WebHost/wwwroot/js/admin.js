@@ -57,11 +57,13 @@ $(function () {
                     var target = obj.parent().siblings("input.form-control");
                     target.val(win.GetSelected());
                     box.close();
+                    target.trigger("change");
                 });
                 $(this.document).on("click", ".confirm", function () {
                     var target = obj.parent().siblings("input.form-control");
                     target.val($(this).data("result"));
                     box.close();
+                    target.trigger("change");
                 });
             }
         });
