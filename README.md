@@ -1,5 +1,10 @@
-﻿# ZKEACMS Build With Asp.Net Core 2.0
+﻿# ZKEACMS Build With Asp.Net Core
 ![BuildSuccess](http://cdn.zkeasoft.com/images/buildsuccess.svg) 
+### Docker
+在Docker中体验 / Run on docker
+```
+docker run -d -p 5000:80 zkeasoft/zkeacms
+```
 
 ### 演示 / Demo Site
 [http://demo.zkea.net](http://demo.zkea.net)
