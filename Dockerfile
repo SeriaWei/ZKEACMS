@@ -3,36 +3,36 @@ WORKDIR /build
 
 # Copy csproj and restore as distinct layers
 COPY . ./
-RUN cd /build/src/ZKEACMS.WebHost
+WORKDIR /build/src/ZKEACMS.WebHost
 RUN dotnet publish -c Release -o ./bin/Release/PublishOutput
 RUN cd /build/src/ZKEACMS.Article
 RUN dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.Article
 
 #Release ZKEACMS.FormGenerator
-RUN cd /build/src/ZKEACMS.FormGenerator
+WORKDIR /build/src/ZKEACMS.FormGenerator
 RUN dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.FormGenerator
 
 #Release ZKEACMS.Message
-RUN cd /build/src/ZKEACMS.Message
+WORKDIR /build/src/ZKEACMS.Message
 RUN dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.Message
 
 #Release ZKEACMS.Product
-RUN cd /build/src/ZKEACMS.Product
+WORKDIR /build/src/ZKEACMS.Product
 RUN dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.Product
 
 #Release ZKEACMS.Redirection
-RUN cd /build/src/ZKEACMS.Redirection
+WORKDIR /build/src/ZKEACMS.Redirection
 RUN dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.Redirection
 
 #Release ZKEACMS.SectionWidget
-RUN cd /build/src/ZKEACMS.SectionWidget
+WORKDIR /build/src/ZKEACMS.SectionWidget
 RUN dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.SectionWidget
 
 #Release ZKEACMS.Shop
-RUN cd /build/src/ZKEACMS.Shop
+WORKDIR /build/src/ZKEACMS.Shop
 RUN dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.Shop
 
-RUN cd /build/PluginPublisher
+WORKDIR /build/PluginPublisher
 RUN dotnet restore
 RUN dotnet build
 RUN dotnet run
