@@ -32,7 +32,7 @@ RUN dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/ww
 RUN cd /build/src/ZKEACMS.Shop
 RUN dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.Shop
 
-RUN cd /build/src/PluginPublisher
+RUN cd /build/PluginPublisher
 RUN dotnet restore
 RUN dotnet build
 RUN dotnet run
