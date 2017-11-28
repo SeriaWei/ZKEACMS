@@ -5,7 +5,9 @@ WORKDIR /build
 COPY . ./
 WORKDIR /build/src/ZKEACMS.WebHost
 RUN dotnet publish -c Release -o ./bin/Release/PublishOutput
-RUN cd /build/src/ZKEACMS.Article
+
+#Release ZKEACMS.Article
+WORKDIR /build/src/ZKEACMS.Article
 RUN dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.Article
 
 #Release ZKEACMS.FormGenerator
