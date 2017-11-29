@@ -52,4 +52,5 @@ RUN dotnet run
 FROM microsoft/aspnetcore:2.0
 WORKDIR /zkeacms
 COPY --from=builder /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput .
+EXPOSE 80
 ENTRYPOINT ["dotnet", "ZKEACMS.WebHost.dll"]
