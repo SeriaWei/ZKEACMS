@@ -7,8 +7,8 @@ WORKDIR /build/src/ZKEACMS.WebHost
 RUN dotnet publish -c Release -o ./bin/Release/PublishOutput
 
 # Copy Database
-RUN cp -f ./DataBase/SQLite/Database-2.3.sqlite ./src/ZKEACMS.WebHost/bin/Release/PublishOutput/App_Data/Database.sqlite
-RUN cp -f ./DataBase/SQLite/appsettings.json ./src/ZKEACMS.WebHost/bin/Release/PublishOutput/appsettings.json
+RUN cp -f /build/DataBase/SQLite/Database-2.3.sqlite /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/App_Data/Database.sqlite
+RUN cp -f /build/DataBase/SQLite/appsettings.json /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/appsettings.json
 
 #Release ZKEACMS.Article
 WORKDIR /build/src/ZKEACMS.Article
