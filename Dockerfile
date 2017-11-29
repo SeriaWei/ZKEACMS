@@ -36,6 +36,10 @@ RUN dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/ww
 WORKDIR /build/src/ZKEACMS.Shop
 RUN dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.Shop
 
+#Release ZKEACMS.Sitemap
+WORKDIR /build/src/ZKEACMS.Sitemap
+RUN dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.Sitemap
+
 # Tidy plugins
 WORKDIR /build/PluginPublisher
 RUN dotnet restore

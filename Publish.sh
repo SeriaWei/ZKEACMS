@@ -31,6 +31,10 @@ echo ------------------ Release ZKEACMS.Shop ------------------
 cd ../../src/ZKEACMS.Shop
 dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.Shop
 
+echo ------------------ Release ZKEACMS.Sitemap ------------------
+cd ../../src/ZKEACMS.Sitemap
+dotnet publish -c Release -o ../ZKEACMS.WebHost/bin/Release/PublishOutput/wwwroot/Plugins/ZKEACMS.Sitemap
+
 cd ../../PluginPublisher
 dotnet restore
 dotnet build
