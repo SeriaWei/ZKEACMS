@@ -1,0 +1,67 @@
+﻿@model IList<Comments>
+@{
+    Style.Reqiured("comments").AtHead();
+    Script.Reqiured("validate").AtFoot();
+    string photoUrl = ApplicationContext.CurrentCustomer == null ? "~/Plugins/ZKEACMS.Message/Content/Image/default_avatar.gif" : ApplicationContext.CurrentCustomer.PhotoUrl;
+}
+<div class="comments-box">
+    <div class="comments post-comments clearfix">
+        @using (Html.BeginForm("PostComment", "MessageHandle", FormMethod.Post))
+        {
+            <input type="hidden" name="PagePath" value="@ViewContext.HttpContext.Request.Path" />
+            <input type="hidden" name="ReplyTo" />
+            <div class="avatar">
+                <img src="@Url.PathContent(photoUrl)" />
+            </div>
+            <div class="comment">
+                <div class="form-group">
+                    <textarea data-val="true"
+                              data-val-length="评论的内容应小于100"
+                              rows="3"
+                              maxlength="100"
+                              data-val-length-max="100"
+                              data-val-required="请输入评论的内容"
+                              name="CommentContent"
+                              id="CommentContent"
+                              class="form-control" placeholder="说说你的看法..."></textarea>
+                    <span class="field-validation-valid" data-valmsg-for="CommentContent" data-valmsg-replace="true"></span>
+                </div>
+                <div class="text-right">
+                    <input type="submit" class="btn btn-primary" value="评论" />
+                </div>
+            </div>
+        }
+    </div>
+    @if (Model.Count > 0)
+    {
+        <div>
+            <label>@Model.Count 条评论</label>
+            <hr />
+        </div>
+        <ul class="comment-list">
+            @foreach (var item in Model)
+            {
+                <li class="comments clearfix">
+                    <div class="avatar">
+                        <img src="@Url.PathContent(item.Picture)" />
+                    </div>
+                    <div class="comment">
+                        <p>
+                            @item.UserName
+                            <small class="text-muted">
+                                - @item.CreateDate.Value.ToString("yyyy年MM月dd日 HH:mm")
+                            </small>
+                        </p>
+                        <p>
+                            @item.CommentContent
+                        </p>
+                        <p>
+                            <a href="javascript:">回复</a>
+                        </p>
+                    </div>
+                </li>
+            }
+
+        </ul>
+    }
+</div>

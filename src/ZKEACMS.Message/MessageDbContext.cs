@@ -12,5 +12,6 @@ namespace ZKEACMS.Message
         }
 
         internal DbSet<MessageEntity> Message { get; set; }
+        internal DbSet<Comments> Comments { get; set; }
     }
 }

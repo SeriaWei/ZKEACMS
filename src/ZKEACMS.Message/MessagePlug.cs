@@ -50,13 +50,14 @@ namespace ZKEACMS.Message
         {
             yield return typeof(MessageBoxWidgetService);
             yield return typeof(MessageWidgetService);
+            yield return typeof(CommentsWidgetService);
         }
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IMessageService, MessageService>();
-
             serviceCollection.AddDbContext<MessageDbContext>();
+            serviceCollection.AddTransient<ICommentsService, CommentsService>();
         }
 
         protected override void InitScript(Func<string, ResourceHelper> script)
@@ -66,7 +67,7 @@ namespace ZKEACMS.Message
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
-            
+            style("comments").Include("~/Plugins/ZKEACMS.Message/Content/comments.css", "~/Plugins/ZKEACMS.Message/Content/comments.min.css");   
         }
     }
 }

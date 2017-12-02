@@ -61,7 +61,6 @@ namespace Easy.Mvc.Plugin
                 var files = new DirectoryInfo(Path.GetDirectoryName(CurrentAssembly.Location)).GetFiles($"{libaray.Name}.dll");
                 foreach (var file in files)
                 {
-                    Console.WriteLine(file.FullName);
                     DependencyAssemblies.Add(LoadFromAssemblyPath(file.FullName));
                     depLoaded = true;
                     break;

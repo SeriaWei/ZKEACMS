@@ -149,6 +149,7 @@ namespace ZKEACMS.Controllers
                 return Redirect(ReturnUrl);
             }
             ViewBag.Errormessage = "登录失败，用户名密码不正确";
+            ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
 
