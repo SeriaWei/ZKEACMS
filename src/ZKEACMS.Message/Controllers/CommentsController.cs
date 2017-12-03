@@ -6,29 +6,29 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Message.Controllers
 {
-    [DefaultAuthorize(Policy = PermissionKeys.ViewMessage)]
-    public class MessageController : BasicController<MessageEntity, int, IMessageService>
+    [DefaultAuthorize(Policy = PermissionKeys.ViewComments)]
+    public class CommentsController : BasicController<Comments, int, ICommentsService>
     {
-        public MessageController(IMessageService service) : base(service)
+        public CommentsController(ICommentsService service) : base(service)
         {
         }
-        [DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
+        [DefaultAuthorize(Policy = PermissionKeys.ManageComments)]
         public override IActionResult Create()
         {
             return base.Create();
         }
-        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
-        public override IActionResult Create(MessageEntity entity)
+        [DefaultAuthorize(Policy = PermissionKeys.ManageComments)]
+        public override IActionResult Create(Comments entity)
         {
             return base.Create(entity);
         }
-        [DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
+        [DefaultAuthorize(Policy = PermissionKeys.ManageComments)]
         public override IActionResult Edit(int Id)
         {
             return base.Edit(Id);
         }
-        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
-        public override IActionResult Edit(MessageEntity entity)
+        [DefaultAuthorize(Policy = PermissionKeys.ManageComments)]
+        public override IActionResult Edit(Comments entity)
         {
             return base.Edit(entity);
         }

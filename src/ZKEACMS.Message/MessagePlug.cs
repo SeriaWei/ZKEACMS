@@ -30,20 +30,39 @@ namespace ZKEACMS.Message
         {
             yield return new AdminMenu
             {
-                Title = "¡Ù—‘∞Â",
+                Title = "¡Ù—‘∆¿¬€",
                 Icon = "glyphicon-volume-up",
-                Url = "~/Admin/Message",
                 Order = 7,
-                PermissionKey = PermissionKeys.ViewMessage
+                Children = new List<AdminMenu>
+                {
+                    new AdminMenu
+                    {
+                        Title = "¡Ù—‘",
+                        Url = "~/Admin/Message",
+                        Order = 1,
+                        Icon = "glyphicon-volume-up",
+                        PermissionKey = PermissionKeys.ViewMessage
+                    },
+                    new AdminMenu
+                    {
+                        Title = "∆¿¬€",
+                        Url = "~/Admin/Comments",
+                        Order = 2,
+                        Icon = "glyphicon-comment",
+                        PermissionKey = PermissionKeys.ViewComments
+                    }
+                }
             };
         }
 
-       
+
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
         {
-            yield return new PermissionDescriptor(PermissionKeys.ViewMessage, "¡Ù—‘∞Â", "≤Èø¥¡Ù—‘", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageMessage, "¡Ù—‘∞Â", "π‹¿Ì¡Ù—‘", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewMessage, "¡Ù—‘∆¿¬€", "≤Èø¥¡Ù—‘", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageMessage, "¡Ù—‘∆¿¬€", "π‹¿Ì¡Ù—‘", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewComments, "¡Ù—‘∆¿¬€", "≤Èø¥∆¿¬€", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageComments, "¡Ù—‘∆¿¬€", "π‹¿Ì∆¿¬€", "");
         }
 
         public override IEnumerable<Type> WidgetServiceTypes()
@@ -62,12 +81,12 @@ namespace ZKEACMS.Message
 
         protected override void InitScript(Func<string, ResourceHelper> script)
         {
-            
+            script("comments").Include("~/Plugins/ZKEACMS.Message/Scripts/comments.js", "~/Plugins/ZKEACMS.Message/Scripts/comments.min.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
-            style("comments").Include("~/Plugins/ZKEACMS.Message/Content/comments.css", "~/Plugins/ZKEACMS.Message/Content/comments.min.css");   
+            style("comments").Include("~/Plugins/ZKEACMS.Message/Content/comments.css", "~/Plugins/ZKEACMS.Message/Content/comments.min.css");
         }
     }
 }

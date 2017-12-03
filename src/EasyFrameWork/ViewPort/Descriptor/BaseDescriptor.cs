@@ -254,6 +254,11 @@ namespace Easy.ViewPort.Descriptor
             this.TemplateName = template;
             return this as T;
         }
+        public T SetGridColumnTemplate(string template)
+        {
+            this.GridColumnTemplate = template;
+            return this as T;
+        }
         public T ShowInGrid(bool show = true)
         {
             this.IsShowInGrid = show;

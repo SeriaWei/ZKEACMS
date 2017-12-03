@@ -1,0 +1,10 @@
+﻿@model Comments
+@{
+    Style.Reqiured("dataTable").AtHead();
+    Script.Reqiured("dataTable").AtFoot();
+
+    Script.Reqiured("datepicker").AtFoot();
+    Style.Reqiured("datepicker").AtHead();
+
+}
+<grid delete-able="Authorizer.Authorize(ZKEACMS.Message.PermissionKeys.ManageMessage)" edit-able="Authorizer.Authorize(ZKEACMS.Message.PermissionKeys.ManageComments)"></grid>

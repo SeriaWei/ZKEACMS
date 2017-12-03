@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.Message.Models
 {
-    [ViewConfigure(typeof(MessageMetaData)), Table("Comments")]
+    [ViewConfigure(typeof(CommentsMetadata)), Table("Comments")]
     public class Comments : EditorEntity
     {
         [Key]
@@ -26,7 +26,12 @@ namespace ZKEACMS.Message.Models
     {
         protected override void ViewConfigure()
         {
-            
+            ViewConfig(m => m.ID).AsHidden();
+            ViewConfig(m => m.Title).AsTextBox().ShowInGrid().SetGridColumnTemplate("<a href=\"{pagePath}\" target=\"_blank\">{title}</a>").ReadOnly().Order(1);
+            ViewConfig(m => m.PagePath).AsTextBox().ReadOnly();
+            ViewConfig(m => m.UserId).AsHidden();
+            ViewConfig(m => m.Picture).AsHidden();
+            ViewConfig(m => m.CommentContent).AsTextArea().ShowInGrid().MaxLength(100);
         }
     }
 }

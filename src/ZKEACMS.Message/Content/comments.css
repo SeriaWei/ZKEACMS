@@ -1,4 +1,8 @@
-﻿.comments-box .comment-list {
+﻿.comments-box {
+  padding: 15px;
+  border-top: 2px solid #337ab7;
+}
+.comments-box .comment-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -17,6 +21,7 @@
 }
 .comments-box .comments .avatar img {
   width: 50px;
+  border-radius: 50%;
 }
 .comments-box .comments .comment {
   width: 100%;

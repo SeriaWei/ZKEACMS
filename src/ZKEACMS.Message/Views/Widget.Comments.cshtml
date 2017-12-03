@@ -1,6 +1,7 @@
 ﻿@model IList<Comments>
 @{
     Style.Reqiured("comments").AtHead();
+    Script.Reqiured("comments").AtFoot();
     Script.Reqiured("validate").AtFoot();
     string photoUrl = ApplicationContext.CurrentCustomer == null ? "~/Plugins/ZKEACMS.Message/Content/Image/default_avatar.gif" : ApplicationContext.CurrentCustomer.PhotoUrl;
 }
@@ -9,7 +10,8 @@
         @using (Html.BeginForm("PostComment", "MessageHandle", FormMethod.Post))
         {
             <input type="hidden" name="PagePath" value="@ViewContext.HttpContext.Request.Path" />
-            <input type="hidden" name="ReplyTo" />
+            <input type="hidden" name="ReplyTo" id="ReplyTo" />
+            <input type="hidden" name="Title" id="Title" />
             <div class="avatar">
                 <img src="@Url.PathContent(photoUrl)" />
             </div>
@@ -56,7 +58,7 @@
                             @item.CommentContent
                         </p>
                         <p>
-                            <a href="javascript:">回复</a>
+                            <a class="reply" data-reply-to="@item.UserName" data-reply-user="@item.UserId" href="javascript:">回复</a>
                         </p>
                     </div>
                 </li>

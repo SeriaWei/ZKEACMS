@@ -32,7 +32,7 @@
             @if (ApplicationContext.CurrentCustomer != null)
             {
                 <header class="image-circle">
-                    <img class="thumbnail" src="@Url.PathContent(ApplicationContext.CurrentCustomer.PhotoUrl??"~/images/head.png")" />
+                    <img class="thumbnail" src="@Url.PathContent(ApplicationContext.CurrentCustomer.PhotoUrl??"~/images/User-Avatar.png")" />
                     <h1>@ApplicationContext.CurrentCustomer.UserName</h1>
                 </header>
                 <nav>

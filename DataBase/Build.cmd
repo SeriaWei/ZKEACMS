@@ -212,6 +212,9 @@ if %ERRORLEVEL% NEQ 0 goto errors
 @echo OrderItem
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.OrderItem.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
+@echo Comments
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.Comments.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
 
 @echo InitailData...
 @echo ArticleType
@@ -393,6 +396,9 @@ sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Initial
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo OrderItem
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.OrderItem.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo Comments
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.Comments.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
 
 @echo -----------------------------------------------------------------------------

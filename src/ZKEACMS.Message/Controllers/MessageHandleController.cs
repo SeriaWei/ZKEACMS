@@ -32,7 +32,7 @@ namespace ZKEACMS.Message.Controllers
             return Redirect(redirect);
         }
         [HttpPost]
-        public IActionResult PostComment(string CommentContent, string PagePath)
+        public IActionResult PostComment(string CommentContent, string PagePath, string ReplyTo, string Title)
         {
             if (_applicationContextAccessor.Current.CurrentCustomer != null)
             {
@@ -42,7 +42,9 @@ namespace ZKEACMS.Message.Controllers
                     Picture = _applicationContextAccessor.Current.CurrentCustomer.PhotoUrl,
                     UserName = _applicationContextAccessor.Current.CurrentCustomer.UserName,
                     PagePath = PagePath,
-                    CommentContent = CommentContent
+                    Title = Title,
+                    CommentContent = CommentContent,
+                    Status = (int)RecordStatus.Active
                 });
                 return Redirect(Request.GetReferer());
             }
