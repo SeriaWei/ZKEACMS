@@ -20,8 +20,8 @@
                     <textarea data-val="true"
                               data-val-length="评论的内容应小于100"
                               rows="3"
-                              maxlength="100"
-                              data-val-length-max="100"
+                              maxlength="500"
+                              data-val-length-max="500"
                               data-val-required="请输入评论的内容"
                               name="CommentContent"
                               id="CommentContent"
@@ -54,9 +54,7 @@
                                 - @item.CreateDate.Value.ToString("yyyy年MM月dd日 HH:mm")
                             </small>
                         </p>
-                        <p>
-                            @item.CommentContent
-                        </p>
+                        <markdown>@item.CommentContent</markdown>
                         <p>
                             <a class="reply" data-reply-to="@item.UserName" data-reply-user="@item.UserId" href="javascript:">回复</a>
                         </p>

@@ -22,6 +22,8 @@ using Easy.Options;
 using Easy.Mvc.RazorPages;
 using Easy.Notification;
 using Microsoft.AspNetCore.Authorization;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace Easy
 {
@@ -54,6 +56,8 @@ namespace Easy
             services.AddTransient<INotifyService, RazorEmailNotifyService>();
             services.AddTransient<IPluginLoader, Loader>();
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
+
+            services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
 
             services.Configure<CDNOption>(configuration.GetSection("CDN"));
             services.Configure<CultureOption>(configuration.GetSection("Culture"));

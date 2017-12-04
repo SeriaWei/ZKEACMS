@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ZKEACMS.Message.Models;
 using ZKEACMS.Message.Service;
 using Easy.Mvc.Extend;
+using Easy.Extend;
 
 namespace ZKEACMS.Message.Controllers
 {
@@ -34,7 +35,10 @@ namespace ZKEACMS.Message.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult PostComment(string CommentContent, string PagePath, string ReplyTo, string Title)
         {
-            if (_applicationContextAccessor.Current.CurrentCustomer != null)
+            if (_applicationContextAccessor.Current.CurrentCustomer != null &&
+                CommentContent.IsNotNullAndWhiteSpace() &&
+                CommentContent.Length <= 500 &&
+                PagePath.IsNotNullAndWhiteSpace())
             {
                 _commentService.Add(new Comments
                 {
