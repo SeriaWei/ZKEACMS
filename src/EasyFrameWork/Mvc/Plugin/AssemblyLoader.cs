@@ -58,12 +58,15 @@ namespace Easy.Mvc.Plugin
             dependencyCompilationLibrary.Each(libaray =>
             {
                 bool depLoaded = false;
-                var files = new DirectoryInfo(Path.GetDirectoryName(CurrentAssembly.Location)).GetFiles($"{libaray.Name}.dll");
-                foreach (var file in files)
+                foreach (var assembly in libaray.Assemblies)
                 {
-                    DependencyAssemblies.Add(LoadFromAssemblyPath(file.FullName));
-                    depLoaded = true;
-                    break;
+                    var files = new DirectoryInfo(Path.GetDirectoryName(CurrentAssembly.Location)).GetFiles(Path.GetFileName(assembly));
+                    foreach (var file in files)
+                    {
+                        DependencyAssemblies.Add(LoadFromAssemblyPath(file.FullName));
+                        depLoaded = true;
+                        break;
+                    }
                 }
                 if (!depLoaded)
                 {
