@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="ZKEACMS.Publisher" Version="1.0.0" />
+    <DotNetCliToolReference Include="ZKEACMS.Publisher" Version="*" />
   </ItemGroup>
 
   <ItemGroup>
