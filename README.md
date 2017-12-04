@@ -5,13 +5,13 @@
 ```
 docker run -d -p 5000:80 zkeasoft/zkeacms
 ```
-### Publish
+### 发布 / Publish
 ```
-./src/ZKEACMS.WebHost/ dotnet publish-zkeacms
+./src/ZKEACMS.WebHost/dotnet publish-zkeacms
 ```
-### Publish width runtime
+### 包含运行时发布 / Publish width runtime
 ```
-./src/ZKEACMS.WebHost/ dotnet publish-zkeacms win7-x64
+./src/ZKEACMS.WebHost/dotnet publish-zkeacms win7-x64
 ```
 ### 演示 / Demo Site
 [http://demo.zkea.net](http://demo.zkea.net)
