@@ -20,7 +20,7 @@ namespace ZKEACMS.Message.Controllers
             _commentService = commentsService;
             _cookie = cookie;
         }
-
+        [HttpPost, ValidateAntiForgeryToken]
         public IActionResult PostMessage(MessageEntity entity, string redirect)
         {
             if (ModelState.IsValid)
@@ -31,7 +31,7 @@ namespace ZKEACMS.Message.Controllers
             }
             return Redirect(redirect);
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public IActionResult PostComment(string CommentContent, string PagePath, string ReplyTo, string Title)
         {
             if (_applicationContextAccessor.Current.CurrentCustomer != null)
