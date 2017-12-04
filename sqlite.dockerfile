@@ -1,8 +1,9 @@
 FROM microsoft/aspnetcore-build:2.0 AS builder
 WORKDIR /build
-
-# Copy csproj and restore as distinct layers
+# Copy all files
 COPY . ./
+RUN dotnet restore
+
 WORKDIR /build/src/ZKEACMS.WebHost
 RUN dotnet publish-zkeacms
 
