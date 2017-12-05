@@ -36,16 +36,12 @@ Microsoft Sql Server 2008+
 ## 基本思想 / Basic idea
 [http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)
 
-## 简单演示 / Simple demo
-![简单演示](https://cloud.githubusercontent.com/assets/6006218/23800754/8513aafe-05e8-11e7-8578-dbf93eb94b91.jpg)
 ### 设计页面 / Desing Page
 ![简单演示](http://ww4.sinaimg.cn/mw690/005zTNGqgw1f5e6o2kejlg30dw08an3g.gif)
 ### 添加内容 / Add Content
 ![简单演示](http://ww3.sinaimg.cn/mw690/005zTNGqgw1f4wcc6gjqqg30dw08g4jr.gif)
 
 ## 移动友好 / Responsive Design
-![移动友好](http://ww2.sinaimg.cn/large/005zTNGqgw1f7l2aq95fvj30ae0fswf2.jpg)
-
 ZKEACMS is featuring a modern responsive design that automatically adapts to different screen sizes and devices. From the PC, laptop, TV, tablet to the phone page will automatically adapt to adapt.
 
 纸壳CMS采用了现代的响应式设计，可以自动适配不同大小的屏幕和设备。从PC，笔记本，电视，平板到手机页面都会自动响应适应。
@@ -83,7 +79,7 @@ In the preview page, users can add widgets to any area. You can sort widgets in 
 
 在预览页面中，用户可以添加组件到任意区域。可以对任意区域内的组件进行排序或者拖放到别的区域显示。
 
-## 选择组件 / Widgets
+## 组件 / Widgets
 ![选择组件](https://cloud.githubusercontent.com/assets/6006218/23800984/5c243978-05e9-11e7-8804-6a82e92b519b.png)
 
 After you have added widget areas to your layout, these areas are available for adding widgets, and different widgets have different capabilities.
@@ -116,16 +112,6 @@ Using LESS to create a theme, by modifying the variables, you can easily create 
 
 ## 官方网站
 [ZKEASOFT](http://www.zkea.net/zkeacms/zkeacmscore)
-
-[开发文档/Document](http://www.zkea.net/zkeacms/document)
-
-[主题/Themes](http://www.zkea.net/zkeacms/theme)
-
-[插件扩展/Plugins](http://www.zkea.net/zkeacms/extend)
-
-[模板/Templates](http://www.zkea.net/zkeacms/templates)
-
-[赞助/Donate](http://www.zkea.net/zkeacms/donate)
 
 
 ## 关注微信(ZKEASOFT)
