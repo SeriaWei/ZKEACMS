@@ -20,6 +20,7 @@ namespace ZKEACMS.Common.Models
         public string AlignClass { get; set; }
         public bool? IsTopFix { get; set; }
         public string RootID { get; set; }
+        public bool? ShowBasket { get; set; }
     }
     class NavigationWidgetMetaData : WidgetMetaData<NavigationWidget>
     {

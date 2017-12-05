@@ -76,7 +76,7 @@
                             </li>
                         }
                     }
-                    @if (Model.Widget.AlignClass == "navbar-right")
+                    @if ((Model.Widget.ShowBasket ?? true) && Model.Widget.AlignClass == "navbar-right")
                     {
                         <li>
                             <a href="javascript:" class="show-basket" title="购物车">
@@ -86,7 +86,7 @@
                         </li>
                     }   
                 </ul>
-                @if (Model.Widget.AlignClass != "navbar-right")
+                @if ((Model.Widget.ShowBasket ?? true) && Model.Widget.AlignClass != "navbar-right")
                 {
                     <ul class="nav navbar-nav navbar-right">
                         <li>
