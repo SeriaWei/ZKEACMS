@@ -22,14 +22,12 @@ ZKEACMS For .Net Core
 纸壳CMS 是基于 ZKEACMS 的 Asp.Net Core 版本。
 
 ### 架设环境 / Runtime
-
 .Net Core 2.0, Microsoft Sql Serverl 2008+, MySql 5.6+, SQLite 3
 
-### 开发环境 / Development environment
-
-Microsoft VisualStudio 2017 15.3+
-
-Microsoft Sql Server 2008+
+### 开发工具 / IDE
+* Microsoft Visual Studio 2017 15.3+
+* Visual Studio Code
+* Microsoft Sql Server 2008+
 
 ## 基本思想 / Basic idea
 [http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)
