@@ -94,8 +94,6 @@ Template widget can be more easily extended. Directly replace the display templa
 
 纸壳CMS的模板组件可以更方便的进行扩展。直接更换显示模板就可以达到您想要的效果。
 
-![分组](https://cloud.githubusercontent.com/assets/6006218/23801059/9aae6bdc-05e9-11e7-8540-89c5b58dbc99.jpg)
-
 ![显示模板](https://cloud.githubusercontent.com/assets/6006218/23801091/cd3c03d4-05e9-11e7-8196-5ef107fc4442.jpg)
 
 ## 主题 / Theme
