@@ -23,9 +23,7 @@ ZKEACMS For .Net Core
 
 ### 架设环境 / Runtime
 
-.Net Core 2.0
-
-Microsoft Sql Serverl 2008+
+.Net Core 2.0, Microsoft Sql Serverl 2008+, MySql 5.6+, SQLite 3
 
 ### 开发环境 / Development environment
 
