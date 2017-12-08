@@ -36,7 +36,7 @@ namespace ZKEACMS.Common.Service
             var currentWidget = widget as NavigationWidget;
             var navs = _navigationService.Get()
                 .Where(m => m.Status == (int)RecordStatus.Active).OrderBy(m => m.DisplayOrder).ToList();
-            string path = "~" + actionContext.RouteData.GetPath();
+            string path = ("~" + actionContext.HttpContext.Request.Path).ToLower();
             NavigationEntity current = null;
             int length = 0;
             foreach (var navigationEntity in navs)
