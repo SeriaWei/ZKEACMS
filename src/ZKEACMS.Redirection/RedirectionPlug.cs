@@ -1,11 +1,6 @@
-/* http://www.zkea.net/ 
+ï»¿/* http://www.zkea.net/ 
  * Copyright 2017 ZKEASOFT 
  * http://www.zkea.net/licenses 
- *
- * ÕâÊÇÒ»¸ö±ê×¼µÄÏîÄ¿ÎÄ¼ş£¬Èç¹ûÒª½¨Ò»¸öĞÂµÄ²å¼ş£¬Çë¸´ÖÆÕâ¸öÏîÄ¿ÎÄ¼ş£¬È»ºóÖØÃüÃû
- * 1. AssemblyInfo.cs ĞŞ¸Ä AssemblyProduct£¬Guid
- * 2. StandardPlug.cs ĞŞ¸ÄÃû³ÆºÍÀàÃû
- * 3. zkea.plugin ĞŞ¸Ä ID µÄÖµÎªĞÂµÄGUID£¬²¢¶ÔÓ¦ĞŞ¸ÄÀïÃæµÄÃû³Æ¡£
  */
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
@@ -36,7 +31,7 @@ namespace ZKEACMS.Redirection
         {
             yield return new AdminMenu
             {
-                Title = "URLÖØ¶¨Ïò",
+                Title = "URLé‡å®šå‘",
                 Url = "~/Admin/UrlRedirection",
                 Icon = "glyphicon-random",
                 Order = 12,
@@ -58,16 +53,16 @@ namespace ZKEACMS.Redirection
         {
             yield return new PermissionDescriptor
             {
-                Module = "URLÖØ¶¨Ïò",
-                Title = "²é¿´ÖØ¶¨Ïò",
-                Description = "²é¿´ÖØ¶¨Ïò",
+                Module = "URLé‡å®šå‘",
+                Title = "æŸ¥çœ‹é‡å®šå‘",
+                Description = "æŸ¥çœ‹é‡å®šå‘",
                 Key = PermissionKeys.ViewUrlRedirect
             };
             yield return new PermissionDescriptor
             {
-                Module = "URLÖØ¶¨Ïò",
-                Title = "¹ÜÀíÖØ¶¨Ïò",
-                Description = "¹ÜÀíÖØ¶¨Ïò",
+                Module = "URLé‡å®šå‘",
+                Title = "ç®¡ç†é‡å®šå‘",
+                Description = "ç®¡ç†é‡å®šå‘",
                 Key = PermissionKeys.ManageUrlRedirect
             };
         }

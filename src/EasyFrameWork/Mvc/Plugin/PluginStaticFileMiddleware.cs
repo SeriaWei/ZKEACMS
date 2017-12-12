@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders.Physical;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.IO;
 using System.Threading;
@@ -30,6 +31,10 @@ namespace Easy.Mvc.Plugin
 
         public Task Invoke(HttpContext context)
         {
+            if (!context.Response.Headers.ContainsKey("Author"))
+            {
+                context.Response.Headers.Add("Author", new StringValues("ZKEA"));
+            }
             if (IsGetMethod(context.Request.Method) && IsPluginMatchPath(context.Request.Path) && IsSupportContentType(context))
             {
                 string filePath = GetAbsolutePath(context.Request.Path);
