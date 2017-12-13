@@ -18,7 +18,7 @@ namespace ZKEACMS.WebHost
     public class EntityFrameWorkConfigure : IOnDatabaseConfiguring
     {
         private readonly IOptions<DatabaseOption> _dataBaseOption;
-        public EntityFrameWorkConfigure(IOptions<DatabaseOption> dataBaseOption)
+        public EntityFrameWorkConfigure(IOptionsSnapshot<DatabaseOption> dataBaseOption)
         {
             _dataBaseOption = dataBaseOption;
         }
