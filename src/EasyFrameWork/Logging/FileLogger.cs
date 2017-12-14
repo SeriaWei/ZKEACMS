@@ -7,10 +7,10 @@ using System.Text;
 
 namespace Easy.Logging
 {
-    public class FileLogger : Microsoft.Extensions.Logging.ILogger
+    public class FileLogger : ILogger
     {
-        public const string Path = "Logs";
-        public const string TitleTemplate = "----------------------------------------------------------------\r\n时间：{0}\r\n详细信息:\r\n";
+        public static string Path = "Logs";
+        public const string TitleTemplate = "----------------------------------------------------------------\r\nEvent Time：{0}\r\nError Message:\r\n";
         public const string Split = "\r\n----------------------------------------------------------------\r\n";
         public const string FileTemplate = "LOG_{0}.txt";
         public const string DateNameTemplate = "yyyy-MM-dd";

@@ -20,10 +20,6 @@ namespace Easy.Mvc.Plugin
         private Assembly CurrentAssembly;
         private List<Assembly> DependencyAssemblies = new List<Assembly>();
         private Type PluginType = typeof(IPluginStartup);
-
-        public Action<IPluginStartup> OnLoading { get; set; }
-        public Action<Assembly> OnLoaded { get; set; }
-        public Func<IServiceCollection> Services { get; set; }
         public IHostingEnvironment HostingEnvironment { get; set; }
         public IEnumerable<Assembly> LoadPlugin(string path)
         {
@@ -34,7 +30,6 @@ namespace Easy.Mvc.Plugin
                 CurrentAssembly = assembly;
                 ResolveDenpendency();
                 RegistAssembly(assembly);
-                OnLoaded?.Invoke(assembly);
                 yield return assembly;
                 foreach (var item in DependencyAssemblies)
                 {
@@ -107,7 +102,7 @@ namespace Easy.Mvc.Plugin
         private void RegistAssembly(Assembly assembly)
         {
             List<TypeInfo> controllers = new List<TypeInfo>();
-
+            IPluginStartup plugin = null;
             foreach (var typeInfo in assembly.DefinedTypes)
             {
                 if (typeInfo.IsAbstract || typeInfo.IsInterface) continue;
@@ -118,26 +113,24 @@ namespace Easy.Mvc.Plugin
                 }
                 else if (PluginType.IsAssignableFrom(typeInfo.AsType()))
                 {
-                    var plugin = (Activator.CreateInstance(typeInfo.AsType()) as IPluginStartup);
+                    plugin = (Activator.CreateInstance(typeInfo.AsType()) as IPluginStartup);
+                    plugin.Assembly = assembly;
                     plugin.CurrentPluginPath = Path.GetDirectoryName(assembly.Location);
                     var binIndex = plugin.CurrentPluginPath.IndexOf("\\bin\\");
                     if (binIndex >= 0)
                     {
                         plugin.CurrentPluginPath = plugin.CurrentPluginPath.Substring(0, binIndex);
                     }
-                    if (Services != null)
-                    {
-                        plugin.HostingEnvironment = HostingEnvironment;
-                        plugin.ConfigureServices(Services());
-                    }
-                    OnLoading?.Invoke(plugin);
+                    plugin.HostingEnvironment = HostingEnvironment;
                 }
             }
-            if (controllers.Count > 0 && !ActionDescriptorProvider.PluginControllers.ContainsKey(assembly.FullName) && Services != null)
+            if (controllers.Count > 0 && !ActionDescriptorProvider.PluginControllers.ContainsKey(assembly.FullName))
             {
-                IServiceCollection services = Services();
-                controllers.Each(c => services.TryAddTransient(c.AsType()));
                 ActionDescriptorProvider.PluginControllers.Add(assembly.FullName, controllers);
+            }
+            if (plugin != null)
+            {
+                DefaultPluginStartup.LoadedPlugins.Add(plugin);
             }
         }
         protected bool IsController(TypeInfo typeInfo)

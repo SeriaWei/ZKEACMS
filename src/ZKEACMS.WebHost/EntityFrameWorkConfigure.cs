@@ -6,10 +6,6 @@
 
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql;
-
-using Easy.Extend;
-using System;
 using Microsoft.Extensions.Options;
 using ZKEACMS.Options;
 

@@ -26,15 +26,12 @@ namespace Easy.Mvc.Plugin
         {
             HostingEnvironment = hostEnvironment;
         }
-        public void LoadEnablePlugins(Action<IPluginStartup> onLoading, Action<Assembly> onLoaded, Func<IServiceCollection> services)
+        public void LoadEnablePlugins()
         {
             GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>
             {
                 var loader = new AssemblyLoader();
                 loader.HostingEnvironment = HostingEnvironment;
-                loader.OnLoading = onLoading;
-                loader.OnLoaded = onLoaded;
-                loader.Services = services;
                 var assemblies = loader.LoadPlugin(Path.Combine(m.RelativePath, (HostingEnvironment.IsDevelopment() ? Path.Combine(AltDevelopmentPath) : string.Empty), m.FileName));
                 assemblies.Each(assembly =>
                 {
