@@ -57,7 +57,7 @@ namespace Easy
             services.AddTransient<IPluginLoader, Loader>();
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
 
-            //services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
+            services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
 
             services.Configure<CDNOption>(configuration.GetSection("CDN"));
             services.Configure<CultureOption>(configuration.GetSection("Culture"));

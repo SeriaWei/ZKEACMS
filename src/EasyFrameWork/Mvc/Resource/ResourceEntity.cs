@@ -18,8 +18,8 @@ namespace Easy.Mvc.Resource
 {
     public class ResourceEntity
     {
-        const string StyleFormt = "<link href=\"{0}\" rel=\"stylesheet\" />";
-        const string ScriptFormt = "<script src=\"{0}\" type=\"text/javascript\"></script>";
+        const string StyleFormt = "<link href=\"{0}\" rel=\"stylesheet\" />\r\n\t";
+        const string ScriptFormt = "<script src=\"{0}\" type=\"text/javascript\"></script>\r\n\t";
         
         public ResourcePosition Position { get; set; }
         public IHtmlContent Source { get; set; }
