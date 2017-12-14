@@ -19,19 +19,18 @@ namespace Easy.Mvc.Plugin
         public const string PluginFolder = "Plugins";
         private const string PluginInfoFile = "zkea.plugin";
         private string[] AltDevelopmentPath = new[] { "bin", "Debug", "netcoreapp2.0" };
-        public IHostingEnvironment HostingEnvironment { get; set; }
         private static List<AssemblyLoader> Loaders = new List<AssemblyLoader>();
         private static Dictionary<string, Assembly> LoadedAssemblies = new Dictionary<string, Assembly>();
         public Loader(IHostingEnvironment hostEnvironment)
         {
             HostingEnvironment = hostEnvironment;
         }
-        public void LoadEnablePlugins()
+        public IHostingEnvironment HostingEnvironment { get; set; }
+        public IEnumerable<IPluginStartup> LoadEnablePlugins(IServiceCollection serviceCollection)
         {
             GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>
             {
                 var loader = new AssemblyLoader();
-                loader.HostingEnvironment = HostingEnvironment;
                 var assemblies = loader.LoadPlugin(Path.Combine(m.RelativePath, (HostingEnvironment.IsDevelopment() ? Path.Combine(AltDevelopmentPath) : string.Empty), m.FileName));
                 assemblies.Each(assembly =>
                 {
@@ -42,6 +41,7 @@ namespace Easy.Mvc.Plugin
                 });
                 Loaders.Add(loader);
             });
+            return serviceCollection.ConfigurePlugin().BuildServiceProvider().CreatePlugins();
         }
 
         public IEnumerable<Assembly> GetPluginAssemblies()

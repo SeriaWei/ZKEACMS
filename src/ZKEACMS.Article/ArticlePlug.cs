@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using ZKEACMS.Common.Models;
 using Microsoft.Extensions.DependencyInjection;
 using ZKEACMS.Article.Service;
+using ZKEACMS.Setting;
 
 namespace ZKEACMS.Article
 {

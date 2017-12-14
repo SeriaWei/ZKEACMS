@@ -10,11 +10,6 @@ namespace Easy.Mvc.Plugin
 {
     public class DefaultPluginStartup : IPluginStartup
     {
-        public static List<IPluginStartup> LoadedPlugins { get; set; }
-        static DefaultPluginStartup()
-        {
-            LoadedPlugins = new List<IPluginStartup>();
-        }
         public Assembly Assembly { get; set; }
         public string CurrentPluginPath { get; set; }
         public IHostingEnvironment HostingEnvironment { get; set; }

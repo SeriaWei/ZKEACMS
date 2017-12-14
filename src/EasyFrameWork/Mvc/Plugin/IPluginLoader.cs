@@ -9,7 +9,7 @@ namespace Easy.Mvc.Plugin
 {
     public interface IPluginLoader
     {
-        void LoadEnablePlugins();
+        IEnumerable<IPluginStartup> LoadEnablePlugins(IServiceCollection serviceCollection);
         IEnumerable<PluginInfo> GetPlugins();
         void DisablePlugin(string pluginId);
         void EnablePlugin(string pluginId);

@@ -17,7 +17,6 @@ namespace ZKEACMS
     public abstract class PluginBase : ResourceManager, IRouteRegister, IPluginStartup
     {
         public Assembly Assembly { get; set; }
-        public IHostingEnvironment HostingEnvironment { get; set; }
         public abstract IEnumerable<RouteDescriptor> RegistRoute();
         public abstract IEnumerable<AdminMenu> AdminMenu();
         public abstract IEnumerable<PermissionDescriptor> RegistPermission();

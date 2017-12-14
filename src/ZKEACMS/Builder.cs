@@ -52,8 +52,6 @@ namespace ZKEACMS
                 option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
             }).AddControllersAsServices().AddJsonOptions(option => { option.SerializerSettings.DateFormatString = "yyyy-MM-dd"; });
 
-            services.UseEasyFrameWork(configuration, hostingEnvironment).LoadEnablePlugins();
-
             services.TryAddScoped<IApplicationContextAccessor, ApplicationContextAccessor>();
             services.TryAddScoped<IApplicationContext, CMSApplicationContext>();
             services.TryAddSingleton<IRouteProvider, RouteProvider>();
@@ -89,22 +87,22 @@ namespace ZKEACMS
 
             services.Configure<DatabaseOption>(configuration.GetSection("Database"));
 
-
-
-            DefaultPluginStartup.LoadedPlugins.Each(p =>
-            {
-                var cmsPlugin = p as PluginBase;
-                if (cmsPlugin != null)
+            services.UseEasyFrameWork(configuration, hostingEnvironment)
+                .LoadEnablePlugins(services)
+                .Each(p =>
                 {
-                    cmsPlugin.InitPlug();
-                }
-                p.ConfigureServices(services);
+                    var cmsPlugin = p as PluginBase;
+                    if (cmsPlugin != null)
+                    {
+                        cmsPlugin.InitPlug();
+                    }
+                    p.ConfigureServices(services);
 
-                if (ActionDescriptorProvider.PluginControllers.ContainsKey(p.Assembly.FullName))
-                {
-                    ActionDescriptorProvider.PluginControllers[p.Assembly.FullName].Each(c => services.TryAddTransient(c.AsType()));
-                }
-            });
+                    if (ActionDescriptorProvider.PluginControllers.ContainsKey(p.Assembly.FullName))
+                    {
+                        ActionDescriptorProvider.PluginControllers[p.Assembly.FullName].Each(c => services.TryAddTransient(c.AsType()));
+                    }
+                });
 
             foreach (var item in WidgetBase.KnownWidgetService)
             {
@@ -142,8 +140,7 @@ namespace ZKEACMS
             applicationBuilder.UseAuthentication();
             applicationBuilder.UseStaticFiles();
             ServiceLocator.HttpContextAccessor = applicationBuilder.ApplicationServices.GetService<IHttpContextAccessor>();
-            DefaultPluginStartup.LoadedPlugins.Each(p => p.ConfigureApplication(applicationBuilder, hostingEnvironment));
-
+            applicationBuilder.ApplicationServices.CreatePlugins().Each(p => p.ConfigureApplication(applicationBuilder, hostingEnvironment));
             applicationBuilder.UseMvc(routes =>
             {
                 applicationBuilder.ApplicationServices.GetService<IRouteProvider>().GetRoutes().OrderByDescending(route => route.Priority).Each(route =>

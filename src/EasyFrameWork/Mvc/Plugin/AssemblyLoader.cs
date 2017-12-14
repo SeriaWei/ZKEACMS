@@ -17,10 +17,14 @@ namespace Easy.Mvc.Plugin
     public class AssemblyLoader : AssemblyLoadContext
     {
         private const string ControllerTypeNameSuffix = "Controller";
+        public AssemblyLoader()
+        {
+        }
+
+        public IServiceProvider ServiceProvider { get; set; }
         private Assembly CurrentAssembly;
         private List<Assembly> DependencyAssemblies = new List<Assembly>();
         private Type PluginType = typeof(IPluginStartup);
-        public IHostingEnvironment HostingEnvironment { get; set; }
         public IEnumerable<Assembly> LoadPlugin(string path)
         {
             if (CurrentAssembly == null)
@@ -102,7 +106,7 @@ namespace Easy.Mvc.Plugin
         private void RegistAssembly(Assembly assembly)
         {
             List<TypeInfo> controllers = new List<TypeInfo>();
-            IPluginStartup plugin = null;
+            PluginDescriptor plugin = null;
             foreach (var typeInfo in assembly.DefinedTypes)
             {
                 if (typeInfo.IsAbstract || typeInfo.IsInterface) continue;
@@ -113,15 +117,15 @@ namespace Easy.Mvc.Plugin
                 }
                 else if (PluginType.IsAssignableFrom(typeInfo.AsType()))
                 {
-                    plugin = (Activator.CreateInstance(typeInfo.AsType()) as IPluginStartup);
+                    plugin = new PluginDescriptor();
+                    plugin.PluginType = typeInfo.AsType();
                     plugin.Assembly = assembly;
                     plugin.CurrentPluginPath = Path.GetDirectoryName(assembly.Location);
-                    var binIndex = plugin.CurrentPluginPath.IndexOf("\\bin\\");
+                    var binIndex = plugin.CurrentPluginPath.IndexOf($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}");
                     if (binIndex >= 0)
                     {
                         plugin.CurrentPluginPath = plugin.CurrentPluginPath.Substring(0, binIndex);
                     }
-                    plugin.HostingEnvironment = HostingEnvironment;
                 }
             }
             if (controllers.Count > 0 && !ActionDescriptorProvider.PluginControllers.ContainsKey(assembly.FullName))
@@ -130,7 +134,7 @@ namespace Easy.Mvc.Plugin
             }
             if (plugin != null)
             {
-                DefaultPluginStartup.LoadedPlugins.Add(plugin);
+                PluginActivtor.LoadedPlugins.Add(plugin);
             }
         }
         protected bool IsController(TypeInfo typeInfo)
