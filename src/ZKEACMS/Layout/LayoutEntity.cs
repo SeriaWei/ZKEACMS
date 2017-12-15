@@ -12,7 +12,7 @@ using ZKEACMS.Zone;
 
 namespace ZKEACMS.Layout
 {
-    [ViewConfigure(typeof(LayoutEntityMetaData)), Table("CMS_Layout")]
+    [Table("CMS_Layout")]
     public class LayoutEntity : EditorEntity, IImage
     {
         public const string DefaultThumbnial = "~/images/layout.jpg";

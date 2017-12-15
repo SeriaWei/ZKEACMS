@@ -11,7 +11,7 @@ using Easy.LINQ;
 
 namespace ZKEACMS.Product.Models
 {
-    [ViewConfigure(typeof(ProductMetaData)), Table("Product")]
+    [Table("Product")]
     public class ProductEntity : EditorEntity, IImage
     {
         public ProductEntity()

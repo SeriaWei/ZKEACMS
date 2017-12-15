@@ -38,6 +38,10 @@ using Easy.Mvc.Authorize;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
+using ZKEACMS.Article.Models;
+using ZKEACMS.Common.Models;
+using ZKEACMS.Product.Models;
+using System;
 
 namespace ZKEACMS
 {
@@ -83,12 +87,40 @@ namespace ZKEACMS
             services.AddTransient<IPackageInstaller, DataDictionaryPackageInstaller>();
             services.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             services.AddTransient<IEventViewerService, EventViewerService>();
+
+            services.ConfigureMetaData<ArticleEntity, ArticleEntityMeta>();
+            services.ConfigureMetaData<ArticleType, ArtycleTypeMetaData>();
+            services.ConfigureMetaData<BreadcrumbWidget, BreadcrumbWidgetMetaData>();
+            services.ConfigureMetaData<CarouselEntity, CarouselEntityMetaData>();
+            services.ConfigureMetaData<CarouselWidget, CarouselWidgetMetaData>();
+            services.ConfigureMetaData<CarouselItemEntity, CarouselItemEntityMeta>();
+            services.ConfigureMetaData<HtmlWidget, HtmlWidgetMetaData>();
+            services.ConfigureMetaData<ImageWidget, ImageWidgetMedaData>();
+            services.ConfigureMetaData<NavigationEntity, NavigationEntityMeta>();
+            services.ConfigureMetaData<NavigationWidget, NavigationWidgetMetaData>();
+            services.ConfigureMetaData<ScriptWidget, ScriptWidgetMetaData>();
+            services.ConfigureMetaData<StyleSheetWidget, StyleSheetWidgetMetaData>();
+            services.ConfigureMetaData<VideoWidget, VideoWidgetMetaData>();
+            services.ConfigureMetaData<DataArchived.DataArchived, DataArchivedMetaData>();
+            services.ConfigureMetaData<ExtendFieldEntity, ExtendFieldEntityMetaData>();
+            services.ConfigureMetaData<LayoutEntity, LayoutEntityMetaData>();
+            services.ConfigureMetaData<MediaEntity, MediaEntityMetaData>();
+            services.ConfigureMetaData<PageEntity, PageMetaData>();
+            services.ConfigureMetaData<ProductEntity, ProductMetaData>();
+            services.ConfigureMetaData<ProductCategory, ProductCategoryMetaData>();
+            services.ConfigureMetaData<ProductImage, ProductImageMetaData>();
+            services.ConfigureMetaData<ApplicationSetting, ApplicationSettingMedaData>();
+            services.ConfigureMetaData<ThemeEntity, ThemeEntityMetaData>();
+            services.ConfigureMetaData<WidgetTemplateEntity, WidgetTemplateMetaData>();
+            services.ConfigureMetaData<ZoneEntity, ZoneEntityMetaData>();
+            
+
             services.AddDbContext<CMSDbContext>();
 
             services.Configure<DatabaseOption>(configuration.GetSection("Database"));
 
-            services.UseEasyFrameWork(configuration, hostingEnvironment)
-                .LoadEnablePlugins(services)
+            services.UseEasyFrameWork(configuration);
+            services.LoadAvailablePlugins()
                 .Each(p =>
                 {
                     var cmsPlugin = p as PluginBase;
@@ -140,7 +172,7 @@ namespace ZKEACMS
             applicationBuilder.UseAuthentication();
             applicationBuilder.UseStaticFiles();
             ServiceLocator.HttpContextAccessor = applicationBuilder.ApplicationServices.GetService<IHttpContextAccessor>();
-            applicationBuilder.ApplicationServices.CreatePlugins().Each(p => p.ConfigureApplication(applicationBuilder, hostingEnvironment));
+            applicationBuilder.ApplicationServices.GetPlugins().Each(p => p.ConfigureApplication(applicationBuilder, hostingEnvironment));
             applicationBuilder.UseMvc(routes =>
             {
                 applicationBuilder.ApplicationServices.GetService<IRouteProvider>().GetRoutes().OrderByDescending(route => route.Priority).Each(route =>
@@ -148,6 +180,7 @@ namespace ZKEACMS
                     routes.MapRoute(route.RouteName, route.Template, route.Defaults, route.Constraints, route.DataTokens);
                 });
             });
+            Console.WriteLine("Welcome to use ZKEACMS");
         }
     }
 }

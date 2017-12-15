@@ -13,7 +13,7 @@ using Easy;
 
 namespace ZKEACMS.SectionWidget.Models
 {
-    [ViewConfigure(typeof(SectionGroupMetaData)), Table("SectionGroup")]
+    [Table("SectionGroup")]
     public class SectionGroup : EditorEntity
     {
         [Key]

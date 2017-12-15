@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Common.Models
 {
-    [ViewConfigure(typeof(StyleSheetWidgetMetaData)), Table("StyleSheetWidget")]
+    [Table("StyleSheetWidget")]
     public class StyleSheetWidget : BasicWidget
     {
         public string StyleSheet { get; set; }

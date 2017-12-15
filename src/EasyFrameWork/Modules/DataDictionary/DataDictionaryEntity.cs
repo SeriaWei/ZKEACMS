@@ -7,7 +7,7 @@ using Easy.Models;
 
 namespace Easy.Modules.DataDictionary
 {
-    [ViewConfigure(typeof(DataDictionaryEntityMetaData)),Table("DataDictionary")]
+    [Table("DataDictionary")]
     public class DataDictionaryEntity : IImage
     {
         [Key]

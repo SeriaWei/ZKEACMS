@@ -11,7 +11,7 @@ using System.Security.Principal;
 
 namespace Easy.Modules.User.Models
 {
-    [ViewConfigure(typeof(UserMetaData)),Table("Users")]
+    [Table("Users")]
     public class UserEntity : HumanBase, IUser, IIdentity
     {
         [Key]

@@ -16,6 +16,8 @@ using Microsoft.Extensions.Configuration;
 using Alipay.AopSdk.F2FPay.AspnetCore;
 using ZKEACMS.Shop.Payment;
 using ZKEACMS.Account;
+using Easy;
+using ZKEACMS.Shop.Models;
 
 namespace ZKEACMS.Shop
 {
@@ -97,6 +99,11 @@ namespace ZKEACMS.Shop
             serviceCollection.TryAddTransient<IOrderService, OrderService>();
             serviceCollection.TryAddTransient<IOrderItemService, OrderItemService>();
             serviceCollection.AddTransient<IUserCenterLinksProvider, ShopCenterLinksProvider>();
+
+            serviceCollection.ConfigureMetaData<Basket, BasketMetaData>();
+            serviceCollection.ConfigureMetaData<Order, OrderMetaData>();
+            serviceCollection.ConfigureMetaData<OrderItem, OrderItemMetaData>();
+
             serviceCollection.AddDbContext<OrderDbContext>();
 
             var configuration = new ConfigurationBuilder()

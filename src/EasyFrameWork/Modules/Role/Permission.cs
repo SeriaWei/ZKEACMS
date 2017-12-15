@@ -6,7 +6,7 @@ using Easy.Models;
 
 namespace Easy.Modules.Role
 {
-    [ViewConfigure(typeof(PermissionMetaData)),Table("Permission")]
+    [Table("Permission")]
     public class Permission : EditorEntity
     {
         public string PermissionKey { get; set; }        

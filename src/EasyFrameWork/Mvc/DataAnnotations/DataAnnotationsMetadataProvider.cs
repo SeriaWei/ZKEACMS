@@ -23,8 +23,8 @@ namespace Easy.Mvc.DataAnnotations
             {
                 throw new ArgumentNullException(nameof(context));
             }
-            var viewConfig = ViewConfigureAttribute.GetAttribute(context.Key.ContainerType);
 
+            var viewConfig = ServiceLocator.GetViewConfigure(context.Key.ContainerType);
 
             var displayMetadata = context.DisplayMetadata;
             if (viewConfig != null && context.Key.Name.IsNotNullAndWhiteSpace())
@@ -37,10 +37,8 @@ namespace Easy.Mvc.DataAnnotations
                     {
                         displayMetadata.DisplayName = () =>
                         {
-                            var attr = ViewConfigureAttribute.GetAttribute(context.Key.ContainerType);
-                            attr.InitDisplayName();
-                            var descriptop = attr.GetViewPortDescriptor(context.Key.Name);
-                            return descriptop.DisplayName;
+                            var attr = ServiceLocator.GetViewConfigure(context.Key.ContainerType);
+                            return attr.GetViewPortDescriptor(context.Key.Name).DisplayName;
                         };
                     }
 
@@ -71,7 +69,9 @@ namespace Easy.Mvc.DataAnnotations
             {
                 throw new ArgumentNullException(nameof(context));
             }
-            var viewConfig = ViewConfigureAttribute.GetAttribute(context.Key.ContainerType);
+
+            var viewConfig = ServiceLocator.GetViewConfigure(context.Key.ContainerType);
+
             if (viewConfig != null && context.Key.Name.IsNotNullAndWhiteSpace())
             {
                 var descriptor = viewConfig.GetViewPortDescriptor(context.Key.Name);
@@ -105,9 +105,9 @@ namespace Easy.Mvc.DataAnnotations
                         else if (v is RequiredValidator)
                         {
                             RequiredValidator valid = (RequiredValidator)v;
-                            RequiredAttribute remote = new RequiredAttribute();
-                            remote.ErrorMessage = valid.ErrorMessage;
-                            context.ValidationMetadata.ValidatorMetadata.Add(remote);
+                            RequiredAttribute required = new RequiredAttribute();
+                            required.ErrorMessage = valid.ErrorMessage;
+                            context.ValidationMetadata.ValidatorMetadata.Add(required);
                         }
                         else if (v is StringLengthValidator)
                         {

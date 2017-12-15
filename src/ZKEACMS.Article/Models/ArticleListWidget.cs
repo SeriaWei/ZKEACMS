@@ -17,7 +17,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.Article.Models
 {
-    [ViewConfigure(typeof(ArticleListWidgetMeta)), Table("ArticleListWidget")]
+    [Table("ArticleListWidget")]
     public class ArticleListWidget : BasicWidget
     {
         public int ArticleTypeID { get; set; }

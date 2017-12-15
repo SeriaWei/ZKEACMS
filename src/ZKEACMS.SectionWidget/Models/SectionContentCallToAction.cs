@@ -6,7 +6,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.SectionWidget.Models
 {
-    [ViewConfigure(typeof(SectionContentCallToActionMetaData)), Table("SectionContentCallToAction")]
+    [Table("SectionContentCallToAction")]
     public class SectionContentCallToAction : SectionContentBasic
     {
         public string InnerText { get; set; }

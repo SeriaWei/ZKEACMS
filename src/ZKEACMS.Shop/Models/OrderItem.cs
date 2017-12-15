@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.Shop.Models
 {
-    [ViewConfigure(typeof(OrderItemMetaData)), Table("OrderItem")]
+    [Table("OrderItem")]
     public class OrderItem : EditorEntity
     {
         [Key]

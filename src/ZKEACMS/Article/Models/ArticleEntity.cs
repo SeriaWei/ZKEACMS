@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ZKEACMS.Article.Models
 {
-    [ViewConfigure(typeof(ArticleEntityMeta)), Table("Article")]
+    [Table("Article")]
     public class ArticleEntity : EditorEntity, IImage
     {
         [Key]

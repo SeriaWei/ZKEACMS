@@ -7,6 +7,7 @@ using Easy.Mvc.Route;
 using ZKEACMS.Common.Models;
 using ZKEACMS.Product.Models;
 using ZKEACMS.Product.Service;
+using Easy;
 
 namespace ZKEACMS.Product
 {
@@ -101,6 +102,11 @@ namespace ZKEACMS.Product
             serviceCollection.AddTransient<IProductCategoryTagService, ProductCategoryTagService>();
             serviceCollection.AddTransient<IProductTagService, ProductTagService>();
             serviceCollection.AddTransient<IProductImageService, ProductImageService>();
+
+            serviceCollection.ConfigureMetaData<ProductCategoryWidget, ProductCategoryWidgetMedata>();
+            serviceCollection.ConfigureMetaData<ProductDetailWidget, ProductDetailWidgetMetaData>();
+            serviceCollection.ConfigureMetaData<ProductListWidget, ProductListWidgetMetaData>();
+
             serviceCollection.AddDbContext<ProductDbContext>();
         }
         

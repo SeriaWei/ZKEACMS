@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Easy.RepositoryPattern;
 using ZKEACMS.Redirection.Service;
+using Easy;
+using ZKEACMS.Redirection.Models;
 
 namespace ZKEACMS.Redirection
 {
@@ -75,6 +77,9 @@ namespace ZKEACMS.Redirection
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.TryAddTransient<IUrlRedirectService, UrlRedirectService>();
+
+            serviceCollection.ConfigureMetaData<UrlRedirect, UrlRedirectMetaData>();
+
             serviceCollection.AddDbContext<RedirectionDbContext>();
         }
     }

@@ -8,7 +8,6 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Message.Models
 {
-    [ViewConfigure(typeof(CommentsWidgetMetaData))]
     public class CommentsWidget : SimpleWidgetBase
     {
     }

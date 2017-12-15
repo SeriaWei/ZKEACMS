@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Common.Models
 {
-    [ViewConfigure(typeof(CarouselEntityMetaData)),Table("Carousel")]
+    [Table("Carousel")]
     public class CarouselEntity : EditorEntity
     {
         public CarouselEntity()

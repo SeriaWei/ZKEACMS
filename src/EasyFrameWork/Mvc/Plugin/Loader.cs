@@ -28,10 +28,15 @@ namespace Easy.Mvc.Plugin
         public IHostingEnvironment HostingEnvironment { get; set; }
         public IEnumerable<IPluginStartup> LoadEnablePlugins(IServiceCollection serviceCollection)
         {
-            GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>
+            var t1 = DateTime.Now;
+            Loaders.AddRange(GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Select(m =>
             {
                 var loader = new AssemblyLoader();
-                var assemblies = loader.LoadPlugin(Path.Combine(m.RelativePath, (HostingEnvironment.IsDevelopment() ? Path.Combine(AltDevelopmentPath) : string.Empty), m.FileName));
+                var assemblyPath = Path.Combine(m.RelativePath, (HostingEnvironment.IsDevelopment() ? Path.Combine(AltDevelopmentPath) : string.Empty), m.FileName);
+
+                Console.WriteLine("Loading: {0}", m.FileName);
+
+                var assemblies = loader.LoadPlugin(assemblyPath.Replace(HostingEnvironment.ContentRootPath, "./"));
                 assemblies.Each(assembly =>
                 {
                     if (!LoadedAssemblies.ContainsKey(assembly.FullName))
@@ -39,9 +44,10 @@ namespace Easy.Mvc.Plugin
                         LoadedAssemblies.Add(assembly.FullName, assembly);
                     }
                 });
-                Loaders.Add(loader);
-            });
-            return serviceCollection.ConfigurePlugin().BuildServiceProvider().CreatePlugins();
+                return loader;
+            }));
+            Console.WriteLine("All plugins loaded. Elapsed:{0}", DateTime.Now - t1);
+            return serviceCollection.ConfigurePlugin().BuildServiceProvider().GetPlugins();
         }
 
         public IEnumerable<Assembly> GetPluginAssemblies()

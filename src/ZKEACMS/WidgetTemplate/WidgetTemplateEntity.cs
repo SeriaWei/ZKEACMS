@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ZKEACMS.WidgetTemplate
 {
-    [ViewConfigure(typeof(WidgetTemplateMetaData)), Table("CMS_WidgetTemplate")]
+    [Table("CMS_WidgetTemplate")]
     public class WidgetTemplateEntity : EditorEntity
     {
         [Key]

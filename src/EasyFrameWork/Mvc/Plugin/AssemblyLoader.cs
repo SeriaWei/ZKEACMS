@@ -24,7 +24,7 @@ namespace Easy.Mvc.Plugin
         public IServiceProvider ServiceProvider { get; set; }
         private Assembly CurrentAssembly;
         private List<Assembly> DependencyAssemblies = new List<Assembly>();
-        private Type PluginType = typeof(IPluginStartup);
+        private TypeInfo PluginTypeInfo = typeof(IPluginStartup).GetTypeInfo();
         public IEnumerable<Assembly> LoadPlugin(string path)
         {
             if (CurrentAssembly == null)
@@ -115,7 +115,7 @@ namespace Easy.Mvc.Plugin
                 {
                     controllers.Add(typeInfo);
                 }
-                else if (PluginType.IsAssignableFrom(typeInfo.AsType()))
+                else if (PluginTypeInfo.IsAssignableFrom(typeInfo))
                 {
                     plugin = new PluginDescriptor();
                     plugin.PluginType = typeInfo.AsType();

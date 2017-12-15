@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Common.Models
 {
-    [ViewConfigure(typeof(ImageWidgetMedaData)),Table("ImageWidget")]
+    [Table("ImageWidget")]
     public class ImageWidget : BasicWidget
     {
         public string ImageUrl { get; set; }

@@ -7,6 +7,8 @@ using ZKEACMS.Common.Models;
 using Microsoft.Extensions.DependencyInjection;
 using ZKEACMS.Article.Service;
 using ZKEACMS.Setting;
+using Easy;
+using ZKEACMS.Article.Models;
 
 namespace ZKEACMS.Article
 {
@@ -76,6 +78,12 @@ namespace ZKEACMS.Article
         {
             serviceCollection.AddTransient<IArticleService, ArticleService>();
             serviceCollection.AddTransient<IArticleTypeService, ArticleTypeService>();
+
+            serviceCollection.ConfigureMetaData<ArticleDetailWidget, ArticleDetailWidgetMetaData>();
+            serviceCollection.ConfigureMetaData<ArticleListWidget, ArticleListWidgetMeta>();
+            serviceCollection.ConfigureMetaData<ArticleSummaryWidget, ArticleSummaryWidgetMetaData>();
+            serviceCollection.ConfigureMetaData<ArticleTopWidget, ArticleTopWidgetMetaData>();
+            serviceCollection.ConfigureMetaData<ArticleTypeWidget, ArticleTypeWidgetMetaData>();
 
             serviceCollection.AddDbContext<ArticleDbContext>();
         }

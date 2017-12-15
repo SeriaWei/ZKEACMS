@@ -16,7 +16,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.Product.Models
 {
-    [ViewConfigure(typeof(ProductListWidgetMetaData)), Table("ProductListWidget")]
+    [Table("ProductListWidget")]
     public class ProductListWidget : BasicWidget
     {
         public bool IsPageable { get; set; }

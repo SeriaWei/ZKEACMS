@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Article.Models
 {
-    [ViewConfigure(typeof(ArtycleTypeMetaData)), Table("ArticleType")]
+    [Table("ArticleType")]
     public class ArticleType : EditorEntity
     {
         [Key]

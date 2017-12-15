@@ -10,13 +10,15 @@ namespace Easy.Mvc.Plugin
         public static List<PluginDescriptor> LoadedPlugins { get; set; } = new List<PluginDescriptor>();
         public static IServiceCollection ConfigurePlugin(this IServiceCollection serviceCollection)
         {
+            var pluginType = typeof(IPluginStartup);
             foreach (var item in LoadedPlugins)
             {
+                serviceCollection.AddTransient(pluginType, item.PluginType);
                 serviceCollection.AddTransient(item.PluginType);
             }
             return serviceCollection;
         }
-        public static IEnumerable<IPluginStartup> CreatePlugins(this IServiceProvider serviceProvider)
+        public static IEnumerable<IPluginStartup> GetPlugins(this IServiceProvider serviceProvider)
         {
             foreach (var item in LoadedPlugins)
             {

@@ -69,7 +69,20 @@ namespace Easy.ViewPort.Descriptor
         /// <summary>
         /// 显示名称
         /// </summary>
-        public string DisplayName { get; set; }
+        private string _displayName;
+        public string DisplayName
+        {
+            get
+            {
+                if (_displayName.IsNotNullAndWhiteSpace())
+                {
+                    return _displayName;
+                }
+                return Localization.Get($"{ModelType.Name}@{Name}");
+            }
+            set { _displayName = value; }
+        }
+
 
         public object DefaultValue { get; set; }
 

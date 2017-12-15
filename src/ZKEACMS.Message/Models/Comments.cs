@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.Message.Models
 {
-    [ViewConfigure(typeof(CommentsMetadata)), Table("Comments")]
+    [Table("Comments")]
     public class Comments : EditorEntity
     {
         [Key]

@@ -12,7 +12,7 @@ using Easy.Extend;
 
 namespace ZKEACMS.Common.Models
 {
-    [ViewConfigure(typeof(NavigationWidgetMetaData)),Table("NavigationWidget")]
+    [Table("NavigationWidget")]
     public class NavigationWidget : BasicWidget
     {
         public string Logo { get; set; }

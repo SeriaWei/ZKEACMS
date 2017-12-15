@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Easy.Modules.Role
 {
-    [ViewConfigure(typeof(UserRoleRelationMetaData)), Table("UserRoleRelation")]
+    [Table("UserRoleRelation")]
     public class UserRoleRelation : EditorEntity
     {
         [Key]

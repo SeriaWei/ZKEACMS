@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Message.Models
 {
-    [ViewConfigure(typeof(MessageMetaData)), Table("CMS_Message")]
+    [Table("CMS_Message")]
     public class MessageEntity : EditorEntity
     {
         [Key]

@@ -7,7 +7,7 @@ using Easy.Models;
 
 namespace Easy.Modules.Role
 {
-    [ViewConfigure(typeof(RoleMetaData)),Table("Roles")]
+    [Table("Roles")]
     public class RoleEntity : EditorEntity
     {
         [Key]

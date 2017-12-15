@@ -9,7 +9,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.Common.Models
 {
-    [ViewConfigure(typeof(CarouselItemEntityMeta)), Table("CarouselItem")]
+    [Table("CarouselItem")]
     public class CarouselItemEntity : EditorEntity
     {
         [Key]

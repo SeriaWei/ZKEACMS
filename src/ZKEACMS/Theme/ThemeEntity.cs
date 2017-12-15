@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Theme
 {
-    [ViewConfigure(typeof(ThemeEntityMetaData)), Table("CMS_Theme")]
+    [Table("CMS_Theme")]
     public class ThemeEntity : EditorEntity
     {
         public const string DefaultThumbnail = "~/Content/Images/theme.jpg";

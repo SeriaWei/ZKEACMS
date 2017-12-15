@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ZKEACMS.Page
 {
-    [ViewConfigure(typeof(PageBaseMetaData)), Table("CMS_Page")]
+    [Table("CMS_Page")]
     public class PageEntity : EditorEntity
     {
         [Key]
@@ -50,7 +50,7 @@ namespace ZKEACMS.Page
         [NotMapped]
         public string Favicon { get; set; }
     }
-    class PageBaseMetaData : ViewMetaData<PageEntity>
+    class PageMetaData : ViewMetaData<PageEntity>
     {
 
         protected override void ViewConfigure()

@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Easy.RepositoryPattern;
 using ZKEACMS.FormGenerator.Service;
+using Easy;
+using ZKEACMS.FormGenerator.Models;
 
 namespace ZKEACMS.FormGenerator
 {
@@ -94,6 +96,10 @@ namespace ZKEACMS.FormGenerator
             serviceCollection.TryAddTransient<IFormService, FormService>();
             serviceCollection.TryAddTransient<IFormDataService, FormDataService>();
             serviceCollection.TryAddTransient<IFormDataItemService, FormDataItemService>();
+
+            serviceCollection.ConfigureMetaData<Form, FormMetaData>();
+            serviceCollection.ConfigureMetaData<FormData, FormDataMetaData>();
+            serviceCollection.ConfigureMetaData<FormWidget, FormWidgetMetaData>();
 
             serviceCollection.AddDbContext<FormGeneratorDbContext>();
         }

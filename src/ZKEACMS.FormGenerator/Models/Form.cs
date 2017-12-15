@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.FormGenerator.Models
 {
-    [ViewConfigure(typeof(FormMetaData)), Table("Forms")]
+    [Table("Forms")]
     public class Form : EditorEntity
     {
         [Key]

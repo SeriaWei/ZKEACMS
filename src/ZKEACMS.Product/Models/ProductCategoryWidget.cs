@@ -12,7 +12,7 @@ using Easy.Constant;
 
 namespace ZKEACMS.Product.Models
 {
-    [ViewConfigure(typeof(ProductCategoryWidgetMedata)), Table("ProductCategoryWidget")]
+    [Table("ProductCategoryWidget")]
     public class ProductCategoryWidget : BasicWidget
     {
         public int ProductCategoryID { get; set; }

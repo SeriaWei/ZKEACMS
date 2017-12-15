@@ -10,6 +10,7 @@ using ZKEACMS.SectionWidget.Service;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using System.Reflection;
 using ZKEACMS.SectionWidget.Models;
+using Easy;
 
 namespace ZKEACMS.SectionWidget
 {
@@ -71,6 +72,14 @@ namespace ZKEACMS.SectionWidget
             serviceCollection.AddTransient<ISectionContentService, SectionContentVideoService>();
             serviceCollection.AddTransient<ISectionWidgetService, SectionWidgetService>();
             serviceCollection.AddTransient<ISectionTemplateService, SectionTemplateService>();
+
+            serviceCollection.ConfigureMetaData<SectionContentCallToAction, SectionContentCallToActionMetaData>();
+            serviceCollection.ConfigureMetaData<SectionContentImage, SectionContentImageMetaData>();
+            serviceCollection.ConfigureMetaData<SectionContentParagraph, SectionContentParagraphMetaData>();
+            serviceCollection.ConfigureMetaData<SectionContentTitle, SectionContentTitleMetaData>();
+            serviceCollection.ConfigureMetaData<SectionContentVideo, SectionContentVideoMetaData>();
+            serviceCollection.ConfigureMetaData<SectionGroup, SectionGroupMetaData>();
+            serviceCollection.ConfigureMetaData<Models.SectionWidget, SectionWidgetMetaData>();
 
             serviceCollection.AddDbContext<SectionDbContext>();
 

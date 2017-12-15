@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.Shop.Models
 {
-    [ViewConfigure(typeof(BasketMetaData)), Table("Basket")]
+    [Table("Basket")]
     public class Basket : EditorEntity
     {
         [Key]

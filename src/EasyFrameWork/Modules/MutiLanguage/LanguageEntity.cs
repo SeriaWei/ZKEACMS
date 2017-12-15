@@ -6,7 +6,7 @@ using Easy.Models;
 
 namespace Easy.Modules.MutiLanguage
 {
-    [ViewConfigure(typeof(LanguageEntityMetaData)), Table("Language")]
+    [Table("Language")]
     public class LanguageEntity
     {
         [Key]

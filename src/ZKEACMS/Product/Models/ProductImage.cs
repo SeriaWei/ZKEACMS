@@ -9,7 +9,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.Product.Models
 {
-    [ViewConfigure(typeof(ProductImageMetaData)), Table("ProductImage")]
+    [Table("ProductImage")]
     public class ProductImage : EditorEntity
     {
         [Key]

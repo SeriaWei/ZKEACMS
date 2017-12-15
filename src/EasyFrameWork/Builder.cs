@@ -24,12 +24,15 @@ using Easy.Notification;
 using Microsoft.AspNetCore.Authorization;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using System.Collections.Generic;
+using Easy.Modules.User.Models;
+using Easy.MetaData;
 
 namespace Easy
 {
     public static class Builder
     {
-        public static IPluginLoader UseEasyFrameWork(this IServiceCollection services, IConfigurationRoot configuration, IHostingEnvironment hostingEnvironment)
+        public static void UseEasyFrameWork(this IServiceCollection services, IConfigurationRoot configuration)
         {
             services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<RazorViewEngineOptions>, PluginRazorViewEngineOptionsSetup>());
 
@@ -56,8 +59,15 @@ namespace Easy
             services.AddTransient<INotifyService, RazorEmailNotifyService>();
             services.AddTransient<IPluginLoader, Loader>();
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
-
             services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
+
+            services.ConfigureMetaData<UserEntity, UserMetaData>();
+            services.ConfigureMetaData<DataDictionaryEntity, DataDictionaryEntityMetaData>();
+            services.ConfigureMetaData<LanguageEntity, LanguageEntityMetaData>();
+            services.ConfigureMetaData<Permission, PermissionMetaData>();
+            services.ConfigureMetaData<RoleEntity, RoleMetaData>();
+            services.ConfigureMetaData<UserRoleRelation, UserRoleRelationMetaData>();
+
 
             services.Configure<CDNOption>(configuration.GetSection("CDN"));
             services.Configure<CultureOption>(configuration.GetSection("Culture"));
@@ -65,8 +75,19 @@ namespace Easy
             services.AddDataProtection();
 
             services.AddDbContext<EasyDbContext>();
+        }
 
-            return new Loader(hostingEnvironment);
+        public static void ConfigureMetaData<TEntity, TMetaData>(this IServiceCollection service)
+            where TMetaData : ViewMetaData<TEntity>
+            where TEntity : class
+        {
+            service.AddSingleton<ViewMetaData<TEntity>, TMetaData>();
+        }
+
+        public static IEnumerable<IPluginStartup> LoadAvailablePlugins(this IServiceCollection services)
+        {
+            var pluginStartup = ActivatorUtilities.GetServiceOrCreateInstance<IPluginLoader>(services.BuildServiceProvider());
+            return pluginStartup.LoadEnablePlugins(services);
         }
 
         public static IApplicationBuilder UsePluginStaticFile(this IApplicationBuilder builder)

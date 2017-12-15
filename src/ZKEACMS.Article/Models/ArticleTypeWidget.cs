@@ -10,7 +10,7 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Models
 {
-    [ViewConfigure(typeof(ArticleTypeWidgetMetaData)), Table("ArticleTypeWidget")]
+    [Table("ArticleTypeWidget")]
     public class ArticleTypeWidget : BasicWidget
     {
         public int ArticleTypeID { get; set; }

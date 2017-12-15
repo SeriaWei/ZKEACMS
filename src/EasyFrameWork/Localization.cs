@@ -72,7 +72,7 @@ namespace Easy
         public static void RemoveCache(string lanKey)
         {
             LanguageCache.Remove(lanKey);
-            ViewConfigureAttribute.ClearCache();
+            //ViewConfigureAttribute.ClearCache();
         }
     }
 }

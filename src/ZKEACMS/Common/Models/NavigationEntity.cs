@@ -7,7 +7,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.Common.Models
 {
-    [ViewConfigure(typeof(NavigationEntityMeta)),Table("Navigation")]
+    [Table("Navigation")]
     public class NavigationEntity : EditorEntity
     {
         [Key]

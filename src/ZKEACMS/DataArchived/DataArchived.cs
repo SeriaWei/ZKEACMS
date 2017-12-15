@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.DataArchived
 {
-    [ViewConfigure(typeof(DataArchivedMetaData)), Table("DataArchived")]
+    [Table("DataArchived")]
     public class DataArchived : EditorEntity
     {
         [Key]

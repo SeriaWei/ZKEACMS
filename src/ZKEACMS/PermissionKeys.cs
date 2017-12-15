@@ -1,4 +1,4 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+ï»¿/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.Extend;
 using Easy.Mvc.Authorize;
 using Microsoft.AspNetCore.Authorization;
@@ -40,26 +40,26 @@ namespace ZKEACMS
 
         public static List<PermissionDescriptor> KnownPermissions = new List<PermissionDescriptor>
         {
-            new PermissionDescriptor { Module="Ò³Ãæ",Title="²é¿´Ò³Ãæ",Key=ViewPage,Description="²é¿´Ò³Ãæ" },
-            new PermissionDescriptor { Module="Ò³Ãæ",Title="¹ÜÀíÒ³Ãæ",Key=ManagePage,Description="¹ÜÀíÒ³Ãæ" },
-            new PermissionDescriptor { Module="²¼¾Ö",Title="²é¿´²¼¾Ö",Key=ViewLayout,Description="²é¿´²¼¾Ö" },
-            new PermissionDescriptor { Module="²¼¾Ö",Title="¹ÜÀí²¼¾Ö",Key=ManageLayout,Description="¹ÜÀí²¼¾Ö" },
-            new PermissionDescriptor { Module="µ¼º½",Title="²é¿´µ¼º½",Key=ViewNavigation,Description="²é¿´µ¼º½" },
-            new PermissionDescriptor { Module="µ¼º½",Title="¹ÜÀíµ¼º½",Key=ManageNavigation,Description="¹ÜÀíµ¼º½" },
-            new PermissionDescriptor { Module="Ö÷Ìâ",Title="²é¿´Ö÷Ìâ",Key=ViewTheme,Description="²é¿´Ö÷Ìâ" },
-            new PermissionDescriptor { Module="Ö÷Ìâ",Title="¹ÜÀíÖ÷Ìâ",Key=ManageTheme,Description="¹ÜÀíÖ÷Ìâ" },
-            new PermissionDescriptor { Module="Ã½Ìå¿â",Title="²é¿´Ã½Ìå¿â",Key=ViewMedia,Description="²é¿´Ã½Ìå¿â" },
-            new PermissionDescriptor { Module="Ã½Ìå¿â",Title="¹ÜÀíÃ½Ìå¿â",Key=ManageMedia,Description="¹ÜÀíÃ½Ìå¿â" },
-            new PermissionDescriptor { Module="½¹µãÍ¼",Title="²é¿´½¹µãÍ¼",Key=ViewCarousel,Description="²é¿´½¹µãÍ¼" },
-            new PermissionDescriptor { Module="½¹µãÍ¼",Title="¹ÜÀí½¹µãÍ¼",Key=ManageCarousel,Description="¹ÜÀí½¹µãÍ¼" },
-            new PermissionDescriptor { Module="°²È«",Title="²é¿´ÓÃ»§",Key=ViewUser,Description="²é¿´ÓÃ»§" },
-            new PermissionDescriptor { Module="°²È«",Title="¹ÜÀíÓÃ»§",Key=ManageUser,Description="¹ÜÀíÓÃ»§" },
-            new PermissionDescriptor { Module="°²È«",Title="²é¿´½ÇÉ«",Key=ViewRole,Description="²é¿´½ÇÉ«" },
-            new PermissionDescriptor { Module="°²È«",Title="¹ÜÀí½ÇÉ«",Key=ManageRole,Description="¹ÜÀí½ÇÉ«" },
-            new PermissionDescriptor { Module="ÉèÖÃ",Title="²é¿´ÉèÖÃ",Key=ViewApplicationSetting,Description="²é¿´ÉèÖÃ" },
-            new PermissionDescriptor { Module="ÉèÖÃ",Title="¹ÜÀíÉèÖÃ",Key=ManageApplicationSetting,Description="¹ÜÀíÉèÖÃ" },
-            new PermissionDescriptor { Module="ÉèÖÃ",Title="²é¿´´íÎóÈÕÖ¾",Key=ManageEventViewer,Description="²é¿´ÏµÍ³Òì³£´íÎóĞÅÏ¢" },
-            new PermissionDescriptor { Module="ÉèÖÃ",Title="·­Òë",Key=ManageLanguage,Description="·­ÒëÏµÍ³ÎÄ±¾¡¢±êÇ©" }
+            new PermissionDescriptor { Module="é¡µé¢",Title="æŸ¥çœ‹é¡µé¢",Key=ViewPage,Description="æŸ¥çœ‹é¡µé¢" },
+            new PermissionDescriptor { Module="é¡µé¢",Title="ç®¡ç†é¡µé¢",Key=ManagePage,Description="ç®¡ç†é¡µé¢" },
+            new PermissionDescriptor { Module="å¸ƒå±€",Title="æŸ¥çœ‹å¸ƒå±€",Key=ViewLayout,Description="æŸ¥çœ‹å¸ƒå±€" },
+            new PermissionDescriptor { Module="å¸ƒå±€",Title="ç®¡ç†å¸ƒå±€",Key=ManageLayout,Description="ç®¡ç†å¸ƒå±€" },
+            new PermissionDescriptor { Module="å¯¼èˆª",Title="æŸ¥çœ‹å¯¼èˆª",Key=ViewNavigation,Description="æŸ¥çœ‹å¯¼èˆª" },
+            new PermissionDescriptor { Module="å¯¼èˆª",Title="ç®¡ç†å¯¼èˆª",Key=ManageNavigation,Description="ç®¡ç†å¯¼èˆª" },
+            new PermissionDescriptor { Module="ä¸»é¢˜",Title="æŸ¥çœ‹ä¸»é¢˜",Key=ViewTheme,Description="æŸ¥çœ‹ä¸»é¢˜" },
+            new PermissionDescriptor { Module="ä¸»é¢˜",Title="ç®¡ç†ä¸»é¢˜",Key=ManageTheme,Description="ç®¡ç†ä¸»é¢˜" },
+            new PermissionDescriptor { Module="åª’ä½“åº“",Title="æŸ¥çœ‹åª’ä½“åº“",Key=ViewMedia,Description="æŸ¥çœ‹åª’ä½“åº“" },
+            new PermissionDescriptor { Module="åª’ä½“åº“",Title="ç®¡ç†åª’ä½“åº“",Key=ManageMedia,Description="ç®¡ç†åª’ä½“åº“" },
+            new PermissionDescriptor { Module="ç„¦ç‚¹å›¾",Title="æŸ¥çœ‹ç„¦ç‚¹å›¾",Key=ViewCarousel,Description="æŸ¥çœ‹ç„¦ç‚¹å›¾" },
+            new PermissionDescriptor { Module="ç„¦ç‚¹å›¾",Title="ç®¡ç†ç„¦ç‚¹å›¾",Key=ManageCarousel,Description="ç®¡ç†ç„¦ç‚¹å›¾" },
+            new PermissionDescriptor { Module="å®‰å…¨",Title="æŸ¥çœ‹ç”¨æˆ·",Key=ViewUser,Description="æŸ¥çœ‹ç”¨æˆ·" },
+            new PermissionDescriptor { Module="å®‰å…¨",Title="ç®¡ç†ç”¨æˆ·",Key=ManageUser,Description="ç®¡ç†ç”¨æˆ·" },
+            new PermissionDescriptor { Module="å®‰å…¨",Title="æŸ¥çœ‹è§’è‰²",Key=ViewRole,Description="æŸ¥çœ‹è§’è‰²" },
+            new PermissionDescriptor { Module="å®‰å…¨",Title="ç®¡ç†è§’è‰²",Key=ManageRole,Description="ç®¡ç†è§’è‰²" },
+            new PermissionDescriptor { Module="è®¾ç½®",Title="æŸ¥çœ‹è®¾ç½®",Key=ViewApplicationSetting,Description="æŸ¥çœ‹è®¾ç½®" },
+            new PermissionDescriptor { Module="è®¾ç½®",Title="ç®¡ç†è®¾ç½®",Key=ManageApplicationSetting,Description="ç®¡ç†è®¾ç½®" },
+            new PermissionDescriptor { Module="è®¾ç½®",Title="æŸ¥çœ‹é”™è¯¯æ—¥å¿—",Key=ManageEventViewer,Description="æŸ¥çœ‹ç³»ç»Ÿå¼‚å¸¸é”™è¯¯ä¿¡æ¯" },
+            new PermissionDescriptor { Module="è®¾ç½®",Title="ç¿»è¯‘",Key=ManageLanguage,Description="ç¿»è¯‘ç³»ç»Ÿæ–‡æœ¬ã€æ ‡ç­¾" }
         };
         public static void Configure(AuthorizationOptions options)
         {
