@@ -36,7 +36,7 @@ namespace Easy.Mvc.Plugin
 
                 Console.WriteLine("Loading: {0}", m.FileName);
 
-                var assemblies = loader.LoadPlugin(assemblyPath.Replace(HostingEnvironment.ContentRootPath, "./"));
+                var assemblies = loader.LoadPlugin(assemblyPath);
                 assemblies.Each(assembly =>
                 {
                     if (!LoadedAssemblies.ContainsKey(assembly.FullName))
