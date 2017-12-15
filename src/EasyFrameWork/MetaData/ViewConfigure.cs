@@ -1,12 +1,13 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2017 ZKEASOFT 
+ * http://www.zkea.net/licenses 
+ */
 
-using Easy.ViewPort.Descriptor;
 using Easy.Extend;
+using Easy.ViewPort.Descriptor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using CacheManager.Core;
 
 namespace Easy.MetaData
 {

@@ -35,11 +35,7 @@ namespace Easy.Mvc.DataAnnotations
                     displayMetadata.AdditionalValues.Add("ViewPortDescriptor", descriptor);
                     if (displayMetadata.DisplayName == null)
                     {
-                        displayMetadata.DisplayName = () =>
-                        {
-                            var attr = ServiceLocator.GetViewConfigure(context.Key.ContainerType);
-                            return attr.GetViewPortDescriptor(context.Key.Name).DisplayName;
-                        };
+                        displayMetadata.DisplayName = () => descriptor.DisplayName;
                     }
 
                     displayMetadata.Order = descriptor.OrderIndex;
