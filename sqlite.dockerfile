@@ -1,4 +1,4 @@
-FROM microsoft/aspnetcore-build:2.0 AS builder
+FROM microsoft/aspnetcore-build:latest AS builder
 WORKDIR /build
 # Copy all files
 COPY . ./
@@ -13,7 +13,7 @@ RUN cp -f /build/DataBase/SQLite/Database-2.4.sqlite /build/src/ZKEACMS.WebHost/
 RUN cp -f /build/DataBase/SQLite/appsettings.json /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/appsettings.json
 
 # Build runtime image
-FROM microsoft/aspnetcore:2.0
+FROM microsoft/aspnetcore:latest
 WORKDIR /zkeacms
 COPY --from=builder /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput .
 EXPOSE 80
