@@ -1,2 +1,3 @@
 @echo off
+@echo Building...
 dotnet build ZKEACMS.sln
