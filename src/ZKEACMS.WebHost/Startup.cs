@@ -6,6 +6,7 @@
  */
 
 using Easy;
+using Easy.Mvc.Resource;
 using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,16 +37,15 @@ namespace ZKEACMS.WebHost
 
         public IHostingEnvironment HostingEnvironment { get; }
         public IConfigurationRoot Configuration { get; }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureResource<DefaultResourceManager>();
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.TryAddTransient<IOnDatabaseConfiguring, EntityFrameWorkConfigure>();
 
             services.UseZKEACMS(Configuration, HostingEnvironment);
-
-            new ResourceManager().Excute();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

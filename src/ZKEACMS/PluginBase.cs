@@ -11,6 +11,7 @@ using ZKEACMS.Widget;
 using Easy.Extend;
 using System.IO;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ZKEACMS
 {
@@ -42,7 +43,7 @@ namespace ZKEACMS
             }
             return string.Empty;
         }
-        public virtual void InitPlug()
+        public virtual void Setup(params object[] args)
         {
             var pluginType = this.GetType();
             if (!pluginPathCache.ContainsKey(pluginType))
@@ -54,7 +55,7 @@ namespace ZKEACMS
             {
                 AdminMenus.Menus.AddRange(menus);
             }
-            this.Excute();
+            this.SetupResource();
             var permissions = this.RegistPermission();
             if (permissions != null)
             {
@@ -85,6 +86,22 @@ namespace ZKEACMS
                     }
                 }
             }
+            if (args != null && args.Length > 0)
+            {
+                foreach (var item in args)
+                {
+                    IServiceCollection serviceCollection = item as IServiceCollection;
+                    if (serviceCollection != null)
+                    {
+                        ConfigureServices(serviceCollection);
+                        if (ActionDescriptorProvider.PluginControllers.ContainsKey(Assembly.FullName))
+                        {
+                            ActionDescriptorProvider.PluginControllers[Assembly.FullName].Each(c => serviceCollection.TryAddTransient(c.AsType()));
+                        }
+                    }
+                }
+            }
+
         }
     }
 }

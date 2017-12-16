@@ -42,6 +42,7 @@ using ZKEACMS.Article.Models;
 using ZKEACMS.Common.Models;
 using ZKEACMS.Product.Models;
 using System;
+using Easy.Mvc.Resource;
 
 namespace ZKEACMS
 {
@@ -113,29 +114,17 @@ namespace ZKEACMS
             services.ConfigureMetaData<ThemeEntity, ThemeEntityMetaData>();
             services.ConfigureMetaData<WidgetTemplateEntity, WidgetTemplateMetaData>();
             services.ConfigureMetaData<ZoneEntity, ZoneEntityMetaData>();
-            
+
 
             services.AddDbContext<CMSDbContext>();
 
             services.Configure<DatabaseOption>(configuration.GetSection("Database"));
 
             services.UseEasyFrameWork(configuration);
-            services.LoadAvailablePlugins()
-                .Each(p =>
-                {
-                    var cmsPlugin = p as PluginBase;
-                    if (cmsPlugin != null)
-                    {
-                        cmsPlugin.InitPlug();
-                    }
-                    p.ConfigureServices(services);
-
-                    if (ActionDescriptorProvider.PluginControllers.ContainsKey(p.Assembly.FullName))
-                    {
-                        ActionDescriptorProvider.PluginControllers[p.Assembly.FullName].Each(c => services.TryAddTransient(c.AsType()));
-                    }
-                });
-
+            foreach (var item in services.LoadAvailablePlugins())
+            {
+                item.Setup(services);
+            }
             foreach (var item in WidgetBase.KnownWidgetService)
             {
                 services.TryAddTransient(item.Value);
@@ -171,8 +160,9 @@ namespace ZKEACMS
             }
             applicationBuilder.UseAuthentication();
             applicationBuilder.UseStaticFiles();
-            ServiceLocator.HttpContextAccessor = applicationBuilder.ApplicationServices.GetService<IHttpContextAccessor>();
-            applicationBuilder.ApplicationServices.GetPlugins().Each(p => p.ConfigureApplication(applicationBuilder, hostingEnvironment));
+            ServiceLocator.Setup(applicationBuilder.ApplicationServices.GetService<IHttpContextAccessor>());
+            applicationBuilder.ConfigureResource();
+            applicationBuilder.ConfigurePlugin(hostingEnvironment);
             applicationBuilder.UseMvc(routes =>
             {
                 applicationBuilder.ApplicationServices.GetService<IRouteProvider>().GetRoutes().OrderByDescending(route => route.Priority).Each(route =>

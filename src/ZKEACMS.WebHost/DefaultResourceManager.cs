@@ -9,7 +9,7 @@ using System;
 
 namespace ZKEACMS.WebHost
 {
-    public class ResourceManager : Easy.Mvc.Resource.ResourceManager
+    public class DefaultResourceManager : ResourceManager
     {
         const string LibraryPath = "~/lib";
         const string ScriptPath = "~/js";

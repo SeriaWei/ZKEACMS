@@ -13,6 +13,7 @@ namespace Easy.Mvc.Plugin
     {
         Assembly Assembly { get; set; }
         string CurrentPluginPath { get; set; }
+        void Setup(params object[] args);
         void ConfigureServices(IServiceCollection services);
         void ConfigureApplication(IApplicationBuilder app, IHostingEnvironment env);
     }

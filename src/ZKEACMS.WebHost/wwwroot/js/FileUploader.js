@@ -1,4 +1,4 @@
-var FileUploader = /** @class */ (function () {
+var FileUploader = (function () {
     function FileUploader(fileData) {
         this.fileData = fileData;
         this.FileData = fileData;

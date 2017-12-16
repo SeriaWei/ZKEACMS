@@ -28,13 +28,13 @@ namespace Easy.Mvc.Plugin
         public IHostingEnvironment HostingEnvironment { get; set; }
         public IEnumerable<IPluginStartup> LoadEnablePlugins(IServiceCollection serviceCollection)
         {
-            var t1 = DateTime.Now;
+            var start = DateTime.Now;
             Loaders.AddRange(GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Select(m =>
             {
                 var loader = new AssemblyLoader();
                 var assemblyPath = Path.Combine(m.RelativePath, (HostingEnvironment.IsDevelopment() ? Path.Combine(AltDevelopmentPath) : string.Empty), m.FileName);
 
-                Console.WriteLine("Loading: {0}", m.FileName);
+                Console.WriteLine("Loading: {0}", m.Name);
 
                 var assemblies = loader.LoadPlugin(assemblyPath);
                 assemblies.Each(assembly =>
@@ -46,7 +46,7 @@ namespace Easy.Mvc.Plugin
                 });
                 return loader;
             }));
-            Console.WriteLine("All plugins loaded. Elapsed:{0}", DateTime.Now - t1);
+            Console.WriteLine("All plugins are loaded. Elapsed: {0}ms", (DateTime.Now - start).Milliseconds);
             return serviceCollection.ConfigurePlugin().BuildServiceProvider().GetPlugins();
         }
 

@@ -23,5 +23,10 @@ namespace Easy.Mvc.Plugin
         {
 
         }
+
+        public virtual void Setup(params object[] args)
+        {
+            
+        }
     }
 }

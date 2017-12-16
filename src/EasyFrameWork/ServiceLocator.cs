@@ -8,8 +8,12 @@ namespace Easy
 {
     public static class ServiceLocator
     {
-        public static IHttpContextAccessor HttpContextAccessor;
+        private static IHttpContextAccessor HttpContextAccessor;
         private static Type MetaDataType = typeof(ViewMetaData<>);
+        public static void Setup(IHttpContextAccessor httpContextAccessor)
+        {
+            HttpContextAccessor = httpContextAccessor;
+        }
         public static T GetService<T>()
         {
             return HttpContextAccessor.HttpContext.RequestServices.GetService<T>();
