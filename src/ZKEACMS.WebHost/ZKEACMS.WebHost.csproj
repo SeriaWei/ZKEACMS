@@ -14,6 +14,7 @@
     <Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
     <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
+    <ServerGarbageCollection>false</ServerGarbageCollection>
   </PropertyGroup>
 
   <ItemGroup>
