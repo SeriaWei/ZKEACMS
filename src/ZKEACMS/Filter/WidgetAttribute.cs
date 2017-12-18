@@ -2,24 +2,19 @@
  * Copyright 2017 ZKEASOFT 
  * http://www.zkea.net/licenses */
 
-using System;
 using Easy.Extend;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
+using System;
 using ZKEACMS.Event;
 using ZKEACMS.Layout;
 using ZKEACMS.Page;
 using ZKEACMS.Setting;
 using ZKEACMS.Theme;
 using ZKEACMS.Widget;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Easy.Mvc;
-using Microsoft.AspNetCore.Mvc;
-using Easy;
-using Easy.Modules.User.Service;
-using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Http;
 
 namespace ZKEACMS.Filter
 {
