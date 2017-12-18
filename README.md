@@ -7,6 +7,9 @@ docker run -d -p 5000:80 zkeasoft/zkeacms
 ```
 ### 发布 / Publish
 ```
+./src/ZKEACMS.WebHost/dotnet restore
+```
+```
 ./src/ZKEACMS.WebHost/dotnet publish-zkeacms
 ```
 ### 包含运行时发布 / Publish width runtime
@@ -22,16 +25,15 @@ ZKEACMS For .Net Core
 纸壳CMS 是基于 ZKEACMS 的 Asp.Net Core 版本。
 
 ### 架设环境 / Runtime
+* .Net Core 2.0
+* Microsoft Sql Serverl 2008+
+* MySql 5.6+
+* SQLite 3
 
-.Net Core 2.0
-
-Microsoft Sql Serverl 2008+
-
-### 开发环境 / Development environment
-
-Microsoft VisualStudio 2017 15.3+
-
-Microsoft Sql Server 2008+
+### 开发工具 / IDE
+* Microsoft Visual Studio 2017 15.3+
+* Visual Studio Code
+* Microsoft Sql Server 2008+
 
 ## 基本思想 / Basic idea
 [http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)
@@ -94,8 +96,6 @@ Widgets that is to enrich the site content widget. You can add a wide range of w
 Template widget can be more easily extended. Directly replace the display template can achieve the effect you want.
 
 纸壳CMS的模板组件可以更方便的进行扩展。直接更换显示模板就可以达到您想要的效果。
-
-![分组](https://cloud.githubusercontent.com/assets/6006218/23801059/9aae6bdc-05e9-11e7-8540-89c5b58dbc99.jpg)
 
 ![显示模板](https://cloud.githubusercontent.com/assets/6006218/23801091/cd3c03d4-05e9-11e7-8196-5ef107fc4442.jpg)
 
