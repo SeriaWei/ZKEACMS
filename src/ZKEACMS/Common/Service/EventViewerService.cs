@@ -29,7 +29,7 @@ namespace ZKEACMS.Common.Service
             var dir = new DirectoryInfo(Path.Combine(_hostingEnvironment.WebRootPath, LoggerFoler));
             if (dir.Exists)
             {
-                return dir.GetFiles("*.txt");
+                return dir.GetFiles("*.txt").OrderByDescending(m => m.Name);
             }
             return Enumerable.Empty<FileInfo>();
         }

@@ -117,8 +117,8 @@ namespace ZKEACMS.Page
                 {
                     var widgetService = _widgetActivator.Create(m);
                     m = widgetService.GetWidget(m);
-
                     m.PageID = page.ID;
+                    widgetService.IsNeedNotifyChange = false;
                     widgetService.Publish(m);
                 });
                 if (!RetainLatest)
