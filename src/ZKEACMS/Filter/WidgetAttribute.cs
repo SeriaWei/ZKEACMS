@@ -42,11 +42,12 @@ namespace ZKEACMS.Filter
                     };
                     //filterContext.HttpContext.Response.Headers[HeaderNames.Vary] = new string[] { "Accept-Encoding" };
                 }
-                else
+                else if (isPreView)
                 {
                     filterContext.HttpContext.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
                     {
-                        NoCache = true
+                        NoCache = true,
+                        NoStore = true
                     };
                 }
                 return pageService.GetByPath(path, isPreView);
