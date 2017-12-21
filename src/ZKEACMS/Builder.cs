@@ -115,6 +115,17 @@ namespace ZKEACMS
             services.ConfigureMetaData<WidgetTemplateEntity, WidgetTemplateMetaData>();
             services.ConfigureMetaData<ZoneEntity, ZoneEntityMetaData>();
 
+            services.Configure<NavigationWidget>(option =>
+            {
+                option.DataSourceLinkTitle = "导航";
+                option.DataSourceLink = "~/admin/Navigation";
+            });
+
+            services.Configure<CarouselWidget>(option =>
+            {
+                option.DataSourceLinkTitle = "焦点图";
+                option.DataSourceLink = "~/admin/Carousel";
+            });
 
             services.AddDbContext<CMSDbContext>();
 

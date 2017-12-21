@@ -103,6 +103,17 @@ namespace ZKEACMS.Product
             serviceCollection.AddTransient<IProductTagService, ProductTagService>();
             serviceCollection.AddTransient<IProductImageService, ProductImageService>();
 
+            serviceCollection.Configure<ProductListWidget>(option =>
+            {
+                option.DataSourceLinkTitle = "产品列表";
+                option.DataSourceLink = "~/admin/Product";
+            });
+            serviceCollection.Configure<ProductCategoryWidget>(option =>
+            {
+                option.DataSourceLinkTitle = "产品类别";
+                option.DataSourceLink = "~/admin/ProductCategory";
+            });
+
             serviceCollection.ConfigureMetaData<ProductCategoryWidget, ProductCategoryWidgetMedata>();
             serviceCollection.ConfigureMetaData<ProductDetailWidget, ProductDetailWidgetMetaData>();
             serviceCollection.ConfigureMetaData<ProductListWidget, ProductListWidgetMetaData>();

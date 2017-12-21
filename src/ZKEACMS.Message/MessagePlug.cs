@@ -85,6 +85,17 @@ namespace ZKEACMS.Message
             serviceCollection.ConfigureMetaData<MessageEntity, MessageMetaData>();
             serviceCollection.ConfigureMetaData<MessageWidget, MessageWidgetMetaData>();
 
+            serviceCollection.Configure<MessageBoxWidget>(option =>
+            {
+                option.DataSourceLinkTitle = "留言";
+                option.DataSourceLink = "~/admin/Message";
+            });
+            serviceCollection.Configure<CommentsWidget>(option =>
+            {
+                option.DataSourceLinkTitle = "评论";
+                option.DataSourceLink = "~/admin/Comments";
+            });
+
             serviceCollection.AddDbContext<MessageDbContext>();
         }
 

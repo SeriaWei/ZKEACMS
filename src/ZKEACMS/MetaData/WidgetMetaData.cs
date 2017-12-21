@@ -36,6 +36,8 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.Description).AsHidden();
             ViewConfig(m => m.CustomClass).AsHidden().Ignore();
             ViewConfig(m => m.CustomStyle).AsHidden().Ignore();
+            ViewConfig(m => m.DataSourceLink).AsHidden().Ignore();
+            ViewConfig(m => m.DataSourceLinkTitle).AsHidden().Ignore();
 
             ViewConfig(m => m.WidgetName).AsTextBox().Order(NextOrder()).Required();
             ViewConfig(m => m.Title).AsTextBox().Order(NextOrder());

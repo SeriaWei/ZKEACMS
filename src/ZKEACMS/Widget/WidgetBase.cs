@@ -82,6 +82,10 @@ namespace ZKEACMS.Widget
                 return _customStyle;
             }
         }
+        [NotMapped]
+        public string DataSourceLink { get; set; }
+        [NotMapped]
+        public string DataSourceLinkTitle { get; set; }
         private void InitStyleClass()
         {
             if (StyleClass.IsNullOrWhiteSpace())
@@ -113,30 +117,6 @@ namespace ZKEACMS.Widget
                 ViewModel = viewModel
             };
         }
-
-
-        //private IWidgetPartDriver _partDriver;
-        //public IWidgetPartDriver CreateServiceInstance(IServiceProvider serviceProvider)
-        //{
-        //    string key = $"{AssemblyName},{ServiceTypeName}";
-        //    if (_partDriver == null && KnownWidgetService.ContainsKey(key))
-        //    {
-        //        return _partDriver = serviceProvider.GetService(KnownWidgetService[key]) as IWidgetPartDriver;
-        //    }
-        //    return _partDriver;
-        //}
-
-
-        //private WidgetBase _widgetBase;
-        //public WidgetBase CreateViewModelInstance(IServiceProvider serviceProvider)
-        //{
-        //    string key = $"{AssemblyName},{ViewModelTypeName}";
-        //    if (_widgetBase == null && KnownWidgetModel.ContainsKey(key))
-        //    {
-        //        _widgetBase = serviceProvider.GetService(KnownWidgetModel[key]) as WidgetBase;
-        //    }
-        //    return CopyTo(_widgetBase);
-        //}
         public Type GetViewModelType()
         {
             string key = $"{AssemblyName},{ViewModelTypeName}";

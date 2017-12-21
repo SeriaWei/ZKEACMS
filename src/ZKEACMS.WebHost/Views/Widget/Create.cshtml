@@ -1,4 +1,5 @@
-﻿@{
+﻿@model WidgetBase
+@{
     Script.Reqiured("validate").AtFoot();
     Script.Reqiured("tinymce").AtFoot();
 }
@@ -12,6 +13,20 @@
     <div class="panel-body">
         @using (Html.BeginForm())
         {
+            if (Model.DataSourceLink.IsNotNullAndWhiteSpace())
+            {
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-12 col-lg-2">
+                            <label class="control-label">内容来源</label>
+                        </div>
+                        <div class="col-md-12 col-lg-10">
+                            <a href="@Url.PathContent(Model.DataSourceLink)" class="btn btn-link" style="padding-left:0">@Model.DataSourceLinkTitle</a>
+                            <code>页面展现的内容</code>
+                        </div>
+                    </div>
+                </div>
+            }
             @Html.EditorForModel()
             <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
             <div class="toolBar">

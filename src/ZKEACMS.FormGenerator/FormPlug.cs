@@ -101,6 +101,12 @@ namespace ZKEACMS.FormGenerator
             serviceCollection.ConfigureMetaData<FormData, FormDataMetaData>();
             serviceCollection.ConfigureMetaData<FormWidget, FormWidgetMetaData>();
 
+            serviceCollection.Configure<FormWidget>(option =>
+            {
+                option.DataSourceLinkTitle = "表单";
+                option.DataSourceLink = "~/admin/Form";
+            });
+
             serviceCollection.AddDbContext<FormGeneratorDbContext>();
         }
     }
