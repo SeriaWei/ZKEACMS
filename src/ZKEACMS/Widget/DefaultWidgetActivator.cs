@@ -16,6 +16,10 @@ namespace ZKEACMS.Widget
         }
         public IWidgetPartDriver Create(WidgetBase widget)
         {
+            if (widget == null)
+            {
+                throw new Exception($"Fail to create widget service. Because the widget is null.");
+            }
             string key = $"{widget.AssemblyName},{widget.ServiceTypeName}";
             if (WidgetBase.KnownWidgetService.ContainsKey(key))
             {
@@ -41,6 +45,10 @@ namespace ZKEACMS.Widget
 
         public WidgetBase CreateWidgetViewModel(WidgetBase widget)
         {
+            if (widget == null)
+            {
+                throw new Exception($"Fail to create widget service. Because the widget is null.");
+            }
             string key = $"{widget.AssemblyName},{widget.ViewModelTypeName}";
             if (WidgetBase.KnownWidgetModel.ContainsKey(key))
             {
