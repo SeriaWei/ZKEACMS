@@ -6,6 +6,7 @@ using Easy;
 using Easy.Mvc;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -79,7 +80,7 @@ namespace ZKEACMS.Controllers
             return Json(result);
         }
 
-        [HttpPost]
+        [HttpPost, AllowAnonymous]
         public JsonResult GetCurrentTheme()
         {
             return Json(Url.Content(Service.GetCurrentTheme().Url));
