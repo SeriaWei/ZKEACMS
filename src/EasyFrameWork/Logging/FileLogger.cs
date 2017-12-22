@@ -10,7 +10,7 @@ namespace Easy.Logging
     public class FileLogger : ILogger
     {
         public static string Path = "Logs";
-        public const string TitleTemplate = "----------------------------------------------------------------\r\nEvent Time：{0}\r\nError Message:\r\n";
+        public const string TitleTemplate = "----------------------------------------------------------------\r\nEvent Time: {0}\r\nError Message:\r\n";
         public const string Split = "\r\n----------------------------------------------------------------\r\n";
         public const string FileTemplate = "LOG_{0}.txt";
         public const string DateNameTemplate = "yyyy-MM-dd";
