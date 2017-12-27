@@ -121,8 +121,12 @@ namespace ZKEACMS.Article.Service
             var currentArticleType = _articleTypeService.Get(cate == 0 ? currentWidget.ArticleTypeID : cate);
             if (currentArticleType != null)
             {
-                var page = actionContext.HttpContext.GetLayout().Page;
-                page.Title = (page.Title ?? "") + " - " + currentArticleType.Title;
+                var layout = actionContext.HttpContext.GetLayout();
+                if (layout != null && layout.Page != null)
+                {
+                    var page = layout.Page;
+                    page.Title = (page.Title ?? "") + " - " + currentArticleType.Title;
+                }
             }
 
             return widget.ToWidgetViewModelPart(new ArticleListWidgetViewModel

@@ -61,9 +61,13 @@ namespace ZKEACMS.Article.Service
                 };
             }
             var layout = actionContext.HttpContext.GetLayout();
-            layout.Page.MetaKeyWorlds = viewModel.Current.MetaKeyWords;
-            layout.Page.MetaDescription = viewModel.Current.MetaDescription;
-            layout.Page.Title = viewModel.Current.Title;
+            if (layout != null && layout.Page != null)
+            {
+                layout.Page.MetaKeyWorlds = viewModel.Current.MetaKeyWords;
+                layout.Page.MetaDescription = viewModel.Current.MetaDescription;
+                layout.Page.Title = viewModel.Current.Title;
+            }
+
             return widget.ToWidgetViewModelPart(viewModel);
         }
     }

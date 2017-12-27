@@ -53,12 +53,14 @@ namespace ZKEACMS.Product.Service
                 };
             }
 
-
-            var page = actionContext.HttpContext.GetLayout().Page;
-            page.MetaDescription = product.SEODescription;
-            page.MetaKeyWorlds = product.SEOKeyWord;
-            page.Title = product.SEOTitle ?? product.Title;
-
+            var layout = actionContext.HttpContext.GetLayout();
+            if (layout != null && layout.Page != null)
+            {
+                var page = layout.Page;
+                page.MetaDescription = product.SEODescription;
+                page.MetaKeyWorlds = product.SEOKeyWord;
+                page.Title = product.SEOTitle ?? product.Title;
+            }
             return widget.ToWidgetViewModelPart(product);
         }
     }

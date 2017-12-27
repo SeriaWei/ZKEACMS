@@ -23,10 +23,12 @@ namespace ZKEACMS.Common.Service
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
-
             List<PageEntity> ParentPages = new List<PageEntity>();
-            GetParentPage(ParentPages, actionContext.HttpContext.GetLayout().Page);
-
+            var layout = actionContext.HttpContext.GetLayout();
+            if (layout != null && layout.Page != null)
+            {
+                GetParentPage(ParentPages, layout.Page);
+            }
             return widget.ToWidgetViewModelPart(ParentPages);
         }
 
