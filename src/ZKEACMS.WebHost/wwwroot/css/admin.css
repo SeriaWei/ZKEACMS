@@ -599,8 +599,12 @@ a.badge:hover {
     }
 
 table.table-bordered.dataTable th, table.table-bordered.dataTable td {
-    white-space: nowrap;
+    vertical-align: middle;
 }
+
+    table.table-bordered.dataTable th, table.table-bordered.dataTable td:first-child {
+        white-space: nowrap;
+    }
 
 div.dataTables_wrapper div.dataTables_processing {
     text-indent: -5000px;
@@ -609,9 +613,10 @@ div.dataTables_wrapper div.dataTables_processing {
     margin-left: -25px;
 }
 
-.tag-selector .panel:last-child{
-    margin-bottom:0;
+.tag-selector .panel:last-child {
+    margin-bottom: 0;
 }
-a[ismobile=true]:after{
-    content:" M"
+
+a[ismobile=true]:after {
+    content: " M"
 }
