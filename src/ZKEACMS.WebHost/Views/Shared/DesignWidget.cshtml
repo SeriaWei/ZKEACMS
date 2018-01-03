@@ -29,9 +29,9 @@
                     <span>拖动</span>
                 </i>
                 <a href="@Url.Action("Edit", "Widget", new { Model.Widget.ID, ReturnUrl = Url.Action("Design", "Page", new {ID = Model.PageID})})"
-                   class="glyphicon glyphicon-edit"
-                   title="编辑组件">
-                    <span>编辑组件</span>
+                   class="glyphicon glyphicon-wrench"
+                   title="组件设置">
+                    <span>组件设置</span>
                 </a>
                 @if (Model.Widget.DataSourceLink.IsNotNullAndWhiteSpace())
                 {
@@ -112,7 +112,7 @@
                     <span>阴影</span>
                 </a>
                 <a href="javascript:void(0)" data-action="@Url.Action("SaveCustomStyle", "Widget", new {Model.Widget.ID})"
-                   title="自定义样式(设置背景图片等)" class="glyphicon glyphicon-erase custom-style-editor">
+                   title="自定义样式(设置背景图片等)" class="glyphicon glyphicon-cog custom-style-editor">
                     <span>自定义样式</span>
                 </a>
                 <a href="javascript:void(0)" class="delete glyphicon glyphicon-trash" title="删除"
