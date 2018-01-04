@@ -8,7 +8,8 @@ namespace ZKEACMS.Common.Service
     public interface IEventViewerService
     {
         IEnumerable<FileInfo> Get();
-        void Delete(string fileName);
+        void Delete(string id);
         void DeleteAll();
+        string ReadLog(string id);
     }
 }

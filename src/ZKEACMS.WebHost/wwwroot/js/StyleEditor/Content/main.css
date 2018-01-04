@@ -47,7 +47,8 @@ fieldset legend {
     margin:0 0 10px;
     font-size: 15px;
     line-height: inherit;
-    color: #B0B8C5;
+    color: #fff;
+    font-weight:bold;
     border: 0;
     background: #242A3B;
     box-shadow: inset 0 1px 0 0 #181A26, inset 0 -1px 0 0 #181A26, inset 1px 0 0 0 #151721;

@@ -1,4 +1,7 @@
 ﻿$(document).ready(function () {
+    function htmlEncode(val) {
+        return (val || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
     $('.dataTable').each(function () {
         var columns = [];
         var order = [];
@@ -38,11 +41,11 @@
                         }
                     }
                     if (!template) {
-                        return data;
+                        return htmlEncode(data);
                     }
                     var result;
                     for (var p in full) {
-                        result = (result || template).replaceAll("{" + p + "}", full[p]);
+                        result = (result || template).replaceAll("{" + p + "}", htmlEncode(full[p]));
                     }
                     return result;
                 },

@@ -19,10 +19,14 @@ namespace ZKEACMS.Controllers
         {
             return View(_eventViewerService.Get());
         }
-        public IActionResult Delete(string fileName)
+        public IActionResult Delete(string id)
         {
-            _eventViewerService.Delete(fileName);
+            _eventViewerService.Delete(id);
             return Json(true);
+        }
+        public IActionResult ViewLog(string id)
+        {
+            return Content(_eventViewerService.ReadLog(id));
         }
     }
 }

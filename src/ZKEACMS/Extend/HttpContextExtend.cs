@@ -15,7 +15,11 @@ namespace ZKEACMS
         }
         public static LayoutEntity GetLayout(this HttpContext httpContext)
         {
-            return httpContext.Items[StringKeys.LayoutItem] as LayoutEntity;
+            if (httpContext.Items.ContainsKey(StringKeys.LayoutItem))
+            {
+                return httpContext.Items[StringKeys.LayoutItem] as LayoutEntity;
+            }
+            return null;
         }
     }
 }
