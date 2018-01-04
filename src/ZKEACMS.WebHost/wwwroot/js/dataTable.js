@@ -1,6 +1,9 @@
 ﻿$(document).ready(function () {
     function htmlEncode(val) {
-        return (val || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        if (typeof val == "string") {
+            return (val || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+        return val;
     }
     $('.dataTable').each(function () {
         var columns = [];
