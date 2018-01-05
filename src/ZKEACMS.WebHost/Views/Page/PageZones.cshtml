@@ -131,12 +131,15 @@
                     布局
                 </a>
             }
-            <a class="btn btn-primary"
-               href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID, preview = false})"
-               target="_blank">
-                <i class="glyphicon glyphicon-new-window"></i>
-                查看已发布版本
-            </a>
+            @if (Model.Page.PublishDate.HasValue)
+            {
+                <a class="btn btn-primary"
+                   href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID, preview = false})"
+                   target="_blank">
+                    <i class="glyphicon glyphicon-new-window"></i>
+                    查看
+                </a>
+            }            
             @if (Authorizer.Authorize(PermissionKeys.ManagePage))
             {
                 <a class="btn btn-primary publish-page" data-id="@Model.PageID" href="javascript:void(0)">
