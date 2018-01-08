@@ -10,10 +10,25 @@
                 @foreach (FileInfo file in Model)
                 {
                     <li style="cursor:default">
-                        <a class="delete" href="@Url.Action("Delete",new { id = file.Name })">
-                            <i class="text-danger glyphicon glyphicon-remove"></i>
-                        </a>
-                        <a href="@Url.Action("ViewLog",new { id = file.Name })" target="_blank">@file.Name</a>
+                        <div class="clearfix">
+                            <div class="pull-left">
+                                <a class="delete" href="@Url.Action("Delete",new { id = file.Name })">
+                                    <i class="text-danger glyphicon glyphicon-remove"></i>
+                                </a>
+                                <a href="@Url.Action("ViewLog",new { id = file.Name })" target="_blank">@file.Name</a>
+                                @if (file.Length >= 1048576)
+                                {
+                                    <span class="text-muted small">@((file.Length / 1048576d).ToString("F2")) MB</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">@((file.Length / 1024d).ToString("F2")) MB</span>
+                                }
+                            </div>
+                            <div class="pull-right">
+                                <a href="@Url.Action("ViewLog",new { id = file.Name })" download="@file.Name">下载</a>
+                            </div>
+                        </div>
                     </li>
                 }
             </ul>
