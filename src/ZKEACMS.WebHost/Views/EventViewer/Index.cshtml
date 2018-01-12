@@ -2,7 +2,7 @@
 
 @model IEnumerable<FileInfo>
 <div class="panel panel-default">
-    <div class="panel-heading">日志</div>
+    <div class="panel-heading">错误日志</div>
     <div class="panel-body">
         @if (Model.Any())
         {
@@ -35,9 +35,9 @@
         }
         else
         {
-            <div class="alert alert-info">
-                没有日志文件
-            </div>
+            <code>
+                没有错误日志，程序运行一切正常
+            </code>
         }
     </div>
 </div>
