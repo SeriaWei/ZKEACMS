@@ -28,12 +28,12 @@ namespace ZKEACMS.DataArchived
             }
         }
 
-        public override void Add(DataArchived item)
+        public override ServiceResult<DataArchived> Add(DataArchived item)
         {
             lock (ArchiveLock)
             {
                 Remove(item.ID);
-                base.Add(item);
+                return base.Add(item);
             }
 
         }

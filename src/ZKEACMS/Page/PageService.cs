@@ -33,7 +33,7 @@ namespace ZKEACMS.Page
                 return (DbContext as CMSDbContext).Page;
             }
         }
-        public override void Add(PageEntity item)
+        public override ServiceResult<PageEntity> Add(PageEntity item)
         {
             if (!item.IsPublishedPage && Count(m => m.Url == item.Url && m.IsPublishedPage == false) > 0)
             {
@@ -44,17 +44,17 @@ namespace ZKEACMS.Page
             {
                 item.ParentId = "#";
             }
-            base.Add(item);
+            return base.Add(item);
         }
 
-        public override void Update(PageEntity item, bool saveImmediately = true)
+        public override ServiceResult<PageEntity> Update(PageEntity item, bool saveImmediately = true)
         {
             if (Count(m => m.ID != item.ID && m.Url == item.Url && m.IsPublishedPage == false) > 0)
             {
                 throw new PageExistException(item);
             }
             item.IsPublish = false;
-            base.Update(item, saveImmediately);
+            return base.Update(item, saveImmediately);
         }
 
         public void Publish(PageEntity item)

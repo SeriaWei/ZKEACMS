@@ -37,9 +37,13 @@ namespace ZKEACMS.Common.Service
             return carousel;
         }
 
-        public override void Add(CarouselEntity item)
+        public override ServiceResult<CarouselEntity> Add(CarouselEntity item)
         {
-            base.Add(item);
+            var result = base.Add(item);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             if (item.CarouselItems != null)
             {
                 item.CarouselItems.Each(m =>
@@ -47,10 +51,15 @@ namespace ZKEACMS.Common.Service
                     m.CarouselID = item.ID;
                     if (m.ActionType == ActionType.Create)
                     {
-                        _carouselItemService.Add(m);
+                        var itemResult = _carouselItemService.Add(m);
+                        if (itemResult.HasViolation)
+                        {
+                            result.RuleViolations.AddRange(itemResult.RuleViolations);
+                        }
                     }
                 });
             }
+            return result;
         }
         private void SaveCarouselItems(CarouselItemEntity item)
         {
@@ -73,9 +82,13 @@ namespace ZKEACMS.Common.Service
                     }
             }
         }
-        public override void Update(CarouselEntity item, bool saveImmediately = true)
+        public override ServiceResult<CarouselEntity> Update(CarouselEntity item, bool saveImmediately = true)
         {
-            base.Update(item, saveImmediately);
+            var result = base.Update(item, saveImmediately);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             if (item.CarouselItems != null)
             {
                 item.CarouselItems.Each(m =>
@@ -84,10 +97,15 @@ namespace ZKEACMS.Common.Service
                     SaveCarouselItems(m);
                 });
             }
+            return result;
         }
-        public override void UpdateRange(params CarouselEntity[] items)
+        public override ServiceResult<CarouselEntity> UpdateRange(params CarouselEntity[] items)
         {
-            base.UpdateRange(items);
+            var result = base.UpdateRange(items);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             items.Each(m =>
             {
                 if (m.CarouselItems != null)
@@ -100,13 +118,14 @@ namespace ZKEACMS.Common.Service
 
                 }
             });
+            return result;
         }
         public override void Remove(CarouselEntity item, bool saveImmediately = true)
         {
             if (item.CarouselItems != null)
             {
                 item.CarouselItems.Each(m => _carouselItemService.Remove(m));
-            }            
+            }
             base.Remove(item, saveImmediately);
         }
     }

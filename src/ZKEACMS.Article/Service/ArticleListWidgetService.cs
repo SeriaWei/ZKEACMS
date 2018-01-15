@@ -52,7 +52,7 @@ namespace ZKEACMS.Article.Service
             return "~/View-Article";
         }
 
-        public override void Add(ArticleListWidget item)
+        public override ServiceResult<ArticleListWidget> Add(ArticleListWidget item)
         {
             if (item.DetailPageUrl.IsNullOrEmpty())
             {
@@ -63,7 +63,7 @@ namespace ZKEACMS.Article.Service
                 item.PageSize = 5;
             }
             item.IsPageable = true;
-            base.Add(item);
+            return base.Add(item);
         }
 
         public override ArticleListWidget Get(params object[] primaryKeys)

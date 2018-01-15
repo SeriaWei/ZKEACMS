@@ -43,10 +43,11 @@ var FileUploader = /** @class */ (function () {
             };
         }
         xhr.onprogress = function (e) {
-            var event = new ProgressEvent("ProgressEvent", { loaded: e.loaded + start, total: uploader.FileData.size });
+            var event = new ProgressEvent("ProgressEvent", { loaded: e.loaded + start, total: uploader.FileData.size, });
             uploader.OnProgress.call(this, event);
         };
         xhr.send(fd);
     };
     return FileUploader;
 }());
+//# sourceMappingURL=FileUploader.js.map

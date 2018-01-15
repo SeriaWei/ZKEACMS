@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Easy.Extend;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Easy.RepositoryPattern
 {
@@ -21,7 +22,7 @@ namespace Easy.RepositoryPattern
             DbContext = dbContext;
             DbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
-        
+
         public virtual DbContext DbContext
         {
             get;
@@ -47,9 +48,42 @@ namespace Easy.RepositoryPattern
                 }
             }
         }
-
-        public virtual void Add(T item)
+        protected ServiceResult<T> Validate(T item)
         {
+            ServiceResult<T> serviceResult = new ServiceResult<T>();
+            var entryType = typeof(T);
+            var viewConfig = ServiceLocator.GetViewConfigure(typeof(T));
+            if (viewConfig != null)
+            {
+                entryType.GetProperties().Each(p =>
+                {
+                    if (p.GetCustomAttribute<NotMappedAttribute>() == null)
+                    {
+                        var descroptor = viewConfig.GetViewPortDescriptor(p.Name);
+                        if (descroptor != null)
+                        {
+                            descroptor.Validator.Each(v =>
+                            {
+                                if (!v.Validate(p.GetValue(item)))
+                                {
+                                    serviceResult.RuleViolations.Add(new RuleViolation(p.Name, v.ErrorMessage));
+                                }
+                            });
+                        }
+                    }
+
+                });
+            }
+            serviceResult.Result = item;
+            return serviceResult;
+        }
+        public virtual ServiceResult<T> Add(T item)
+        {
+            var result = Validate(item);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             var editor = item as EditorEntity;
             if (editor != null)
             {
@@ -66,11 +100,18 @@ namespace Easy.RepositoryPattern
             }
             CurrentDbSet.Add(item);
             DbContext.SaveChanges();
+            return result;
         }
-        public virtual void AddRange(params T[] items)
+        public virtual ServiceResult<T> AddRange(params T[] items)
         {
+            ServiceResult<T> result = new ServiceResult<T>();
             foreach (var item in items)
             {
+                var itemResult = Validate(item);
+                if (itemResult.HasViolation)
+                {
+                    return itemResult;
+                }
                 var editor = item as EditorEntity;
                 if (editor != null)
                 {
@@ -88,6 +129,7 @@ namespace Easy.RepositoryPattern
             }
             CurrentDbSet.AddRange(items);
             DbContext.SaveChanges();
+            return result;
         }
         public virtual IQueryable<T> Get()
         {
@@ -138,8 +180,13 @@ namespace Easy.RepositoryPattern
             }
             return CurrentDbSet.Count();
         }
-        public virtual void Update(T item, bool saveImmediately = true)
+        public virtual ServiceResult<T> Update(T item, bool saveImmediately = true)
         {
+            var result = Validate(item);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             var editor = item as EditorEntity;
             if (editor != null)
             {
@@ -155,11 +202,17 @@ namespace Easy.RepositoryPattern
             {
                 DbContext.SaveChanges();
             }
+            return result;
         }
-        public virtual void UpdateRange(params T[] items)
+        public virtual ServiceResult<T> UpdateRange(params T[] items)
         {
             foreach (var item in items)
             {
+                var itemResult = Validate(item);
+                if (itemResult.HasViolation)
+                {
+                    return itemResult;
+                }
                 var editor = item as EditorEntity;
                 if (editor != null)
                 {
@@ -173,6 +226,7 @@ namespace Easy.RepositoryPattern
             }
             CurrentDbSet.UpdateRange(items);
             DbContext.SaveChanges();
+            return new ServiceResult<T>();
         }
         public void Remove(params object[] primaryKey)
         {

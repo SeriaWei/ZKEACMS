@@ -18,10 +18,10 @@ namespace ZKEACMS.Shop.Service
         }
 
         public override DbSet<Order> CurrentDbSet => (DbContext as OrderDbContext).Order;
-        public override void Add(Order item)
+        public override ServiceResult<Order> Add(Order item)
         {
             item.ID = Guid.NewGuid().ToString("N");
-            base.Add(item);
+            return base.Add(item);
         }
 
         public void BeginPay(Order order)

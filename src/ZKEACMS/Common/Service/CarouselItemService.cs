@@ -23,32 +23,35 @@ namespace ZKEACMS.Common.Service
             }
         }
 
-        public override void Add(CarouselItemEntity item)
+        public override ServiceResult<CarouselItemEntity> Add(CarouselItemEntity item)
         {
             if (item.ActionType != ActionType.Unattached)
             {
-                base.Add(item);
+                return base.Add(item);
             }
+            return new ServiceResult<CarouselItemEntity>();
         }
-        public override void Update(CarouselItemEntity item, bool saveImmediately = true)
+        public override ServiceResult<CarouselItemEntity> Update(CarouselItemEntity item, bool saveImmediately = true)
         {
             if (item.ActionType == ActionType.Update)
             {
-                base.Update(item, saveImmediately);
+               return base.Update(item, saveImmediately);
             }
             else if (item.ActionType == ActionType.Create)
             {
-                base.Add(item);
+               return base.Add(item);
             }
             else if (item.ActionType == ActionType.Delete)
             {
                 Remove(item, saveImmediately);
             }
+            return new ServiceResult<CarouselItemEntity>();
         }
 
-        public override void UpdateRange(params CarouselItemEntity[] items)
+        public override ServiceResult<CarouselItemEntity> UpdateRange(params CarouselItemEntity[] items)
         {
             items.Each(m => Update(m));
+            return new ServiceResult<CarouselItemEntity>();
         }
     }
 }

@@ -44,7 +44,7 @@ namespace ZKEACMS.Shop.Service
             }
             return null;
         }
-        public override void Add(Basket item)
+        public override ServiceResult<Basket> Add(Basket item)
         {
             if (ApplicationContext.CurrentCustomer != null)
             {
@@ -68,13 +68,15 @@ namespace ZKEACMS.Shop.Service
                     base.Add(item);
                 }
             }
+            return new ServiceResult<Basket>();
         }
-        public override void Update(Basket item, bool saveImmediately = true)
+        public override ServiceResult<Basket> Update(Basket item, bool saveImmediately = true)
         {
             if (ApplicationContext.CurrentCustomer != null && ApplicationContext.CurrentCustomer.UserID == item.UserId)
             {
                 base.Update(item, saveImmediately);
             }
+            return new ServiceResult<Basket>();
         }
         public override void Remove(Basket item, bool saveImmediately = true)
         {

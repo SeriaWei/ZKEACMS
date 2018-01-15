@@ -43,7 +43,7 @@ namespace Easy.Modules.User.Service
             }
             return passWord;
         }
-        public override void Add(UserEntity item)
+        public override ServiceResult<UserEntity> Add(UserEntity item)
         {
             if (item.UserID.IsNullOrEmpty() && item.Email.IsNotNullAndWhiteSpace())
             {
@@ -69,10 +69,10 @@ namespace Easy.Modules.User.Service
             {
                 throw new Exception($"邮件地址 {item.Email} 已被使用");
             }
-            base.Add(item);
+            return base.Add(item);
         }
 
-        public override void Update(UserEntity item, bool saveImmediately = true)
+        public override ServiceResult<UserEntity> Update(UserEntity item, bool saveImmediately = true)
         {
             if (item.PassWordNew.IsNotNullAndWhiteSpace())
             {
@@ -86,7 +86,7 @@ namespace Easy.Modules.User.Service
             {
                 throw new Exception($"邮件地址 {item.Email} 已被使用");
             }
-            base.Update(item, saveImmediately);
+            return base.Update(item, saveImmediately);
         }
 
         public UserEntity Login(string userID, string passWord, UserType userType, string ip)

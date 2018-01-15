@@ -31,13 +31,13 @@ namespace ZKEACMS.Widget
             get { return WidgetBasePartService.IsNeedNotifyChange; }
             set { WidgetBasePartService.IsNeedNotifyChange = value; }
         }
-        public override void Add(T item)
+        public override ServiceResult<T> Add(T item)
         {
             item.ID = Guid.NewGuid().ToString("N");
             WidgetBasePartService.Add(item.ToWidgetBasePart());
             try
             {
-                base.Add(item);
+                return base.Add(item);
             }
             catch (Exception ex)
             {
@@ -46,18 +46,18 @@ namespace ZKEACMS.Widget
             }
         }
 
-        public override void Update(T item, bool saveImmediately = true)
+        public override ServiceResult<T> Update(T item, bool saveImmediately = true)
         {
             WidgetBasePartService.Update(item.ToWidgetBasePart());
 
-            base.Update(item, saveImmediately);
+            return base.Update(item, saveImmediately);
         }
-        public override void UpdateRange(params T[] items)
+        public override ServiceResult<T> UpdateRange(params T[] items)
         {
 
             WidgetBasePartService.UpdateRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
 
-            base.UpdateRange(items);
+            return base.UpdateRange(items);
         }
         public override T GetSingle(Expression<Func<T, bool>> filter)
         {

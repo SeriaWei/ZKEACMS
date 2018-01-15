@@ -54,7 +54,7 @@ namespace ZKEACMS.Product.Service
             }
             return "~/View-Product";
         }
-        public override void Add(ProductListWidget item)
+        public override ServiceResult<ProductListWidget> Add(ProductListWidget item)
         {
             if (!item.PageSize.HasValue || item.PageSize.Value == 0)
             {
@@ -65,7 +65,7 @@ namespace ZKEACMS.Product.Service
             {
                 item.DetailPageUrl = GetDetailPageUrl();
             }
-            base.Add(item);
+            return base.Add(item);
         }
         public override ProductListWidget Get(params object[] primaryKeys)
         {

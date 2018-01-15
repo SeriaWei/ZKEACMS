@@ -52,10 +52,14 @@ namespace ZKEACMS.Layout
         {
             return "Layout:" + id;
         }
-        public override void Add(LayoutEntity item)
+        public override ServiceResult<LayoutEntity> Add(LayoutEntity item)
         {
             item.ID = Guid.NewGuid().ToString("N");
-            base.Add(item);
+            var result = base.Add(item);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             if (item.Zones != null)
             {
                 item.Zones.Each(m =>
@@ -72,6 +76,7 @@ namespace ZKEACMS.Layout
                     LayoutHtmlService.Add(m);
                 });
             }
+            return result;
         }
 
         public void UpdateDesign(LayoutEntity item)
@@ -112,15 +117,15 @@ namespace ZKEACMS.Layout
             }
 
         }
-        public override void Update(LayoutEntity item, bool saveImmediately = true)
+        public override ServiceResult<LayoutEntity> Update(LayoutEntity item, bool saveImmediately = true)
         {
             MarkChanged(item.ID);
-            base.Update(item, saveImmediately);
+            return base.Update(item, saveImmediately);
         }
-        public override void UpdateRange(params LayoutEntity[] items)
+        public override ServiceResult<LayoutEntity> UpdateRange(params LayoutEntity[] items)
         {
             items.Each(m => MarkChanged(m.ID));
-            base.UpdateRange(items);
+            return base.UpdateRange(items);
         }
 
 

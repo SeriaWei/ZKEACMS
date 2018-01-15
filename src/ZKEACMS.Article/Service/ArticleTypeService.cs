@@ -13,7 +13,7 @@ namespace ZKEACMS.Article.Service
     {
         private IArticleService _articleService;
 
-        public ArticleTypeService(IApplicationContext applicationContext, IArticleService articleService, ArticleDbContext dbContext) 
+        public ArticleTypeService(IApplicationContext applicationContext, IArticleService articleService, ArticleDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _articleService = articleService;
@@ -27,10 +27,10 @@ namespace ZKEACMS.Article.Service
             }
         }
 
-        public override void Add(ArticleType item)
+        public override ServiceResult<ArticleType> Add(ArticleType item)
         {
             item.ParentID = item.ParentID ?? 0;
-            base.Add(item);
+            return base.Add(item);
         }
 
         public IEnumerable<ArticleType> GetChildren(long id)
