@@ -11,5 +11,10 @@ namespace ZKEACMS.Shop.Service
     {
         void BeginPay(Order order);
         void CompletePay(Order order, string paymentGateway, string paymentID);
+
+        PaymentInfo GetPaymentInfo(string orderId);
+        void Refund(string orderId, decimal amount, string reason);
+        RefundInfo GetRefund(string orderId);
+        void CloseOrder(string orderId);
     }
 }

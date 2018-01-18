@@ -16,9 +16,63 @@
                 @if (Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.ManageOrder))
                 {
                     <input type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Update" />
-                }             
+                }
+                @if (Model.PaymentGateway.IsNotNullAndWhiteSpace())
+                {
+                    <a href="javascript:void(0)" class="btn btn-primary payment-info">支付信息</a>
+                }
+                @if (Model.PaymentGateway.IsNotNullAndWhiteSpace() && Model.RefundID.IsNullOrEmpty())
+                {
+                    <a href="javascript:void(0)" class="btn btn-primary refund">退款</a>
+                }
+                @if (Model.RefundID.IsNotNullAndWhiteSpace())
+                {
+                    <a href="javascript:void(0)" class="btn btn-primary refund-info">退款信息</a>
+                }
                 <input type="button" class="btn btn-default cancel" value="取消" />
             </div>
         }
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">信息</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(document).on("click", ".payment-info", function () {
+            Easy.Block();
+            $.post("@Url.Action("PaymentInfo", new { id=Model.ID })", function (html) {
+                Easy.UnBlock();
+                $("#myModalLabel").text("支付信息")
+                $(".modal-body").html(html);
+                $(".modal").modal();
+            }, "html");
+        });
+        $(document).on("click", ".refund", function () {
+            $("#myModalLabel").text("退款")
+            $(".modal-body").html("");
+            $(".modal").modal();
+
+            $.post("@Url.Action("Refund", new { id = Model.ID, amount="399", reason = "不喜欢" })", function (data) {
+                window.location.reload(true);
+            });
+        });
+    </script>
+
+}

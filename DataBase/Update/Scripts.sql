@@ -1,0 +1,4 @@
+ALTER TABLE dbo.[Order] ADD RefundID NVARCHAR(100)
+ALTER TABLE dbo.[Order] ADD Refund DECIMAL(18,4)
+ALTER TABLE dbo.[Order] ADD RefundReason NVARCHAR(500)
+ALTER TABLE dbo.[Order] ADD RefundDate DATETIME

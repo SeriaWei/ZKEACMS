@@ -1,0 +1,20 @@
+﻿@model ZKEACMS.Shop.Models.PaymentInfo
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>账号</th>
+            <th>状态</th>
+            <th>金额</th>
+            <th>日期</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>@Model.Account</th>
+            <td>@Model.TradeStatus</td>
+            <td>@Model.TotalAmount</td>
+            <td>@Model.PayDate.ToString("g")</td>
+        </tr>
+    </tbody>
+</table>

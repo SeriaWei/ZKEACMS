@@ -12,6 +12,9 @@ using Easy.Mvc.Controllers;
 using ZKEACMS.Shop.Models;
 using ZKEACMS.Shop.Service;
 using Easy.Mvc.Authorize;
+using Alipay.AopSdk.Core.Domain;
+using Alipay.AopSdk.Core.Request;
+using Alipay.AopSdk.AspnetCore;
 
 namespace ZKEACMS.Shop.Controllers
 {
@@ -45,6 +48,15 @@ namespace ZKEACMS.Shop.Controllers
         public override IActionResult Delete(string id)
         {
             return base.Delete(id);
+        }
+        public IActionResult PaymentInfo(string id)
+        {
+            return PartialView(Service.GetPaymentInfo(id));
+        }
+        public IActionResult Refund(string id, decimal amount, string reason)
+        {
+            Service.Refund(id, amount, reason);
+            return Json(true);
         }
     }
 }

@@ -99,6 +99,7 @@ namespace ZKEACMS.Shop
             serviceCollection.TryAddTransient<IOrderService, OrderService>();
             serviceCollection.TryAddTransient<IOrderItemService, OrderItemService>();
             serviceCollection.AddTransient<IUserCenterLinksProvider, ShopCenterLinksProvider>();
+            serviceCollection.AddTransient<IPaymentService, AliPaymentService>();
 
             serviceCollection.ConfigureMetaData<Basket, BasketMetaData>();
             serviceCollection.ConfigureMetaData<Order, OrderMetaData>();

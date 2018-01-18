@@ -31,6 +31,10 @@ namespace ZKEACMS.Shop.Models
         public string ShippingAddress { get; set; }
         public string PaymentGateway { get; set; }
         public string PaymentID { get; set; }
+        public string RefundID { get; set; }
+        public decimal? Refund { get; set; }
+        public string RefundReason { get; set; }
+        public DateTime? RefundDate { get; set; }
         public string OrderStatusText()
         {
             switch ((Shop.OrderStatus)OrderStatus)
