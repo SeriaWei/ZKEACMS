@@ -620,3 +620,11 @@ div.dataTables_wrapper div.dataTables_processing {
 a[ismobile=true]:after {
     content: " M"
 }
+a.pack-theme{
+    color:#000;
+}
+@media (min-width: 1200px) {
+    .template-list .thumb-item {
+        max-width: 180px;
+    }
+}

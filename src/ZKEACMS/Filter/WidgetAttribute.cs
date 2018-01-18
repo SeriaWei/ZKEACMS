@@ -141,7 +141,16 @@ namespace ZKEACMS.Filter
             {
                 if (!(filterContext.Result is RedirectResult))
                 {
-                    filterContext.Result = new RedirectResult("~/error/notfond?f=" + filterContext.HttpContext.Request.Path);
+                    var viewResult = filterContext.Result as ViewResult;
+                    if (viewResult != null)
+                    {
+                        viewResult.StatusCode = 404;
+                        viewResult.ViewName = "NotFound";
+                    }
+                    else
+                    {
+                        filterContext.Result = new RedirectResult("~/error/notfond?f=" + filterContext.HttpContext.Request.Path);
+                    }
                 }
             }
         }
