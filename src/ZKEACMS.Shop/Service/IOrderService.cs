@@ -13,8 +13,8 @@ namespace ZKEACMS.Shop.Service
         void CompletePay(Order order, string paymentGateway, string paymentID);
 
         PaymentInfo GetPaymentInfo(string orderId);
-        void Refund(string orderId, decimal amount, string reason);
+        ServiceResult<bool> Refund(string orderId, decimal amount, string reason);
         RefundInfo GetRefund(string orderId);
-        void CloseOrder(string orderId);
+        ServiceResult<bool> CloseOrder(string orderId);
     }
 }

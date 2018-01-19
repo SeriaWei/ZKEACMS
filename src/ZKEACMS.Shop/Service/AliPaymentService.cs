@@ -1,6 +1,7 @@
 ﻿using Alipay.AopSdk.AspnetCore;
 using Alipay.AopSdk.Core.Domain;
 using Alipay.AopSdk.Core.Request;
+using Easy.RepositoryPattern;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace ZKEACMS.Shop.Service
         {
             public string code { get; set; }
             public string msg { get; set; }
+            public string sub_msg { get; set; }
             public string buyer_logon_id { get; set; }
             public decimal buyer_pay_amount { get; set; }
             public string buyer_user_id { get; set; }
@@ -35,6 +37,8 @@ namespace ZKEACMS.Shop.Service
             public string open_id { get; set; }
             public decimal refund_fee { get; set; }
             public decimal send_back_fee { get; set; }
+
+            public decimal refund_amount { get; set; }
         }
         private readonly IAlipayService _alipayService;
         public AliPaymentService(IAlipayService alipayService)
@@ -43,9 +47,27 @@ namespace ZKEACMS.Shop.Service
         }
         public string Getway => Gateways.AliPay;
 
-        public void CloseOrder(Order order)
+        public ServiceResult<bool> CloseOrder(Order order)
         {
-            throw new NotImplementedException();
+            AlipayTradeCloseModel model = new AlipayTradeCloseModel();
+            model.OutTradeNo = order.ID;
+            model.TradeNo = order.PaymentID;
+
+            AlipayTradeCloseRequest request = new AlipayTradeCloseRequest();
+            request.SetBizModel(model);
+
+            var response = _alipayService.Execute(request);
+            var responseEntry = JObject.Parse(response.Body).GetValue("alipay_trade_close_response").ToObject<AliPaymentResponse>();
+            var status = responseEntry.msg.Equals("Success", StringComparison.OrdinalIgnoreCase);
+            var result = new ServiceResult<bool>
+            {
+                Result = status
+            };
+            if (!status)
+            {
+                result.RuleViolations.Add(new RuleViolation("Error", responseEntry.msg + (responseEntry.sub_msg ?? "")));
+            }
+            return result;
         }
 
         public PaymentInfo GetPaymentInfo(Order order)
@@ -67,40 +89,54 @@ namespace ZKEACMS.Shop.Service
                 Account = info.buyer_logon_id,
                 PayDate = info.send_pay_date,
                 TotalAmount = info.total_amount,
-                TradeStatus = info.msg
+                TradeStatus = info.msg,
+                Body = response.Body
             };
         }
 
         public RefundInfo GetRefund(Order order)
         {
-
             AlipayTradeFastpayRefundQueryModel model = new AlipayTradeFastpayRefundQueryModel();
             model.OutTradeNo = order.ID;
             model.TradeNo = order.PaymentID;
-            model.OutRequestNo = order.ID;
+            model.OutRequestNo = order.RefundID;
 
             AlipayTradeFastpayRefundQueryRequest request = new AlipayTradeFastpayRefundQueryRequest();
             request.SetBizModel(model);
 
             var response = _alipayService.Execute(request);
-            JObject.Parse(response.Body).GetValue("alipay_trade_fastpay_refund_query_response").ToObject<AliPaymentResponse>();
-            return null;
+            var responseEntry = JObject.Parse(response.Body).GetValue("alipay_trade_fastpay_refund_query_response").ToObject<AliPaymentResponse>();
+            return new RefundInfo
+            {
+                RefundAmount = responseEntry.refund_amount,
+                TotalAmount = responseEntry.total_amount
+            };
         }
 
-        public bool Refund(Order order)
+        public ServiceResult<bool> Refund(Order order)
         {
             AlipayTradeRefundModel model = new AlipayTradeRefundModel();
             model.OutTradeNo = order.ID;
             model.TradeNo = order.PaymentID;
             model.RefundAmount = order.Refund.ToString();
             model.RefundReason = order.RefundReason;
-            model.OutRequestNo = order.ID;
+            model.OutRequestNo = "Refund-" + order.ID;
             order.RefundID = model.OutRequestNo;
             AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
             request.SetBizModel(model);
 
             var response = _alipayService.Execute(request);
-            return JObject.Parse(response.Body).GetValue("alipay_trade_refund_response").ToObject<AliPaymentResponse>().msg.Equals("Success", StringComparison.OrdinalIgnoreCase);
+            var responseEntry = JObject.Parse(response.Body).GetValue("alipay_trade_refund_response").ToObject<AliPaymentResponse>();
+            var status = responseEntry.msg.Equals("Success", StringComparison.OrdinalIgnoreCase);
+            var result = new ServiceResult<bool>
+            {
+                Result = status
+            };
+            if (!status)
+            {
+                result.RuleViolations.Add(new RuleViolation("Error", responseEntry.msg + (responseEntry.sub_msg ?? "")));
+            }
+            return result;
         }
     }
 }

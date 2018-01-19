@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Easy.RepositoryPattern;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,8 +11,8 @@ namespace ZKEACMS.Shop.Service
     {
         string Getway { get; }
         PaymentInfo GetPaymentInfo(Order order);
-        bool Refund(Order order);
+        ServiceResult<bool> Refund(Order order);
         RefundInfo GetRefund(Order order);
-        void CloseOrder(Order order);
+        ServiceResult<bool> CloseOrder(Order order);
     }
 }

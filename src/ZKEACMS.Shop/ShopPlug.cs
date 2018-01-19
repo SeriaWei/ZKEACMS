@@ -86,6 +86,11 @@ namespace ZKEACMS.Shop
         {
             yield return new PermissionDescriptor { Module = "商城", Title = "查看订单", Key = PermissionKeys.ViewOrder };
             yield return new PermissionDescriptor { Module = "商城", Title = "管理订单", Key = PermissionKeys.ManageOrder };
+
+            yield return new PermissionDescriptor { Module = "商城", Title = "查看支付平台支付信息", Key = PermissionKeys.ViewOrderPayment };
+            yield return new PermissionDescriptor { Module = "商城", Title = "查看支付平台退款信息", Key = PermissionKeys.ViewOrderRefund };
+            yield return new PermissionDescriptor { Module = "商城", Title = "退款", Key = PermissionKeys.RefundOrder };
+           //yield return new PermissionDescriptor { Module = "商城", Title = "关闭订单", Key = PermissionKeys.CloseOrder };
         }
 
         public override IEnumerable<Type> WidgetServiceTypes()

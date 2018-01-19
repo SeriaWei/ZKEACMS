@@ -7,5 +7,7 @@ namespace ZKEACMS.Shop.Models
 {
     public class RefundInfo
     {
+        public decimal RefundAmount { get; set; }
+        public decimal TotalAmount { get; set; }
     }
 }

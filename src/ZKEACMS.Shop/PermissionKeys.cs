@@ -10,5 +10,9 @@ namespace ZKEACMS.Shop
     {
         public const string ViewOrder = "Order_View";
         public const string ManageOrder = "Order_Manage";
+        public const string ViewOrderPayment = "Order_ViewOrderPayment";
+        public const string RefundOrder = "Order_Refund";
+        public const string ViewOrderRefund = "Order_ViewOrderRefund";
+        public const string CloseOrder = "Order_CloseOrder";
     }
 }

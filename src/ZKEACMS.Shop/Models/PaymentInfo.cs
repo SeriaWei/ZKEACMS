@@ -11,5 +11,7 @@ namespace ZKEACMS.Shop.Models
         public string TradeStatus { get; set; }
         public decimal TotalAmount { get; set; }
         public DateTime PayDate { get; set; }
+
+        public string Body { get; set; }
     }
 }

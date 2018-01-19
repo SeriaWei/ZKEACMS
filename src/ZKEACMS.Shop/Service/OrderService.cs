@@ -35,9 +35,23 @@ namespace ZKEACMS.Shop.Service
             Update(order);
         }
 
-        public void CloseOrder(string orderId)
+        public ServiceResult<bool> CloseOrder(string orderId)
         {
-            throw new NotImplementedException();
+            var order = Get(orderId);
+            if (order != null && order.OrderStatus == (int)OrderStatus.UnPaid)
+            {
+                var serviceResult = _paymentServices.First(m => m.Getway == order.PaymentGateway).CloseOrder(order);
+                if (serviceResult.Result)
+                {
+                    order.OrderStatus = (int)OrderStatus.Cancel;
+                    Update(order);
+                }
+                return serviceResult;
+            }
+            ServiceResult<bool> result = new ServiceResult<bool>();
+            result.Result = false;
+            result.RuleViolations.Add(new RuleViolation("Error", "只能关闭未支付的订单"));
+            return result;
         }
 
         public void CompletePay(Order order, string paymentGateway, string paymentID)
@@ -61,10 +75,15 @@ namespace ZKEACMS.Shop.Service
 
         public RefundInfo GetRefund(string orderId)
         {
-            throw new NotImplementedException();
+            var order = Get(orderId);
+            if (order != null && order.RefundID.IsNotNullAndWhiteSpace())
+            {
+                return _paymentServices.First(m => m.Getway == order.PaymentGateway).GetRefund(order);
+            }
+            return null;
         }
 
-        public void Refund(string orderId, decimal amount, string reason)
+        public ServiceResult<bool> Refund(string orderId, decimal amount, string reason)
         {
             var order = Get(orderId);
             if (order != null && order.PaymentID.IsNotNullAndWhiteSpace() && order.RefundID.IsNullOrEmpty() && amount <= order.Total)
@@ -72,11 +91,29 @@ namespace ZKEACMS.Shop.Service
                 order.Refund = amount;
                 order.RefundDate = DateTime.Now;
                 order.RefundReason = reason;
-                if (_paymentServices.First(m => m.Getway == order.PaymentGateway).Refund(order))
+                var result = _paymentServices.First(m => m.Getway == order.PaymentGateway).Refund(order);
+                if (result.Result)
                 {
+                    order.OrderStatus = (int)OrderStatus.Refund;
                     Update(order);
                 }
+                return result;
             }
+            ServiceResult<bool> failed = new ServiceResult<bool>();
+            failed.Result = false;
+            if (order.PaymentID.IsNullOrEmpty())
+            {
+                failed.RuleViolations.Add(new RuleViolation("Error", "退款失败，订单未付款"));
+            }
+            if (order.RefundID.IsNotNullAndWhiteSpace())
+            {
+                failed.RuleViolations.Add(new RuleViolation("Error", "退款失败，订单已退款"));
+            }
+            if (amount > order.Total)
+            {
+                failed.RuleViolations.Add(new RuleViolation("Error", "退款失败，退款金额超出订单金额"));
+            }
+            return failed;
         }
 
         public override void Remove(Order item, bool saveImmediately = true)
