@@ -19,7 +19,9 @@
             {
                 <span>运单：</span>
                 @Model.Order.LogisticsCompany
-                @Model.Order.TrackingNumber
+                <a href="https://www.baidu.com/s?wd=@(Model.Order.LogisticsCompany+" "+Model.Order.TrackingNumber)" target="_blank">
+                    @Model.Order.TrackingNumber
+                </a>            
             }
         </div>
         <div class="pull-right">
