@@ -38,9 +38,13 @@ namespace ZKEACMS.Product.Service
             product.PublishDate = DateTime.Now;
             base.Update(product);
         }
-        public override void Add(ProductEntity item)
+        public override ServiceResult<ProductEntity> Add(ProductEntity item)
         {
-            base.Add(item);
+            var result = base.Add(item);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             if (item.ProductTags != null)
             {
                 foreach (var tag in item.ProductTags.Where(m => m.Selected))
@@ -59,6 +63,7 @@ namespace ZKEACMS.Product.Service
                     }
                 });
             }
+            return result;
         }
         private void SaveImages(ProductImage item)
         {
@@ -81,9 +86,13 @@ namespace ZKEACMS.Product.Service
                     }
             }
         }
-        public override void Update(ProductEntity item, bool saveImmediately = true)
+        public override ServiceResult<ProductEntity> Update(ProductEntity item, bool saveImmediately = true)
         {
-            base.Update(item, saveImmediately);
+            var result = base.Update(item, saveImmediately);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             if (item.ProductTags != null)
             {
                 _productTagService.Remove(m => m.ProductId == item.ID);
@@ -100,6 +109,7 @@ namespace ZKEACMS.Product.Service
                     SaveImages(m);
                 });
             }
+            return result;
         }
         public override ProductEntity Get(params object[] primaryKey)
         {

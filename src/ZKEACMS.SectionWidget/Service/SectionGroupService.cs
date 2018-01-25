@@ -79,10 +79,14 @@ namespace ZKEACMS.SectionWidget.Service
             group.SectionContents = contents;
             return group;
         }
-        public override void Add(SectionGroup item)
+        public override ServiceResult<SectionGroup> Add(SectionGroup item)
         {
             item.ID = Guid.NewGuid().ToString("N");
-            base.Add(item);
+            var result = base.Add(item);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             if (item.SectionContents != null && item.SectionContents.Any())
             {
                 item.SectionContents.Each(m =>
@@ -103,6 +107,7 @@ namespace ZKEACMS.SectionWidget.Service
                     });
                 }
             }
+            return result;
         }
         public override void Remove(SectionGroup item, bool saveImmediately = true)
         {

@@ -219,9 +219,6 @@ Easy.ShowMessageBox = function (title, msg, fnOk, ShowCancel, zindex) {
         Easy.OpacityBackGround.Close();
         box.animate({ top: "45%", opacity: 0 }, 200, function () { $(this).remove(); });
     });
-    if (fnOk != null && !ShowCancel) {
-        ShowCancel = true;
-    }
     if (typeof ShowCancel == "boolean") {
         if (ShowCancel) {
             var CancelButton = $("<input id='MessageBoxCancelBtn' type='button' class='btn btn-default' value='取消' />");

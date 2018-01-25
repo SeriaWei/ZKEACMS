@@ -25,14 +25,14 @@ namespace ZKEACMS.Common.Service
             }
         }
 
-        public override void Add(NavigationEntity item)
+        public override ServiceResult<NavigationEntity> Add(NavigationEntity item)
         {
             if (item.ParentId.IsNullOrEmpty())
             {
                 item.ParentId = "#";
             }
             item.ID = Guid.NewGuid().ToString("N");
-            base.Add(item);
+            return base.Add(item);
         }
         public override void Remove(NavigationEntity item, bool saveImmediately = true)
         {

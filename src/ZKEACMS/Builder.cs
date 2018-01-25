@@ -48,7 +48,7 @@ namespace ZKEACMS
 {
     public static class Builder
     {
-        public static void UseZKEACMS(this IServiceCollection services, IConfigurationRoot configuration, IHostingEnvironment hostingEnvironment)
+        public static void UseZKEACMS(this IServiceCollection services, IConfigurationRoot configuration)
         {
 
             services.AddMvc(option =>

@@ -21,12 +21,15 @@ namespace ZKEACMS.Setting
             }
         }
 
-        public override void Add(ApplicationSetting item)
+        public override ServiceResult<ApplicationSetting> Add(ApplicationSetting item)
         {
             if (Count(m => m.SettingKey == item.SettingKey) == 0)
             {
-                base.Add(item);
+                return base.Add(item);
             }
+            var result = new ServiceResult<ApplicationSetting>();
+            result.RuleViolations.Add(new RuleViolation("SettingKey", "已经存在该键值"));
+            return result;
         }
 
         public string Get(string settingKey, string defaultValue)

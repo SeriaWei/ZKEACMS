@@ -31,11 +31,8 @@ namespace ZKEACMS.WebHost
             {
                 builder.AddApplicationInsightsSettings(developerMode: true);
             }
-            HostingEnvironment = env;
             Configuration = builder.Build();
-        }
-
-        public IHostingEnvironment HostingEnvironment { get; }
+        }        
         public IConfigurationRoot Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
@@ -45,7 +42,7 @@ namespace ZKEACMS.WebHost
 
             services.TryAddTransient<IOnDatabaseConfiguring, EntityFrameWorkConfigure>();
 
-            services.UseZKEACMS(Configuration, HostingEnvironment);
+            services.UseZKEACMS(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

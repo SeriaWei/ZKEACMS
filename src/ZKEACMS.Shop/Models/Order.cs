@@ -31,6 +31,10 @@ namespace ZKEACMS.Shop.Models
         public string ShippingAddress { get; set; }
         public string PaymentGateway { get; set; }
         public string PaymentID { get; set; }
+        public string RefundID { get; set; }
+        public decimal? Refund { get; set; }
+        public string RefundReason { get; set; }
+        public DateTime? RefundDate { get; set; }
         public string OrderStatusText()
         {
             switch ((Shop.OrderStatus)OrderStatus)
@@ -55,7 +59,7 @@ namespace ZKEACMS.Shop.Models
             ViewConfig(m => m.Status).AsHidden();
             ViewConfig(m => m.CreatebyName).AsHidden();
             ViewConfig(m => m.ID).AsTextBox().ReadOnly().ShowInGrid();
-            ViewConfig(m => m.OrderStatus).AsDropDownList().DataSource(Easy.Constant.SourceType.Dictionary).ShowInGrid().Required();
+            ViewConfig(m => m.OrderStatus).AsDropDownList().DataSource(Easy.Constant.SourceType.Dictionary).ShowInGrid().Required().ReadOnly();
             ViewConfig(m => m.Contact).AsTextBox().ShowInGrid();
             ViewConfig(m => m.PhoneNumber).AsTextBox().ShowInGrid();
             ViewConfig(m => m.ShippingAddress).AsTextBox().ShowInGrid();
@@ -64,6 +68,11 @@ namespace ZKEACMS.Shop.Models
             ViewConfig(m => m.PayTime).AsTextBox().ReadOnly().FormatAsDateTime();
             ViewConfig(m => m.CompletePayTime).AsTextBox().ReadOnly().FormatAsDateTime();
             ViewConfig(m => m.Total).AsTextBox().ShowInGrid().RegularExpression(Easy.Constant.RegularExpression.Float);
+
+            ViewConfig(m => m.RefundID).AsTextBox().ReadOnly();
+            ViewConfig(m => m.Refund).AsTextBox().RegularExpression(Easy.Constant.RegularExpression.Float);
+            ViewConfig(m => m.RefundReason).AsTextBox();
+            ViewConfig(m => m.RefundDate).AsTextBox().ReadOnly();
         }
     }
 }

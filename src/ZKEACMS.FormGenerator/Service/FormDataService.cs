@@ -29,9 +29,13 @@ namespace ZKEACMS.FormGenerator.Service
         }
 
         public override DbSet<FormData> CurrentDbSet => (DbContext as FormGeneratorDbContext).FormData;
-        public override void Add(FormData item)
+        public override ServiceResult<FormData> Add(FormData item)
         {
-            base.Add(item);
+            var result = base.Add(item);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             if (item.Datas != null)
             {
                 foreach (var data in item.Datas)
@@ -40,6 +44,7 @@ namespace ZKEACMS.FormGenerator.Service
                     _formDataItemService.Add(data);
                 }
             }
+            return result;
         }
         public override FormData Get(params object[] primaryKey)
         {
@@ -145,7 +150,7 @@ namespace ZKEACMS.FormGenerator.Service
 
         public MemoryStream ExportByForm(string formId)
         {
-            using(ExcelGenerator excel = new ExcelGenerator())
+            using (ExcelGenerator excel = new ExcelGenerator())
             {
                 var form = _formService.Get(formId);
                 var formDatas = Get(m => m.FormId == formId);

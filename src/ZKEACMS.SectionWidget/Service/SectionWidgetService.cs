@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using Newtonsoft.Json.Linq;
 using Easy.Mvc.Plugin;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.SectionWidget.Service
 {
@@ -88,9 +89,13 @@ namespace ZKEACMS.SectionWidget.Service
             base.Remove(item, saveImmediately);
         }
 
-        public override void Add(Models.SectionWidget item)
+        public override ServiceResult<Models.SectionWidget> Add(Models.SectionWidget item)
         {
-            base.Add(item);
+            var result = base.Add(item);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             if (item.Groups != null && item.Groups.Any())
             {
                 item.Groups.Each(m =>
@@ -99,6 +104,7 @@ namespace ZKEACMS.SectionWidget.Service
                     _sectionGroupService.Add(m);
                 });
             }
+            return result;
         }
         public override WidgetPackage PackWidget(WidgetBase widget)
         {

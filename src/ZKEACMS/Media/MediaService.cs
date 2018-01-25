@@ -24,7 +24,7 @@ namespace ZKEACMS.Media
             }
         }
 
-        public override void Add(MediaEntity item)
+        public override ServiceResult<MediaEntity> Add(MediaEntity item)
         {
             item.ID = Guid.NewGuid().ToString("N");
             if (item.ParentID.IsNullOrWhiteSpace())
@@ -75,7 +75,7 @@ namespace ZKEACMS.Media
             {
                 item.MediaType = (int)MediaType.Folder;
             }
-            base.Add(item);
+            return base.Add(item);
         }
         public override void Remove(MediaEntity item, bool saveImmediately = true)
         {

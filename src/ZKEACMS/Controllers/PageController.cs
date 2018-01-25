@@ -11,6 +11,7 @@ using Easy.Mvc.ValueProvider;
 using Easy.ViewPort.jsTree;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Net;
 using ZKEACMS.Common.ViewModels;
 using ZKEACMS.Filter;
 using ZKEACMS.Layout;
@@ -178,7 +179,13 @@ namespace ZKEACMS.Controllers
         }
         public IActionResult RedirectView(string Id, bool? preview)
         {
-            return Redirect(Service.Get(Id).Url + ((preview ?? true) ? "?ViewType=" + ReView.Review : ""));
+            var pathArray = Service.Get(Id).Url.Split('/');
+            for (int i = 1; i < pathArray.Length; i++)
+            {
+                pathArray[i] = WebUtility.UrlEncode(pathArray[i]);
+            }
+            var url = string.Join("/", pathArray);
+            return Redirect(url + ((preview ?? true) ? "?ViewType=" + ReView.Review : ""));
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewPage)]
         public IActionResult Select()

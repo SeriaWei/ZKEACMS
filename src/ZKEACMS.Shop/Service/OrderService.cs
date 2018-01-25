@@ -6,22 +6,26 @@ using System.Threading.Tasks;
 using ZKEACMS.Shop.Models;
 using Microsoft.EntityFrameworkCore;
 using Easy;
+using Easy.Extend;
 
 namespace ZKEACMS.Shop.Service
 {
     public class OrderService : ServiceBase<Order>, IOrderService
     {
         private readonly IOrderItemService _orderItemService;
-        public OrderService(IApplicationContext applicationContext, IOrderItemService orderItemService, OrderDbContext dbContext) : base(applicationContext, dbContext)
+        private readonly IEnumerable<IPaymentService> _paymentServices;
+        public OrderService(IApplicationContext applicationContext, IOrderItemService orderItemService, IEnumerable<IPaymentService> paymentServices, OrderDbContext dbContext)
+            : base(applicationContext, dbContext)
         {
             _orderItemService = orderItemService;
+            _paymentServices = paymentServices;
         }
 
         public override DbSet<Order> CurrentDbSet => (DbContext as OrderDbContext).Order;
-        public override void Add(Order item)
+        public override ServiceResult<Order> Add(Order item)
         {
             item.ID = Guid.NewGuid().ToString("N");
-            base.Add(item);
+            return base.Add(item);
         }
 
         public void BeginPay(Order order)
@@ -29,6 +33,25 @@ namespace ZKEACMS.Shop.Service
             order.OrderStatus = (int)OrderStatus.UnPaid;
             order.PayTime = DateTime.Now;
             Update(order);
+        }
+
+        public ServiceResult<bool> CloseOrder(string orderId)
+        {
+            var order = Get(orderId);
+            if (order != null && order.OrderStatus == (int)OrderStatus.UnPaid)
+            {
+                var serviceResult = _paymentServices.First(m => m.Getway == order.PaymentGateway).CloseOrder(order);
+                if (serviceResult.Result)
+                {
+                    order.OrderStatus = (int)OrderStatus.Cancel;
+                    Update(order);
+                }
+                return serviceResult;
+            }
+            ServiceResult<bool> result = new ServiceResult<bool>();
+            result.Result = false;
+            result.RuleViolations.Add(new RuleViolation("Error", "只能关闭未支付的订单"));
+            return result;
         }
 
         public void CompletePay(Order order, string paymentGateway, string paymentID)
@@ -39,6 +62,60 @@ namespace ZKEACMS.Shop.Service
             order.PaymentID = paymentID;
             Update(order);
         }
+
+        public PaymentInfo GetPaymentInfo(string orderId)
+        {
+            var order = Get(orderId);
+            if (order != null && order.PaymentID.IsNotNullAndWhiteSpace())
+            {
+                return _paymentServices.First(m => m.Getway == order.PaymentGateway).GetPaymentInfo(order);
+            }
+            return null;
+        }
+
+        public RefundInfo GetRefund(string orderId)
+        {
+            var order = Get(orderId);
+            if (order != null && order.RefundID.IsNotNullAndWhiteSpace())
+            {
+                return _paymentServices.First(m => m.Getway == order.PaymentGateway).GetRefund(order);
+            }
+            return null;
+        }
+
+        public ServiceResult<bool> Refund(string orderId, decimal amount, string reason)
+        {
+            var order = Get(orderId);
+            if (order != null && order.PaymentID.IsNotNullAndWhiteSpace() && order.RefundID.IsNullOrEmpty() && amount <= order.Total)
+            {
+                order.Refund = amount;
+                order.RefundDate = DateTime.Now;
+                order.RefundReason = reason;
+                var result = _paymentServices.First(m => m.Getway == order.PaymentGateway).Refund(order);
+                if (result.Result)
+                {
+                    order.OrderStatus = (int)OrderStatus.Refund;
+                    Update(order);
+                }
+                return result;
+            }
+            ServiceResult<bool> failed = new ServiceResult<bool>();
+            failed.Result = false;
+            if (order.PaymentID.IsNullOrEmpty())
+            {
+                failed.RuleViolations.Add(new RuleViolation("Error", "退款失败，订单未付款"));
+            }
+            if (order.RefundID.IsNotNullAndWhiteSpace())
+            {
+                failed.RuleViolations.Add(new RuleViolation("Error", "退款失败，订单已退款"));
+            }
+            if (amount > order.Total)
+            {
+                failed.RuleViolations.Add(new RuleViolation("Error", "退款失败，退款金额超出订单金额"));
+            }
+            return failed;
+        }
+
         public override void Remove(Order item, bool saveImmediately = true)
         {
             _orderItemService.Remove(m => m.OrderId == item.ID);
