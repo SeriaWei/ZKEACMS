@@ -22,7 +22,7 @@ namespace Easy.Mvc.Plugin
         {
             DependencyAssemblies = new List<Assembly>();
         }
-        
+
         public Assembly CurrentAssembly { get; private set; }
         public List<Assembly> DependencyAssemblies { get; private set; }
         private TypeInfo PluginTypeInfo = typeof(IPluginStartup).GetTypeInfo();
@@ -31,11 +31,10 @@ namespace Easy.Mvc.Plugin
             if (CurrentAssembly == null)
             {
                 //AssemblyLoadContext.Default.Resolving += AssemblyResolving;
-                var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
-                CurrentAssembly = assembly;
-                ResolveDenpendency();
-                RegistAssembly(assembly);
-                yield return assembly;
+                CurrentAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
+                ResolveDenpendency(CurrentAssembly);
+                RegistAssembly(CurrentAssembly);
+                yield return CurrentAssembly;
                 foreach (var item in DependencyAssemblies)
                 {
                     yield return item;
@@ -65,19 +64,19 @@ namespace Easy.Mvc.Plugin
         //    }
         //    return null;
         //}
-        private void ResolveDenpendency()
+        private void ResolveDenpendency(Assembly assembly)
         {
-            string currentName = CurrentAssembly.GetName().Name;
-            var dependencyCompilationLibrary = DependencyContext.Load(CurrentAssembly)
+            string currentName = assembly.GetName().Name;
+            var dependencyCompilationLibrary = DependencyContext.Load(assembly)
                 .CompileLibraries.Where(de => de.Name != currentName && !DependencyContext.Default.CompileLibraries.Any(m => m.Name == de.Name))
                 .ToList();
 
             dependencyCompilationLibrary.Each(libaray =>
             {
                 bool depLoaded = false;
-                foreach (var assembly in libaray.Assemblies)
+                foreach (var item in libaray.Assemblies)
                 {
-                    var files = new DirectoryInfo(Path.GetDirectoryName(CurrentAssembly.Location)).GetFiles(Path.GetFileName(assembly));
+                    var files = new DirectoryInfo(Path.GetDirectoryName(assembly.Location)).GetFiles(Path.GetFileName(item));
                     foreach (var file in files)
                     {
                         DependencyAssemblies.Add(AssemblyLoadContext.Default.LoadFromAssemblyPath(file.FullName));
