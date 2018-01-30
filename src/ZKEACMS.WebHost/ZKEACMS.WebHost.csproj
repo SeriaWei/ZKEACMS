@@ -15,7 +15,6 @@
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
     <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
     <ServerGarbageCollection>false</ServerGarbageCollection>
-	<PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
   </ItemGroup>
 
