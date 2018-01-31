@@ -26,26 +26,6 @@ $(function () {
     }).on("click", "input[type=submit]", function () {
         $("#ActionType").val($(this).data("value"));
         return true;
-    }).on("click", ".input-group-collection .add", function () {
-        var index = $(this).siblings(".items").children(".item").size();
-        var namePrefix = $(this).data("name-prefex");
-        var template = $($(this).siblings(".Template").html());
-        $("input,select,area", template).attr("data-val", true).each(function () {
-            var name = $(this).attr("name");
-            if (name) {
-                $(this).attr("name", name.replace(namePrefix, namePrefix + "[" + index + "]"));
-            }
-        });
-        template.find(".ActionType").val($(this).data("value"));
-        $(this).siblings(".items").append(template);
-    }).on("click", ".input-group-collection .delete", function () {
-        $(this).parent().hide();
-        $(this).siblings(".hide").find(".ActionType").val($(this).data("value"));
-    }).on("change", ".input-group-collection .form-control", function () {
-        var actionType = $(".ActionType", $(this).closest(".item"));
-        if (actionType.val() !== "Create") {
-            actionType.val("Update");
-        }
     }).on("click", ".input-group .glyphicon.glyphicon-search", function () {
         var obj = $(this);
         window.top.Easy.ShowUrlWindow({
@@ -274,4 +254,54 @@ $(function () {
         placement: "left"
     });
     $("#main-menu").slimscroll({ height: $(window).height() - 170 });
+
+
+    //list editor
+    function rebindValidate() {
+        var form = $("form");
+        form.removeData("validator").removeData("unobtrusiveValidation");
+        $.validator.unobtrusive.parse(form[0]);
+    }
+    $("input,select,textarea", ".input-group-collection .Template").prop("disabled", true);
+
+    $(document).on("click", ".input-group-collection .add", function () {
+        var index = $(this).siblings(".items").children(".item").size();
+        var template = $($(this).siblings(".Template").html());
+        $("input,select,textarea", template).attr("data-val", true).each(function () {
+            $(this).prop("disabled", false);
+            var name = $(this).attr("name");
+            if (name) {
+                $(this).attr("name", name.replace(/\[(\d+)\]/, "[" + index + "]"));
+            }
+            var id = $(this).attr("id");
+            if (id) {
+                $(this).attr("id", id.replace(/\_(\d+)\_/, "_" + index + "_"));
+            }
+        });
+        $(".field-validation-error,.field-validation-valid", template).each(function () {
+            var msgFor = $(this).attr("data-valmsg-for");
+            $(this).attr("data-valmsg-for", msgFor.replace(/\[(\d+)\]/, "[" + index + "]"))
+        });
+        template.find(".ActionType").val($(this).data("value"));
+        $(this).siblings(".items").append(template);
+        rebindValidate();
+
+    }).on("click", ".input-group-collection .delete", function () {
+        var form = $(this).closest("form");
+        var allValid = true;
+        $("input,select,textarea", $(this).parent()).each(function () {
+            if (allValid) {
+                allValid = form.validate().element("#" + $(this).attr("id"));
+            }
+        });
+        if (allValid) {
+            $(this).parent().hide();
+            $(this).siblings(".hide").find(".ActionType").val($(this).data("value"));
+        }
+    }).on("change", ".input-group-collection .form-control", function () {
+        var actionType = $(".ActionType", $(this).closest(".item"));
+        if (actionType.val() !== "Create") {
+            actionType.val("Update");
+        }
+    })
 });
