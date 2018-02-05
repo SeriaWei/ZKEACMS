@@ -8,7 +8,7 @@ WORKDIR /build/src/ZKEACMS.WebHost
 RUN dotnet publish-zkeacms
 
 # Build runtime image
-FROM microsoft/aspnetcore:2.0.3
+FROM microsoft/aspnetcore:latest
 WORKDIR /zkeacms
 COPY --from=builder /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput .
 EXPOSE 80

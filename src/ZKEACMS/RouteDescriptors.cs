@@ -14,7 +14,7 @@ namespace ZKEACMS
              {
                 RouteName = "pageRoute",
                 Template = "{*path}",
-                Defaults = new { controller = "Page", action = "PreView" },
+                Defaults = new { controller = "Page", action = "Main" },
                 Constraints = new { path = new PageRouteConstraint() },
                 Priority = -1
              },

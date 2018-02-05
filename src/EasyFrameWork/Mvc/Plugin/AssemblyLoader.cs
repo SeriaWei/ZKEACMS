@@ -14,27 +14,27 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace Easy.Mvc.Plugin
 {
-    public class AssemblyLoader : AssemblyLoadContext
+    public class AssemblyLoader
     {
         private const string ControllerTypeNameSuffix = "Controller";
+        private static bool Resolving { get; set; }
         public AssemblyLoader()
         {
+            DependencyAssemblies = new List<Assembly>();
         }
 
-        public IServiceProvider ServiceProvider { get; set; }
-        private Assembly CurrentAssembly;
-        private List<Assembly> DependencyAssemblies = new List<Assembly>();
+        public Assembly CurrentAssembly { get; private set; }
+        public List<Assembly> DependencyAssemblies { get; private set; }
         private TypeInfo PluginTypeInfo = typeof(IPluginStartup).GetTypeInfo();
         public IEnumerable<Assembly> LoadPlugin(string path)
         {
             if (CurrentAssembly == null)
             {
-                AssemblyLoadContext.Default.Resolving += Default_Resolving;
-                var assembly = this.LoadFromAssemblyPath(path);
-                CurrentAssembly = assembly;
-                ResolveDenpendency();
-                RegistAssembly(assembly);
-                yield return assembly;
+                //AssemblyLoadContext.Default.Resolving += AssemblyResolving;
+                CurrentAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
+                ResolveDenpendency(CurrentAssembly);
+                RegistAssembly(CurrentAssembly);
+                yield return CurrentAssembly;
                 foreach (var item in DependencyAssemblies)
                 {
                     yield return item;
@@ -43,26 +43,43 @@ namespace Easy.Mvc.Plugin
             else { throw new Exception("A loader just can load one assembly."); }
         }
 
-        private Assembly Default_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
+        //private Assembly AssemblyResolving(AssemblyLoadContext arg1, AssemblyName arg2)
+        //{
+        //    if (arg2.FullName == CurrentAssembly.FullName)
+        //    {
+        //        return CurrentAssembly;
+        //    }
+        //    var deps = DependencyContext.Default;
+        //    if (deps.CompileLibraries.Any(d => d.Name == arg2.Name))
+        //    {
+        //        return Assembly.Load(arg2);
+        //    }
+
+        //    foreach (var item in DependencyAssemblies)
+        //    {
+        //        if (item.FullName == arg2.FullName)
+        //        {
+        //            return item;
+        //        }
+        //    }
+        //    return null;
+        //}
+        private void ResolveDenpendency(Assembly assembly)
         {
-            return Load(arg2);
-        }
-        private void ResolveDenpendency()
-        {
-            string currentName = CurrentAssembly.GetName().Name;
-            var dependencyCompilationLibrary = DependencyContext.Load(CurrentAssembly)
+            string currentName = assembly.GetName().Name;
+            var dependencyCompilationLibrary = DependencyContext.Load(assembly)
                 .CompileLibraries.Where(de => de.Name != currentName && !DependencyContext.Default.CompileLibraries.Any(m => m.Name == de.Name))
                 .ToList();
 
             dependencyCompilationLibrary.Each(libaray =>
             {
                 bool depLoaded = false;
-                foreach (var assembly in libaray.Assemblies)
+                foreach (var item in libaray.Assemblies)
                 {
-                    var files = new DirectoryInfo(Path.GetDirectoryName(CurrentAssembly.Location)).GetFiles(Path.GetFileName(assembly));
+                    var files = new DirectoryInfo(Path.GetDirectoryName(assembly.Location)).GetFiles(Path.GetFileName(item));
                     foreach (var file in files)
                     {
-                        DependencyAssemblies.Add(LoadFromAssemblyPath(file.FullName));
+                        DependencyAssemblies.Add(AssemblyLoadContext.Default.LoadFromAssemblyPath(file.FullName));
                         depLoaded = true;
                         break;
                     }
@@ -73,7 +90,7 @@ namespace Easy.Mvc.Plugin
                     {
                         if (File.Exists(item))
                         {
-                            DependencyAssemblies.Add(LoadFromAssemblyPath(item));
+                            DependencyAssemblies.Add(AssemblyLoadContext.Default.LoadFromAssemblyPath(item));
                             break;
                         }
                     }
@@ -82,27 +99,7 @@ namespace Easy.Mvc.Plugin
 
 
         }
-        protected override Assembly Load(AssemblyName assemblyName)
-        {
-            if (assemblyName.FullName == CurrentAssembly.FullName)
-            {
-                return CurrentAssembly;
-            }
-            var deps = DependencyContext.Default;
-            if (deps.CompileLibraries.Any(d => d.Name == assemblyName.Name))
-            {
-                return Assembly.Load(assemblyName);
-            }
 
-            foreach (var item in DependencyAssemblies)
-            {
-                if (item.FullName == assemblyName.FullName)
-                {
-                    return item;
-                }
-            }
-            return null;
-        }
         private void RegistAssembly(Assembly assembly)
         {
             List<TypeInfo> controllers = new List<TypeInfo>();

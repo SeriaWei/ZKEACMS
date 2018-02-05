@@ -40,9 +40,9 @@ namespace ZKEACMS.Controllers
             _widgetService = widgetService;
         }
         [Widget]
-        public IActionResult PreView()
+        public IActionResult Main()
         {
-            return View();
+            return View("PreView");
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewPage)]
         public override IActionResult Index()
