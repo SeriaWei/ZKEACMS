@@ -17,6 +17,7 @@ using Easy.Image;
 using Easy.RepositoryPattern;
 using System.Linq;
 using Easy.Constant;
+using FreeImageAPI;
 
 namespace ZKEACMS.Controllers
 {
@@ -185,6 +186,33 @@ namespace ZKEACMS.Controllers
                 Service.Get(m => m.ParentID == mediaId).Each(m => DeleteMedia(m.ID));
             }
             Service.Remove(mediaId);
+        }
+        public IActionResult Thumbnail(string id)
+        {
+            const int size = 200;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (var original = FreeImageBitmap.FromFile(Request.MapPath(Service.Get(id).Url)))
+                {
+                    int width, height;
+                    if (original.Width > original.Height)
+                    {
+                        width = size;
+                        height = original.Height * size / original.Width;
+                    }
+                    else
+                    {
+                        width = original.Width * size / original.Height;
+                        height = size;
+                    }
+                    var resized = new FreeImageBitmap(original, width, height);
+                    resized.Save(ms, FREE_IMAGE_FORMAT.FIF_JPEG,
+                        FREE_IMAGE_SAVE_FLAGS.JPEG_QUALITYGOOD |
+                        FREE_IMAGE_SAVE_FLAGS.JPEG_BASELINE);
+                }
+                ms.Position = 0;
+                return File(ms.ToArray(), "image/jpg");
+            }
         }
     }
 }
