@@ -553,14 +553,15 @@ a.badge:hover {
 }
 #media-list .thumbnail .multi-select {
     position: absolute;
-    left: 6px;
-    top: -10px;
+    left: 18px;
+    top: unset;
+    bottom: 23px;
     font-size: 21px;
     background: #fff;
     border-radius: 50%;
     cursor: pointer;
 }
-#media-list .thumbnail .multi-select:not(.glyphicon-record){
+#media-list .thumbnail .multi-select:not(.glyphicon-unchecked){
     color:red;
 }
 .navbar-inverse .navbar-nav > li > a {

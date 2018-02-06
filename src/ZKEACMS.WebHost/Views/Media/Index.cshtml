@@ -87,12 +87,12 @@
                             @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
                             {
                                 <div class="close">
-                                    <i class="glyphicon glyphicon-remove"></i>
+                                    <i class="glyphicon glyphicon-remove-sign"></i>
                                 </div>
                             }
                             @if (ViewBag.MultiSelect != null && media.MediaType != (int)MediaType.Folder)
                             {
-                                <i data-result="@Url.PathContent(media.Url)" data-name="@media.Title" class="multi-select glyphicon glyphicon-ok-circle glyphicon-record"></i>
+                                <i class="multi-select glyphicon glyphicon-check glyphicon-unchecked" data-result="@Url.PathContent(media.Url)" data-name="@media.Title"></i>
                             }
                         </div>
                     </div>
@@ -100,7 +100,6 @@
             }
         </div>
     </div>
-
     <ul class="pagination">
         @if (Model.Pagin.PageIndex >= 1)
         {
@@ -165,16 +164,16 @@
                     @if (ViewBag.ShowToolBar == null)
                     {
                         <div class="tool"></div>
-                    }                    
+                    }
                     @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
                     {
                         <div class="close">
-                            <img src="~/images/close_red.png" />
+                            <i class="glyphicon glyphicon-remove-sign"></i>
                         </div>
                     }
                     @if (ViewBag.MultiSelect != null)
                     {
-                        <i class="multi-select glyphicon glyphicon-ok-circle glyphicon-record"></i>
+                        <i class="multi-select glyphicon glyphicon-check glyphicon-unchecked"></i>
                     }
                 </div>
             </div>
@@ -336,8 +335,8 @@
                     });
                 }, true);
             }).on("click", ".multi-select", function () {
-                $(this).toggleClass("glyphicon-record");
-                $(".confirm-multi-select").val("确定选择(0)".replace(/\d+/, $(".multi-select:not(.glyphicon-record)").length));
+                $(this).toggleClass("glyphicon-unchecked");
+                $(".confirm-multi-select").val("确定选择(0)".replace(/\d+/, $(".multi-select:not(.glyphicon-unchecked)").length));
             });
         });
 
