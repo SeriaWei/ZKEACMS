@@ -2,22 +2,20 @@
  * Copyright 2016 ZKEASOFT 
  * http://www.zkea.net/licenses */
 
+using Easy.Constant;
+using Easy.Extend;
+using Easy.Image;
+using Easy.Mvc.Authorize;
+using Easy.Mvc.Controllers;
+using Easy.Mvc.Extend;
+using Easy.RepositoryPattern;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using ZKEACMS.Common.ViewModels;
-using Easy.Extend;
-using Easy.Mvc.Authorize;
-using Easy.Mvc.Controllers;
-using ZKEACMS.Media;
-using Microsoft.AspNetCore.Mvc;
-using Easy.Mvc.Attribute;
-using Easy.Mvc.Extend;
-using Easy.Image;
-using Easy.RepositoryPattern;
 using System.Linq;
-using Easy.Constant;
-using FreeImageAPI;
+using ZKEACMS.Common.ViewModels;
+using ZKEACMS.Media;
 
 namespace ZKEACMS.Controllers
 {
@@ -74,7 +72,13 @@ namespace ZKEACMS.Controllers
         public IActionResult Select(string ParentId, int? pageIndex)
         {
             ViewBag.PopUp = true;
+            ViewBag.ShowToolBar = false;
             return Index(ParentId, pageIndex);
+        }
+        public IActionResult MultiSelect(string ParentId, int? pageIndex)
+        {
+            ViewBag.MultiSelect = true;
+            return Select(ParentId, pageIndex);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
         public JsonResult Save(string id, string title, string parentId)
@@ -189,30 +193,8 @@ namespace ZKEACMS.Controllers
         }
         public IActionResult Thumbnail(string id)
         {
-            const int size = 200;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                using (var original = FreeImageBitmap.FromFile(Request.MapPath(Service.Get(id).Url)))
-                {
-                    int width, height;
-                    if (original.Width > original.Height)
-                    {
-                        width = size;
-                        height = original.Height * size / original.Width;
-                    }
-                    else
-                    {
-                        width = original.Width * size / original.Height;
-                        height = size;
-                    }
-                    var resized = new FreeImageBitmap(original, width, height);
-                    resized.Save(ms, FREE_IMAGE_FORMAT.FIF_JPEG,
-                        FREE_IMAGE_SAVE_FLAGS.JPEG_QUALITYGOOD |
-                        FREE_IMAGE_SAVE_FLAGS.JPEG_BASELINE);
-                }
-                ms.Position = 0;
-                return File(ms.ToArray(), "image/jpg");
-            }
+            //todo: resize image to a small one
+            return File(Service.Get(id).Url, "image/jpg");
         }
     }
 }

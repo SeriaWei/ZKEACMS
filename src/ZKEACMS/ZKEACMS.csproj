@@ -18,7 +18,6 @@
     <ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FreeImage-dotnet-core" Version="4.3.6" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.1" />
   </ItemGroup>
 </Project>

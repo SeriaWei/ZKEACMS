@@ -524,9 +524,11 @@ a.badge:hover {
 
 #media-list .thumbnail .close {
     position: absolute;
-    right: 8px;
-    top: -12px;
+    right: 6px;
+    top: -10px;
     opacity: .7;
+    color: red;
+    font-size: 21px;
 }
 
 #media-list .thumbnail .tool {
@@ -549,7 +551,18 @@ a.badge:hover {
 #media-list .new-folder .close {
     display: none;
 }
-
+#media-list .thumbnail .multi-select {
+    position: absolute;
+    left: 6px;
+    top: -10px;
+    font-size: 21px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#media-list .thumbnail .multi-select:not(.glyphicon-record){
+    color:red;
+}
 .navbar-inverse .navbar-nav > li > a {
     color: #fff;
 }
