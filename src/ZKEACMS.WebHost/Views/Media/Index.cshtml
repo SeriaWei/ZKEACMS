@@ -92,7 +92,7 @@
                             }
                             @if (ViewBag.MultiSelect != null && media.MediaType != (int)MediaType.Folder)
                             {
-                                <i class="multi-select glyphicon glyphicon-check glyphicon-unchecked" data-result="@Url.PathContent(media.Url)" data-name="@media.Title"></i>
+                                <i title="选择" class="multi-select unchecked glyphicon glyphicon-check glyphicon-unchecked" data-result="@Url.PathContent(media.Url)" data-name="@media.Title"></i>
                             }
                         </div>
                     </div>
@@ -173,7 +173,7 @@
                     }
                     @if (ViewBag.MultiSelect != null)
                     {
-                        <i class="multi-select glyphicon glyphicon-check glyphicon-unchecked"></i>
+                        <i title="选择" class="multi-select unchecked glyphicon glyphicon-check glyphicon-unchecked"></i>
                     }
                 </div>
             </div>
@@ -188,6 +188,7 @@
             $(document).on("click", ".create-folder", function () {
                 var newfolder = $($("#item-template").html());
                 newfolder.find(".caption").append('<input type="text" class="edit" value="新建文件夹" />');
+                newfolder.find(".multi-select").remove();
                 if ($("#media-list > div").size() > 0) {
                     newfolder.insertBefore($("#media-list > div:first"));
                 } else {
@@ -335,8 +336,8 @@
                     });
                 }, true);
             }).on("click", ".multi-select", function () {
-                $(this).toggleClass("glyphicon-unchecked");
-                $(".confirm-multi-select").val("确定选择(0)".replace(/\d+/, $(".multi-select:not(.glyphicon-unchecked)").length));
+                $(this).toggleClass("glyphicon-unchecked").toggleClass("unchecked");
+                $(".confirm-multi-select").val("确定选择(0)".replace(/\d+/, $(".multi-select:not(.unchecked)").length));
             });
         });
 

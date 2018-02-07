@@ -490,10 +490,14 @@ a.badge:hover {
     display: block;
     height: 130px;
     overflow: hidden;
+    line-height: 130px;
+    text-align: center;
 }
 
     #media-list .thumbnail > a.img-link img {
         max-height: 100%;
+        vertical-align: middle;
+        display: inline-block;
     }
 
 #media-list .thumbnail .caption {

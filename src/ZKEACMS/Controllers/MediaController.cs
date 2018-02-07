@@ -36,8 +36,7 @@ namespace ZKEACMS.Controllers
         {
             ParentId = ParentId ?? "#";
             Pagination pagin = new Pagination { PageIndex = pageIndex ?? 0 };
-            pagin.OrderByDescending = "CreateDate";
-            var medias = Service.Get(m => m.ParentID == ParentId, pagin);
+            var medias = Service.GetPage(ParentId, pagin);
             var viewModel = new MediaViewModel
             {
                 ParentID = ParentId,

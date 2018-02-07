@@ -28,7 +28,7 @@ tinymce.PluginManager.add('filebrowser', function (editor) {
                     box.close();
                 });
                 window.top.$(this.document).on("click", ".confirm-multi-select", function () {
-                    $(".multi-select:not(.glyphicon-record)", $(this).closest("body")).each(function () {
+                    $(".multi-select:not(.unchecked)", $(this).closest("body")).each(function () {
                         var result = initResult({ src: $(this).data("result"), name: $(this).data("name") });
                         if (result.ele) {
                             editor.undoManager.transact(function () {
