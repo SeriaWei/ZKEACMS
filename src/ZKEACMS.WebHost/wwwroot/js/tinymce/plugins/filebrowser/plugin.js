@@ -5,42 +5,53 @@
  */
 tinymce.PluginManager.add('filebrowser', function (editor) {
     function showDialog() {
-        window.top.Easy.ShowUrlWindow({
-            url: '/admin/Media/MultiSelect',
+        tinymce.activeEditor.windowManager.open({
+            url: "/admin/Media/MultiSelect",
             width: 1024,
             height: 600,
             title: "媒体库",
-            onLoad: function (box) {
-                var win = this;
-                window.top.$(this.document).find("#confirm").click(function () {
-                    box.close();
-                });
-                window.top.$(this.document).on("click", ".confirm", function () {
-                    var result = initResult({ src: $(this).data("result"), name: $(this).data("name") });
-                    if (result.ele) {
-                        editor.undoManager.transact(function () {
-                            editor.selection.setContent(editor.dom.createHTML(result.ele, result.attr, result.innerText));
+            resizable: true,
+            buttons: [
+                {
+                    text: "确定",
+                    onclick: function (e) {
+                        var frame = $(e.currentTarget).find("iframe")[0];
+                        var doc = frame.contentDocument || frame.contentWindow.document;
+                        var selected = $(doc).find(".multi-select:not(.unchecked)");
+                        if (selected.length == 0) {
+                            tinymce.activeEditor.windowManager.alert("请先选择要使用的媒体资源！");
+                            return;
+                        }
+                        selected.each(function () {
+                            var result = initResult({ src: $(this).data("result"), name: $(this).data("name") });
+                            if (result.ele) {
+                                editor.undoManager.transact(function () {
+                                    editor.selection.setContent(editor.dom.createHTML(result.ele, result.attr, result.innerText));
+                                });
+                            }
                         });
                         editor.focus();
                         editor.nodeChanged();
-
-                    }
-                    box.close();
-                });
-                window.top.$(this.document).on("click", ".confirm-multi-select", function () {
-                    $(".multi-select:not(.unchecked)", $(this).closest("body")).each(function () {
-                        var result = initResult({ src: $(this).data("result"), name: $(this).data("name") });
-                        if (result.ele) {
-                            editor.undoManager.transact(function () {
-                                editor.selection.setContent(editor.dom.createHTML(result.ele, result.attr, result.innerText));
-                            });
-                        }
+                        tinymce.activeEditor.windowManager.close();
+                    },
+                    classes: "primary"
+                },
+                { text: "取消", onclick: "close" }
+            ]
+        }).$el.find("iframe").on("load", function () {
+            var doc = this.contentDocument || this.contentWindow.document;
+            $(doc).on("click", ".confirm", function () {
+                var result = initResult({ src: $(this).data("result"), name: $(this).data("name") });
+                if (result.ele) {
+                    editor.undoManager.transact(function () {
+                        editor.selection.setContent(editor.dom.createHTML(result.ele, result.attr, result.innerText));
                     });
                     editor.focus();
                     editor.nodeChanged();
-                    box.close();
-                });
-            }
+
+                }
+                tinymce.activeEditor.windowManager.close();
+            });
         });
     }
     function initResult(obj) {

@@ -34,10 +34,6 @@
                 <input type="button" class="btn btn-primary btn-sm upload" value="上传文件" />
                 <input type="button" class="btn btn-primary btn-sm create-folder" value="创建文件夹" />
             }
-            @if (ViewBag.MultiSelect != null)
-            {
-                <input type="button" class="btn btn-danger btn-sm confirm-multi-select" value="确定选择(0)" />
-            }
         </div>
 
     </div>
@@ -337,7 +333,6 @@
                 }, true);
             }).on("click", ".multi-select", function () {
                 $(this).toggleClass("glyphicon-unchecked").toggleClass("unchecked");
-                $(".confirm-multi-select").val("确定选择(0)".replace(/\d+/, $(".multi-select:not(.unchecked)").length));
             });
         });
 
