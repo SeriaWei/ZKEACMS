@@ -10,6 +10,10 @@ using Easy.Mvc.Controllers;
 using Easy.Mvc.Extend;
 using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Mvc;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.Primitives;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -192,8 +196,18 @@ namespace ZKEACMS.Controllers
         }
         public IActionResult Thumbnail(string id)
         {
-            //todo: resize image to a small one
-            return File(Service.Get(id).Url, "image/jpg");
+            const int size = 200;
+            using (var input = System.IO.File.OpenRead(Request.MapPath(Service.Get(id).Url)))
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    var image = Image.Load<Rgba32>(input);
+                    image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(size, size), Mode = ResizeMode.Max }));
+                    image.Save(ms, new JpegEncoder());
+                    ms.Position = 0;
+                    return File(ms.ToArray(), "image/jpeg");
+                }
+            }
         }
     }
 }
