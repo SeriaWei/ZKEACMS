@@ -60,25 +60,22 @@
                             }
                             <div class="caption" data-id="@media.ID">
                                 @media.Title
-                            </div>
-                            @if (ViewBag.ShowToolBar == null)
-                            {
-                                <div class="tool">
-                                    @if (media.MediaType == (int)MediaType.Image && media.Url.IsNotNullAndWhiteSpace())
-                                    {
-                                        <a class="preview" href="@Url.Content(media.Url)"
-                                           data-lightbox="thumbnail" data-title="@media.Title">
-                                            <i class="glyphicon glyphicon-eye-open"></i>
-                                        </a>
-                                    }
-                                    @if (media.MediaType != (int)MediaType.Folder && media.Url.IsNotNullAndWhiteSpace())
-                                    {
-                                        <a class="download" download="@media.Title" href="@Url.Content(media.Url)">
-                                            <i class="glyphicon glyphicon-download-alt"></i>
-                                        </a>
-                                    }
-                                </div>
-                            }
+                            </div>                           
+                            <div class="tool">
+                                @if (media.MediaType == (int)MediaType.Image && media.Url.IsNotNullAndWhiteSpace())
+                                {
+                                    <a class="preview" href="@Url.Content(media.Url)"
+                                        data-lightbox="thumbnail" data-title="@media.Title">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </a>
+                                }
+                                @if (media.MediaType != (int)MediaType.Folder && media.Url.IsNotNullAndWhiteSpace())
+                                {
+                                    <a class="download" download="@media.Title" href="@Url.Content(media.Url)">
+                                        <i class="glyphicon glyphicon-download-alt"></i>
+                                    </a>
+                                }
+                            </div>                           
 
                             @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
                             {
@@ -156,11 +153,8 @@
                         <img class="img" src="~/images/folder.png">
                     </a>
                     <div class="caption">
-                    </div>
-                    @if (ViewBag.ShowToolBar == null)
-                    {
-                        <div class="tool"></div>
-                    }
+                    </div>                    
+                    <div class="tool"></div>                    
                     @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
                     {
                         <div class="close">

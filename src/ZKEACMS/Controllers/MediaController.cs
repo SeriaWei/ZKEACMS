@@ -196,7 +196,7 @@ namespace ZKEACMS.Controllers
         }
         public IActionResult Thumbnail(string id)
         {
-            const int size = 200;
+            const int size = 220;
             using (var input = System.IO.File.OpenRead(Request.MapPath(Service.Get(id).Url)))
             {
                 using (MemoryStream ms = new MemoryStream())

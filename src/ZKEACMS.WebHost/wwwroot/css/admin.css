@@ -537,10 +537,14 @@ a.badge:hover {
 
 #media-list .thumbnail .tool {
     position: absolute;
-    left: 20px;
-    bottom: 50px;
-    text-shadow: 0px 0px 5px #fff;
+    right: 20px;
+    bottom: 25px;
+    text-shadow: 1px 1px 2px #fff;
     text-align: left;
+    display:none;
+}
+#media-list .thumbnail:hover .tool{
+    display:block;
 }
 
     #media-list .thumbnail .tool a {
