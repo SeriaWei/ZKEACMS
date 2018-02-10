@@ -48,9 +48,6 @@ if %ERRORLEVEL% NEQ 0 goto errors
 @echo CMS_WidgetBase
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.CMS_WidgetBase.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
-@echo CMS_WidgetTemplate
-sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.CMS_WidgetTemplate.Table.sql"
-if %ERRORLEVEL% NEQ 0 goto errors
 @echo CMS_Media
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.CMS_Media.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
@@ -241,9 +238,6 @@ sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Initial
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo CMS_Zone
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.CMS_Zone.Table.sql"
-if %ERRORLEVEL% NEQ 0 goto errors
-@echo CMS_WidgetTemplate
-sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.CMS_WidgetTemplate.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo CMS_Media
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.CMS_Media.Table.sql"

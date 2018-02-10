@@ -12,7 +12,7 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
             "bootstrap pasteImage"
         ],
         toolbar: "insertfile undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | filebrowser",
-        height: 300,
+        height: 500,
         relative_urls: false,
         language: "zh_CN"
     });

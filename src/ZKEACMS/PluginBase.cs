@@ -12,6 +12,7 @@ using Easy.Extend;
 using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS
 {
@@ -21,7 +22,7 @@ namespace ZKEACMS
         public abstract IEnumerable<RouteDescriptor> RegistRoute();
         public abstract IEnumerable<AdminMenu> AdminMenu();
         public abstract IEnumerable<PermissionDescriptor> RegistPermission();
-        public abstract IEnumerable<Type> WidgetServiceTypes();
+        public abstract IEnumerable<WidgetTemplateEntity> WidgetServiceTypes();
         public abstract void ConfigureServices(IServiceCollection serviceCollection);
         public virtual void ConfigureApplication(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -69,20 +70,18 @@ namespace ZKEACMS
             var widgets = this.WidgetServiceTypes();
             if (widgets != null)
             {
-                foreach (var item in widgets)
+                WidgetTemplateService.KnownWidgets.AddRange(widgets);
+                foreach (var item in WidgetTemplateService.KnownWidgets)
                 {
-                    string name = $"{item.GetTypeInfo().Assembly.GetName().Name},{item.FullName}";
+                    string name = $"{item.AssemblyName},{item.ServiceTypeName}";
                     if (!WidgetBase.KnownWidgetService.ContainsKey(name))
                     {
-                        WidgetBase.KnownWidgetService.Add(name, item);
+                        WidgetBase.KnownWidgetService.Add(name, item.ServiceType);
                     }
-                    foreach (var widgetModel in item.GetTypeInfo().BaseType.GetGenericArguments())
+                    string modelName = $"{item.AssemblyName},{item.ViewModelTypeName}";
+                    if (!WidgetBase.KnownWidgetModel.ContainsKey(modelName))
                     {
-                        string modelName = $"{widgetModel.GetTypeInfo().Assembly.GetName().Name},{widgetModel.FullName}";
-                        if (!WidgetBase.KnownWidgetModel.ContainsKey(modelName))
-                        {
-                            WidgetBase.KnownWidgetModel.Add(modelName, widgetModel);
-                        }
+                        WidgetBase.KnownWidgetModel.Add(modelName, item.ViewModelType);
                     }
                 }
             }

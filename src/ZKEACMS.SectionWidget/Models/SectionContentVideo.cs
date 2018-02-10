@@ -2,6 +2,7 @@
 using System;
 using Easy.MetaData;
 using System.ComponentModel.DataAnnotations.Schema;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.SectionWidget.Models
 {
@@ -38,7 +39,7 @@ namespace ZKEACMS.SectionWidget.Models
             ViewConfig(m => m.Status).AsHidden();
             ViewConfig(m => m.Description).AsHidden();
             ViewConfig(m => m.VideoTitle).AsTextBox().Required();
-            ViewConfig(m => m.Thumbnail).AsTextBox().Required().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
+            ViewConfig(m => m.Thumbnail).AsTextBox().Required().MediaSelector();
             ViewConfig(m => m.Url).AsTextBox().AddClass(StringKeys.SelectVideoClass).AddProperty("data-url", Urls.SelectMedia);
             ViewConfig(m => m.Code).AsTextArea().MaxLength(500);
         }

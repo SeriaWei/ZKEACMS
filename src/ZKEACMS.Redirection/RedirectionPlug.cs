@@ -12,6 +12,7 @@ using Easy.RepositoryPattern;
 using ZKEACMS.Redirection.Service;
 using Easy;
 using ZKEACMS.Redirection.Models;
+using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS.Redirection
 {
@@ -69,7 +70,7 @@ namespace ZKEACMS.Redirection
             };
         }
 
-        public override IEnumerable<Type> WidgetServiceTypes()
+        public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
             return null;
         }

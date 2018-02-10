@@ -8,6 +8,7 @@ using ZKEACMS.ExtendField;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Easy.LINQ;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Product.Models
 {
@@ -94,8 +95,8 @@ namespace ZKEACMS.Product.Models
             ViewConfig(m => m.TargetUrl).AsHidden();
             ViewConfig(m => m.Url).AsHidden();
             ViewConfig(m => m.Title).AsTextBox().Required().Order(0).ShowInGrid().Search(Query.Operators.Contains);
-            ViewConfig(m => m.ImageUrl).AsTextBox().Required().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
-            ViewConfig(m => m.ImageThumbUrl).AsTextBox().Required().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
+            ViewConfig(m => m.ImageUrl).AsTextBox().Required().MediaSelector();
+            ViewConfig(m => m.ImageThumbUrl).AsTextBox().Required().MediaSelector();
             ViewConfig(m => m.PartNumber).AsTextBox().ShowInGrid().Search(Query.Operators.Contains);
             ViewConfig(m => m.BrandCD).AsHidden();
             ViewConfig(m => m.ProductCategoryID)

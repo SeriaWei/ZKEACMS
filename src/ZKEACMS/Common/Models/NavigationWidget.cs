@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Easy;
 using ZKEACMS.Common.Service;
 using Easy.Extend;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Common.Models
 {
@@ -44,7 +45,7 @@ namespace ZKEACMS.Common.Models
                 };
             }).Order(NextOrder());
             ViewConfig(m => m.IsTopFix).AsHidden();
-            ViewConfig(m => m.Logo).AsTextBox().Order(NextOrder()).AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
+            ViewConfig(m => m.Logo).AsTextBox().Order(NextOrder()).MediaSelector();
             ViewConfig(m => m.RootID).AsDropDownList().Order(NextOrder()).AddClass("select").AddProperty("data-url", "/admin/Navigation/Select").DataSource(() =>
             {
                 Dictionary<string, string> navigations = new Dictionary<string, string>();

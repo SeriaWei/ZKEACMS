@@ -8,6 +8,7 @@ using ZKEACMS.Common.Models;
 using ZKEACMS.Product.Models;
 using ZKEACMS.Product.Service;
 using Easy;
+using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS.Product
 {
@@ -88,11 +89,43 @@ namespace ZKEACMS.Product
             yield return new PermissionDescriptor(PermissionKeys.ManageProductCategoryTag, "产品", "管理产品标签", "");
         }
 
-        public override IEnumerable<Type> WidgetServiceTypes()
+        public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
-            yield return typeof(ProductListWidgetService);
-            yield return typeof(ProductDetailWidgetService);
-            yield return typeof(ProductCategoryWidgetService);
+            string groupName = "3.产品";
+            string assemblyName = this.GetType().Assembly.GetName().Name;
+            yield return new WidgetTemplateEntity
+            {
+                Title = "产品列表",
+                GroupName = groupName,
+                PartialView = "Widget.ProductList",
+                AssemblyName = assemblyName,
+                ServiceType = typeof(ProductListWidgetService),
+                ViewModelType = typeof(ProductListWidget),
+                Thumbnail = "~/Plugins/ZKEACMS.Product/Content/Image/Widget.ProductList.png",
+                Order = 1
+            };
+            yield return new WidgetTemplateEntity
+            {
+                Title = "产品内容",
+                GroupName = groupName,
+                PartialView = "Widget.ProductDetail",
+                AssemblyName = assemblyName,
+                ServiceType = typeof(ProductDetailWidgetService),
+                ViewModelType = typeof(ProductDetailWidget),
+                Thumbnail = "~/Plugins/ZKEACMS.Product/Content/Image/Widget.ProductDetail.png",
+                Order = 2
+            };
+            yield return new WidgetTemplateEntity
+            {
+                Title = "产品类别",
+                GroupName = groupName,
+                PartialView = "Widget.ProductCategory",
+                AssemblyName = assemblyName,
+                ServiceType = typeof(ProductCategoryWidgetService),
+                ViewModelType = typeof(ProductCategoryWidget),
+                Thumbnail = "~/Plugins/ZKEACMS.Product/Content/Image/Widget.ProductCategory.png",
+                Order = 3
+            };
         }
 
         public override void ConfigureServices(IServiceCollection serviceCollection)

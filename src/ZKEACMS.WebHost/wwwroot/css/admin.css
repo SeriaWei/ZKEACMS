@@ -490,10 +490,14 @@ a.badge:hover {
     display: block;
     height: 130px;
     overflow: hidden;
+    line-height: 130px;
+    text-align: center;
 }
 
     #media-list .thumbnail > a.img-link img {
         max-height: 100%;
+        vertical-align: middle;
+        display: inline-block;
     }
 
 #media-list .thumbnail .caption {
@@ -524,17 +528,23 @@ a.badge:hover {
 
 #media-list .thumbnail .close {
     position: absolute;
-    right: 8px;
-    top: -12px;
+    right: 6px;
+    top: -10px;
     opacity: .7;
+    color: red;
+    font-size: 21px;
 }
 
 #media-list .thumbnail .tool {
     position: absolute;
-    left: 20px;
-    bottom: 50px;
-    text-shadow: 0px 0px 5px #fff;
+    right: 20px;
+    bottom: 25px;
+    text-shadow: 1px 1px 2px #fff;
     text-align: left;
+    display:none;
+}
+#media-list .thumbnail:hover .tool{
+    display:block;
 }
 
     #media-list .thumbnail .tool a {
@@ -549,7 +559,19 @@ a.badge:hover {
 #media-list .new-folder .close {
     display: none;
 }
-
+#media-list .thumbnail .multi-select {
+    position: absolute;
+    left: 18px;
+    top: unset;
+    bottom: 23px;
+    font-size: 21px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#media-list .thumbnail .multi-select:not(.glyphicon-unchecked){
+    color:red;
+}
 .navbar-inverse .navbar-nav > li > a {
     color: #fff;
 }

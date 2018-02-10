@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using System.Reflection;
 using ZKEACMS.SectionWidget.Models;
 using Easy;
+using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS.SectionWidget
 {
@@ -56,9 +57,20 @@ namespace ZKEACMS.SectionWidget
             return null;
         }
 
-        public override IEnumerable<Type> WidgetServiceTypes()
+        public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
-            yield return typeof(SectionWidgetService);
+            yield return new WidgetTemplateEntity
+            {
+                Title = "自定义",
+                GroupName = "1.通用",
+                PartialView = "Widget.Section",
+                AssemblyName = GetType().Assembly.GetName().Name,
+                ServiceType = typeof(SectionWidgetService),
+                ViewModelType = typeof(Models.SectionWidget),
+                Thumbnail = "~/images/Widget.Section.png",
+                FormView= "SectionWidgetForm",
+                Order = 100
+            };
         }
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
