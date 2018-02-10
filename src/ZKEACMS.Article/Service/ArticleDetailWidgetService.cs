@@ -43,7 +43,7 @@ namespace ZKEACMS.Article.Service
                     viewModel.Next = _articleService.GetNext(viewModel.Current);
                 }
             }
-            if (viewModel.Current == null)
+            if (viewModel.Current == null && ApplicationContext.IsAuthenticated)
             {
                 foreach (var item in _articleService.Get().AsQueryable().OrderByDescending(m => m.ID).Take(1))
                 {
@@ -52,21 +52,19 @@ namespace ZKEACMS.Article.Service
             }
             if (viewModel.Current == null)
             {
-                viewModel.Current = new ArticleEntity
-                {
-                    Title = "文章明细组件使用说明",
-                    ImageUrl = "~/Plugins/ZKEACMS.Article/Content/Image/Example.png",
-                    ArticleContent = "<p>如上图所示，该组件需要一个<code>文章列表组件</code>组合使用，您需要在其它页面添加一个文章列表组件并链接过来，然后点击文章列表中的文章，该组件就可正常显示文章的内容</p>",
-                    CreatebyName = "ZKEASOFT"
-                };
+                actionContext.NotFoundResult();
             }
-            var layout = actionContext.HttpContext.GetLayout();
-            if (layout != null && layout.Page != null)
+            else
             {
-                layout.Page.MetaKeyWorlds = viewModel.Current.MetaKeyWords;
-                layout.Page.MetaDescription = viewModel.Current.MetaDescription;
-                layout.Page.Title = viewModel.Current.Title;
+                var layout = actionContext.HttpContext.GetLayout();
+                if (layout != null && layout.Page != null)
+                {
+                    layout.Page.MetaKeyWorlds = viewModel.Current.MetaKeyWords;
+                    layout.Page.MetaDescription = viewModel.Current.MetaDescription;
+                    layout.Page.Title = viewModel.Current.Title;
+                }
             }
+            
 
             return widget.ToWidgetViewModelPart(viewModel);
         }
