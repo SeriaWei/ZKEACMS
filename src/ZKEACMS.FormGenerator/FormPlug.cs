@@ -13,6 +13,7 @@ using Easy.RepositoryPattern;
 using ZKEACMS.FormGenerator.Service;
 using Easy;
 using ZKEACMS.FormGenerator.Models;
+using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS.FormGenerator
 {
@@ -86,9 +87,19 @@ namespace ZKEACMS.FormGenerator
             yield return new PermissionDescriptor(PermissionKeys.ExportFormData, "自定义表单", "导出表单数据", "");
         }
 
-        public override IEnumerable<Type> WidgetServiceTypes()
+        public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
-            yield return typeof(FormWidgetService);
+            yield return new WidgetTemplateEntity
+            {
+                Title = "表单",
+                GroupName = "4.表单",
+                PartialView = "Widget.Form",
+                AssemblyName = this.GetType().Assembly.GetName().Name,
+                ServiceType = typeof(FormWidgetService),
+                ViewModelType = typeof(FormWidget),
+                Thumbnail = "~/Plugins/ZKEACMS.FormGenerator/Content/images/Widget.Form.png",
+                Order = 1
+            };
         }
 
         public override void ConfigureServices(IServiceCollection serviceCollection)

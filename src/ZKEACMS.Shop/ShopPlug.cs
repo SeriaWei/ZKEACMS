@@ -18,6 +18,7 @@ using ZKEACMS.Shop.Payment;
 using ZKEACMS.Account;
 using Easy;
 using ZKEACMS.Shop.Models;
+using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS.Shop
 {
@@ -93,7 +94,7 @@ namespace ZKEACMS.Shop
            //yield return new PermissionDescriptor { Module = "商城", Title = "关闭订单", Key = PermissionKeys.CloseOrder };
         }
 
-        public override IEnumerable<Type> WidgetServiceTypes()
+        public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
             return null;
         }

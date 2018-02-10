@@ -11,6 +11,6 @@ namespace ZKEACMS
         public string PageID { get; set; }
         public string WidgetID { get; set; }
         public string ReturnUrl { get; set; }
-        public int WidgetTemplateID { get; set; }
+        public string WidgetTemplateID { get; set; }
     }
 }

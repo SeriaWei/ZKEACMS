@@ -6,21 +6,22 @@ using ZKEACMS.Widget;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text;
 
 namespace ZKEACMS.WidgetTemplate
 {
-    [Table("CMS_WidgetTemplate")]
+
     public class WidgetTemplateEntity : EditorEntity
     {
-        [Key]
-        public int ID { get; set; }
+        public string ID { get { return Convert.ToBase64String(Encoding.UTF8.GetBytes(AssemblyName + ServiceTypeName)); } }
         public string GroupName { get; set; }
-
         public string PartialView { get; set; }
         public string AssemblyName { get; set; }
-        public string ServiceTypeName { get; set; }
+        public Type ServiceType { get; set; }
+        public string ServiceTypeName { get { return ServiceType.FullName; } }
         public string Thumbnail { get; set; }
-        public string ViewModelTypeName { get; set; }
+        public Type ViewModelType { get; set; }
+        public string ViewModelTypeName { get { return ViewModelType.FullName; } }
         public int? Order { get; set; }
 
         public string FormView { get; set; }

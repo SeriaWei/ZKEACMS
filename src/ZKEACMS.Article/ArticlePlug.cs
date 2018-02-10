@@ -10,6 +10,7 @@ using ZKEACMS.Setting;
 using Easy;
 using ZKEACMS.Article.Models;
 using Microsoft.Extensions.Options;
+using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS.Article
 {
@@ -66,13 +67,65 @@ namespace ZKEACMS.Article
             yield return new PermissionDescriptor(PermissionKeys.ManageArticleType, "文章", "管理文章类别", "");
         }
 
-        public override IEnumerable<Type> WidgetServiceTypes()
+        public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
-            yield return typeof(ArticleDetailWidgetService);
-            yield return typeof(ArticleListWidgetService);
-            yield return typeof(ArticleSummaryWidgetService);
-            yield return typeof(ArticleTopWidgetService);
-            yield return typeof(ArticleTypeWidgetService);
+            string groupName = "2.文章";
+            string assemblyName = this.GetType().Assembly.GetName().Name;
+            yield return new WidgetTemplateEntity
+            {
+                Title = "文章列表",
+                GroupName = groupName,
+                PartialView = "Widget.ArticleList",
+                AssemblyName = assemblyName,
+                ServiceType = typeof(ArticleListWidgetService),
+                ViewModelType = typeof(ArticleListWidget),
+                Thumbnail = "~/Plugins/ZKEACMS.Article/Content/Image/Widget.ArticleList.png",
+                Order = 1
+            };
+            yield return new WidgetTemplateEntity
+            {
+                Title = "文章内容",
+                GroupName = groupName,
+                PartialView = "Widget.ArticleDetail",
+                AssemblyName = assemblyName,
+                ServiceType = typeof(ArticleDetailWidgetService),
+                ViewModelType = typeof(ArticleDetailWidget),
+                Thumbnail = "~/Plugins/ZKEACMS.Article/Content/Image/Widget.ArticleDetail.png",
+                Order = 2
+            };
+            yield return new WidgetTemplateEntity
+            {
+                Title = "置顶文章",
+                GroupName = groupName,
+                PartialView = "Widget.ArticleTops",
+                AssemblyName = assemblyName,
+                ServiceType = typeof(ArticleTopWidgetService),
+                ViewModelType = typeof(ArticleTopWidget),
+                Thumbnail = "~/Plugins/ZKEACMS.Article/Content/Image/Widget.ArticleTops.png",
+                Order = 3
+            };
+            yield return new WidgetTemplateEntity
+            {
+                Title = "文章概览",
+                GroupName = groupName,
+                PartialView = "Widget.ArticleSummary",
+                AssemblyName = assemblyName,
+                ServiceType = typeof(ArticleSummaryWidgetService),
+                ViewModelType = typeof(ArticleSummaryWidget),
+                Thumbnail = "~/Plugins/ZKEACMS.Article/Content/Image/Widget.ArticleSummary.png",
+                Order = 4
+            };
+            yield return new WidgetTemplateEntity
+            {
+                Title = "文章类别",
+                GroupName = groupName,
+                PartialView = "Widget.ArticleType",
+                AssemblyName = assemblyName,
+                ServiceType = typeof(ArticleTypeWidgetService),
+                ViewModelType = typeof(ArticleTypeWidget),
+                Thumbnail = "~/Plugins/ZKEACMS.Article/Content/Image/Widget.ArticleType.png",
+                Order = 5
+            };
         }
 
         public override void ConfigureServices(IServiceCollection serviceCollection)

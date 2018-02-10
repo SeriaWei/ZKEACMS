@@ -15,28 +15,8 @@ namespace ZKEACMS.Widget
 {
     public class WidgetBase : EditorEntity
     {
-        public static Dictionary<string, Type> KnownWidgetModel { get; } = new Dictionary<string, Type>
-        {
-           { "ZKEACMS,ZKEACMS.Common.Models.CarouselWidget",typeof(CarouselWidget)},
-           { "ZKEACMS,ZKEACMS.Common.Models.HtmlWidget",typeof(HtmlWidget)},
-           { "ZKEACMS,ZKEACMS.Common.Models.ImageWidget",typeof(ImageWidget)},
-           { "ZKEACMS,ZKEACMS.Common.Models.NavigationWidget",typeof(NavigationWidget)},
-           { "ZKEACMS,ZKEACMS.Common.Models.ScriptWidget",typeof(ScriptWidget)},
-           { "ZKEACMS,ZKEACMS.Common.Models.StyleSheetWidget",typeof(StyleSheetWidget)},
-           { "ZKEACMS,ZKEACMS.Common.Models.VideoWidget",typeof(VideoWidget)},
-           { "ZKEACMS,ZKEACMS.Common.Models.BreadcrumbWidget",typeof(BreadcrumbWidget)}
-        };
-        public static Dictionary<string, Type> KnownWidgetService { get; } = new Dictionary<string, Type>
-        {
-           { "ZKEACMS,ZKEACMS.Common.Service.CarouselWidgetService",typeof(CarouselWidgetService)},
-           { "ZKEACMS,ZKEACMS.Common.Service.HtmlWidgetService",typeof(HtmlWidgetService)},
-           { "ZKEACMS,ZKEACMS.Common.Service.ImageWidgetService",typeof(ImageWidgetService)},
-           { "ZKEACMS,ZKEACMS.Common.Service.NavigationWidgetService",typeof(NavigationWidgetService)},
-           { "ZKEACMS,ZKEACMS.Common.Service.ScriptWidgetService",typeof(ScriptWidgetService)},
-           { "ZKEACMS,ZKEACMS.Common.Service.StyleSheetWidgetService",typeof(StyleSheetWidgetService)},
-           { "ZKEACMS,ZKEACMS.Common.Service.VideoWidgetService",typeof(VideoWidgetService)},
-           { "ZKEACMS,ZKEACMS.Common.Service.BreadcrumbWidgetService",typeof(BreadcrumbWidgetService)}
-        };
+        public static Dictionary<string, Type> KnownWidgetModel { get; } = new Dictionary<string, Type>();
+        public static Dictionary<string, Type> KnownWidgetService { get; } = new Dictionary<string, Type>();
         [Key]
         public virtual string ID { get; set; }
         public virtual string WidgetName { get; set; }
