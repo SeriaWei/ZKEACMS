@@ -37,8 +37,7 @@ namespace ZKEACMS.Article.Service
                 viewModel.Current = _articleService.Get(articleId);
                 if (viewModel.Current != null)
                 {
-                    viewModel.Current.Counter = (viewModel.Current.Counter ?? 0) + 1;
-                    _articleService.Update(viewModel.Current);
+                    _articleService.IncreaseCount(viewModel.Current);
                     viewModel.Prev = _articleService.GetPrev(viewModel.Current);
                     viewModel.Next = _articleService.GetNext(viewModel.Current);
                 }

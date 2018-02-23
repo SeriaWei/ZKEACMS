@@ -33,6 +33,14 @@ namespace ZKEACMS.Article.Service
             return CurrentDbSet.Where(m => m.IsPublish && m.ArticleTypeID == article.ArticleTypeID && m.PublishDate < article.PublishDate).OrderByDescending(m => m.PublishDate).ThenByDescending(m => m.ID).Take(1).FirstOrDefault();
         }
 
+        public void IncreaseCount(ArticleEntity article)
+        {
+            article.Counter = (article.Counter ?? 0) + 1;
+            DbContext.Attach(article);            
+            DbContext.Entry(article).Property(x => x.Counter).IsModified = true;
+            DbContext.SaveChanges();
+        }
+
         public void Publish(int ID)
         {
             var article = Get(ID);
