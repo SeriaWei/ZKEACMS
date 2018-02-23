@@ -26,7 +26,7 @@ namespace ZKEACMS.WidgetTemplate
 
         public string FormView { get; set; }
 
-        public WidgetBase ToWidget(IServiceProvider serviceProvider)
+        public virtual WidgetBase ToWidget(IServiceProvider serviceProvider)
         {
             WidgetBase widget = new WidgetBase();
             widget.AssemblyName = AssemblyName;
