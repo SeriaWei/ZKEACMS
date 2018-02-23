@@ -59,14 +59,11 @@ namespace ZKEACMS.SectionWidget
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
-            yield return new WidgetTemplateEntity
+            yield return new WidgetTemplateEntity<SectionWidgetService>
             {
                 Title = "自定义",
                 GroupName = "1.通用",
                 PartialView = "Widget.Section",
-                AssemblyName = GetType().Assembly.GetName().Name,
-                ServiceType = typeof(SectionWidgetService),
-                ViewModelType = typeof(Models.SectionWidget),
                 Thumbnail = "~/images/Widget.Section.png",
                 FormView= "SectionWidgetForm",
                 Order = 100

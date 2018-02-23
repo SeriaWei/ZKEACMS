@@ -7,6 +7,7 @@ using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Common.Models;
 using ZKEACMS.Common.Service;
+using ZKEACMS.Widget;
 
 namespace ZKEACMS.WidgetTemplate
 {
@@ -14,91 +15,67 @@ namespace ZKEACMS.WidgetTemplate
     {
         public static List<WidgetTemplateEntity> KnownWidgets = new List<WidgetTemplateEntity>
         {
-            new WidgetTemplateEntity
+            new WidgetTemplateEntity<HtmlWidgetService>
             {
                 Title = "HTML",
                 GroupName = "1.通用",
                 PartialView = "Widget.HTML",
-                AssemblyName = "ZKEACMS",
-                ServiceType = typeof(HtmlWidgetService),
-                ViewModelType = typeof(HtmlWidget),
                 Thumbnail = "~/images/Widget.HTML.png",
                 Order = 1
             },
-            new WidgetTemplateEntity
+            new WidgetTemplateEntity<ImageWidgetService>
             {
                 Title = "图片",
                 GroupName = "1.通用",
                 PartialView = "Widget.Image",
-                AssemblyName = "ZKEACMS",
-                ServiceType = typeof(ImageWidgetService),
-                ViewModelType = typeof(ImageWidget),
                 Thumbnail = "~/images/Widget.Image.png",
                 Order = 2
             },
-            new WidgetTemplateEntity
+            new WidgetTemplateEntity<CarouselWidgetService>
             {
                 Title = "焦点图",
                 GroupName = "1.通用",
                 PartialView = "Widget.Carousel",
-                AssemblyName = "ZKEACMS",
-                ServiceType = typeof(CarouselWidgetService),
-                ViewModelType = typeof(CarouselWidget),
                 Thumbnail = "~/images/Widget.Carousel.png",
                 Order = 3
             },
-            new WidgetTemplateEntity
+            new WidgetTemplateEntity<NavigationWidgetService>
             {
                 Title = "导航",
                 GroupName = "1.通用",
                 PartialView = "Widget.Navigation",
-                AssemblyName = "ZKEACMS",
-                ServiceType = typeof(NavigationWidgetService),
-                ViewModelType = typeof(NavigationWidget),
                 Thumbnail = "~/images/Widget.Navigation.png",
                 Order = 4
             },
-            new WidgetTemplateEntity
+            new WidgetTemplateEntity<VideoWidgetService>
             {
                 Title = "视频",
                 GroupName = "1.通用",
                 PartialView = "Widget.Video",
-                AssemblyName = "ZKEACMS",
-                ServiceType = typeof(VideoWidgetService),
-                ViewModelType = typeof(VideoWidget),
                 Thumbnail = "~/images/Widget.Video.png",
                 Order = 5
             },
-            new WidgetTemplateEntity
+            new WidgetTemplateEntity<BreadcrumbWidgetService>
             {
                 Title = "路径导航",
                 GroupName = "1.通用",
                 PartialView = "Widget.Breadcrumb",
-                AssemblyName = "ZKEACMS",
-                ServiceType = typeof(BreadcrumbWidgetService),
-                ViewModelType = typeof(BreadcrumbWidget),
                 Thumbnail = "~/images/Widget.Breadcrumb.png",
                 Order = 6
             },
-            new WidgetTemplateEntity
+            new WidgetTemplateEntity<ScriptWidgetService>
             {
                 Title = "脚本",
                 GroupName = "1.通用",
                 PartialView = "Widget.Script",
-                AssemblyName = "ZKEACMS",
-                ServiceType = typeof(ScriptWidgetService),
-                ViewModelType = typeof(ScriptWidget),
                 Thumbnail = "~/images/Widget.Script.png",
                 Order = 7
             },
-            new WidgetTemplateEntity
+            new WidgetTemplateEntity<StyleSheetWidgetService>
             {
                 Title = "样式",
                 GroupName = "1.通用",
                 PartialView = "Widget.StyleSheet",
-                AssemblyName = "ZKEACMS",
-                ServiceType = typeof(StyleSheetWidgetService),
-                ViewModelType = typeof(StyleSheetWidget),
                 Thumbnail = "~/images/Widget.StyleSheet.png",
                 Order = 8
             }

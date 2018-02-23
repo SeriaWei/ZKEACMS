@@ -112,7 +112,6 @@ namespace ZKEACMS
             services.ConfigureMetaData<ProductImage, ProductImageMetaData>();
             services.ConfigureMetaData<ApplicationSetting, ApplicationSettingMedaData>();
             services.ConfigureMetaData<ThemeEntity, ThemeEntityMetaData>();
-            services.ConfigureMetaData<WidgetTemplateEntity, WidgetTemplateMetaData>();
             services.ConfigureMetaData<ZoneEntity, ZoneEntityMetaData>();
 
             services.Configure<NavigationWidget>(option =>
