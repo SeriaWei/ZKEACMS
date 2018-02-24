@@ -92,37 +92,27 @@ namespace ZKEACMS.Product
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
             string groupName = "3.产品";
-            string assemblyName = this.GetType().Assembly.GetName().Name;
-            yield return new WidgetTemplateEntity
+            yield return new WidgetTemplateEntity<ProductListWidgetService>
             {
                 Title = "产品列表",
                 GroupName = groupName,
                 PartialView = "Widget.ProductList",
-                AssemblyName = assemblyName,
-                ServiceType = typeof(ProductListWidgetService),
-                ViewModelType = typeof(ProductListWidget),
                 Thumbnail = "~/Plugins/ZKEACMS.Product/Content/Image/Widget.ProductList.png",
                 Order = 1
             };
-            yield return new WidgetTemplateEntity
+            yield return new WidgetTemplateEntity<ProductDetailWidgetService>
             {
                 Title = "产品内容",
                 GroupName = groupName,
                 PartialView = "Widget.ProductDetail",
-                AssemblyName = assemblyName,
-                ServiceType = typeof(ProductDetailWidgetService),
-                ViewModelType = typeof(ProductDetailWidget),
                 Thumbnail = "~/Plugins/ZKEACMS.Product/Content/Image/Widget.ProductDetail.png",
                 Order = 2
             };
-            yield return new WidgetTemplateEntity
+            yield return new WidgetTemplateEntity<ProductCategoryWidgetService>
             {
                 Title = "产品类别",
                 GroupName = groupName,
                 PartialView = "Widget.ProductCategory",
-                AssemblyName = assemblyName,
-                ServiceType = typeof(ProductCategoryWidgetService),
-                ViewModelType = typeof(ProductCategoryWidget),
                 Thumbnail = "~/Plugins/ZKEACMS.Product/Content/Image/Widget.ProductCategory.png",
                 Order = 3
             };

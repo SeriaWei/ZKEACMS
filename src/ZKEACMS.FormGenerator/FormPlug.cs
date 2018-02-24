@@ -89,14 +89,11 @@ namespace ZKEACMS.FormGenerator
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
-            yield return new WidgetTemplateEntity
+            yield return new WidgetTemplateEntity<FormWidgetService>
             {
                 Title = "表单",
                 GroupName = "4.表单",
                 PartialView = "Widget.Form",
-                AssemblyName = this.GetType().Assembly.GetName().Name,
-                ServiceType = typeof(FormWidgetService),
-                ViewModelType = typeof(FormWidget),
                 Thumbnail = "~/Plugins/ZKEACMS.FormGenerator/Content/images/Widget.Form.png",
                 Order = 1
             };

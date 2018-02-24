@@ -71,37 +71,27 @@ namespace ZKEACMS.Message
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
             string groupName = "5.消息";
-            string assemblyName = this.GetType().Assembly.GetName().Name;
-            yield return new WidgetTemplateEntity
+            yield return new WidgetTemplateEntity<CommentsWidgetService>
             {
                 Title = "评论箱",
                 GroupName = groupName,
                 PartialView = "Widget.Comments",
-                AssemblyName = assemblyName,
-                ServiceType = typeof(CommentsWidgetService),
-                ViewModelType = typeof(CommentsWidget),
                 Thumbnail = "~/Plugins/ZKEACMS.Message/Content/Image/Widget.Comments.png",
                 Order = 1
             };
-            yield return new WidgetTemplateEntity
+            yield return new WidgetTemplateEntity<MessageWidgetService>
             {
                 Title = "留言板",
                 GroupName = groupName,
                 PartialView = "Widget.Message",
-                AssemblyName = assemblyName,
-                ServiceType = typeof(MessageWidgetService),
-                ViewModelType = typeof(MessageWidget),
                 Thumbnail = "~/Plugins/ZKEACMS.Message/Content/Image/Widget.Message.png",
                 Order = 2
             };
-            yield return new WidgetTemplateEntity
+            yield return new WidgetTemplateEntity<MessageBoxWidgetService>
             {
                 Title = "留言内容",
                 GroupName = groupName,
                 PartialView = "Widget.MessageBox",
-                AssemblyName = assemblyName,
-                ServiceType = typeof(MessageBoxWidgetService),
-                ViewModelType = typeof(MessageBoxWidget),
                 Thumbnail = "~/Plugins/ZKEACMS.Message/Content/Image/Widget.MessageBox.png",
                 Order = 3
             };
