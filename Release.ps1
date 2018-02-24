@@ -15,7 +15,11 @@ Invoke-Expression("dotnet publish-zkeacms")
 Set-Location ../../
 Write-Host "Copy files..."
 Copy-Item -Path "src/ZKEACMS.WebHost/bin/Release/PublishOutput" -Destination "Release/Application" -Force -Recurse
-Copy-Item -Path "DataBase" -Destination "Release/DataBase" -Force -Recurse
+$dbSource = 'DataBase'
+$dbDestination = 'Release/Database'
+$exclude = @('*.mdf','*.ldf')
+$length =(Get-Item -Path ".\" -Verbose).FullName.Length + $dbSource.Length + 1
+Get-ChildItem $dbSource -Recurse -Exclude $exclude | Copy-Item -Destination {Join-Path $dbDestination $_.FullName.Substring($length)}
 Write-Host "Archive to" $destination
 [io.compression.zipfile]::CreateFromDirectory($Source, $destination) 
 if(Test-Path $source){
