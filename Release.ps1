@@ -1,6 +1,8 @@
 Add-Type -assembly "system.io.compression.filesystem"
 $source = "Release"
 $destination = "ZKEACMS.Core.v2.6.2.zip"
+Write-Host "Starting release" $destination
+Write-Host "This may take a few minutes, please wait..."
 if(!(Get-Command dotnet -ErrorAction SilentlyContinue))
 {
     Write-Host "Installing .Net Core SDK..."
@@ -12,9 +14,6 @@ if(Test-Path $source){
 if(Test-path $destination) {    
     Remove-item -Path $destination -Force -Recurse
 }
-
-Write-Host "Starting release" $destination
-Write-Host "This may take a few minutes, please wait..."
 Invoke-Expression("dotnet restore")
 Set-Location src/ZKEACMS.WebHost
 Invoke-Expression("dotnet publish-zkeacms")
