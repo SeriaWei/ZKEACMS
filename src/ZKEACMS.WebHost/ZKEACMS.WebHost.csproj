@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="ZKEACMS.Publisher" Version="1.0.2" />
+    <DotNetCliToolReference Include="ZKEACMS.Publisher" Version="1.0.4" />
   </ItemGroup>
 
   <ItemGroup>

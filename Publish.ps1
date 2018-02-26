@@ -22,10 +22,12 @@ if($withRuntime.ToUpper() -eq "Y")
     Write-Host "https://docs.microsoft.com/en-us/dotnet/core/rid-catalog"
     Write-Host "常用运行时RID"
     Write-Host "win7-x64,win10-x64,ubuntu.16.04-x64,centos.7-x64,osx.10.12-x64"
-    $rid = Read-Host -Prompt "请输入RID"     
+    $rid = Read-Host -Prompt "请输入RID" 
+	Invoke-Expression("dotnet restore")
     Invoke-Expression("dotnet publish-zkeacms " + $rid)
 }
 else{
+		Invoke-Expression("dotnet restore")
         Invoke-Expression("dotnet publish-zkeacms")
 }
 Write-Host "发布成功，正在运行程序"
