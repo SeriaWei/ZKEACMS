@@ -52,10 +52,10 @@ namespace ZKEACMS.Controllers
             if (user != null)
             {
 
-                user.AuthenticationType = CookieAuthenticationDefaults.AuthenticationScheme;
+                user.AuthenticationType = DefaultAuthorizeAttribute.DefaultAuthenticationScheme;
                 var identity = new ClaimsIdentity(user);
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.UserID));
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                await HttpContext.SignInAsync(DefaultAuthorizeAttribute.DefaultAuthenticationScheme, new ClaimsPrincipal(identity));
 
                 if (ReturnUrl.IsNullOrEmpty())
                 {
@@ -69,7 +69,7 @@ namespace ZKEACMS.Controllers
 
         public async Task<ActionResult> Logout(string returnurl)
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(DefaultAuthorizeAttribute.DefaultAuthenticationScheme);
             return Redirect(returnurl ?? "~/");
         }
         #endregion
