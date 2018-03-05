@@ -49,7 +49,7 @@
             </div>
         </div>
         <div class="login-panel-footer ">
-           想起密码了？ <a href="@Url.Action("SignIn")">立即登录</a>
+           <a href="@Url.Action("SignIn", new { ReturnUrl = ViewContext.HttpContext.Request.Query["ReturnUrl"] })">立即登录</a>
         </div>
     </div>
 }

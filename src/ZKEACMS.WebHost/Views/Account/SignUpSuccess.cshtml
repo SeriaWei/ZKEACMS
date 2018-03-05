@@ -31,7 +31,7 @@
            
             <br />
             <div class="form-input">
-                <a href="@Url.Action("SignIn")" class="btn-login" >立即登录</a>
+                <a href="@Url.Action("SignIn", new { ReturnUrl =ViewContext.HttpContext.Request.Query["ReturnUrl"] })" class="btn-login" >立即登录</a>
             </div>
         </div>        
     </div>

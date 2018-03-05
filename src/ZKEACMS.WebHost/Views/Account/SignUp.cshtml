@@ -40,7 +40,7 @@
             </div>
             <div class="form-input">
                 <h4>邮箱</h4>
-                <input type="text"
+                <input type="email"
                        placeholder="输入您常使用的邮箱地址"
                        id="Email"
                        name="Email"
@@ -93,7 +93,7 @@
             </div>
         </div>
         <div class="login-panel-footer ">
-            已有账号？<a href="@Url.Action("SignIn")">立即登录</a>
+            已有账号？<a href="@Url.Action("SignIn", new { ReturnUrl = ViewContext.HttpContext.Request.Query["ReturnUrl"] })">立即登录</a>
         </div>
     </div>
 }

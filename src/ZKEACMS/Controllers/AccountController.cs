@@ -132,9 +132,9 @@ namespace ZKEACMS.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> SignIn(string userName, string password, string ReturnUrl)
+        public async Task<ActionResult> SignIn(string email, string password, string ReturnUrl)
         {
-            var user = _userService.Login(userName, password, UserType.Customer, Request.HttpContext.Connection.RemoteIpAddress.ToString());
+            var user = _userService.Login(email, password, UserType.Customer, Request.HttpContext.Connection.RemoteIpAddress.ToString());
             if (user != null)
             {
                 user.AuthenticationType = CustomerAuthorizeAttribute.CustomerAuthenticationScheme;
@@ -183,7 +183,7 @@ namespace ZKEACMS.Controllers
                 }
 
             }
-            return RedirectToAction("SignUpSuccess");
+            return RedirectToAction("SignUpSuccess", new { ReturnUrl = HttpContext.Request.Query["ReturnUrl"] });
         }
         public ActionResult SignUpSuccess()
         {
