@@ -22,7 +22,8 @@ namespace Easy.Mvc.Plugin
         {
             DependencyAssemblies = new List<Assembly>();
         }
-
+        public string CurrentPath { get; set; }
+        public string AssemblyPath { get; set; }
         public Assembly CurrentAssembly { get; private set; }
         public List<Assembly> DependencyAssemblies { get; private set; }
         private TypeInfo PluginTypeInfo = typeof(IPluginStartup).GetTypeInfo();
@@ -30,6 +31,7 @@ namespace Easy.Mvc.Plugin
         {
             if (CurrentAssembly == null)
             {
+                AssemblyPath = path;
                 //AssemblyLoadContext.Default.Resolving += AssemblyResolving;
                 CurrentAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
                 ResolveDenpendency(CurrentAssembly);
@@ -117,12 +119,7 @@ namespace Easy.Mvc.Plugin
                     plugin = new PluginDescriptor();
                     plugin.PluginType = typeInfo.AsType();
                     plugin.Assembly = assembly;
-                    plugin.CurrentPluginPath = Path.GetDirectoryName(assembly.Location);
-                    var binIndex = plugin.CurrentPluginPath.IndexOf($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}");
-                    if (binIndex >= 0)
-                    {
-                        plugin.CurrentPluginPath = plugin.CurrentPluginPath.Substring(0, binIndex);
-                    }
+                    plugin.CurrentPluginPath = CurrentPath;
                 }
             }
             if (controllers.Count > 0 && !ActionDescriptorProvider.PluginControllers.ContainsKey(assembly.FullName))
