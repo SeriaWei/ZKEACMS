@@ -77,6 +77,9 @@ namespace ZKEACMS.WebHost
 
             script("angular")
                 .Include($"{LibraryPath}/angular/angular.js", $"{LibraryPath}/angular/angular.min.js");
+
+            script("image-viewer")
+                .Include($"{ScriptPath}/cimageviewer.min.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)

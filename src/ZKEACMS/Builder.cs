@@ -150,8 +150,8 @@ namespace ZKEACMS
                 KnownRequirements.Configure(options);
             });
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
+            services.AddAuthentication(DefaultAuthorizeAttribute.DefaultAuthenticationScheme)
+                .AddCookie(DefaultAuthorizeAttribute.DefaultAuthenticationScheme, o =>
                 {
                     o.LoginPath = new PathString("/Account/Login");
                     o.AccessDeniedPath = new PathString("/Error/Forbidden");
