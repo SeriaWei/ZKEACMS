@@ -8,10 +8,10 @@
 
 @using (Html.BeginForm())
 {
-
+    @Html.AntiForgeryToken()
     <div class="login-panel">
         <div class="login-panel-heading">
-            <a href="http://www.zkea.net/" target="_blank">
+            <a href="~/" target="_blank">
                 <img class="logo" src="~/images/logo_zkea.png" alt="ZKEACMS" />
             </a>
         </div>

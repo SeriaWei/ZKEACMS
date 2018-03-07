@@ -32,6 +32,7 @@ namespace Easy.Mvc.Plugin
             Loaders.AddRange(GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Select(m =>
             {
                 var loader = new AssemblyLoader();
+                loader.CurrentPath = m.RelativePath;
                 var assemblyPath = Path.Combine(m.RelativePath, (HostingEnvironment.IsDevelopment() ? Path.Combine(AltDevelopmentPath) : string.Empty), m.FileName);
 
                 Console.WriteLine("Loading: {0}", m.Name);

@@ -28,6 +28,7 @@ namespace ZKEACMS.Controllers
         private readonly IDataProtector _dataProtector;
         private readonly IApplicationContextAccessor _applicationContextAccessor;
         private readonly ILogger<AccountController> _logger;
+
         public AccountController(IUserService userService,
             INotifyService notifyService,
             IDataProtectionProvider dataProtectionProvider,
@@ -45,7 +46,7 @@ namespace ZKEACMS.Controllers
         {
             return View();
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(string userName, string password, string ReturnUrl)
         {
             var user = _userService.Login(userName, password, UserType.Administrator, Request.HttpContext.Connection.RemoteIpAddress.ToString());
@@ -85,7 +86,7 @@ namespace ZKEACMS.Controllers
         {
             return View(_applicationContextAccessor.Current.CurrentCustomer);
         }
-        [HttpPost, CustomerAuthorize]
+        [HttpPost, ValidateAntiForgeryToken, CustomerAuthorize]
         public ActionResult Edit(UserEntity user)
         {
             if (_applicationContextAccessor.Current.CurrentCustomer.UserID == user.UserID)
@@ -113,7 +114,7 @@ namespace ZKEACMS.Controllers
         {
             return View();
         }
-        [HttpPost, CustomerAuthorize]
+        [HttpPost, ValidateAntiForgeryToken, CustomerAuthorize]
         public ActionResult PassWord(UserEntity user)
         {
             var logOnUser = _userService.Login(_applicationContextAccessor.Current.CurrentCustomer.UserID, user.PassWord, UserType.Customer, Request.HttpContext.Connection.RemoteIpAddress.ToString());
@@ -131,7 +132,7 @@ namespace ZKEACMS.Controllers
             ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> SignIn(string email, string password, string ReturnUrl)
         {
             var user = _userService.Login(email, password, UserType.Customer, Request.HttpContext.Connection.RemoteIpAddress.ToString());
@@ -162,12 +163,13 @@ namespace ZKEACMS.Controllers
             }
             return RedirectToAction("SignIn");
         }
-        public ActionResult SignUp()
+        public ActionResult SignUp(string ReturnUrl)
         {
+            ViewBag.ReturnUrl = ReturnUrl;
             return View(new UserEntity());
         }
-        [HttpPost]
-        public ActionResult SignUp(UserEntity user)
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult SignUp(UserEntity user, string ReturnUrl)
         {
             if (user.UserName.IsNotNullAndWhiteSpace() && user.PassWord.IsNotNullAndWhiteSpace() && user.Email.IsNotNullAndWhiteSpace())
             {
@@ -179,11 +181,12 @@ namespace ZKEACMS.Controllers
                 catch (Exception ex)
                 {
                     ViewBag.Errormessage = ex.Message;
+                    ViewBag.ReturnUrl = ReturnUrl;
                     return View(user);
                 }
 
             }
-            return RedirectToAction("SignUpSuccess", new { ReturnUrl = HttpContext.Request.Query["ReturnUrl"] });
+            return RedirectToAction("SignUpSuccess", new { ReturnUrl });
         }
         public ActionResult SignUpSuccess()
         {
@@ -194,7 +197,7 @@ namespace ZKEACMS.Controllers
         {
             return View();
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Forgotten(string Email)
         {
             if (Email.IsNotNullAndWhiteSpace())
@@ -230,7 +233,7 @@ namespace ZKEACMS.Controllers
             }
             return View(new ResetViewModel { ResetToken = token, Protect = pt });
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Reset(ResetViewModel user)
         {
             try

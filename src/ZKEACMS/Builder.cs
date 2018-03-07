@@ -65,8 +65,11 @@ namespace ZKEACMS
             services.TryAddTransient<ICarouselItemService, CarouselItemService>();
             services.TryAddTransient<ICarouselService, CarouselService>();
             services.TryAddTransient<INavigationService, NavigationService>();
+
             services.TryAddTransient<IDashboardProviderService, DashboardProviderService>();
-            services.TryAddTransient<IDashboardPartDriveService, DashboardWelcomePartService>();
+            services.AddTransient<IDashboardPartDriveService, DashboardWelcomePartService>();
+            services.AddTransient<IDashboardPartDriveService, DashboardEventLogPartService>();
+
             services.TryAddTransient<IDataArchivedService, DataArchivedService>();
             services.TryAddTransient<IExtendFieldService, ExtendFieldService>();
             services.TryAddTransient<INotifyService, NotifyService>();

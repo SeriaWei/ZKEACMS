@@ -162,12 +162,6 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/js/FileUploader.min.js",
-    "inputFiles": [
-      "wwwroot/js/FileUploader.js"
-    ]
-  },
-  {
     "outputFileName": "wwwroot/js/tinymce/plugins/filebrowser/plugin.min.js",
     "inputFiles": [
       "wwwroot/js/tinymce/plugins/filebrowser/plugin.js"
