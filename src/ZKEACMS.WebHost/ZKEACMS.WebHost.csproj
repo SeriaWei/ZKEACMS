@@ -16,10 +16,6 @@
     <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
     <ServerGarbageCollection>false</ServerGarbageCollection>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="wwwroot\js\FileUploader.ts" />
-  </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
@@ -33,10 +29,6 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="ZKEACMS.Publisher" Version="1.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\js\FileUploader.ts" />
   </ItemGroup>
 
 </Project>

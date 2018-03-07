@@ -70,10 +70,7 @@ namespace ZKEACMS.WebHost
                 .Include($"{LibraryPath}/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js");
 
             script("pjax")
-                .Include($"{LibraryPath}/jquery-pjax/jquery.pjax.js");
-
-            script("FileUploader")
-                .Include($"{ScriptPath}/FileUploader.js");
+                .Include($"{LibraryPath}/jquery-pjax/jquery.pjax.js");            
 
             script("angular")
                 .Include($"{LibraryPath}/angular/angular.js", $"{LibraryPath}/angular/angular.min.js");

@@ -7,6 +7,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <input type="hidden" name="ReturnUrl" id="ReturnUrl" value="@ViewBag.ReturnUrl" />
     <div class="login-panel sign-in">
         <div class="login-panel-heading">
@@ -25,27 +26,27 @@
             </div>
             <div class="form-input">
                 <h4>邮箱</h4>
-                <input type="email" 
-                       placeholder="输入您注册时使用的邮箱地址" 
-                       id="email" 
-                       name="email" 
+                <input type="email"
+                       placeholder="输入您注册时使用的邮箱地址"
+                       id="email"
+                       name="email"
                        class="form-control"
-                       data-val="true" 
+                       data-val="true"
                        data-val-required="登录邮箱不能为空"
                        data-val-length="邮箱的长度应小于200"
                        data-val-regex-pattern="@(Easy.Constant.RegularExpression.Email)"
                        data-val-regex="输入的邮件格式不正确"
-                       data-val-length-max="200"/>
+                       data-val-length-max="200" />
                 <span class="field-validation-valid " data-valmsg-for="userName" data-valmsg-replace="true"></span>
             </div>
             <div class="form-input">
                 <h4>密码</h4>
-                <input type="password" 
-                       placeholder="输入您的密码" 
-                       id="password" 
-                       name="password" 
-                       class="form-control" 
-                       data-val="true" 
+                <input type="password"
+                       placeholder="输入您的密码"
+                       id="password"
+                       name="password"
+                       class="form-control"
+                       data-val="true"
                        data-val-required="密码不能为空"
                        data-val-length="密码的长度应小于20"
                        data-val-length-max="20" />
