@@ -163,12 +163,13 @@ namespace ZKEACMS.Controllers
             }
             return RedirectToAction("SignIn");
         }
-        public ActionResult SignUp()
+        public ActionResult SignUp(string ReturnUrl)
         {
+            ViewBag.ReturnUrl = ReturnUrl;
             return View(new UserEntity());
         }
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult SignUp(UserEntity user)
+        public ActionResult SignUp(UserEntity user, string ReturnUrl)
         {
             if (user.UserName.IsNotNullAndWhiteSpace() && user.PassWord.IsNotNullAndWhiteSpace() && user.Email.IsNotNullAndWhiteSpace())
             {
@@ -180,11 +181,12 @@ namespace ZKEACMS.Controllers
                 catch (Exception ex)
                 {
                     ViewBag.Errormessage = ex.Message;
+                    ViewBag.ReturnUrl = ReturnUrl;
                     return View(user);
                 }
 
             }
-            return RedirectToAction("SignUpSuccess", new { ReturnUrl = HttpContext.Request.Query["ReturnUrl"] });
+            return RedirectToAction("SignUpSuccess", new { ReturnUrl });
         }
         public ActionResult SignUpSuccess()
         {

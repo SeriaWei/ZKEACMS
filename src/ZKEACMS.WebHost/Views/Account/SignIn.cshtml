@@ -3,12 +3,13 @@
     Layout = Layouts.NormalDefault;
     Style.Reqiured("Customer").AtHead();
     Script.Reqiured("validate").AtFoot();
+    var returnUrl= ViewBag.ReturnUrl ?? ViewContext.HttpContext.Request.Query["ReturnUrl"];
 }
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <input type="hidden" name="ReturnUrl" id="ReturnUrl" value="@ViewBag.ReturnUrl" />
+    <input type="hidden" name="ReturnUrl" id="ReturnUrl" value="@returnUrl" />
     <div class="login-panel sign-in">
         <div class="login-panel-heading">
             <p>
@@ -64,10 +65,10 @@
         </div>
         <div class="login-panel-footer clearfix">
             <div class="pull-left">
-                <a href="@Url.Action("SignUp", new { ReturnUrl = ViewContext.HttpContext.Request.Query["ReturnUrl"] })">立即注册</a>
+                <a href="@Url.Action("SignUp", new { ReturnUrl = returnUrl })">立即注册</a>
             </div>
             <div class="pull-right">
-                <a href="@Url.Action("Forgotten", new { ReturnUrl = ViewContext.HttpContext.Request.Query["ReturnUrl"] })">忘记密码？</a>
+                <a href="@Url.Action("Forgotten", new { ReturnUrl = returnUrl })">忘记密码？</a>
             </div>
         </div>
     </div>

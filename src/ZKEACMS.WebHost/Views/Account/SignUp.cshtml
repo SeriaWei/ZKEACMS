@@ -4,11 +4,13 @@
     Layout = Layouts.NormalDefault;
     Style.Reqiured("Customer").AtHead();
     Script.Reqiured("validate").AtFoot();
+    var returnUrl = ViewBag.ReturnUrl ?? ViewContext.HttpContext.Request.Query["ReturnUrl"];
 }
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    <input type="hidden" name="ReturnUrl" value="@returnUrl" />
     <input type="hidden" name="PhotoUrl" value="~/images/User-Avatar.png" />
     <div class="login-panel sign-up">
         <div class="login-panel-heading">
@@ -94,7 +96,7 @@
             </div>
         </div>
         <div class="login-panel-footer ">
-            已有账号？<a href="@Url.Action("SignIn", new { ReturnUrl = ViewContext.HttpContext.Request.Query["ReturnUrl"] })">立即登录</a>
+            已有账号？<a href="@Url.Action("SignIn", new { ReturnUrl = returnUrl })">立即登录</a>
         </div>
     </div>
 }
