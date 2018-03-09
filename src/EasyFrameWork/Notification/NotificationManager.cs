@@ -15,10 +15,13 @@ namespace Easy.Notification
         public void Send(Notice notice)
         {
             Type noticeType = notice.GetType();
-            var notifyService = _notifyService.FirstOrDefault(m => m.SupportType == noticeType);
-            if (notifyService != null)
+            var notifies = _notifyService.Where(m => m.SupportType == noticeType);
+            if (notifies.Any())
             {
-                notifyService.Send(notice);
+                foreach (var item in notifies)
+                {
+                    item.Send(notice);
+                }
             }
             else throw new Exception($"未找到类型{noticeType}对应的通知器");
         }
