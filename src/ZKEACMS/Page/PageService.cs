@@ -80,6 +80,7 @@ namespace ZKEACMS.Page
                 {
                     m = widgetService.GetWidget(m);
                     m.PageID = item.ID;
+                    widgetService.IsNeedNotifyChange = false;
                     widgetService.Publish(m);
                 }
             });

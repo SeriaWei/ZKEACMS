@@ -33,10 +33,13 @@ namespace ZKEACMS.Widget
         }
         public override ServiceResult<T> Add(T item)
         {
-            item.ID = Guid.NewGuid().ToString("N");
-            WidgetBasePartService.Add(item.ToWidgetBasePart());
+            var id = Guid.NewGuid().ToString("N");
+            var basePart = item.ToWidgetBasePart();
+            basePart.ID = id;
+            WidgetBasePartService.Add(basePart);
             try
             {
+                item.ID = basePart.ID;
                 return base.Add(item);
             }
             catch (Exception ex)

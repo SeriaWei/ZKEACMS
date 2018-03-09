@@ -6,6 +6,7 @@ using Easy.RepositoryPattern;
 using Easy;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Easy.Extend;
 
 namespace ZKEACMS.SectionWidget.Service
 {
@@ -28,13 +29,14 @@ namespace ZKEACMS.SectionWidget.Service
         }
         public void Add(SectionContent item)
         {
-            item.ID = Guid.NewGuid().ToString("N");
             if (!item.Order.HasValue || item.Order.Value == 0)
             {
                 item.Order = Count(m => m.SectionWidgetId == item.SectionWidgetId && m.SectionGroupId == item.SectionGroupId) + 1;
             }
             var contentBase = item.ToContent();
+            contentBase.ID = Guid.NewGuid().ToString("N");
             base.Add(contentBase);
+            item.ID = contentBase.ID;
             _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).AddContent(item);
         }
         public void Update(SectionContent item)
