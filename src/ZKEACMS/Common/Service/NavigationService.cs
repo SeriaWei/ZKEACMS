@@ -63,9 +63,7 @@ namespace ZKEACMS.Common.Service
             nav.ParentId = parentId;
             nav.DisplayOrder = position;
 
-            IEnumerable<NavigationEntity> navs = null;
-
-            navs = CurrentDbSet.Where(m => m.ParentId == nav.ParentId && m.ID != nav.ID).OrderBy(m => m.DisplayOrder);
+            IEnumerable<NavigationEntity> navs = CurrentDbSet.AsTracking().Where(m => m.ParentId == nav.ParentId && m.ID != nav.ID).OrderBy(m => m.DisplayOrder);
 
             int order = 1;
             for (int i = 0; i < navs.Count(); i++)
@@ -76,7 +74,6 @@ namespace ZKEACMS.Common.Service
                     order++;
                 }
                 eleNav.DisplayOrder = order;
-                Update(eleNav);
                 order++;
             }
             Update(nav);

@@ -198,24 +198,20 @@ namespace ZKEACMS.Page
             var page = Get(id);
             page.DisplayOrder = position;
 
-            if (position > oldPosition)
+            IEnumerable<PageEntity> pages = CurrentDbSet.AsTracking().Where(m => !m.IsPublishedPage && m.ParentId == page.ParentId && m.ID != page.ID).OrderBy(m => m.DisplayOrder);
+
+            int order = 1;
+            for (int i = 0; i < pages.Count(); i++)
             {
-                var pages = Get(m => !m.IsPublishedPage && m.ParentId == page.ParentId && m.ID != page.ID && m.DisplayOrder <= position && m.DisplayOrder >= oldPosition);
-                pages.Each(m =>
+                var eleNav = pages.ElementAt(i);
+                if (i == position - 1)
                 {
-                    m.DisplayOrder--;
-                    Update(m);
-                });
+                    order++;
+                }
+                eleNav.DisplayOrder = order;
+                order++;
             }
-            else
-            {
-                var pages = Get(m => !m.IsPublishedPage && m.ParentId == page.ParentId && m.ID != page.ID && m.DisplayOrder <= oldPosition && m.DisplayOrder >= position);
-                pages.Each(m =>
-                {
-                    m.DisplayOrder++;
-                    Update(m);
-                });
-            }
+
             Update(page);
         }
         public PageEntity GetByPath(string path, bool isPreView)
