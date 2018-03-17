@@ -6,6 +6,7 @@
 
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
 using ZKEACMS.Options;
 
@@ -43,6 +44,8 @@ namespace ZKEACMS.WebHost
                         break;
                     }
             }
+
+            optionsBuilder.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
         }
     }
 }
