@@ -83,7 +83,7 @@ namespace ZKEACMS.Media
         public IList<MediaEntity> GetPage(string parentId, Pagination pagin)
         {
             pagin.RecordCount = Count(m => m.ParentID == parentId);
-            return Get().Where(m => m.ParentID == parentId).Skip(pagin.PageIndex * pagin.PageSize).Take(pagin.PageSize).OrderBy(m => m.MediaType).ThenByDescending(m => m.CreateDate).ToList();
+            return Get().Where(m => m.ParentID == parentId).OrderBy(m => m.MediaType).ThenByDescending(m => m.CreateDate).Skip(pagin.PageIndex * pagin.PageSize).Take(pagin.PageSize).ToList();
         }
 
         public override void Remove(MediaEntity item)
