@@ -46,6 +46,7 @@ namespace ZKEACMS.Common.Service
             }
             if (item.CarouselItems != null)
             {
+                _carouselItemService.BeginBulkSave();
                 item.CarouselItems.Each(m =>
                 {
                     m.CarouselID = item.ID;
@@ -58,6 +59,7 @@ namespace ZKEACMS.Common.Service
                         }
                     }
                 });
+                _carouselItemService.SaveChanges();
             }
             return result;
         }
@@ -82,20 +84,22 @@ namespace ZKEACMS.Common.Service
                     }
             }
         }
-        public override ServiceResult<CarouselEntity> Update(CarouselEntity item, bool saveImmediately = true)
+        public override ServiceResult<CarouselEntity> Update(CarouselEntity item)
         {
-            var result = base.Update(item, saveImmediately);
+            var result = base.Update(item);
             if (result.HasViolation)
             {
                 return result;
             }
             if (item.CarouselItems != null)
             {
+                _carouselItemService.BeginBulkSave();
                 item.CarouselItems.Each(m =>
                 {
                     m.CarouselID = item.ID;
                     SaveCarouselItems(m);
                 });
+                _carouselItemService.SaveChanges();
             }
             return result;
         }
@@ -110,23 +114,26 @@ namespace ZKEACMS.Common.Service
             {
                 if (m.CarouselItems != null)
                 {
+                    _carouselItemService.BeginBulkSave();
                     m.CarouselItems.Each(carItem =>
                     {
                         carItem.CarouselID = m.ID;
                         SaveCarouselItems(carItem);
                     });
-
+                    _carouselItemService.SaveChanges();
                 }
             });
             return result;
         }
-        public override void Remove(CarouselEntity item, bool saveImmediately = true)
+        public override void Remove(CarouselEntity item)
         {
             if (item.CarouselItems != null)
             {
+                _carouselItemService.BeginBulkSave();
                 item.CarouselItems.Each(m => _carouselItemService.Remove(m));
+                _carouselItemService.SaveChanges();
             }
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
     }
 }

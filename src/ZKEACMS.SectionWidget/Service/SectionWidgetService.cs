@@ -77,7 +77,7 @@ namespace ZKEACMS.SectionWidget.Service
             });
             return widget;
         }
-        public override void Remove(Models.SectionWidget item, bool saveImmediately = true)
+        public override void Remove(Models.SectionWidget item)
         {
             if (item != null)
             {
@@ -86,7 +86,7 @@ namespace ZKEACMS.SectionWidget.Service
                     _sectionGroupService.Remove(m.ID);
                 });
             }
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
 
         public override ServiceResult<Models.SectionWidget> Add(Models.SectionWidget item)

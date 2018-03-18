@@ -23,14 +23,14 @@ namespace ZKEACMS.Product.Service
                 return (DbContext as ProductDbContext).ProductCategoryTag;
             }
         }
-        public override void Remove(ProductCategoryTag item, bool saveImmediately = true)
+        public override void Remove(ProductCategoryTag item)
         {
             _productTagService.Remove(m => m.TagId == item.ID);
             if (item.ParentId == 0)
             {
                 Remove(m => m.ParentId == item.ID);
             }
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
     }
 }

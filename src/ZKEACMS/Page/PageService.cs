@@ -47,14 +47,14 @@ namespace ZKEACMS.Page
             return base.Add(item);
         }
 
-        public override ServiceResult<PageEntity> Update(PageEntity item, bool saveImmediately = true)
+        public override ServiceResult<PageEntity> Update(PageEntity item)
         {
             if (Count(m => m.ID != item.ID && m.Url == item.Url && m.IsPublishedPage == false) > 0)
             {
                 throw new PageExistException(item);
             }
             item.IsPublish = false;
-            return base.Update(item, saveImmediately);
+            return base.Update(item);
         }
 
         public void Publish(PageEntity item)
@@ -90,29 +90,12 @@ namespace ZKEACMS.Page
             var page = Get(ID);
             if (page.IsPublishedPage)
             {
-                if (RetainLatest)
-                {//保留当前编辑版本
-                    var refPage = Get(page.ReferencePageID);
-                    refPage.IsPublish = false;
-                    Update(refPage);
+                var refPage = Get(page.ReferencePageID);
+                refPage.IsPublish = false;
+                Update(refPage);
+                page.PublishDate = DateTime.Now;
+                Add(page);
 
-                    page.PublishDate = DateTime.Now;
-                    Add(page);
-                }
-                else
-                {
-                    var refPage = Get(page.ReferencePageID);
-                    refPage.PublishDate = null;
-                    Update(refPage);
-
-                    Remove(page.ReferencePageID); //删除当前的编辑版本，加入旧的版本做为编辑版本，再发布
-                    page.ID = page.ReferencePageID;
-                    page.ReferencePageID = null;
-                    page.IsPublish = false;
-                    page.IsPublishedPage = false;
-
-                    base.Add(page);
-                }
                 var widgets = _widgetService.GetByPageId(ID);
                 widgets.Each(m =>
                 {
@@ -122,17 +105,27 @@ namespace ZKEACMS.Page
                     widgetService.IsNeedNotifyChange = false;
                     widgetService.Publish(m);
                 });
+                _widgetService.RemoveCache(page.ReferencePageID);
                 if (!RetainLatest)
-                {
-                    Publish(page);
-                }
-                else
-                {
-                    _widgetService.RemoveCache(page.ReferencePageID);
+                {//清空当前的所有修改
+                    _widgetService.GetByPageId(page.ReferencePageID).Each(m =>
+                    {
+                        var widgetService = _widgetActivator.Create(m);
+                        widgetService.IsNeedNotifyChange = false;
+                        widgetService.DeleteWidget(m.ID);
+                    });
+                    _widgetService.GetByPageId(ID).Each(m =>
+                    {
+                        var widgetService = _widgetActivator.Create(m);
+                        m = widgetService.GetWidget(m);
+                        m.PageID = page.ReferencePageID;
+                        widgetService.IsNeedNotifyChange = false;
+                        widgetService.Publish(m);
+                    });
                 }
             }
         }
-        public override void Remove(PageEntity item, bool saveImmediately = true)
+        public override void Remove(PageEntity item)
         {
             Remove(m => m.ParentId == item.ID);
             var widgets = _widgetService.GetByPageId(item.ID);
@@ -149,7 +142,7 @@ namespace ZKEACMS.Page
                 Remove(m => m.ReferencePageID == item.ID);
             }
             _widgetService.RemoveCache(item.ID);
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
 
         public override void Remove(Expression<Func<PageEntity, bool>> filter)

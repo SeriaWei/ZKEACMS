@@ -72,7 +72,7 @@ namespace Easy.Modules.User.Service
             return base.Add(item);
         }
 
-        public override ServiceResult<UserEntity> Update(UserEntity item, bool saveImmediately = true)
+        public override ServiceResult<UserEntity> Update(UserEntity item)
         {
             if (item.PassWordNew.IsNotNullAndWhiteSpace())
             {
@@ -86,7 +86,8 @@ namespace Easy.Modules.User.Service
             {
                 throw new Exception($"邮件地址 {item.Email} 已被使用");
             }
-            return base.Update(item, saveImmediately);
+            var result = base.Update(item);
+            return result;
         }
 
         public UserEntity Login(string userID, string passWord, UserType userType, string ip)

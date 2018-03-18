@@ -86,10 +86,10 @@ namespace ZKEACMS.Media
             return Get().Where(m => m.ParentID == parentId).Skip(pagin.PageIndex * pagin.PageSize).Take(pagin.PageSize).OrderBy(m => m.MediaType).ThenByDescending(m => m.CreateDate).ToList();
         }
 
-        public override void Remove(MediaEntity item, bool saveImmediately = true)
+        public override void Remove(MediaEntity item)
         {
             Remove(m => m.ParentID == item.ID);
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
 
         public override void Remove(Expression<Func<MediaEntity, bool>> filter)

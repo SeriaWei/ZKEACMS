@@ -119,10 +119,10 @@ namespace ZKEACMS.FormGenerator.Service
             }
             Add(formData);
         }
-        public override void Remove(FormData item, bool saveImmediately = true)
+        public override void Remove(FormData item)
         {
             _formDataItemService.Remove(m => m.FormDataId == item.ID);
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
 
         public MemoryStream Export(int id)

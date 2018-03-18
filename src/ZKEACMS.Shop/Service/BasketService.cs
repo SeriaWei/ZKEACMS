@@ -70,19 +70,19 @@ namespace ZKEACMS.Shop.Service
             }
             return new ServiceResult<Basket>();
         }
-        public override ServiceResult<Basket> Update(Basket item, bool saveImmediately = true)
+        public override ServiceResult<Basket> Update(Basket item)
         {
             if (ApplicationContext.CurrentCustomer != null && ApplicationContext.CurrentCustomer.UserID == item.UserId)
             {
-                base.Update(item, saveImmediately);
+                base.Update(item);
             }
             return new ServiceResult<Basket>();
         }
-        public override void Remove(Basket item, bool saveImmediately = true)
+        public override void Remove(Basket item)
         {
             if (ApplicationContext.CurrentCustomer != null && ApplicationContext.CurrentCustomer.UserID == item.UserId)
             {
-                base.Remove(item, saveImmediately);
+                base.Remove(item);
             }
         }
 

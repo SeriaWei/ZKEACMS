@@ -109,7 +109,7 @@ namespace ZKEACMS.SectionWidget.Service
             }
             return result;
         }
-        public override void Remove(SectionGroup item, bool saveImmediately = true)
+        public override void Remove(SectionGroup item)
         {
             if (item != null)
             {
@@ -119,7 +119,7 @@ namespace ZKEACMS.SectionWidget.Service
                     _sectionContentProviderService.Remove(m.ID);
                 });
             }
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
     }
 }

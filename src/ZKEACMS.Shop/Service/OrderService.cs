@@ -116,10 +116,10 @@ namespace ZKEACMS.Shop.Service
             return failed;
         }
 
-        public override void Remove(Order item, bool saveImmediately = true)
+        public override void Remove(Order item)
         {
             _orderItemService.Remove(m => m.OrderId == item.ID);
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
     }
 }

@@ -106,9 +106,9 @@ namespace ZKEACMS.Widget
             }
             return result;
         }
-        public override ServiceResult<WidgetBasePart> Update(WidgetBasePart item, bool saveImmediately = true)
+        public override ServiceResult<WidgetBasePart> Update(WidgetBasePart item)
         {
-            var result = base.Update(item, saveImmediately);
+            var result = base.Update(item);
             if (!result.HasViolation)
             {
                 TriggerChange(item);
@@ -128,10 +128,10 @@ namespace ZKEACMS.Widget
         {
             base.Remove(filter);
         }
-        public override void Remove(WidgetBasePart item, bool saveImmediately = true)
+        public override void Remove(WidgetBasePart item)
         {
             TriggerChange(item);
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
         public override void RemoveRange(params WidgetBasePart[] items)
         {

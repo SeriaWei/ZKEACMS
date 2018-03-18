@@ -41,7 +41,9 @@ namespace ZKEACMS.SectionWidget.Service
         }
         public void Update(SectionContent item)
         {
-            base.Update(item.ToContent());
+            var content = Get(item.ID);
+            item.CopyTo(content);
+            base.Update(content);
             _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).UpdateContent(item);
         }
 
@@ -60,10 +62,10 @@ namespace ZKEACMS.SectionWidget.Service
             return null;
         }
 
-        public override void Remove(SectionContentBasePart item, bool saveImmediately = true)
+        public override void Remove(SectionContentBasePart item)
         {
             _sectionContentServices.First(m => (int)m.ContentType == item.SectionContentType).DeleteContent(item.ID);
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
 
 

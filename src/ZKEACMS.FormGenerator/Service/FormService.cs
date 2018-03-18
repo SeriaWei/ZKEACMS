@@ -24,10 +24,10 @@ namespace ZKEACMS.FormGenerator.Service
             item.FieldsData = JsonConvert.SerializeObject(item.FormFields);
             return base.Add(item);
         }
-        public override ServiceResult<Form> Update(Form item, bool saveImmediately = true)
+        public override ServiceResult<Form> Update(Form item)
         {
             item.FieldsData = JsonConvert.SerializeObject(item.FormFields);
-            return base.Update(item, saveImmediately);
+            return base.Update(item);
         }
         public override Form Get(params object[] primaryKey)
         {

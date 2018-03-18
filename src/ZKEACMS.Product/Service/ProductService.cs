@@ -86,9 +86,9 @@ namespace ZKEACMS.Product.Service
                     }
             }
         }
-        public override ServiceResult<ProductEntity> Update(ProductEntity item, bool saveImmediately = true)
+        public override ServiceResult<ProductEntity> Update(ProductEntity item)
         {
-            var result = base.Update(item, saveImmediately);
+            var result = base.Update(item);
             if (result.HasViolation)
             {
                 return result;
@@ -127,7 +127,7 @@ namespace ZKEACMS.Product.Service
 
             return product;
         }
-        public override void Remove(ProductEntity item, bool saveImmediately = true)
+        public override void Remove(ProductEntity item)
         {
             if (item.ProductTags != null)
             {
@@ -140,7 +140,7 @@ namespace ZKEACMS.Product.Service
                     _productImageService.Remove(m);
                 });
             }
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
     }
 }

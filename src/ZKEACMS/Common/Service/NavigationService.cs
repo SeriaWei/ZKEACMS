@@ -34,10 +34,10 @@ namespace ZKEACMS.Common.Service
             item.ID = Guid.NewGuid().ToString("N");
             return base.Add(item);
         }
-        public override void Remove(NavigationEntity item, bool saveImmediately = true)
+        public override void Remove(NavigationEntity item)
         {
             Remove(m => m.ParentId == item.ID);
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
 
         public override void RemoveRange(params NavigationEntity[] items)

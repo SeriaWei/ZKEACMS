@@ -20,12 +20,13 @@ namespace Easy.RepositoryPattern
         IList<T> Get(Expression<Func<T, bool>> filter, Pagination pagination);
         T Get(params object[] primaryKey);
         int Count(Expression<Func<T, bool>> filter);
-        ServiceResult<T> Update(T item, bool saveImmediately = true);
+        ServiceResult<T> Update(T item);
         ServiceResult<T> UpdateRange(params T[] items);
         void Remove(params object[] primaryKey);
-        void Remove(T item, bool saveImmediately = true);
+        void Remove(T item);
         void Remove(Expression<Func<T, bool>> filter);
         void RemoveRange(params T[] items);
+        void BeginBulkSave();
         void SaveChanges();
     }
 }
