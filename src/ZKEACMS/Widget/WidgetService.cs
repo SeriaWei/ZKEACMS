@@ -125,7 +125,8 @@ namespace ZKEACMS.Widget
         {
 
             base.RemoveRange(items);
-            var widgets = WidgetBasePartService.Get(m => items.Select(n => n.ID).Contains(m.ID)).ToArray();
+            var ids = items.Select(n => n.ID).ToArray();
+            var widgets = WidgetBasePartService.Get(m => ids.Contains(m.ID)).ToArray();
             WidgetBasePartService.RemoveRange(widgets);
 
         }

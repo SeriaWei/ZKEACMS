@@ -125,35 +125,27 @@ namespace ZKEACMS.Page
                 }
             }
         }
+
         public override void Remove(PageEntity item)
         {
-            Remove(m => m.ParentId == item.ID);
-            var widgets = _widgetService.GetByPageId(item.ID);
-            widgets.Each(m =>
-            {
-                using (var widgetService = _widgetActivator.Create(m))
-                {
-                    widgetService.IsNeedNotifyChange = false;
-                    widgetService.DeleteWidget(m.ID);
-                }
-            });
-            if (item.PublishDate.HasValue)
-            {
-                Remove(m => m.ReferencePageID == item.ID);
-            }
-            _widgetService.RemoveCache(item.ID);
-            base.Remove(item);
+            Remove(m => m.ID == item.ID);
         }
 
         public override void Remove(Expression<Func<PageEntity, bool>> filter)
         {
-            var deletes = Get(filter).Select(m => m.ID);
-            if (deletes.Any())
+            var deletePages = Get(filter).ToList();
+            if (deletePages.Any())
             {
-                Remove(m => deletes.Contains(m.ParentId));
-                Remove(m => deletes.Contains(m.ReferencePageID));
-
-                var widgets = _widgetService.Get(m => deletes.Contains(m.PageID));
+                List<PageEntity> allPages = new List<PageEntity>();
+                foreach (var item in deletePages)
+                {
+                    allPages.AddRange(LoadChildren(item));
+                }
+                allPages.AddRange(deletePages);
+                var allPageIds = allPages.Select(n => n.ID).ToArray();
+                allPages.AddRange(Get(m => allPageIds.Contains(m.ReferencePageID)));
+                allPageIds = allPages.Select(n => n.ID).ToArray();
+                var widgets = _widgetService.Get(m => allPageIds.Contains(m.PageID));
                 widgets.Each(m =>
                 {
                     using (var widgetService = _widgetActivator.Create(m))
@@ -163,15 +155,31 @@ namespace ZKEACMS.Page
                     }
                 });
 
-                deletes.Each(p => _widgetService.RemoveCache(p));
+                allPages.Each(p => _widgetService.RemoveCache(p.ID));
 
-                base.Remove(filter);
+                base.RemoveRange(allPages.ToArray());
             }
 
         }
+        private IEnumerable<PageEntity> LoadChildren(PageEntity page)
+        {
+            List<PageEntity> result = new List<PageEntity>();
+            var children = Get(m => m.ParentId == page.ID).ToList();
+            result.AddRange(children);
+            if (children.Any())
+            {
+                foreach (var item in children)
+                {
+                    result.AddRange(LoadChildren(item));
+                }
+            }
+            return result;
+        }
+
         public override void RemoveRange(params PageEntity[] items)
         {
-            items.Each(m => Remove(m));
+            var pageIds = items.Select(n => n.ID).ToArray();
+            Remove(m => pageIds.Contains(m.ID));
         }
 
         public void DeleteVersion(string ID)
