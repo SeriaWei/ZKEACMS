@@ -12,12 +12,10 @@ namespace ZKEACMS.FormGenerator.Service
 {
     public class FormService : ServiceBase<Form>, IFormService
     {
-        public FormService(IApplicationContext applicationContext, FormGeneratorDbContext dbContext) : base(applicationContext, dbContext)
+        public FormService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<Form> CurrentDbSet => (DbContext as FormGeneratorDbContext).Form;
-
+        
         public override ServiceResult<Form> Add(Form item)
         {
             item.ID = Guid.NewGuid().ToString("N");

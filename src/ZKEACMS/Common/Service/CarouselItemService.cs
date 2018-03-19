@@ -15,14 +15,6 @@ namespace ZKEACMS.Common.Service
         {
         }
 
-        public override DbSet<CarouselItemEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).CarouselItem;
-            }
-        }
-
         public override ServiceResult<CarouselItemEntity> Add(CarouselItemEntity item)
         {
             if (item.ActionType != ActionType.Unattached)

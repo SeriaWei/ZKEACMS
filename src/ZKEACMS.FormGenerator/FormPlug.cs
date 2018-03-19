@@ -101,6 +101,8 @@ namespace ZKEACMS.FormGenerator
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
+            serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+
             serviceCollection.TryAddTransient<IFormService, FormService>();
             serviceCollection.TryAddTransient<IFormDataService, FormDataService>();
             serviceCollection.TryAddTransient<IFormDataItemService, FormDataItemService>();
@@ -113,9 +115,7 @@ namespace ZKEACMS.FormGenerator
             {
                 option.DataSourceLinkTitle = "表单";
                 option.DataSourceLink = "~/admin/Form";
-            });
-
-            serviceCollection.AddDbContext<FormGeneratorDbContext>();
+            });            
         }
     }
 }

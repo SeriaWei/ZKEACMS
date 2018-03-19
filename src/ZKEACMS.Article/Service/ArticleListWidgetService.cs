@@ -22,21 +22,13 @@ namespace ZKEACMS.Article.Service
         private readonly IArticleService _articleService;
         private readonly IPageService _pageService;
         public ArticleListWidgetService(IWidgetBasePartService widgetService, IArticleTypeService articleTypeService,
-            IArticleService articleService, IApplicationContext applicationContext, IPageService pageService, ArticleDbContext dbContext)
+            IArticleService articleService, IApplicationContext applicationContext, IPageService pageService, CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
             _articleTypeService = articleTypeService;
             _articleService = articleService;
             _pageService = pageService;
-        }
-
-        public override DbSet<ArticleListWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ArticleDbContext).ArticleListWidget;
-            }
-        }
+        } 
 
         private string GetDetailPageUrl()
         {

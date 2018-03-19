@@ -9,16 +9,10 @@ namespace ZKEACMS.SectionWidget.Service
 {
     public class SectionContentParagraphService : ServiceBase<SectionContentParagraph>, ISectionContentService
     {
-        public SectionContentParagraphService(IApplicationContext applicationContext, SectionDbContext dbContext) : base(applicationContext, dbContext)
+        public SectionContentParagraphService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-        public override DbSet<SectionContentParagraph> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as SectionDbContext).SectionContentParagraph;
-            }
-        }
+
         public SectionContentBase.Types ContentType
         {
             get { return SectionContentBase.Types.Paragraph; }

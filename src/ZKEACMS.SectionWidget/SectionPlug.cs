@@ -12,6 +12,7 @@ using System.Reflection;
 using ZKEACMS.SectionWidget.Models;
 using Easy;
 using ZKEACMS.WidgetTemplate;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.SectionWidget
 {
@@ -72,6 +73,8 @@ namespace ZKEACMS.SectionWidget
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
+            serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+
             serviceCollection.AddTransient<ISectionGroupService, SectionGroupService>();
             serviceCollection.AddTransient<ISectionContentProviderService, SectionContentProviderService>();
             serviceCollection.AddTransient<ISectionContentService, SectionContentCallToActionService>();
@@ -88,9 +91,7 @@ namespace ZKEACMS.SectionWidget
             serviceCollection.ConfigureMetaData<SectionContentTitle, SectionContentTitleMetaData>();
             serviceCollection.ConfigureMetaData<SectionContentVideo, SectionContentVideoMetaData>();
             serviceCollection.ConfigureMetaData<SectionGroup, SectionGroupMetaData>();
-            serviceCollection.ConfigureMetaData<Models.SectionWidget, SectionWidgetMetaData>();
-
-            serviceCollection.AddDbContext<SectionDbContext>();
+            serviceCollection.ConfigureMetaData<Models.SectionWidget, SectionWidgetMetaData>();            
 
         }
 

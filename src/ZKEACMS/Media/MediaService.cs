@@ -17,15 +17,7 @@ namespace ZKEACMS.Media
         public MediaService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<MediaEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).Media;
-            }
-        }
-
+        
         public override ServiceResult<MediaEntity> Add(MediaEntity item)
         {
             item.ID = Guid.NewGuid().ToString("N");

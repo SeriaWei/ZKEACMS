@@ -20,18 +20,10 @@ namespace ZKEACMS.Article.Service
             IArticleService articleService,
             IApplicationContext applicationContext,
             IArticleTypeService articleTypeService,
-            ArticleDbContext dbContext) : base(widgetService, applicationContext, dbContext)
+            CMSDbContext dbContext) : base(widgetService, applicationContext, dbContext)
         {
             _articleService = articleService;
             _articleTypeService = articleTypeService;
-        }
-
-        public override DbSet<ArticleTopWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ArticleDbContext).ArticleTopWidget;
-            }
         }
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)

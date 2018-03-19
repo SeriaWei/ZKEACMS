@@ -16,14 +16,13 @@ namespace ZKEACMS.Shop.Service
         private readonly IProductService _productService;
         private readonly IOrderService _orderService;
         private readonly IOrderItemService _orderItemService;
-        public BasketService(IApplicationContext applicationContext, IProductService productService, IOrderService orderService, IOrderItemService orderItemService, OrderDbContext dbContext) : base(applicationContext, dbContext)
+        public BasketService(IApplicationContext applicationContext, IProductService productService, IOrderService orderService, IOrderItemService orderItemService, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
             _productService = productService;
             _orderService = orderService;
             _orderItemService = orderItemService;
         }
-
-        public override DbSet<Basket> CurrentDbSet => (DbContext as OrderDbContext).Basket;
+        
         public override IQueryable<Basket> Get()
         {
             if (ApplicationContext.CurrentCustomer != null)

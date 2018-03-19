@@ -12,14 +12,6 @@ namespace ZKEACMS.Common.Service
         public StyleSheetWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
-        }
-
-        public override DbSet<StyleSheetWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).StyleSheetWidget;
-            }
-        }
+        }     
     }
 }

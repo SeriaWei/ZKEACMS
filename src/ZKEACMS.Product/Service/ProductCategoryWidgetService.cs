@@ -15,19 +15,11 @@ namespace ZKEACMS.Product.Service
     public class ProductCategoryWidgetService : WidgetService<ProductCategoryWidget>
     {
         private readonly IProductCategoryService _productCategoryService;
-        public ProductCategoryWidgetService(IWidgetBasePartService widgetService, IProductCategoryService productCategoryService, IApplicationContext applicationContext, ProductDbContext dbContext)
+        public ProductCategoryWidgetService(IWidgetBasePartService widgetService, IProductCategoryService productCategoryService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
             _productCategoryService = productCategoryService;
-        }
-
-        public override DbSet<ProductCategoryWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext  as ProductDbContext).ProductCategoryWidget;
-            }
-        }
+        }        
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {

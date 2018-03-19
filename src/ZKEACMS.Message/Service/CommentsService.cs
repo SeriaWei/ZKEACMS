@@ -11,10 +11,9 @@ namespace ZKEACMS.Message.Service
 {
     public class CommentsService : ServiceBase<Comments>, ICommentsService
     {
-        public CommentsService(IApplicationContext applicationContext, MessageDbContext dbContext) : base(applicationContext, dbContext)
+        public CommentsService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<Comments> CurrentDbSet => (DbContext as MessageDbContext).Comments;
+        
     }
 }

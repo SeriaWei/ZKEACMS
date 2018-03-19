@@ -13,19 +13,11 @@ namespace ZKEACMS.Article.Service
     {
         private IArticleService _articleService;
 
-        public ArticleTypeService(IApplicationContext applicationContext, IArticleService articleService, ArticleDbContext dbContext)
+        public ArticleTypeService(IApplicationContext applicationContext, IArticleService articleService, CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _articleService = articleService;
-        }
-
-        public override DbSet<ArticleType> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ArticleDbContext).ArticleType;
-            }
-        }
+        }     
 
         public override ServiceResult<ArticleType> Add(ArticleType item)
         {

@@ -26,13 +26,7 @@ namespace ZKEACMS.Page
             _widgetService = widgetService;
             _widgetActivator = widgetActivator;
         }
-        public override DbSet<PageEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).Page;
-            }
-        }
+
         public override ServiceResult<PageEntity> Add(PageEntity item)
         {
             if (!item.IsPublishedPage && Count(m => m.Url == item.Url && m.IsPublishedPage == false) > 0)

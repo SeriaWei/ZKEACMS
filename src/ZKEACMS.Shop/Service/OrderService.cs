@@ -14,14 +14,13 @@ namespace ZKEACMS.Shop.Service
     {
         private readonly IOrderItemService _orderItemService;
         private readonly IEnumerable<IPaymentService> _paymentServices;
-        public OrderService(IApplicationContext applicationContext, IOrderItemService orderItemService, IEnumerable<IPaymentService> paymentServices, OrderDbContext dbContext)
+        public OrderService(IApplicationContext applicationContext, IOrderItemService orderItemService, IEnumerable<IPaymentService> paymentServices, CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _orderItemService = orderItemService;
             _paymentServices = paymentServices;
         }
-
-        public override DbSet<Order> CurrentDbSet => (DbContext as OrderDbContext).Order;
+        
         public override ServiceResult<Order> Add(Order item)
         {
             item.ID = Guid.NewGuid().ToString("N");

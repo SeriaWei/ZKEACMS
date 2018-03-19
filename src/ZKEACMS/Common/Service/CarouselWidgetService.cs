@@ -25,14 +25,6 @@ namespace ZKEACMS.Common.Service
         {
             _carouselItemService = carouselItemService;
         }
-
-        public override DbSet<CarouselWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).CarouselWidget;
-            }
-        }
         
         public override WidgetBase GetWidget(WidgetBase widget)
         {

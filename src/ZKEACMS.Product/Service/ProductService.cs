@@ -16,21 +16,13 @@ namespace ZKEACMS.Product.Service
         private readonly IProductTagService _productTagService;
         private readonly IProductCategoryTagService _productCategoryTagService;
         private readonly IProductImageService _productImageService;
-        public ProductService(IApplicationContext applicationContext, IProductTagService productTagService, IProductCategoryTagService productCategoryTagService, IProductImageService productImageService, ProductDbContext dbContext) : base(applicationContext, dbContext)
+        public ProductService(IApplicationContext applicationContext, IProductTagService productTagService, IProductCategoryTagService productCategoryTagService, IProductImageService productImageService, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
             _productTagService = productTagService;
             _productCategoryTagService = productCategoryTagService;
             _productImageService = productImageService;
         }
-
-        public override DbSet<ProductEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ProductDbContext).Product;
-            }
-        }
-
+        
         public void Publish(int ID)
         {
             var product = Get(ID);

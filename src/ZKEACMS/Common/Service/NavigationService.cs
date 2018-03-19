@@ -17,14 +17,6 @@ namespace ZKEACMS.Common.Service
         {
         }
 
-        public override DbSet<NavigationEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).Navigation;
-            }
-        }
-
         public override ServiceResult<NavigationEntity> Add(NavigationEntity item)
         {
             if (item.ParentId.IsNullOrEmpty())

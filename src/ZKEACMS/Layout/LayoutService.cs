@@ -34,13 +34,7 @@ namespace ZKEACMS.Layout
             LayoutHtmlService = layoutHtmlService;
             WidgetActivator = widgetActivator;
         }
-        public override DbSet<LayoutEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).Layout;
-            }
-        }
+    
         public IDataArchivedService DataArchivedService { get; set; }
         public IPageService PageService { get; set; }
         public IZoneService ZoneService { get; set; }

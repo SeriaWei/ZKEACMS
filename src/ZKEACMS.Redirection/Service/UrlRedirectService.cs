@@ -11,13 +11,8 @@ namespace ZKEACMS.Redirection.Service
 {
     public class UrlRedirectService : ServiceBase<UrlRedirect>, IUrlRedirectService
     {
-        public UrlRedirectService(IApplicationContext applicationContext, RedirectionDbContext dbContext) : base(applicationContext, dbContext)
+        public UrlRedirectService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
-        }
-
-        public override DbSet<UrlRedirect> CurrentDbSet
-        {
-            get { return (DbContext as RedirectionDbContext).UrlRedirect; }
         }
     }
 }

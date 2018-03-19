@@ -21,20 +21,12 @@ namespace ZKEACMS.SectionWidget.Service
         private readonly IPluginLoader _pluginLoader;
 
         public SectionGroupService(ISectionContentProviderService sectionContentProviderService,
-            IPluginLoader pluginLoader, IApplicationContext applicationContext, SectionDbContext dbContext) : base(applicationContext, dbContext)
+            IPluginLoader pluginLoader, IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
             _sectionContentProviderService = sectionContentProviderService;
             _pluginLoader = pluginLoader;
         }
-
-        public override DbSet<SectionGroup> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as SectionDbContext).SectionGroup;
-            }
-        }
-
+        
         public SectionGroup GenerateContentFromConfig(SectionGroup group)
         {
             string configFile = PluginBase.GetPath<SectionPlug>() + @"\Thumbnail\{0}.xml".FormatWith(group.PartialView).ToFilePath();

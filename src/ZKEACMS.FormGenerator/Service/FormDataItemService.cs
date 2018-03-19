@@ -11,10 +11,8 @@ namespace ZKEACMS.FormGenerator.Service
 {
     public class FormDataItemService : ServiceBase<FormDataItem>, IFormDataItemService
     {
-        public FormDataItemService(IApplicationContext applicationContext, FormGeneratorDbContext dbContext) : base(applicationContext, dbContext)
+        public FormDataItemService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
-        }
-
-        public override DbSet<FormDataItem> CurrentDbSet => (DbContext as FormGeneratorDbContext).FormDataItem;
+        }        
     }
 }

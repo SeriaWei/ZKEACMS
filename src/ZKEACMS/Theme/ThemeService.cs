@@ -26,13 +26,7 @@ namespace ZKEACMS.Theme
             _cookie = cookie;
             _httpContextAccessor = httpContextAccessor;
         }
-        public override DbSet<ThemeEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).Theme;
-            }
-        }
+
         public void SetPreview(string id)
         {
             _cookie.SetValue(PreViewCookieName, id, true, true);

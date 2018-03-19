@@ -11,6 +11,7 @@ using Easy;
 using ZKEACMS.Article.Models;
 using Microsoft.Extensions.Options;
 using ZKEACMS.WidgetTemplate;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Article
 {
@@ -116,6 +117,7 @@ namespace ZKEACMS.Article
         {
             serviceCollection.AddTransient<IArticleService, ArticleService>();
             serviceCollection.AddTransient<IArticleTypeService, ArticleTypeService>();
+            serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             serviceCollection.Configure<ArticleListWidget>(option =>
             {
@@ -137,8 +139,6 @@ namespace ZKEACMS.Article
             serviceCollection.ConfigureMetaData<ArticleSummaryWidget, ArticleSummaryWidgetMetaData>();
             serviceCollection.ConfigureMetaData<ArticleTopWidget, ArticleTopWidgetMetaData>();
             serviceCollection.ConfigureMetaData<ArticleTypeWidget, ArticleTypeWidgetMetaData>();
-
-            serviceCollection.AddDbContext<ArticleDbContext>();
         }
     }
 }

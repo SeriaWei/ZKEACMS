@@ -20,13 +20,6 @@ namespace ZKEACMS.DataArchived
 
         public JsonConverter[] JsonConverters { get; set; }
 
-        public override DbSet<DataArchived> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).DataArchived;
-            }
-        }
 
         public override ServiceResult<DataArchived> Add(DataArchived item)
         {

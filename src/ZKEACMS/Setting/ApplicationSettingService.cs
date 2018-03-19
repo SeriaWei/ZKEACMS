@@ -13,14 +13,6 @@ namespace ZKEACMS.Setting
         {
         }
 
-        public override DbSet<ApplicationSetting> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).ApplicationSetting;
-            }
-        }
-
         public override ServiceResult<ApplicationSetting> Add(ApplicationSetting item)
         {
             if (Count(m => m.SettingKey == item.SettingKey) == 0)

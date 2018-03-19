@@ -8,13 +8,9 @@ namespace ZKEACMS.Message.Service
 {
     public class MessageService : ServiceBase<MessageEntity>, IMessageService
     {
-        public MessageService(IApplicationContext applicationContext, MessageDbContext dbContext) : base(applicationContext, dbContext)
+        public MessageService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<MessageEntity> CurrentDbSet
-        {
-            get { return (DbContext as MessageDbContext).Message; }
-        }
+        
     }
 }

@@ -40,14 +40,6 @@ namespace ZKEACMS.Widget
             _httpContextAccessor = httpContextAccessor;
             IsNeedNotifyChange = true;
         }
-        public override DbSet<WidgetBasePart> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).WidgetBasePart;
-            }
-        }
-
         public bool IsNeedNotifyChange { get; set; }
 
         private void TriggerChange(WidgetBase widget)

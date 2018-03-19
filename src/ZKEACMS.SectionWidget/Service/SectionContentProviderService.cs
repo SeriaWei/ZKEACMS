@@ -14,19 +14,11 @@ namespace ZKEACMS.SectionWidget.Service
     {
         private readonly IEnumerable<ISectionContentService> _sectionContentServices;
 
-        public SectionContentProviderService(IEnumerable<ISectionContentService> sectionContentServices, IApplicationContext applicationContext, SectionDbContext dbContext)
+        public SectionContentProviderService(IEnumerable<ISectionContentService> sectionContentServices, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _sectionContentServices = sectionContentServices;
-        }
-
-        public override DbSet<SectionContentBasePart> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as SectionDbContext).SectionContentBasePart;
-            }
-        }
+        }        
         public void Add(SectionContent item)
         {
             if (!item.Order.HasValue || item.Order.Value == 0)

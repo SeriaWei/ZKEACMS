@@ -23,13 +23,7 @@ namespace ZKEACMS.Common.Service
         {
             _carouselItemService = carouselItemService;
         }
-        public override DbSet<CarouselEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).Carousel;
-            }
-        }
+
         public override CarouselEntity Get(params object[] primaryKey)
         {
             var carousel = base.Get(primaryKey);

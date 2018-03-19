@@ -101,6 +101,8 @@ namespace ZKEACMS.Shop
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
+            serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+
             serviceCollection.TryAddTransient<IBasketService, BasketService>();
             serviceCollection.TryAddTransient<IOrderService, OrderService>();
             serviceCollection.TryAddTransient<IOrderItemService, OrderItemService>();
@@ -110,9 +112,7 @@ namespace ZKEACMS.Shop
             serviceCollection.ConfigureMetaData<Basket, BasketMetaData>();
             serviceCollection.ConfigureMetaData<Order, OrderMetaData>();
             serviceCollection.ConfigureMetaData<OrderItem, OrderItemMetaData>();
-
-            serviceCollection.AddDbContext<OrderDbContext>();
-
+            
             var configuration = new ConfigurationBuilder()
              .SetBasePath(CurrentPluginPath)
              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();

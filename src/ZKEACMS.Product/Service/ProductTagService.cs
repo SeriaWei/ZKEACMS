@@ -14,17 +14,9 @@ namespace ZKEACMS.Product.Service
 {
     public class ProductTagService : ServiceBase<ProductTag>, IProductTagService
     {
-        public ProductTagService(IApplicationContext applicationContext, ProductDbContext dbContext) : base(applicationContext, dbContext)
+        public ProductTagService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<ProductTag> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ProductDbContext).ProductTag;
-            }
-        }
-
+        
     }
 }

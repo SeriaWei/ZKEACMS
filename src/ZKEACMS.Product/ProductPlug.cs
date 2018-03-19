@@ -9,6 +9,7 @@ using ZKEACMS.Product.Models;
 using ZKEACMS.Product.Service;
 using Easy;
 using ZKEACMS.WidgetTemplate;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Product
 {
@@ -120,6 +121,8 @@ namespace ZKEACMS.Product
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
+            serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+
             serviceCollection.AddTransient<IProductService, ProductService>();
             serviceCollection.AddTransient<IProductCategoryService, ProductCategoryService>();
             serviceCollection.AddTransient<IProductCategoryTagService, ProductCategoryTagService>();
@@ -140,8 +143,6 @@ namespace ZKEACMS.Product
             serviceCollection.ConfigureMetaData<ProductCategoryWidget, ProductCategoryWidgetMedata>();
             serviceCollection.ConfigureMetaData<ProductDetailWidget, ProductDetailWidgetMetaData>();
             serviceCollection.ConfigureMetaData<ProductListWidget, ProductListWidgetMetaData>();
-
-            serviceCollection.AddDbContext<ProductDbContext>();
         }
         
     }

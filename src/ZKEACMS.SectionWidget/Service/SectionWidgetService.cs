@@ -27,21 +27,13 @@ namespace ZKEACMS.SectionWidget.Service
 
         public SectionWidgetService(IWidgetBasePartService widgetService, ISectionGroupService sectionGroupService,
             ISectionContentProviderService sectionContentProviderService, ISectionTemplateService sectionTemplateService,
-            IApplicationContext applicationContext, SectionDbContext dbContext)
+            IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
             _sectionGroupService = sectionGroupService;
             _sectionContentProviderService = sectionContentProviderService;
             _sectionTemplateService = sectionTemplateService;
-        }
-
-        public override DbSet<Models.SectionWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as SectionDbContext).SectionWidget;
-            }
-        }
+        }    
 
         public override WidgetBase GetWidget(WidgetBase widget)
         {

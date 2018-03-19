@@ -28,7 +28,7 @@ namespace Easy.RepositoryPattern
             get;
             set;
         }
-        public abstract DbSet<T> CurrentDbSet { get; }
+        public virtual DbSet<T> CurrentDbSet { get { return DbContext.Set<T>(); } }
 
         public IApplicationContext ApplicationContext { get; set; }
 
@@ -145,11 +145,11 @@ namespace Easy.RepositoryPattern
         }
         public virtual T GetSingle(Expression<Func<T, bool>> filter)
         {
-            return CurrentDbSet.Single(filter);
+            return Get().Single(filter);
         }
         public virtual IList<T> Get(Expression<Func<T, bool>> filter)
         {
-            return CurrentDbSet.Where(filter).ToList();
+            return Get().Where(filter).ToList();
         }
         public virtual IList<T> Get(Expression<Func<T, bool>> filter, Pagination pagination)
         {
@@ -157,11 +157,11 @@ namespace Easy.RepositoryPattern
             IQueryable<T> result;
             if (filter != null)
             {
-                result = CurrentDbSet.Where(filter);
+                result = Get().Where(filter);
             }
             else
             {
-                result = CurrentDbSet;
+                result = Get();
             }
             if (pagination.OrderBy != null || pagination.OrderByDescending != null)
             {
@@ -184,9 +184,9 @@ namespace Easy.RepositoryPattern
         {
             if (filter != null)
             {
-                return CurrentDbSet.Where(filter).Count();
+                return Get().Where(filter).Count();
             }
-            return CurrentDbSet.Count();
+            return Get().Count();
         }
         public virtual ServiceResult<T> Update(T item)
         {
