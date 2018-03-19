@@ -53,71 +53,78 @@ namespace ZKEACMS.Page
 
         public void Publish(PageEntity item)
         {
-            item = Get(item.ID);
-            item.IsPublish = true;
-            item.PublishDate = DateTime.Now;
-            base.Update(item);
-
-            //Remove(m => m.ReferencePageID == item.ID && m.IsPublishedPage == true);
-
-            _widgetService.RemoveCache(item.ID);
-
-            item.ReferencePageID = item.ID;
-            item.IsPublishedPage = true;
-            item.PublishDate = DateTime.Now;
-
-            var widgets = _widgetService.GetByPageId(item.ID);
-            Add(item);
-            widgets.Each(m =>
+            BeginTransaction(() =>
             {
-                using (var widgetService = _widgetActivator.Create(m))
+                item = Get(item.ID);
+                item.IsPublish = true;
+                item.PublishDate = DateTime.Now;
+                base.Update(item);
+
+                //Remove(m => m.ReferencePageID == item.ID && m.IsPublishedPage == true);
+
+                _widgetService.RemoveCache(item.ID);
+
+                item.ReferencePageID = item.ID;
+                item.IsPublishedPage = true;
+                item.PublishDate = DateTime.Now;
+
+                var widgets = _widgetService.GetByPageId(item.ID);
+                Add(item);
+                widgets.Each(m =>
                 {
-                    m = widgetService.GetWidget(m);
-                    m.PageID = item.ID;
-                    widgetService.IsNeedNotifyChange = false;
-                    widgetService.Publish(m);
-                }
+                    using (var widgetService = _widgetActivator.Create(m))
+                    {
+                        m = widgetService.GetWidget(m);
+                        m.PageID = item.ID;
+                        widgetService.IsNeedNotifyChange = false;
+                        widgetService.Publish(m);
+                    }
+                });
             });
         }
         public void Revert(string ID, bool RetainLatest)
         {
-            var page = Get(ID);
-            if (page.IsPublishedPage)
+            BeginTransaction(() =>
             {
-                var refPage = Get(page.ReferencePageID);
-                refPage.IsPublish = false;
-                Update(refPage);
-                page.PublishDate = DateTime.Now;
-                Add(page);
-
-                var widgets = _widgetService.GetByPageId(ID);
-                widgets.Each(m =>
+                var page = Get(ID);
+                if (page.IsPublishedPage)
                 {
-                    var widgetService = _widgetActivator.Create(m);
-                    m = widgetService.GetWidget(m);
-                    m.PageID = page.ID;
-                    widgetService.IsNeedNotifyChange = false;
-                    widgetService.Publish(m);
-                });
-                _widgetService.RemoveCache(page.ReferencePageID);
-                if (!RetainLatest)
-                {//清空当前的所有修改
-                    _widgetService.GetByPageId(page.ReferencePageID).Each(m =>
-                    {
-                        var widgetService = _widgetActivator.Create(m);
-                        widgetService.IsNeedNotifyChange = false;
-                        widgetService.DeleteWidget(m.ID);
-                    });
-                    _widgetService.GetByPageId(ID).Each(m =>
+                    var refPage = Get(page.ReferencePageID);
+                    refPage.IsPublish = false;
+                    Update(refPage);
+                    page.PublishDate = DateTime.Now;
+                    Add(page);
+
+                    var widgets = _widgetService.GetByPageId(ID);
+                    widgets.Each(m =>
                     {
                         var widgetService = _widgetActivator.Create(m);
                         m = widgetService.GetWidget(m);
-                        m.PageID = page.ReferencePageID;
+                        m.PageID = page.ID;
                         widgetService.IsNeedNotifyChange = false;
                         widgetService.Publish(m);
                     });
+                    _widgetService.RemoveCache(page.ReferencePageID);
+                    if (!RetainLatest)
+                    {//清空当前的所有修改
+                        _widgetService.GetByPageId(page.ReferencePageID).Each(m =>
+                        {
+                            var widgetService = _widgetActivator.Create(m);
+                            widgetService.IsNeedNotifyChange = false;
+                            widgetService.DeleteWidget(m.ID);
+                        });
+                        _widgetService.GetByPageId(ID).Each(m =>
+                        {
+                            var widgetService = _widgetActivator.Create(m);
+                            m = widgetService.GetWidget(m);
+                            m.PageID = page.ReferencePageID;
+                            widgetService.IsNeedNotifyChange = false;
+                            widgetService.Publish(m);
+                        });
+                    }
                 }
-            }
+            });
+
         }
 
         public override void Remove(PageEntity item)
@@ -127,33 +134,35 @@ namespace ZKEACMS.Page
 
         public override void Remove(Expression<Func<PageEntity, bool>> filter)
         {
-            var deletePages = Get(filter).ToList();
-            if (deletePages.Any())
+            BeginTransaction(() =>
             {
-                List<PageEntity> allPages = new List<PageEntity>();
-                foreach (var item in deletePages)
+                var deletePages = Get(filter).ToList();
+                if (deletePages.Any())
                 {
-                    allPages.AddRange(LoadChildren(item));
-                }
-                allPages.AddRange(deletePages);
-                var allPageIds = allPages.Select(n => n.ID).ToArray();
-                allPages.AddRange(Get(m => allPageIds.Contains(m.ReferencePageID)));
-                allPageIds = allPages.Select(n => n.ID).ToArray();
-                var widgets = _widgetService.Get(m => allPageIds.Contains(m.PageID));
-                widgets.Each(m =>
-                {
-                    using (var widgetService = _widgetActivator.Create(m))
+                    List<PageEntity> allPages = new List<PageEntity>();
+                    foreach (var item in deletePages)
                     {
-                        widgetService.IsNeedNotifyChange = false;
-                        widgetService.DeleteWidget(m.ID);
+                        allPages.AddRange(LoadChildren(item));
                     }
-                });
+                    allPages.AddRange(deletePages);
+                    var allPageIds = allPages.Select(n => n.ID).ToArray();
+                    allPages.AddRange(Get(m => allPageIds.Contains(m.ReferencePageID)));
+                    allPageIds = allPages.Select(n => n.ID).ToArray();
+                    var widgets = _widgetService.Get(m => allPageIds.Contains(m.PageID));
+                    widgets.Each(m =>
+                    {
+                        using (var widgetService = _widgetActivator.Create(m))
+                        {
+                            widgetService.IsNeedNotifyChange = false;
+                            widgetService.DeleteWidget(m.ID);
+                        }
+                    });
 
-                allPages.Each(p => _widgetService.RemoveCache(p.ID));
+                    allPages.Each(p => _widgetService.RemoveCache(p.ID));
 
-                base.RemoveRange(allPages.ToArray());
-            }
-
+                    base.RemoveRange(allPages.ToArray());
+                }
+            });
         }
         private IEnumerable<PageEntity> LoadChildren(PageEntity page)
         {
@@ -178,14 +187,25 @@ namespace ZKEACMS.Page
 
         public void DeleteVersion(string ID)
         {
-            PageEntity page = Get(ID);
-            if (page != null)
+            BeginTransaction(() =>
             {
-                var widgets = _widgetService.GetByPageId(page.ID);
-                widgets.Each(m => _widgetActivator.Create(m).DeleteWidget(m.ID));
-                _widgetService.RemoveCache(ID);
-            }
-            base.Remove(ID);
+                PageEntity page = Get(ID);
+                if (page != null)
+                {
+                    var widgets = _widgetService.GetByPageId(page.ID);
+                    widgets.Each(m =>
+                    {
+                        using (var widgetService = _widgetActivator.Create(m))
+                        {
+                            widgetService.IsNeedNotifyChange = false;
+                            widgetService.DeleteWidget(m.ID);
+                        }
+                    });
+                    _widgetService.RemoveCache(ID);
+                }
+                base.Remove(page);
+            });
+
         }
 
         public void Move(string id, int position, int oldPosition)
