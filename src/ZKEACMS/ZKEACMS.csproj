@@ -11,8 +11,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>CMS</PackageTags>
     <Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
-    <AssemblyVersion>2.6.2.0</AssemblyVersion>
-    <FileVersion>2.6.2.0</FileVersion>
+    <AssemblyVersion>2.7.0.0</AssemblyVersion>
+    <FileVersion>2.7.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />

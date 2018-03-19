@@ -1,6 +1,6 @@
 Add-Type -assembly "system.io.compression.filesystem"
 $source = "Release"
-$destination = "ZKEACMS.Core.v2.6.2.zip"
+$destination = "ZKEACMS.Core.v2.7.zip"
 Write-Host "Starting release" $destination
 Write-Host "This may take a few minutes, please wait..."
 if(!(Get-Command dotnet -ErrorAction SilentlyContinue))
@@ -26,8 +26,4 @@ $exclude = @('*.mdf','*.ldf')
 $length =(Get-Item -Path ".\" -Verbose).FullName.Length + $dbSource.Length + 1
 Get-ChildItem $dbSource -Recurse -Exclude $exclude | Copy-Item -Destination {Join-Path $dbDestination $_.FullName.Substring($length)}
 Write-Host "Archive to" $destination
-[io.compression.zipfile]::CreateFromDirectory($Source, $destination) 
-if(Test-Path $source){
-    Write-Host "Cleaning..."
-    Remove-Item -Path $source -Force -Recurse
-}
+[io.compression.zipfile]::CreateFromDirectory($Source, $destination)
