@@ -13,7 +13,7 @@ namespace ZKEACMS.Message.Service
     public class CommentsWidgetService : SimpleWidgetService<CommentsWidget>
     {
         private readonly ICommentsService _commentsService;
-        public CommentsWidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext, MessageDbContext dbContext, ICommentsService commentsService) : base(widgetBasePartService, applicationContext, dbContext)
+        public CommentsWidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext, CMSDbContext dbContext, ICommentsService commentsService) : base(widgetBasePartService, applicationContext, dbContext)
         {
             _commentsService = commentsService;
         }

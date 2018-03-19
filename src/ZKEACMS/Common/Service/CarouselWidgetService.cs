@@ -5,6 +5,7 @@
 using Easy;
 using Easy.Constant;
 using Easy.Extend;
+using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -24,14 +25,7 @@ namespace ZKEACMS.Common.Service
         {
             _carouselItemService = carouselItemService;
         }
-
-        public override DbSet<CarouselWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).CarouselWidget;
-            }
-        }
+        
         public override WidgetBase GetWidget(WidgetBase widget)
         {
             var carouselWidget = base.GetWidget(widget) as CarouselWidget;
@@ -47,6 +41,7 @@ namespace ZKEACMS.Common.Service
             var item = widget as CarouselWidget;
             if (item.CarouselItems != null && item.CarouselItems.Any())
             {
+                _carouselItemService.BeginBulkSave();
                 item.CarouselItems.Each(m =>
                 {
                     if (m.ActionType != ActionType.Delete)
@@ -61,6 +56,7 @@ namespace ZKEACMS.Common.Service
                         });
                     }
                 });
+                _carouselItemService.SaveChanges();
             }
 
         }
@@ -70,6 +66,7 @@ namespace ZKEACMS.Common.Service
             var item = widget as CarouselWidget;
             if (item.CarouselItems != null && item.CarouselItems.Any())
             {
+                _carouselItemService.BeginBulkSave();
                 item.CarouselItems.Each(m =>
                 {
                     m.CarouselWidgetID = item.ID;
@@ -86,6 +83,7 @@ namespace ZKEACMS.Common.Service
                         _carouselItemService.Update(m);
                     }
                 });
+                _carouselItemService.SaveChanges();
             }
         }
 

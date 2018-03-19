@@ -24,14 +24,6 @@ namespace ZKEACMS.Common.Service
             _navigationService = navigationService;
         }
 
-        public override DbSet<NavigationWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).NavigationWidget;
-            }
-        }
-
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             var currentWidget = widget as NavigationWidget;

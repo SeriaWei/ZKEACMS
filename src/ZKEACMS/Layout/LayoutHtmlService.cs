@@ -14,15 +14,7 @@ namespace ZKEACMS.Layout
         public LayoutHtmlService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<LayoutHtml> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).LayoutHtml;
-            }
-        }
-
+        
         public IEnumerable<LayoutHtml> GetByLayoutID(string layoutId)
         {
             return CurrentDbSet.Where(m => m.LayoutId == layoutId).OrderBy(m => m.LayoutHtmlId);

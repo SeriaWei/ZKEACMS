@@ -9,16 +9,10 @@ namespace ZKEACMS.SectionWidget.Service
 {
     public class SectionContentTitleService : ServiceBase<SectionContentTitle>, ISectionContentService
     {
-        public SectionContentTitleService(IApplicationContext applicationContext, SectionDbContext dbContext) : base(applicationContext, dbContext)
+        public SectionContentTitleService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-        public override DbSet<SectionContentTitle> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as SectionDbContext).SectionContentTitle;
-            }
-        }
+        
         public SectionContentBase.Types ContentType
         {
             get { return SectionContentBase.Types.Title; }

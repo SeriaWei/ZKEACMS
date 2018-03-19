@@ -9,17 +9,9 @@ namespace ZKEACMS.SectionWidget.Service
 {
     public class SectionContentCallToActionService : ServiceBase<SectionContentCallToAction>, ISectionContentService
     {
-        public SectionContentCallToActionService(IApplicationContext applicationContext, SectionDbContext dbContext) : base(applicationContext, dbContext)
+        public SectionContentCallToActionService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
-        }
-
-        public override DbSet<SectionContentCallToAction> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as SectionDbContext).SectionContentCallToAction;
-            }
-        }
+        }       
         public SectionContentBase.Types ContentType
         {
             get { return SectionContentBase.Types.CallToAction; }

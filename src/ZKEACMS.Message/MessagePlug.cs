@@ -13,6 +13,7 @@ using ZKEACMS.Message.Service;
 using Easy;
 using ZKEACMS.Message.Models;
 using ZKEACMS.WidgetTemplate;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Message
 {
@@ -99,6 +100,8 @@ namespace ZKEACMS.Message
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
+            serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+
             serviceCollection.AddTransient<IMessageService, MessageService>();
             serviceCollection.AddTransient<ICommentsService, CommentsService>();
 
@@ -118,8 +121,7 @@ namespace ZKEACMS.Message
                 option.DataSourceLinkTitle = "评论";
                 option.DataSourceLink = "~/admin/Comments";
             });
-
-            serviceCollection.AddDbContext<MessageDbContext>();
+            
         }
 
         protected override void InitScript(Func<string, ResourceHelper> script)

@@ -22,13 +22,12 @@ namespace ZKEACMS.FormGenerator.Service
     {
         private readonly IFormService _formService;
         private readonly IFormDataItemService _formDataItemService;
-        public FormDataService(IApplicationContext applicationContext, FormGeneratorDbContext dbContext, IFormService formService, IFormDataItemService formDataItemService) : base(applicationContext, dbContext)
+        public FormDataService(IApplicationContext applicationContext, CMSDbContext dbContext, IFormService formService, IFormDataItemService formDataItemService) : base(applicationContext, dbContext)
         {
             _formService = formService;
             _formDataItemService = formDataItemService;
         }
-
-        public override DbSet<FormData> CurrentDbSet => (DbContext as FormGeneratorDbContext).FormData;
+        
         public override ServiceResult<FormData> Add(FormData item)
         {
             var result = base.Add(item);
@@ -119,10 +118,10 @@ namespace ZKEACMS.FormGenerator.Service
             }
             Add(formData);
         }
-        public override void Remove(FormData item, bool saveImmediately = true)
+        public override void Remove(FormData item)
         {
             _formDataItemService.Remove(m => m.FormDataId == item.ID);
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
 
         public MemoryStream Export(int id)

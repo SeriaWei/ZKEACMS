@@ -77,11 +77,11 @@ namespace ZKEACMS.Redirection
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
+            serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+
             serviceCollection.TryAddTransient<IUrlRedirectService, UrlRedirectService>();
 
             serviceCollection.ConfigureMetaData<UrlRedirect, UrlRedirectMetaData>();
-
-            serviceCollection.AddDbContext<RedirectionDbContext>();
         }
     }
 }

@@ -89,13 +89,14 @@ namespace ZKEACMS.Product.Controllers
         {
             if (products != null && products.Any())
             {
+                Service.BeginBulkSave();
                 products.Each(m =>
                 {
                     var product = Service.Get(m.ID);
                     if (product != null)
                     {
                         product.OrderIndex = m.OrderIndex;
-                        Service.Update(product, false);
+                        Service.Update(product);
                     }
                 });
                 Service.SaveChanges();

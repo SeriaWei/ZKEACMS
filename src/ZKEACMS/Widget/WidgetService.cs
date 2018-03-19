@@ -33,10 +33,13 @@ namespace ZKEACMS.Widget
         }
         public override ServiceResult<T> Add(T item)
         {
-            item.ID = Guid.NewGuid().ToString("N");
-            WidgetBasePartService.Add(item.ToWidgetBasePart());
+            var id = Guid.NewGuid().ToString("N");
+            var basePart = item.ToWidgetBasePart();
+            basePart.ID = id;
+            WidgetBasePartService.Add(basePart);
             try
             {
+                item.ID = basePart.ID;
                 return base.Add(item);
             }
             catch (Exception ex)
@@ -46,16 +49,22 @@ namespace ZKEACMS.Widget
             }
         }
 
-        public override ServiceResult<T> Update(T item, bool saveImmediately = true)
+        public override ServiceResult<T> Update(T item)
         {
-            WidgetBasePartService.Update(item.ToWidgetBasePart());
-
-            return base.Update(item, saveImmediately);
+            var basePart = WidgetBasePartService.Get(item.ID);
+            item.CopyTo(basePart);
+            WidgetBasePartService.Update(basePart);
+            return base.Update(item);
         }
         public override ServiceResult<T> UpdateRange(params T[] items)
         {
-
-            WidgetBasePartService.UpdateRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
+           var ids= items.Select(m => m.ID).ToArray();
+            var baseParts = WidgetBasePartService.Get(m => ids.Contains(m.ID));
+            foreach (var item in items)
+            {
+                item.CopyTo(baseParts.FirstOrDefault(m => m.ID == item.ID));
+            }
+            WidgetBasePartService.UpdateRange(baseParts.ToArray());
 
             return base.UpdateRange(items);
         }
@@ -104,20 +113,21 @@ namespace ZKEACMS.Widget
 
         }
 
-        public override void Remove(T item, bool saveImmediately = true)
+        public override void Remove(T item)
         {
 
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
 
-            WidgetBasePartService.Remove(item.ToWidgetBasePart());
+            WidgetBasePartService.Remove(item.ID);
 
         }
         public override void RemoveRange(params T[] items)
         {
 
             base.RemoveRange(items);
-
-            WidgetBasePartService.RemoveRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
+            var ids = items.Select(n => n.ID).ToArray();
+            var widgets = WidgetBasePartService.Get(m => ids.Contains(m.ID)).ToArray();
+            WidgetBasePartService.RemoveRange(widgets);
 
         }
 

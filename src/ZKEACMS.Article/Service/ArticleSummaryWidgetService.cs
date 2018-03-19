@@ -9,17 +9,9 @@ namespace ZKEACMS.Article.Service
 {
     public class ArticleSummaryWidgetService : WidgetService<ArticleSummaryWidget>
     {
-        public ArticleSummaryWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, ArticleDbContext dbContext)
+        public ArticleSummaryWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
-        }
-
-        public override DbSet<ArticleSummaryWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ArticleDbContext).ArticleSummaryWidget;
-            }
-        }
+        }     
     }
 }

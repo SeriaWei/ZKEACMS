@@ -11,13 +11,5 @@ namespace ZKEACMS.ExtendField
         public ExtendFieldService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<ExtendFieldEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).ExtendField;
-            }
-        }
     }
 }

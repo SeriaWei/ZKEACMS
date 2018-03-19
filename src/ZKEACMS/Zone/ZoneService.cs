@@ -24,13 +24,6 @@ namespace ZKEACMS.Zone
 
         public IPageService PageService { get; set; }
 
-        public override DbSet<ZoneEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).Zone;
-            }
-        }
 
         public override ServiceResult<ZoneEntity> Add(ZoneEntity item)
         {

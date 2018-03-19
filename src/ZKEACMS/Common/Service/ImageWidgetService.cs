@@ -13,13 +13,6 @@ namespace ZKEACMS.Common.Service
             : base(widgetService, applicationContext, dbContext)
         {
         }
-
-        public override DbSet<ImageWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).ImageWidget;
-            }
-        }
+        
     }
 }

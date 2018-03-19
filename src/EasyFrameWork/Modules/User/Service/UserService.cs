@@ -5,7 +5,9 @@ using Easy.Modules.User.Models;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Cryptography;
 
 namespace Easy.Modules.User.Service
@@ -24,13 +26,18 @@ namespace Easy.Modules.User.Service
         }
         public override UserEntity Get(params object[] primaryKey)
         {
-            var userEntity = base.Get(primaryKey);
+            var userEntity = CurrentDbSet.AsNoTracking().Where(m => m.UserID == primaryKey[0].ToString()).FirstOrDefault();
             if (userEntity != null)
             {
-                userEntity.Roles = (DbContext as EasyDbContext).UserRoleRelation.Where(m => m.UserID == userEntity.UserID).ToList();
+                userEntity.Roles = (DbContext as EasyDbContext).UserRoleRelation.AsNoTracking().Where(m => m.UserID == userEntity.UserID).ToList();
             }
             return userEntity;
         }
+        public override IQueryable<UserEntity> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
+        }
+        
         private string ProtectPassWord(string passWord)
         {
             if (passWord.IsNotNullAndWhiteSpace())
@@ -72,7 +79,7 @@ namespace Easy.Modules.User.Service
             return base.Add(item);
         }
 
-        public override ServiceResult<UserEntity> Update(UserEntity item, bool saveImmediately = true)
+        public override ServiceResult<UserEntity> Update(UserEntity item)
         {
             if (item.PassWordNew.IsNotNullAndWhiteSpace())
             {
@@ -86,7 +93,9 @@ namespace Easy.Modules.User.Service
             {
                 throw new Exception($"邮件地址 {item.Email} 已被使用");
             }
-            return base.Update(item, saveImmediately);
+
+            var result = base.Update(item);
+            return result;
         }
 
         public UserEntity Login(string userID, string passWord, UserType userType, string ip)

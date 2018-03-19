@@ -90,7 +90,10 @@ namespace ZKEACMS.Controllers
                 }
 
             });
-            Service.Update(entity);
+            var old = Service.Get(entity.ID);
+            entity.CopyTo(old);
+            Service.Update(old);
+            _permissionService.BeginBulkSave();
             permissions.Each(m =>
             {
                 switch (m.ActionType)
@@ -112,7 +115,7 @@ namespace ZKEACMS.Controllers
                         }
                 }
             });
-
+            _permissionService.SaveChanges();
             return RedirectToAction("Index");
         }
 

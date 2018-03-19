@@ -34,13 +34,7 @@ namespace ZKEACMS.Layout
             LayoutHtmlService = layoutHtmlService;
             WidgetActivator = widgetActivator;
         }
-        public override DbSet<LayoutEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).Layout;
-            }
-        }
+    
         public IDataArchivedService DataArchivedService { get; set; }
         public IPageService PageService { get; set; }
         public IZoneService ZoneService { get; set; }
@@ -117,10 +111,10 @@ namespace ZKEACMS.Layout
             }
 
         }
-        public override ServiceResult<LayoutEntity> Update(LayoutEntity item, bool saveImmediately = true)
+        public override ServiceResult<LayoutEntity> Update(LayoutEntity item)
         {
             MarkChanged(item.ID);
-            return base.Update(item, saveImmediately);
+            return base.Update(item);
         }
         public override ServiceResult<LayoutEntity> UpdateRange(params LayoutEntity[] items)
         {
@@ -146,7 +140,7 @@ namespace ZKEACMS.Layout
             //});
             //return layout;
         }
-        public override void Remove(LayoutEntity item, bool saveImmediately = true)
+        public override void Remove(LayoutEntity item)
         {
             LayoutHtmlService.Remove(m => m.LayoutId == item.ID);
             ZoneService.Remove(m => m.LayoutId == item.ID);
@@ -162,7 +156,7 @@ namespace ZKEACMS.Layout
             });
 
             MarkChanged(item.ID);
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
 
         public override void Remove(Expression<Func<LayoutEntity, bool>> filter)

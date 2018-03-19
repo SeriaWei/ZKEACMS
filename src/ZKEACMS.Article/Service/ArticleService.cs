@@ -11,17 +11,9 @@ namespace ZKEACMS.Article.Service
 {
     public class ArticleService : ServiceBase<ArticleEntity>, IArticleService
     {
-        public ArticleService(IApplicationContext applicationContext, ArticleDbContext dbContext) : base(applicationContext, dbContext)
+        public ArticleService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
-        }
-
-        public override DbSet<ArticleEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ArticleDbContext).Article;
-            }
-        }
+        }    
 
         public ArticleEntity GetNext(ArticleEntity article)
         {

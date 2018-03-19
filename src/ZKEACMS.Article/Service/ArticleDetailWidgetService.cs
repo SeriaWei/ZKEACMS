@@ -14,19 +14,12 @@ namespace ZKEACMS.Article.Service
     public class ArticleDetailWidgetService : WidgetService<ArticleDetailWidget>
     {
         private readonly IArticleService _articleService;
-        public ArticleDetailWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext, ArticleDbContext dbContext)
+        public ArticleDetailWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
             _articleService = articleService;
         }
-
-        public override DbSet<ArticleDetailWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ArticleDbContext).ArticleDetailWidget;
-            }
-        }
+      
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {

@@ -6,6 +6,8 @@
 
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ZKEACMS.Options;
 
@@ -14,9 +16,11 @@ namespace ZKEACMS.WebHost
     public class EntityFrameWorkConfigure : IOnDatabaseConfiguring
     {
         private readonly IOptions<DatabaseOption> _dataBaseOption;
-        public EntityFrameWorkConfigure(IOptionsSnapshot<DatabaseOption> dataBaseOption)
+        private readonly ILoggerFactory _loggerFactory;
+        public EntityFrameWorkConfigure(IOptionsSnapshot<DatabaseOption> dataBaseOption, ILoggerFactory loggerFactory)
         {
             _dataBaseOption = dataBaseOption;
+            _loggerFactory = loggerFactory;
         }
         public void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -43,6 +47,9 @@ namespace ZKEACMS.WebHost
                         break;
                     }
             }
+
+            optionsBuilder.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
+            optionsBuilder.UseLoggerFactory(_loggerFactory);
         }
     }
 }

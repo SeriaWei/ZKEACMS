@@ -9,18 +9,10 @@ namespace ZKEACMS.SectionWidget.Service
 {
     public class SectionContentImageService : ServiceBase<SectionContentImage>, ISectionContentService
     {
-        public SectionContentImageService(IApplicationContext applicationContext, SectionDbContext dbContext) : base(applicationContext, dbContext)
+        public SectionContentImageService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<SectionContentImage> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as SectionDbContext).SectionContentImage;
-            }
-        }
-
+        
         public SectionContentBase.Types ContentType
         {
             get { return SectionContentBase.Types.Image; }

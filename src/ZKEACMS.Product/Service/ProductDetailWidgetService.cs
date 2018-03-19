@@ -13,20 +13,12 @@ namespace ZKEACMS.Product.Service
     public class ProductDetailWidgetService : WidgetService<ProductDetailWidget>
     {
         private readonly IProductService _productService;
-        public ProductDetailWidgetService(IWidgetBasePartService widgetService, IProductService productService, IApplicationContext applicationContext, ProductDbContext dbContext)
+        public ProductDetailWidgetService(IWidgetBasePartService widgetService, IProductService productService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
             _productService = productService;
         }
-
-        public override DbSet<ProductDetailWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ProductDbContext).ProductDetailWidget;
-            }
-        }
-
+        
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             int productId = actionContext.RouteData.GetPost();

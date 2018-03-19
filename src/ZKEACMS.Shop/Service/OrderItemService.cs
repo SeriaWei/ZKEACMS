@@ -11,10 +11,9 @@ namespace ZKEACMS.Shop.Service
 {
     public class OrderItemService : ServiceBase<OrderItem>, IOrderItemService
     {
-        public OrderItemService(IApplicationContext applicationContext, OrderDbContext dbContext) : base(applicationContext, dbContext)
+        public OrderItemService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<OrderItem> CurrentDbSet => (DbContext as OrderDbContext).OrderItem;
+        
     }
 }
