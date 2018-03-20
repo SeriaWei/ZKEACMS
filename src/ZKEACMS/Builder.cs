@@ -83,7 +83,9 @@ namespace ZKEACMS
             services.TryAddTransient<IWidgetTemplateService, WidgetTemplateService>();
             services.TryAddTransient<IWidgetBasePartService, WidgetBasePartService>();
             services.TryAddTransient<IZoneService, ZoneService>();
-            services.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+
+            services.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+
             services.AddTransient<Easy.Notification.ISmtpProvider, SmtpProvider>();
             services.AddTransient<IPackageInstaller, ThemePackageInstaller>();
             services.AddTransient<IPackageInstaller, WidgetPackageInstaller>();

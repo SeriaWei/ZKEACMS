@@ -40,7 +40,7 @@ namespace ZKEACMS.WebHost
             services.ConfigureResource<DefaultResourceManager>();
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.TryAddTransient<IOnDatabaseConfiguring, EntityFrameWorkConfigure>();
+            services.AddScoped<IOnDatabaseConfiguring, EntityFrameWorkConfigure>();
 
             services.UseZKEACMS(Configuration);
         }
