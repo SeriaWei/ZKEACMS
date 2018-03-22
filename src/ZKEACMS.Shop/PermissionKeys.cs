@@ -14,5 +14,6 @@ namespace ZKEACMS.Shop
         public const string RefundOrder = "Order_Refund";
         public const string ViewOrderRefund = "Order_ViewOrderRefund";
         public const string CloseOrder = "Order_CloseOrder";
+        public const string PaymentConfigManage = "Payment_Config_Manage";
     }
 }

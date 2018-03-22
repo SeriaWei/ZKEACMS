@@ -18,7 +18,7 @@ namespace ZKEACMS.DataArchived
     {
         protected override void ViewConfigure()
         {
-
+            ViewConfig(m => m.Data).AsTextArea();
         }
     }
 }
