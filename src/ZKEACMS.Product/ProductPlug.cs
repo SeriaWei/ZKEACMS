@@ -121,7 +121,7 @@ namespace ZKEACMS.Product
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+            serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             serviceCollection.AddTransient<IProductService, ProductService>();
             serviceCollection.AddTransient<IProductCategoryService, ProductCategoryService>();

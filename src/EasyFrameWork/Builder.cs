@@ -51,7 +51,7 @@ namespace Easy
             services.TryAddTransient<IDataDictionaryService, DataDictionaryService>();
             services.TryAddTransient<ILanguageService, LanguageService>();
             services.TryAddTransient<IEncryptService, EncryptService>();
-            services.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+            services.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             services.AddTransient<IViewRenderService, ViewRenderService>();
             services.AddTransient<INotificationManager, NotificationManager>();

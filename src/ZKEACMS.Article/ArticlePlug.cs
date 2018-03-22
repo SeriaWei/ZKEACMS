@@ -117,7 +117,7 @@ namespace ZKEACMS.Article
         {
             serviceCollection.AddTransient<IArticleService, ArticleService>();
             serviceCollection.AddTransient<IArticleTypeService, ArticleTypeService>();
-            serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+            serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             serviceCollection.Configure<ArticleListWidget>(option =>
             {
