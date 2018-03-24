@@ -34,7 +34,7 @@ namespace ZKEACMS.Layout
             LayoutHtmlService = layoutHtmlService;
             WidgetActivator = widgetActivator;
         }
-    
+
         public IDataArchivedService DataArchivedService { get; set; }
         public IPageService PageService { get; set; }
         public IZoneService ZoneService { get; set; }
@@ -140,6 +140,20 @@ namespace ZKEACMS.Layout
             //});
             //return layout;
         }
+        public IList<LayoutEntity> GetWithFull()
+        {
+            var layouts = Get().ToList();
+            var zones = ZoneService.Get().ToList();
+            var htmls = LayoutHtmlService.Get().ToList();
+            foreach (var item in layouts)
+            {
+                item.Zones = new ZoneCollection();
+                zones.Where(m => m.LayoutId == item.ID).Each(item.Zones.Add);
+                item.Html = new LayoutHtmlCollection();
+                htmls.Where(m => m.LayoutId == item.ID).Each(item.Html.Add);
+            }
+            return layouts;
+        }
         public override void Remove(LayoutEntity item)
         {
             LayoutHtmlService.Remove(m => m.LayoutId == item.ID);
@@ -210,5 +224,7 @@ namespace ZKEACMS.Layout
                 DataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(m.ID));
             });
         }
+
+
     }
 }

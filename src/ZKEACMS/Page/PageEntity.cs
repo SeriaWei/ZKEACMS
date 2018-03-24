@@ -58,7 +58,8 @@ namespace ZKEACMS.Page
             ViewConfig(m => m.PageName).AsTextBox().Order(1).Required();
             ViewConfig(m => m.PageUrl).AsTextBox().Order(2).Required();
             ViewConfig(m => m.Url).AsTextBox().ReadOnly();
-            ViewConfig(m => m.LayoutId).AsDropDownList().DataSource(ViewDataKeys.Layouts, SourceType.ViewData);
+            //ViewConfig(m => m.LayoutId).AsDropDownList().DataSource(ViewDataKeys.Layouts, SourceType.ViewData);
+            ViewConfig(m => m.LayoutId).AsTextBox().SetTemplate("LayoutChooser");
             ViewConfig(m => m.Script).AsTextBox().AddClass(StringKeys.SelectMediaClass).AddProperty("data-url", Urls.SelectMedia);
             ViewConfig(m => m.Style).AsTextBox().AddClass(StringKeys.SelectMediaClass).AddProperty("data-url", Urls.SelectMedia);
             

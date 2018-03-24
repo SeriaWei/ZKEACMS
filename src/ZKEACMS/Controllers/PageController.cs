@@ -62,7 +62,7 @@ namespace ZKEACMS.Controllers
             return base.Create();
         }
 
-        [ViewDataLayouts, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
+        [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public IActionResult Create(string ParentID = "#")
         {
             var page = new PageEntity
@@ -83,7 +83,7 @@ namespace ZKEACMS.Controllers
             return View(page);
 
         }
-        [ViewDataLayouts, HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Create(PageEntity entity)
         {
             if (ModelState.IsValid)
@@ -101,7 +101,7 @@ namespace ZKEACMS.Controllers
             }
             return View(entity);
         }
-        [ViewDataLayouts, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
+        [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Edit(string Id)
         {
             var page = Service.Get(Id);
@@ -112,8 +112,7 @@ namespace ZKEACMS.Controllers
             ViewBag.OldVersions = Service.Get(m => m.Url == page.Url && m.IsPublishedPage == true).OrderBy(m => m.PublishDate);
             return View(page);
         }
-        [ViewDataLayouts, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
-        [HttpPost]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Edit(PageEntity entity)
         {
             try
