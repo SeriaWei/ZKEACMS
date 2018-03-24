@@ -95,6 +95,7 @@ namespace ZKEACMS.Layout
                     {
                         m.LayoutId = item.ID;
                         m.Title = changeZone.Title;
+                        m.ZoneName = changeZone.ZoneName;
                         ZoneService.Update(m);
                     }
                 });
