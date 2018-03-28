@@ -193,6 +193,7 @@ namespace ZKEACMS.Widget
             var widget = new WidgetPackageInstaller(ApplicationContext.HostingEnvironment).Install(pack);
             if (widget != null)
             {
+                (widget as WidgetBase).Description = "°²×°";
                 AddWidget(widget as WidgetBase);
             }
 
