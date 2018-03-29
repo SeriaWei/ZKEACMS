@@ -109,7 +109,7 @@ namespace ZKEACMS.Controllers
             {
                 return RedirectToAction("Index");
             }
-            ViewBag.OldVersions = Service.Get(m => m.Url == page.Url && m.IsPublishedPage == true).OrderBy(m => m.PublishDate);
+            ViewBag.OldVersions = Service.Get(m => m.ReferencePageID == page.ID && m.IsPublishedPage == true).OrderBy(m => m.PublishDate);
             return View(page);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
