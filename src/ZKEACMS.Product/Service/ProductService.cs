@@ -39,10 +39,12 @@ namespace ZKEACMS.Product.Service
             }
             if (item.ProductTags != null)
             {
+                _productTagService.BeginBulkSave();
                 foreach (var tag in item.ProductTags.Where(m => m.Selected))
                 {
                     _productTagService.Add(new ProductTag { ProductId = item.ID, TagId = tag.ID });
                 }
+                _productTagService.SaveChanges();
             }
             if (item.ProductImages != null)
             {
@@ -73,7 +75,10 @@ namespace ZKEACMS.Product.Service
                     }
                 case ActionType.Delete:
                     {
-                        _productImageService.Remove(item);
+                        if (item.ID > 0)
+                        {
+                            _productImageService.Remove(item);
+                        }
                         break;
                     }
             }
@@ -88,18 +93,22 @@ namespace ZKEACMS.Product.Service
             if (item.ProductTags != null)
             {
                 _productTagService.Remove(m => m.ProductId == item.ID);
+                _productTagService.BeginBulkSave();
                 foreach (var tag in item.ProductTags.Where(m => m.Selected))
                 {
                     _productTagService.Add(new ProductTag { ProductId = item.ID, TagId = tag.ID });
                 }
+                _productTagService.SaveChanges();
             }
             if (item.ProductImages != null)
             {
+                _productImageService.BeginBulkSave();
                 item.ProductImages.Each(m =>
                 {
                     m.ProductId = item.ID;
                     SaveImages(m);
                 });
+                _productImageService.SaveChanges();
             }
             return result;
         }

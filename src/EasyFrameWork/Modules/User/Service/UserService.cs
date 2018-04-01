@@ -37,7 +37,7 @@ namespace Easy.Modules.User.Service
         {
             return CurrentDbSet.AsNoTracking();
         }
-        
+
         private string ProtectPassWord(string passWord)
         {
             if (passWord.IsNotNullAndWhiteSpace())
@@ -76,6 +76,17 @@ namespace Easy.Modules.User.Service
             {
                 throw new Exception($"邮件地址 {item.Email} 已被使用");
             }
+            if (item.Roles != null)
+            {
+                item.Roles.Each(m =>
+                {
+                    m.UserID = item.UserID;
+                    if (m.ActionType == ActionType.Create)
+                    {
+                        (DbContext as EasyDbContext).UserRoleRelation.Add(m);
+                    }
+                });
+            }
             return base.Add(item);
         }
 
@@ -87,7 +98,22 @@ namespace Easy.Modules.User.Service
             }
             if (item.Roles != null)
             {
-                item.Roles.Where(m => m.ActionType == ActionType.Delete).Each(m => (DbContext as EasyDbContext).UserRoleRelation.Remove(m));
+                item.Roles.Each(m =>
+                {
+                    m.UserID = item.UserID;
+                    if (m.ActionType == ActionType.Create)
+                    {
+                        (DbContext as EasyDbContext).UserRoleRelation.Add(m);
+                    }
+                    else if (m.ID > 0 && m.ActionType == ActionType.Delete)
+                    {
+                        (DbContext as EasyDbContext).UserRoleRelation.Remove(m);
+                    }
+                    else if (m.ActionType == ActionType.Update)
+                    {
+                        (DbContext as EasyDbContext).UserRoleRelation.Update(m);
+                    }
+                });
             }
             if (item.Email.IsNotNullAndWhiteSpace() && Count(m => m.UserID != item.UserID && m.Email == item.Email && m.UserTypeCD == item.UserTypeCD) > 0)
             {

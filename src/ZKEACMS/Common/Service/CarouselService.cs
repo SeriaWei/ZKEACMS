@@ -73,7 +73,10 @@ namespace ZKEACMS.Common.Service
                     }
                 case ActionType.Delete:
                     {
-                        _carouselItemService.Remove(item);
+                        if (item.ID > 0)
+                        {
+                            _carouselItemService.Remove(item);
+                        }
                         break;
                     }
             }
