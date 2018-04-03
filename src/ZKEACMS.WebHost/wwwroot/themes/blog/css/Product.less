@@ -1,0 +1,66 @@
+﻿@import "Library.less";
+
+.productlist {
+    .thumbnail {
+        border-color: @color-border;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 1px;
+
+        > a {
+            display: block;
+            text-align: center;
+            height: 225px;
+            line-height: 225px;
+
+            img {
+                display: inline-block;
+                vertical-align: middle;
+                max-width: 100%;
+                max-height: 100%;
+            }
+        }
+
+
+        h4 {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .caption p {
+            height: 36px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+
+            &::after {
+                content: "...";
+            }
+        }
+    }
+
+    .pagination {
+        margin: @margin-base 0;
+    }
+
+    .price {
+        strong {
+            color: @color-danger;
+        }
+    }
+}
+
+.panel-body > .product-category {
+    margin: -15px;
+}
+
+@media all and (max-width:@screen-xs) {
+    .productlist {
+        .thumbnail {
+            > a {
+                height: 160px;
+                line-height: 160px;
+            }
+        }
+    }
+}

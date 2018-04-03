@@ -5,5 +5,9 @@
     "options": {
       "sourceMap": true
     }
+  },
+  {
+    "outputFile": "wwwroot/themes/blog/css/Theme.css",
+    "inputFile": "wwwroot/themes/blog/css/Theme.less"
   }
 ]
