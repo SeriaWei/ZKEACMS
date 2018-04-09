@@ -14,7 +14,7 @@ namespace ZKEACMS.Redirection
         public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
         {
             string path = $"~/{(values["path"] ?? "").ToString()}";
-            if (!path.EndsWith(".html", StringComparison.OrdinalIgnoreCase) && CustomRegex.PostIdRegex.IsMatch(path))
+            if (path.IndexOf(".html", StringComparison.OrdinalIgnoreCase) < 0 && CustomRegex.PostIdRegex.IsMatch(path))
             {
                 return true;
             }

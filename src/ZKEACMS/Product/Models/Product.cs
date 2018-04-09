@@ -103,8 +103,7 @@ namespace ZKEACMS.Product.Models
                 .AsDropDownList()
                 .Required()
                 .DataSource(ViewDataKeys.ProductCategory, SourceType.ViewData)
-                .AddClass("select")
-                .AddProperty("data-url", "/admin/ProductCategory/Select")
+                .SetTemplate("ProductCategory")
                 .ShowInGrid();
 
             ViewConfig(m => m.ProductTags).AsTextBox().SetTemplate("TagSelector");
