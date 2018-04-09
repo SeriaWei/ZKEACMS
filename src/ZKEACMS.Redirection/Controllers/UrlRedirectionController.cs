@@ -7,6 +7,7 @@ using Easy.Mvc;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ZKEACMS.Product.Models;
@@ -28,7 +29,7 @@ namespace ZKEACMS.Redirection.Controllers
                 ModelState.AddModelError("InComingUrl", "访问地址和跳转地址不能一样");
                 return false;
             }
-            if(Service.Count(m=>m.InComingUrl==redirect.InComingUrl&&m.ID!= redirect.ID) > 0)
+            if (Service.Count(m => m.InComingUrl == redirect.InComingUrl && m.ID != redirect.ID) > 0)
             {
                 ModelState.AddModelError("InComingUrl", "访问地址已经存在，不可重复添加");
                 return false;
@@ -48,7 +49,7 @@ namespace ZKEACMS.Redirection.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageUrlRedirect)]
         public override IActionResult Edit(UrlRedirect entity)
         {
-           if(!Valid(entity))
+            if (!Valid(entity))
             {
                 return View(entity);
             }
@@ -75,7 +76,11 @@ namespace ZKEACMS.Redirection.Controllers
         }
         public IActionResult RedirectTo(string path)
         {
-            var redirec = Service.GetSingle(m => m.InComingUrl == $"~/{(path ?? "")}");
+            if (path.IsNotNullAndWhiteSpace() && path.IndexOf(".html", StringComparison.OrdinalIgnoreCase) < 0 && CustomRegex.PostIdRegex.IsMatch(path))
+            {
+                return RedirectPermanent($"~/{(path ?? "")}.html");
+            }
+            var redirec = Service.GetSingle(m => m.InComingUrl == $"~/{(path ?? "").Replace(".html", string.Empty, StringComparison.OrdinalIgnoreCase)}");
             if (redirec.IsPermanent)
             {
                 return RedirectPermanent(redirec.DestinationURL);

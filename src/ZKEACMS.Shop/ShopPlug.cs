@@ -65,6 +65,14 @@ namespace ZKEACMS.Shop
                         Url="~/admin/Order",
                         Order = 1,
                         PermissionKey = PermissionKeys.ManageOrder
+                    },
+                    new AdminMenu
+                    {
+                        Title = "支付宝集成设置",
+                        Icon = "glyphicon-credit-card",
+                        Url="~/admin/AliPay/Setting",
+                        Order = 1,
+                        PermissionKey = PermissionKeys.PaymentConfigManage
                     }
                 }
             };
@@ -91,7 +99,8 @@ namespace ZKEACMS.Shop
             yield return new PermissionDescriptor { Module = "商城", Title = "查看支付平台支付信息", Key = PermissionKeys.ViewOrderPayment };
             yield return new PermissionDescriptor { Module = "商城", Title = "查看支付平台退款信息", Key = PermissionKeys.ViewOrderRefund };
             yield return new PermissionDescriptor { Module = "商城", Title = "退款", Key = PermissionKeys.RefundOrder };
-           //yield return new PermissionDescriptor { Module = "商城", Title = "关闭订单", Key = PermissionKeys.CloseOrder };
+            yield return new PermissionDescriptor { Module = "商城", Title = "支付集成设置", Key = PermissionKeys.PaymentConfigManage };
+            //yield return new PermissionDescriptor { Module = "商城", Title = "关闭订单", Key = PermissionKeys.CloseOrder };
         }
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
@@ -112,23 +121,19 @@ namespace ZKEACMS.Shop
             serviceCollection.ConfigureMetaData<Basket, BasketMetaData>();
             serviceCollection.ConfigureMetaData<Order, OrderMetaData>();
             serviceCollection.ConfigureMetaData<OrderItem, OrderItemMetaData>();
-            
+
+            serviceCollection.ConfigureMetaData<AlipayOptions, AlipayOptionsMetaData>();
+
             var configuration = new ConfigurationBuilder()
              .SetBasePath(CurrentPluginPath)
              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();
 
-            serviceCollection.Configure<AliPayConfig>(configuration.GetSection("Alipay"));
+            serviceCollection.Configure<AlipayOptions>(configuration.GetSection("Alipay"));
 
-            serviceCollection.AddAlipay(options =>
-            {
-                options.AlipayPublicKey = configuration["Alipay:AlipayPublicKey"];
-                options.AppId = configuration["Alipay:AppId"];
-                options.CharSet = configuration["Alipay:CharSet"];
-                options.Gatewayurl = configuration["Alipay:Gatewayurl"];
-                options.PrivateKey = configuration["Alipay:PrivateKey"];
-                options.SignType = configuration["Alipay:SignType"];
-                options.Uid = configuration["Alipay:Uid"];
-            }).AddAlipayF2F();
+
+            serviceCollection.AddAlipay(options => { }).AddAlipayF2F();
+
+            serviceCollection.Replace(new ServiceDescriptor(typeof(IAlipayService), typeof(Service.AlipayService), ServiceLifetime.Transient));
         }
     }
 }

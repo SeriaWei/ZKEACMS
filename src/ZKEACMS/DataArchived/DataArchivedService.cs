@@ -56,5 +56,24 @@ namespace ZKEACMS.DataArchived
         {
             return JsonConvert.DeserializeObject<T>(data, JsonConverters);
         }
+
+        public void Archive<T>(string key, T obj)
+        {
+            var archived = Get(key);
+            if (archived == null)
+            {
+                archived = new DataArchived
+                {
+                    ID = key,
+                    Data = Serialize(obj)
+                };
+                base.Add(archived);
+            }
+            else
+            {
+                archived.Data = Serialize(obj);
+                Update(archived);
+            }
+        }
     }
 }

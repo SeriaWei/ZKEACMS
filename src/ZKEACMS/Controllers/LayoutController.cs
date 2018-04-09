@@ -35,7 +35,7 @@ namespace ZKEACMS.Controllers
 
         public override IActionResult Index()
         {
-            return View(Service.Get());
+            return View(Service.GetWithFull());
         }
 
         public IActionResult LayoutWidget(string LayoutID)

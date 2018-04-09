@@ -45,6 +45,10 @@ namespace ZKEACMS.Shop.Controllers
                 OrderItems = _orderItemService.Get(m => m.OrderId == Id)
             });
         }
+        public IActionResult Failed()
+        {
+            return View();
+        }
         public IActionResult Remove(string Id)
         {
             var order = _orderService.Get(Id);

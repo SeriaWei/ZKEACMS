@@ -27,8 +27,9 @@
                 }
                 @{
                     <ul class="nav navbar-nav nav-mobile visible-xs">
-                      @foreach (var item in Model.Navigations.Where(m => m.ParentId == Model.Widget.RootID && (m.IsMobile ?? false)))
+                      @foreach (var item in Model.Mobiles(Model.Widget.RootID))
                       {
+                        
                         <li class="pull-left @(item.IsCurrent ? "active" : "")">
                             @Html.SmartLink(Url.PathContent(item.Url), item.Title)
                         </li>

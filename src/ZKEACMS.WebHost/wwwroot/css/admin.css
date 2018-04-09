@@ -91,6 +91,46 @@ img {
     transition: width 2s;
 }
 
+form .input-group .layout-item {
+    cursor: pointer;
+}
+
+.input-group .layout-item {
+    text-align: center;
+    width: 200px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin: 5px 10px 5px 0;
+    border-radius: 5px;
+}
+
+    .input-group .layout-item.active {
+        background: #337ab7;
+    }
+
+    .input-group .layout-item .zone-name {
+        font-size: 12px;
+    }
+
+    .input-group .layout-item.active .name {
+        color: #fff;
+    }
+
+    .input-group .layout-item .container {
+        width: 160px !important;
+    }
+
+    .input-group .layout-item .colContent {
+        border: 1px dashed #ddd;
+        margin: 2px -13px;
+        background-color: #fff;
+        padding: 2px 0;
+    }
+
+    .input-group .layout-item.active .colContent {
+        border: 1px solid #337ab7;
+    }
+
 .form-control.required {
     background-color: #fff0dd;
 }
@@ -285,6 +325,7 @@ a.badge:hover {
         padding-left: 2.2rem;
     }
 
+    .fullRowList li:hover,
     .fullRowList li.actived {
         border-left: 5px solid #E28271;
         color: #E28271;
@@ -322,6 +363,10 @@ a.badge:hover {
     .fullRowList.ui-sortable li {
         cursor: move;
     }
+
+#layouts.fullRowList li {
+    cursor: pointer;
+}
 
 .input-group-collection {
     background-color: white;
@@ -541,16 +586,17 @@ a.badge:hover {
     bottom: 25px;
     text-shadow: 1px 1px 2px #fff;
     text-align: left;
-    display:none;
-}
-#media-list .thumbnail:hover .tool{
-    display:block;
+    display: none;
 }
 
-    #media-list .thumbnail .tool a {
-        margin: 0 3px;
-        color: #3D3E43;
-    }
+#media-list .thumbnail:hover .tool {
+    display: block;
+}
+
+#media-list .thumbnail .tool a {
+    margin: 0 3px;
+    color: #3D3E43;
+}
 
 #media-list .thumbnail .close:hover {
     opacity: 1;
@@ -559,6 +605,7 @@ a.badge:hover {
 #media-list .new-folder .close {
     display: none;
 }
+
 #media-list .thumbnail .multi-select {
     position: absolute;
     left: 18px;
@@ -569,9 +616,11 @@ a.badge:hover {
     border-radius: 50%;
     cursor: pointer;
 }
-#media-list .thumbnail .multi-select:not(.glyphicon-unchecked){
-    color:red;
-}
+
+    #media-list .thumbnail .multi-select:not(.glyphicon-unchecked) {
+        color: red;
+    }
+
 .navbar-inverse .navbar-nav > li > a {
     color: #fff;
 }
@@ -642,9 +691,11 @@ div.dataTables_wrapper div.dataTables_processing {
 a[ismobile=true]:after {
     content: " M"
 }
-a.pack-theme{
-    color:#000;
+
+a.pack-theme {
+    color: #000;
 }
+
 @media (min-width: 1200px) {
     .template-list .thumb-item {
         max-width: 180px;
