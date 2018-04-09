@@ -14,6 +14,11 @@ namespace ZKEACMS.Redirection
         public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
         {
             string path = $"~/{(values["path"] ?? "").ToString()}";
+            if (!path.EndsWith(".html", StringComparison.OrdinalIgnoreCase) && CustomRegex.PostIdRegex.IsMatch(path))
+            {
+                return true;
+            }
+            path = path.Replace(".html", string.Empty, StringComparison.OrdinalIgnoreCase);
             var redirect = httpContext.RequestServices.GetService<IUrlRedirectService>().Get(m => m.Status == (int)Easy.Constant.RecordStatus.Active && m.InComingUrl == path);
             return redirect.Count() == 1 && redirect.First().InComingUrl != redirect.First().DestinationURL;
         }
