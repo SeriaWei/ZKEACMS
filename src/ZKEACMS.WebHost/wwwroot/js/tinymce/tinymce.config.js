@@ -14,6 +14,7 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
         toolbar: "insertfile undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | filebrowser",
         height: 500,
         relative_urls: false,
-        language: "zh_CN"
+        language: "zh_CN",
+        skin: 'lightgray'
     });
 });
