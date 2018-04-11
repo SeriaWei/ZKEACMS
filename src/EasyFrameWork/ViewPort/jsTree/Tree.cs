@@ -19,6 +19,7 @@ namespace Easy.ViewPort.jsTree
         Func<T, string> valueProperty;
         Func<T, string> parentProperty;
         Func<T, string> textProperty;
+        bool _expandAll;
         Dictionary<string, string> _events = new Dictionary<string, string>();
         List<string> _plugins = new List<string>();
         Contextmenu contextMenu = new Contextmenu();
@@ -87,19 +88,19 @@ namespace Easy.ViewPort.jsTree
             }
             return this;
         }
-        public Tree<T> Id(Expression<Func<T, string>> value)
+        public Tree<T> Id(Func<T, string> value)
         {
-            valueProperty = value.Compile();
+            valueProperty = value;
             return this;
         }
-        public Tree<T> Text(Expression<Func<T, string>> text)
+        public Tree<T> Text(Func<T, string> text)
         {
-            textProperty = text.Compile();
+            textProperty = text;
             return this;
         }
-        public Tree<T> Parent(Expression<Func<T, string>> parent)
+        public Tree<T> Parent(Func<T, string> parent)
         {
-            parentProperty = parent.Compile();
+            parentProperty = parent;
             return this;
         }
 
@@ -132,14 +133,18 @@ namespace Easy.ViewPort.jsTree
         }
         public List<Node> ToNode(Func<T, string> value, Func<T, string> text, Func<T, string> parent, string rootId)
         {
+            return ToNode(value, text, parent, rootId, true);
+        }
+        public List<Node> ToNode(Func<T, string> value, Func<T, string> text, Func<T, string> parent, string rootId, bool expandAll)
+        {
             valueProperty = value;
             parentProperty = parent;
             textProperty = text;
             _rootId = rootId;
+            _expandAll = expandAll;
             InitDode();
             return nodes;
         }
-
         public override string ToString()
         {
             InitDode();
@@ -177,7 +182,7 @@ namespace Easy.ViewPort.jsTree
                 _viewContext.Writer.Write(builder.ToString());
                 return string.Empty;
             }
-            return builder.ToString();            
+            return builder.ToString();
         }
         private void InitDode()
         {
@@ -197,7 +202,7 @@ namespace Easy.ViewPort.jsTree
             Node node = new Node();
             node.id = valueProperty(data);
             node.text = textProperty(data);
-            node.state = new State { opened = true };
+            node.state = new State { opened = _expandAll };
             node.a_attr = data;
             node.children = new List<Node>();
             DataSource.Where(m => parentProperty(m) == node.id).Each(m => node.children.Add(InitNode(m)));
