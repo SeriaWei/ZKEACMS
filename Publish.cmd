@@ -23,7 +23,7 @@ if not "%i%"=="y" goto start
 @echo 详细的运行时RID请访问
 @echo https://docs.microsoft.com/en-us/dotnet/core/rid-catalog
 @echo 常用运行时RID
-@echo win7-x64,win10-x64,ubuntu.16.04-x64,centos.7-x64,osx.10.12-x64
+@echo win-x64,linux-x64
 set /P r=输入运行时 RID:
 :start
 @echo 正在发布，请稍后...
