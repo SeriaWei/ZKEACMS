@@ -22,8 +22,7 @@ set /P i=是否包含运行时发布?(y/n)
 if not "%i%"=="y" goto start
 @echo 详细的运行时RID请访问
 @echo https://docs.microsoft.com/en-us/dotnet/core/rid-catalog
-@echo 常用运行时RID
-@echo win-x64,linux-x64
+@echo 常用运行时RID: win-x64,linux-x64
 set /P r=输入运行时 RID:
 :start
 @echo 正在发布，请稍后...
