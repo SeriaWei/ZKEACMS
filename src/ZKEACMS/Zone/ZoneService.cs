@@ -21,7 +21,10 @@ namespace ZKEACMS.Zone
             PageService = pageService;
             _serviceProvder = serviceProvder;
         }
-
+        public override IQueryable<ZoneEntity> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
+        }
         public IPageService PageService { get; set; }
 
 

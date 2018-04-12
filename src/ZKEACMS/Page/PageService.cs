@@ -1,4 +1,8 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses 
+ */
+
 using Easy;
 using Easy.Constant;
 using Easy.Extend;
@@ -243,7 +247,7 @@ namespace ZKEACMS.Page
             {
                 path = "~" + path;
             }
-            var result = CurrentDbSet
+            var result = CurrentDbSet.AsNoTracking()
                 .Where(m => m.Url == path && m.IsPublishedPage == !isPreView)
                 .OrderByDescending(m => m.PublishDate)
                 .FirstOrDefault();

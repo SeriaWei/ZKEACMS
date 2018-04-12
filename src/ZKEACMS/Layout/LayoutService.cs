@@ -46,6 +46,10 @@ namespace ZKEACMS.Layout
         {
             return "Layout:" + id;
         }
+        public override IQueryable<LayoutEntity> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
+        }
         public override ServiceResult<LayoutEntity> Add(LayoutEntity item)
         {
             item.ID = Guid.NewGuid().ToString("N");
