@@ -9,5 +9,6 @@ namespace ZKEACMS
         public const string SMTP_Email = "SMTP-Email";
         public const string SMTP_PassWord = "SMTP-PassWord";
         public const string SMTP_UseSSL = "SMTP-UseSSL";
+        public const string ExpandAllPage = "ExpandAllPage";
     }
 }

@@ -103,15 +103,18 @@ namespace ZKEACMS.Filter
                         {
                             IWidgetPartDriver partDriver = widgetActivator.Create(widget);
                             WidgetViewModelPart part = partDriver.Display(widget, filterContext);
-                            lock (layout.ZoneWidgets)
+                            if (part != null)
                             {
-                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
+                                lock (layout.ZoneWidgets)
                                 {
-                                    layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
-                                }
-                                else
-                                {
-                                    layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
+                                    if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
+                                    {
+                                        layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
+                                    }
+                                    else
+                                    {
+                                        layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
+                                    }
                                 }
                             }
                             partDriver.Dispose();
