@@ -100,7 +100,7 @@ form .input-group .layout-item {
     width: 200px;
     border: 1px solid #ddd;
     padding: 5px;
-    margin-right: 10px;
+    margin: 5px 10px 5px 0;
     border-radius: 5px;
 }
 
@@ -518,7 +518,11 @@ a.badge:hover {
 .form-group select.select {
     cursor: pointer;
 }
-
+.form-group .mce-tinymce {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
 #media-list .edit {
     width: 100%;
     line-height: normal;

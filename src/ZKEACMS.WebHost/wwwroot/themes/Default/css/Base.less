@@ -4,27 +4,17 @@ html {
     margin: 0;
     padding: 0;
 }
-
+body {
+    font: @font-size-normal/1.5 @fontFamaily;
+}
 body.front {
     margin: 0;
     padding: 0;
-    font: @font-size-normal/1.5 @fontFamaily;
-    color: @color-text;
-    /*background: url("../Images/bg.gif");*/
-    /*background: #EEF2F5;*/
-
-    .main.container {
-        /*background-color: white;*/
-        /*border-left: 1px solid @color-border;*/
-        /*border-right: 1px solid @color-border;*/
-        /*box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 5px rgba(0, 0, 0, 0.075);*/
-    }
-
-    .main.container-fluid {
-        background-color: white;
-    }
+    color: @color-text;    
 }
-
+body.mce-content-body {
+    padding: @padding-base;
+}
 img {
     max-width: 100%;
 }
@@ -45,8 +35,8 @@ p {
     margin: 0 0 @margin-base * 0.5;
 }
 
-p:last-child{
-    margin-bottom:0;
+p:last-child {
+    margin-bottom: 0;
 }
 
 .preview-toolbar {
@@ -71,7 +61,7 @@ p:last-child{
     border: @border-thin solid @color-main;
     border-top-width: @border-heavy;
     border-radius: 5px;
-    background:@color-white;
+    background: @color-white;
 }
 
 .bs-callout .pull-left h4 {
@@ -122,7 +112,7 @@ p:last-child{
 .list-group-item.active:hover,
 .list-group-item.active:focus {
     text-shadow: 0 -1px 0 @color-main-actived;
-    border-color:@color-main;
+    border-color: @color-main;
     .background-image(@color-main,@color-main);
 }
 
@@ -175,15 +165,65 @@ p:last-child{
     color: @color-white;
 }
 
+.btn-flat {
+    .background-image(@color-main,@color-main);
+    border-color: @color-main-actived;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+    color: @color-white;
+    border-radius:0;
+}
 
+.btn-flat:hover,
+.btn-flat:focus {
+    .background-image(@color-main-actived,@color-main-actived);
+    background-position: 0;
+    color: @color-white;
+    border-radius: 0;
+}
+
+.btn-flat:active:hover,
+.btn-flat.active:hover,
+.open > .dropdown-toggle.btn-flat:hover,
+.btn-flat:active:focus,
+.btn-flat.active:focus,
+.open > .dropdown-toggle.btn-flat:focus,
+.btn-flat:active.focus,
+.btn-flat.active.focus,
+.open > .dropdown-toggle.btn-flat.focus,
+.btn-flat:active,
+.btn-flat.active {
+    .background-image(@color-main,@color-main);
+    border-color: @color-main-actived;
+    color: @color-white;
+}
+.btn.btn-wide {
+    padding-left: 24px;
+    padding-right: 24px;
+}
+.btn.btn-xs.btn-wide {
+    padding-left: 13px;
+    padding-right: 13px;
+}
+.btn.btn-sm.btn-wide {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.btn.btn-md.btn-wide {
+    padding-left: 24px;
+    padding-right: 24px;
+}
+.btn.btn-lg.btn-wide {
+    padding-left: 30px;
+    padding-right: 30px;
+}
 .field-validation-error {
     top: 10px;
     position: relative;
     background: @color-danger;
     color: white;
     padding: 1rem 1.2rem;
-    border-radius:3px;
-    display:inline-block;
+    border-radius: 3px;
+    display: inline-block;
 }
 
 .field-validation-error:before {

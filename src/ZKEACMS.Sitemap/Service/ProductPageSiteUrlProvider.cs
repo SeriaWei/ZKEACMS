@@ -35,7 +35,7 @@ namespace ZKEACMS.Sitemap.Service
                     {
                         yield return new SiteUrl
                         {
-                            Url = item.DetailPageUrl.Replace("~/", host) + "/post-" + product.ID,
+                            Url = item.DetailPageUrl.Replace("~/", host) + "/post-" + $"{product.ID}.html",
                             ModifyDate = product.LastUpdateDate ?? DateTime.Now,
                             Changefreq = "weekly",
                             Priority = 0.5F

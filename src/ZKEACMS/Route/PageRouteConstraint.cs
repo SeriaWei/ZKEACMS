@@ -1,8 +1,16 @@
-﻿
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * 深圳市纸壳软件有限公司
+ * http://www.zkea.net/licenses
+ */
 
 using Easy.Extend;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using ZKEACMS.Route;
 
 namespace ZKEACMS
 {
@@ -14,48 +22,17 @@ namespace ZKEACMS
             if (routeKey == "path" && value != null)
             {
                 string path = "/" + value.ToString();
-                int postId = 0;
-                int categoryId = 0;
-                int page = 0;
-                if (CustomRegex.PageRegex.IsMatch(path))
-                {
-                    path = CustomRegex.PageRegex.Replace(path, evaluator =>
-                    {
-                        int.TryParse(evaluator.Groups[1].Value, out page);
-                        return "";
-                    });
-                    values.Add(StringKeys.RouteValue_Page, page);
-                }
 
-                if (CustomRegex.PostIdRegex.IsMatch(path))
+                var routeDataProviders = httpContext.RequestServices.GetService<IEnumerable<IRouteDataProvider>>();
+                foreach (var item in routeDataProviders)
                 {
-                    path = CustomRegex.PostIdRegex.Replace(path, evaluator =>
-                    {
-                        int.TryParse(evaluator.Groups[1].Value, out postId);
-                        return "";
-                    });
-                }
-                else if (CustomRegex.CategoryIdRegex.IsMatch(path))
-                {
-                    path = CustomRegex.CategoryIdRegex.Replace(path, evaluator =>
-                    {
-                        int.TryParse(evaluator.Groups[1].Value, out categoryId);
-                        return "";
-                    });
+                    path = item.ExtractVirtualPath(path, values);
                 }
                 if (path.IsNullOrWhiteSpace())
                 {
                     path = "/";
                 }
                 values[routeKey] = path;
-                if (postId > 0)
-                {
-                    values.Add(StringKeys.RouteValue_Post, postId);
-                }
-                if (categoryId > 0)
-                {
-                    values.Add(StringKeys.RouteValue_Category, categoryId);
-                }
             }
             return true;
         }

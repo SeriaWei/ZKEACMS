@@ -35,7 +35,7 @@ using ZKEACMS.ModelBinder;
 using Easy.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Easy.Mvc.Authorize;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using ZKEACMS.Route;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using ZKEACMS.Article.Models;
@@ -60,6 +60,12 @@ namespace ZKEACMS
             services.TryAddScoped<IApplicationContextAccessor, ApplicationContextAccessor>();
             services.TryAddScoped<IApplicationContext, CMSApplicationContext>();
             services.TryAddSingleton<IRouteProvider, RouteProvider>();
+
+            services.AddSingleton<IRouteDataProvider, PaginationRouteDataProvider>();
+            services.AddSingleton<IRouteDataProvider, PostIdRouteDataProvider>();
+            services.AddSingleton<IRouteDataProvider, CategoryRouteDataProvider>();
+            services.AddSingleton<IRouteDataProvider, HtmlRouteDataProvider>();
+
             services.TryAddSingleton<IAdminMenuProvider, AdminMenuProvider>();
             services.TryAddTransient<IWidgetActivator, DefaultWidgetActivator>();
             services.TryAddTransient<ICarouselItemService, CarouselItemService>();
