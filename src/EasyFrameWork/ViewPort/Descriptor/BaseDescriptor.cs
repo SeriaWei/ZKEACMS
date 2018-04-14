@@ -117,6 +117,7 @@ namespace Easy.ViewPort.Descriptor
         public bool IsIgnore { get; set; }
 
         public bool IsHidden { get; set; }
+        public bool IsHideSurroundingHtml { get; set; }
         public bool IsShowInGrid { get; set; }
         public Query.Operators SearchOperator { get; set; }
         public string GridColumnTemplate { get; set; }
@@ -241,6 +242,11 @@ namespace Easy.ViewPort.Descriptor
         public T Hide()
         {
             this.IsHidden = true;
+            return this as T;
+        }
+        public T HideSurroundingHtml()
+        {
+            this.IsHideSurroundingHtml = true;
             return this as T;
         }
         public T Ignore()
