@@ -159,7 +159,7 @@
                 $.post(link.attr("href"), function () {
                     link.trigger("change");
                 });
-            })
+            }, true);
             return false;
         });
     });
