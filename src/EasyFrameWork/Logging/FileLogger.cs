@@ -7,12 +7,12 @@ using System.Text;
 
 namespace Easy.Logging
 {
-    public class FileLogger : Microsoft.Extensions.Logging.ILogger
+    public class FileLogger : ILogger
     {
-        public const string Path = "Logs";
-        public const string TitleTemplate = "----------------------------------------------------------------\r\n时间：{0}\r\n详细信息:\r\n";
+        public static string Path = "Logs";
+        public const string TitleTemplate = "----------------------------------------------------------------\r\nEvent Time: {0}\r\nError Message:\r\n";
         public const string Split = "\r\n----------------------------------------------------------------\r\n";
-        public const string FileTemplate = "LOG_{0}.txt";
+        public const string FileTemplate = "{0}.log";
         public const string DateNameTemplate = "yyyy-MM-dd";
         private readonly IHostingEnvironment _hostingEnvironment;
         public FileLogger(IHostingEnvironment hostingEnvironment)
@@ -26,8 +26,8 @@ namespace Easy.Logging
             {
                 string logPath = GetLogFile();
                 FileStream fs = new FileStream(logPath, FileMode.Append, FileAccess.Write);
-                StreamWriter writer = new StreamWriter(fs);
-                writer.WriteLine(string.Format(TitleTemplate, DateTime.Now) + msg + Split);
+                StreamWriter writer = new StreamWriter(fs, Encoding.UTF8);
+                writer.WriteLine(string.Format(TitleTemplate, DateTime.Now.ToString("G")) + msg + Split);
                 writer.Flush();
                 fs.Flush();
                 writer.Dispose();
@@ -36,7 +36,7 @@ namespace Easy.Logging
         }
         string GetLogFile()
         {
-            string logPath = System.IO.Path.Combine(_hostingEnvironment.WebRootPath, Path);
+            string logPath = System.IO.Path.Combine(_hostingEnvironment.ContentRootPath, Path);
             if (!Directory.Exists(logPath))
             {
                 Directory.CreateDirectory(logPath);

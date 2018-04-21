@@ -15,28 +15,8 @@ namespace ZKEACMS.Widget
 {
     public class WidgetBase : EditorEntity
     {
-        public static Dictionary<string, Type> KnownWidgetModel { get; } = new Dictionary<string, Type>
-        {
-           { "ZKEACMS,ZKEACMS.Common.Models.CarouselWidget",typeof(CarouselWidget)},
-           { "ZKEACMS,ZKEACMS.Common.Models.HtmlWidget",typeof(HtmlWidget)},
-           { "ZKEACMS,ZKEACMS.Common.Models.ImageWidget",typeof(ImageWidget)},
-           { "ZKEACMS,ZKEACMS.Common.Models.NavigationWidget",typeof(NavigationWidget)},
-           { "ZKEACMS,ZKEACMS.Common.Models.ScriptWidget",typeof(ScriptWidget)},
-           { "ZKEACMS,ZKEACMS.Common.Models.StyleSheetWidget",typeof(StyleSheetWidget)},
-           { "ZKEACMS,ZKEACMS.Common.Models.VideoWidget",typeof(VideoWidget)},
-           { "ZKEACMS,ZKEACMS.Common.Models.BreadcrumbWidget",typeof(BreadcrumbWidget)}
-        };
-        public static Dictionary<string, Type> KnownWidgetService { get; } = new Dictionary<string, Type>
-        {
-           { "ZKEACMS,ZKEACMS.Common.Service.CarouselWidgetService",typeof(CarouselWidgetService)},
-           { "ZKEACMS,ZKEACMS.Common.Service.HtmlWidgetService",typeof(HtmlWidgetService)},
-           { "ZKEACMS,ZKEACMS.Common.Service.ImageWidgetService",typeof(ImageWidgetService)},
-           { "ZKEACMS,ZKEACMS.Common.Service.NavigationWidgetService",typeof(NavigationWidgetService)},
-           { "ZKEACMS,ZKEACMS.Common.Service.ScriptWidgetService",typeof(ScriptWidgetService)},
-           { "ZKEACMS,ZKEACMS.Common.Service.StyleSheetWidgetService",typeof(StyleSheetWidgetService)},
-           { "ZKEACMS,ZKEACMS.Common.Service.VideoWidgetService",typeof(VideoWidgetService)},
-           { "ZKEACMS,ZKEACMS.Common.Service.BreadcrumbWidgetService",typeof(BreadcrumbWidgetService)}
-        };
+        public static Dictionary<string, Type> KnownWidgetModel { get; } = new Dictionary<string, Type>();
+        public static Dictionary<string, Type> KnownWidgetService { get; } = new Dictionary<string, Type>();
         [Key]
         public virtual string ID { get; set; }
         public virtual string WidgetName { get; set; }
@@ -82,6 +62,10 @@ namespace ZKEACMS.Widget
                 return _customStyle;
             }
         }
+        [NotMapped]
+        public string DataSourceLink { get; set; }
+        [NotMapped]
+        public string DataSourceLinkTitle { get; set; }
         private void InitStyleClass()
         {
             if (StyleClass.IsNullOrWhiteSpace())
@@ -113,30 +97,6 @@ namespace ZKEACMS.Widget
                 ViewModel = viewModel
             };
         }
-
-
-        //private IWidgetPartDriver _partDriver;
-        //public IWidgetPartDriver CreateServiceInstance(IServiceProvider serviceProvider)
-        //{
-        //    string key = $"{AssemblyName},{ServiceTypeName}";
-        //    if (_partDriver == null && KnownWidgetService.ContainsKey(key))
-        //    {
-        //        return _partDriver = serviceProvider.GetService(KnownWidgetService[key]) as IWidgetPartDriver;
-        //    }
-        //    return _partDriver;
-        //}
-
-
-        //private WidgetBase _widgetBase;
-        //public WidgetBase CreateViewModelInstance(IServiceProvider serviceProvider)
-        //{
-        //    string key = $"{AssemblyName},{ViewModelTypeName}";
-        //    if (_widgetBase == null && KnownWidgetModel.ContainsKey(key))
-        //    {
-        //        _widgetBase = serviceProvider.GetService(KnownWidgetModel[key]) as WidgetBase;
-        //    }
-        //    return CopyTo(_widgetBase);
-        //}
         public Type GetViewModelType()
         {
             string key = $"{AssemblyName},{ViewModelTypeName}";
@@ -157,6 +117,7 @@ namespace ZKEACMS.Widget
         }
         public WidgetBase CopyTo(WidgetBase widget)
         {
+            if (widget == null) return widget;
             widget.AssemblyName = AssemblyName;
             widget.CreateBy = CreateBy;
             widget.CreatebyName = CreatebyName;

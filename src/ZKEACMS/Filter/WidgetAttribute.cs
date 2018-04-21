@@ -2,24 +2,19 @@
  * Copyright 2017 ZKEASOFT 
  * http://www.zkea.net/licenses */
 
-using System;
 using Easy.Extend;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
+using System;
 using ZKEACMS.Event;
 using ZKEACMS.Layout;
 using ZKEACMS.Page;
 using ZKEACMS.Setting;
 using ZKEACMS.Theme;
 using ZKEACMS.Widget;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Easy.Mvc;
-using Microsoft.AspNetCore.Mvc;
-using Easy;
-using Easy.Modules.User.Service;
-using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Http;
 
 namespace ZKEACMS.Filter
 {
@@ -47,11 +42,12 @@ namespace ZKEACMS.Filter
                     };
                     //filterContext.HttpContext.Response.Headers[HeaderNames.Vary] = new string[] { "Accept-Encoding" };
                 }
-                else
+                else if (isPreView)
                 {
                     filterContext.HttpContext.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
                     {
-                        NoCache = true
+                        NoCache = true,
+                        NoStore = true
                     };
                 }
                 return pageService.GetByPath(path, isPreView);
@@ -107,15 +103,18 @@ namespace ZKEACMS.Filter
                         {
                             IWidgetPartDriver partDriver = widgetActivator.Create(widget);
                             WidgetViewModelPart part = partDriver.Display(widget, filterContext);
-                            lock (layout.ZoneWidgets)
+                            if (part != null)
                             {
-                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
+                                lock (layout.ZoneWidgets)
                                 {
-                                    layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
-                                }
-                                else
-                                {
-                                    layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
+                                    if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
+                                    {
+                                        layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
+                                    }
+                                    else
+                                    {
+                                        layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
+                                    }
                                 }
                             }
                             partDriver.Dispose();
@@ -145,7 +144,16 @@ namespace ZKEACMS.Filter
             {
                 if (!(filterContext.Result is RedirectResult))
                 {
-                    filterContext.Result = new RedirectResult("~/error/notfond?f=" + filterContext.HttpContext.Request.Path);
+                    var viewResult = filterContext.Result as ViewResult;
+                    if (viewResult != null)
+                    {
+                        viewResult.StatusCode = 404;
+                        viewResult.ViewName = "NotFound";
+                    }
+                    else
+                    {
+                        filterContext.Result = new RedirectResult("~/error/notfond?f=" + filterContext.HttpContext.Request.Path);
+                    }
                 }
             }
         }

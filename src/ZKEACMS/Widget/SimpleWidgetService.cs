@@ -23,32 +23,44 @@ namespace ZKEACMS.Widget
             var item = WidgetBasePartService.Get(primaryKeys);
             return item.CopyTo(JsonConvert.DeserializeObject<T>(item.ExtendData ?? "{}")) as T;
         }
-        public override void Add(T item)
+        public override ServiceResult<T> Add(T item)
         {
             item.ID = Guid.NewGuid().ToString("N");
             item.ExtendData = JsonConvert.SerializeObject(item);
             WidgetBasePartService.Add(item.ToWidgetBasePart());
+            return new ServiceResult<T>();
         }
-        public override void AddRange(params T[] items)
+        public override ServiceResult<T> AddRange(params T[] items)
         {
             foreach (var item in items)
             {
                 item.ExtendData = JsonConvert.SerializeObject(item);
             }
             WidgetBasePartService.AddRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
+            return new ServiceResult<T>();
         }
-        public override void Update(T item, bool saveImmediately = true)
+        public override ServiceResult<T> Update(T item)
         {
             item.ExtendData = JsonConvert.SerializeObject(item);
-            WidgetBasePartService.Update(item.ToWidgetBasePart(), saveImmediately);
+            var basePart = WidgetBasePartService.Get(item.ID);
+            item.CopyTo(basePart);
+            WidgetBasePartService.Update(basePart);
+            return new ServiceResult<T>();
         }
-        public override void UpdateRange(params T[] items)
+        public override ServiceResult<T> UpdateRange(params T[] items)
         {
             foreach (var item in items)
             {
                 item.ExtendData = JsonConvert.SerializeObject(item);
             }
-            WidgetBasePartService.UpdateRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
+            var ids = items.Select(m => m.ID).ToArray();
+            var baseParts = WidgetBasePartService.Get(m => ids.Contains(m.ID));
+            foreach (var item in items)
+            {
+                item.CopyTo(baseParts.FirstOrDefault(m => m.ID == item.ID));
+            }
+            WidgetBasePartService.UpdateRange(baseParts.ToArray());
+            return new ServiceResult<T>();
         }
         public override IList<T> Get(Expression<Func<T, bool>> filter)
         {
@@ -80,13 +92,15 @@ namespace ZKEACMS.Widget
         {
             WidgetBasePartService.Remove(Expression.Lambda<Func<WidgetBasePart, bool>>(filter.Body, filter.Parameters));
         }
-        public override void Remove(T item, bool saveImmediately = true)
+        public override void Remove(T item)
         {
             WidgetBasePartService.Remove(item.ID);
         }
         public override void RemoveRange(params T[] items)
         {
-            WidgetBasePartService.RemoveRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
+            var ids = items.Select(n => n.ID).ToArray();
+            var widgets = WidgetBasePartService.Get(m => ids.Contains(m.ID)).ToArray();
+            WidgetBasePartService.RemoveRange(widgets);
         }
 
         public override WidgetBase GetWidget(WidgetBase widget)

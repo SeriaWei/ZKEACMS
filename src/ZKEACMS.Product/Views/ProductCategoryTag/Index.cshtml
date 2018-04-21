@@ -1,0 +1,75 @@
+﻿@using ZKEACMS.Product
+@using Easy.ViewPort.jsTree
+@using ZKEACMS.Product.Models
+@{
+    Script.Reqiured("jsTree").AtFoot();
+    Style.Reqiured("jsTree").AtHead();
+    var categoryTree = Html.Tree<ProductCategory>().Source("GetProductCategoryTree", "ProductCategory")
+        .On(Events.ActiveNode, "ActiveNode");
+}
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                产品类别
+            </div>
+            <div class="panel-body">
+                @categoryTree
+            </div>
+            <div class="panel-footer">
+                选中产品类别，创建标签
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8" id="tags">
+
+    </div>
+</div>
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        var currentCategory;
+        var activeTag;
+        function ActiveNode(node, selected) {
+            getTags(selected.node.id);
+        }
+
+        function getTags(id) {
+            if (id) {
+                currentCategory = id;
+            }
+            $.post("@Url.Action("GetTags")", { ProductCategoryId: currentCategory }, function (data) {
+                $("#tags").html(data);
+                if (activeTag) {
+                    $("#tag-" + activeTag).focus().select();
+                    activeTag = null;
+                }
+            }, "html");
+        }
+        function createTag(tag) {
+            $.post("@Url.Action("Create")", tag, function (data) {
+                activeTag = data.id;
+                getTags();
+            });
+        }
+        function updateTag(tag) {
+            $.post("@Url.Action("Edit")", tag, function (data) {
+                getTags();
+            });
+        }
+        $(document).on("click", ".btn-add-tag", function () {
+            createTag({ Title: "新建标签", ProductCategoryId: currentCategory, ParentId: $(this).data("id") });
+        });
+        $(document).on("keyup", ".tag-input", function (e) {
+            if (e.keyCode == 13) {
+                updateTag({ ID: $(this).data("id"), Title: $(this).val(), ProductCategoryId: currentCategory, ParentId: $(this).data("pid") });
+            }            
+        });
+        $(document).on("click", ".btn-delete-tag", function () {
+            $.post("@Url.Action("Delete")", { id: $(this).data("id") }, function () {
+                getTags();
+            });
+        });
+    </script>
+}

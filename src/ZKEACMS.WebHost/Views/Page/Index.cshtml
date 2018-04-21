@@ -1,7 +1,7 @@
 ﻿@using ZKEACMS.Common
 @using Easy.ViewPort.jsTree
 @{
-    string pageId =ViewContext.HttpContext.Request.Query["PageID"];
+    string pageId = ViewContext.HttpContext.Request.Query["PageID"];
     Script.Reqiured("jQueryUi").AtFoot();
     Script.Reqiured("jsTree").AtFoot();
     Style.Reqiured("jsTree").AtHead();
@@ -18,14 +18,14 @@
         pageTree.AddPlugin(Plugins.DragAndDrop).AddContextMenuItem(new ContextmenuItem { Label = "新建", Action = "Create", Icon = "glyphicon glyphicon-plus" })
             .AddContextMenuItem(new ContextmenuItem { Label = "查看", Action = "View", Icon = "glyphicon glyphicon-new-window" })
             .AddContextMenuItem(new ContextmenuItem { Label = "编辑", Action = "Design", Icon = "glyphicon glyphicon-pencil" })
-            .AddContextMenuItem(new ContextmenuItem {Label = "预览", Action = "PreView", Icon = "glyphicon glyphicon-search"})
+            .AddContextMenuItem(new ContextmenuItem { Label = "预览", Action = "PreView", Icon = "glyphicon glyphicon-search" })
             .AddContextMenuItem(new ContextmenuItem { Label = "属性", Action = "Edit", Icon = "glyphicon glyphicon-edit", SeparatorAfter = true })
-            .AddContextMenuItem(new ContextmenuItem {Label = "发布", Action = "Publish", Icon = "glyphicon glyphicon-open"});
+            .AddContextMenuItem(new ContextmenuItem { Label = "发布", Action = "Publish", Icon = "glyphicon glyphicon-open" });
     }
     else
     {
-        pageTree.AddContextMenuItem(new ContextmenuItem {Label = "预览", Action = "PreView", Icon = "glyphicon glyphicon-search"})
-            .AddContextMenuItem(new ContextmenuItem {Label = "查看", Action = "View", Icon = "glyphicon glyphicon-new-window"});
+        pageTree.AddContextMenuItem(new ContextmenuItem { Label = "预览", Action = "PreView", Icon = "glyphicon glyphicon-search" })
+            .AddContextMenuItem(new ContextmenuItem { Label = "查看", Action = "View", Icon = "glyphicon glyphicon-new-window" });
     }
 }
 <div>
@@ -99,6 +99,7 @@
                 </p>
             </div>
             <div class="modal-footer">
+                <a href="http://www.zkea.net/zkeacms/document/managepage" class="btn btn-primary" target="_blank">说明文档</a>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div><!-- /.modal-content -->
@@ -120,8 +121,13 @@
             window.location.href = '@Url.Action("RedirectView", "Page")' + '/' + id;
         }
         function View(node) {
-            var id = node.reference.attr("id");
-            window.open('@Url.Action("RedirectView", "Page")' + '?ID=' + id + "&preview=false");
+            if (node.reference.attr("publishdate") == "null") {
+                Easy.ShowMessageBox("提示", "只有在页面发布之后才可查看！");
+
+            } else {
+                var id = node.reference.attr("id");
+                window.open('@Url.Action("RedirectView", "Page")' + '?ID=' + id + "&preview=false");
+            }
         }
         function Design(node) {
             var id = node.reference.attr("id");
@@ -180,5 +186,10 @@
         if (!location.hash) {
             location.hash = '@(pageId)';
         }
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $(".jstree").css("max-height", $(window).height() - 200).css("overflow", "auto");
+        });
     </script>
 }

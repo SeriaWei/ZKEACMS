@@ -40,14 +40,6 @@ namespace ZKEACMS.Widget
             _httpContextAccessor = httpContextAccessor;
             IsNeedNotifyChange = true;
         }
-        public override DbSet<WidgetBasePart> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).WidgetBasePart;
-            }
-        }
-
         public bool IsNeedNotifyChange { get; set; }
 
         private void TriggerChange(WidgetBase widget)
@@ -70,7 +62,7 @@ namespace ZKEACMS.Widget
                     PageWidgetCacheManage.ClearRegion(_httpContextAccessor.HttpContext.Request.Host.Value);
                 }
             }
-            
+
         }
 
         public IEnumerable<WidgetBase> GetByLayoutId(string layoutId)
@@ -97,29 +89,41 @@ namespace ZKEACMS.Widget
             }
             return getPageWidgets(page).Where(m => m != null);
         }
-        public override void Add(WidgetBasePart item)
+        public override ServiceResult<WidgetBasePart> Add(WidgetBasePart item)
         {
-            base.Add(item);
-            TriggerChange(item);
+            var result = base.Add(item);
+            if (!result.HasViolation)
+            {
+                TriggerChange(item);
+            }
+            return result;
         }
-        public override void Update(WidgetBasePart item, bool saveImmediately = true)
+        public override ServiceResult<WidgetBasePart> Update(WidgetBasePart item)
         {
-            TriggerChange(item);
-            base.Update(item, saveImmediately);
+            var result = base.Update(item);
+            if (!result.HasViolation)
+            {
+                TriggerChange(item);
+            }
+            return result;
         }
-        public override void UpdateRange(params WidgetBasePart[] items)
+        public override ServiceResult<WidgetBasePart> UpdateRange(params WidgetBasePart[] items)
         {
-            items.Each(TriggerChange);
-            base.UpdateRange(items);
+            var result = base.UpdateRange(items);
+            if (!result.HasViolation)
+            {
+                items.Each(TriggerChange);
+            }
+            return result;
         }
         public override void Remove(Expression<Func<WidgetBasePart, bool>> filter)
         {
             base.Remove(filter);
         }
-        public override void Remove(WidgetBasePart item, bool saveImmediately = true)
+        public override void Remove(WidgetBasePart item)
         {
             TriggerChange(item);
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
         public override void RemoveRange(params WidgetBasePart[] items)
         {

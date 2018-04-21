@@ -26,3 +26,18 @@
         }
     </div>
 </div>
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#ProductCategoryID").change(reloadTag);
+            function reloadTag() {
+                $.post("@Url.Action("ProduceTags")", { productId: $("#ID").val(), ProductCategoryId: $("#ProductCategoryID").val() }, function (data) {
+                    $(".tag-selector").parent().html(data);
+                }, "html");
+            }
+            $(document).on("click", ".reload-tag", reloadTag);
+        });
+    </script>
+}

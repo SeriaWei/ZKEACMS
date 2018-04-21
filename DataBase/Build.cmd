@@ -1,6 +1,6 @@
 @echo off
 REM:请根据您的个人实际情况修改以下信息：
-REM:如果您运行该批处理时出现乱码，请参考
+REM:如果您运行该批处理时出现乱码或者执行不成功，请参考
 REM:http://www.zkea.net/zkeacms/document/issues
 @echo -----------------------------------------------------------------------------
 @echo ****** 欢迎使用 ZKEACMS Core ******
@@ -14,6 +14,7 @@ REM:http://www.zkea.net/zkeacms/document/issues
 @echo 在开始之前，我们需要收集一些您的数据库服务器的配置信息
 @echo 如果打算使用默认值，请直接按回车，共4步
 @echo -----------------------------------------------------------------------------
+@echo 当前工作目录 %cd%
 set /P server=1.输入服务器地址，默认(local):
 if "%server%"=="" set server=(local)
 set /P dataBase=2.输入数据库名称，默认(ZKEACMS_Core):
@@ -46,9 +47,6 @@ sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo CMS_WidgetBase
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.CMS_WidgetBase.Table.sql"
-if %ERRORLEVEL% NEQ 0 goto errors
-@echo CMS_WidgetTemplate
-sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.CMS_WidgetTemplate.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo CMS_Media
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.CMS_Media.Table.sql"
@@ -194,6 +192,27 @@ if %ERRORLEVEL% NEQ 0 goto errors
 @echo FormDataItem
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.FormDataItem.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
+@echo ProductTag
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.ProductTag.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo ProductCategoryTag
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.ProductCategoryTag.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo ProductImage
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.ProductImage.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo Basket
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.Basket.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo Order
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.Order.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo OrderItem
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.OrderItem.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo Comments
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.Comments.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
 
 @echo InitailData...
 @echo ArticleType
@@ -219,9 +238,6 @@ sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Initial
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo CMS_Zone
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.CMS_Zone.Table.sql"
-if %ERRORLEVEL% NEQ 0 goto errors
-@echo CMS_WidgetTemplate
-sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.CMS_WidgetTemplate.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo CMS_Media
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.CMS_Media.Table.sql"
@@ -357,6 +373,27 @@ sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Initial
 if %ERRORLEVEL% NEQ 0 goto errors
 @echo FormDataItem
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.FormDataItem.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo ProductTag
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.ProductTag.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo ProductCategoryTag
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.ProductCategoryTag.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo ProductImage
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.ProductImage.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo Basket
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.Basket.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo Order
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.Order.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo OrderItem
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.OrderItem.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+@echo Comments
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "InitialData\dbo.Comments.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
 
 @echo -----------------------------------------------------------------------------

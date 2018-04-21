@@ -17,9 +17,10 @@ Ubuntu 的MySql的配置文件、目录在 /etc/mysql/my.cnf
 ```
 vi /etc/mysql/my.cnf
 ```
-添加以下内容，注意放在 **[mysqld]** 下面
+添加以下内容，注意放在 **[mysqld]** 下面，并且中间空一行
 ```
 [mysqld]
+
 lower_case_table_names=1
 ```
 然后重启MySql服务

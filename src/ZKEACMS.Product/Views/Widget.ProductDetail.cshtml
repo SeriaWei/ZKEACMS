@@ -1,43 +1,146 @@
-﻿@model ZKEACMS.Product.Models.ProductEntity
+﻿@using System.Text.RegularExpressions
+@model ZKEACMS.Product.Models.ProductEntity
 @{
-
+    Style.Reqiured("product-ecommerce").AtHead();
+    Script.Reqiured("product-ecommerce").AtFoot();
+    var firstImage = Model.ProductImages.FirstOrDefault(m => m.Status == (int)RecordStatus.Active);
 }
 @if (Model != null)
 {
     <div class="product-detail">
         <div class="page-header">
-            <h1 class="align-center">
-                @Model.Title
-            </h1>
-            <div class="align-right">
-                <span>
-                    <i class="glyphicon glyphicon-user"></i>
-                    @Model.CreatebyName
-                </span>
-                <span>
-                    <i class="glyphicon glyphicon-calendar"></i>
-                    @((Model.PublishDate ?? DateTime.Now).ToString("yyyy/MM/dd"))
-                </span>
+            <div class="product-ecommerce">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="thumbnail">
+                                @if (firstImage != null)
+                                {
+                                    <img class="stage" src="@Url.Content(firstImage.ImageUrl)" alt="@firstImage.Title" />
+                                }
+                                else
+                                {
+                                    <img class="stage" src="@Url.Content(Model.ImageUrl)" alt="@Model.Title" />
+                                }
+                            </div>
+                            <ul class="thumbnails">
+                                @if (firstImage != null)
+                                {
+                                    foreach (var item in Model.ProductImages.Where(m => m.Status == (int)RecordStatus.Active))
+                                    {
+                                        <li class="@(item==firstImage?"active":"")">
+                                            <a href="javascript:" data-src="@Url.Content(item.ImageUrl)">
+                                                <img src="@Url.Content(item.ImageUrl)" alt="@item.Title" />
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        <div class="col-sm-6">
+                            <h1>@Model.Title</h1>
+                            @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProduct) && Model.ID > 0)
+                            {
+                                <p>
+                                    <a href="@Url.Action("Edit", "Product", new { id = Model.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">编辑</a>
+                                </p>
+                            }
+                            @if (Model.Description.IsNotNullAndWhiteSpace())
+                            {
+                                <p>
+                                    <small class="text-muted">
+                                        @Model.Description
+                                    </small>
+                                </p>
+                            }
+                            @if (Model.Price.HasValue || Model.RebatePrice.HasValue)
+                            {
+                                <p>
+                                    @Html.LabelFor(m => m.Price)
+                                    @if (Model.RebatePrice.HasValue)
+                                    {
+                                        <del class="text-muted"><small>￥</small>@Html.Raw(Regex.Replace((Model.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</del>
+                                        <span class="price"><small>￥</small>@Html.Raw(Regex.Replace((Model.RebatePrice ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="price"><small>￥</small>@Html.Raw(Regex.Replace((Model.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</span>
+                                    }
+                                </p>
+                            }
+                            @if (Model.PartNumber.IsNotNullAndWhiteSpace())
+                            {
+                                <p>
+                                    @Html.LabelFor(m => m.PartNumber)
+                                    <span class="text-muted">@Model.PartNumber</span>
+                                </p>
+                            }
+                            @if (Model.Color.IsNotNullAndWhiteSpace())
+                            {
+                                <p>
+                                    @Html.LabelFor(m => m.Color)
+                                    <span class="text-muted">@Model.Color</span>
+                                </p>
+                            }
+                            @if (Model.Norm.IsNotNullAndWhiteSpace())
+                            {
+                                <p>
+                                    @Html.LabelFor(m => m.Norm)
+                                    <span class="text-muted">@Model.Norm</span>
+                                </p>
+                            }
+                            @if (Model.ShelfLife.IsNotNullAndWhiteSpace())
+                            {
+                                <p>
+                                    @Html.LabelFor(m => m.ShelfLife)
+                                    <span class="text-muted">@Model.ShelfLife</span>
+                                </p>
+                            }
+                            @if (Model.ProductTags != null && Model.ProductTags.Any(m => m.Selected))
+                            {
+                                <div class="tag-select">
+                                    @foreach (var item in Model.ProductTags.Where(m => m.ParentId == 0))
+                                    {
+                                        var childTags = Model.ProductTags.Where(m => m.ParentId == item.ID && m.Selected).ToList();
+                                        if (childTags.Any())
+                                        {
+                                            <div class="tag-grop">
+                                                <h4>
+                                                    @item.Title
+                                                </h4>
+                                                <div>
+                                                    @foreach (var tag in childTags)
+                                                    {
+                                                        <input type="radio" id="tag-@tag.ID" name="group-@item.ID" value="@tag.Title" />
+                                                        <label for="tag-@tag.ID">@tag.Title</label>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            }
+                            @if (Model.Price.HasValue || Model.RebatePrice.HasValue)
+                            {
+                                <p class="quantity-set">
+                                    <label>数量</label>
+                                    <a href="javascript:" class="quantity-minus glyphicon glyphicon-minus-sign"></a>
+                                    <span class="quantity">1</span>
+                                    <a href="javascript:" class="quantity-plus glyphicon glyphicon-plus-sign"></a>
+                                </p>
+                                <p>
+                                    <a class="btn btn-primary btn-lg add-to-basket" href="javascript:" data-productid="@Model.ID" data-quantity="1">
+                                        <i class="glyphicon glyphicon-shopping-cart"></i> 加入购物车
+                                    </a>
+                                </p>
+                            }
+                        </div>
+                    </div>
 
-                @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProduct) && Model.ID > 0)
-                {
-                    <a href="@Url.Action("Edit", "Product", new { id = Model.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">编辑</a>
-                }
+                </div>
             </div>
         </div>
         <div class="panel-body detail clearfix">
-            @if (Model.Description.IsNotNullAndWhiteSpace())
-            {
-                <blockquote>
-                    <footer>
-                        @Model.Description
-                    </footer>
-                </blockquote>
-            }
-            @if (Model.ImageUrl.IsNotNullAndWhiteSpace())
-            {
-                <img class="thumbnail" src="@Url.Content(Model.ImageUrl)" alt="@Model.Title" />
-            }
             @Html.Raw(Model.ProductContent)
         </div>
     </div>

@@ -1,4 +1,5 @@
-﻿@model ZKEACMS.Product.ViewModel.ProductListWidgetViewModel
+﻿@using System.Text.RegularExpressions
+@model ZKEACMS.Product.ViewModel.ProductListWidgetViewModel
 
 <div class="productlist">
     <div class="row">
@@ -14,41 +15,34 @@
             }
             <div class="@Model.Columns">
                 <div class="thumbnail">
-                    <img alt="@item.Title" title="@item.Title" src="@Url.ImageContent(item.ImageThumbUrl)" />
+                    <a href="@Url.PathContent(url)">
+                        <img alt="@item.Title" title="@item.Title" src="@Url.ImageContent(item.ImageThumbUrl)" />
+                    </a>
                     <div class="caption">
                         <h4>
-                            @if (url.IsNotNullAndWhiteSpace())
-                            {
-                                <a href="@Url.Content(url)">
-                                    @item.Title
-                                </a>
-                            }
-                            else
-                            {
+                            <a href="@Url.PathContent(url)">
                                 @item.Title
-                            }
+                            </a>
                         </h4>
                         @if (item.Description.IsNotNullAndWhiteSpace())
                         {
-                            <p>
+                            <p class="text-muted small">
                                 @item.Description
                             </p>
                         }
                         @if (item.RebatePrice.HasValue || item.Price.HasValue)
                         {
                             <div class="clearfix">
-                                <div class="pull-left price">                                    
-                                    @if (item.Price.HasValue)
-                                    {
-                                        <del>￥@(string.Format("{0:f2}", item.Price))</del>
-                                    }
+                                <div class="pull-left price">
                                     @if (item.RebatePrice.HasValue)
                                     {
-                                        <strong>￥@(string.Format("{0:f2}", item.RebatePrice))</strong>
+                                        <del class="text-muted"><small><small>￥</small>@Html.Raw(Regex.Replace((item.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</small></del>
+                                        <strong><small>￥</small>@Html.Raw(Regex.Replace((item.RebatePrice ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</strong>
                                     }
-                                </div>
-                                <div class="pull-right">
-                                    <a href="@Url.PathContent(url)" class="btn btn-default btn-sm">立即购买</a>
+                                    else
+                                    {
+                                        <strong><small>￥</small>@Html.Raw(Regex.Replace((item.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</strong>
+                                    }
                                 </div>
                             </div>
                         }

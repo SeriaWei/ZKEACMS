@@ -3,4 +3,4 @@
 
     var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
 }
-@Html.TextBox("", Model,descriptor.ToHtmlProperties())
+@Html.TextBox("", Model?.ToString("f2"),descriptor.ToHtmlProperties())

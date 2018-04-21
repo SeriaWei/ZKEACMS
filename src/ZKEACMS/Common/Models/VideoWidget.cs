@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Common.Models
 {
-    [ViewConfigure(typeof(VideoWidgetMetaData)), Table("VideoWidget")]
+    [Table("VideoWidget")]
     public class VideoWidget : BasicWidget
     {
         public int? Width { get; set; }

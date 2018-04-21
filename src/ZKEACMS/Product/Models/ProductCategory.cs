@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Product.Models
 {
-    [ViewConfigure(typeof(ProductCategoryMetaData)), Table("ProductCategory")]
+    [Table("ProductCategory")]
     public class ProductCategory : EditorEntity
     {
         [Key]

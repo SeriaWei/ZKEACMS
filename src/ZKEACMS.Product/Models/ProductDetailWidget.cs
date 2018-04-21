@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Product.Models
 {
-    [ViewConfigure(typeof(ProductDetailWidgetMetaData)), Table("ProductDetailWidget")]
+    [Table("ProductDetailWidget")]
     public class ProductDetailWidget : BasicWidget
     {
         public string CustomerClass { get; set; }

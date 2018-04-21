@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq.Expressions;
 using Easy;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ZKEACMS.Media
 {
@@ -15,16 +17,8 @@ namespace ZKEACMS.Media
         public MediaService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<MediaEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).Media;
-            }
-        }
-
-        public override void Add(MediaEntity item)
+        
+        public override ServiceResult<MediaEntity> Add(MediaEntity item)
         {
             item.ID = Guid.NewGuid().ToString("N");
             if (item.ParentID.IsNullOrWhiteSpace())
@@ -75,12 +69,19 @@ namespace ZKEACMS.Media
             {
                 item.MediaType = (int)MediaType.Folder;
             }
-            base.Add(item);
+            return base.Add(item);
         }
-        public override void Remove(MediaEntity item, bool saveImmediately = true)
+
+        public IList<MediaEntity> GetPage(string parentId, Pagination pagin)
+        {
+            pagin.RecordCount = Count(m => m.ParentID == parentId);
+            return Get().Where(m => m.ParentID == parentId).OrderBy(m => m.MediaType).ThenByDescending(m => m.CreateDate).Skip(pagin.PageIndex * pagin.PageSize).Take(pagin.PageSize).ToList();
+        }
+
+        public override void Remove(MediaEntity item)
         {
             Remove(m => m.ParentID == item.ID);
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
 
         public override void Remove(Expression<Func<MediaEntity, bool>> filter)

@@ -13,12 +13,9 @@
     <Description>Package Description</Description>
     <Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
-    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
+    <ServerGarbageCollection>false</ServerGarbageCollection>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="wwwroot\js\FileUploader.ts" />
-  </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
@@ -26,16 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.0-rtm-10058" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\js\FileUploader.ts" />
+    <DotNetCliToolReference Include="ZKEACMS.Publisher" Version="1.2.0" />
   </ItemGroup>
 
 </Project>

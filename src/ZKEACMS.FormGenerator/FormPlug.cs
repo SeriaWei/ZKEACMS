@@ -1,4 +1,4 @@
-/* http://www.zkea.net/ 
+ï»¿/* http://www.zkea.net/ 
  * Copyright 2017 ZKEASOFT 
  * http://www.zkea.net/licenses 
  *
@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Easy.RepositoryPattern;
 using ZKEACMS.FormGenerator.Service;
+using Easy;
+using ZKEACMS.FormGenerator.Models;
+using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS.FormGenerator
 {
@@ -31,19 +34,19 @@ namespace ZKEACMS.FormGenerator
         {
             yield return new AdminMenu
             {
-                Title = "×Ô¶¨Òå±íµ¥",
+                Title = "è‡ªå®šä¹‰è¡¨å•",
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu
                     {
-                        Title="±íµ¥",
+                        Title="è¡¨å•",
                         Url="~/Admin/Form",
                         Icon="glyphicon-list-alt",
                         PermissionKey=PermissionKeys.ViewForm
                     },
                     new AdminMenu
                     {
-                        Title="±íµ¥Êı¾İ",
+                        Title="è¡¨å•æ•°æ®",
                         Url="~/Admin/FormData",
                         Icon="glyphicon-record",
                         PermissionKey=PermissionKeys.ViewFormData
@@ -77,25 +80,42 @@ namespace ZKEACMS.FormGenerator
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
         {
-            yield return new PermissionDescriptor(PermissionKeys.ViewForm, "×Ô¶¨Òå±íµ¥", "²é¿´±íµ¥", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageForm, "×Ô¶¨Òå±íµ¥", "¹ÜÀí±íµ¥", "");
-            yield return new PermissionDescriptor(PermissionKeys.ViewFormData, "×Ô¶¨Òå±íµ¥", "²é¿´±íµ¥Êı¾İ", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageFormData, "×Ô¶¨Òå±íµ¥", "¹ÜÀí±íµ¥Êı¾İ", "");
-            yield return new PermissionDescriptor(PermissionKeys.ExportFormData, "×Ô¶¨Òå±íµ¥", "µ¼³ö±íµ¥Êı¾İ", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewForm, "è‡ªå®šä¹‰è¡¨å•", "æŸ¥çœ‹è¡¨å•", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageForm, "è‡ªå®šä¹‰è¡¨å•", "ç®¡ç†è¡¨å•", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewFormData, "è‡ªå®šä¹‰è¡¨å•", "æŸ¥çœ‹è¡¨å•æ•°æ®", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageFormData, "è‡ªå®šä¹‰è¡¨å•", "ç®¡ç†è¡¨å•æ•°æ®", "");
+            yield return new PermissionDescriptor(PermissionKeys.ExportFormData, "è‡ªå®šä¹‰è¡¨å•", "å¯¼å‡ºè¡¨å•æ•°æ®", "");
         }
 
-        public override IEnumerable<Type> WidgetServiceTypes()
+        public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
-            yield return typeof(FormWidgetService);
+            yield return new WidgetTemplateEntity<FormWidgetService>
+            {
+                Title = "è¡¨å•",
+                GroupName = "4.è¡¨å•",
+                PartialView = "Widget.Form",
+                Thumbnail = "~/Plugins/ZKEACMS.FormGenerator/Content/images/Widget.Form.png",
+                Order = 1
+            };
         }
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
+            serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+
             serviceCollection.TryAddTransient<IFormService, FormService>();
             serviceCollection.TryAddTransient<IFormDataService, FormDataService>();
             serviceCollection.TryAddTransient<IFormDataItemService, FormDataItemService>();
 
-            serviceCollection.AddDbContext<FormGeneratorDbContext>();
+            serviceCollection.ConfigureMetaData<Form, FormMetaData>();
+            serviceCollection.ConfigureMetaData<FormData, FormDataMetaData>();
+            serviceCollection.ConfigureMetaData<FormWidget, FormWidgetMetaData>();
+
+            serviceCollection.Configure<FormWidget>(option =>
+            {
+                option.DataSourceLinkTitle = "è¡¨å•";
+                option.DataSourceLink = "~/admin/Form";
+            });            
         }
     }
 }

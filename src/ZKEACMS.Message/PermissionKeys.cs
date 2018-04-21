@@ -6,5 +6,7 @@ namespace ZKEACMS.Message
     {
         public const string ViewMessage = "Message_View";
         public const string ManageMessage = "Message_Manage";
+        public const string ViewComments = "Comments_View";
+        public const string ManageComments = "Comments_Manage";
     }
 }

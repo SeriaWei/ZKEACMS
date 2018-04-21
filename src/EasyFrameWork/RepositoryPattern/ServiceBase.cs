@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Easy.Extend;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Easy.RepositoryPattern
 {
@@ -19,17 +20,19 @@ namespace Easy.RepositoryPattern
         {
             ApplicationContext = applicationContext;
             DbContext = dbContext;
-            DbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            isWaitingSave = false;
         }
-        
+
         public virtual DbContext DbContext
         {
             get;
             set;
         }
-        public abstract DbSet<T> CurrentDbSet { get; }
+        public virtual DbSet<T> CurrentDbSet { get { return DbContext.Set<T>(); } }
 
         public IApplicationContext ApplicationContext { get; set; }
+
+        private bool isWaitingSave;
 
         public void BeginTransaction(Action action)
         {
@@ -47,9 +50,42 @@ namespace Easy.RepositoryPattern
                 }
             }
         }
-
-        public virtual void Add(T item)
+        protected ServiceResult<T> Validate(T item)
         {
+            ServiceResult<T> serviceResult = new ServiceResult<T>();
+            var entryType = typeof(T);
+            var viewConfig = ServiceLocator.GetViewConfigure(typeof(T));
+            if (viewConfig != null)
+            {
+                entryType.GetProperties().Each(p =>
+                {
+                    if (p.GetCustomAttribute<NotMappedAttribute>() == null)
+                    {
+                        var descroptor = viewConfig.GetViewPortDescriptor(p.Name);
+                        if (descroptor != null)
+                        {
+                            descroptor.Validator.Each(v =>
+                            {
+                                if (!v.Validate(p.GetValue(item)))
+                                {
+                                    serviceResult.RuleViolations.Add(new RuleViolation(p.Name, v.ErrorMessage));
+                                }
+                            });
+                        }
+                    }
+
+                });
+            }
+            serviceResult.Result = item;
+            return serviceResult;
+        }
+        public virtual ServiceResult<T> Add(T item)
+        {
+            var result = Validate(item);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             var editor = item as EditorEntity;
             if (editor != null)
             {
@@ -65,12 +101,22 @@ namespace Easy.RepositoryPattern
                 editor.LastUpdateDate = DateTime.Now;
             }
             CurrentDbSet.Add(item);
-            DbContext.SaveChanges();
+            if (!isWaitingSave)
+            {
+                SaveChanges();
+            }
+            return result;
         }
-        public virtual void AddRange(params T[] items)
+        public virtual ServiceResult<T> AddRange(params T[] items)
         {
+            ServiceResult<T> result = new ServiceResult<T>();
             foreach (var item in items)
             {
+                var itemResult = Validate(item);
+                if (itemResult.HasViolation)
+                {
+                    return itemResult;
+                }
                 var editor = item as EditorEntity;
                 if (editor != null)
                 {
@@ -87,7 +133,11 @@ namespace Easy.RepositoryPattern
                 }
             }
             CurrentDbSet.AddRange(items);
-            DbContext.SaveChanges();
+            if (!isWaitingSave)
+            {
+                SaveChanges();
+            }
+            return result;
         }
         public virtual IQueryable<T> Get()
         {
@@ -95,11 +145,11 @@ namespace Easy.RepositoryPattern
         }
         public virtual T GetSingle(Expression<Func<T, bool>> filter)
         {
-            return CurrentDbSet.Single(filter);
+            return Get().Single(filter);
         }
         public virtual IList<T> Get(Expression<Func<T, bool>> filter)
         {
-            return CurrentDbSet.Where(filter).ToList();
+            return Get().Where(filter).ToList();
         }
         public virtual IList<T> Get(Expression<Func<T, bool>> filter, Pagination pagination)
         {
@@ -107,11 +157,11 @@ namespace Easy.RepositoryPattern
             IQueryable<T> result;
             if (filter != null)
             {
-                result = CurrentDbSet.Where(filter);
+                result = Get().Where(filter);
             }
             else
             {
-                result = CurrentDbSet;
+                result = Get();
             }
             if (pagination.OrderBy != null || pagination.OrderByDescending != null)
             {
@@ -134,12 +184,17 @@ namespace Easy.RepositoryPattern
         {
             if (filter != null)
             {
-                return CurrentDbSet.Where(filter).Count();
+                return Get().Where(filter).Count();
             }
-            return CurrentDbSet.Count();
+            return Get().Count();
         }
-        public virtual void Update(T item, bool saveImmediately = true)
+        public virtual ServiceResult<T> Update(T item)
         {
+            var result = Validate(item);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             var editor = item as EditorEntity;
             if (editor != null)
             {
@@ -151,15 +206,21 @@ namespace Easy.RepositoryPattern
                 editor.LastUpdateDate = DateTime.Now;
             }
             CurrentDbSet.Update(item);
-            if (saveImmediately)
+            if (!isWaitingSave)
             {
-                DbContext.SaveChanges();
+                SaveChanges();
             }
+            return result;
         }
-        public virtual void UpdateRange(params T[] items)
+        public virtual ServiceResult<T> UpdateRange(params T[] items)
         {
             foreach (var item in items)
             {
+                var itemResult = Validate(item);
+                if (itemResult.HasViolation)
+                {
+                    return itemResult;
+                }
                 var editor = item as EditorEntity;
                 if (editor != null)
                 {
@@ -172,7 +233,11 @@ namespace Easy.RepositoryPattern
                 }
             }
             CurrentDbSet.UpdateRange(items);
-            DbContext.SaveChanges();
+            if (!isWaitingSave)
+            {
+                SaveChanges();
+            }
+            return new ServiceResult<T>();
         }
         public void Remove(params object[] primaryKey)
         {
@@ -182,34 +247,44 @@ namespace Easy.RepositoryPattern
                 Remove(item);
             }
         }
-        public virtual void Remove(T item, bool saveImmediately = true)
+        public virtual void Remove(T item)
         {
             CurrentDbSet.Remove(item);
-            if (saveImmediately)
+            if (!isWaitingSave)
             {
-                DbContext.SaveChanges();
+                SaveChanges();
             }
-
         }
         public virtual void Remove(Expression<Func<T, bool>> filter)
         {
             CurrentDbSet.RemoveRange(CurrentDbSet.Where(filter));
-            DbContext.SaveChanges();
-
+            if (!isWaitingSave)
+            {
+                SaveChanges();
+            }
         }
         public virtual void RemoveRange(params T[] items)
         {
             CurrentDbSet.RemoveRange(items);
-            DbContext.SaveChanges();
+            if (!isWaitingSave)
+            {
+                SaveChanges();
+            }
         }
         public virtual void Dispose()
         {
             //DbContext.Dispose();
         }
 
-        public void SaveChanges()
+        public virtual void SaveChanges()
         {
             DbContext.SaveChanges();
+            isWaitingSave = false;
+        }
+
+        public virtual void BeginBulkSave()
+        {
+            isWaitingSave = true;
         }
     }
 }

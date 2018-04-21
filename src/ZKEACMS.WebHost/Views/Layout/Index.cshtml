@@ -7,30 +7,32 @@
         布局
     </div>
     <div class="panel-body">
-        <ul class="layoutList">
-            @foreach (LayoutEntity item in Model)
+        <div class="input-group clearfix">
+            @foreach (var layout in Model)
             {
-                <li class="thumbnail">
-                    <a href="@(Authorizer.Authorize(PermissionKeys.ManageLayout) ? Url.Action("Edit", "Layout", new {item.ID}) : "#")">
-                        @if (item.ImageUrl.IsNullOrEmpty())
+
+                <div class="layout-item pull-left" data-id="@layout.ID">
+                    <label class="name">
+                        <a href="@Url.Action("Design", new {layout.ID})">@layout.LayoutName</a>
+                    </label>
+                    @for (int i = 0; i < layout.Html.Count; i++)
+                    {
+                        var item = layout.Html[i];
+                        @Html.Raw(item.Html)
+                        if (item.Html == ZoneEntity.ZoneTag)
                         {
-                            <img src="@Url.Content(LayoutEntity.DefaultThumbnial)" alt="@item.LayoutName" />
+                            i++;
+                            var headingCode = layout.Html[i].Html;
+                            var zone = layout.Zones.FirstOrDefault(m => m.HeadingCode == headingCode);
+                            if (zone != null)
+                            {
+                                <span class="zone-name">@zone.ZoneName</span>
+                            }
                         }
-                        else
-                        {
-                            <img src="@Url.Content(item.ImageUrl)" alt="@item.LayoutName" />
-                        }
-                    </a>
-                    <div class="caption">
-                        <span>@item.LayoutName</span>
-                        @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
-                        {
-                            <a href="@Url.Action("Design", new {item.ID})" class="pull-right badge">编辑</a>
-                        }
-                    </div>
-                </li>
+                    }
+                </div>
             }
-        </ul>
+        </div>
 
     </div>
     @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
@@ -39,6 +41,10 @@
             <a href="@Url.Action("Create")" class="btn btn-link btn-xs">
                 <i class="glyphicon glyphicon-plus"></i>
                 添加布局
+            </a>
+            <a href="http://www.zkea.net/zkeacms/document/layout" class="btn btn-link btn-xs" target="_blank">
+                <i class="glyphicon glyphicon-question-sign"></i>
+                说明文档
             </a>
         </div>
     }

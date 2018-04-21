@@ -8,5 +8,7 @@ namespace ZKEACMS.Product
         public const string PublishProduct = "Product_Publish";
         public const string ViewProductCategory = "ProductCategory_View";
         public const string ManageProductCategory = "ProductCategory_Manage";
+        public const string ViewProductCategoryTag = "ProductCategoryTag_View";
+        public const string ManageProductCategoryTag = "ProductCategoryTag_Manage";
     }
 }

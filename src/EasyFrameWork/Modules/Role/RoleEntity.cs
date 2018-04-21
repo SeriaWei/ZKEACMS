@@ -7,11 +7,16 @@ using Easy.Models;
 
 namespace Easy.Modules.Role
 {
-    [ViewConfigure(typeof(RoleMetaData)),Table("Roles")]
+    [Table("Roles")]
     public class RoleEntity : EditorEntity
     {
         [Key]
         public int ID { get; set; }
+        public void CopyTo(RoleEntity role)
+        {
+            role.Title = Title;
+            role.Description = Description;
+        }
     }
 
     class RoleMetaData : ViewMetaData<RoleEntity>

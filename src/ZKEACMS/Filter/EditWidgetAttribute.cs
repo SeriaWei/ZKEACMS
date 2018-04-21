@@ -5,6 +5,9 @@
 using ZKEACMS.Page;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
+using System;
+using Microsoft.Net.Http.Headers;
 
 namespace ZKEACMS.Filter
 {
@@ -12,13 +15,17 @@ namespace ZKEACMS.Filter
     {
         public override PageEntity GetPage(ActionExecutedContext filterContext)
         {
+            filterContext.HttpContext.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
+            {
+                NoCache = true,
+                NoStore = true
+            };
             string pageId = filterContext.RouteData.Values["id"].ToString();
 
             using (var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>())
             {
                 return pageService.Get(pageId);
             }
-            
         }
 
         public override string GetLayout()

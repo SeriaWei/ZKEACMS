@@ -12,6 +12,8 @@ using System.Linq;
 using ZKEACMS.Product.ActionFilter;
 using ZKEACMS.Product.Models;
 using ZKEACMS.Product.Service;
+using Microsoft.Extensions.DependencyInjection;
+using ZKEACMS.Product.ViewModel;
 
 namespace ZKEACMS.Product.Controllers
 {
@@ -19,11 +21,13 @@ namespace ZKEACMS.Product.Controllers
     public class ProductController : BasicController<ProductEntity, int, IProductService>
     {
         private readonly IProductCategoryService _productCategoryService;
+        private readonly IProductCategoryTagService _productCategoryTagService;
         private readonly IAuthorizer _authorizer;
-        public ProductController(IProductService service, IProductCategoryService productCategoryService, IAuthorizer authorizer)
+        public ProductController(IProductService service, IProductCategoryService productCategoryService, IAuthorizer authorizer, IProductCategoryTagService productCategoryTagService)
             : base(service)
         {
             _productCategoryService = productCategoryService;
+            _productCategoryTagService = productCategoryTagService;
             _authorizer = authorizer;
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewProduct)]
@@ -85,13 +89,14 @@ namespace ZKEACMS.Product.Controllers
         {
             if (products != null && products.Any())
             {
+                Service.BeginBulkSave();
                 products.Each(m =>
                 {
                     var product = Service.Get(m.ID);
                     if (product != null)
                     {
                         product.OrderIndex = m.OrderIndex;
-                        Service.Update(product, false);
+                        Service.Update(product);
                     }
                 });
                 Service.SaveChanges();
@@ -104,6 +109,20 @@ namespace ZKEACMS.Product.Controllers
             return Json(Service.Get(m => ids.Contains(m.ProductCategoryID ?? 0))
                 .OrderBy(m => m.OrderIndex)
                 .ThenByDescending(m => m.ID).Select(m => new { m.ID, m.Title }));
+        }
+        [HttpPost]
+        public IActionResult ProduceTags(int productId, int ProductCategoryId)
+        {
+            var tags = _productCategoryTagService.Get(m => m.ProductCategoryId == ProductCategoryId);
+            if (productId != 0)
+            {
+                var productTags = HttpContext.RequestServices.GetService<IProductTagService>().Get(m => m.ProductId == productId);
+                foreach (var item in tags)
+                {
+                    item.Selected = productTags.Any(m => m.TagId == item.ID);
+                }
+            }
+            return View(new ProductTagViewModel { ProductTags = tags });
         }
     }
 }

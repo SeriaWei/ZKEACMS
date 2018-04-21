@@ -5,6 +5,7 @@ using System.Text;
 using System.Net.Mail;
 using ZKEACMS.Setting;
 using System.Net;
+using Easy.Extend;
 
 namespace ZKEACMS
 {
@@ -24,12 +25,18 @@ namespace ZKEACMS
 
             string email = _applicationSettingService.Get(SettingKeys.SMTP_Email, "");
             string password = _applicationSettingService.Get(SettingKeys.SMTP_PassWord, "");
-
+            if (email.IsNullOrWhiteSpace())
+            {
+                throw new Exception("未设置邮件发送邮箱，请在系统设置中设置 SMTP_Email");
+            }
+            if (password.IsNullOrWhiteSpace())
+            {
+                throw new Exception("未设置邮件发送密码，请在系统设置中设置 SMTP_PassWord");
+            }
             bool ssl;
             bool.TryParse(_applicationSettingService.Get(SettingKeys.SMTP_UseSSL, "false"), out ssl);
 
             SmtpClient client = new SmtpClient(host, port);
-            client.Timeout = 10000;
             client.UseDefaultCredentials = true;
             client.EnableSsl = ssl;
             client.Credentials = new NetworkCredential(email, password);

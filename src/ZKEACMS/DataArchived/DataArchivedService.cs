@@ -20,20 +20,13 @@ namespace ZKEACMS.DataArchived
 
         public JsonConverter[] JsonConverters { get; set; }
 
-        public override DbSet<DataArchived> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).DataArchived;
-            }
-        }
 
-        public override void Add(DataArchived item)
+        public override ServiceResult<DataArchived> Add(DataArchived item)
         {
             lock (ArchiveLock)
             {
                 Remove(item.ID);
-                base.Add(item);
+                return base.Add(item);
             }
 
         }
@@ -62,6 +55,25 @@ namespace ZKEACMS.DataArchived
         private T Deserialize<T>(string data) where T : class
         {
             return JsonConvert.DeserializeObject<T>(data, JsonConverters);
+        }
+
+        public void Archive<T>(string key, T obj)
+        {
+            var archived = Get(key);
+            if (archived == null)
+            {
+                archived = new DataArchived
+                {
+                    ID = key,
+                    Data = Serialize(obj)
+                };
+                base.Add(archived);
+            }
+            else
+            {
+                archived.Data = Serialize(obj);
+                Update(archived);
+            }
         }
     }
 }

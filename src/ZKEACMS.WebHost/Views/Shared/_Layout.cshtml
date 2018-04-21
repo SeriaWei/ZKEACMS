@@ -101,7 +101,7 @@
                             主题
                         </a>
                     }
-                    <a class="btn btn-primary" href="@Url.Action("Logout", "Account", new { returnurl = Model.Page.Url })">
+                    <a class="btn btn-primary" href="@Url.Action("Logout", "Account", new { returnurl = ViewContext.HttpContext.Request.Path.Value })">
                         <i class="glyphicon glyphicon-off"></i>
                         退出
                     </a>

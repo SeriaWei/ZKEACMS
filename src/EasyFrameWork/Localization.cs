@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using Easy.Options;
 using Easy.Extend;
 using System;
+using Easy.MetaData;
 
 namespace Easy
 {
@@ -68,6 +69,9 @@ namespace Easy
 
             }).LanValue;
         }
-
+        public static void RemoveCache(string lanKey)
+        {
+            LanguageCache.Remove(lanKey);
+        }
     }
 }

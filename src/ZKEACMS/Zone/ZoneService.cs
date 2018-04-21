@@ -15,24 +15,20 @@ namespace ZKEACMS.Zone
     public class ZoneService : ServiceBase<ZoneEntity>, IZoneService
     {
         private readonly IServiceProvider _serviceProvder;
-        public ZoneService(IPageService pageService, IApplicationContext applicationContext, IServiceProvider serviceProvder, CMSDbContext dbContext) 
+        public ZoneService(IPageService pageService, IApplicationContext applicationContext, IServiceProvider serviceProvder, CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             PageService = pageService;
             _serviceProvder = serviceProvder;
         }
-
+        public override IQueryable<ZoneEntity> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
+        }
         public IPageService PageService { get; set; }
 
-        public override DbSet<ZoneEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).Zone;
-            }
-        }
 
-        public override void Add(ZoneEntity item)
+        public override ServiceResult<ZoneEntity> Add(ZoneEntity item)
         {
 
             item.ID = Guid.NewGuid().ToString("N");
@@ -41,7 +37,7 @@ namespace ZKEACMS.Zone
             {
                 item.HeadingCode = item.ID;
             }
-            base.Add(item);
+            return base.Add(item);
         }
         public IEnumerable<ZoneEntity> GetZonesByPageId(string pageId)
         {

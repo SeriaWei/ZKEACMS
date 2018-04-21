@@ -12,22 +12,20 @@ namespace ZKEACMS.FormGenerator.Service
 {
     public class FormService : ServiceBase<Form>, IFormService
     {
-        public FormService(IApplicationContext applicationContext, FormGeneratorDbContext dbContext) : base(applicationContext, dbContext)
+        public FormService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<Form> CurrentDbSet => (DbContext as FormGeneratorDbContext).Form;
-
-        public override void Add(Form item)
+        
+        public override ServiceResult<Form> Add(Form item)
         {
             item.ID = Guid.NewGuid().ToString("N");
             item.FieldsData = JsonConvert.SerializeObject(item.FormFields);
-            base.Add(item);
+            return base.Add(item);
         }
-        public override void Update(Form item, bool saveImmediately = true)
+        public override ServiceResult<Form> Update(Form item)
         {
             item.FieldsData = JsonConvert.SerializeObject(item.FormFields);
-            base.Update(item, saveImmediately);
+            return base.Update(item);
         }
         public override Form Get(params object[] primaryKey)
         {
@@ -35,7 +33,7 @@ namespace ZKEACMS.FormGenerator.Service
             if (form != null)
             {
                 form.FormFields = JsonConvert.DeserializeObject<List<FormField>>(form.FieldsData);
-            }            
+            }
             return form;
         }
     }

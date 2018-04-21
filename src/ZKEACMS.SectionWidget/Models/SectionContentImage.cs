@@ -6,7 +6,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.SectionWidget.Models
 {
-    [ViewConfigure(typeof(SectionContentImageMetaData)), Table("SectionContentImage")]
+    [Table("SectionContentImage")]
     public class SectionContentImage : SectionContentBasic
     {
         public string ImageSrc { get; set; }

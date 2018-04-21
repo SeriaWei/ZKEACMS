@@ -5,22 +5,23 @@
     "bootstrap": "v3.3.7",
     "jquery-validation": "1.17.0",
     "jquery-validation-unobtrusive": "3.2.6",
-    "jquery": "3.2.1",
-    "jstree": "3.3.4",
-    "lightbox2": "v2.9.0",
+    "jquery": "3.3.1",
+    "jstree": "3.3.5",
+    "lightbox2": "v2.10.0",
     "datatables": "1.10.11",
     "bootstrap-datepicker": "v1.7.1",
     "jquery-pjax": "v2.0.1",
-    "angular": "angularjs#v1.6.7-build.5471+sha.6eb15cb",
+    "angular": "v1.6.9",
     "jquery-ui": "1.12.1"
   },
   "resolutions": {
-    "jquery": ">=1.6",
+    "jquery": "3.3.1",
     "jquery-validation": "1.17.0",
     "bootstrap": "v3.3.7",
     "jquery-ui": "1.12.1",
     "bootstrap-datepicker": "v1.7.1",
-    "jstree": "3.3.4",
-    "lightbox2": "v2.9.0"
+    "jstree": "3.3.5",
+    "lightbox2": "v2.10.0",
+    "angular": "v1.6.9"
   }
 }

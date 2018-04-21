@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "Scripts/product-ecommerce.min.js",
+    "inputFiles": [
+      "Scripts/product-ecommerce.js"
+    ]
+  }
+]

@@ -74,20 +74,63 @@ img {
 .input-group .form-control {
     position: static;
 }
-.input-group.loading::before{
-    display:block;
-    content:" ";
-    position:absolute;
-    height:2px;
-    bottom:0;
-    left:0;
-    width:0;
-    background:red;
+
+.input-group.loading::before {
+    display: block;
+    content: " ";
+    position: absolute;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    background: red;
 }
+
 .input-group.loading.processing::before {
     width: 100%;
     transition: width 2s;
 }
+
+form .input-group .layout-item {
+    cursor: pointer;
+}
+
+.input-group .layout-item {
+    text-align: center;
+    width: 200px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin: 5px 10px 5px 0;
+    border-radius: 5px;
+}
+
+    .input-group .layout-item.active {
+        background: #337ab7;
+    }
+
+    .input-group .layout-item .zone-name {
+        font-size: 12px;
+    }
+
+    .input-group .layout-item.active .name {
+        color: #fff;
+    }
+
+    .input-group .layout-item .container {
+        width: 160px !important;
+    }
+
+    .input-group .layout-item .colContent {
+        border: 1px dashed #ddd;
+        margin: 2px -13px;
+        background-color: #fff;
+        padding: 2px 0;
+    }
+
+    .input-group .layout-item.active .colContent {
+        border: 1px solid #337ab7;
+    }
+
 .form-control.required {
     background-color: #fff0dd;
 }
@@ -137,12 +180,12 @@ a.badge:hover {
 
 #main-body {
     overflow: auto;
-    padding:0 15px;
-    position:absolute;
-    left:190px;
-    right:0;
-    bottom:0;
-    top:65px;
+    padding: 0 15px;
+    position: absolute;
+    left: 190px;
+    right: 0;
+    bottom: 0;
+    top: 65px;
 }
 
 
@@ -219,11 +262,13 @@ a.badge:hover {
     clear: both;
     margin: 15px -15px -15px -15px;
 }
+
 #toolBar {
-    padding-bottom:10px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
 }
+
 .input-group .mce-panel {
     border: 1px solid #ccc;
     border-radius: 0;
@@ -262,7 +307,6 @@ a.badge:hover {
         border: 1px solid #ddd;
         border-left: 5px solid green;
         margin: 5px;
-        cursor: pointer;
         background-color: white;
     }
 
@@ -276,6 +320,12 @@ a.badge:hover {
         cursor: move;
     }
 
+    .fullRowList li ul {
+        list-style: none;
+        padding-left: 2.2rem;
+    }
+
+    .fullRowList li:hover,
     .fullRowList li.actived {
         border-left: 5px solid #E28271;
         color: #E28271;
@@ -285,9 +335,38 @@ a.badge:hover {
         background-color: #9FDDF6;
     }
 
-    .fullRowList.widgets .glyphicon {
+    .fullRowList .glyphicon {
         font-size: 12px;
     }
+
+    .fullRowList.tags input {
+        border: 1px solid #fff;
+        padding: 2px 4px;
+    }
+
+        .fullRowList.tags input:hover {
+            border: 1px solid #ddd;
+        }
+
+        .fullRowList.tags input:focus {
+            border: 1px solid #ddd;
+        }
+
+        .fullRowList.tags input + code {
+            display: none;
+        }
+
+        .fullRowList.tags input:focus + code {
+            display: inline;
+        }
+
+    .fullRowList.ui-sortable li {
+        cursor: move;
+    }
+
+#layouts.fullRowList li {
+    cursor: pointer;
+}
 
 .input-group-collection {
     background-color: white;
@@ -296,23 +375,24 @@ a.badge:hover {
     padding-bottom: 8px;
 }
 
-    
+
 
     .input-group-collection .btn.add {
         margin-top: 8px;
     }
+
     .input-group-collection .items {
-       
     }
+
         .input-group-collection .items .item {
-            display:block;
+            display: block;
             position: relative;
             border-bottom: 1px solid #f2f2f2;
         }
 
-        .input-group-collection .item .form-group {
-            margin: 8px 0;
-        }
+    .input-group-collection .item .form-group {
+        margin: 8px 0;
+    }
 
     .input-group-collection .delete {
         position: absolute;
@@ -349,7 +429,6 @@ a.badge:hover {
 }
 
 .site-map {
-    
 }
 
 .form-control[type=checkbox] {
@@ -389,9 +468,9 @@ a.badge:hover {
     }
 
     .simplePreview .panel-toolbar {
-        text-align:center;
-        margin-top:5px;
-        padding:0 0 5px;
+        text-align: center;
+        margin-top: 5px;
+        padding: 0 0 5px;
     }
 
     .simplePreview .simpleDesign > .container {
@@ -439,7 +518,11 @@ a.badge:hover {
 .form-group select.select {
     cursor: pointer;
 }
-
+.form-group .mce-tinymce {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
 #media-list .edit {
     width: 100%;
     line-height: normal;
@@ -456,10 +539,14 @@ a.badge:hover {
     display: block;
     height: 130px;
     overflow: hidden;
+    line-height: 130px;
+    text-align: center;
 }
 
     #media-list .thumbnail > a.img-link img {
         max-height: 100%;
+        vertical-align: middle;
+        display: inline-block;
     }
 
 #media-list .thumbnail .caption {
@@ -468,8 +555,9 @@ a.badge:hover {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    position:relative;
+    position: relative;
 }
+
 #media-list .thumbnail.status-2 .caption:after {
     display: block;
     content: "文件不完整";
@@ -482,29 +570,37 @@ a.badge:hover {
     background: #ca2026;
     line-height: 30px;
 }
-    #media-list .thumbnail .caption .edit {
-        text-align: center;
-    }
+
+#media-list .thumbnail .caption .edit {
+    text-align: center;
+}
 
 #media-list .thumbnail .close {
     position: absolute;
-    right: 8px;
-    top: -12px;
+    right: 6px;
+    top: -10px;
     opacity: .7;
+    color: red;
+    font-size: 21px;
 }
 
 #media-list .thumbnail .tool {
     position: absolute;
-    left: 20px;
-    bottom: 50px;
-    text-shadow:0px 0px 5px #fff;
+    right: 20px;
+    bottom: 25px;
+    text-shadow: 1px 1px 2px #fff;
     text-align: left;
+    display: none;
 }
 
-    #media-list .thumbnail .tool a {
-        margin: 0 3px;
-        color: #3D3E43;
-    }
+#media-list .thumbnail:hover .tool {
+    display: block;
+}
+
+#media-list .thumbnail .tool a {
+    margin: 0 3px;
+    color: #3D3E43;
+}
 
 #media-list .thumbnail .close:hover {
     opacity: 1;
@@ -513,6 +609,21 @@ a.badge:hover {
 #media-list .new-folder .close {
     display: none;
 }
+
+#media-list .thumbnail .multi-select {
+    position: absolute;
+    left: 18px;
+    top: unset;
+    bottom: 23px;
+    font-size: 21px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+    #media-list .thumbnail .multi-select:not(.glyphicon-unchecked) {
+        color: red;
+    }
 
 .navbar-inverse .navbar-nav > li > a {
     color: #fff;
@@ -557,16 +668,40 @@ a.badge:hover {
             .dataTable .range-search input.max.show {
                 display: block;
             }
-            .dataTable .glyphicon{
-                margin:0 3px;
-            }
+
+    .dataTable .glyphicon {
+        margin: 0 3px;
+    }
+
 table.table-bordered.dataTable th, table.table-bordered.dataTable td {
-    white-space: nowrap;
+    vertical-align: middle;
 }
+
+    table.table-bordered.dataTable th, table.table-bordered.dataTable td:first-child {
+        white-space: nowrap;
+    }
 
 div.dataTables_wrapper div.dataTables_processing {
     text-indent: -5000px;
     background: #fff url('../js/EasyPlug/Css/Images/loader.gif') center center no-repeat;
     width: 50px;
     margin-left: -25px;
+}
+
+.tag-selector .panel:last-child {
+    margin-bottom: 0;
+}
+
+a[ismobile=true]:after {
+    content: " M"
+}
+
+a.pack-theme {
+    color: #000;
+}
+
+@media (min-width: 1200px) {
+    .template-list .thumb-item {
+        max-width: 180px;
+    }
 }

@@ -1,4 +1,4 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+Ôªø/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using System;
 using System.Collections.Generic;
 
@@ -20,28 +20,28 @@ namespace ZKEACMS
         {
             new AdminMenu
             {
-                Title = "“«±Ì≈Ã",
+                Title = "‰ª™Ë°®Áõò",
                 Icon = "glyphicon-dashboard",
                 Url = "~/admin",
                 Order = 0
             },
             new AdminMenu
             {
-                Title = "≤ºæ÷",
+                Title = "Â∏ÉÂ±Ä",
                 Icon = "glyphicon-th-list",
                 Order = 1,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu
                     {
-                        Title = "≤ºæ÷¡–±Ì",
+                        Title = "Â∏ÉÂ±ÄÂàóË°®",
                         Url = "~/admin/Layout",
                         Icon = "glyphicon-align-justify",
                         PermissionKey = PermissionKeys.ViewLayout
                     },
                     new AdminMenu
                     {
-                        Title = "≤ºæ÷◊Èº˛",
+                        Title = "Â∏ÉÂ±ÄÂÜÖÂÆπ",
                         Url = "~/admin/Layout/LayoutWidget",
                         Icon = "glyphicon-th-list",
                         PermissionKey = PermissionKeys.ViewLayout
@@ -50,7 +50,7 @@ namespace ZKEACMS
             },
             new AdminMenu
             {
-                Title = "“≥√Ê",
+                Title = "È°µÈù¢",
                 Icon = "glyphicon-eye-open",
                 Url = "~/admin/Page",
                 Order = 2,
@@ -58,7 +58,7 @@ namespace ZKEACMS
             },
             new AdminMenu
             {
-                Title = "µº∫Ω",
+                Title = "ÂØºËà™",
                 Icon = "glyphicon-retweet",
                 Url = "~/admin/Navigation",
                 Order = 3,
@@ -66,7 +66,7 @@ namespace ZKEACMS
             },
             new AdminMenu
             {
-                Title = "÷˜Ã‚",
+                Title = "‰∏ªÈ¢ò",
                 Icon = "glyphicon-blackboard",
                 Url = "~/admin/Theme",
                 Order = 4,
@@ -74,7 +74,7 @@ namespace ZKEACMS
             },
             new AdminMenu
             {
-                Title = "√ΩÃÂø‚",
+                Title = "Â™í‰ΩìÂ∫ì",
                 Icon = "glyphicon-picture",
                 Url = "~/admin/Media",
                 Order = 5,
@@ -82,7 +82,7 @@ namespace ZKEACMS
             },
             new AdminMenu
             {
-                Title = "Ωπµ„Õº",
+                Title = "ÁÑ¶ÁÇπÂõæ",
                 Icon = "glyphicon-eye-open",
                 Url = "~/admin/Carousel",
                 Order = 6,
@@ -90,14 +90,14 @@ namespace ZKEACMS
             },
             new AdminMenu
             {
-                Title = "œµÕ≥",
+                Title = "Á≥ªÁªü",
                 Icon = "glyphicon-cog",
                 Order = 1000,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu
                     {
-                        Title = "”√ªß",
+                        Title = "Áî®Êà∑",
                         Icon = "glyphicon-user",
                         Url = "~/admin/User",
                         Order = 1,
@@ -105,14 +105,14 @@ namespace ZKEACMS
                     },
                     new AdminMenu
                     {
-                        Title = "–ﬁ∏ƒ√‹¬Î",
+                        Title = "‰øÆÊîπÂØÜÁ†Å",
                         Icon = "glyphicon-lock",
                         Url = "~/admin/User/PassWord",
                         Order = 2
                     },
                     new AdminMenu
                     {
-                        Title = "Ω«…´",
+                        Title = "ËßíËâ≤",
                         Icon = "glyphicon-eye-open",
                         Url = "~/admin/Roles",
                         Order = 3,
@@ -120,7 +120,7 @@ namespace ZKEACMS
                     },
                     new AdminMenu
                     {
-                        Title = "¥ÌŒÛ»’÷æ",
+                        Title = "ÈîôËØØÊó•Âøó",
                         Icon = "glyphicon-exclamation-sign",
                         Url = "~/admin/EventViewer",
                         Order = 4,
@@ -128,11 +128,19 @@ namespace ZKEACMS
                     },
                     new AdminMenu
                     {
-                        Title = "œµÕ≥…Ë÷√",
+                        Title = "Á≥ªÁªüËÆæÁΩÆ",
                         Icon = "glyphicon-cog",
                         Url = "~/admin/ApplicationSetting",
                         Order = 5,
                         PermissionKey = PermissionKeys.ViewApplicationSetting
+                    },
+                    new AdminMenu
+                    {
+                        Title = "ÁøªËØë",
+                        Icon = "glyphicon-cog",
+                        Url = "~/admin/Language",
+                        Order = 6,
+                        PermissionKey = PermissionKeys.ManageLanguage
                     }
                 }
             }

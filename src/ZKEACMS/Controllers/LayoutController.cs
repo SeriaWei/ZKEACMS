@@ -35,7 +35,7 @@ namespace ZKEACMS.Controllers
 
         public override IActionResult Index()
         {
-            return View(Service.Get());
+            return View(Service.GetWithFull());
         }
 
         public IActionResult LayoutWidget(string LayoutID)
@@ -83,13 +83,9 @@ namespace ZKEACMS.Controllers
             }
             return base.Edit(entity);
         }
+        [ResponseCache(NoStore = true)]
         public IActionResult Design(string ID, string PageID)
         {
-            // Stop Caching in IE
-
-
-            // Stop Caching in Firefox
-
             LayoutEntity layout = null;
             if (ID.IsNotNullAndWhiteSpace())
             {

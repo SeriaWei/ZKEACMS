@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ZKEACMS.ExtendField
 {
-    [ViewConfigure(typeof(ExtendFieldEntityMetaData)), Table("ExtendField")]
+    [Table("ExtendField")]
     public class ExtendFieldEntity : EditorEntity
     {
         [Key]

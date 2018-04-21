@@ -9,7 +9,7 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Models
 {
-    [ViewConfigure(typeof(ArticleSummaryWidgetMetaData)),Table("ArticleSummaryWidget")]
+    [Table("ArticleSummaryWidget")]
     public class ArticleSummaryWidget : BasicWidget
     {
         public string SubTitle { get; set; }

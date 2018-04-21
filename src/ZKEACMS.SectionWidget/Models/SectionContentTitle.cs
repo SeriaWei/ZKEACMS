@@ -7,7 +7,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.SectionWidget.Models
 {
-    [ViewConfigure(typeof(SectionContentTitleMetaData)), Table("SectionContentTitle")]
+    [Table("SectionContentTitle")]
     public class SectionContentTitle : SectionContentBasic
     {
         public const string H1 = "h1";

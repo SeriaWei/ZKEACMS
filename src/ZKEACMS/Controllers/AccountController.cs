@@ -25,9 +25,10 @@ namespace ZKEACMS.Controllers
     {
         private readonly IUserService _userService;
         private readonly INotifyService _notifyService;
-        private readonly IDataProtector _dataProtector;
+        private readonly IDataProtectionProvider _dataProtectionProvider;
         private readonly IApplicationContextAccessor _applicationContextAccessor;
         private readonly ILogger<AccountController> _logger;
+
         public AccountController(IUserService userService,
             INotifyService notifyService,
             IDataProtectionProvider dataProtectionProvider,
@@ -36,7 +37,7 @@ namespace ZKEACMS.Controllers
         {
             _userService = userService;
             _notifyService = notifyService;
-            _dataProtector = dataProtectionProvider.CreateProtector("ResetPassword");
+            _dataProtectionProvider = dataProtectionProvider;
             _applicationContextAccessor = applicationContextAccessor;
             _logger = logger;
         }
@@ -45,17 +46,17 @@ namespace ZKEACMS.Controllers
         {
             return View();
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(string userName, string password, string ReturnUrl)
         {
             var user = _userService.Login(userName, password, UserType.Administrator, Request.HttpContext.Connection.RemoteIpAddress.ToString());
             if (user != null)
             {
 
-                user.AuthenticationType = CookieAuthenticationDefaults.AuthenticationScheme;
+                user.AuthenticationType = DefaultAuthorizeAttribute.DefaultAuthenticationScheme;
                 var identity = new ClaimsIdentity(user);
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.UserID));
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                await HttpContext.SignInAsync(DefaultAuthorizeAttribute.DefaultAuthenticationScheme, new ClaimsPrincipal(identity));
 
                 if (ReturnUrl.IsNullOrEmpty())
                 {
@@ -69,7 +70,7 @@ namespace ZKEACMS.Controllers
 
         public async Task<ActionResult> Logout(string returnurl)
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(DefaultAuthorizeAttribute.DefaultAuthenticationScheme);
             return Redirect(returnurl ?? "~/");
         }
         #endregion
@@ -85,7 +86,7 @@ namespace ZKEACMS.Controllers
         {
             return View(_applicationContextAccessor.Current.CurrentCustomer);
         }
-        [HttpPost, CustomerAuthorize]
+        [HttpPost, ValidateAntiForgeryToken, CustomerAuthorize]
         public ActionResult Edit(UserEntity user)
         {
             if (_applicationContextAccessor.Current.CurrentCustomer.UserID == user.UserID)
@@ -113,7 +114,7 @@ namespace ZKEACMS.Controllers
         {
             return View();
         }
-        [HttpPost, CustomerAuthorize]
+        [HttpPost, ValidateAntiForgeryToken, CustomerAuthorize]
         public ActionResult PassWord(UserEntity user)
         {
             var logOnUser = _userService.Login(_applicationContextAccessor.Current.CurrentCustomer.UserID, user.PassWord, UserType.Customer, Request.HttpContext.Connection.RemoteIpAddress.ToString());
@@ -126,14 +127,15 @@ namespace ZKEACMS.Controllers
             ViewBag.Message = "原密码错误";
             return View();
         }
-        public ActionResult SignIn()
+        public ActionResult SignIn(string ReturnUrl)
         {
+            ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
-        [HttpPost]
-        public async Task<ActionResult> SignIn(string userName, string password, string ReturnUrl)
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> SignIn(string email, string password, string ReturnUrl)
         {
-            var user = _userService.Login(userName, password, UserType.Customer, Request.HttpContext.Connection.RemoteIpAddress.ToString());
+            var user = _userService.Login(email, password, UserType.Customer, Request.HttpContext.Connection.RemoteIpAddress.ToString());
             if (user != null)
             {
                 user.AuthenticationType = CustomerAuthorizeAttribute.CustomerAuthenticationScheme;
@@ -148,6 +150,7 @@ namespace ZKEACMS.Controllers
                 return Redirect(ReturnUrl);
             }
             ViewBag.Errormessage = "登录失败，用户名密码不正确";
+            ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
 
@@ -160,12 +163,13 @@ namespace ZKEACMS.Controllers
             }
             return RedirectToAction("SignIn");
         }
-        public ActionResult SignUp()
+        public ActionResult SignUp(string ReturnUrl)
         {
+            ViewBag.ReturnUrl = ReturnUrl;
             return View(new UserEntity());
         }
-        [HttpPost]
-        public ActionResult SignUp(UserEntity user)
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult SignUp(UserEntity user, string ReturnUrl)
         {
             if (user.UserName.IsNotNullAndWhiteSpace() && user.PassWord.IsNotNullAndWhiteSpace() && user.Email.IsNotNullAndWhiteSpace())
             {
@@ -177,11 +181,12 @@ namespace ZKEACMS.Controllers
                 catch (Exception ex)
                 {
                     ViewBag.Errormessage = ex.Message;
+                    ViewBag.ReturnUrl = ReturnUrl;
                     return View(user);
                 }
 
             }
-            return RedirectToAction("SignUpSuccess");
+            return RedirectToAction("SignUpSuccess", new { ReturnUrl });
         }
         public ActionResult SignUpSuccess()
         {
@@ -192,15 +197,19 @@ namespace ZKEACMS.Controllers
         {
             return View();
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Forgotten(string Email)
         {
-            var user = _userService.SetResetToken(Email, UserType.Customer);
-            if (user != null)
+            if (Email.IsNotNullAndWhiteSpace())
             {
-                _notifyService.ResetPassword(user);
+                var user = _userService.SetResetToken(Email, UserType.Customer);
+                if (user != null)
+                {
+                    _notifyService.ResetPassword(user);
+                }
+                return RedirectToAction("Sended", new { to = Email, status = (user != null ? 1 : 2) });
             }
-            return RedirectToAction("Sended", new { to = Email });
+            return RedirectToAction("Forgotten");
         }
 
         public ActionResult Sended(string to)
@@ -212,7 +221,8 @@ namespace ZKEACMS.Controllers
         {
             try
             {
-                if (pt.IsNullOrWhiteSpace() || _dataProtector.Unprotect(pt) != token)
+                var dataProtector = _dataProtectionProvider.CreateProtector("ResetPassword");
+                if (pt.IsNullOrWhiteSpace() || dataProtector.Unprotect(pt) != token)
                 {
                     ViewBag.Errormessage = "访问的重置链接无效，请重新申请";
                 }
@@ -224,12 +234,13 @@ namespace ZKEACMS.Controllers
             }
             return View(new ResetViewModel { ResetToken = token, Protect = pt });
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Reset(ResetViewModel user)
         {
             try
             {
-                if (user.Protect.IsNotNullAndWhiteSpace() && _dataProtector.Unprotect(user.Protect) == user.ResetToken)
+                var dataProtector = _dataProtectionProvider.CreateProtector("ResetPassword");
+                if (user.Protect.IsNotNullAndWhiteSpace() && dataProtector.Unprotect(user.Protect) == user.ResetToken)
                 {
                     if (_userService.ResetPassWord(user.ResetToken, user.PassWordNew))
                     {

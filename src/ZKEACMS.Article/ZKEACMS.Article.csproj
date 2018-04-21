@@ -14,9 +14,17 @@
     <Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Scripts\_references.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\_references.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
 

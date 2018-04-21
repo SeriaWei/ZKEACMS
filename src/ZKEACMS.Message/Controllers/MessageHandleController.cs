@@ -3,20 +3,26 @@ using Easy.Mvc.ValueProvider;
 using Microsoft.AspNetCore.Mvc;
 using ZKEACMS.Message.Models;
 using ZKEACMS.Message.Service;
+using Easy.Mvc.Extend;
+using Easy.Extend;
 
 namespace ZKEACMS.Message.Controllers
 {
     public class MessageHandleController : Controller
     {
         private readonly IMessageService _messageService;
+        private readonly ICommentsService _commentService;
+        private readonly IApplicationContextAccessor _applicationContextAccessor;
         private readonly ICookie _cookie;
-        public MessageHandleController(IMessageService messageService, ICookie cookie)
+        public MessageHandleController(IApplicationContextAccessor applicationContextAccessor, IMessageService messageService, ICommentsService commentsService, ICookie cookie)
         {
+            _applicationContextAccessor = applicationContextAccessor;
             _messageService = messageService;
+            _commentService = commentsService;
             _cookie = cookie;
         }
-
-        public ActionResult PostMessage(MessageEntity entity, string redirect)
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult PostMessage(MessageEntity entity, string redirect)
         {
             if (ModelState.IsValid)
             {
@@ -26,6 +32,30 @@ namespace ZKEACMS.Message.Controllers
             }
             return Redirect(redirect);
         }
-
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult PostComment(string CommentContent, string PagePath, string ReplyTo, string Title)
+        {
+            if (_applicationContextAccessor.Current.CurrentCustomer != null &&
+                CommentContent.IsNotNullAndWhiteSpace() &&
+                CommentContent.Length <= 500 &&
+                PagePath.IsNotNullAndWhiteSpace())
+            {
+                _commentService.Add(new Comments
+                {
+                    UserId = _applicationContextAccessor.Current.CurrentCustomer.UserID,
+                    Picture = _applicationContextAccessor.Current.CurrentCustomer.PhotoUrl,
+                    UserName = _applicationContextAccessor.Current.CurrentCustomer.UserName,
+                    PagePath = PagePath,
+                    Title = Title,
+                    CommentContent = CommentContent,
+                    Status = (int)RecordStatus.Active
+                });
+                return Redirect(Request.GetReferer());
+            }
+            else
+            {
+                return RedirectToAction("SignIn", "Account", new { ReturnUrl = Request.GetReferer() });
+            }
+        }
     }
 }

@@ -2,21 +2,24 @@
  * Copyright 2016 ZKEASOFT 
  * http://www.zkea.net/licenses */
 
+using Easy.Constant;
+using Easy.Extend;
+using Easy.Image;
+using Easy.Mvc.Authorize;
+using Easy.Mvc.Controllers;
+using Easy.Mvc.Extend;
+using Easy.RepositoryPattern;
+using Microsoft.AspNetCore.Mvc;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.Primitives;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using ZKEACMS.Common.ViewModels;
-using Easy.Extend;
-using Easy.Mvc.Authorize;
-using Easy.Mvc.Controllers;
-using ZKEACMS.Media;
-using Microsoft.AspNetCore.Mvc;
-using Easy.Mvc.Attribute;
-using Easy.Mvc.Extend;
-using Easy.Image;
-using Easy.RepositoryPattern;
 using System.Linq;
-using Easy.Constant;
+using ZKEACMS.Common.ViewModels;
+using ZKEACMS.Media;
 
 namespace ZKEACMS.Controllers
 {
@@ -37,7 +40,7 @@ namespace ZKEACMS.Controllers
         {
             ParentId = ParentId ?? "#";
             Pagination pagin = new Pagination { PageIndex = pageIndex ?? 0 };
-            var medias = Service.Get(m => m.ParentID == ParentId, pagin).OrderByDescending(m => m.CreateDate);
+            var medias = Service.GetPage(ParentId, pagin);
             var viewModel = new MediaViewModel
             {
                 ParentID = ParentId,
@@ -72,7 +75,13 @@ namespace ZKEACMS.Controllers
         public IActionResult Select(string ParentId, int? pageIndex)
         {
             ViewBag.PopUp = true;
+            ViewBag.ShowToolBar = false;
             return Index(ParentId, pageIndex);
+        }
+        public IActionResult MultiSelect(string ParentId, int? pageIndex)
+        {
+            ViewBag.MultiSelect = true;
+            return Select(ParentId, pageIndex);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
         public JsonResult Save(string id, string title, string parentId)
@@ -184,6 +193,21 @@ namespace ZKEACMS.Controllers
                 Service.Get(m => m.ParentID == mediaId).Each(m => DeleteMedia(m.ID));
             }
             Service.Remove(mediaId);
+        }
+        public IActionResult Thumbnail(string id)
+        {
+            const int size = 220;
+            using (var input = System.IO.File.OpenRead(Request.MapPath(Service.Get(id).Url)))
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    var image = Image.Load<Rgba32>(input);
+                    image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(size, size), Mode = ResizeMode.Max }));
+                    image.Save(ms, new JpegEncoder());
+                    ms.Position = 0;
+                    return File(ms.ToArray(), "image/jpeg");
+                }
+            }
         }
     }
 }

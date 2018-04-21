@@ -17,7 +17,7 @@ namespace ZKEACMS.Message.Controllers
         {
             return base.Create();
         }
-        [DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
         public override IActionResult Create(MessageEntity entity)
         {
             return base.Create(entity);
@@ -27,10 +27,15 @@ namespace ZKEACMS.Message.Controllers
         {
             return base.Edit(Id);
         }
-        [DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
         public override IActionResult Edit(MessageEntity entity)
         {
             return base.Edit(entity);
+        }
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
+        public override IActionResult Delete(int id)
+        {
+            return base.Delete(id);
         }
     }
 }

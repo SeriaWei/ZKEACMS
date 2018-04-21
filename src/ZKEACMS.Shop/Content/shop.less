@@ -1,0 +1,209 @@
+﻿.basket {
+    position: fixed;
+    right: -320px;
+    top: 0;
+    bottom: 0;
+    background: #353535;
+    width: 320px;
+    color: #fff;
+    transition: right 300ms ease-in;
+    z-index: 999;
+
+    &.active {
+        right: 0;
+    }
+
+    a {
+        color: #fff;
+
+        &:focus, &:visited {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        &:hover {
+            color: #d7d7d7;
+            text-decoration: none;
+        }
+
+        &:active {
+            color: #bababa;
+            text-decoration: none;
+        }
+    }
+
+    .close {
+        color: #fff;
+        font-size: 3rem;
+        display: block;
+        padding: 1rem 1.7rem;
+        background: #353535;
+        text-shadow: none;
+        opacity: .8;
+
+        &:focus,
+        &:hover {
+            color: #fff;
+            opacity: 1;
+        }
+    }
+
+    .price {
+        margin-right: 2rem;
+
+        small {
+            color: #d7d7d7;
+            font-size: 70%;
+        }
+    }
+
+    .basket-header,
+    .basket-footer {
+        background: #272727;
+    }
+
+    .basket-header {
+        height: 50px;
+
+        h4 {
+            padding: 1.5rem;
+            margin: 0;
+        }
+    }
+
+    .basket-body {
+        position: absolute;
+        top: 50px;
+        left: 0;
+        right: 0;
+        bottom: 105px;
+        overflow: auto;
+
+        hr {
+            margin-top: 0;
+            border-top-color: #272727;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+
+            > li {
+                padding-top: 15px;
+                padding-bottom: 15px;
+
+                &:nth-child(even) {
+                    background: #262626;
+                }
+
+                background-color: #3e3e3e;
+
+                &.empty {
+                    padding: 1.5rem 1rem;
+                }
+
+                img {
+                    max-width: 100%;
+                    margin-bottom: 1rem;
+                }
+
+                h5 {
+                    font-size: 16px;
+                    margin-top: 0;
+                }
+
+                .tag {
+                    color: #d7d7d7;
+                }
+
+                .quantity-set {
+                    font-size: 16px;
+                    white-space: nowrap;
+
+                    .quantity {
+                        margin: 0 4px;
+                    }
+                }
+            }
+        }
+    }
+
+    .basket-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1rem;
+
+        .total {
+            margin-bottom: 2rem;
+        }
+    }
+
+    a.confirm-order,
+    a.ckeck-out {
+        background: #ff6a00;
+        display: block;
+        padding: 1rem 2rem;
+        text-align: center;
+        font-size: 16px;
+        color: #fff;
+        cursor: pointer;
+
+        &:active {
+            background: #ea6100;
+        }
+    }
+
+    &.confirm-order {
+        .contact {
+            padding: 15px;
+
+            .form-group {
+                margin-bottom: 10px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                label {
+                    font-weight: normal;
+                }
+            }
+        }
+
+        input, textarea {
+            border-radius: 0;
+            outline: none;
+            padding: 3px 6px;
+            height: auto;
+            background-color: #3e3e3e;
+            color: #fff;
+            border-color: #2d2d2d;
+
+            &:focus {
+                outline: none;
+                box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 5px rgba(204, 204, 204, 0.75);
+            }
+        }
+
+        a.confirm-order {
+            background: #108ee9;
+
+            &:hover, &:active {
+                background: #117fcf;
+            }
+
+            img {
+                width: 22px;
+            }
+        }
+    }
+}
+
+.navigation a.show-basket i {
+}
+
+.navigation a.show-basket .active {
+    color: #ca2026;
+}

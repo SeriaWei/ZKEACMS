@@ -10,7 +10,7 @@ using ZKEACMS.FormGenerator.Service;
 
 namespace ZKEACMS.FormGenerator.Models
 {
-    [ViewConfigure(typeof(FormDataMetaData)), Table("FormData")]
+    [Table("FormData")]
     public class FormData : EditorEntity
     {
         [Key]

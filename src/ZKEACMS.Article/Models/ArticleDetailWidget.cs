@@ -9,7 +9,7 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Models
 {
-    [ViewConfigure(typeof(ArticleDetailWidgetMetaData)),Table("ArticleDetailWidget")]
+    [Table("ArticleDetailWidget")]
     public class ArticleDetailWidget : BasicWidget
     {
         public string CustomerClass { get; set; }

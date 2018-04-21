@@ -7,10 +7,11 @@ using Easy.Models;
 using ZKEACMS.ExtendField;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Article.Models
 {
-    [ViewConfigure(typeof(ArticleEntityMeta)), Table("Article")]
+    [Table("Article")]
     public class ArticleEntity : EditorEntity, IImage
     {
         [Key]
@@ -37,14 +38,13 @@ namespace ZKEACMS.Article.Models
             ViewConfig(m => m.ID).AsHidden();
             ViewConfig(m => m.Title).AsTextBox().Required().Order(1).ShowInGrid().Search(Easy.LINQ.Query.Operators.Contains);
             ViewConfig(m => m.Status).AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary);
-            ViewConfig(m => m.ImageThumbUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
-            ViewConfig(m => m.ImageUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
+            ViewConfig(m => m.ImageThumbUrl).AsTextBox().MediaSelector();
+            ViewConfig(m => m.ImageUrl).AsTextBox().MediaSelector();
             ViewConfig(m => m.ArticleTypeID)
                 .AsDropDownList()
                 .DataSource(ViewDataKeys.ArticleCategory, SourceType.ViewData)
                 .Required()
-                .AddClass("select")
-                .AddProperty("data-url", "/admin/ArticleType/Select")
+                .SetTemplate("ArticleTypeTree")
                 .ShowInGrid();
 
             ViewConfig(m => m.ArticleContent).AsTextArea().AddClass(StringKeys.HtmlEditorClass);

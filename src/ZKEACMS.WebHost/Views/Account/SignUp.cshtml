@@ -4,15 +4,18 @@
     Layout = Layouts.NormalDefault;
     Style.Reqiured("Customer").AtHead();
     Script.Reqiured("validate").AtFoot();
+    var returnUrl = ViewBag.ReturnUrl ?? ViewContext.HttpContext.Request.Query["ReturnUrl"];
 }
 
 @using (Html.BeginForm())
 {
-    <input type="hidden" name="PhotoUrl" value="~/images/head.png" />
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="ReturnUrl" value="@returnUrl" />
+    <input type="hidden" name="PhotoUrl" value="~/images/User-Avatar.png" />
     <div class="login-panel sign-up">
         <div class="login-panel-heading">
             <p>
-                <a href="http://www.zkea.net/" target="_blank">
+                <a href="~/" target="_blank">
                     <img class="logo" src="~/images/logo_min.png" alt="ZKEACMS" />
                 </a>
             </p>
@@ -40,7 +43,7 @@
             </div>
             <div class="form-input">
                 <h4>邮箱</h4>
-                <input type="text"
+                <input type="email"
                        placeholder="输入您常使用的邮箱地址"
                        id="Email"
                        name="Email"
@@ -93,7 +96,7 @@
             </div>
         </div>
         <div class="login-panel-footer ">
-            已有账号？<a href="@Url.Action("SignIn")">立即登录</a>
+            已有账号？<a href="@Url.Action("SignIn", new { ReturnUrl = returnUrl })">立即登录</a>
         </div>
     </div>
 }

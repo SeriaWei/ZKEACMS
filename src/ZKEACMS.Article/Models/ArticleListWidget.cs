@@ -17,7 +17,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.Article.Models
 {
-    [ViewConfigure(typeof(ArticleListWidgetMeta)), Table("ArticleListWidget")]
+    [Table("ArticleListWidget")]
     public class ArticleListWidget : BasicWidget
     {
         public int ArticleTypeID { get; set; }
@@ -31,13 +31,7 @@ namespace ZKEACMS.Article.Models
         {
             base.ViewConfigure();
 
-            ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder())
-                .DataSource(() =>
-                {
-                    var articleTypeService = ServiceLocator.GetService<IArticleTypeService>();
-                    return articleTypeService.Get().ToDictionary(m => m.ID.ToString(), m => m.Title);
-                })
-                .Required().AddClass("select").AddProperty("data-url", "/admin/ArticleType/Select");
+            ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).SetTemplate("ArticleTypeTree").Required();
 
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector();
 

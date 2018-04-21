@@ -2,26 +2,24 @@
  * Copyright 2016 ZKEASOFT 
  * http://www.zkea.net/licenses */
 
-using System.Linq;
-using ZKEACMS.Common.ViewModels;
 using Easy.Constant;
 using Easy.Extend;
-using Easy.Mvc.Controllers;
-using ZKEACMS.Page;
-using Microsoft.AspNetCore.Mvc;
-using ZKEACMS.Filter;
-using Easy.Mvc.Attribute;
-using ZKEACMS.Layout;
-using Easy;
-using Easy.Mvc.ValueProvider;
-using ZKEACMS.Zone;
-using ZKEACMS.Widget;
-using System;
-using Microsoft.AspNetCore.Http;
-using Easy.ViewPort.jsTree;
-using Microsoft.Extensions.DependencyInjection;
-using Easy.Mvc.Authorize;
 using Easy.Mvc;
+using Easy.Mvc.Authorize;
+using Easy.Mvc.Controllers;
+using Easy.Mvc.ValueProvider;
+using Easy.ViewPort.jsTree;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Net;
+using ZKEACMS.Common.ViewModels;
+using ZKEACMS.Filter;
+using ZKEACMS.Layout;
+using ZKEACMS.Page;
+using ZKEACMS.Setting;
+using ZKEACMS.Widget;
+using ZKEACMS.Zone;
 
 namespace ZKEACMS.Controllers
 {
@@ -31,22 +29,25 @@ namespace ZKEACMS.Controllers
         private readonly IZoneService _zoneService;
         private readonly ILayoutService _layoutService;
         private readonly IWidgetBasePartService _widgetService;
+        private readonly IApplicationSettingService _applicationSettingService;
         public PageController(IPageService service,
             ICookie cookie,
             IZoneService zoneService,
             ILayoutService layoutService,
-            IWidgetBasePartService widgetService)
+            IWidgetBasePartService widgetService,
+            IApplicationSettingService applicationSettingService)
             : base(service)
         {
             _cookie = cookie;
             _zoneService = zoneService;
             _layoutService = layoutService;
             _widgetService = widgetService;
+            _applicationSettingService = applicationSettingService;
         }
         [Widget]
-        public IActionResult PreView()
+        public IActionResult Main()
         {
-            return View();
+            return View("PreView");
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewPage)]
         public override IActionResult Index()
@@ -56,8 +57,9 @@ namespace ZKEACMS.Controllers
         [DefaultAuthorize(Policy = PermissionKeys.ViewPage)]
         public JsonResult GetPageTree()
         {
+            var expandAll = _applicationSettingService.Get(SettingKeys.ExpandAllPage, "true");
             var pages = Service.Get(m => !m.IsPublishedPage).OrderBy(m => m.DisplayOrder);
-            var node = new Tree<PageEntity>().Source(pages).ToNode(m => m.ID, m => m.PageName, m => m.ParentId, "#");
+            var node = new Tree<PageEntity>().Source(pages).ToNode(m => m.ID, m => m.PageName, m => m.ParentId, "#", expandAll.Equals("true", StringComparison.OrdinalIgnoreCase));
             return Json(node);
         }
         [NonAction]
@@ -66,7 +68,7 @@ namespace ZKEACMS.Controllers
             return base.Create();
         }
 
-        [ViewDataLayouts, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
+        [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public IActionResult Create(string ParentID = "#")
         {
             var page = new PageEntity
@@ -87,7 +89,7 @@ namespace ZKEACMS.Controllers
             return View(page);
 
         }
-        [ViewDataLayouts, HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Create(PageEntity entity)
         {
             if (ModelState.IsValid)
@@ -105,7 +107,7 @@ namespace ZKEACMS.Controllers
             }
             return View(entity);
         }
-        [ViewDataLayouts, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
+        [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Edit(string Id)
         {
             var page = Service.Get(Id);
@@ -113,13 +115,21 @@ namespace ZKEACMS.Controllers
             {
                 return RedirectToAction("Index");
             }
-            ViewBag.OldVersions = Service.Get(m => m.Url == page.Url && m.IsPublishedPage == true).OrderBy(m => m.PublishDate);
+            ViewBag.OldVersions = Service.Get(m => m.ReferencePageID == page.ID && m.IsPublishedPage == true).OrderBy(m => m.PublishDate);
             return View(page);
         }
-        [ViewDataLayouts, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
-        [HttpPost]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Edit(PageEntity entity)
         {
+            try
+            {
+                Service.Update(entity);
+            }
+            catch (PageExistException ex)
+            {
+                ModelState.AddModelError("PageUrl", ex.Message);
+                return View(entity);
+            }
             if (entity.ActionType == ActionType.Design)
             {
                 return RedirectToAction("Design", new { entity.ID });
@@ -129,15 +139,6 @@ namespace ZKEACMS.Controllers
             {
                 Service.Remove(id);
                 return RedirectToAction("Index");
-            }
-            try
-            {
-                Service.Update(entity);
-            }
-            catch (PageExistException ex)
-            {
-                ModelState.AddModelError("PageUrl", ex.Message);
-                return View(entity);
             }
             if (entity.ActionType == ActionType.Publish)
             {
@@ -183,7 +184,13 @@ namespace ZKEACMS.Controllers
         }
         public IActionResult RedirectView(string Id, bool? preview)
         {
-            return Redirect(Service.Get(Id).Url + ((preview ?? true) ? "?ViewType=" + ReView.Review : ""));
+            var pathArray = Service.Get(Id).Url.Split('/');
+            for (int i = 1; i < pathArray.Length; i++)
+            {
+                pathArray[i] = WebUtility.UrlEncode(pathArray[i]);
+            }
+            var url = string.Join("/", pathArray);
+            return Redirect(url + ((preview ?? true) ? "?ViewType=" + ReView.Review : ""));
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewPage)]
         public IActionResult Select()

@@ -11,7 +11,7 @@ using System.Security.Principal;
 
 namespace Easy.Modules.User.Models
 {
-    [ViewConfigure(typeof(UserMetaData)),Table("Users")]
+    [Table("Users")]
     public class UserEntity : HumanBase, IUser, IIdentity
     {
         [Key]
@@ -40,7 +40,8 @@ namespace Easy.Modules.User.Models
         public string UserName { get; set; }
 
         public string ApiLoginToken { get; set; }
-        
+
+        [NotMapped]        
         public virtual List<UserRoleRelation> Roles { get; set; }
         [NotMapped]
         public override string Title

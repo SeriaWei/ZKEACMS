@@ -18,7 +18,7 @@ using ZKEACMS;
 
 namespace ZKEACMS.Controllers
 {
-    [DefaultAuthorize(Policy = PermissionKeys.ViewUser)]
+    [DefaultAuthorize]
     public class UserController : BasicController<UserEntity, string, IUserService>
     {
         private IApplicationContextAccessor _applicationContextAccessor;
@@ -27,6 +27,12 @@ namespace ZKEACMS.Controllers
         {
             _applicationContextAccessor = applicationContextAccessor;
         }
+        [DefaultAuthorize(Policy = PermissionKeys.ViewUser)]
+        public override IActionResult Index()
+        {
+            return base.Index();
+        }
+        [DefaultAuthorize(Policy = PermissionKeys.ManageUser)]
         public override IActionResult Create()
         {
             var entity = new UserEntity();
@@ -34,7 +40,7 @@ namespace ZKEACMS.Controllers
             entity.Roles = new List<UserRoleRelation>();
             return View(entity);
         }
-        [HttpPost,DefaultAuthorize(Policy = PermissionKeys.ManageUser)]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageUser)]
         public override IActionResult Create(UserEntity entity)
         {
             try

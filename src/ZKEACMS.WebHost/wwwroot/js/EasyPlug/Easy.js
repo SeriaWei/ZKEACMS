@@ -62,10 +62,10 @@ Easy.Processor = function (fun, delay) {
     /// <summary>函数节流（禁止函数因频繁运行而影响性能）</summary>
     /// <param name="fun" type="Function">要推迟执行的函数</param>
     /// <param name="delay" type="Int">推迟执行的时间</param>
-    clearTimeout(fun.tid);
+    clearTimeout(this.tid);
     if (typeof delay != "number")
         delay = 60;
-    fun.tid = setTimeout(function () { if (fun) fun.call(); }, delay);
+    this.tid = setTimeout(function () { if (fun) fun.call(); }, delay);
 }
 Easy.WindowSize = function () {
     /// <summary>浏览器窗体大小</summary>
@@ -219,9 +219,6 @@ Easy.ShowMessageBox = function (title, msg, fnOk, ShowCancel, zindex) {
         Easy.OpacityBackGround.Close();
         box.animate({ top: "45%", opacity: 0 }, 200, function () { $(this).remove(); });
     });
-    if (fnOk != null && !ShowCancel) {
-        ShowCancel = true;
-    }
     if (typeof ShowCancel == "boolean") {
         if (ShowCancel) {
             var CancelButton = $("<input id='MessageBoxCancelBtn' type='button' class='btn btn-default' value='取消' />");
@@ -719,7 +716,7 @@ $.ajaxSetup({
     beforeSend: function (xhr) {
         xhr.busyTimer = setTimeout(function() {
             Easy.Block();
-        }, 1000);
+        }, 3000);
     },
     complete: function (xhr, status) {
         clearTimeout(xhr.busyTimer);

@@ -26,21 +26,14 @@ namespace ZKEACMS.Product.Service
             IProductCategoryService productCategoryService,
             IApplicationContext applicationContext,
             IPageService pageService,
-            ProductDbContext dbContext)
+            CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
             _productService = productService;
             _productCategoryService = productCategoryService;
             _pageService = pageService;
         }
-
-        public override DbSet<ProductListWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ProductDbContext).ProductListWidget;
-            }
-        }
+       
         private string GetDetailPageUrl()
         {
             var baseDetail = WidgetBasePartService.Get(m => m.ServiceTypeName == "ZKEACMS.Product.Service.ProductDetailWidgetService").FirstOrDefault();
@@ -54,7 +47,7 @@ namespace ZKEACMS.Product.Service
             }
             return "~/View-Product";
         }
-        public override void Add(ProductListWidget item)
+        public override ServiceResult<ProductListWidget> Add(ProductListWidget item)
         {
             if (!item.PageSize.HasValue || item.PageSize.Value == 0)
             {
@@ -65,7 +58,7 @@ namespace ZKEACMS.Product.Service
             {
                 item.DetailPageUrl = GetDetailPageUrl();
             }
-            base.Add(item);
+            return base.Add(item);
         }
         public override ProductListWidget Get(params object[] primaryKeys)
         {
@@ -112,8 +105,12 @@ namespace ZKEACMS.Product.Service
             var currentCategory = _productCategoryService.Get(cate == 0 ? currentWidget.ProductCategoryID : cate);
             if (currentCategory != null)
             {
-                var page = actionContext.HttpContext.GetLayout().Page;
-                page.Title = (page.Title ?? "") + " - " + currentCategory.Title;
+                var layout = actionContext.HttpContext.GetLayout();
+                if (layout != null && layout.Page != null)
+                {
+                    var page = layout.Page;
+                    page.Title = (page.Title ?? "") + " - " + currentCategory.Title;
+                }
             }
 
             return widget.ToWidgetViewModelPart(new ProductListWidgetViewModel

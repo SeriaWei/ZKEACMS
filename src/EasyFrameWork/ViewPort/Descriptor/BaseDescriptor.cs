@@ -1,11 +1,13 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2017 ZKEASOFT 
+ * http://www.zkea.net/licenses 
+ */
+
+using Easy.Extend;
+using Easy.LINQ;
 using Easy.ViewPort.Validator;
 using System;
 using System.Collections.Generic;
-using Easy.Extend;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using Easy.LINQ;
 
 namespace Easy.ViewPort.Descriptor
 {
@@ -69,7 +71,20 @@ namespace Easy.ViewPort.Descriptor
         /// <summary>
         /// 显示名称
         /// </summary>
-        public string DisplayName { get; set; }
+        private string _displayName;
+        public string DisplayName
+        {
+            get
+            {
+                if (_displayName.IsNotNullAndWhiteSpace())
+                {
+                    return _displayName;
+                }
+                return Localization.Get($"{ModelType.Name}@{Name}");
+            }
+            set { _displayName = value; }
+        }
+
 
         public object DefaultValue { get; set; }
 
@@ -102,6 +117,7 @@ namespace Easy.ViewPort.Descriptor
         public bool IsIgnore { get; set; }
 
         public bool IsHidden { get; set; }
+        public bool IsHideSurroundingHtml { get; set; }
         public bool IsShowInGrid { get; set; }
         public Query.Operators SearchOperator { get; set; }
         public string GridColumnTemplate { get; set; }
@@ -228,6 +244,11 @@ namespace Easy.ViewPort.Descriptor
             this.IsHidden = true;
             return this as T;
         }
+        public T HideSurroundingHtml()
+        {
+            this.IsHideSurroundingHtml = true;
+            return this as T;
+        }
         public T Ignore()
         {
             this.IsIgnore = true;
@@ -252,6 +273,11 @@ namespace Easy.ViewPort.Descriptor
         public T SetTemplate(string template)
         {
             this.TemplateName = template;
+            return this as T;
+        }
+        public T SetGridColumnTemplate(string template)
+        {
+            this.GridColumnTemplate = template;
             return this as T;
         }
         public T ShowInGrid(bool show = true)

@@ -21,6 +21,7 @@ using Easy.Modules.DataDictionary;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Easy.Mvc.Extend;
+using Microsoft.Extensions.Options;
 
 namespace ZKEACMS.Controllers
 {
@@ -44,7 +45,20 @@ namespace ZKEACMS.Controllers
             _widgetActivator = widgetActivator;
             _pageService = pageService;
         }
-
+        private void SetDataSource(WidgetBase widget)
+        {
+            var dataSourceSetting = HttpContext.RequestServices.GetService(typeof(IOptions<>).MakeGenericType(widget.GetType())) as IOptions<WidgetBase>;
+            if (dataSourceSetting != null)
+            {
+                widget.DataSourceLink = dataSourceSetting.Value.DataSourceLink;
+                widget.DataSourceLinkTitle = dataSourceSetting.Value.DataSourceLinkTitle;
+            }
+            else
+            {
+                widget.DataSourceLink = string.Empty;
+                widget.DataSourceLinkTitle = string.Empty;
+            }
+        }
         [ViewDataZones]
         public ActionResult Create(QueryContext context)
         {
@@ -62,6 +76,7 @@ namespace ZKEACMS.Controllers
             {
                 widget.Position = _widgetService.GetByLayoutId(context.LayoutID).Count(m => m.ZoneID == context.ZoneID) + 1;
             }
+            SetDataSource(widget);
             ViewBag.WidgetTemplateName = template.Title;
             ViewBag.ReturnUrl = context.ReturnUrl;
             if (template.FormView.IsNotNullAndWhiteSpace())
@@ -97,6 +112,7 @@ namespace ZKEACMS.Controllers
         {
             var widgetBase = _widgetService.Get(ID);
             var widget = _widgetActivator.Create(widgetBase).GetWidget(widgetBase);
+            SetDataSource(widget);
             ViewBag.ReturnUrl = ReturnUrl;
 
             var template = _widgetTemplateService.Get(

@@ -4,8 +4,7 @@
     ViewBag.Title = "媒体库";
     var action = Html.ViewContext.RouteData.Values["action"].ToString();
 
-    Script.Reqiured("lightBox").AtFoot();
-    Style.Reqiured("lightBox").AtHead();
+    Script.Reqiured("image-viewer").AtFoot();
 
     if (ViewBag.PopUp != null)
     {
@@ -28,15 +27,16 @@
                 }
             </span>
         </div>
-        @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
-        {
-            <div class="pull-right">
+        <div class="pull-right">
+            @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
+            {
                 <input type="button" class="btn btn-primary btn-sm upload" value="上传文件" />
                 <input type="button" class="btn btn-primary btn-sm create-folder" value="创建文件夹" />
-            </div>
-        }
+            }
+        </div>
+
     </div>
-    <div>
+    <div class="container-fluid">
         <div id="media-list" class="row" data-parent="@Model.ParentID">
             @if (Model.Medias != null)
             {
@@ -47,7 +47,7 @@
                             @if (media.MediaType == (int)MediaType.Image)
                             {
                                 <a href="javascript:void(0)" class="img-link confirm" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
-                                    <img class="img" src="@Url.Content(media.Url)" />
+                                    <img class="img" src="@Url.Action("Thumbnail",new { id=media.ID })" />
                                 </a>
                             }
                             else
@@ -63,31 +63,30 @@
                             <div class="tool">
                                 @if (media.MediaType == (int)MediaType.Image && media.Url.IsNotNullAndWhiteSpace())
                                 {
-                                    <a target="_blank" class="preview" href="@Url.Content(media.Url)"
-                                       data-lightbox="thumbnail" data-title="@media.Title">
-                                        <i class="glyphicon glyphicon-eye-open"></i>
-                                    </a>
+                                    <a class="preview" href="javascript:void(0)" data-href="@Url.Content(media.Url)" data-title="@media.Title"><i class="glyphicon glyphicon-eye-open"></i></a>
                                 }
                                 @if (media.MediaType != (int)MediaType.Folder && media.Url.IsNotNullAndWhiteSpace())
                                 {
-                                    <a target="_blank" class="download" download="@media.Title" href="@Url.Content(media.Url)">
-                                        <i class="glyphicon glyphicon-download-alt"></i>
-                                    </a>
+                                    <a class="download" download="@media.Title" href="@Url.Content(media.Url)"><i class="glyphicon glyphicon-download-alt"></i></a>
                                 }
                             </div>
+
                             @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
                             {
                                 <div class="close">
-                                    <img src="~/images/close_red.png" />
+                                    <i class="glyphicon glyphicon-remove-sign"></i>
                                 </div>
+                            }
+                            @if (ViewBag.MultiSelect != null && media.MediaType != (int)MediaType.Folder)
+                            {
+                                <i title="选择" class="multi-select unchecked glyphicon glyphicon-check glyphicon-unchecked" data-result="@Url.PathContent(media.Url)" data-name="@media.Title"></i>
                             }
                         </div>
                     </div>
                 }
             }
         </div>
-    </div>    
-
+    </div>
     <ul class="pagination">
         @if (Model.Pagin.PageIndex >= 1)
         {
@@ -150,9 +149,16 @@
                     <div class="caption">
                     </div>
                     <div class="tool"></div>
-                    <div class="close">
-                        <img src="~/images/close_red.png" />
-                    </div>
+                    @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
+                    {
+                        <div class="close">
+                            <i class="glyphicon glyphicon-remove-sign"></i>
+                        </div>
+                    }
+                    @if (ViewBag.MultiSelect != null)
+                    {
+                        <i title="选择" class="multi-select unchecked glyphicon glyphicon-check glyphicon-unchecked"></i>
+                    }
                 </div>
             </div>
         </div>
@@ -163,9 +169,40 @@
 {
     <script type="text/javascript">
         $(function () {
+            $(document).on("click", "#media-list .preview", function () {
+                var images = [];
+                var index = 0;
+                var current = $(this).data("href");
+                $("#media-list .preview").each(function (i) {
+                    var imageUrl = $(this).data("href");
+                    if (imageUrl) {
+                        images.push({ src: imageUrl, desc: $(this).data("title")});
+                        if (imageUrl == current) {
+                            index = i;
+                        }
+                    }
+                });
+                var civer =  new CIV({
+                    animation: CIV.ANIMATION.TRANSLATE,
+                    background: "#444",
+                    list: images,
+                    index: index,
+                    preload: false,
+                    save: true,
+                    saveBtn: "确定",
+                    noSave:true,
+                    onsave: function (a) {
+                        this.hide();                        
+                        $($("#media-list .preview")[a.index]).closest(".thumbnail").find("a.confirm")[0].click();
+                    }
+                });                
+                civer.show();
+             });
+
             $(document).on("click", ".create-folder", function () {
                 var newfolder = $($("#item-template").html());
                 newfolder.find(".caption").append('<input type="text" class="edit" value="新建文件夹" />');
+                newfolder.find(".multi-select").remove();
                 if ($("#media-list > div").size() > 0) {
                     newfolder.insertBefore($("#media-list > div:first"));
                 } else {
@@ -250,17 +287,18 @@
                                             if (result.id) {
                                                 item.find(".img").attr("src", "@Url.Content("~/images/")" + result.mediaTypeImage + ".png")
                                                     .parent().attr("href", "javascript:void(0)")
-                                                    .addClass("confirm").attr("data-result", result.url);
+                                                    .addClass("confirm").attr("data-result", result.url).attr("data-name", result.title);
+                                                item.find(".multi-select").attr("data-result", result.url).attr("data-name", result.title);
                                                 item.find(".caption").html(result.title).data("id", result.id);
                                                 item.removeClass("new-folder");
                                                 if (result.mediaType == '@(MediaType.Image.ToString("D"))') {
-                                                    item.find(".img").attr("src", result.url);
-                                                    var preview = $('<a target="_blank" class="preview" data-lightbox="thumbnail"><i class="glyphicon glyphicon-eye-open"></i></a>');
-                                                    preview.attr("href", result.url);
+                                                    item.find(".img").attr("src", '@Url.Action("Thumbnail")' +"/"+ result.id);
+                                                    var preview = $('<a href="javascript:void(0)" class="preview"><i class="glyphicon glyphicon-eye-open"></i></a>');
+                                                    preview.data("href", result.url);
                                                     preview.data("title", result.title);
                                                     item.find(".tool").append(preview);
                                                 }
-                                                var downLoad = $('<a target="_blank" class="download" download="' + result.title + '"><i class="glyphicon glyphicon-download-alt"></i></a>');
+                                                var downLoad = $('<a class="download" download="' + result.title + '"><i class="glyphicon glyphicon-download-alt"></i></a>');
                                                 downLoad.attr("href", result.url);
                                                 item.find(".tool").append(downLoad);
                                             } else {
@@ -311,6 +349,8 @@
                         Easy.UnBlock();
                     });
                 }, true);
+            }).on("click", ".multi-select", function () {
+                $(this).toggleClass("glyphicon-unchecked").toggleClass("unchecked");
             });
         });
 

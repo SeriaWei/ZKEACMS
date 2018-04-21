@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.FormGenerator.Models
 {
-    [ViewConfigure(typeof(FormMetaData)), Table("Forms")]
+    [Table("Forms")]
     public class Form : EditorEntity
     {
         [Key]
@@ -23,6 +23,7 @@ namespace ZKEACMS.FormGenerator.Models
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.Status).AsHidden();
+            ViewConfig(m => m.FieldsData).AsTextArea();
         }
     }
 }

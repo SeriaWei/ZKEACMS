@@ -60,13 +60,13 @@ namespace Easy.Mvc.TagHelpers
                     OrderDesc = "LastUpdateDate";
                 }
             }
-            var viewConfig = ViewConfigureAttribute.GetAttribute(ModelType);
+            var viewConfig = ServiceLocator.GetViewConfigure(ModelType);
             StringBuilder tableHeaderBuilder = new StringBuilder();
             StringBuilder tableSearchBuilder = new StringBuilder();
             if (viewConfig != null)
             {
                 var primaryKey = viewConfig.MetaData.Properties.Select(m => m.Value).FirstOrDefault(m => m.CustomAttributes.Any(attr => attr.AttributeType == typeof(KeyAttribute)));
-                viewConfig.InitDisplayName();
+               
                 if ((EditAble ?? true) && primaryKey != null)
                 {
                     string name = primaryKey.Name.FirstCharToLowerCase();

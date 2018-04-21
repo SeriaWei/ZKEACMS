@@ -12,7 +12,7 @@ using Easy.Constant;
 
 namespace ZKEACMS.Product.Models
 {
-    [ViewConfigure(typeof(ProductCategoryWidgetMedata)), Table("ProductCategoryWidget")]
+    [Table("ProductCategoryWidget")]
     public class ProductCategoryWidget : BasicWidget
     {
         public int ProductCategoryID { get; set; }
@@ -24,10 +24,7 @@ namespace ZKEACMS.Product.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
-            ViewConfig(m => m.ProductCategoryID).AsDropDownList().Order(NextOrder()).DataSource(() =>
-            {
-                return ServiceLocator.GetService<IProductCategoryService>().Get().ToDictionary(m => m.ID.ToString(), m => m.Title);
-            }).Required().AddClass("select").AddProperty("data-url", "/admin/ProductCategory/Select"); ;
+            ViewConfig(m => m.ProductCategoryID).AsDropDownList().Order(NextOrder()).SetTemplate("ProductCategoryTree").Required();
             ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary).Required();
             ViewConfig(m => m.TargetPage).AsHidden();
         }

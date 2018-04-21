@@ -9,10 +9,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Easy;
 using ZKEACMS.Common.Service;
 using Easy.Extend;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Common.Models
 {
-    [ViewConfigure(typeof(NavigationWidgetMetaData)),Table("NavigationWidget")]
+    [Table("NavigationWidget")]
     public class NavigationWidget : BasicWidget
     {
         public string Logo { get; set; }
@@ -20,6 +21,7 @@ namespace ZKEACMS.Common.Models
         public string AlignClass { get; set; }
         public bool? IsTopFix { get; set; }
         public string RootID { get; set; }
+        public bool? ShowBasket { get; set; }
     }
     class NavigationWidgetMetaData : WidgetMetaData<NavigationWidget>
     {
@@ -43,7 +45,7 @@ namespace ZKEACMS.Common.Models
                 };
             }).Order(NextOrder());
             ViewConfig(m => m.IsTopFix).AsHidden();
-            ViewConfig(m => m.Logo).AsTextBox().Order(NextOrder()).AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
+            ViewConfig(m => m.Logo).AsTextBox().Order(NextOrder()).MediaSelector();
             ViewConfig(m => m.RootID).AsDropDownList().Order(NextOrder()).AddClass("select").AddProperty("data-url", "/admin/Navigation/Select").DataSource(() =>
             {
                 Dictionary<string, string> navigations = new Dictionary<string, string>();

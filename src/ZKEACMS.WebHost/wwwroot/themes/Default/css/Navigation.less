@@ -1,8 +1,7 @@
 ﻿@import "Library.less";
 
 .navigation {
-    margin: -@margin-base;
-
+    /*margin: -@margin-base;*/
     .nav.nav-mobile {
         margin: 0 auto;
         float: left;
@@ -39,6 +38,7 @@
         box-shadow: none;
         border-color: @navigation-border-color;
         min-height: @navigation-height;
+        border-top: 0;
 
         .hoveropen {
             > .dropdown-menu {
@@ -58,7 +58,7 @@
             color: @navigation-link-color;
 
             &:hover, &:focus {
-                color: @navigation-link-active-color;
+                color: @navigation-link-hover-color;
                 .background-image(@navigation-link-hover-top,@navigation-link-hover-bottom);
             }
         }
@@ -73,8 +73,8 @@
 
         .navbar-nav > .active > a {
             .background-image(@navigation-link-active-top,@navigation-link-active-bottom);
-            /*box-shadow: inset 0 3px 9px rgba(0, 0, 0, 0.075);*/
-            box-shadow: none;
+            box-shadow: inset 0 3px 9px rgba(0, 0, 0, 0.075);
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
             color: @navigation-link-active-color;
 
             &:hover, &:focus {

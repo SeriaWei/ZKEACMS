@@ -11,7 +11,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.Redirection.Models
 {
-    [Table("CMS_Redirection"), ViewConfigure(typeof(UrlRedirectMetaData))]
+    [Table("CMS_Redirection")]
     public class UrlRedirect : EditorEntity
     {
         [Key]

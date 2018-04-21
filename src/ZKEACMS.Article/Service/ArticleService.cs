@@ -11,17 +11,9 @@ namespace ZKEACMS.Article.Service
 {
     public class ArticleService : ServiceBase<ArticleEntity>, IArticleService
     {
-        public ArticleService(IApplicationContext applicationContext, ArticleDbContext dbContext) : base(applicationContext, dbContext)
+        public ArticleService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
-        }
-
-        public override DbSet<ArticleEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ArticleDbContext).Article;
-            }
-        }
+        }    
 
         public ArticleEntity GetNext(ArticleEntity article)
         {
@@ -31,6 +23,14 @@ namespace ZKEACMS.Article.Service
         public ArticleEntity GetPrev(ArticleEntity article)
         {
             return CurrentDbSet.Where(m => m.IsPublish && m.ArticleTypeID == article.ArticleTypeID && m.PublishDate < article.PublishDate).OrderByDescending(m => m.PublishDate).ThenByDescending(m => m.ID).Take(1).FirstOrDefault();
+        }
+
+        public void IncreaseCount(ArticleEntity article)
+        {
+            article.Counter = (article.Counter ?? 0) + 1;
+            DbContext.Attach(article);            
+            DbContext.Entry(article).Property(x => x.Counter).IsModified = true;
+            DbContext.SaveChanges();
         }
 
         public void Publish(int ID)

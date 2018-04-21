@@ -13,7 +13,11 @@ namespace ZKEACMS.Extend
         }
         public static TextBoxDescriptor MediaSelector(this TextBoxDescriptor descriptor)
         {
-            return descriptor.AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
+            return descriptor.AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia).AddProperty("placeholder", "可粘贴上传图片");
+        }
+        public static TextBoxDescriptor FileSelector(this TextBoxDescriptor descriptor)
+        {
+            return descriptor.AddClass(StringKeys.SelectMediaClass).AddProperty("data-url", Urls.SelectMedia).AddProperty("placeholder", "选择文件");
         }
     }
 }

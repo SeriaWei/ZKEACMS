@@ -1,6 +1,7 @@
 ﻿@using ZKEACMS.Account
 @{
     Style.Reqiured("Customer").AtHead();
+    Style.Reqiured("Easy").AtHead();
     var current = themeService.GetCurrentTheme();
     List<AdminMenu> menu = new List<AdminMenu>();
     userCenterLinksProvider.Each(p => menu.AddRange(p.GetLinks()));
@@ -31,7 +32,7 @@
             @if (ApplicationContext.CurrentCustomer != null)
             {
                 <header class="image-circle">
-                    <img class="thumbnail" src="@Url.PathContent(ApplicationContext.CurrentCustomer.PhotoUrl??"~/images/head.png")" />
+                    <img class="thumbnail" src="@Url.PathContent(ApplicationContext.CurrentCustomer.PhotoUrl??"~/images/User-Avatar.png")" />
                     <h1>@ApplicationContext.CurrentCustomer.UserName</h1>
                 </header>
                 <nav>
@@ -42,12 +43,12 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
+                            <a class="navbar-brand" href="/">
+                                首页
+                            </a>
                         </div>
                         <div class="navbar-collapse collapse navbar-responsive-collapse">
                             <ul class="nav navbar-nav">
-                                <li class="">
-                                    <a target="_blank" href="~/">首页</a>
-                                </li>
                                 @foreach (var item in menu.OrderBy(m => m.Order))
                                 {
                                     <li>

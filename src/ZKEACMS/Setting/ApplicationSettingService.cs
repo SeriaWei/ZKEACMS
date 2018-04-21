@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using System;
 using Easy;
+using Easy.Constant;
 using Easy.Extend;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
@@ -13,20 +14,15 @@ namespace ZKEACMS.Setting
         {
         }
 
-        public override DbSet<ApplicationSetting> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).ApplicationSetting;
-            }
-        }
-
-        public override void Add(ApplicationSetting item)
+        public override ServiceResult<ApplicationSetting> Add(ApplicationSetting item)
         {
             if (Count(m => m.SettingKey == item.SettingKey) == 0)
             {
-                base.Add(item);
+                return base.Add(item);
             }
+            var result = new ServiceResult<ApplicationSetting>();
+            result.RuleViolations.Add(new RuleViolation("SettingKey", "已经存在该键值"));
+            return result;
         }
 
         public string Get(string settingKey, string defaultValue)
@@ -36,8 +32,12 @@ namespace ZKEACMS.Setting
             {
                 if (setting == null && defaultValue.IsNotNullAndWhiteSpace())
                 {
-                    Add(new ApplicationSetting { SettingKey = settingKey, Value = defaultValue });
+                    Add(new ApplicationSetting { SettingKey = settingKey, Value = defaultValue, Status = (int)RecordStatus.Active });
                 }
+                return defaultValue;
+            }
+            if (setting.Status != (int)RecordStatus.Active)
+            {
                 return defaultValue;
             }
             return setting.Value;

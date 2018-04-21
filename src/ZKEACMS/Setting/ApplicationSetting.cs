@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Setting
 {
-    [ViewConfigure(typeof(ApplicationSettingMedaData)),Table("ApplicationSetting")]
+    [Table("ApplicationSetting")]
     public class ApplicationSetting : EditorEntity
     {
         [Key]
