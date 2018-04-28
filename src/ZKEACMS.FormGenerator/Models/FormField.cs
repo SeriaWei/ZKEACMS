@@ -17,7 +17,7 @@ namespace ZKEACMS.FormGenerator.Models
             {
                 if (id.IsNullOrEmpty())
                 {
-                    id = Guid.NewGuid().ToString("N");
+                    id = $"FF{Guid.NewGuid().ToString("N")}";
                 }
                 return id;
             }
