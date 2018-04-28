@@ -64,7 +64,7 @@ $(function () {
         });
     }).on("click", ".custom-style-editor", function () {
         window.top.Easy.ShowUrlWindow({
-            url: '/js/StyleEditor/index.html',
+            url: '/admin/StyleEditor/Edit',
             width: 1024,
             title: "编辑样式",
             onLoad: function (box) {

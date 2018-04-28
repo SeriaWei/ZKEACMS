@@ -31,7 +31,7 @@ namespace ZKEACMS
     {
         public const string SelectPage = "/admin/page/select";
         public const string SelectMedia = "/admin/Media/Select";
-        public const string StyleEditor = "/js/StyleEditor/index.html";
+        public const string StyleEditor = "/admin/StyleEditor/Edit";
     }
 
     public enum MediaType
