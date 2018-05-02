@@ -10,6 +10,7 @@ using Easy.Mvc.Resource;
 using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -57,7 +58,7 @@ namespace ZKEACMS.WebHost
             }
             else
             {
-                loggerFactory.UseFileLog(env);
+                loggerFactory.UseFileLog(env, app.ApplicationServices.GetService<IHttpContextAccessor>());
                 app.UseExceptionHandler("/Error");
             }
             app.UseZKEACMS(env);
