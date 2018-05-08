@@ -22,8 +22,18 @@ namespace Easy.DataTransfer
         public ExcelReader(Stream stream)
         {
             _excelStream = stream;
+            ErrorMessages = new List<string>();
+            Converts = new List<IValueTypeConvert>();
+        }
+        public ExcelReader(Stream stream, List<IValueTypeConvert> converts)
+        {
+            _excelStream = stream;
+            ErrorMessages = new List<string>();
+            Converts = converts;
         }
         public Type EntryType { get { return typeof(T); } }
+        public List<IValueTypeConvert> Converts { get; set; }
+        public List<string> ErrorMessages { get; set; }
         public virtual T CellConvert(T item, string header, Cell cell)
         {
             Type type = typeof(T);
@@ -52,7 +62,17 @@ namespace Easy.DataTransfer
             var property = _entryProperites.FirstOrDefault(m => m.Name == propertyName);
             if (property != null && value != null)
             {
-                property.SetValue(item, ClassAction.ValueConvert(property, value));
+                var convert = Converts.FirstOrDefault(m => m.SupportType == property.PropertyType);
+                object convertedValue = null;
+                if (convert != null)
+                {
+                    convertedValue = convert.Convert(value);
+                }
+                else
+                {
+                    convertedValue = ClassAction.ValueConvert(property, value);
+                }
+                property.SetValue(item, convertedValue);
             }
 
             return item;
@@ -87,11 +107,15 @@ namespace Easy.DataTransfer
             _viewConfigure = ServiceLocator.GetViewConfigure(EntryType);
             _entryProperites = EntryType.GetProperties();
             SpreadsheetDocument doc = null;
+            List<T> results = new List<T>();
             try
             {
                 doc = SpreadsheetDocument.Open(_excelStream, false);
             }
-            catch { }
+            catch
+            {
+                ErrorMessages.Add("上传的文件有误，仅支持office 2007（.xlsx）以后的格式");
+            }
             if (doc != null)
             {
                 using (doc)
@@ -117,20 +141,32 @@ namespace Easy.DataTransfer
                             var cellItem = cell as Cell;
                             header.Add(ReadCellValue(cellItem));
                         }
+
                         for (int i = 1; i < sheetData.ChildElements.Count; i++)
                         {
                             T item = new T();
-                            for (int j = 0; j < sheetData.ChildElements[i].ChildElements.Count; j++)
+                            try
                             {
-                                CellConvert(item, header[j], sheetData.ChildElements[i].ChildElements[j] as Cell);
+                                for (int j = 0; j < sheetData.ChildElements[i].ChildElements.Count; j++)
+                                {
+                                    if (j < header.Count)
+                                    {
+                                        CellConvert(item, header[j], sheetData.ChildElements[i].ChildElements[j] as Cell);
+                                    }
+                                }
                             }
-
+                            catch (Exception ex)
+                            {
+                                ErrorMessages.Add(ex.Message);
+                                break;
+                            }
                             yield return item;
                         }
                     }
+
                 }
             }
-
         }
+
     }
 }
