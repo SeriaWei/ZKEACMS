@@ -11,7 +11,7 @@ namespace ZKEACMS.FormGenerator.Service
 {
     public interface IFormDataService : IService<FormData>
     {
-        void SaveForm(IFormCollection form, string formId);
+        ServiceResult<FormField> SaveForm(IFormCollection form, string formId);
         MemoryStream Export(int id);
         MemoryStream ExportByForm(string formId);
     }

@@ -14,6 +14,21 @@
     Script.Reqiured("form-widget").AtFoot();
 }
 <div class="form-widget">
+    @if (ViewContext.HttpContext.Request.Query["status"] == "error")
+    {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            @System.Net.WebUtility.UrlDecode(ViewContext.HttpContext.Request.Query["msg"])
+        </div>
+    }
+    @if (ViewContext.HttpContext.Request.Query["status"] == "complete")
+    {
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            表单提交成功
+        </div>
+    }
+
     <form method="post" asp-action="Submit" asp-controller="FormData">
         <input type="hidden" name="next" value="@ViewContext.HttpContext.Request.GetAbsoluteUrl()" />
         <input type="hidden" name="FormId" value="@Model.ID" />

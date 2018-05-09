@@ -21,7 +21,7 @@ namespace ZKEACMS.Article.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
-            ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).SetTemplate("ArticleType").Required();
+            ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).SetTemplate("ArticleTypeTree").Required();
             ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary).Required();
             ViewConfig(m => m.TargetPage).AsHidden();
         }

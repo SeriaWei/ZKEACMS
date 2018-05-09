@@ -10,12 +10,14 @@ using Easy.Mvc.Controllers;
 using Easy.Mvc.ValueProvider;
 using Easy.ViewPort.jsTree;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Net;
 using ZKEACMS.Common.ViewModels;
 using ZKEACMS.Filter;
 using ZKEACMS.Layout;
 using ZKEACMS.Page;
+using ZKEACMS.Setting;
 using ZKEACMS.Widget;
 using ZKEACMS.Zone;
 
@@ -27,17 +29,20 @@ namespace ZKEACMS.Controllers
         private readonly IZoneService _zoneService;
         private readonly ILayoutService _layoutService;
         private readonly IWidgetBasePartService _widgetService;
+        private readonly IApplicationSettingService _applicationSettingService;
         public PageController(IPageService service,
             ICookie cookie,
             IZoneService zoneService,
             ILayoutService layoutService,
-            IWidgetBasePartService widgetService)
+            IWidgetBasePartService widgetService,
+            IApplicationSettingService applicationSettingService)
             : base(service)
         {
             _cookie = cookie;
             _zoneService = zoneService;
             _layoutService = layoutService;
             _widgetService = widgetService;
+            _applicationSettingService = applicationSettingService;
         }
         [Widget]
         public IActionResult Main()
@@ -52,8 +57,9 @@ namespace ZKEACMS.Controllers
         [DefaultAuthorize(Policy = PermissionKeys.ViewPage)]
         public JsonResult GetPageTree()
         {
+            var expandAll = _applicationSettingService.Get(SettingKeys.ExpandAllPage, "true");
             var pages = Service.Get(m => !m.IsPublishedPage).OrderBy(m => m.DisplayOrder);
-            var node = new Tree<PageEntity>().Source(pages).ToNode(m => m.ID, m => m.PageName, m => m.ParentId, "#");
+            var node = new Tree<PageEntity>().Source(pages).ToNode(m => m.ID, m => m.PageName, m => m.ParentId, "#", expandAll.Equals("true", StringComparison.OrdinalIgnoreCase));
             return Json(node);
         }
         [NonAction]

@@ -1,15 +1,15 @@
 html {
-    background-color: #212636;
-    margin:0;
-    padding:0;
-    overflow:hidden;
+    background-color: #212636 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
 }
 body {
-    background-color: #212636;
-    color: #B0B8C5;
-    font-size: 13px;
-    margin: 0;
-    padding: 0;
+    background-color: #212636 !important;
+    color: #B0B8C5 !important;
+    font-size: 13px !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .editor-main {

@@ -44,7 +44,7 @@ namespace ZKEACMS.Article.Models
                 .AsDropDownList()
                 .DataSource(ViewDataKeys.ArticleCategory, SourceType.ViewData)
                 .Required()
-                .SetTemplate("ArticleType")
+                .SetTemplate("ArticleTypeTree")
                 .ShowInGrid();
 
             ViewConfig(m => m.ArticleContent).AsTextArea().AddClass(StringKeys.HtmlEditorClass);

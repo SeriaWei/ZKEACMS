@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>ZKEACMS</AssemblyName>
     <PackageId>ZKEACMS</PackageId>
-    <Version>2.8</Version>
+    <Version>2.9</Version>
     <Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>
     <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
@@ -11,8 +11,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>CMS</PackageTags>
     <Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
-    <AssemblyVersion>2.8.0.0</AssemblyVersion>
-    <FileVersion>2.8.0.0</FileVersion>
+    <AssemblyVersion>2.9.0.0</AssemblyVersion>
+    <FileVersion>2.9.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
