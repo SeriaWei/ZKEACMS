@@ -1,6 +1,6 @@
 Add-Type -assembly "system.io.compression.filesystem"
 $source = "Release"
-$destination = "ZKEACMS.Core.v2.8.zip"
+$destination = "ZKEACMS.Core.v2.9.zip"
 Write-Host "Starting release" $destination
 Write-Host "This may take a few minutes, please wait..."
 if(!(Get-Command dotnet -ErrorAction SilentlyContinue))
