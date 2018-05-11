@@ -5,6 +5,7 @@ using Easy.Constant;
 using Easy.Extend;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace ZKEACMS.Setting
 {
@@ -41,6 +42,42 @@ namespace ZKEACMS.Setting
                 return defaultValue;
             }
             return setting.Value;
+        }
+
+        public T Get<T>() where T : new()
+        {
+            return Get<T>(typeof(T).FullName);
+        }
+
+        public T Get<T>(string key) where T : new()
+        {
+            var setting = Get(key);
+            if (setting == null)
+            {
+                setting = new ApplicationSetting { SettingKey = key, Value = JsonConvert.SerializeObject(new T()) };
+                Add(setting);
+            }
+            return JsonConvert.DeserializeObject<T>(setting.Value);
+        }
+
+        public void Save<T>(T setting)
+        {
+            Save<T>(typeof(T).FullName, setting);
+        }
+
+        public void Save<T>(string key, T setting)
+        {
+            var settingEntry = Get(key);
+            if (settingEntry == null)
+            {
+                settingEntry = new ApplicationSetting { SettingKey = key, Value = JsonConvert.SerializeObject(setting) };
+                Add(settingEntry);
+            }
+            else
+            {
+                settingEntry.Value = JsonConvert.SerializeObject(setting);
+                Update(settingEntry);
+            }
         }
     }
 }
