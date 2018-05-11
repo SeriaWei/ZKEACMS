@@ -27,6 +27,7 @@ using System.Text.Unicode;
 using System.Collections.Generic;
 using Easy.Modules.User.Models;
 using Easy.MetaData;
+using Microsoft.AspNetCore.Http;
 
 namespace Easy
 {
@@ -95,9 +96,9 @@ namespace Easy
             builder.UseMiddleware<PluginStaticFileMiddleware>();
             return builder;
         }
-        public static void UseFileLog(this ILoggerFactory loggerFactory, IHostingEnvironment env)
+        public static void UseFileLog(this ILoggerFactory loggerFactory, IHostingEnvironment env, IHttpContextAccessor httpContextAccessor)
         {
-            loggerFactory.AddProvider(new FileLoggerProvider(env));
+            loggerFactory.AddProvider(new FileLoggerProvider(env, httpContextAccessor));
         }
     }
 }

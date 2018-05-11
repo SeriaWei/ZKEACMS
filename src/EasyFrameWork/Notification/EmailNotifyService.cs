@@ -50,7 +50,7 @@ namespace Easy.Notification
             }
             if (email.Attachments != null)
             {
-                foreach (var item in email.Bcc)
+                foreach (var item in email.Attachments)
                 {
                     mailMessage.Attachments.Add(new Attachment(item));
                 }

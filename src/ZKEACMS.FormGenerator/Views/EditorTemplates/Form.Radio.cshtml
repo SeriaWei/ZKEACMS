@@ -22,7 +22,7 @@
         {
             <div class="radio">
                 <label>
-                    @Html.RadioButton(Model.ID, item.Value, item.Selected, attributes)
+                    @Html.RadioButton(Model.ID, item.Value, item.Selected ?? item == Model.FieldOptions.First(), attributes)
                     @item.DisplayText
                 </label>
             </div>

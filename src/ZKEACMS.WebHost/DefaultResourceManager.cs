@@ -56,6 +56,9 @@ namespace ZKEACMS.WebHost
                 .Include($"{LibraryPath}/CryptoJS/components/enc-base64.js", $"{LibraryPath}/CryptoJS/components/enc-base64-min.js")
                 .Include($"{LibraryPath}/slimscroll/jquery.slimscroll.min.js", $"{LibraryPath}/slimscroll/jquery.slimscroll.min.js");
 
+            script("slimscroll")
+                .Include($"{LibraryPath}/slimscroll/jquery.slimscroll.min.js", $"{LibraryPath}/slimscroll/jquery.slimscroll.min.js");
+
             script("tinymce")
                 .Include($"{ScriptPath}/tinymce/tinymce.min.js")
                 .Include($"{ScriptPath}/tinymce/tinymce.config.js", $"{ScriptPath}/tinymce/tinymce.config.min.js");

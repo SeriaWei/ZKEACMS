@@ -9,15 +9,28 @@ namespace ZKEACMS.Common.ViewModels
     {
         public NavigationWidgetViewModel(IEnumerable<NavigationEntity> navigation, NavigationWidget widget)
         {
-            Navigations = navigation;
+            _navs = navigation;
             Widget = widget;
         }
-        public IEnumerable<NavigationEntity> Navigations { get; set; }
+        private IEnumerable<NavigationEntity> _navs;
+
+        public IEnumerable<NavigationViewModel> Navigations
+        {
+            get
+            {
+                foreach (var item in _navs.Where(m => m.ParentId == Widget.RootID))
+                {
+                    yield return new NavigationViewModel(_navs, item);
+                }
+            }
+        }
+
         public NavigationWidget Widget { get; set; }
 
-        public IEnumerable<NavigationEntity> Mobiles(string root)
+        public IEnumerable<NavigationEntity> Mobiles
         {
-            return LoadMobiles(Navigations.Where(m => m.ParentId == root).ToList());
+            get { return LoadMobiles(_navs.Where(m => m.ParentId == Widget.RootID).ToList()); }
+
         }
         private IList<NavigationEntity> LoadMobiles(IEnumerable<NavigationEntity> navs)
         {
@@ -29,7 +42,7 @@ namespace ZKEACMS.Common.ViewModels
             mobileNavs.AddRange(navs.Where(m => m.IsMobile ?? false).ToList());
             foreach (var item in navs)
             {
-                mobileNavs.AddRange(LoadMobiles(Navigations.Where(m => m.ParentId == item.ID).ToList()));
+                mobileNavs.AddRange(LoadMobiles(_navs.Where(m => m.ParentId == item.ID).ToList()));
             }
             return mobileNavs;
         }
