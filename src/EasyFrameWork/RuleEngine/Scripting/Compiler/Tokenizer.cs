@@ -1,26 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
-namespace Easy.RuleEngine.Scripting.Compiler {
-    public class Tokenizer {
+namespace Easy.RuleEngine.Scripting.Compiler
+{
+    public class Tokenizer
+    {
         private readonly string _expression;
         private readonly StringBuilder _stringBuilder;
         private int _index;
         private int _startTokenIndex;
 
-        public Tokenizer(string expression) {
+        public Tokenizer(string expression)
+        {
             _expression = expression;
             _stringBuilder = new StringBuilder();
         }
 
-        public Token NextToken() {
-            while (true) {
+        public Token NextToken()
+        {
+            while (true)
+            {
                 if (Eof())
                     return CreateToken(TokenKind.Eof);
 
                 _startTokenIndex = _index;
                 char ch = Character();
-                switch (ch) {
+                switch (ch)
+                {
                     case '(':
                         NextCharacter();
                         return CreateToken(TokenKind.OpenParen);
@@ -58,15 +65,20 @@ namespace Easy.RuleEngine.Scripting.Compiler {
                         return LexLessThan();
                     case '>':
                         return LexGreaterThan();
+                    case '[':
+                        return LexArrayLiteral();
                 }
 
-                if (IsDigitCharacter(ch)) {
+                if (IsDigitCharacter(ch))
+                {
                     return LexInteger();
                 }
-                if (IsIdentifierCharacter(ch)) {
+                if (IsIdentifierCharacter(ch))
+                {
                     return LexIdentifierOrKeyword();
                 }
-                if (IsWhitespaceCharacter(ch)) {
+                if (IsWhitespaceCharacter(ch))
+                {
                     NextCharacter();
                     continue;
                 }
@@ -75,104 +87,127 @@ namespace Easy.RuleEngine.Scripting.Compiler {
             }
         }
 
-        private Token InvalidToken() {
+        private Token InvalidToken()
+        {
             return CreateToken(TokenKind.Invalid, "Unrecognized character");
         }
 
-        private Token LexNotSign() {
+        private Token LexNotSign()
+        {
             NextCharacter();
             char ch = Character();
-            if (ch == '=') {
+            if (ch == '=')
+            {
                 NextCharacter();
                 return CreateToken(TokenKind.NotEqual);
             }
             return CreateToken(TokenKind.NotSign);
         }
 
-        private Token LexOrSign() {
+        private Token LexOrSign()
+        {
             NextCharacter();
             char ch = Character();
-            if (ch == '|') {
+            if (ch == '|')
+            {
                 NextCharacter();
                 return CreateToken(TokenKind.OrSign);
             }
             return InvalidToken();
         }
 
-        private Token LexAndSign() {
+        private Token LexAndSign()
+        {
             NextCharacter();
             char ch = Character();
-            if (ch == '&') {
+            if (ch == '&')
+            {
                 NextCharacter();
                 return CreateToken(TokenKind.AndSign);
             }
             return InvalidToken();
         }
 
-        private Token LexGreaterThan() {
+        private Token LexGreaterThan()
+        {
             NextCharacter();
             char ch = Character();
-            if (ch == '=') {
+            if (ch == '=')
+            {
                 NextCharacter();
                 return CreateToken(TokenKind.GreaterThanEqual);
             }
             return CreateToken(TokenKind.GreaterThan);
         }
 
-        private Token LexLessThan() {
+        private Token LexLessThan()
+        {
             NextCharacter();
             char ch = Character();
-            if (ch == '=') {
+            if (ch == '=')
+            {
                 NextCharacter();
                 return CreateToken(TokenKind.LessThanEqual);
             }
             return CreateToken(TokenKind.LessThan);
         }
 
-        private Token LexEqual() {
+        private Token LexEqual()
+        {
             NextCharacter();
             char ch = Character();
-            if (ch == '=') {
+            if (ch == '=')
+            {
                 NextCharacter();
                 return CreateToken(TokenKind.EqualEqual);
             }
             return CreateToken(TokenKind.Equal);
         }
 
-        private Token LexIdentifierOrKeyword() {
+        private Token LexIdentifierOrKeyword()
+        {
             _stringBuilder.Clear();
 
             _stringBuilder.Append(Character());
-            while (true) {
+            while (true)
+            {
                 NextCharacter();
 
-                if (!Eof() && (IsIdentifierCharacter(Character()) || IsDigitCharacter(Character()))) {
+                if (!Eof() && (IsIdentifierCharacter(Character()) || IsDigitCharacter(Character())))
+                {
                     _stringBuilder.Append(Character());
                 }
-                else {
+                else
+                {
                     return CreateIdentiferOrKeyword(_stringBuilder.ToString());
                 }
             }
         }
 
-        private Token LexInteger() {
+        private Token LexInteger()
+        {
             _stringBuilder.Clear();
 
             _stringBuilder.Append(Character());
-            while (true) {
+            while (true)
+            {
                 NextCharacter();
 
-                if (!Eof() && IsDigitCharacter(Character())) {
+                if (!Eof() && IsDigitCharacter(Character()))
+                {
                     _stringBuilder.Append(Character());
                 }
-                else {
+                else
+                {
                     return CreateToken(TokenKind.Integer, Int32.Parse(_stringBuilder.ToString()));
                 }
             }
         }
 
-        private Token CreateIdentiferOrKeyword(string identifier) {
-            switch (identifier) {
+        private Token CreateIdentiferOrKeyword(string identifier)
+        {
+            switch (identifier)
+            {
                 case "true":
                     return CreateToken(TokenKind.True, true);
                 case "false":
@@ -191,43 +226,51 @@ namespace Easy.RuleEngine.Scripting.Compiler {
             }
         }
 
-        private static bool IsWhitespaceCharacter(char character) {
+        private static bool IsWhitespaceCharacter(char character)
+        {
             return char.IsWhiteSpace(character);
         }
 
-        private static bool IsIdentifierCharacter(char ch) {
+        private static bool IsIdentifierCharacter(char ch)
+        {
             return
                 (ch >= 'a' && ch <= 'z') ||
                 (ch >= 'A' && ch <= 'Z') ||
                 (ch == '_');
         }
 
-        private static bool IsDigitCharacter(char ch) {
+        private static bool IsDigitCharacter(char ch)
+        {
             return ch >= '0' && ch <= '9';
         }
 
-        private Token LexSingleQuotedStringLiteral() {
+        private Token LexSingleQuotedStringLiteral()
+        {
             _stringBuilder.Clear();
 
-            while (true) {
+            while (true)
+            {
                 NextCharacter();
 
                 if (Eof())
                     return CreateToken(TokenKind.Invalid, "Unterminated string literal");
 
                 // Termination
-                if (Character() == '\'') {
+                if (Character() == '\'')
+                {
                     NextCharacter();
                     return CreateToken(TokenKind.SingleQuotedStringLiteral, _stringBuilder.ToString());
                 }
                 // backslash notation
-                if (Character() == '\\') {
+                if (Character() == '\\')
+                {
                     NextCharacter();
 
                     if (Eof())
                         return CreateToken(TokenKind.Invalid, "Unterminated string literal");
 
-                    switch (Character()) {
+                    switch (Character())
+                    {
                         case '\\':
                             _stringBuilder.Append('\\');
                             break;
@@ -240,29 +283,34 @@ namespace Easy.RuleEngine.Scripting.Compiler {
                             break;
                     }
                 }
-                    // Regular character in string
-                else {
+                // Regular character in string
+                else
+                {
                     _stringBuilder.Append(Character());
                 }
             }
         }
 
-        private Token LexStringLiteral() {
+        private Token LexStringLiteral()
+        {
             _stringBuilder.Clear();
 
-            while (true) {
+            while (true)
+            {
                 NextCharacter();
 
                 if (Eof())
                     return CreateToken(TokenKind.Invalid, "Unterminated string literal");
 
                 // Termination
-                if (Character() == '"') {
+                if (Character() == '"')
+                {
                     NextCharacter();
                     return CreateToken(TokenKind.StringLiteral, _stringBuilder.ToString());
                 }
                 // backslash notation
-                if (Character() == '\\') {
+                if (Character() == '\\')
+                {
                     NextCharacter();
 
                     if (Eof())
@@ -270,30 +318,132 @@ namespace Easy.RuleEngine.Scripting.Compiler {
 
                     _stringBuilder.Append(Character());
                 }
-                    // Regular character in string
-                else {
+                // Regular character in string
+                else
+                {
                     _stringBuilder.Append(Character());
                 }
             }
         }
 
-        private void NextCharacter() {
+        private Token LexArrayLiteral()
+        {
+            _stringBuilder.Clear();
+            List<object> arguments = new List<object>();
+            bool checkDigit = false;
+            bool isDigit = false;
+            while (true)
+            {
+                NextCharacter();
+                if (!checkDigit)
+                {
+                    isDigit = IsDigitCharacter(Character());
+                    checkDigit = true;
+                }
+                if (Eof())
+                    return CreateToken(TokenKind.Invalid, "Unterminated string literal");
+
+                // Termination
+                if (Character() == ']')
+                {
+                    NextCharacter();
+                    if (_stringBuilder[0] == '\'' || _stringBuilder[0] == '"')
+                    {
+                        _stringBuilder.Remove(0, 1);
+                    }
+                    if (_stringBuilder[_stringBuilder.Length - 1] == '\'' || _stringBuilder[_stringBuilder.Length - 1] == '"')
+                    {
+                        _stringBuilder.Remove(_stringBuilder.Length - 1, 1);
+                    }
+                    var arg = _stringBuilder.ToString();
+                    if (isDigit)
+                    {
+                        arguments.Add(Int32.Parse(arg));
+                    }
+                    else
+                    {
+                        arguments.Add(arg);
+                    }
+
+                    return CreateToken(TokenKind.SquareBrackets, arguments.ToArray());
+                }
+                if (Character() == ',')
+                {
+                    NextCharacter();
+
+                    if (Eof())
+                        return CreateToken(TokenKind.Invalid, "Unterminated string literal");
+
+                    if (_stringBuilder[0] == '\'' || _stringBuilder[0] == '"')
+                    {
+                        _stringBuilder.Remove(0, 1);
+                    }
+                    if (_stringBuilder[_stringBuilder.Length - 1] == '\'' || _stringBuilder[_stringBuilder.Length - 1] == '"')
+                    {
+                        _stringBuilder.Remove(_stringBuilder.Length - 1, 1);
+                    }
+                    var arg = _stringBuilder.ToString();
+                    if (isDigit)
+                    {
+                        arguments.Add(Int32.Parse(arg));
+                    }
+                    else
+                    {
+                        arguments.Add(arg);
+                    }
+                    _stringBuilder.Clear();
+                }
+                if (Character() == '\\')
+                {
+                    NextCharacter();
+
+                    if (Eof())
+                        return CreateToken(TokenKind.Invalid, "Unterminated string literal");
+
+                    switch (Character())
+                    {
+                        case '\\':
+                            _stringBuilder.Append('\\');
+                            break;
+                        case '\'':
+                            _stringBuilder.Append('\'');
+                            break;
+                        default:
+                            _stringBuilder.Append('\\');
+                            _stringBuilder.Append(Character());
+                            break;
+                    }
+                }
+                // Regular character in string
+                else
+                {
+                    _stringBuilder.Append(Character());
+                }
+            }
+        }
+
+        private void NextCharacter()
+        {
             _index++;
         }
 
-        private char Character() {
+        private char Character()
+        {
             return _expression[_index];
         }
 
-        private Token CreateToken(TokenKind kind, object value = null) {
-            return new Token {
+        private Token CreateToken(TokenKind kind, object value = null)
+        {
+            return new Token
+            {
                 Kind = kind,
                 Position = _startTokenIndex,
                 Value = value
             };
         }
 
-        private bool Eof() {
+        private bool Eof()
+        {
             return (_index >= _expression.Length);
         }
     }

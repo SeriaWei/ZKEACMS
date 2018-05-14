@@ -186,6 +186,7 @@ namespace Easy.RuleEngine.Scripting.Compiler
                 case TokenKind.SingleQuotedStringLiteral:
                 case TokenKind.StringLiteral:
                 case TokenKind.Integer:
+                case TokenKind.SquareBrackets:
                     return ProduceConstant(token);
                 case TokenKind.OpenParen:
                     return ParseParenthesizedExpression();
@@ -307,6 +308,7 @@ namespace Easy.RuleEngine.Scripting.Compiler
                 case TokenKind.Plus:
                 case TokenKind.True:
                 case TokenKind.False:
+                case TokenKind.SquareBrackets:
                     return true;
                 case TokenKind.CloseParen:
                     return isParenthesizedCall;

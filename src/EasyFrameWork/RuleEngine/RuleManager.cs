@@ -55,6 +55,10 @@ namespace Easy.RuleEngine
                 foreach (var ruleProvider in _ruleManager._ruleProviders)
                 {
                     ruleProvider.Process(ruleContext, _ruleManager._workContext);
+                    if (ruleContext.Result != null)
+                    {
+                        break;
+                    }
                 }
 
                 context.Result = ruleContext.Result;

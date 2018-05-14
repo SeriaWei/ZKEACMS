@@ -1,5 +1,7 @@
-﻿namespace Easy.RuleEngine.Scripting.Compiler {
-    public enum TokenKind {
+﻿namespace Easy.RuleEngine.Scripting.Compiler
+{
+    public enum TokenKind
+    {
         Invalid,
         Eof,
         OpenParen,
@@ -28,6 +30,7 @@
         LessThanEqual,
         GreaterThan,
         GreaterThanEqual,
-        NullLiteral
+        NullLiteral,
+        SquareBrackets
     }
 }
