@@ -17,7 +17,6 @@ namespace Easy.RuleEngine.RuleProviders
         const string IsBlank = "IsBlank";
         const string IsNotBlank = "IsNotBlank";
         const string In = "In";
-        const string ValueOf = "ValueOf";
 
         const string GreaterThan = "GreaterThan";
         const string LessThan = "LessThan";
@@ -115,11 +114,6 @@ namespace Easy.RuleEngine.RuleProviders
                 case IsNotBlank:
                     {
                         ruleContext.Result = !string.IsNullOrWhiteSpace(ruleContext.Arguments[0].ToString());
-                        break;
-                    }
-                case ValueOf:
-                    {
-                        ruleContext.Result = ruleContext.Arguments[0];
                         break;
                     }
                 case GreaterThan:
