@@ -19,6 +19,16 @@ namespace Easy.RuleEngine
 
         public bool Matches(string expression, object workContext)
         {
+            var result = Value(expression, workContext);
+            if (!(result is bool))
+            {
+                throw new Exception("Expression is not a boolean value");
+            }
+            return (bool)result;
+        }
+
+        public object Value(string expression, object workContext)
+        {
             _workContext = workContext;
             var evaluator = _evaluators.FirstOrDefault();
             if (evaluator == null)
@@ -26,12 +36,7 @@ namespace Easy.RuleEngine
                 throw new Exception("There are currently not scripting engine enabled");
             }
 
-            var result = evaluator.Evaluate(expression, new List<IGlobalMethodProvider> { new GlobalMethodProvider(this) });
-            if (!(result is bool))
-            {
-                throw new Exception("Expression is not a boolean value");
-            }
-            return (bool)result;
+            return evaluator.Evaluate(expression, new List<IGlobalMethodProvider> { new GlobalMethodProvider(this) });
         }
 
         private class GlobalMethodProvider : IGlobalMethodProvider
