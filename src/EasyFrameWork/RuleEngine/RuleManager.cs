@@ -16,8 +16,12 @@ namespace Easy.RuleEngine
             _ruleProviders = ruleProviders;
             _evaluators = evaluators;
         }
-
-        public bool Matches(string expression, object workContext)
+        
+        public bool IsTrue(string expression)
+        {
+            return IsTrue(expression, null);
+        }
+        public bool IsTrue(string expression, object workContext)
         {
             var result = Value(expression, workContext);
             if (!(result is bool))
@@ -37,6 +41,10 @@ namespace Easy.RuleEngine
             }
 
             return evaluator.Evaluate(expression, new List<IGlobalMethodProvider> { new GlobalMethodProvider(this) });
+        }
+        public object Value(string expression)
+        {
+            return Value(expression, null);
         }
 
         private class GlobalMethodProvider : IGlobalMethodProvider

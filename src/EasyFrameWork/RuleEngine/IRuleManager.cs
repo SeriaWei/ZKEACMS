@@ -2,7 +2,9 @@
 {
     public interface IRuleManager
     {
-        bool Matches(string expression, object workContext);
+        bool IsTrue(string expression);
+        bool IsTrue(string expression, object workContext);
+        object Value(string expression);
         object Value(string expression, object workContext);
     }
 }

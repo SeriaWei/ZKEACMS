@@ -5,6 +5,7 @@ using Easy.RuleEngine.RuleProviders;
 using Easy.RuleEngine.Scripting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace EasyFrameWork.Test
 {
@@ -26,38 +27,38 @@ namespace EasyFrameWork.Test
             ServiceProvider = serviceCollection.BuildServiceProvider();
         }
         [TestMethod]
-        public void TestRuleManager()
+        public void TestCommonMethod()
         {
             var ruleManger = ServiceProvider.GetService<IRuleManager>();
-            Assert.IsTrue(ruleManger.Matches("In('1',['1','2','3'])", null));
-            Assert.IsTrue(ruleManger.Matches("In(1,[1,2,3])", null));
-            Assert.IsTrue(ruleManger.Matches("Equals(1,1)", null));
-            Assert.IsTrue(ruleManger.Matches("Equals('1','1')", null));
-            Assert.IsTrue(ruleManger.Matches("NotEquals('1',1)", null));
-            Assert.IsTrue(ruleManger.Matches("StartsWith('123','1')", null));
-            Assert.IsTrue(ruleManger.Matches("EndsWith('123','3')", null));
-            Assert.IsTrue(ruleManger.Matches("Contains('123','2')", null));
-            Assert.IsTrue(ruleManger.Matches("NotStartsWith('123','2')", null));
-            Assert.IsTrue(ruleManger.Matches("NotEndsWith('123','2')", null));
-            Assert.IsTrue(ruleManger.Matches("NotContains('123','4')", null));
-            Assert.IsTrue(ruleManger.Matches("IsBlank('')", null));
-            Assert.IsTrue(ruleManger.Matches("IsNotBlank('3')", null));
-            Assert.IsTrue(ruleManger.Matches("3>1", null));
+            Assert.IsTrue(ruleManger.IsTrue("In('1',['1','2','3'])"));
+            Assert.IsTrue(ruleManger.IsTrue("In(1,[1,2,3])"));
+            Assert.IsTrue(ruleManger.IsTrue("Equals(1,1)"));
+            Assert.IsTrue(ruleManger.IsTrue("Equals('1','1')"));
+            Assert.IsTrue(ruleManger.IsTrue("NotEquals('1',1)"));
+            Assert.IsTrue(ruleManger.IsTrue("StartsWith('123','1')"));
+            Assert.IsTrue(ruleManger.IsTrue("EndsWith('123','3')"));
+            Assert.IsTrue(ruleManger.IsTrue("Contains('123','2')"));
+            Assert.IsTrue(ruleManger.IsTrue("NotStartsWith('123','2')"));
+            Assert.IsTrue(ruleManger.IsTrue("NotEndsWith('123','2')"));
+            Assert.IsTrue(ruleManger.IsTrue("NotContains('123','4')"));
+            Assert.IsTrue(ruleManger.IsTrue("IsBlank('')"));
+            Assert.IsTrue(ruleManger.IsTrue("IsNotBlank('3')"));
+            Assert.IsTrue(ruleManger.IsTrue("3>1"));
         }
         [TestMethod]
-        public void TestRuleManagerValueOf()
+        public void TestValueOf()
         {
             var ruleManger = ServiceProvider.GetService<IRuleManager>();
-            Assert.IsTrue(ruleManger.Matches("In(ValueOf('Name'),['A','B','C'])", new { Name = "A" }));
-            Assert.IsTrue(ruleManger.Matches("ValueOf('Name')=='A'", new { Name = "A" }));
-            Assert.IsTrue(ruleManger.Matches("In(ValueOf('Name',0),['A','B','C'])", new { Name = new string[] { "A" } }));
+            Assert.IsTrue(ruleManger.IsTrue("In(ValueOf('Name'),['A','B','C'])", new { Name = "A" }));
+            Assert.IsTrue(ruleManger.IsTrue("ValueOf('Name')=='A'", new { Name = "A" }));
+            Assert.IsTrue(ruleManger.IsTrue("In(ValueOf('Name',2),['A','B','C'])", new { Name = new string[] { "A", "B", "C" } }));
             Assert.IsTrue(ruleManger.Value("ValueOf('Name')", new { Name = "A" }).Equals("A"));
         }
         [TestMethod]
-        public void TestRuleManagerDate()
+        public void TestDate()
         {
             var ruleManger = ServiceProvider.GetService<IRuleManager>();
-            Assert.IsTrue(ruleManger.Matches("Date('2018-05-15')==Date('2018-05-15')&&Date('2018-05-15')==Date('2018-05-15')", null));
+            Assert.IsTrue(ruleManger.Value("Date('2018-05-15')") is DateTime);
         }
     }
 }
