@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Easy.RuleEngine.Scripting;
@@ -16,7 +20,7 @@ namespace Easy.RuleEngine
             _ruleProviders = ruleProviders;
             _evaluators = evaluators;
         }
-        
+
         public bool IsTrue(string expression)
         {
             return IsTrue(expression, null);
