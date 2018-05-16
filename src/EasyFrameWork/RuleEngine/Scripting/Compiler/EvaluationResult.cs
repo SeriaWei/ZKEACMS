@@ -30,11 +30,13 @@ namespace Easy.RuleEngine.Scripting.Compiler
         public bool IsNull { get { return Value == null; } }
         public bool IsBool { get { return Value is bool; } }
         public bool IsInt32 { get { return Value is int; } }
+        public bool IsMoney { get { return Value is decimal; } }
         public bool IsString { get { return Value is string; } }
         public bool IsDateTime { get { return Value is DateTime; } }
         public Error ErrorValue { get { return (Error)Value; } }
         public bool BoolValue { get { return (bool)Value; } }
         public int Int32Value { get { return (int)Value; } }
+        public decimal MoneyValue { get { return (decimal)Value; } }
         public DateTime DateTimeValue { get { return (DateTime)Value; } }
         public string StringValue { get { return (string)Value; } }
 

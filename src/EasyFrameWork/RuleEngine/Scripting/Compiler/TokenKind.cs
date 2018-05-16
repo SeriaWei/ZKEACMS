@@ -31,6 +31,7 @@
         GreaterThan,
         GreaterThanEqual,
         NullLiteral,
-        SquareBrackets
+        SquareBrackets,
+        Money
     }
 }

@@ -189,17 +189,30 @@ namespace Easy.RuleEngine.Scripting.Compiler
             _stringBuilder.Clear();
 
             _stringBuilder.Append(Character());
+            bool isMoney = false;
             while (true)
             {
                 NextCharacter();
 
-                if (!Eof() && IsDigitCharacter(Character()))
+                if (!Eof() && (IsDigitCharacter(Character()) || Character() == '.'))
                 {
                     _stringBuilder.Append(Character());
+                    if (Character() == '.')
+                    {
+                        isMoney = true;
+                    }
                 }
                 else
                 {
-                    return CreateToken(TokenKind.Integer, Int32.Parse(_stringBuilder.ToString()));
+                    if (isMoney)
+                    {
+                        return CreateToken(TokenKind.Money, decimal.Parse(_stringBuilder.ToString()));
+                    }
+                    else
+                    {
+                        return CreateToken(TokenKind.Integer, Int32.Parse(_stringBuilder.ToString()));
+                    }
+
                 }
             }
         }
@@ -332,6 +345,35 @@ namespace Easy.RuleEngine.Scripting.Compiler
             List<object> arguments = new List<object>();
             bool checkDigit = false;
             bool isDigit = false;
+            Action addToArguments = () =>
+            {
+                if (_stringBuilder[0] == '\'' || _stringBuilder[0] == '"')
+                {
+                    _stringBuilder.Remove(0, 1);
+                }
+                if (_stringBuilder[_stringBuilder.Length - 1] == '\'' || _stringBuilder[_stringBuilder.Length - 1] == '"')
+                {
+                    _stringBuilder.Remove(_stringBuilder.Length - 1, 1);
+                }
+
+                var arg = _stringBuilder.ToString();
+
+                if (isDigit)
+                {
+                    if (arg.IndexOf('.') >= 0)
+                    {
+                        arguments.Add(decimal.Parse(arg));
+                    }
+                    else
+                    {
+                        arguments.Add(Int32.Parse(arg));
+                    }
+                }
+                else
+                {
+                    arguments.Add(arg);
+                }
+            };
             while (true)
             {
                 NextCharacter();
@@ -347,23 +389,7 @@ namespace Easy.RuleEngine.Scripting.Compiler
                 if (Character() == ']')
                 {
                     NextCharacter();
-                    if (_stringBuilder[0] == '\'' || _stringBuilder[0] == '"')
-                    {
-                        _stringBuilder.Remove(0, 1);
-                    }
-                    if (_stringBuilder[_stringBuilder.Length - 1] == '\'' || _stringBuilder[_stringBuilder.Length - 1] == '"')
-                    {
-                        _stringBuilder.Remove(_stringBuilder.Length - 1, 1);
-                    }
-                    var arg = _stringBuilder.ToString();
-                    if (isDigit)
-                    {
-                        arguments.Add(Int32.Parse(arg));
-                    }
-                    else
-                    {
-                        arguments.Add(arg);
-                    }
+                    addToArguments();
 
                     return CreateToken(TokenKind.SquareBrackets, arguments.ToArray());
                 }
@@ -374,23 +400,8 @@ namespace Easy.RuleEngine.Scripting.Compiler
                     if (Eof())
                         return CreateToken(TokenKind.Invalid, "Unterminated string literal");
 
-                    if (_stringBuilder[0] == '\'' || _stringBuilder[0] == '"')
-                    {
-                        _stringBuilder.Remove(0, 1);
-                    }
-                    if (_stringBuilder[_stringBuilder.Length - 1] == '\'' || _stringBuilder[_stringBuilder.Length - 1] == '"')
-                    {
-                        _stringBuilder.Remove(_stringBuilder.Length - 1, 1);
-                    }
-                    var arg = _stringBuilder.ToString();
-                    if (isDigit)
-                    {
-                        arguments.Add(Int32.Parse(arg));
-                    }
-                    else
-                    {
-                        arguments.Add(arg);
-                    }
+                    addToArguments();
+
                     _stringBuilder.Clear();
                 }
                 if (Character() == '\\')

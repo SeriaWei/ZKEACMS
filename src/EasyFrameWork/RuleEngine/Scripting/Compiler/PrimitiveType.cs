@@ -12,6 +12,8 @@ namespace Easy.RuleEngine.Scripting.Compiler
                 return BooleanPrimitiveType.Instance;
             if (value is int)
                 return IntegerPrimitiveType.Instance;
+            if (value is decimal)
+                return MoneyPrimitiveType.Instance;
             if (value is string)
                 return StringPrimitiveType.Instance;
             if (value is DateTime)
@@ -93,6 +95,40 @@ namespace Easy.RuleEngine.Scripting.Compiler
         {
             if (value.IsInt32 && other.IsInt32)
                 return Result(value.Int32Value.CompareTo(other.Int32Value));
+            return Error("Integer values can only be compared to other integer values");
+        }
+
+        public override EvaluationResult LogicalAnd(EvaluationResult value, EvaluationResult other)
+        {
+            return other;
+        }
+
+        public override EvaluationResult LogicalOr(EvaluationResult value, EvaluationResult other)
+        {
+            return value;
+        }
+    }
+
+    public class MoneyPrimitiveType : PrimitiveType
+    {
+        private static MoneyPrimitiveType _instance;
+
+        public static MoneyPrimitiveType Instance
+        {
+            get { return _instance ?? (_instance = new MoneyPrimitiveType()); }
+        }
+
+        public override EvaluationResult EqualityOperator(EvaluationResult value, EvaluationResult other)
+        {
+            if (value.IsMoney && other.IsMoney)
+                return Result(value.IsMoney == other.IsMoney);
+            return Error("Money values can only be compared to other money values");
+        }
+
+        public override EvaluationResult ComparisonOperator(EvaluationResult value, EvaluationResult other)
+        {
+            if (value.IsMoney && other.IsMoney)
+                return Result(value.MoneyValue.CompareTo(other.MoneyValue));
             return Error("Integer values can only be compared to other integer values");
         }
 

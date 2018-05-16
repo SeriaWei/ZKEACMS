@@ -20,10 +20,8 @@ namespace EasyFrameWork.Test
             serviceCollection.AddTransient<IRuleProvider, CommonMethodsRuleProvider>();
             serviceCollection.AddTransient<IRuleProvider, ValueOfRuleProvider>();
             serviceCollection.AddTransient<IRuleProvider, DateRuleProvider>();
+            serviceCollection.AddTransient<IRuleProvider, MoneyRuleProvider>();
             serviceCollection.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
-
-
-
             ServiceProvider = serviceCollection.BuildServiceProvider();
         }
         [TestMethod]
@@ -44,6 +42,11 @@ namespace EasyFrameWork.Test
             Assert.IsTrue(ruleManger.IsTrue("IsBlank('')"));
             Assert.IsTrue(ruleManger.IsTrue("IsNotBlank('3')"));
             Assert.IsTrue(ruleManger.IsTrue("3>1"));
+            Assert.IsTrue(ruleManger.IsTrue("3.1>1.0 and 2>1"));
+            Assert.IsTrue(ruleManger.IsTrue("3.1>1.0 or 2<1"));
+            Assert.IsTrue(ruleManger.IsTrue("3.1>1.0 && 2>1"));
+            Assert.IsTrue(ruleManger.IsTrue("3.1>1.0 || 2<1"));
+            Assert.IsTrue(ruleManger.IsTrue("Money('3.1')>1.0 || 2<1"));
         }
         [TestMethod]
         public void TestValueOf()

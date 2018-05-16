@@ -186,6 +186,7 @@ namespace Easy.RuleEngine.Scripting.Compiler
                 case TokenKind.SingleQuotedStringLiteral:
                 case TokenKind.StringLiteral:
                 case TokenKind.Integer:
+                case TokenKind.Money:
                 case TokenKind.SquareBrackets:
                     return ProduceConstant(token);
                 case TokenKind.OpenParen:

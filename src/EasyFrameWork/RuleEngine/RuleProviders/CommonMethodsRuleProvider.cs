@@ -18,12 +18,6 @@ namespace Easy.RuleEngine.RuleProviders
         const string IsNotBlank = "IsNotBlank";
         const string In = "In";
 
-        const string GreaterThan = "GreaterThan";
-        const string LessThan = "LessThan";
-        const string GreaterThanAndEquals = "GreaterThanAndEquals";
-        const string LessThanAndEquals = "LessThanAndEquals";
-
-
         public virtual void Process(RuleContext ruleContext, object workContext)
         {
             switch (ruleContext.FunctionName)
@@ -114,23 +108,6 @@ namespace Easy.RuleEngine.RuleProviders
                 case IsNotBlank:
                     {
                         ruleContext.Result = !string.IsNullOrWhiteSpace(ruleContext.Arguments[0].ToString());
-                        break;
-                    }
-                case GreaterThan:
-                    {
-                        //ruleContext.Result = ruleContext.Arguments[0] > ruleContext.Arguments[1];
-                        break;
-                    }
-                case LessThan:
-                    {
-                        break;
-                    }
-                case GreaterThanAndEquals:
-                    {
-                        break;
-                    }
-                case LessThanAndEquals:
-                    {
                         break;
                     }
             }
