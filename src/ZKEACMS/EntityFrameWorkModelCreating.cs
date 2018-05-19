@@ -42,6 +42,7 @@ namespace ZKEACMS
             modelBuilder.Entity<ScriptWidget>();
             modelBuilder.Entity<StyleSheetWidget>();
             modelBuilder.Entity<VideoWidget>();
+            modelBuilder.Entity<Rule.Rule>();
         }
     }
 }

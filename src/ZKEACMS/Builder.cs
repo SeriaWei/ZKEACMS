@@ -89,6 +89,7 @@ namespace ZKEACMS
             services.TryAddTransient<IWidgetTemplateService, WidgetTemplateService>();
             services.TryAddTransient<IWidgetBasePartService, WidgetBasePartService>();
             services.TryAddTransient<IZoneService, ZoneService>();
+            services.TryAddTransient<Rule.IRuleService, Rule.RuleService>();
 
             services.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
 
@@ -124,6 +125,8 @@ namespace ZKEACMS
             services.ConfigureMetaData<ApplicationSetting, ApplicationSettingMedaData>();
             services.ConfigureMetaData<ThemeEntity, ThemeEntityMetaData>();
             services.ConfigureMetaData<ZoneEntity, ZoneEntityMetaData>();
+            services.ConfigureMetaData<Rule.Rule, Rule.RuleMetaData>();
+            services.ConfigureMetaData<Rule.RuleItem, Rule.RuleItemMetaData>();
 
             services.Configure<NavigationWidget>(option =>
             {

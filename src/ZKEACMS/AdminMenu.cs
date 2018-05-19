@@ -58,10 +58,18 @@ namespace ZKEACMS
             },
             new AdminMenu
             {
+                Title = "全局组件",
+                Icon = "glyphicon-eye-open",
+                Url = "~/admin/Rule",
+                Order = 3,
+                PermissionKey = PermissionKeys.ViewPage
+            },
+            new AdminMenu
+            {
                 Title = "导航",
                 Icon = "glyphicon-retweet",
                 Url = "~/admin/Navigation",
-                Order = 3,
+                Order = 4,
                 PermissionKey = PermissionKeys.ViewNavigation
             },
             new AdminMenu
@@ -69,7 +77,7 @@ namespace ZKEACMS
                 Title = "主题",
                 Icon = "glyphicon-blackboard",
                 Url = "~/admin/Theme",
-                Order = 4,
+                Order = 5,
                 PermissionKey = PermissionKeys.ViewTheme
             },
             new AdminMenu
@@ -77,7 +85,7 @@ namespace ZKEACMS
                 Title = "媒体库",
                 Icon = "glyphicon-picture",
                 Url = "~/admin/Media",
-                Order = 5,
+                Order = 6,
                 PermissionKey = PermissionKeys.ViewMedia
             },
             new AdminMenu
@@ -85,7 +93,7 @@ namespace ZKEACMS
                 Title = "焦点图",
                 Icon = "glyphicon-eye-open",
                 Url = "~/admin/Carousel",
-                Order = 6,
+                Order = 7,
                 PermissionKey = PermissionKeys.ViewCarousel
             },
             new AdminMenu
