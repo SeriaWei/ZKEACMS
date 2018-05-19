@@ -79,7 +79,8 @@
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
-    min-height: 200px;
+    min-height: 150px;
+    max-height: 700px;
 }
 
 .owl-carousel .slider-inner {
