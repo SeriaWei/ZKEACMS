@@ -30,7 +30,9 @@ namespace ZKEACMS.Rule
             ViewConfig(m => m.RuleID).AsHidden();
             ViewConfig(m => m.RuleExpression).AsHidden();
             ViewConfig(m => m.RuleItems).AsHidden();
-            ViewConfig(m => m.RuleItemList).AsListEditor();
+            ViewConfig(m => m.Title).AsTextBox().Order(1).Required();
+            ViewConfig(m => m.ZoneName).AsTextBox().Order(2).Required();
+            ViewConfig(m => m.RuleItemList).AsListEditor().Order(3);
         }
     }
 }
