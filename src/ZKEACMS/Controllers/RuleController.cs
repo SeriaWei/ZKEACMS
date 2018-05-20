@@ -11,16 +11,22 @@ using ZKEACMS.Setting;
 using System.Linq;
 using Easy.RepositoryPattern;
 using ZKEACMS.Rule;
+using ZKEACMS.Widget;
 
 namespace ZKEACMS.Controllers
 {
     [DefaultAuthorize(Policy = PermissionKeys.ViewPage)]
     public class RuleController : BasicController<Rule.Rule, int, IRuleService>
     {
-        public RuleController(IRuleService service)
+        private readonly IWidgetBasePartService _widgetBasePartService;
+        public RuleController(IRuleService service, IWidgetBasePartService widgetBasePartService)
             : base(service)
         {
-
+            _widgetBasePartService = widgetBasePartService;
+        }
+        public override IActionResult Index()
+        {
+            return View(Service.Get().ToList());
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Create()
@@ -46,6 +52,12 @@ namespace ZKEACMS.Controllers
         public override IActionResult Delete(int id)
         {
             return base.Delete(id);
+        }
+        [HttpPost]
+        public IActionResult RuleWidgets(int Id)
+        {
+            ViewBag.RuleID = Id;
+            return PartialView("RuleWidgets", _widgetBasePartService.Get(m => m.RuleID == Id));
         }
     }
 }

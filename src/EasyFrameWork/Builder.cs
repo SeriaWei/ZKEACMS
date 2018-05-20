@@ -28,6 +28,9 @@ using System.Collections.Generic;
 using Easy.Modules.User.Models;
 using Easy.MetaData;
 using Microsoft.AspNetCore.Http;
+using Easy.RuleEngine;
+using Easy.RuleEngine.RuleProviders;
+using Easy.RuleEngine.Scripting;
 
 namespace Easy
 {
@@ -59,6 +62,13 @@ namespace Easy
             services.AddTransient<INotifyService, EmailNotifyService>();
             services.AddTransient<INotifyService, RazorEmailNotifyService>();
             services.AddTransient<IPluginLoader, Loader>();
+            services.AddTransient<IRuleManager, RuleManager>();
+            services.AddTransient<IRuleProvider, CommonMethodsRuleProvider>();
+            services.AddTransient<IRuleProvider, ValueOfRuleProvider>();
+            services.AddTransient<IRuleProvider, DateRuleProvider>();
+            services.AddTransient<IRuleProvider, MoneyRuleProvider>();
+            services.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
+
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
             services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
 

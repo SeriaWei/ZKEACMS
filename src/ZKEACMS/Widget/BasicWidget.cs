@@ -51,6 +51,11 @@ namespace ZKEACMS.Widget
             get; set;
         }
         [NotMapped]
+        public override int? RuleID
+        {
+            get; set;
+        }
+        [NotMapped]
         public override string PartialView
         {
             get; set;

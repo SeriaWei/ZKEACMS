@@ -58,8 +58,8 @@ namespace ZKEACMS
             },
             new AdminMenu
             {
-                Title = "全局组件",
-                Icon = "glyphicon-eye-open",
+                Title = "全局内容",
+                Icon = "glyphicon-cloud",
                 Url = "~/admin/Rule",
                 Order = 3,
                 PermissionKey = PermissionKeys.ViewPage

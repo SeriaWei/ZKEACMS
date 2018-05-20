@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Easy;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 
 namespace ZKEACMS.Widget
 {
@@ -28,6 +29,10 @@ namespace ZKEACMS.Widget
                     else if (!widget.LayoutID.IsNullOrEmpty())
                     {
                         (filterContext.Controller as Controller).ViewData[ViewDataKeys.Zones] = new SelectList(zoneService.GetZonesByLayoutId(widget.LayoutID), "HeadingCode", "ZoneName");
+                    }
+                    else
+                    {
+                        (filterContext.Controller as Controller).ViewData[ViewDataKeys.Zones] = new SelectList(new List<ZoneEntity> { new ZoneEntity { HeadingCode = "ZONE-X", ZoneName = "¶¯Ì¬" } }, "HeadingCode", "ZoneName");
                     }
                 }
             }

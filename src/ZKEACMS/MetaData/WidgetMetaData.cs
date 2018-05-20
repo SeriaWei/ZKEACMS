@@ -32,6 +32,7 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.PartialView).AsHidden();
             ViewConfig(m => m.LayoutID).AsHidden();
             ViewConfig(m => m.PageID).AsHidden();
+            ViewConfig(m => m.RuleID).AsHidden();
             ViewConfig(m => m.ExtendData).AsHidden();
             ViewConfig(m => m.Status).AsHidden();
             ViewConfig(m => m.Description).AsHidden();

@@ -3,15 +3,18 @@
  * http://www.zkea.net/licenses */
 
 using Easy.Extend;
+using Easy.RuleEngine;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using System;
+using System.Linq;
 using ZKEACMS.Event;
 using ZKEACMS.Layout;
 using ZKEACMS.Page;
+using ZKEACMS.Rule;
 using ZKEACMS.Setting;
 using ZKEACMS.Theme;
 using ZKEACMS.Widget;
@@ -87,6 +90,9 @@ namespace ZKEACMS.Filter
                 var applicationSettingService = requestServices.GetService<IApplicationSettingService>();
                 var themeService = requestServices.GetService<IThemeService>();
                 var widgetActivator = requestServices.GetService<IWidgetActivator>();
+                var ruleService = requestServices.GetService<IRuleService>();
+                var ruleManager = requestServices.GetService<IRuleManager>();
+
                 LayoutEntity layout = layoutService.Get(page.LayoutId);
                 layout.Page = page;
                 page.Favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
@@ -120,6 +126,37 @@ namespace ZKEACMS.Filter
                             partDriver.Dispose();
                         }
                     });
+                var ruleWorkContext = new RuleWorkContext { Url = filterContext.RouteData.GetPath() };
+                var rules = ruleService.Get(m => m.Status == (int)Easy.Constant.RecordStatus.Active).Where(rule => ruleManager.IsTrue(rule.RuleExpression, ruleWorkContext)).ToList();
+                var rulesID = rules.Select(m => m.RuleID).ToList();
+                if (rules.Any())
+                {
+                    widgetService.Get(m => rulesID.Contains(m.RuleID.Value)).Each(widget =>
+                    {
+                        if (widget != null)
+                        {
+                            IWidgetPartDriver partDriver = widgetActivator.Create(widget);
+                            WidgetViewModelPart part = partDriver.Display(partDriver.GetWidget(widget), filterContext);
+                            var zone = layout.Zones.FirstOrDefault(z => z.ZoneName == rules.First(m => m.RuleID == widget.RuleID).ZoneName);
+                            if (part != null&& zone!=null)
+                            {
+                                lock (layout.ZoneWidgets)
+                                {
+                                    part.Widget.ZoneID = zone.HeadingCode;
+                                    if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
+                                    {
+                                        layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
+                                    }
+                                    else
+                                    {
+                                        layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
+                                    }
+                                }
+                            }
+                            partDriver.Dispose();
+                        }
+                    });
+                }
                 var viewResult = (filterContext.Result as ViewResult);
                 if (viewResult != null)
                 {
