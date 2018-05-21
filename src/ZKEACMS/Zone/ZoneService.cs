@@ -15,18 +15,15 @@ namespace ZKEACMS.Zone
     public class ZoneService : ServiceBase<ZoneEntity>, IZoneService
     {
         private readonly IServiceProvider _serviceProvder;
-        public ZoneService(IPageService pageService, IApplicationContext applicationContext, IServiceProvider serviceProvder, CMSDbContext dbContext)
+        public ZoneService(IApplicationContext applicationContext, IServiceProvider serviceProvder, CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
-            PageService = pageService;
             _serviceProvder = serviceProvder;
         }
         public override IQueryable<ZoneEntity> Get()
         {
             return CurrentDbSet.AsNoTracking();
         }
-        public IPageService PageService { get; set; }
-
 
         public override ServiceResult<ZoneEntity> Add(ZoneEntity item)
         {
@@ -39,20 +36,26 @@ namespace ZKEACMS.Zone
             }
             return base.Add(item);
         }
-        public IEnumerable<ZoneEntity> GetZonesByPageId(string pageId)
+        public IEnumerable<ZoneEntity> GetZonesByPage(PageEntity page)
         {
-            var page = PageService.Get(pageId);
-            using (var layoutService = _serviceProvder.GetService<ILayoutService>())
+            IEnumerable<ZoneEntity> zones = Get().Where(m => m.PageId == page.ID).OrderBy(m => m.ID).ToList();
+            if (!zones.Any())
             {
-                var layout = layoutService.Get(page.LayoutId);
-                return CurrentDbSet.Where(m => m.LayoutId == layout.ID).OrderBy(m => m.ID).ToList();
+                zones = GetZonesByLayoutId(page.LayoutId);
+                if (ApplicationContext.IsAuthenticated)
+                {
+                    foreach (var item in zones)
+                    {
+                        item.PageId = page.ID;
+                        Add(item);
+                    }
+                }
             }
-
-
+            return zones;
         }
         public IEnumerable<ZoneEntity> GetZonesByLayoutId(string layoutId)
         {
-            return CurrentDbSet.Where(m => m.LayoutId == layoutId).OrderBy(m => m.ID);
+            return Get().Where(m => m.LayoutId == layoutId && m.PageId == null).OrderBy(m => m.ID).ToList();
         }
     }
 }

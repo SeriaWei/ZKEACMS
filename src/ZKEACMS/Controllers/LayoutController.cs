@@ -87,13 +87,15 @@ namespace ZKEACMS.Controllers
         public IActionResult Design(string ID, string PageID)
         {
             LayoutEntity layout = null;
-            if (ID.IsNotNullAndWhiteSpace())
-            {
-                layout = Service.Get(ID);
-            }
             if (PageID.IsNotNullAndWhiteSpace())
             {
-                layout.Page = new PageEntity { ID = PageID };
+                var page = _pageService.Get(PageID);
+                layout = Service.GetByPage(page);
+                layout.Page = page;
+            }
+            else if (ID.IsNotNullAndWhiteSpace())
+            {
+                layout = Service.Get(ID);
             }
             return View(layout ?? new LayoutEntity());
         }

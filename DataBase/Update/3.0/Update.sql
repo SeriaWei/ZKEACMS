@@ -21,18 +21,28 @@ GO
 ALTER TABLE dbo.CMS_WidgetBase ADD RuleID int
 GO
 
-insert into DataDictionary(DicName,Title,DicValue,[Order],Pid,IsSystem,[Status])
-select N'RuleItem@Condition',N'并且',N'and',1,0,1,0 union all
-select N'RuleItem@Condition',N'或者',N'or',2,0,1,0 union all
+INSERT INTO DataDictionary(DicName,Title,DicValue,[Order],Pid,IsSystem,[Status])
+SELECT N'RuleItem@Condition',N'并且',N'and',1,0,1,0 UNION ALL
+SELECT N'RuleItem@Condition',N'或者',N'or',2,0,1,0 UNION ALL
 
-select N'RuleItem@FunctionName',N'等于',N'Equals',1,0,1,0 union all
-select N'RuleItem@FunctionName',N'不等于',N'NotEquals',2,0,1,0 union all
-select N'RuleItem@FunctionName',N'以…开头',N'StartsWith',3,0,1,0 union all
-select N'RuleItem@FunctionName',N'以...结尾',N'EndsWith',4,0,1,0 union all
-select N'RuleItem@FunctionName',N'包含',N'Contains',5,0,1,0 union all
-select N'RuleItem@FunctionName',N'不以…开头',N'NotStartsWith',6,0,1,0 union all
-select N'RuleItem@FunctionName',N'不以...结尾',N'NotEndsWith',7,0,1,0 union all
-select N'RuleItem@FunctionName',N'不包含',N'NotContains',8,0,1,0 union all
+SELECT N'RuleItem@FunctionName',N'等于',N'Equals',1,0,1,0 UNION ALL
+SELECT N'RuleItem@FunctionName',N'不等于',N'NotEquals',2,0,1,0 UNION ALL
+SELECT N'RuleItem@FunctionName',N'以…开头',N'StartsWith',3,0,1,0 UNION ALL
+SELECT N'RuleItem@FunctionName',N'以...结尾',N'EndsWith',4,0,1,0 UNION ALL
+SELECT N'RuleItem@FunctionName',N'包含',N'Contains',5,0,1,0 UNION ALL
+SELECT N'RuleItem@FunctionName',N'不以…开头',N'NotStartsWith',6,0,1,0 UNION ALL
+SELECT N'RuleItem@FunctionName',N'不以...结尾',N'NotEndsWith',7,0,1,0 UNION ALL
+SELECT N'RuleItem@FunctionName',N'不包含',N'NotContains',8,0,1,0 UNION ALL
 
-select N'RuleItem@Property',N'Url',N'ValueOf(''Url'')',8,0,1,0 union all
-select N'RuleItem@Property',N'页面标题',N'ValueOf(''Title'')',8,0,1,0
+SELECT N'RuleItem@Property',N'Url',N'ValueOf(''Url'')',1,0,1,0 UNION ALL
+SELECT N'RuleItem@Property',N'Url参数',N'ValueOf(''QueryString'')',2,0,1,0 UNION ALL
+SELECT N'RuleItem@Property',N'User-Agent',N'ValueOf(''UserAgent'')',3,0,1,0 UNION ALL
+SELECT N'RuleItem@Property',N'当前日期',N'ValueOf(''Now'')',4,0,1,0
+
+
+GO
+
+ALTER TABLE dbo.CMS_LayoutHtml ADD PageId NVARCHAR(100)
+ALTER TABLE dbo.CMS_Zone ADD PageId NVARCHAR(100)
+
+GO

@@ -15,6 +15,8 @@ using ZKEACMS.DataArchived;
 using ZKEACMS.ExtendField;
 using ZKEACMS.Widget;
 using Microsoft.EntityFrameworkCore;
+using ZKEACMS.Zone;
+using ZKEACMS.Layout;
 
 namespace ZKEACMS.Page
 {
@@ -22,13 +24,22 @@ namespace ZKEACMS.Page
     {
         private readonly IWidgetBasePartService _widgetService;
         private readonly IWidgetActivator _widgetActivator;
+        private readonly IZoneService _zoneService;
+        private readonly ILayoutHtmlService _layoutHtmlService;
 
 
-        public PageService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, IWidgetActivator widgetActivator, CMSDbContext dbContext)
+        public PageService(IWidgetBasePartService widgetService,
+            IApplicationContext applicationContext,
+            IWidgetActivator widgetActivator,
+            IZoneService zoneService,
+            ILayoutHtmlService layoutHtmlService,
+            CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _widgetService = widgetService;
             _widgetActivator = widgetActivator;
+            _zoneService = zoneService;
+            _layoutHtmlService = layoutHtmlService;
         }
 
         public override ServiceResult<PageEntity> Add(PageEntity item)
@@ -59,12 +70,12 @@ namespace ZKEACMS.Page
         {
             BeginTransaction(() =>
             {
-                item = Get(item.ID);
                 item.IsPublish = true;
                 item.PublishDate = DateTime.Now;
                 base.Update(item);
 
-                //Remove(m => m.ReferencePageID == item.ID && m.IsPublishedPage == true);
+                var zones = _zoneService.GetZonesByPage(item);
+                var layoutHtmls = _layoutHtmlService.GetByPage(item);
 
                 _widgetService.RemoveCache(item.ID);
 
@@ -74,6 +85,16 @@ namespace ZKEACMS.Page
 
                 var widgets = _widgetService.GetByPageId(item.ID);
                 Add(item);
+                zones.Each(m =>
+                {
+                    m.PageId = item.ID;
+                    _zoneService.Add(m);
+                });
+                layoutHtmls.Each(m =>
+                {
+                    m.PageId = item.ID;
+                    _layoutHtmlService.Add(m);
+                });
                 widgets.Each(m =>
                 {
                     using (var widgetService = _widgetActivator.Create(m))
@@ -111,6 +132,18 @@ namespace ZKEACMS.Page
                     _widgetService.RemoveCache(page.ReferencePageID);
                     if (!RetainLatest)
                     {//清空当前的所有修改
+
+                        _layoutHtmlService.Remove(m => m.PageId == page.ReferencePageID);
+                        _zoneService.Remove(m => m.PageId == page.ReferencePageID);
+                        _layoutHtmlService.GetByPage(page).Each(m =>
+                        {
+                            _layoutHtmlService.Add(new LayoutHtml { LayoutId = m.LayoutId, Html = m.Html, PageId = page.ReferencePageID });
+                        });
+                        _zoneService.GetZonesByPage(page).Each(m =>
+                        {
+                            m.PageId = page.ReferencePageID;
+                            _zoneService.Add(m);
+                        });
                         _widgetService.GetByPageId(page.ReferencePageID).Each(m =>
                         {
                             var widgetService = _widgetActivator.Create(m);
@@ -161,6 +194,9 @@ namespace ZKEACMS.Page
                             widgetService.DeleteWidget(m.ID);
                         }
                     });
+
+                    _layoutHtmlService.Remove(m => allPageIds.Contains(m.PageId));
+                    _zoneService.Remove(m => allPageIds.Contains(m.PageId));
 
                     allPages.Each(p => _widgetService.RemoveCache(p.ID));
 

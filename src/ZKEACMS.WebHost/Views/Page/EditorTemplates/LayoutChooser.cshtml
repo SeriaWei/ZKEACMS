@@ -1,7 +1,16 @@
 ﻿@model String
 @{
+    var page = ViewBag.Page as PageEntity;
     var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
-    var layouts = layoutService.GetWithFull();
+    IList<LayoutEntity> layouts = null;
+    if (page == null)
+    {
+        layouts = layoutService.GetWithFull();
+    }
+    else
+    {
+        layouts = new List<LayoutEntity> { layoutService.GetByPage(page) };
+    }
 }
 @inject ILayoutService layoutService
 

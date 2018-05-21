@@ -89,6 +89,20 @@ namespace ZKEACMS.Widget
             }
             return getPageWidgets(page).Where(m => m != null);
         }
+        public IEnumerable<WidgetBase> GetAllByRule(int[] roleId, bool formCache = false)
+        {
+            Func<int[], List<WidgetBase>> getWidgets = p =>
+            {
+                var result = Get(m => p.Contains(m.RuleID.Value));
+                return result.Select(widget => _widgetActivator.Create(widget)?.GetWidget(widget)).ToList();
+            };
+            //if (formCache)
+            //{
+            //    return PageWidgetCacheManage.GetOrAdd(string.Join("-", roleId), _httpContextAccessor.HttpContext.Request.Host.Value, (key, region) => getWidgets(roleId));
+            //}
+            return getWidgets(roleId);
+        }
+
         public override ServiceResult<WidgetBasePart> Add(WidgetBasePart item)
         {
             var result = base.Add(item);
@@ -157,5 +171,7 @@ namespace ZKEACMS.Widget
         {
             PageWidgetCacheManage.Remove(pageId, _httpContextAccessor.HttpContext.Request.Host.Value);
         }
+
+
     }
 }

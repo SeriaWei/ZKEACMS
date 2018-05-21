@@ -93,7 +93,7 @@ namespace ZKEACMS.Filter
                 var ruleService = requestServices.GetService<IRuleService>();
                 var ruleManager = requestServices.GetService<IRuleManager>();
 
-                LayoutEntity layout = layoutService.Get(page.LayoutId);
+                LayoutEntity layout = layoutService.GetByPage(page);
                 layout.Page = page;
                 page.Favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
                 if (filterContext.HttpContext.User.Identity.IsAuthenticated && page.IsPublishedPage)
@@ -126,19 +126,24 @@ namespace ZKEACMS.Filter
                             partDriver.Dispose();
                         }
                     });
-                var ruleWorkContext = new RuleWorkContext { Url = filterContext.RouteData.GetPath() };
+                var ruleWorkContext = new RuleWorkContext
+                {
+                    Url = filterContext.RouteData.GetPath(),
+                    QueryString = filterContext.HttpContext.Request.QueryString.ToString(),
+                    UserAgent = filterContext.HttpContext.Request.Headers["User-Agent"]
+                };
                 var rules = ruleService.Get(m => m.Status == (int)Easy.Constant.RecordStatus.Active).Where(rule => ruleManager.IsTrue(rule.RuleExpression, ruleWorkContext)).ToList();
-                var rulesID = rules.Select(m => m.RuleID).ToList();
+                var rulesID = rules.Select(m => m.RuleID).ToArray();
                 if (rules.Any())
                 {
-                    widgetService.Get(m => rulesID.Contains(m.RuleID.Value)).Each(widget =>
+                    widgetService.GetAllByRule(rulesID, !IsPreView(filterContext)).Each(widget =>
                     {
                         if (widget != null)
                         {
                             IWidgetPartDriver partDriver = widgetActivator.Create(widget);
-                            WidgetViewModelPart part = partDriver.Display(partDriver.GetWidget(widget), filterContext);
+                            WidgetViewModelPart part = partDriver.Display(widget, filterContext);
                             var zone = layout.Zones.FirstOrDefault(z => z.ZoneName == rules.First(m => m.RuleID == widget.RuleID).ZoneName);
-                            if (part != null&& zone!=null)
+                            if (part != null && zone != null)
                             {
                                 lock (layout.ZoneWidgets)
                                 {

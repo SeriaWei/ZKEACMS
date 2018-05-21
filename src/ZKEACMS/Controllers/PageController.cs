@@ -116,6 +116,7 @@ namespace ZKEACMS.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.OldVersions = Service.Get(m => m.ReferencePageID == page.ID && m.IsPublishedPage == true).OrderBy(m => m.PublishDate);
+            ViewBag.Page = page;
             return View(page);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
@@ -123,6 +124,7 @@ namespace ZKEACMS.Controllers
         {
             try
             {
+                ViewBag.Page = entity;
                 Service.Update(entity);
             }
             catch (PageExistException ex)
@@ -208,7 +210,7 @@ namespace ZKEACMS.Controllers
                 Layout = layout,
                 PageID = context.PageID,
                 LayoutID = layout.ID,
-                Zones = _zoneService.GetZonesByPageId(context.PageID),
+                Zones = _zoneService.GetZonesByPage(page),
                 Widgets = _widgetService.GetAllByPage(Service.Get(context.PageID)),
                 LayoutHtml = layout.Html
             };

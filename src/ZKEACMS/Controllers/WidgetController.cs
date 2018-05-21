@@ -72,7 +72,7 @@ namespace ZKEACMS.Controllers
             {
                 widget.Position = _widgetService.GetAllByPage(_pageService.Get(context.PageID)).Count(m => m.ZoneID == context.ZoneID) + 1;
             }
-            else
+            else if(context.LayoutID.IsNotNullAndWhiteSpace())
             {
                 widget.Position = _widgetService.GetByLayoutId(context.LayoutID).Count(m => m.ZoneID == context.ZoneID) + 1;
             }

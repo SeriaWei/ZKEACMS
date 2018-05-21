@@ -30,7 +30,7 @@ namespace Easy.RuleEngine.RuleProviders
                     {
                         if (ruleContext.Arguments.Length == 2)
                         {
-                            ruleContext.Result = ruleContext.Arguments[0].Equals(ruleContext.Arguments[1]);
+                            ruleContext.Result = ruleContext.Arguments[0] != null && ruleContext.Arguments[0].Equals(ruleContext.Arguments[1]);
                         }
                         break;
                     }
@@ -38,7 +38,7 @@ namespace Easy.RuleEngine.RuleProviders
                     {
                         if (ruleContext.Arguments.Length == 2)
                         {
-                            ruleContext.Result = !ruleContext.Arguments[0].Equals(ruleContext.Arguments[1]);
+                            ruleContext.Result = ruleContext.Arguments[0] != null && !ruleContext.Arguments[0].Equals(ruleContext.Arguments[1]);
                         }
                         break;
                     }
@@ -46,21 +46,21 @@ namespace Easy.RuleEngine.RuleProviders
                     {
                         if (ruleContext.Arguments.Length == 2)
                         {
-                            ruleContext.Result = ruleContext.Arguments[0].ToString().StartsWith(ruleContext.Arguments[1].ToString());
+                            ruleContext.Result = ruleContext.Arguments[0] != null && ruleContext.Arguments[0].ToString().StartsWith(ruleContext.Arguments[1].ToString());
                         }
                         break;
                     }
                 case NotStartsWith:
                     if (ruleContext.Arguments.Length == 2)
                     {
-                        ruleContext.Result = !ruleContext.Arguments[0].ToString().StartsWith(ruleContext.Arguments[1].ToString());
+                        ruleContext.Result = ruleContext.Arguments[0] != null && !ruleContext.Arguments[0].ToString().StartsWith(ruleContext.Arguments[1].ToString());
                     }
                     break;
                 case EndsWith:
                     {
                         if (ruleContext.Arguments.Length == 2)
                         {
-                            ruleContext.Result = ruleContext.Arguments[0].ToString().EndsWith(ruleContext.Arguments[1].ToString());
+                            ruleContext.Result = ruleContext.Arguments[0] != null && ruleContext.Arguments[0].ToString().EndsWith(ruleContext.Arguments[1].ToString());
                         }
                         break;
                     }
@@ -68,7 +68,7 @@ namespace Easy.RuleEngine.RuleProviders
                     {
                         if (ruleContext.Arguments.Length == 2)
                         {
-                            ruleContext.Result = !ruleContext.Arguments[0].ToString().EndsWith(ruleContext.Arguments[1].ToString());
+                            ruleContext.Result = ruleContext.Arguments[0] != null && !ruleContext.Arguments[0].ToString().EndsWith(ruleContext.Arguments[1].ToString());
                         }
                         break;
                     }
@@ -76,7 +76,7 @@ namespace Easy.RuleEngine.RuleProviders
                     {
                         if (ruleContext.Arguments.Length == 2)
                         {
-                            ruleContext.Result = ruleContext.Arguments[0].ToString().Contains(ruleContext.Arguments[1].ToString());
+                            ruleContext.Result = ruleContext.Arguments[0] != null && ruleContext.Arguments[0].ToString().Contains(ruleContext.Arguments[1].ToString());
                         }
                         break;
                     }
@@ -84,7 +84,7 @@ namespace Easy.RuleEngine.RuleProviders
                     {
                         if (ruleContext.Arguments.Length == 2)
                         {
-                            ruleContext.Result = !ruleContext.Arguments[0].ToString().Contains(ruleContext.Arguments[1].ToString());
+                            ruleContext.Result = ruleContext.Arguments[0] != null && !ruleContext.Arguments[0].ToString().Contains(ruleContext.Arguments[1].ToString());
                         }
                         break;
                     }
@@ -106,12 +106,12 @@ namespace Easy.RuleEngine.RuleProviders
                     }
                 case IsBlank:
                     {
-                        ruleContext.Result = string.IsNullOrWhiteSpace(ruleContext.Arguments[0].ToString());
+                        ruleContext.Result = ruleContext.Arguments[0] == null || string.IsNullOrWhiteSpace(ruleContext.Arguments[0].ToString());
                         break;
                     }
                 case IsNotBlank:
                     {
-                        ruleContext.Result = !string.IsNullOrWhiteSpace(ruleContext.Arguments[0].ToString());
+                        ruleContext.Result = ruleContext.Arguments[0] != null && !string.IsNullOrWhiteSpace(ruleContext.Arguments[0].ToString());
                         break;
                     }
             }

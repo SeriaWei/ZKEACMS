@@ -28,7 +28,6 @@ namespace ZKEACMS
             modelBuilder.Entity<CarouselItemEntity>();
             modelBuilder.Entity<CarouselWidget>();
             modelBuilder.Entity<LayoutEntity>();
-            modelBuilder.Entity<LayoutHtml>();
             modelBuilder.Entity<MediaEntity>();
             modelBuilder.Entity<PageEntity>();
             modelBuilder.Entity<ThemeEntity>();

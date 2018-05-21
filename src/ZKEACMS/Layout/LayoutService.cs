@@ -79,41 +79,78 @@ namespace ZKEACMS.Layout
 
         public void UpdateDesign(LayoutEntity item)
         {
-            CurrentDbSet.Attach(item);
-            DbContext.Entry(item).Property(m => m.ContainerClass).IsModified = true;
-            DbContext.SaveChanges();
-
-            if (item.Zones != null)
+            if (item.Page != null && item.Page.ID.IsNotNullAndWhiteSpace())
             {
-                var zones = ZoneService.Get(m => m.LayoutId == item.ID);
+                if (item.Zones != null)
+                {
+                    var zones = ZoneService.GetZonesByPage(new PageEntity { ID = item.Page.ID, LayoutId = item.ID });
 
-                item.Zones.Where(m => zones.All(n => n.ID != m.ID)).Each(m =>
-                {
-                    m.LayoutId = item.ID;
-                    ZoneService.Add(m);
-                });
-                zones.Each(m =>
-                {
-                    var changeZone = item.Zones.FirstOrDefault(z => z.ID == m.ID);
-                    if (changeZone != null)
+                    item.Zones.Where(m => zones.All(n => n.ID != m.ID)).Each(m =>
                     {
                         m.LayoutId = item.ID;
-                        m.Title = changeZone.Title;
-                        m.ZoneName = changeZone.ZoneName;
-                        ZoneService.Update(m);
-                    }
-                });
-                zones.Where(m => item.Zones.All(n => n.ID != m.ID)).Each(m => ZoneService.Remove(m.ID));
-            }
-            if (item.Html != null)
-            {
-                LayoutHtmlService.Remove(m => m.LayoutId == item.ID);
-                item.Html.Each(m =>
+                        m.PageId = item.Page.ID;
+                        ZoneService.Add(m);
+                    });
+                    zones.Each(m =>
+                    {
+                        var changeZone = item.Zones.FirstOrDefault(z => z.ID == m.ID);
+                        if (changeZone != null)
+                        {
+                            m.LayoutId = item.ID;
+                            m.PageId = item.Page.ID;
+                            m.Title = changeZone.Title;
+                            m.ZoneName = changeZone.ZoneName;
+                            ZoneService.Update(m);
+                        }
+                    });
+                    zones.Where(m => item.Zones.All(n => n.ID != m.ID)).Each(m => ZoneService.Remove(m.ID));
+                }
+                if (item.Html != null)
                 {
-                    m.LayoutId = item.ID;
-                    LayoutHtmlService.Add(m);
-                });
+                    LayoutHtmlService.Remove(m => m.PageId == item.Page.ID);
+                    item.Html.Each(m =>
+                    {
+                        m.LayoutId = item.ID;
+                        m.PageId = item.Page.ID;
+                        LayoutHtmlService.Add(m);
+                    });
+                }
             }
+            else
+            {
+                if (item.Zones != null)
+                {
+                    var zones = ZoneService.Get(m => m.LayoutId == item.ID);
+
+                    item.Zones.Where(m => zones.All(n => n.ID != m.ID)).Each(m =>
+                    {
+                        m.LayoutId = item.ID;
+                        ZoneService.Add(m);
+                    });
+                    zones.Each(m =>
+                    {
+                        var changeZone = item.Zones.FirstOrDefault(z => z.ID == m.ID);
+                        if (changeZone != null)
+                        {
+                            m.LayoutId = item.ID;
+                            m.Title = changeZone.Title;
+                            m.ZoneName = changeZone.ZoneName;
+                            ZoneService.Update(m);
+                        }
+                    });
+                    zones.Where(m => item.Zones.All(n => n.ID != m.ID)).Each(m => ZoneService.Remove(m.ID));
+                }
+                if (item.Html != null)
+                {
+                    LayoutHtmlService.Remove(m => m.LayoutId == item.ID);
+                    item.Html.Each(m =>
+                    {
+                        m.LayoutId = item.ID;
+                        LayoutHtmlService.Add(m);
+                    });
+                }
+            }
+
 
         }
         public override ServiceResult<LayoutEntity> Update(LayoutEntity item)
@@ -145,6 +182,19 @@ namespace ZKEACMS.Layout
             //});
             //return layout;
         }
+        public LayoutEntity GetByPage(PageEntity page)
+        {
+            LayoutEntity entity = base.Get(page.LayoutId);
+            if (entity == null)
+                return null;
+            IEnumerable<ZoneEntity> zones = ZoneService.GetZonesByPage(page);
+            entity.Zones = new ZoneCollection();
+            zones.Each(entity.Zones.Add);
+            IEnumerable<LayoutHtml> htmls = LayoutHtmlService.GetByPage(page);
+            entity.Html = new LayoutHtmlCollection();
+            htmls.Each(entity.Html.Add);
+            return entity;
+        }
         public IList<LayoutEntity> GetWithFull()
         {
             var layouts = Get().ToList();
@@ -153,9 +203,9 @@ namespace ZKEACMS.Layout
             foreach (var item in layouts)
             {
                 item.Zones = new ZoneCollection();
-                zones.Where(m => m.LayoutId == item.ID).Each(item.Zones.Add);
+                zones.Where(m => m.LayoutId == item.ID && m.PageId == null).Each(item.Zones.Add);
                 item.Html = new LayoutHtmlCollection();
-                htmls.Where(m => m.LayoutId == item.ID).Each(item.Html.Add);
+                htmls.Where(m => m.LayoutId == item.ID && m.PageId == null).Each(item.Html.Add);
             }
             return layouts;
         }
@@ -229,7 +279,5 @@ namespace ZKEACMS.Layout
                 DataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(m.ID));
             });
         }
-
-
     }
 }

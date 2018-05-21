@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Easy;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using ZKEACMS.Page;
 
 namespace ZKEACMS.Widget
 {
@@ -24,7 +25,8 @@ namespace ZKEACMS.Widget
                     var zoneService = filterContext.HttpContext.RequestServices.GetService<IZoneService>();
                     if (!widget.PageID.IsNullOrEmpty())
                     {
-                        (filterContext.Controller as Controller).ViewData[ViewDataKeys.Zones] = new SelectList(zoneService.GetZonesByPageId(widget.PageID), "HeadingCode", "ZoneName");
+                        var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>();
+                        (filterContext.Controller as Controller).ViewData[ViewDataKeys.Zones] = new SelectList(zoneService.GetZonesByPage(pageService.Get(widget.PageID)), "HeadingCode", "ZoneName");
                     }
                     else if (!widget.LayoutID.IsNullOrEmpty())
                     {
