@@ -18,8 +18,8 @@
     @Html.Hidden("", Model, descriptor.ToHtmlProperties())
     @foreach (var layout in layouts)
     {
-        <div class="layout-item pull-left @(layout.ID==Model?"active":"")" data-id="@layout.ID">
-            <label class="name">@layout.LayoutName</label>
+        <div class="layout-item pull-left @(layout.ID==Model?"active":"")" data-id="@layout.ID">            
+            <label class="name">@layout.LayoutName</label>            
             @for (int i = 0; i < layout.Html.Count; i++)
             {
                 var item = layout.Html[i];
