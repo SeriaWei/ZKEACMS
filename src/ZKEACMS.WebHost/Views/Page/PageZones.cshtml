@@ -114,9 +114,18 @@
                 </a>
             }
             <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID})">
-                <i class="glyphicon glyphicon-search"></i>
-                预览
+                <i class="glyphicon glyphicon-eye-open"></i>
+                预览编辑版本
             </a>
+            @if (Model.Page.PublishDate.HasValue)
+            {
+                <a class="btn btn-primary"
+                   href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID, preview = false})"
+                   target="_blank">
+                    <i class="glyphicon glyphicon-eye-open"></i>
+                    预览发布版本
+                </a>
+            }
             @if (Authorizer.Authorize(PermissionKeys.ManagePage))
             {
                 <a class="btn btn-primary" href="@Url.Action("Edit", new {ID = Model.PageID})">
@@ -131,15 +140,6 @@
                     布局
                 </a>
             }
-            @if (Model.Page.PublishDate.HasValue)
-            {
-                <a class="btn btn-primary"
-                   href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID, preview = false})"
-                   target="_blank">
-                    <i class="glyphicon glyphicon-new-window"></i>
-                    查看
-                </a>
-            }            
             @if (Authorizer.Authorize(PermissionKeys.ManagePage))
             {
                 <a class="btn btn-primary publish-page" data-id="@Model.PageID" href="javascript:void(0)">
@@ -147,7 +147,7 @@
                     发布
                 </a>
             }
-            
+
         </div>
     </div>
 </div>

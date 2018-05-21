@@ -1,13 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Hosting
 @inject IHostingEnvironment hostingEnvironment
-@model LayoutEntity 
+@model LayoutEntity
 @{
     if (Model == null)
     {
         return;
     }
     Style.Reqiured("Easy").AtFoot();
-    
+
 }
 <!-- http://www.zkea.net/ Copyright 2017 ZKEASOFT http://www.zkea.net/licenses -->
 <!DOCTYPE html>
@@ -23,14 +23,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>@Model.Page.Title</title>
     <meta name="keywords" content="@Model.Page.MetaKeyWorlds" />
-    <meta name="description" content="@Model.Page.MetaDescription"/>
-    <meta name="author" content="ZKEASOFT"/>
+    <meta name="description" content="@Model.Page.MetaDescription" />
+    <meta name="author" content="ZKEASOFT" />
     <meta name="about" content="@ZKEACMS.Version.CurrentVersion" />
-    <meta name="website" content="http://www.zkea.net"/>
+    <meta name="website" content="http://www.zkea.net" />
 
     <link href="@Url.PathContent(Model.Page.Favicon)" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
-    
+
     @StyleAtHead()
     @ScriptAtHead()
     @if (Model.CurrentTheme != null)
@@ -48,7 +48,7 @@
 <body class="front">
     @if (ViewContext.HttpContext.User.Identity.IsAuthenticated)
     {
-        <div class="preview-toolbar">
+        <div class="preview-toolbar" style="top:100px">
             <div class="btn-group">
                 <a class="btn btn-primary sort-handle">
                     <i class="glyphicon glyphicon-move"></i>
@@ -59,13 +59,16 @@
                         <i class="glyphicon glyphicon-pencil"></i>
                         编辑
                     </a>
+                    @if (Model.Page.PublishDate.HasValue)
+                    {
+                        <a class="btn btn-primary" href="@Url.Content(Model.Page.Url)">
+                            <i class="glyphicon glyphicon-eye-open"></i>
+                            预览发布版本
+                        </a>
+                    }
                     <a class="btn btn-primary" href="@Url.Action("Index", "Page", new { PageID = Model.Page.ID })">
                         <i class="glyphicon glyphicon-th"></i>
                         概览
-                    </a>
-                    <a class="btn btn-primary" href="@Url.Action("Edit", "Page", new { Model.Page.ID })">
-                        <i class="glyphicon glyphicon-edit"></i>
-                        属性
                     </a>
                     <a class="btn btn-primary" href="@Url.Action("PublishPage", "Page", new { Model.Page.ID, ReturnUrl = Model.Page.Url})">
                         <i class="glyphicon glyphicon-open"></i>
@@ -88,9 +91,13 @@
                         <i class="glyphicon glyphicon-pencil"></i>
                         编辑
                     </a>
-                    <a class="btn btn-primary" href="@Url.Action("Index", "Page")">
-                        <i class="glyphicon glyphicon-eye-open"></i>
-                        页面
+                    <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new { ID = Model.PreViewPage.ID})">
+                        <i class="glyphicon glyphicon-search"></i>
+                        预览编辑版本
+                    </a>
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Page", new { PageID = Model.PreViewPage.ID })">
+                        <i class="glyphicon glyphicon-th"></i>
+                        概览
                     </a>
                     if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
                     {
