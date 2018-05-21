@@ -91,7 +91,6 @@ namespace ZKEACMS.Filter
                 var themeService = requestServices.GetService<IThemeService>();
                 var widgetActivator = requestServices.GetService<IWidgetActivator>();
                 var ruleService = requestServices.GetService<IRuleService>();
-                var ruleManager = requestServices.GetService<IRuleManager>();
 
                 LayoutEntity layout = layoutService.GetByPage(page);
                 layout.Page = page;
@@ -132,7 +131,7 @@ namespace ZKEACMS.Filter
                     QueryString = filterContext.HttpContext.Request.QueryString.ToString(),
                     UserAgent = filterContext.HttpContext.Request.Headers["User-Agent"]
                 };
-                var rules = ruleService.Get(m => m.Status == (int)Easy.Constant.RecordStatus.Active).Where(rule => ruleManager.IsTrue(rule.RuleExpression, ruleWorkContext)).ToList();
+                var rules = ruleService.GetMatchRule(ruleWorkContext);
                 var rulesID = rules.Select(m => m.RuleID).ToArray();
                 if (rules.Any())
                 {

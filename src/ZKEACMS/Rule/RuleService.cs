@@ -9,6 +9,7 @@ using ZKEACMS.Extend;
 using System.Linq;
 using Newtonsoft.Json;
 using ZKEACMS.Widget;
+using Easy.RuleEngine;
 
 namespace ZKEACMS.Rule
 {
@@ -16,10 +17,16 @@ namespace ZKEACMS.Rule
     {
         private readonly IWidgetBasePartService _widgetBasePartService;
         private readonly IWidgetActivator _widgetActivator;
-        public RuleService(IApplicationContext applicationContext, IWidgetBasePartService widgetBasePartService, IWidgetActivator widgetActivator, CMSDbContext dbContext) : base(applicationContext, dbContext)
+        private readonly IRuleManager _ruleManager;
+        public RuleService(IApplicationContext applicationContext,
+            IWidgetBasePartService widgetBasePartService,
+            IWidgetActivator widgetActivator, IRuleManager
+            ruleManager, CMSDbContext dbContext)
+            : base(applicationContext, dbContext)
         {
             _widgetBasePartService = widgetBasePartService;
             _widgetActivator = widgetActivator;
+            _ruleManager = ruleManager;
         }
         private Rule Init(Rule item)
         {
@@ -30,11 +37,11 @@ namespace ZKEACMS.Rule
             {
                 if (expressionBuilder.Length == 0)
                 {
-                    expressionBuilder.AppendFormat("{0}({1},\"{2}\")", ruleItem.FunctionName, ruleItem.Property, ruleItem.Value);
+                    expressionBuilder.AppendFormat("{0}({1},{2})", ruleItem.FunctionName, ruleItem.Property, FormatValue(ruleItem.Value));
                 }
                 else
                 {
-                    expressionBuilder.AppendFormat(" {3} {0}({1},\"{2}\")", ruleItem.FunctionName, ruleItem.Property, ruleItem.Value, ruleItem.Condition);
+                    expressionBuilder.AppendFormat(" {3} {0}({1},{2})", ruleItem.FunctionName, ruleItem.Property, FormatValue(ruleItem.Value), ruleItem.Condition);
                 }
             }
             item.RuleExpression = expressionBuilder.ToString();
@@ -44,13 +51,51 @@ namespace ZKEACMS.Rule
             }
             return item;
         }
+        static bool IsDigitCharacter(char ch)
+        {
+            return ch >= '0' && ch <= '9';
+        }
+        private string FormatValue(string value)
+        {
+            if (value.StartsWith("[") && value.EndsWith("]"))
+                return value;
+            if (value.All(c => IsDigitCharacter(c)) || 
+                (value.StartsWith("Date(") && value.EndsWith(")")) ||
+                (value.StartsWith("Money(") && value.EndsWith(")")))
+            {
+                return value;
+            }
+            return string.Format("'{0}'", value.Replace("\\", "\\\\").Replace("'", "\\'"));
+        }
         public override ServiceResult<Rule> Add(Rule item)
         {
-            return base.Add(Init(item));
+            item = Init(item);
+            try
+            {
+                _ruleManager.IsTrue(item.RuleExpression, new RuleWorkContext { });
+            }
+            catch
+            {
+                var result = new ServiceResult<Rule>();
+                result.RuleViolations.Add(new RuleViolation("Title", "条件中的值有错，保存失败"));
+                return result;
+            }
+            return base.Add(item);
         }
         public override ServiceResult<Rule> Update(Rule item)
         {
-            return base.Update(Init(item));
+            item = Init(item);
+            try
+            {
+                _ruleManager.IsTrue(item.RuleExpression, new RuleWorkContext { });
+            }
+            catch
+            {
+                var result = new ServiceResult<Rule>();
+                result.RuleViolations.Add(new RuleViolation("Title", "条件中的值有错，保存失败"));
+                return result;
+            }
+            return base.Update(item);
         }
         public override Rule Get(params object[] primaryKey)
         {
@@ -66,6 +111,11 @@ namespace ZKEACMS.Rule
             _widgetBasePartService.Get(m => m.RuleID == item.RuleID).Each(widget => { _widgetActivator.Create(widget).DeleteWidget(widget.ID); });
 
             base.Remove(item);
+        }
+
+        public IEnumerable<Rule> GetMatchRule(RuleWorkContext ruleWorkContext)
+        {
+            return Get(m => m.Status == (int)Easy.Constant.RecordStatus.Active).Where(rule => _ruleManager.IsTrue(rule.RuleExpression, ruleWorkContext)).ToList();
         }
     }
 }

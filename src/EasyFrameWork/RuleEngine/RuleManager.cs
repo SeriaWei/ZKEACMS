@@ -28,6 +28,10 @@ namespace Easy.RuleEngine
         public bool IsTrue(string expression, object workContext)
         {
             var result = Value(expression, workContext);
+            if (result == null)
+            {
+                return false;
+            }
             if (!(result is bool))
             {
                 throw new Exception("Expression is not a boolean value");

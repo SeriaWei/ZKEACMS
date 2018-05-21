@@ -7,5 +7,6 @@ namespace ZKEACMS.Rule
 {
     public interface IRuleService : IService<Rule>
     {
+        IEnumerable<Rule> GetMatchRule(RuleWorkContext ruleWorkContext);
     }
 }
