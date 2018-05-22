@@ -26,11 +26,11 @@ namespace ZKEACMS.Widget
                     if (!widget.PageID.IsNullOrEmpty())
                     {
                         var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>();
-                        (filterContext.Controller as Controller).ViewData[ViewDataKeys.Zones] = new SelectList(zoneService.GetZonesByPage(pageService.Get(widget.PageID)), "HeadingCode", "ZoneName");
+                        (filterContext.Controller as Controller).ViewData[ViewDataKeys.Zones] = new SelectList(zoneService.GetByPage(pageService.Get(widget.PageID)), "HeadingCode", "ZoneName");
                     }
                     else if (!widget.LayoutID.IsNullOrEmpty())
                     {
-                        (filterContext.Controller as Controller).ViewData[ViewDataKeys.Zones] = new SelectList(zoneService.GetZonesByLayoutId(widget.LayoutID), "HeadingCode", "ZoneName");
+                        (filterContext.Controller as Controller).ViewData[ViewDataKeys.Zones] = new SelectList(zoneService.GetByLayoutId(widget.LayoutID), "HeadingCode", "ZoneName");
                     }
                     else
                     {

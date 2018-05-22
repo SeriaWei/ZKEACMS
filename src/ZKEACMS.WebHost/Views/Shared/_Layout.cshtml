@@ -48,7 +48,15 @@
 <body class="front">
     @if (ViewContext.HttpContext.User.Identity.IsAuthenticated)
     {
-        <div class="preview-toolbar" style="top:100px">
+        <style>
+            .hover-text span {
+                display: none;
+            }
+            .hover-text:hover span {
+                display: inline;
+            }
+        </style>
+        <div class="preview-toolbar hover-text">
             <div class="btn-group">
                 <a class="btn btn-primary sort-handle">
                     <i class="glyphicon glyphicon-move"></i>
@@ -57,60 +65,55 @@
                 {
                     <a class="btn btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
                         <i class="glyphicon glyphicon-pencil"></i>
-                        编辑
+                        <span>编辑</span>
                     </a>
                     @if (Model.Page.PublishDate.HasValue)
                     {
                         <a class="btn btn-primary" href="@Url.Content(Model.Page.Url)">
                             <i class="glyphicon glyphicon-eye-open"></i>
-                            预览发布版本
+                            <span>预览发布版本</span>
                         </a>
                     }
-                    <a class="btn btn-primary" href="@Url.Action("Index", "Page", new { PageID = Model.Page.ID })">
-                        <i class="glyphicon glyphicon-th"></i>
-                        概览
-                    </a>
                     <a class="btn btn-primary" href="@Url.Action("PublishPage", "Page", new { Model.Page.ID, ReturnUrl = Model.Page.Url})">
                         <i class="glyphicon glyphicon-open"></i>
-                        发布
+                        <span>发布</span>
                     </a>
                     if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
                     {
                         <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme")">
                             <i class="glyphicon glyphicon-transfer"></i>
-                            退出
-                            @Model.CurrentTheme.Title
-                            主题
+                            <span>
+                                退出
+                                @Model.CurrentTheme.Title
+                                主题
+                            </span>
                         </a>
                     }
-                    @Html.Partial("Partial.Menu", Model)
                 }
                 else if (Model.PreViewPage != null)
                 {
                     <a class="btn btn-primary" href="@Url.Action("Design", "Page", new { Model.PreViewPage.ID})">
                         <i class="glyphicon glyphicon-pencil"></i>
-                        编辑
+                        <span>编辑</span>
                     </a>
                     <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new { ID = Model.PreViewPage.ID})">
-                        <i class="glyphicon glyphicon-search"></i>
-                        预览编辑版本
-                    </a>
-                    <a class="btn btn-primary" href="@Url.Action("Index", "Page", new { PageID = Model.PreViewPage.ID })">
-                        <i class="glyphicon glyphicon-th"></i>
-                        概览
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                        <span>预览编辑版本</span>
                     </a>
                     if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
                     {
                         <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme")">
                             <i class="glyphicon glyphicon-transfer"></i>
-                            退出
-                            @Model.CurrentTheme.Title
-                            主题
+                            <span>
+                                退出
+                                @Model.CurrentTheme.Title
+                                主题
+                            </span>
                         </a>
                     }
                     <a class="btn btn-primary" href="@Url.Action("Logout", "Account", new { returnurl = ViewContext.HttpContext.Request.Path.Value })">
                         <i class="glyphicon glyphicon-off"></i>
-                        退出
+                        <span>退出</span>
                     </a>
                 }
             </div>

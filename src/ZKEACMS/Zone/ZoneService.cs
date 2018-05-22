@@ -36,12 +36,12 @@ namespace ZKEACMS.Zone
             }
             return base.Add(item);
         }
-        public IEnumerable<ZoneEntity> GetZonesByPage(PageEntity page)
+        public IEnumerable<ZoneEntity> GetByPage(PageEntity page)
         {
             IEnumerable<ZoneEntity> zones = Get().Where(m => m.PageId == page.ID).OrderBy(m => m.ID).ToList();
             if (!zones.Any())
             {
-                zones = GetZonesByLayoutId(page.LayoutId);
+                zones = GetByLayoutId(page.LayoutId);
                 if (ApplicationContext.IsAuthenticated)
                 {
                     foreach (var item in zones)
@@ -53,7 +53,7 @@ namespace ZKEACMS.Zone
             }
             return zones;
         }
-        public IEnumerable<ZoneEntity> GetZonesByLayoutId(string layoutId)
+        public IEnumerable<ZoneEntity> GetByLayoutId(string layoutId)
         {
             return Get().Where(m => m.LayoutId == layoutId && m.PageId == null).OrderBy(m => m.ID).ToList();
         }

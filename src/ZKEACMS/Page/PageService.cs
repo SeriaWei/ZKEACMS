@@ -74,7 +74,7 @@ namespace ZKEACMS.Page
                 item.PublishDate = DateTime.Now;
                 base.Update(item);
 
-                var zones = _zoneService.GetZonesByPage(item);
+                var zones = _zoneService.GetByPage(item);
                 var layoutHtmls = _layoutHtmlService.GetByPage(item);
 
                 _widgetService.RemoveCache(item.ID);
@@ -139,7 +139,7 @@ namespace ZKEACMS.Page
                         {
                             _layoutHtmlService.Add(new LayoutHtml { LayoutId = m.LayoutId, Html = m.Html, PageId = page.ReferencePageID });
                         });
-                        _zoneService.GetZonesByPage(page).Each(m =>
+                        _zoneService.GetByPage(page).Each(m =>
                         {
                             m.PageId = page.ReferencePageID;
                             _zoneService.Add(m);

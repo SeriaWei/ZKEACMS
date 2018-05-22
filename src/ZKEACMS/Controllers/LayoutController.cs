@@ -51,7 +51,7 @@ namespace ZKEACMS.Controllers
             {
                 Layout = layout,
                 LayoutID = ID,
-                Zones = _zoneService.GetZonesByLayoutId(ID),
+                Zones = _zoneService.GetByLayoutId(ID),
                 Widgets = _widgetService.GetByLayoutId(ID),
                 LayoutHtml = layout.Html
             };
@@ -71,6 +71,7 @@ namespace ZKEACMS.Controllers
 
         public override IActionResult Edit(string ID)
         {
+            ViewBag.CanDelete = _pageService.Count(m => m.LayoutId == ID) == 0;
             return base.Edit(ID);
         }
 

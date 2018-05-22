@@ -18,7 +18,6 @@ namespace ZKEACMS.Layout
     public class LayoutService : ServiceBase<LayoutEntity>, ILayoutService
     {
         public LayoutService(IDataArchivedService dataArchivedService,
-            IPageService pageService,
             IZoneService zoneService,
             IWidgetBasePartService widgetService,
             IApplicationContext applicationContext,
@@ -27,16 +26,11 @@ namespace ZKEACMS.Layout
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
-            DataArchivedService = dataArchivedService;
-            PageService = pageService;
             ZoneService = zoneService;
             WidgetService = widgetService;
             LayoutHtmlService = layoutHtmlService;
             WidgetActivator = widgetActivator;
         }
-
-        public IDataArchivedService DataArchivedService { get; set; }
-        public IPageService PageService { get; set; }
         public IZoneService ZoneService { get; set; }
         public ILayoutHtmlService LayoutHtmlService { get; set; }
         public IWidgetActivator WidgetActivator { get; set; }
@@ -83,7 +77,7 @@ namespace ZKEACMS.Layout
             {
                 if (item.Zones != null)
                 {
-                    var zones = ZoneService.GetZonesByPage(new PageEntity { ID = item.Page.ID, LayoutId = item.ID });
+                    var zones = ZoneService.GetByPage(new PageEntity { ID = item.Page.ID, LayoutId = item.ID });
 
                     item.Zones.Where(m => zones.All(n => n.ID != m.ID)).Each(m =>
                     {
@@ -167,27 +161,23 @@ namespace ZKEACMS.Layout
 
         public override LayoutEntity Get(params object[] primaryKeys)
         {
-            //var layout = DataArchivedService.Get(GenerateKey(primaryKeys), () =>
-            //{
             LayoutEntity entity = base.Get(primaryKeys);
             if (entity == null)
                 return null;
-            IEnumerable<ZoneEntity> zones = ZoneService.GetZonesByLayoutId(entity.ID);
+            IEnumerable<ZoneEntity> zones = ZoneService.GetByLayoutId(entity.ID);
             entity.Zones = new ZoneCollection();
             zones.Each(entity.Zones.Add);
             IEnumerable<LayoutHtml> htmls = LayoutHtmlService.GetByLayoutID(entity.ID);
             entity.Html = new LayoutHtmlCollection();
             htmls.Each(entity.Html.Add);
             return entity;
-            //});
-            //return layout;
         }
         public LayoutEntity GetByPage(PageEntity page)
         {
             LayoutEntity entity = base.Get(page.LayoutId);
             if (entity == null)
                 return null;
-            IEnumerable<ZoneEntity> zones = ZoneService.GetZonesByPage(page);
+            IEnumerable<ZoneEntity> zones = ZoneService.GetByPage(page);
             entity.Zones = new ZoneCollection();
             zones.Each(entity.Zones.Add);
             IEnumerable<LayoutHtml> htmls = LayoutHtmlService.GetByPage(page);
@@ -211,73 +201,32 @@ namespace ZKEACMS.Layout
         }
         public override void Remove(LayoutEntity item)
         {
-            LayoutHtmlService.Remove(m => m.LayoutId == item.ID);
-            ZoneService.Remove(m => m.LayoutId == item.ID);
-            PageService.Remove(m => m.LayoutId == item.ID);
-            var widgets = WidgetService.Get(m => m.LayoutID == item.ID);
-            widgets.Each(m =>
+            var changeTo = Get().Where(m => m.ID != item.ID).FirstOrDefault();
+            if (changeTo != null)
             {
-                using (var widgetService = WidgetActivator.Create(m))
+                BeginTransaction(() =>
                 {
-                    widgetService.DeleteWidget(m.ID);
-                }
-
-            });
-
-            MarkChanged(item.ID);
-            base.Remove(item);
-        }
-
-        public override void Remove(Expression<Func<LayoutEntity, bool>> filter)
-        {
-            Get(filter).Each(layout =>
-            {
-                LayoutHtmlService.Remove(m => m.LayoutId == layout.ID);
-                ZoneService.Remove(m => m.LayoutId == layout.ID);
-                PageService.Remove(m => m.LayoutId == layout.ID);
-                var widgets = WidgetService.Get(m => m.LayoutID == layout.ID);
-                widgets.Each(m =>
-                {
-                    using (var widgetService = WidgetActivator.Create(m))
+                    LayoutHtmlService.Remove(m => m.LayoutId == item.ID && m.PageId == null);
+                    ZoneService.Remove(m => m.LayoutId == item.ID && m.PageId == null);
+                    var widgets = WidgetService.Get(m => m.LayoutID == item.ID);
+                    widgets.Each(m =>
                     {
-                        widgetService.DeleteWidget(m.ID);
-                    }
+                        using (var widgetService = WidgetActivator.Create(m))
+                        {
+                            widgetService.DeleteWidget(m.ID);
+                        }
+                    });
+
+                    base.Remove(item);
                 });
 
-                MarkChanged(layout.ID);
-            });
-            base.Remove(filter);
+            }
+
         }
-
-        public override void RemoveRange(params LayoutEntity[] items)
-        {
-            items.Each(layout =>
-            {
-                LayoutHtmlService.Remove(m => m.LayoutId == layout.ID);
-                ZoneService.Remove(m => m.LayoutId == layout.ID);
-                PageService.Remove(m => m.LayoutId == layout.ID);
-                var widgets = WidgetService.Get(m => m.LayoutID == layout.ID);
-                widgets.Each(m =>
-                {
-                    using (var widgetService = WidgetActivator.Create(m))
-                    {
-                        widgetService.DeleteWidget(m.ID);
-                    }
-                });
-
-                MarkChanged(layout.ID);
-            });
-            base.RemoveRange(items);
-        }
-
 
         public void MarkChanged(string ID)
         {
-            DataArchivedService.Remove(GenerateKey(ID));
-            PageService.Get(m => m.LayoutId == ID).Each(m =>
-            {
-                DataArchivedService.Remove(CacheTrigger.PageWidgetsArchivedKey.FormatWith(m.ID));
-            });
+
         }
     }
 }

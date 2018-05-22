@@ -7,7 +7,7 @@ namespace ZKEACMS.Zone
 {
     public interface IZoneService : IService<ZoneEntity>
     {
-        IEnumerable<ZoneEntity> GetZonesByPage(PageEntity page);
-        IEnumerable<ZoneEntity> GetZonesByLayoutId(string layoutId);
+        IEnumerable<ZoneEntity> GetByPage(PageEntity page);
+        IEnumerable<ZoneEntity> GetByLayoutId(string layoutId);
     }
 }
