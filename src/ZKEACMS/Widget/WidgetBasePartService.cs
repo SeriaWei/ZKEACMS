@@ -24,7 +24,7 @@ namespace ZKEACMS.Widget
         private readonly IWidgetActivator _widgetActivator;
         private readonly IServiceProvider _serviceProvider;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        static ICacheManager<IEnumerable<WidgetBase>> PageWidgetCacheManage;
+        static readonly ICacheManager<IEnumerable<WidgetBase>> PageWidgetCacheManage;
         static WidgetBasePartService()
         {
             PageWidgetCacheManage = CacheFactory.Build<IEnumerable<WidgetBase>>(setting =>

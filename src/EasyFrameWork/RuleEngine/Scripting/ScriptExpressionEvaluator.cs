@@ -13,9 +13,8 @@ namespace Easy.RuleEngine.Scripting
 {
     public class ScriptExpressionEvaluator : IScriptExpressionEvaluator
     {
-        private readonly ICacheManager<ScriptExpressionResult> _cacheManager;
-
-        public ScriptExpressionEvaluator()
+        static readonly ICacheManager<ScriptExpressionResult> _cacheManager;
+        static ScriptExpressionEvaluator()
         {
             _cacheManager = CacheFactory.Build<ScriptExpressionResult>(setting =>
             {

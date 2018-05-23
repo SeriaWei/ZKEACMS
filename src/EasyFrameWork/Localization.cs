@@ -15,7 +15,7 @@ namespace Easy
 {
     public static class Localization
     {
-        static ICacheManager<LanguageEntity> LanguageCache;
+        static readonly ICacheManager<LanguageEntity> LanguageCache;
         static Localization()
         {
             LanguageCache = CacheFactory.Build<LanguageEntity>(settings =>
