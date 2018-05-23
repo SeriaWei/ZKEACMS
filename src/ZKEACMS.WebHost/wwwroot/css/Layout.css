@@ -389,7 +389,6 @@ label.additional {
 }
 
 .widget:hover .zoneToolbar {
-    margin-top: -20px;
     opacity: 1;
 }
 
