@@ -7,15 +7,18 @@ using ZKEACMS.Widget;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace ZKEACMS.ModelBinder
 {
     public class WidgetBinder : IModelBinder
     {
-        private ModelBinderProviderContext modelBinderProviderContext;
-        public WidgetBinder(ModelBinderProviderContext context)
+        private readonly ModelBinderProviderContext modelBinderProviderContext;
+        private readonly ILoggerFactory _loggerFactory;
+        public WidgetBinder(ModelBinderProviderContext context, ILoggerFactory loggerFactory)
         {
             modelBinderProviderContext = context;
+            _loggerFactory = loggerFactory;
         }
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
@@ -29,7 +32,7 @@ namespace ZKEACMS.ModelBinder
             {
                 propertyBinders.Add(property, modelBinderProviderContext.CreateBinder(property));
             }
-            ComplexTypeModelBinder modelBinder = new ComplexTypeModelBinder(propertyBinders);
+            ComplexTypeModelBinder modelBinder = new ComplexTypeModelBinder(propertyBinders, _loggerFactory);
             return modelBinder.BindModelAsync(bindingContext);
         }
     }

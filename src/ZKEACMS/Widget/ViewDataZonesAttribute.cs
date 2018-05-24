@@ -12,7 +12,7 @@ using ZKEACMS.Page;
 
 namespace ZKEACMS.Widget
 {
-    public class ViewDataZonesAttribute : ViewDataAttribute
+    public class ViewDataZonesAttribute : Easy.Mvc.Attribute.ViewDataAttribute
     {
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {

@@ -6,7 +6,7 @@ ECHO dotnet core sdk was not find, please install the latest sdk at first.
 start https://www.microsoft.com/net/download/windows
 exit
 )
-if not exist "src/ZKEACMS.WebHost/bin/Debug/netcoreapp2.0/ZKEACMS.WebHost.dll" (
+if not exist "src/ZKEACMS.WebHost/bin/Debug/netcoreapp2.1/ZKEACMS.WebHost.dll" (
 call Build.cmd
 )
 
