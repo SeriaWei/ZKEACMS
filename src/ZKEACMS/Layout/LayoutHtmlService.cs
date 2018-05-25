@@ -7,13 +7,16 @@ using Easy;
 using Microsoft.EntityFrameworkCore;
 using System;
 using ZKEACMS.Page;
+using CacheManager.Core;
 
 namespace ZKEACMS.Layout
 {
     public class LayoutHtmlService : ServiceBase<LayoutHtml>, ILayoutHtmlService
     {
-        public LayoutHtmlService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
+        private readonly ICacheManager<IEnumerable<LayoutHtml>> _cacheManager;
+        public LayoutHtmlService(IApplicationContext applicationContext, ICacheManager<IEnumerable<LayoutHtml>> cacheManager, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
+            _cacheManager = cacheManager;
         }
         public override IQueryable<LayoutHtml> Get()
         {
@@ -26,19 +29,27 @@ namespace ZKEACMS.Layout
         }
         public IEnumerable<LayoutHtml> GetByPage(PageEntity page)
         {
-            IEnumerable<LayoutHtml> html = Get().Where(m => m.PageId == page.ID).OrderBy(m => m.LayoutHtmlId).ToList();
-            if (!html.Any())
+            Func<string, IEnumerable<LayoutHtml>> get = key =>
             {
-                html = GetByLayoutID(page.LayoutId);
-                if (ApplicationContext.IsAuthenticated)
+                IEnumerable<LayoutHtml> html = Get().Where(m => m.PageId == page.ID).OrderBy(m => m.LayoutHtmlId).ToList();
+                if (!html.Any())
                 {
-                    foreach (var item in html)
+                    html = GetByLayoutID(page.LayoutId);
+                    if (ApplicationContext.IsAuthenticated)
                     {
-                        Add(new LayoutHtml { LayoutId = item.LayoutId, Html = item.Html, PageId = page.ID });
+                        foreach (var item in html)
+                        {
+                            Add(new LayoutHtml { LayoutId = item.LayoutId, Html = item.Html, PageId = page.ID });
+                        }
                     }
                 }
+                return html;
+            };
+            if (page.IsPublishedPage)
+            {
+                return _cacheManager.GetOrAdd(page.ID, get);
             }
-            return html;
+            return get(page.ID);
         }
         public IEnumerable<LayoutHtml> GetByLayoutID(string layoutId)
         {

@@ -43,6 +43,8 @@ using ZKEACMS.Common.Models;
 using ZKEACMS.Product.Models;
 using System;
 using Easy.Mvc.Resource;
+using CacheManager.Core;
+using System.Collections.Generic;
 
 namespace ZKEACMS
 {
@@ -100,6 +102,24 @@ namespace ZKEACMS
             services.AddTransient<IPackageInstaller, DataDictionaryPackageInstaller>();
             services.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             services.AddTransient<IEventViewerService, EventViewerService>();
+
+            services.AddSingleton(serviceProvider => CacheFactory.Build<PageEntity>(setting =>
+            {
+                setting.WithDictionaryHandle("PublishedPages");
+            }));
+
+            services.AddSingleton(serviceProvider => CacheFactory.Build<IEnumerable<WidgetBase>>(setting =>
+            {
+                setting.WithDictionaryHandle("PageWidgets");
+            }));
+            services.AddSingleton(serviceProvider => CacheFactory.Build<IEnumerable<ZoneEntity>>(setting =>
+            {
+                setting.WithDictionaryHandle("PublishedPageZones");
+            }));
+            services.AddSingleton(serviceProvider => CacheFactory.Build<IEnumerable<LayoutHtml>>(setting =>
+            {
+                setting.WithDictionaryHandle("PublishedPageLayoutHtmls");
+            }));
 
             services.ConfigureMetaData<ArticleEntity, ArticleEntityMeta>();
             services.ConfigureMetaData<ArticleType, ArtycleTypeMetaData>();

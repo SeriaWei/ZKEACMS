@@ -17,29 +17,36 @@ using ZKEACMS.Widget;
 using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Zone;
 using ZKEACMS.Layout;
+using CacheManager.Core;
+using Microsoft.AspNetCore.Http;
 
 namespace ZKEACMS.Page
 {
     public class PageService : ServiceBase<PageEntity>, IPageService
     {
         private readonly IWidgetBasePartService _widgetService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWidgetActivator _widgetActivator;
         private readonly IZoneService _zoneService;
         private readonly ILayoutHtmlService _layoutHtmlService;
-
+        private readonly ICacheManager<PageEntity> _cacheManager;
 
         public PageService(IWidgetBasePartService widgetService,
             IApplicationContext applicationContext,
+            IHttpContextAccessor httpContextAccessor,
             IWidgetActivator widgetActivator,
             IZoneService zoneService,
             ILayoutHtmlService layoutHtmlService,
+            ICacheManager<PageEntity> cacheManager,
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _widgetService = widgetService;
+            _httpContextAccessor = httpContextAccessor;
             _widgetActivator = widgetActivator;
             _zoneService = zoneService;
             _layoutHtmlService = layoutHtmlService;
+            _cacheManager = cacheManager;
         }
 
         public override ServiceResult<PageEntity> Add(PageEntity item)
@@ -271,6 +278,14 @@ namespace ZKEACMS.Page
         }
         public PageEntity GetByPath(string path, bool isPreView)
         {
+            Func<string, string, PageEntity> get = (key, regin) =>
+              {
+                  return CurrentDbSet.AsNoTracking()
+                      .Where(m => m.Url == key && m.IsPublishedPage == !isPreView)
+                      .OrderByDescending(m => m.PublishDate)
+                      .FirstOrDefault();
+              };
+
             if (path != "/" && path.EndsWith("/"))
             {
                 path = path.Substring(0, path.Length - 1);
@@ -283,21 +298,11 @@ namespace ZKEACMS.Page
             {
                 path = "~" + path;
             }
-            var result = CurrentDbSet.AsNoTracking()
-                .Where(m => m.Url == path && m.IsPublishedPage == !isPreView)
-                .OrderByDescending(m => m.PublishDate)
-                .FirstOrDefault();
-
-            //if (result != null && result.ExtendFields != null)
-            //{
-            //    /*!
-            //     * http://www.zkea.net/ 
-            //     * Copyright 2017 ZKEASOFT 
-            //     * http://www.zkea.net/licenses 
-            //     */
-            //    ((List<ExtendFieldEntity>)result.ExtendFields).Add(new ExtendFieldEntity { Title = "meta_support", Value = "ZKEASOFT" });
-            //}
-            return result;
+            if (!isPreView)
+            {
+                return _cacheManager.GetOrAdd(path, _httpContextAccessor.HttpContext.Request.Host.Value, get);
+            }
+            return get(path, _httpContextAccessor.HttpContext.Request.Host.Value);
 
         }
 

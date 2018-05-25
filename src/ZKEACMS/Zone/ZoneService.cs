@@ -9,16 +9,19 @@ using ZKEACMS.Page;
 using Easy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using CacheManager.Core;
 
 namespace ZKEACMS.Zone
 {
     public class ZoneService : ServiceBase<ZoneEntity>, IZoneService
     {
         private readonly IServiceProvider _serviceProvder;
-        public ZoneService(IApplicationContext applicationContext, IServiceProvider serviceProvder, CMSDbContext dbContext)
+        private readonly ICacheManager<IEnumerable<ZoneEntity>> _cacheManager;
+        public ZoneService(IApplicationContext applicationContext, IServiceProvider serviceProvder, ICacheManager<IEnumerable<ZoneEntity>> cacheManager, CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _serviceProvder = serviceProvder;
+            _cacheManager = cacheManager;
         }
         public override IQueryable<ZoneEntity> Get()
         {
@@ -38,20 +41,28 @@ namespace ZKEACMS.Zone
         }
         public IEnumerable<ZoneEntity> GetByPage(PageEntity page)
         {
-            IEnumerable<ZoneEntity> zones = Get().Where(m => m.PageId == page.ID).OrderBy(m => m.ID).ToList();
-            if (!zones.Any())
+            Func<string, IEnumerable<ZoneEntity>> get = key =>
+             {
+                 IEnumerable<ZoneEntity> zones = Get().Where(m => m.PageId == page.ID).OrderBy(m => m.ID).ToList();
+                 if (!zones.Any())
+                 {
+                     zones = GetByLayoutId(page.LayoutId);
+                     if (ApplicationContext.IsAuthenticated)
+                     {
+                         foreach (var item in zones)
+                         {
+                             item.PageId = page.ID;
+                             Add(item);
+                         }
+                     }
+                 }
+                 return zones;
+             };
+            if (page.IsPublishedPage)
             {
-                zones = GetByLayoutId(page.LayoutId);
-                if (ApplicationContext.IsAuthenticated)
-                {
-                    foreach (var item in zones)
-                    {
-                        item.PageId = page.ID;
-                        Add(item);
-                    }
-                }
+                return _cacheManager.GetOrAdd(page.ID, get);
             }
-            return zones;
+            return get(page.ID);
         }
         public IEnumerable<ZoneEntity> GetByLayoutId(string layoutId)
         {

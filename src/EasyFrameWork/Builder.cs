@@ -31,6 +31,7 @@ using Microsoft.AspNetCore.Http;
 using Easy.RuleEngine;
 using Easy.RuleEngine.RuleProviders;
 using Easy.RuleEngine.Scripting;
+using CacheManager.Core;
 
 namespace Easy
 {
@@ -68,6 +69,16 @@ namespace Easy
             services.AddTransient<IRuleProvider, DateRuleProvider>();
             services.AddTransient<IRuleProvider, MoneyRuleProvider>();
             services.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
+
+            services.AddSingleton(serviceProvider => CacheFactory.Build<ScriptExpressionResult>(setting =>
+            {
+                setting.WithDictionaryHandle("ScriptExpressionResult");
+            }));
+
+            services.AddSingleton(serviceProvider => CacheFactory.Build<LanguageEntity>(settings =>
+            {
+                settings.WithDictionaryHandle("Localization");
+            }));
 
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
             services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));

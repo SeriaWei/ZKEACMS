@@ -7,22 +7,22 @@
     Style.Reqiured("lightBox").AtHead();
     Style.Reqiured("SectionAdmin").AtHead();
     var templates = new List<List<string>>
-    {
-        new List<string>{""},
-        new List<string>{"col-sm-6","col-sm-6"},
-        new List<string>{"col-sm-7","col-sm-5"},
-        new List<string>{"col-sm-8","col-sm-4"},
-        new List<string>{"col-sm-9","col-sm-3"},
-        new List<string>{"col-sm-5","col-sm-7"},
-        new List<string>{"col-sm-4","col-sm-8"},
-        new List<string>{"col-sm-3","col-sm-9"},
-        new List<string>{"col-sm-4","col-sm-4","col-sm-4"},
-        new List<string>{"col-sm-3","col-sm-6","col-sm-3"},
-        new List<string>{"col-sm-5","col-sm-2","col-sm-5"},
-        new List<string>{"col-xs-6 col-sm-3", "col-xs-6 col-sm-3", "col-xs-6 col-sm-3", "col-xs-6 col-sm-3"},
-        new List<string>{"col-sm-2 col-sm-offset-1","col-sm-2","col-sm-2","col-sm-2", "col-sm-2" },
-        new List<string>{"col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2" }
-    };
+{
+new List<string>{""},
+new List<string>{"col-sm-6","col-sm-6"},
+new List<string>{"col-sm-7","col-sm-5"},
+new List<string>{"col-sm-8","col-sm-4"},
+new List<string>{"col-sm-9","col-sm-3"},
+new List<string>{"col-sm-5","col-sm-7"},
+new List<string>{"col-sm-4","col-sm-8"},
+new List<string>{"col-sm-3","col-sm-9"},
+new List<string>{"col-sm-4","col-sm-4","col-sm-4"},
+new List<string>{"col-sm-3","col-sm-6","col-sm-3"},
+new List<string>{"col-sm-5","col-sm-2","col-sm-5"},
+new List<string>{"col-xs-6 col-sm-3", "col-xs-6 col-sm-3", "col-xs-6 col-sm-3", "col-xs-6 col-sm-3"},
+new List<string>{"col-sm-2 col-sm-offset-1","col-sm-2","col-sm-2","col-sm-2", "col-sm-2" },
+new List<string>{"col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2" }
+};
 
 }
 
@@ -47,7 +47,7 @@
                 <div id="section-groups">
                     @foreach (SectionGroup group in Model.Groups.OrderBy(m => m.Order))
                     {
-                        Html.RenderPartial("SectionGroup.Edit", group);
+                        await Html.RenderPartialAsync("SectionGroup.Edit", group);
                     }
                 </div>
                 <div class="group-template">
@@ -85,7 +85,7 @@
                                     }
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -100,7 +100,7 @@
             }
             else
             {
-                <input id="design" type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Update"/>
+                <input id="design" type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Update" />
                 if (Model.IsTemplate && Model.Thumbnail.IsNotNullAndWhiteSpace())
                 {
                     <a href="@Url.Action("Pack", new {Model.ID})" class="btn btn-success">

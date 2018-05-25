@@ -13,13 +13,10 @@ namespace Easy.RuleEngine.Scripting
 {
     public class ScriptExpressionEvaluator : IScriptExpressionEvaluator
     {
-        static readonly ICacheManager<ScriptExpressionResult> _cacheManager;
-        static ScriptExpressionEvaluator()
+        private readonly ICacheManager<ScriptExpressionResult> _cacheManager;
+        public ScriptExpressionEvaluator(ICacheManager<ScriptExpressionResult> cacheManager)
         {
-            _cacheManager = CacheFactory.Build<ScriptExpressionResult>(setting =>
-            {
-                setting.WithDictionaryHandle("ScriptExpressionResult");
-            });
+            _cacheManager = cacheManager;
         }
 
         public object Evaluate(string expression, IEnumerable<IGlobalMethodProvider> providers)
