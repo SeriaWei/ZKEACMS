@@ -29,7 +29,6 @@ namespace ZKEACMS.Page
         private readonly IWidgetActivator _widgetActivator;
         private readonly IZoneService _zoneService;
         private readonly ILayoutHtmlService _layoutHtmlService;
-        private readonly ICacheManager<PageEntity> _cacheManager;
 
         public PageService(IWidgetBasePartService widgetService,
             IApplicationContext applicationContext,
@@ -37,7 +36,6 @@ namespace ZKEACMS.Page
             IWidgetActivator widgetActivator,
             IZoneService zoneService,
             ILayoutHtmlService layoutHtmlService,
-            ICacheManager<PageEntity> cacheManager,
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
@@ -46,7 +44,6 @@ namespace ZKEACMS.Page
             _widgetActivator = widgetActivator;
             _zoneService = zoneService;
             _layoutHtmlService = layoutHtmlService;
-            _cacheManager = cacheManager;
         }
 
         public override ServiceResult<PageEntity> Add(PageEntity item)
@@ -278,14 +275,6 @@ namespace ZKEACMS.Page
         }
         public PageEntity GetByPath(string path, bool isPreView)
         {
-            Func<string, string, PageEntity> get = (key, regin) =>
-              {
-                  return CurrentDbSet.AsNoTracking()
-                      .Where(m => m.Url == key && m.IsPublishedPage == !isPreView)
-                      .OrderByDescending(m => m.PublishDate)
-                      .FirstOrDefault();
-              };
-
             if (path != "/" && path.EndsWith("/"))
             {
                 path = path.Substring(0, path.Length - 1);
@@ -298,12 +287,10 @@ namespace ZKEACMS.Page
             {
                 path = "~" + path;
             }
-            if (!isPreView)
-            {
-                return _cacheManager.GetOrAdd(path, _httpContextAccessor.HttpContext.Request.Host.Value, get);
-            }
-            return get(path, _httpContextAccessor.HttpContext.Request.Host.Value);
-
+            return CurrentDbSet.AsNoTracking()
+                      .Where(m => m.Url == path && m.IsPublishedPage == !isPreView)
+                      .OrderByDescending(m => m.PublishDate)
+                      .FirstOrDefault();
         }
 
         public void MarkChanged(string pageId)

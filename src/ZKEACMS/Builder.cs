@@ -103,11 +103,6 @@ namespace ZKEACMS
             services.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             services.AddTransient<IEventViewerService, EventViewerService>();
 
-            services.AddSingleton(serviceProvider => CacheFactory.Build<PageEntity>(setting =>
-            {
-                setting.WithDictionaryHandle("PublishedPages");
-            }));
-
             services.AddSingleton(serviceProvider => CacheFactory.Build<IEnumerable<WidgetBase>>(setting =>
             {
                 setting.WithDictionaryHandle("PageWidgets");
