@@ -174,9 +174,7 @@ namespace ZKEACMS.Layout
         }
         public LayoutEntity GetByPage(PageEntity page)
         {
-            LayoutEntity entity = base.Get(page.LayoutId);
-            if (entity == null)
-                return null;
+            LayoutEntity entity = new LayoutEntity { ID = page.LayoutId };
             IEnumerable<ZoneEntity> zones = ZoneService.GetByPage(page);
             entity.Zones = new ZoneCollection();
             zones.Each(entity.Zones.Add);
