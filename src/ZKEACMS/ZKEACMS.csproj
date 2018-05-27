@@ -19,6 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.1.0-rc1-final" />
-    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0003" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0004" />
   </ItemGroup>
 </Project>
