@@ -166,5 +166,11 @@
     "inputFiles": [
       "wwwroot/js/tinymce/plugins/filebrowser/plugin.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/tinymce/plugins/imagelocal/plugin.min.js",
+    "inputFiles": [
+      "wwwroot/js/tinymce/plugins/imagelocal/plugin.js"
+    ]
   }
 ]

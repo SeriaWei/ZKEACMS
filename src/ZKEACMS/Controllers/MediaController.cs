@@ -10,6 +10,7 @@ using Easy.Mvc.Controllers;
 using Easy.Mvc.Extend;
 using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.PixelFormats;
@@ -20,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using ZKEACMS.Common.ViewModels;
 using ZKEACMS.Media;
 
@@ -28,9 +30,11 @@ namespace ZKEACMS.Controllers
     [DefaultAuthorize(Policy = PermissionKeys.ViewMedia)]
     public class MediaController : BasicController<MediaEntity, string, IMediaService>
     {
-        public MediaController(IMediaService service)
+        private readonly ILogger _logger;
+        public MediaController(IMediaService service, ILoggerFactory loggerFactory)
             : base(service)
         {
+            _logger = loggerFactory.CreateLogger<MediaController>();
         }
         [NonAction]
         public override IActionResult Index()
@@ -210,6 +214,60 @@ namespace ZKEACMS.Controllers
                     return File(ms.ToArray(), "image/jpeg");
                 }
             }
+        }
+
+        [HttpPost]
+        public IActionResult DownLoadExternalImage(string[] images)
+        {
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            WebClient webClient = new WebClient();
+            webClient.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3438.3 Safari/537.36";
+            //webClient.Proxy = new WebProxy("kyproxy.keyou.corp", 8080);
+            var parent = Service.Get(m => m.Title == "ͼƬ" && m.MediaType == (int)MediaType.Folder).FirstOrDefault();
+            if (parent == null)
+            {
+                parent = new MediaEntity
+                {
+                    Title = "ͼƬ",
+                    MediaType = (int)MediaType.Folder,
+                    ParentID = "#"
+                };
+                Service.Add(parent);
+            }
+            string parentId = parent.ID;
+
+            string path = Request.GetUploadPath();
+            foreach (var item in images)
+            {
+                if (!result.ContainsKey(item))
+                {
+                    string ext = Path.GetExtension(item);
+                    if (Easy.Mvc.Common.IsImage(ext))
+                    {
+                        string filePath = Path.Combine(path, string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext));
+                        try
+                        {
+                            webClient.DownloadFile(item, filePath);
+                            string webPath = Request.ChangeToWebPath(filePath);
+                            Service.Add(new MediaEntity
+                            {
+                                ParentID = parentId,
+                                Title = Path.GetFileName(filePath),
+                                Status = (int)RecordStatus.Active,
+                                Url = webPath
+                            });
+                            result.Add(item, webPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex.Message);
+                        }
+
+                    }
+                }
+
+            }
+            return Json(result.Select(m => new KeyValuePair<string, string>(m.Key, Url.Content(m.Value))));
         }
     }
 }
