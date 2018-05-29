@@ -1,37 +1,38 @@
-using Easy.Mvc.Plugin;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.Extensions.Configuration;
-using Easy.Mvc.ValueProvider;
-using Easy.RepositoryPattern;
-using Easy.Modules.User.Service;
-using Easy.Modules.Role;
+using CacheManager.Core;
+using Easy.Encrypt;
+using Easy.Logging;
+using Easy.MetaData;
 using Easy.Modules.DataDictionary;
 using Easy.Modules.MutiLanguage;
-using Easy.Mvc.Authorize;
-using Easy.Encrypt;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
-using Easy.Logging;
-using Easy.Options;
-using Easy.Mvc.RazorPages;
-using Easy.Notification;
-using Microsoft.AspNetCore.Authorization;
-using System.Text.Encodings.Web;
-using System.Text.Unicode;
-using System.Collections.Generic;
+using Easy.Modules.Role;
 using Easy.Modules.User.Models;
-using Easy.MetaData;
-using Microsoft.AspNetCore.Http;
+using Easy.Modules.User.Service;
+using Easy.Mvc.Authorize;
+using Easy.Mvc.Plugin;
+using Easy.Mvc.RazorPages;
+using Easy.Mvc.ValueProvider;
+using Easy.Net;
+using Easy.Notification;
+using Easy.Options;
+using Easy.RepositoryPattern;
 using Easy.RuleEngine;
 using Easy.RuleEngine.RuleProviders;
 using Easy.RuleEngine.Scripting;
-using CacheManager.Core;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System.Collections.Generic;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace Easy
 {
@@ -69,6 +70,7 @@ namespace Easy
             services.AddTransient<IRuleProvider, DateRuleProvider>();
             services.AddTransient<IRuleProvider, MoneyRuleProvider>();
             services.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
+            services.AddTransient<WebClient>();
 
             services.AddSingleton(serviceProvider => CacheFactory.Build<ScriptExpressionResult>(setting =>
             {

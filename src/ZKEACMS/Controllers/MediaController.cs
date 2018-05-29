@@ -8,6 +8,7 @@ using Easy.Image;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
 using Easy.Mvc.Extend;
+using Easy.Net;
 using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using ZKEACMS.Common.ViewModels;
 using ZKEACMS.Media;
 
@@ -31,10 +31,12 @@ namespace ZKEACMS.Controllers
     public class MediaController : BasicController<MediaEntity, string, IMediaService>
     {
         private readonly ILogger _logger;
-        public MediaController(IMediaService service, ILoggerFactory loggerFactory)
+        private readonly WebClient _webClient;
+        public MediaController(IMediaService service, ILoggerFactory loggerFactory, WebClient webClient)
             : base(service)
         {
             _logger = loggerFactory.CreateLogger<MediaController>();
+            _webClient = webClient;
         }
         [NonAction]
         public override IActionResult Index()
@@ -220,21 +222,10 @@ namespace ZKEACMS.Controllers
         public IActionResult DownLoadExternalImage(string[] images)
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
-            WebClient webClient = new WebClient();
-            webClient.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3438.3 Safari/537.36";
-            //webClient.Proxy = new WebProxy("kyproxy.keyou.corp", 8080);
-            var parent = Service.Get(m => m.Title == "ͼƬ" && m.MediaType == (int)MediaType.Folder).FirstOrDefault();
-            if (parent == null)
-            {
-                parent = new MediaEntity
-                {
-                    Title = "ͼƬ",
-                    MediaType = (int)MediaType.Folder,
-                    ParentID = "#"
-                };
-                Service.Add(parent);
-            }
-            string parentId = parent.ID;
+
+            //_webClient.Proxy = new System.Net.WebProxy("kyproxy.keyou.corp", 8080);
+            
+            string parentId = Service.GetImageFolder().ID;
 
             string path = Request.GetUploadPath();
             foreach (var item in images)
@@ -247,7 +238,7 @@ namespace ZKEACMS.Controllers
                         string filePath = Path.Combine(path, string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext));
                         try
                         {
-                            webClient.DownloadFile(item, filePath);
+                            _webClient.DownloadFile(item, filePath);
                             string webPath = Request.ChangeToWebPath(filePath);
                             Service.Add(new MediaEntity
                             {
@@ -265,7 +256,6 @@ namespace ZKEACMS.Controllers
 
                     }
                 }
-
             }
             return Json(result.Select(m => new KeyValuePair<string, string>(m.Key, Url.Content(m.Value))));
         }

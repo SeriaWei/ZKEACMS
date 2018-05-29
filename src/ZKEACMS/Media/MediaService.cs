@@ -1,4 +1,4 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+﻿/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.Extend;
 using Easy.Image;
 using Easy.RepositoryPattern;
@@ -70,6 +70,23 @@ namespace ZKEACMS.Media
                 item.MediaType = (int)MediaType.Folder;
             }
             return base.Add(item);
+        }
+
+        public MediaEntity GetImageFolder()
+        {
+            const string imageFolder = "图片";
+            var folder = Get(m => m.Title == imageFolder && m.MediaType == (int)MediaType.Folder).FirstOrDefault();
+            if (folder == null)
+            {
+                folder = new MediaEntity
+                {
+                    Title = imageFolder,
+                    MediaType = (int)MediaType.Folder,
+                    ParentID = "#"
+                };
+                Add(folder);
+            }
+            return folder;
         }
 
         public IList<MediaEntity> GetPage(string parentId, Pagination pagin)
