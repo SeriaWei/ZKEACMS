@@ -20,7 +20,10 @@ namespace ZKEACMS.Media
         
         public override ServiceResult<MediaEntity> Add(MediaEntity item)
         {
-            item.ID = Guid.NewGuid().ToString("N");
+            if (item.ID.IsNullOrEmpty())
+            {
+                item.ID = Guid.NewGuid().ToString("N");
+            }            
             if (item.ParentID.IsNullOrWhiteSpace())
             {
                 item.ParentID = "#";
