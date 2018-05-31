@@ -45,19 +45,23 @@ using System;
 using Easy.Mvc.Resource;
 using CacheManager.Core;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS
 {
     public static class Builder
     {
-        public static void UseZKEACMS(this IServiceCollection services, IConfigurationRoot configuration)
+        public static void UseZKEACMS(this IServiceCollection services, IConfiguration configuration)
         {
 
             services.AddMvc(option =>
             {
                 option.ModelBinderProviders.Insert(0, new WidgetModelBinderProvider());
                 option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
-            }).AddControllersAsServices().AddJsonOptions(option => { option.SerializerSettings.DateFormatString = "yyyy-MM-dd"; });
+            })
+            .AddControllersAsServices()
+            .AddJsonOptions(option => { option.SerializerSettings.DateFormatString = "yyyy-MM-dd"; })
+            .SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             services.TryAddScoped<IApplicationContextAccessor, ApplicationContextAccessor>();
             services.TryAddScoped<IApplicationContext, CMSApplicationContext>();
@@ -191,7 +195,7 @@ namespace ZKEACMS
                 });
         }
 
-        public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment)
+        public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
         {
             if (hostingEnvironment.IsDevelopment())
             {
@@ -199,7 +203,7 @@ namespace ZKEACMS
             }
             applicationBuilder.UseAuthentication();
             applicationBuilder.UseStaticFiles();
-            ServiceLocator.Setup(applicationBuilder.ApplicationServices.GetService<IHttpContextAccessor>());
+            ServiceLocator.Setup(httpContextAccessor);
             applicationBuilder.ConfigureResource();
             applicationBuilder.ConfigurePlugin(hostingEnvironment);
             applicationBuilder.UseMvc(routes =>

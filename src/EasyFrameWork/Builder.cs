@@ -38,7 +38,7 @@ namespace Easy
 {
     public static class Builder
     {
-        public static void UseEasyFrameWork(this IServiceCollection services, IConfigurationRoot configuration)
+        public static void UseEasyFrameWork(this IServiceCollection services, IConfiguration configuration)
         {
             services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<RazorViewEngineOptions>, PluginRazorViewEngineOptionsSetup>());
 

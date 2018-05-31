@@ -20,33 +20,22 @@ namespace ZKEACMS.WebHost
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-             .SetBasePath(env.ContentRootPath)
-             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-             .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-             .AddEnvironmentVariables();
-
-            if (env.IsDevelopment())
-            {
-                builder.AddApplicationInsightsSettings(developerMode: true);
-            }
-            Configuration = builder.Build();
-        }        
-        public IConfigurationRoot Configuration { get; }
+            Configuration = configuration;
+        }
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureResource<DefaultResourceManager>();
-            services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddScoped<IOnDatabaseConfiguring, EntityFrameWorkConfigure>();
-
+            services.AddApplicationInsightsTelemetry(Configuration);
             services.UseZKEACMS(Configuration);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IHttpContextAccessor httpContextAccessor)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -61,7 +50,7 @@ namespace ZKEACMS.WebHost
                 loggerFactory.UseFileLog(env, app.ApplicationServices.GetService<IHttpContextAccessor>());
                 app.UseExceptionHandler("/Error");
             }
-            app.UseZKEACMS(env);
+            app.UseZKEACMS(env, httpContextAccessor);
         }
     }
 }
