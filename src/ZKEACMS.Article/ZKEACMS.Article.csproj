@@ -15,16 +15,13 @@
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Scripts\_references.js" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Scripts\_references.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0-rc1-final" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
 

@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="Alipay.AopSdk.F2FPay.AspnetCore" Version="2.2.7" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0-rc1-final" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
 </Project>
