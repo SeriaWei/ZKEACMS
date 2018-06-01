@@ -292,12 +292,14 @@ namespace ZKEACMS.Page
             }
             if (path == "/")
             {
-                path = "/index";
+                path = "~/index";
             }
-            if (!path.StartsWith("~"))
+            else
             {
-                path = "~" + path;
+                path = $"~{path}";
             }
+
+
             return CurrentDbSet.AsNoTracking()
                       .Where(m => m.Url == path && m.IsPublishedPage == !isPreView)
                       .OrderByDescending(m => m.PublishDate)
