@@ -31,7 +31,6 @@ namespace ZKEACMS.WebHost
             services.ConfigureResource<DefaultResourceManager>();
 
             services.AddScoped<IOnDatabaseConfiguring, EntityFrameWorkConfigure>();
-            services.AddApplicationInsightsTelemetry(Configuration);
             services.UseZKEACMS(Configuration);
         }
 
@@ -43,7 +42,6 @@ namespace ZKEACMS.WebHost
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
             }
             else
             {

@@ -61,7 +61,9 @@ namespace ZKEACMS
             })
             .AddControllersAsServices()
             .AddJsonOptions(option => { option.SerializerSettings.DateFormatString = "yyyy-MM-dd"; })
-            .SetCompatibilityVersion(CompatibilityVersion.Latest);
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.TryAddScoped<IApplicationContextAccessor, ApplicationContextAccessor>();
             services.TryAddScoped<IApplicationContext, CMSApplicationContext>();
