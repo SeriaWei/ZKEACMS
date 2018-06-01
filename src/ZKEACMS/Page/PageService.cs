@@ -1,4 +1,4 @@
-/* http://www.zkea.net/ 
+ï»¿/* http://www.zkea.net/ 
  * Copyright 2018 ZKEASOFT 
  * http://www.zkea.net/licenses 
  */
@@ -72,6 +72,7 @@ namespace ZKEACMS.Page
 
         public void Publish(PageEntity item)
         {
+            string pageId = item.ID;
             BeginTransaction(() =>
             {
                 item.IsPublish = true;
@@ -110,6 +111,15 @@ namespace ZKEACMS.Page
                     }
                 });
             });
+            const int keepVersions = 6;
+            var allPublishedVersion = Get(m => m.ReferencePageID == pageId && m.IsPublishedPage == true).OrderByDescending(m => m.PublishDate).ToList();
+            if (allPublishedVersion.Count > keepVersions)
+            {
+                for (int i = keepVersions; i < allPublishedVersion.Count; i++)
+                {
+                    DeleteVersion(allPublishedVersion[i].ID);
+                }
+            }
         }
         public void Revert(string ID, bool RetainLatest)
         {
@@ -121,6 +131,7 @@ namespace ZKEACMS.Page
                     var refPage = Get(page.ReferencePageID);
                     refPage.IsPublish = false;
                     Update(refPage);
+                    page.Description = "ä»Ž {0:yyyy/MM/dd H:mm} ç‰ˆæœ¬æ’¤å›ž".FormatWith(page.PublishDate);
                     page.PublishDate = DateTime.Now;
                     Add(page);
 
@@ -135,7 +146,7 @@ namespace ZKEACMS.Page
                     });
                     _widgetService.RemoveCache(page.ReferencePageID);
                     if (!RetainLatest)
-                    {//Çå¿Õµ±Ç°µÄËùÓÐÐÞ¸Ä
+                    {//æ¸…ç©ºå½“å‰çš„æ‰€æœ‰ä¿®æ”¹
 
                         _layoutHtmlService.Remove(m => m.PageId == page.ReferencePageID);
                         _zoneService.Remove(m => m.PageId == page.ReferencePageID);
