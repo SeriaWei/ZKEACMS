@@ -199,10 +199,6 @@ namespace ZKEACMS
 
         public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
         {
-            if (hostingEnvironment.IsDevelopment())
-            {
-                applicationBuilder.UsePluginStaticFile();
-            }
             applicationBuilder.UseAuthentication();
             applicationBuilder.UseStaticFiles();
             ServiceLocator.Setup(httpContextAccessor);
@@ -215,6 +211,10 @@ namespace ZKEACMS
                     routes.MapRoute(route.RouteName, route.Template, route.Defaults, route.Constraints, route.DataTokens);
                 });
             });
+            if (hostingEnvironment.IsDevelopment())
+            {
+                applicationBuilder.UsePluginStaticFile();
+            }
             Console.WriteLine("Welcome to use ZKEACMS");
         }
     }
