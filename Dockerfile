@@ -3,9 +3,10 @@ WORKDIR /build
 # Copy all files
 COPY . ./
 RUN dotnet restore
+dotnet tool install -g ZKEACMS.Publisher
 # Release ZKEACMS.WebHost
 WORKDIR /build/src/ZKEACMS.WebHost
-RUN dotnet publish-zkeacms
+RUN publish-zkeacms
 
 # Build runtime image
 FROM microsoft/aspnetcore:latest
