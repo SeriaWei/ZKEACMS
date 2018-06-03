@@ -1,6 +1,6 @@
 Add-Type -assembly "system.io.compression.filesystem"
 $source = "Release"
-$destination = "ZKEACMS.Core.v2.9.zip"
+$destination = "ZKEACMS.Core.v3.0.zip"
 Write-Host "Starting release" $destination
 Write-Host "This may take a few minutes, please wait..."
 if(!(Get-Command dotnet -ErrorAction SilentlyContinue))
@@ -16,7 +16,7 @@ if(Test-path $destination) {
 }
 Invoke-Expression("dotnet restore")
 Set-Location src/ZKEACMS.WebHost
-Invoke-Expression("dotnet publish-zkeacms")
+Invoke-Expression("publish-zkeacms")
 Set-Location ../../
 Write-Host "Copy files..."
 Copy-Item -Path "src/ZKEACMS.WebHost/bin/Release/PublishOutput" -Destination "Release/Application" -Force -Recurse
