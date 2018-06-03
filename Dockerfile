@@ -1,4 +1,4 @@
-FROM microsoft/aspnetcore-build:2.1.300-preview1 AS builder
+FROM microsoft/dotnet:2.1.300-sdk AS builder
 WORKDIR /build
 # Copy all files
 COPY . ./
@@ -9,7 +9,7 @@ WORKDIR /build/src/ZKEACMS.WebHost
 RUN publish-zkeacms
 
 # Build runtime image
-FROM microsoft/aspnetcore:latest
+FROM microsoft/dotnet:2.1-aspnetcore-runtime
 WORKDIR /zkeacms
 COPY --from=builder /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput .
 EXPOSE 80
