@@ -6,7 +6,7 @@ RUN dotnet restore
 RUN dotnet tool install -g ZKEACMS.Publisher
 # Release ZKEACMS.WebHost
 WORKDIR /build/src/ZKEACMS.WebHost
-RUN export PATH="$PATH:/root/.dotnet/tools"
+ENV PATH "$PATH:/root/.dotnet/tools"
 RUN publish-zkeacms
 
 # Build runtime image
