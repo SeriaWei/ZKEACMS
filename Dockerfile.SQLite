@@ -1,4 +1,4 @@
-FROM microsoft/aspnetcore-build:latest AS builder
+FROM microsoft/aspnetcore-build:2.1.300-preview1 AS builder
 WORKDIR /build
 # Copy all files
 COPY . ./
