@@ -1,19 +1,19 @@
-﻿# ZKEACMS Build With Asp.Net Core
-![BuildSuccess](http://cdn.zkeasoft.com/images/buildsuccess.svg) 
+﻿# ZKEACMS Build With Asp.Net Core 2.1
 ### Docker
-在Docker中体验 / Run on docker
 ```
 docker run -d -p 5000:80 zkeasoft/zkeacms
 ```
 ### 发布 / Publish
-使用 Publish.cmd / Publish.sh 或者
+使用 Publish.cmd / Publish.sh，或者安装发布程序后手动发布
 ```
-./dotnet restore
-./src/ZKEACMS.WebHost/dotnet publish-zkeacms
+dotnet tool install -g ZKEACMS.Publisher
+```
+```
+./src/ZKEACMS.WebHost/publish-zkeacms
 ```
 ### 包含运行时发布 / Publish width runtime
 ```
-./src/ZKEACMS.WebHost/dotnet publish-zkeacms win7-x64
+./src/ZKEACMS.WebHost/publish-zkeacms -r win-x64
 ```
 ### 演示 / Demo Site
 [http://demo.zkea.net](http://demo.zkea.net)
