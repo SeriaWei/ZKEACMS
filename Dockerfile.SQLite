@@ -3,7 +3,7 @@ WORKDIR /build
 # Copy all files
 COPY . ./
 RUN dotnet restore
-dotnet tool install -g ZKEACMS.Publisher
+RUN dotnet tool install -g ZKEACMS.Publisher
 # Release ZKEACMS.WebHost
 WORKDIR /build/src/ZKEACMS.WebHost
 RUN publish-zkeacms
