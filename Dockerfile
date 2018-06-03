@@ -2,6 +2,7 @@ FROM microsoft/dotnet:2.1.300-sdk AS builder
 WORKDIR /build
 # Copy all files
 COPY . ./
+RUN export PATH="$PATH:/root/.dotnet/tools"
 RUN dotnet restore
 RUN dotnet tool install -g ZKEACMS.Publisher
 # Release ZKEACMS.WebHost
