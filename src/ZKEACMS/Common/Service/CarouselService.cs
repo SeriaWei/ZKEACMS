@@ -16,13 +16,13 @@ namespace ZKEACMS.Common.Service
     {
         private readonly ICarouselItemService _carouselItemService;
 
-
-
         public CarouselService(ICarouselItemService carouselItemService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _carouselItemService = carouselItemService;
         }
+
+        public override DbSet<CarouselEntity> CurrentDbSet => (DbContext as CMSDbContext).Carousel;
 
         public override CarouselEntity Get(params object[] primaryKey)
         {

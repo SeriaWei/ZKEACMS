@@ -18,6 +18,8 @@ namespace ZKEACMS.DataArchived
         {
         }
 
+        public override DbSet<DataArchived> CurrentDbSet => (DbContext as CMSDbContext).DataArchived;
+
         public JsonConverter[] JsonConverters { get; set; }
 
 

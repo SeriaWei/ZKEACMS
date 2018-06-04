@@ -39,6 +39,7 @@ namespace ZKEACMS.Widget
             _pageWidgetCacheManage = pageWidgetCacheManage;
             IsNeedNotifyChange = true;
         }
+        public override DbSet<WidgetBasePart> CurrentDbSet => (DbContext as CMSDbContext).WidgetBasePart;
         public bool IsNeedNotifyChange { get; set; }
 
         private void TriggerChange(WidgetBase widget)

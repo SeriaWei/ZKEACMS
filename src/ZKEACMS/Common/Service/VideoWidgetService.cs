@@ -13,5 +13,6 @@ namespace ZKEACMS.Common.Service
             : base(widgetService, applicationContext, dbContext)
         {
         }
+        public override DbSet<VideoWidget> CurrentDbSet => (DbContext as CMSDbContext).VideoWidget;
     }
 }

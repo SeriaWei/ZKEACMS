@@ -18,6 +18,8 @@ namespace ZKEACMS.Layout
         {
             _cacheManager = cacheManager;
         }
+        public override DbSet<LayoutHtml> CurrentDbSet => (DbContext as CMSDbContext).LayoutHtml;
+
         public override IQueryable<LayoutHtml> Get()
         {
             return CurrentDbSet.AsNoTracking();

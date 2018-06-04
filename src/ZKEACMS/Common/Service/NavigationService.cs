@@ -16,7 +16,7 @@ namespace ZKEACMS.Common.Service
         public NavigationService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
+        public override DbSet<NavigationEntity> CurrentDbSet => (DbContext as CMSDbContext).Navigation;
         public override ServiceResult<NavigationEntity> Add(NavigationEntity item)
         {
             if (item.ParentId.IsNullOrEmpty())

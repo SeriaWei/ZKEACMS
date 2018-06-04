@@ -7,6 +7,7 @@ using ZKEACMS.Common.Models;
 using ZKEACMS.Widget;
 using ZKEACMS.Page;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Common.Service
 {
@@ -20,6 +21,7 @@ namespace ZKEACMS.Common.Service
             _pageService = pageService;
         }
 
+        public override DbSet<BreadcrumbWidget> CurrentDbSet => (DbContext as CMSDbContext).BreadcrumbWidget;
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {

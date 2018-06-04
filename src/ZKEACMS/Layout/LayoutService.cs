@@ -17,6 +17,11 @@ namespace ZKEACMS.Layout
 {
     public class LayoutService : ServiceBase<LayoutEntity>, ILayoutService
     {
+        private readonly IZoneService _zoneService;
+        private readonly ILayoutHtmlService _layoutHtmlService;
+        private readonly IWidgetActivator _widgetActivator;
+        private readonly IWidgetBasePartService _widgetService;
+
         public LayoutService(IDataArchivedService dataArchivedService,
             IZoneService zoneService,
             IWidgetBasePartService widgetService,
@@ -26,15 +31,14 @@ namespace ZKEACMS.Layout
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
-            ZoneService = zoneService;
-            WidgetService = widgetService;
-            LayoutHtmlService = layoutHtmlService;
-            WidgetActivator = widgetActivator;
+            _zoneService = zoneService;
+            _widgetService = widgetService;
+            _layoutHtmlService = layoutHtmlService;
+            _widgetActivator = widgetActivator;
         }
-        public IZoneService ZoneService { get; set; }
-        public ILayoutHtmlService LayoutHtmlService { get; set; }
-        public IWidgetActivator WidgetActivator { get; set; }
-        public IWidgetBasePartService WidgetService { get; set; }
+
+        public override DbSet<LayoutEntity> CurrentDbSet => (DbContext as CMSDbContext).Layout;
+        
 
         private string GenerateKey(object id)
         {
@@ -57,7 +61,7 @@ namespace ZKEACMS.Layout
                 item.Zones.Each(m =>
                 {
                     m.LayoutId = item.ID;
-                    ZoneService.Add(m);
+                    _zoneService.Add(m);
                 });
             }
             if (item.Html != null)
@@ -65,7 +69,7 @@ namespace ZKEACMS.Layout
                 item.Html.Each(m =>
                 {
                     m.LayoutId = item.ID;
-                    LayoutHtmlService.Add(m);
+                    _layoutHtmlService.Add(m);
                 });
             }
             return result;
@@ -77,13 +81,13 @@ namespace ZKEACMS.Layout
             {
                 if (item.Zones != null)
                 {
-                    var zones = ZoneService.GetByPage(new PageEntity { ID = item.Page.ID, LayoutId = item.ID });
+                    var zones = _zoneService.GetByPage(new PageEntity { ID = item.Page.ID, LayoutId = item.ID });
 
                     item.Zones.Where(m => zones.All(n => n.ID != m.ID)).Each(m =>
                     {
                         m.LayoutId = item.ID;
                         m.PageId = item.Page.ID;
-                        ZoneService.Add(m);
+                        _zoneService.Add(m);
                     });
                     zones.Each(m =>
                     {
@@ -94,19 +98,19 @@ namespace ZKEACMS.Layout
                             m.PageId = item.Page.ID;
                             m.Title = changeZone.Title;
                             m.ZoneName = changeZone.ZoneName;
-                            ZoneService.Update(m);
+                            _zoneService.Update(m);
                         }
                     });
-                    zones.Where(m => item.Zones.All(n => n.ID != m.ID)).Each(m => ZoneService.Remove(m.ID));
+                    zones.Where(m => item.Zones.All(n => n.ID != m.ID)).Each(m => _zoneService.Remove(m.ID));
                 }
                 if (item.Html != null)
                 {
-                    LayoutHtmlService.Remove(m => m.PageId == item.Page.ID);
+                    _layoutHtmlService.Remove(m => m.PageId == item.Page.ID);
                     item.Html.Each(m =>
                     {
                         m.LayoutId = item.ID;
                         m.PageId = item.Page.ID;
-                        LayoutHtmlService.Add(m);
+                        _layoutHtmlService.Add(m);
                     });
                 }
             }
@@ -114,12 +118,12 @@ namespace ZKEACMS.Layout
             {
                 if (item.Zones != null)
                 {
-                    var zones = ZoneService.Get(m => m.LayoutId == item.ID);
+                    var zones = _zoneService.Get(m => m.LayoutId == item.ID);
 
                     item.Zones.Where(m => zones.All(n => n.ID != m.ID)).Each(m =>
                     {
                         m.LayoutId = item.ID;
-                        ZoneService.Add(m);
+                        _zoneService.Add(m);
                     });
                     zones.Each(m =>
                     {
@@ -129,18 +133,18 @@ namespace ZKEACMS.Layout
                             m.LayoutId = item.ID;
                             m.Title = changeZone.Title;
                             m.ZoneName = changeZone.ZoneName;
-                            ZoneService.Update(m);
+                            _zoneService.Update(m);
                         }
                     });
-                    zones.Where(m => item.Zones.All(n => n.ID != m.ID)).Each(m => ZoneService.Remove(m.ID));
+                    zones.Where(m => item.Zones.All(n => n.ID != m.ID)).Each(m => _zoneService.Remove(m.ID));
                 }
                 if (item.Html != null)
                 {
-                    LayoutHtmlService.Remove(m => m.LayoutId == item.ID);
+                    _layoutHtmlService.Remove(m => m.LayoutId == item.ID);
                     item.Html.Each(m =>
                     {
                         m.LayoutId = item.ID;
-                        LayoutHtmlService.Add(m);
+                        _layoutHtmlService.Add(m);
                     });
                 }
             }
@@ -164,10 +168,10 @@ namespace ZKEACMS.Layout
             LayoutEntity entity = base.Get(primaryKeys);
             if (entity == null)
                 return null;
-            IEnumerable<ZoneEntity> zones = ZoneService.GetByLayoutId(entity.ID);
+            IEnumerable<ZoneEntity> zones = _zoneService.GetByLayoutId(entity.ID);
             entity.Zones = new ZoneCollection();
             zones.Each(entity.Zones.Add);
-            IEnumerable<LayoutHtml> htmls = LayoutHtmlService.GetByLayoutID(entity.ID);
+            IEnumerable<LayoutHtml> htmls = _layoutHtmlService.GetByLayoutID(entity.ID);
             entity.Html = new LayoutHtmlCollection();
             htmls.Each(entity.Html.Add);
             return entity;
@@ -175,10 +179,10 @@ namespace ZKEACMS.Layout
         public LayoutEntity GetByPage(PageEntity page)
         {
             LayoutEntity entity = new LayoutEntity { ID = page.LayoutId };
-            IEnumerable<ZoneEntity> zones = ZoneService.GetByPage(page);
+            IEnumerable<ZoneEntity> zones = _zoneService.GetByPage(page);
             entity.Zones = new ZoneCollection();
             zones.Each(entity.Zones.Add);
-            IEnumerable<LayoutHtml> htmls = LayoutHtmlService.GetByPage(page);
+            IEnumerable<LayoutHtml> htmls = _layoutHtmlService.GetByPage(page);
             entity.Html = new LayoutHtmlCollection();
             htmls.Each(entity.Html.Add);
             return entity;
@@ -186,8 +190,8 @@ namespace ZKEACMS.Layout
         public IList<LayoutEntity> GetWithFull()
         {
             var layouts = Get().ToList();
-            var zones = ZoneService.Get().ToList();
-            var htmls = LayoutHtmlService.Get().ToList();
+            var zones = _zoneService.Get().ToList();
+            var htmls = _layoutHtmlService.Get().ToList();
             foreach (var item in layouts)
             {
                 item.Zones = new ZoneCollection();
@@ -204,12 +208,12 @@ namespace ZKEACMS.Layout
             {
                 BeginTransaction(() =>
                 {
-                    LayoutHtmlService.Remove(m => m.LayoutId == item.ID && m.PageId == null);
-                    ZoneService.Remove(m => m.LayoutId == item.ID && m.PageId == null);
-                    var widgets = WidgetService.Get(m => m.LayoutID == item.ID);
+                    _layoutHtmlService.Remove(m => m.LayoutId == item.ID && m.PageId == null);
+                    _zoneService.Remove(m => m.LayoutId == item.ID && m.PageId == null);
+                    var widgets = _widgetService.Get(m => m.LayoutID == item.ID);
                     widgets.Each(m =>
                     {
-                        using (var widgetService = WidgetActivator.Create(m))
+                        using (var widgetService = _widgetActivator.Create(m))
                         {
                             widgetService.DeleteWidget(m.ID);
                         }

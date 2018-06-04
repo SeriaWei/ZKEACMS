@@ -23,6 +23,7 @@ namespace ZKEACMS.Zone
             _serviceProvder = serviceProvder;
             _cacheManager = cacheManager;
         }
+        public override DbSet<ZoneEntity> CurrentDbSet => (DbContext as CMSDbContext).Zone;
         public override IQueryable<ZoneEntity> Get()
         {
             return CurrentDbSet.AsNoTracking();
