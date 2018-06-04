@@ -183,7 +183,11 @@ $(function () {
     $(document).on("click", ".image-local .upload-external", function () {
         var group = $(this).closest(".input-group");
         group.addClass("processing");
-        $.post("/admin/Media/DownLoadExternalImage", { images: [group.find("input").val()] }, function (data) {
+        var url = group.find("input").val();
+        if (url.indexOf(".qpic.cn/") > 0 && url.indexOf("tp=webp") > 0) {
+            url = url.split("?")[0];
+        }
+        $.post("/admin/Media/DownLoadExternalImage", { images: [url] }, function (data) {
             if (data) {
                 for (var i = 0; i < data.length; i++) {
                     group.find("input").val(data[i].value).trigger("change");
@@ -261,17 +265,30 @@ $(function () {
     if (mainMenu.length > 0) {
         var currentSelect;
         var match = 0;
-        $("a.menu-item", mainMenu).each(function () {
-            var href = $(this).attr("href");
+        var pathArray = (location.pathname + location.search).split(/[/|?]/);
+        var menuItems = $("a.menu-item", mainMenu);
+        for (var i = 0; i < menuItems.length; i++) {
+            var href = $(menuItems[i]).attr("href");
             if (href) {
-                if (location.pathname.toLocaleLowerCase().indexOf(href.toLowerCase()) === 0) {
-                    if (href.length > match) {
-                        currentSelect = $(this);
-                        match = href.length;
+                var hrefArray = href.toLowerCase().split(/[/|?]/);
+                var matchCount = 0;
+                var fullMath = true;
+                for (var j = 0; j < pathArray.length; j++) {
+                    if (hrefArray.indexOf(pathArray[j].toLowerCase()) >= 0) {
+                        matchCount++;
+                    } else {
+                        fullMath = false;
+                    }
+                }
+                if (fullMath || matchCount > match) {
+                    match = matchCount;
+                    currentSelect = $(menuItems[i]);
+                    if (fullMath) {
+                        break;
                     }
                 }
             }
-        });
+        }
         if (currentSelect && currentSelect.size()) {
             currentSelect.addClass("active");
             if (currentSelect.parent().hasClass("accordion-inner")) {
