@@ -17,7 +17,7 @@ using Easy.StartTask;
 
 namespace ZKEACMS.Updater
 {
-    public class AutoUpdatePlug : PluginBase
+    public class UpdaterPlug : PluginBase
     {
         public override IEnumerable<RouteDescriptor> RegistRoute()
         {
