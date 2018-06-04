@@ -1,28 +1,23 @@
-﻿/*!
- * http://www.zkea.net/
- * Copyright 2017 ZKEASOFT
- * http://www.zkea.net/licenses
- */
-
-using Easy.RepositoryPattern;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using ZKEACMS.Options;
 
-namespace ZKEACMS.WebHost
+namespace ZKEACMS.Updater
 {
-    public class EntityFrameWorkConfigure : IOnDatabaseConfiguring
+    public class CurrentDbContext : DbContext
     {
-        private readonly IOptionsSnapshot<DatabaseOption> _dataBaseOption;
-        private readonly ILoggerFactory _loggerFactory;
-        public EntityFrameWorkConfigure(IOptionsSnapshot<DatabaseOption> dataBaseOption, ILoggerFactory loggerFactory)
+        private readonly IOptions<DatabaseOption> _dataBaseOption;
+        public CurrentDbContext(IOptions<DatabaseOption> dataBaseOption)
         {
             _dataBaseOption = dataBaseOption;
-            _loggerFactory = loggerFactory;
         }
-        public void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             switch (_dataBaseOption.Value.DbType)
             {
@@ -47,9 +42,6 @@ namespace ZKEACMS.WebHost
                         break;
                     }
             }
-
-            optionsBuilder.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
-            optionsBuilder.UseLoggerFactory(_loggerFactory);
         }
     }
 }

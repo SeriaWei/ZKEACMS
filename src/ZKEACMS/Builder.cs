@@ -46,6 +46,7 @@ using Easy.Mvc.Resource;
 using CacheManager.Core;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Easy.StartTask;
 
 namespace ZKEACMS
 {
@@ -215,6 +216,10 @@ namespace ZKEACMS
                     routes.MapRoute(route.RouteName, route.Template, route.Defaults, route.Constraints, route.DataTokens);
                 });
             });
+            foreach (var task in applicationBuilder.ApplicationServices.GetServices<IStartTask>())
+            {
+                task.Excute();
+            }
             Console.WriteLine("Welcome to use ZKEACMS");
         }
     }
