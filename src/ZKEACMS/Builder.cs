@@ -57,7 +57,7 @@ namespace ZKEACMS
 
             services.AddMvc(option =>
             {
-                option.ModelBinderProviders.Insert(0, new WidgetModelBinderProvider());
+                option.ModelBinderProviders.Insert(0, new WidgetTypeModelBinderProvider());
                 option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
             })
             .AddControllersAsServices()

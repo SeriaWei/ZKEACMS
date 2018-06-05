@@ -171,7 +171,7 @@ $(function () {
         placement: "bottom"
     }).on("change", function () {
         var url = $(this).val();
-        if (url.indexOf("~/") != 0 && url.indexOf("/") != 0 && url.replace("http://", "").replace("https://", "").indexOf(window.location.hostname) != 0) {
+        if (url && url.indexOf("~/") != 0 && url.indexOf("/") != 0 && url.replace("http://", "").replace("https://", "").indexOf(window.location.hostname) != 0) {
             if ($(this).siblings(".image-local").length == 0) {
                 $('<div class="input-group-addon image-local"><span class="glyphicon glyphicon-floppy-open upload-external"></span></div>').insertAfter($(this));
             }

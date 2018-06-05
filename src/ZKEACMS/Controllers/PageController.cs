@@ -123,6 +123,10 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Edit(PageEntity entity)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(entity);
+            }
             try
             {
                 ViewBag.Page = entity;
