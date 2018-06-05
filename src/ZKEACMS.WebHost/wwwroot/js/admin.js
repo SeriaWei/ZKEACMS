@@ -178,7 +178,7 @@ $(function () {
         } else {
             $(this).siblings(".image-local").remove();
         }
-    }).parent().addClass("loading");
+    }).trigger("change").parent().addClass("loading");
 
     $(document).on("click", ".image-local .upload-external", function () {
         var group = $(this).closest(".input-group");
