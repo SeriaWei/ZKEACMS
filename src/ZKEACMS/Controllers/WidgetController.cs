@@ -88,10 +88,10 @@ namespace ZKEACMS.Controllers
         [HttpPost, ViewDataZones]
         public ActionResult Create(BasicWidget widget, string ReturnUrl)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(widget);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(widget);
+            //}
             _widgetActivator.Create(widget).AddWidget(widget);
             if (widget.ActionType == ActionType.Continue)
             {
@@ -133,10 +133,10 @@ namespace ZKEACMS.Controllers
         [HttpPost, ViewDataZones]
         public ActionResult Edit(BasicWidget widget, string ReturnUrl)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(widget);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(widget);
+            //}
             _widgetActivator.Create(widget).UpdateWidget(widget);
             if (!ReturnUrl.IsNullOrEmpty())
             {
