@@ -18,8 +18,8 @@
         pageTree.AddPlugin(Plugins.DragAndDrop).AddContextMenuItem(new ContextmenuItem { Label = "新建", Action = "Create", Icon = "glyphicon glyphicon-plus" })
             .AddContextMenuItem(new ContextmenuItem { Label = "查看", Action = "View", Icon = "glyphicon glyphicon-new-window" })
             .AddContextMenuItem(new ContextmenuItem { Label = "编辑", Action = "Design", Icon = "glyphicon glyphicon-pencil" })
-            .AddContextMenuItem(new ContextmenuItem { Label = "预览", Action = "PreView", Icon = "glyphicon glyphicon-search" })
-            .AddContextMenuItem(new ContextmenuItem { Label = "属性", Action = "Edit", Icon = "glyphicon glyphicon-edit", SeparatorAfter = true })
+            .AddContextMenuItem(new ContextmenuItem { Label = "预览", Action = "PreView", Icon = "glyphicon glyphicon-eye-open" })
+            .AddContextMenuItem(new ContextmenuItem { Label = "属性", Action = "Edit", Icon = "glyphicon glyphicon-record", SeparatorAfter = true })
             .AddContextMenuItem(new ContextmenuItem { Label = "发布", Action = "Publish", Icon = "glyphicon glyphicon-open" });
     }
     else
@@ -87,7 +87,7 @@
                                 编辑：进入页面的设计模式，编辑内容
                             </li>
                             <li>
-                                布局：修改页面布局。<code>会影响所有使用该布局的页面</code>
+                                布局：修改页面布局
                             </li>
                         </ul>
                     </li>

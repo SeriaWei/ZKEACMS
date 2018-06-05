@@ -80,20 +80,20 @@
                     <div class="navbar-form navbar-right">
                         <div class="btn-group">
                             <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new {Model.Page.ID})">
-                                <i class="glyphicon glyphicon-search"></i>
+                                <i class="glyphicon glyphicon-eye-open"></i>
                                 预览
                             </a>
                             <a class="btn btn-primary" href="@Url.Action("Index", "Page", new {PageID = Model.Page.ID})">
-                                <i class="glyphicon glyphicon-th"></i>
+                                <i class="glyphicon glyphicon-th-list"></i>
                                 概览
                             </a>
                             <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new {Model.ID, PageID = Model.Page.ID})">
-                                <i class="glyphicon glyphicon-th-list"></i>
-                                布局
+                                <i class="glyphicon glyphicon-th"></i>
+                                编辑布局
                             </a>
                             <a class="btn btn-primary" href="@Url.Action("Edit", "Page", new { Model.Page.ID})">
-                                <i class="glyphicon glyphicon-edit"></i>
-                                属性
+                                <i class="glyphicon glyphicon-record"></i>
+                                属性/历史记录
                             </a>
                             <a class="btn btn-primary" href="@Url.Action("SelectWidget", "WidgetTemplate", new { pageId = Model.Page.ID})">
                                 <i class="glyphicon glyphicon-plus"></i>

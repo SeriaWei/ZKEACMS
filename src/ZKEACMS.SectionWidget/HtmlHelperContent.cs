@@ -11,7 +11,7 @@ namespace ZKEACMS.SectionWidget
         {
             if (content != null && content.SectionContentType > 0)
             {
-                html.RenderPartial("SectionPartial." + ((SectionContentBase.Types)content.SectionContentType), content);
+                html.RenderPartialAsync("SectionPartial." + ((SectionContentBase.Types)content.SectionContentType), content).GetAwaiter().GetResult();
             }
         }
 
@@ -19,7 +19,7 @@ namespace ZKEACMS.SectionWidget
         {
             if (content != null && content.SectionContentType > 0)
             {
-                html.RenderPartial("SectionPartial." + ((SectionContentBase.Types)content.SectionContentType + ".Edit"), content);
+                html.RenderPartialAsync("SectionPartial." + ((SectionContentBase.Types)content.SectionContentType + ".Edit"), content).GetAwaiter().GetResult();
             }
         }
     }

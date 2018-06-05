@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using ZKEACMS.Widget;
 using System.Reflection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ZKEACMS.ModelBinder
 {
@@ -14,7 +16,7 @@ namespace ZKEACMS.ModelBinder
         {
             if (typeof(BasicWidget).IsAssignableFrom(context.Metadata.ModelType))
             {
-                return new WidgetBinder(context);
+                return new WidgetBinder(context, context.Services.GetService<ILoggerFactory>());
             }
             return null;
         }

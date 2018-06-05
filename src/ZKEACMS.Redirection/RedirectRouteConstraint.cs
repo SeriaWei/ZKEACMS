@@ -19,8 +19,8 @@ namespace ZKEACMS.Redirection
                 return true;
             }
             path = path.Replace(".html", string.Empty, StringComparison.OrdinalIgnoreCase);
-            var redirect = httpContext.RequestServices.GetService<IUrlRedirectService>().Get(m => m.Status == (int)Easy.Constant.RecordStatus.Active && m.InComingUrl == path);
-            return redirect.Count() == 1 && redirect.First().InComingUrl != redirect.First().DestinationURL;
+            var redirect = httpContext.RequestServices.GetService<IUrlRedirectService>().Count(m => m.Status == (int)Easy.Constant.RecordStatus.Active && m.InComingUrl == path && m.InComingUrl != m.DestinationURL);
+            return redirect > 0;
         }
     }
 }

@@ -18,14 +18,14 @@ namespace ZKEACMS.Theme
         private const string PreViewCookieName = "PreViewTheme";
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-
-
         public ThemeService(ICookie cookie, IHttpContextAccessor httpContextAccessor, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _cookie = cookie;
             _httpContextAccessor = httpContextAccessor;
         }
+
+        public override DbSet<ThemeEntity> CurrentDbSet => (DbContext as CMSDbContext).Theme;
 
         public void SetPreview(string id)
         {

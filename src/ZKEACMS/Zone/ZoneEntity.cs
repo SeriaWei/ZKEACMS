@@ -14,6 +14,7 @@ namespace ZKEACMS.Zone
         [Key]
         public string ID { get; set; }
         public string LayoutId { get; set; }
+        public string PageId { get; set; }
         public string ZoneName { get; set; }
         public string HeadingCode { get; set; }
     }

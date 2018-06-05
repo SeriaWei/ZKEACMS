@@ -76,18 +76,23 @@ namespace Easy.Modules.User.Service
             {
                 throw new Exception($"邮件地址 {item.Email} 已被使用");
             }
-            if (item.Roles != null)
+            var result = base.Add(item);
+            if (!result.HasViolation)
             {
-                item.Roles.Each(m =>
+                if (item.Roles != null)
                 {
-                    m.UserID = item.UserID;
-                    if (m.ActionType == ActionType.Create)
+                    item.Roles.Each(m =>
                     {
-                        (DbContext as EasyDbContext).UserRoleRelation.Add(m);
-                    }
-                });
+                        m.UserID = item.UserID;
+                        if (m.ActionType == ActionType.Create)
+                        {
+                            (DbContext as EasyDbContext).UserRoleRelation.Add(m);
+                        }
+                    });
+                }
+                DbContext.SaveChanges();
             }
-            return base.Add(item);
+            return result;
         }
 
         public override ServiceResult<UserEntity> Update(UserEntity item)

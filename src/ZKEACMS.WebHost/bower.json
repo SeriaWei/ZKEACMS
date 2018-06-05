@@ -4,14 +4,14 @@
   "dependencies": {
     "bootstrap": "v3.3.7",
     "jquery-validation": "1.17.0",
-    "jquery-validation-unobtrusive": "3.2.6",
+    "jquery-validation-unobtrusive": "v3.2.10",
     "jquery": "3.3.1",
     "jstree": "3.3.5",
     "lightbox2": "v2.10.0",
-    "datatables": "1.10.11",
-    "bootstrap-datepicker": "v1.7.1",
+    "datatables": "1.10.16",
+    "bootstrap-datepicker": "v1.8.0",
     "jquery-pjax": "v2.0.1",
-    "angular": "v1.6.9",
+    "angular": "v1.7.0",
     "jquery-ui": "1.12.1"
   },
   "resolutions": {
@@ -19,9 +19,11 @@
     "jquery-validation": "1.17.0",
     "bootstrap": "v3.3.7",
     "jquery-ui": "1.12.1",
-    "bootstrap-datepicker": "v1.7.1",
+    "bootstrap-datepicker": "v1.8.0",
     "jstree": "3.3.5",
     "lightbox2": "v2.10.0",
-    "angular": "v1.6.9"
+    "angular": "v1.7.0",
+    "datatables": "1.10.16",
+    "jquery-validation-unobtrusive": "v3.2.10"
   }
 }

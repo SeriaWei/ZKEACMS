@@ -7,5 +7,6 @@ namespace ZKEACMS.Media
     public interface IMediaService : IService<MediaEntity>
     {
         IList<MediaEntity> GetPage(string parentId, Pagination pagin);
+        MediaEntity GetImageFolder();
     }
 }

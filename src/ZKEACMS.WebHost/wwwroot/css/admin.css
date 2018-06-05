@@ -364,6 +364,16 @@ a.badge:hover {
         cursor: move;
     }
 
+    .fullRowList a {
+        text-decoration: none;
+        outline: none;
+    }
+
+    .fullRowList li:hover a,
+    .fullRowList li.actived a {
+        color: #E28271;
+    }
+
 #layouts.fullRowList li {
     cursor: pointer;
 }
@@ -518,11 +528,13 @@ a.badge:hover {
 .form-group select.select {
     cursor: pointer;
 }
+
 .form-group .mce-tinymce {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
 }
+
 #media-list .edit {
     width: 100%;
     line-height: normal;

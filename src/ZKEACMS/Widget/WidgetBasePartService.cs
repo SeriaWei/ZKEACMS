@@ -24,22 +24,22 @@ namespace ZKEACMS.Widget
         private readonly IWidgetActivator _widgetActivator;
         private readonly IServiceProvider _serviceProvider;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        static ICacheManager<IEnumerable<WidgetBase>> PageWidgetCacheManage;
-        static WidgetBasePartService()
-        {
-            PageWidgetCacheManage = CacheFactory.Build<IEnumerable<WidgetBase>>(setting =>
-            {
-                setting.WithDictionaryHandle("PageWidgets").WithExpiration(ExpirationMode.Sliding, new TimeSpan(0, 10, 0));
-            });
-        }
-        public WidgetBasePartService(IApplicationContext applicationContext, IWidgetActivator widgetActivator, IServiceProvider serviceProvider, IHttpContextAccessor httpContextAccessor, CMSDbContext dbContext)
+        private readonly ICacheManager<IEnumerable<WidgetBase>> _pageWidgetCacheManage;
+        public WidgetBasePartService(IApplicationContext applicationContext,
+            IWidgetActivator widgetActivator,
+            IServiceProvider serviceProvider,
+            IHttpContextAccessor httpContextAccessor,
+            ICacheManager<IEnumerable<WidgetBase>> pageWidgetCacheManage,
+            CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _widgetActivator = widgetActivator;
             _serviceProvider = serviceProvider;
             _httpContextAccessor = httpContextAccessor;
+            _pageWidgetCacheManage = pageWidgetCacheManage;
             IsNeedNotifyChange = true;
         }
+        public override DbSet<WidgetBasePart> CurrentDbSet => (DbContext as CMSDbContext).WidgetBasePart;
         public bool IsNeedNotifyChange { get; set; }
 
         private void TriggerChange(WidgetBase widget)
@@ -59,7 +59,7 @@ namespace ZKEACMS.Widget
                     {
                         layoutService.MarkChanged(widget.LayoutID);
                     }
-                    PageWidgetCacheManage.ClearRegion(_httpContextAccessor.HttpContext.Request.Host.Value);
+                    _pageWidgetCacheManage.ClearRegion(_httpContextAccessor.HttpContext.Request.Host.Value);
                 }
             }
 
@@ -85,10 +85,24 @@ namespace ZKEACMS.Widget
             };
             if (formCache)
             {
-                return PageWidgetCacheManage.GetOrAdd(page.ReferencePageID, _httpContextAccessor.HttpContext.Request.Host.Value, (key, region) => getPageWidgets(page));
+                return _pageWidgetCacheManage.GetOrAdd(page.ReferencePageID, _httpContextAccessor.HttpContext.Request.Host.Value, (key, region) => getPageWidgets(page));
             }
             return getPageWidgets(page).Where(m => m != null);
         }
+        public IEnumerable<WidgetBase> GetAllByRule(int[] roleId, bool formCache = false)
+        {
+            Func<int[], List<WidgetBase>> getWidgets = p =>
+            {
+                var result = Get(m => p.Contains(m.RuleID.Value));
+                return result.Select(widget => _widgetActivator.Create(widget)?.GetWidget(widget)).ToList();
+            };
+            //if (formCache)
+            //{
+            //    return PageWidgetCacheManage.GetOrAdd(string.Join("-", roleId), _httpContextAccessor.HttpContext.Request.Host.Value, (key, region) => getWidgets(roleId));
+            //}
+            return getWidgets(roleId);
+        }
+
         public override ServiceResult<WidgetBasePart> Add(WidgetBasePart item)
         {
             var result = base.Add(item);
@@ -155,7 +169,9 @@ namespace ZKEACMS.Widget
 
         public void RemoveCache(string pageId)
         {
-            PageWidgetCacheManage.Remove(pageId, _httpContextAccessor.HttpContext.Request.Host.Value);
+            _pageWidgetCacheManage.Remove(pageId, _httpContextAccessor.HttpContext.Request.Host.Value);
         }
+
+
     }
 }

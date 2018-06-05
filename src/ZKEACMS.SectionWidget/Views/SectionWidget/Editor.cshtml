@@ -6,5 +6,5 @@
 
 @foreach (SectionGroup group in Model.Groups.OrderBy(m => m.Order))
 {
-    Html.RenderPartial("SectionGroup.Edit", group);
+    await Html.RenderPartialAsync("SectionGroup.Edit", group);
 }

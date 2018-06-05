@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace ZKEACMS.Article.ActionFilter
 {
-    public class ViewDataArticleTypeAttribute : ViewDataAttribute
+    public class ViewDataArticleTypeAttribute : Easy.Mvc.Attribute.ViewDataAttribute
     {
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {

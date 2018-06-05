@@ -19,7 +19,7 @@ namespace Easy.Mvc.Extend
         const string ImageFolder = "Images";
         const string FileFolder = "Files";
 
-        private static string ChangeToWebPath(HttpRequest request, string path)
+        public static string ChangeToWebPath(this HttpRequest request, string path)
         {
             return path.Replace(request.MapPath("~/"), "~").Replace("\\", "/");
         }
@@ -73,7 +73,7 @@ namespace Easy.Mvc.Extend
                             return filePath;
                         }
                     }
-                    return ChangeToWebPath(request, path);
+                    return request.ChangeToWebPath(path);
                 }
             }
             return string.Empty;
@@ -99,7 +99,7 @@ namespace Easy.Mvc.Extend
                             return filePath;
                         }
                     }
-                    return ChangeToWebPath(request, path);
+                    return request.ChangeToWebPath(path);
                 }
             }
             return string.Empty;
@@ -130,7 +130,7 @@ namespace Easy.Mvc.Extend
                             return filePath;
                         }
                     }
-                    return ChangeToWebPath(request, path);
+                    return request.ChangeToWebPath(path);
                 }
             }
             return string.Empty;
@@ -156,7 +156,7 @@ namespace Easy.Mvc.Extend
                             return filePath;
                         }
                     }
-                    return ChangeToWebPath(request, path);
+                    return request.ChangeToWebPath(path);
                 }
             }
             return string.Empty;

@@ -43,19 +43,28 @@ using ZKEACMS.Common.Models;
 using ZKEACMS.Product.Models;
 using System;
 using Easy.Mvc.Resource;
+using CacheManager.Core;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Easy.StartTask;
 
 namespace ZKEACMS
 {
     public static class Builder
     {
-        public static void UseZKEACMS(this IServiceCollection services, IConfigurationRoot configuration)
+        public static void UseZKEACMS(this IServiceCollection services, IConfiguration configuration)
         {
 
             services.AddMvc(option =>
             {
                 option.ModelBinderProviders.Insert(0, new WidgetModelBinderProvider());
                 option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
-            }).AddControllersAsServices().AddJsonOptions(option => { option.SerializerSettings.DateFormatString = "yyyy-MM-dd"; });
+            })
+            .AddControllersAsServices()
+            .AddJsonOptions(option => { option.SerializerSettings.DateFormatString = "yyyy-MM-dd"; })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.TryAddScoped<IApplicationContextAccessor, ApplicationContextAccessor>();
             services.TryAddScoped<IApplicationContext, CMSApplicationContext>();
@@ -89,6 +98,7 @@ namespace ZKEACMS
             services.TryAddTransient<IWidgetTemplateService, WidgetTemplateService>();
             services.TryAddTransient<IWidgetBasePartService, WidgetBasePartService>();
             services.TryAddTransient<IZoneService, ZoneService>();
+            services.TryAddTransient<Rule.IRuleService, Rule.RuleService>();
 
             services.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
 
@@ -99,6 +109,19 @@ namespace ZKEACMS
             services.AddTransient<IPackageInstaller, DataDictionaryPackageInstaller>();
             services.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             services.AddTransient<IEventViewerService, EventViewerService>();
+
+            services.AddSingleton(serviceProvider => CacheFactory.Build<IEnumerable<WidgetBase>>(setting =>
+            {
+                setting.WithDictionaryHandle("PageWidgets");
+            }));
+            services.AddSingleton(serviceProvider => CacheFactory.Build<IEnumerable<ZoneEntity>>(setting =>
+            {
+                setting.WithDictionaryHandle("PublishedPageZones");
+            }));
+            services.AddSingleton(serviceProvider => CacheFactory.Build<IEnumerable<LayoutHtml>>(setting =>
+            {
+                setting.WithDictionaryHandle("PublishedPageLayoutHtmls");
+            }));
 
             services.ConfigureMetaData<ArticleEntity, ArticleEntityMeta>();
             services.ConfigureMetaData<ArticleType, ArtycleTypeMetaData>();
@@ -124,6 +147,8 @@ namespace ZKEACMS
             services.ConfigureMetaData<ApplicationSetting, ApplicationSettingMedaData>();
             services.ConfigureMetaData<ThemeEntity, ThemeEntityMetaData>();
             services.ConfigureMetaData<ZoneEntity, ZoneEntityMetaData>();
+            services.ConfigureMetaData<Rule.Rule, Rule.RuleMetaData>();
+            services.ConfigureMetaData<Rule.RuleItem, Rule.RuleItemMetaData>();
 
             services.Configure<NavigationWidget>(option =>
             {
@@ -173,15 +198,15 @@ namespace ZKEACMS
                 });
         }
 
-        public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment)
+        public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
         {
+            applicationBuilder.UseAuthentication();
             if (hostingEnvironment.IsDevelopment())
             {
                 applicationBuilder.UsePluginStaticFile();
             }
-            applicationBuilder.UseAuthentication();
             applicationBuilder.UseStaticFiles();
-            ServiceLocator.Setup(applicationBuilder.ApplicationServices.GetService<IHttpContextAccessor>());
+            ServiceLocator.Setup(httpContextAccessor);
             applicationBuilder.ConfigureResource();
             applicationBuilder.ConfigurePlugin(hostingEnvironment);
             applicationBuilder.UseMvc(routes =>
@@ -191,6 +216,10 @@ namespace ZKEACMS
                     routes.MapRoute(route.RouteName, route.Template, route.Defaults, route.Constraints, route.DataTokens);
                 });
             });
+            foreach (var task in applicationBuilder.ApplicationServices.GetServices<IStartTask>())
+            {
+                task.Excute();
+            }
             Console.WriteLine("Welcome to use ZKEACMS");
         }
     }

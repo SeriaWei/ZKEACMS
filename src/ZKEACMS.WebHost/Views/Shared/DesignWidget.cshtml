@@ -19,11 +19,15 @@
     <div class="widget widget-design @Model.Widget.CustomClass"
          id="widget_@Model.Widget.ID"
          data-widgetid="@Model.Widget.ID">
-        <div class="zoneToolbar @(Model.Widget.LayoutID.IsNullOrEmpty() ? "blue" : "green")">
+        <div class="zoneToolbar @(Model.Widget.LayoutID.IsNullOrEmpty() ? "blue" : "green") @(Model.Widget.RuleID.HasValue ? "orange" : "")">
             <div class="tools">
                 @if (Model.Widget.LayoutID.IsNotNullAndWhiteSpace())
                 {
                     <span class="badge">布局</span>
+                }
+                @if (Model.Widget.RuleID.HasValue)
+                {
+                    <span class="badge">全局</span>
                 }
                 <i class="glyphicon glyphicon-move sort-handle" title="拖动">
                     <span>拖动</span>

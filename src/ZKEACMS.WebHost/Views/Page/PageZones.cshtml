@@ -43,7 +43,7 @@
 <div class="panel  panel-default">
     <div class="panel-heading">
         <span class="badge">概览</span>
-        @Model.Page.Title 
+        @Model.Page.Title
     </div>
     <div class="simplePreview">
         <div class="simpleDesign">
@@ -62,10 +62,14 @@
                             <ul data-zoneid="@item.HeadingCode" class="fullRowList widgets connectedSortable">
                                 @foreach (var widget in Model.Widgets.Where(m => m.ZoneID == item.HeadingCode).OrderBy(m => m.Position).ThenBy(m => m.WidgetName))
                                 {
-                                    <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
+                                    <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID" data-position="@(widget.LayoutID.IsNotNullAndWhiteSpace()||widget.RuleID.HasValue?widget.Position:0)">
                                         @if (widget.LayoutID.IsNotNullAndWhiteSpace())
                                         {
                                             <span class="label label-info">布局</span>
+                                        }
+                                        @if (widget.RuleID.HasValue)
+                                        {
+                                            <span class="badge">全局</span>
                                         }
                                         @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                                         {
@@ -114,32 +118,32 @@
                 </a>
             }
             <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID})">
-                <i class="glyphicon glyphicon-search"></i>
-                预览
+                <i class="glyphicon glyphicon-eye-open"></i>
+                预览编辑版本
             </a>
-            @if (Authorizer.Authorize(PermissionKeys.ManagePage))
-            {
-                <a class="btn btn-primary" href="@Url.Action("Edit", new {ID = Model.PageID})">
-                    <i class="glyphicon glyphicon-edit"></i>
-                    属性
-                </a>
-            }
-            @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
-            {
-                <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new { ID = Model.LayoutID, Model.PageID})">
-                    <i class="glyphicon glyphicon-th-list"></i>
-                    布局
-                </a>
-            }
             @if (Model.Page.PublishDate.HasValue)
             {
                 <a class="btn btn-primary"
                    href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID, preview = false})"
                    target="_blank">
-                    <i class="glyphicon glyphicon-new-window"></i>
-                    查看
+                    <i class="glyphicon glyphicon-eye-open"></i>
+                    预览发布版本
                 </a>
-            }            
+            }
+            @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+            {
+                <a class="btn btn-primary" href="@Url.Action("Edit", new {ID = Model.PageID})">
+                    <i class="glyphicon glyphicon-record"></i>
+                    属性/历史记录
+                </a>
+            }
+            @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
+            {
+                <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new { ID = Model.LayoutID, Model.PageID})">
+                    <i class="glyphicon glyphicon-th"></i>
+                    布局
+                </a>
+            }
             @if (Authorizer.Authorize(PermissionKeys.ManagePage))
             {
                 <a class="btn btn-primary publish-page" data-id="@Model.PageID" href="javascript:void(0)">
@@ -147,7 +151,7 @@
                     发布
                 </a>
             }
-            
+
         </div>
     </div>
 </div>

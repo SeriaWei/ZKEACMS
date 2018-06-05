@@ -169,7 +169,29 @@ $(function () {
             return null;
         },
         placement: "bottom"
-    }).parent().addClass("loading");
+    }).on("change", function () {
+        var url = $(this).val();
+        if (url.indexOf("~/") != 0 && url.indexOf("/") != 0 && url.replace("http://", "").replace("https://", "").indexOf(window.location.hostname) != 0) {
+            if ($(this).siblings(".image-local").length == 0) {
+                $('<div class="input-group-addon image-local"><span class="glyphicon glyphicon-floppy-open upload-external"></span></div>').insertAfter($(this));
+            }
+        } else {
+            $(this).siblings(".image-local").remove();
+        }
+    }).trigger("change").parent().addClass("loading");
+
+    $(document).on("click", ".image-local .upload-external", function () {
+        var group = $(this).closest(".input-group");
+        group.addClass("processing");
+        $.post("/admin/Media/DownLoadExternalImage", { images: [group.find("input").val()] }, function (data) {
+            if (data) {
+                for (var i = 0; i < data.length; i++) {
+                    group.find("input").val(data[i].value).trigger("change");
+                }
+            }
+            group.removeClass("processing");
+        }, "json");
+    });
 
     if (document.addEventListener) {
         document.addEventListener("paste", function (e) {
