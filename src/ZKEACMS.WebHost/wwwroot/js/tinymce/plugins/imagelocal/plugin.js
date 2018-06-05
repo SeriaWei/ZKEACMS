@@ -15,13 +15,18 @@ tinymce.PluginManager.add('imagelocal', function (editor) {
                 var content = $("<div>" + editor.getContent() + "</div>");
                 $("img", content).each(function () {
                     var url = $(this).attr("src");
-                    if (url.indexOf("/") != 0 && url.replace("http://", "").replace("https://", "").indexOf(window.location.hostname) != 0) {
-                        if (imageUrls.indexOf(url)) {
-                            imageUrls.push(url);
-                            imageIndexed[url] = [$(this)];
+                    if (url) {
+                        if (url.indexOf(".qpic.cn/") > 0 && url.indexOf("tp=webp") > 0) {
+                            url = url.split("?")[0];
                         }
-                        else {
-                            imageIndexed[url].push($(this));
+                        if (url.indexOf("/") != 0 && url.replace("http://", "").replace("https://", "").indexOf(window.location.hostname) != 0) {
+                            if (imageUrls.indexOf(url)) {
+                                imageUrls.push(url);
+                                imageIndexed[url] = [$(this)];
+                            }
+                            else {
+                                imageIndexed[url].push($(this));
+                            }
                         }
                     }
                 });
