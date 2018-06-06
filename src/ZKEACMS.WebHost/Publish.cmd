@@ -1,2 +1,2 @@
 @echo off
-dotnet publish-zkeacms
+publish-zkeacms

@@ -1,1 +1,1 @@
-dotnet publish-zkeacms
+publish-zkeacms
