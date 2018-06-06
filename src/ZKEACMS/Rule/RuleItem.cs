@@ -24,7 +24,7 @@ namespace ZKEACMS.Rule
             ViewConfig(m => m.Condition).AsDropDownList().Order(1).DataSource(SourceType.Dictionary);
             ViewConfig(m => m.Property).AsDropDownList().Order(2).DataSource(SourceType.Dictionary);
             ViewConfig(m => m.FunctionName).AsDropDownList().Order(3).DataSource(SourceType.Dictionary);
-            ViewConfig(m => m.Value).AsTextBox().Order(4);
+            ViewConfig(m => m.Value).AsTextBox().Order(4).Required();
         }
     }
 }
