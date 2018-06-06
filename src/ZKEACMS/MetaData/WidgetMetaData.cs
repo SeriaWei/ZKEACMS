@@ -23,13 +23,12 @@ namespace ZKEACMS.MetaData
         private void InitViewBase()
         {
             ViewConfig(m => m.ID).AsHidden();
-            ViewConfig(m => m.Position).AsHidden();
-            ViewConfig(m => m.AssemblyName).AsHidden();
+            ViewConfig(m => m.AssemblyName).AsHidden().Required();
             ViewConfig(m => m.FormView).AsHidden();
             ViewConfig(m => m.IsSystem).AsHidden();
-            ViewConfig(m => m.ServiceTypeName).AsHidden();
-            ViewConfig(m => m.ViewModelTypeName).AsHidden();
-            ViewConfig(m => m.PartialView).AsHidden();
+            ViewConfig(m => m.ServiceTypeName).AsHidden().Required();
+            ViewConfig(m => m.ViewModelTypeName).AsHidden().Required();
+            ViewConfig(m => m.PartialView).AsHidden().Required();
             ViewConfig(m => m.LayoutID).AsHidden();
             ViewConfig(m => m.PageID).AsHidden();
             ViewConfig(m => m.RuleID).AsHidden();

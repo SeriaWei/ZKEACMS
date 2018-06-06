@@ -3,40 +3,27 @@
  * http://www.zkea.net/licenses 
  * https://github.com/aspnet/Mvc/blob/dev/src/Microsoft.AspNetCore.Mvc.Core/ModelBinding/Binders/ComplexTypeModelBinder.cs
  */
+using Easy;
+using Easy.MetaData;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using Easy.MetaData;
-using Microsoft.AspNetCore.Mvc.Core;
-using Microsoft.AspNetCore.Mvc.Internal;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using ZKEACMS.Widget;
-using Microsoft.Extensions.DependencyInjection;
-using Easy;
-using System.Linq;
 
 namespace ZKEACMS.ModelBinder
 {
     public class WidgetTypeModelBinder : IModelBinder
     {
-        private IDictionary<ModelMetadata, IModelBinder> _propertyBinders;
-        private static IDictionary<Type, Func<object>> _modelCreator;
-        private ViewConfigure _viewConfig;
-
+        private IDictionary<Type, Func<object>> _modelCreator;
         private readonly ModelBinderProviderContext _modelBinderProviderContext;
-        static WidgetTypeModelBinder()
-        {
-            _modelCreator = new Dictionary<Type, Func<object>>();
-        }
         public WidgetTypeModelBinder(ModelBinderProviderContext modelBinderProviderContext)
         {
             _modelBinderProviderContext = modelBinderProviderContext;
-
+            _modelCreator = new Dictionary<Type, Func<object>>();
         }
 
         public Task BindModelAsync(ModelBindingContext bindingContext)
@@ -46,24 +33,19 @@ namespace ZKEACMS.ModelBinder
             var viewModelType = bindingContext.ValueProvider.GetValue("ViewModelTypeName");
             var widgetViewModelType = WidgetBase.KnownWidgetModel[$"{assembly.FirstValue},{viewModelType.FirstValue}"];
 
-            _viewConfig = ServiceLocator.GetViewConfigure(widgetViewModelType);
-            _propertyBinders = new Dictionary<ModelMetadata, IModelBinder>();
+            var viewConfig = ServiceLocator.GetViewConfigure(widgetViewModelType);
             var modelMetadataProvider = bindingContext.HttpContext.RequestServices.GetService<IModelMetadataProvider>();
             bindingContext.ModelMetadata = modelMetadataProvider.GetMetadataForType(widgetViewModelType);
-            foreach (var property in modelMetadataProvider.GetMetadataForProperties(widgetViewModelType))
-            {
-                _propertyBinders.Add(property, _modelBinderProviderContext.CreateBinder(property));
-            }
 
             if (!CanCreateModel(bindingContext))
             {
                 return Task.CompletedTask;
             }
 
-            return BindModelCoreAsync(bindingContext);
+            return BindModelCoreAsync(bindingContext, viewConfig);
         }
 
-        private async Task BindModelCoreAsync(ModelBindingContext bindingContext)
+        private async Task BindModelCoreAsync(ModelBindingContext bindingContext, ViewConfigure viewConfigure)
         {
             if (bindingContext.Model == null)
             {
@@ -96,33 +78,31 @@ namespace ZKEACMS.ModelBinder
                     modelName: modelName,
                     model: propertyModel))
                 {
-                    await BindProperty(bindingContext);
+                    await _modelBinderProviderContext.CreateBinder(property).BindModelAsync(bindingContext);
                     result = bindingContext.Result;
                 }
 
                 if (result.IsModelSet)
                 {
-                    SetProperty(bindingContext, modelName, property, result);
+                    SetProperty(bindingContext, modelName, property, result, viewConfigure);
                 }
                 else
                 {
-                    if (_viewConfig != null)
+                    var descriptor = viewConfigure.GetViewPortDescriptor(modelName);
+                    if (descriptor != null && bindingContext.ModelState.ContainsKey(modelName))
                     {
-                        var descriptor = _viewConfig.GetViewPortDescriptor(modelName);
-                        if (descriptor != null && bindingContext.ModelState.ContainsKey(modelName))
+                        foreach (var valid in descriptor.Validator)
                         {
-                            foreach (var valid in descriptor.Validator)
+                            if (!valid.Validate(bindingContext.ModelState[modelName].RawValue))
                             {
-                                if (!valid.Validate(bindingContext.ModelState[modelName].RawValue))
-                                {
-                                    valid.DisplayName = descriptor.DisplayName;
-                                    bindingContext.ModelState[modelName].Errors.Clear();
-                                    bindingContext.ModelState.TryAddModelError(modelName, valid.ErrorMessage);
-                                    break;
-                                }
+                                valid.DisplayName = descriptor.DisplayName;
+                                bindingContext.ModelState[modelName].Errors.Clear();
+                                bindingContext.ModelState.TryAddModelError(modelName, valid.ErrorMessage);
+                                break;
                             }
                         }
                     }
+
                     else if (property.IsBindingRequired)
                     {
                         var message = property.ModelBindingMessageProvider.MissingBindRequiredValueAccessor(fieldName);
@@ -159,13 +139,7 @@ namespace ZKEACMS.ModelBinder
 
             return true;
         }
-
-        protected virtual Task BindProperty(ModelBindingContext bindingContext)
-        {
-            var binder = _propertyBinders[bindingContext.ModelMetadata];
-            return binder.BindModelAsync(bindingContext);
-        }
-
+        
         internal bool CanCreateModel(ModelBindingContext bindingContext)
         {
             var isTopLevelObject = bindingContext.IsTopLevelObject;
@@ -277,11 +251,7 @@ namespace ZKEACMS.ModelBinder
             return _modelCreator[bindingContext.ModelType]();
         }
 
-        protected virtual void SetProperty(
-            ModelBindingContext bindingContext,
-            string modelName,
-            ModelMetadata propertyMetadata,
-            ModelBindingResult result)
+        protected virtual void SetProperty(ModelBindingContext bindingContext, string modelName, ModelMetadata propertyMetadata, ModelBindingResult result, ViewConfigure viewConfigure)
         {
             if (bindingContext == null)
             {
@@ -312,31 +282,30 @@ namespace ZKEACMS.ModelBinder
             try
             {
                 propertyMetadata.PropertySetter(bindingContext.Model, value);
-                if (_viewConfig != null)
+
+                var descriptor = viewConfigure.GetViewPortDescriptor(modelName);
+                if (descriptor != null)
                 {
-                    var descriptor = _viewConfig.GetViewPortDescriptor(modelName);
-                    if (descriptor != null)
+                    bool isAllValid = true;
+                    foreach (var valid in descriptor.Validator)
                     {
-                        bool isAllValid = true;
-                        foreach (var valid in descriptor.Validator)
+                        if (!valid.Validate(value))
                         {
-                            if (!valid.Validate(value))
+                            valid.DisplayName = descriptor.DisplayName;
+                            if (bindingContext.ModelState.ContainsKey(modelName))
                             {
-                                valid.DisplayName = descriptor.DisplayName;
-                                if (bindingContext.ModelState.ContainsKey(modelName))
-                                {
-                                    bindingContext.ModelState[modelName].Errors.Clear();
-                                }
-                                bindingContext.ModelState.TryAddModelError(modelName, valid.ErrorMessage);
-                                isAllValid = false;
+                                bindingContext.ModelState[modelName].Errors.Clear();
                             }
-                        }
-                        if (isAllValid)
-                        {
-                            bindingContext.ModelState.MarkFieldValid(modelName);
+                            bindingContext.ModelState.TryAddModelError(modelName, valid.ErrorMessage);
+                            isAllValid = false;
                         }
                     }
+                    if (isAllValid)
+                    {
+                        bindingContext.ModelState.MarkFieldValid(modelName);
+                    }
                 }
+
             }
             catch (Exception exception)
             {
