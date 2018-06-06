@@ -72,7 +72,7 @@ namespace ZKEACMS.Controllers
             {
                 widget.Position = _widgetService.GetAllByPage(_pageService.Get(context.PageID)).Count(m => m.ZoneID == context.ZoneID) + 1;
             }
-            else if(context.LayoutID.IsNotNullAndWhiteSpace())
+            else if (context.LayoutID.IsNotNullAndWhiteSpace())
             {
                 widget.Position = _widgetService.GetByLayoutId(context.LayoutID).Count(m => m.ZoneID == context.ZoneID) + 1;
             }
@@ -88,10 +88,10 @@ namespace ZKEACMS.Controllers
         [HttpPost, ViewDataZones]
         public ActionResult Create(BasicWidget widget, string ReturnUrl)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(widget);
-            //}
+            if (!ModelState.IsValid)
+            {
+                return View(widget);
+            }
             _widgetActivator.Create(widget).AddWidget(widget);
             if (widget.ActionType == ActionType.Continue)
             {
@@ -133,10 +133,10 @@ namespace ZKEACMS.Controllers
         [HttpPost, ViewDataZones]
         public ActionResult Edit(BasicWidget widget, string ReturnUrl)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(widget);
-            //}
+            if (!ModelState.IsValid)
+            {
+                return View(widget);
+            }
             _widgetActivator.Create(widget).UpdateWidget(widget);
             if (!ReturnUrl.IsNullOrEmpty())
             {

@@ -50,11 +50,6 @@ namespace ZKEACMS.Article.Service
             {
                 item.DetailPageUrl = GetDetailPageUrl();
             }
-            if (!item.PageSize.HasValue || item.PageSize.Value == 0)
-            {
-                item.PageSize = 5;
-            }
-            item.IsPageable = true;
             return base.Add(item);
         }
 

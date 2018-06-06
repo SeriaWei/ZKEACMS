@@ -16,6 +16,7 @@ namespace Easy.ViewPort.Validator
 
         public override bool Validate(object value)
         {
+            if (value == null) return true;
             double val = Convert.ToDouble(value);
             if (val >= Min && val <= Max) return true;
             else return false;
