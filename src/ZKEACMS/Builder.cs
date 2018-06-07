@@ -110,9 +110,9 @@ namespace ZKEACMS
             services.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             services.AddTransient<IEventViewerService, EventViewerService>();
 
-            services.AddScoped(serviceProvider => serviceProvider.GetService<ICacheProvider>().Build<IEnumerable<WidgetBase>>());
-            services.AddScoped(serviceProvider => serviceProvider.GetService<ICacheProvider>().Build<IEnumerable<ZoneEntity>>());
-            services.AddScoped(serviceProvider => serviceProvider.GetService<ICacheProvider>().Build<IEnumerable<LayoutHtml>>());
+            services.ConfigureCache<IEnumerable<WidgetBase>>();
+            services.ConfigureCache<IEnumerable<ZoneEntity>>();
+            services.ConfigureCache<IEnumerable<LayoutHtml>>();
 
             services.ConfigureMetaData<ArticleEntity, ArticleEntityMeta>();
             services.ConfigureMetaData<ArticleType, ArtycleTypeMetaData>();

@@ -1,5 +1,6 @@
 using Easy.Cache;
 using Easy.Encrypt;
+using Easy.Extend;
 using Easy.Logging;
 using Easy.MetaData;
 using Easy.Modules.DataDictionary;
@@ -74,8 +75,8 @@ namespace Easy
             
             services.AddSingleton<ICacheProvider, HostCacheProvider>();
 
-            services.AddScoped(serviceProvider => serviceProvider.GetService<ICacheProvider>().Build<ScriptExpressionResult>());
-            services.AddScoped(serviceProvider => serviceProvider.GetService<ICacheProvider>().Build<LanguageEntity>());
+            services.ConfigureCache<ScriptExpressionResult>();
+            services.ConfigureCache<LanguageEntity>();
 
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
             services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
