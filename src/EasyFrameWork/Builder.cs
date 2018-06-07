@@ -1,4 +1,4 @@
-using CacheManager.Core;
+using Easy.Cache;
 using Easy.Encrypt;
 using Easy.Logging;
 using Easy.MetaData;
@@ -71,16 +71,11 @@ namespace Easy
             services.AddTransient<IRuleProvider, MoneyRuleProvider>();
             services.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
             services.AddTransient<WebClient>();
+            
+            services.AddSingleton<ICacheProvider, HostCacheProvider>();
 
-            services.AddSingleton(serviceProvider => CacheFactory.Build<ScriptExpressionResult>(setting =>
-            {
-                setting.WithDictionaryHandle("ScriptExpressionResult");
-            }));
-
-            services.AddSingleton(serviceProvider => CacheFactory.Build<LanguageEntity>(settings =>
-            {
-                settings.WithDictionaryHandle("Localization");
-            }));
+            services.AddScoped(serviceProvider => serviceProvider.GetService<ICacheProvider>().Build<ScriptExpressionResult>());
+            services.AddScoped(serviceProvider => serviceProvider.GetService<ICacheProvider>().Build<LanguageEntity>());
 
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
             services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ZKEACMS.Extend;
+using ZKEACMS.Filter;
 using ZKEACMS.Page;
 using ZKEACMS.Theme;
 using ZKEACMS.Widget;
@@ -44,6 +45,8 @@ namespace ZKEACMS.Layout
 
         [NotMapped]
         public IEnumerable<WidgetBasePart> Templates { get; set; }
+        [NotMapped]
+        public PageViewMode PageViewMode { get; set; }
     }
 
     class LayoutEntityMetaData : ViewMetaData<LayoutEntity>

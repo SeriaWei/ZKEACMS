@@ -18,6 +18,7 @@ namespace ZKEACMS.Filter
             using (var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>())
             {
                 var page = pageService.Get(pageId);
+                page.IsPublishedPage = false;
                 return page;
             }
         }

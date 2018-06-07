@@ -46,7 +46,7 @@
     }
 </head>
 <body class="front">
-    @if (ViewContext.HttpContext.User.Identity.IsAuthenticated)
+    @if (ViewContext.HttpContext.User.Identity.IsAuthenticated&&Model.PageViewMode != ZKEACMS.Filter.PageViewMode.ViewOnly)
     {
         <style>
             .hover-text span {

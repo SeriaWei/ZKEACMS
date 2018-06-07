@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 using ZKEACMS.DataArchived;
 using ZKEACMS.Layout;
 using ZKEACMS.Page;
-using CacheManager.Core;
+using Easy.Cache;
 using Microsoft.AspNetCore.Http;
 
 namespace ZKEACMS.Widget
@@ -23,19 +23,16 @@ namespace ZKEACMS.Widget
         protected const string EncryptWidgetTemplate = "EncryptWidgetTemplate";
         private readonly IWidgetActivator _widgetActivator;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICacheManager<IEnumerable<WidgetBase>> _pageWidgetCacheManage;
         public WidgetBasePartService(IApplicationContext applicationContext,
             IWidgetActivator widgetActivator,
             IServiceProvider serviceProvider,
-            IHttpContextAccessor httpContextAccessor,
             ICacheManager<IEnumerable<WidgetBase>> pageWidgetCacheManage,
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _widgetActivator = widgetActivator;
             _serviceProvider = serviceProvider;
-            _httpContextAccessor = httpContextAccessor;
             _pageWidgetCacheManage = pageWidgetCacheManage;
             IsNeedNotifyChange = true;
         }
@@ -58,8 +55,8 @@ namespace ZKEACMS.Widget
                     using (var layoutService = _serviceProvider.GetService<ILayoutService>())
                     {
                         layoutService.MarkChanged(widget.LayoutID);
+                        ClearCache();
                     }
-                    _pageWidgetCacheManage.ClearRegion(_httpContextAccessor.HttpContext.Request.Host.Value);
                 }
             }
 
@@ -74,7 +71,7 @@ namespace ZKEACMS.Widget
             return Get(m => m.PageID == pageId);
         }
 
-        public IEnumerable<WidgetBase> GetAllByPage(PageEntity page, bool formCache = false)
+        public IEnumerable<WidgetBase> GetAllByPage(PageEntity page)
         {
             Func<PageEntity, List<WidgetBase>> getPageWidgets = p =>
             {
@@ -83,9 +80,9 @@ namespace ZKEACMS.Widget
                 widgets.AddRange(GetByPageId(p.ID));
                 return widgets.Select(widget => _widgetActivator.Create(widget)?.GetWidget(widget)).ToList();
             };
-            if (formCache)
+            if (page.IsPublishedPage)
             {
-                return _pageWidgetCacheManage.GetOrAdd(page.ReferencePageID, _httpContextAccessor.HttpContext.Request.Host.Value, (key, region) => getPageWidgets(page));
+                return _pageWidgetCacheManage.GetOrAdd(page.ID, page.ReferencePageID, (key, region) => getPageWidgets(page));
             }
             return getPageWidgets(page).Where(m => m != null);
         }
@@ -96,10 +93,6 @@ namespace ZKEACMS.Widget
                 var result = Get(m => p.Contains(m.RuleID.Value));
                 return result.Select(widget => _widgetActivator.Create(widget)?.GetWidget(widget)).ToList();
             };
-            //if (formCache)
-            //{
-            //    return PageWidgetCacheManage.GetOrAdd(string.Join("-", roleId), _httpContextAccessor.HttpContext.Request.Host.Value, (key, region) => getWidgets(roleId));
-            //}
             return getWidgets(roleId);
         }
 
@@ -166,12 +159,14 @@ namespace ZKEACMS.Widget
             service.AddWidget(widgetBase);
             return widgetPart;
         }
-
         public void RemoveCache(string pageId)
         {
-            _pageWidgetCacheManage.Remove(pageId, _httpContextAccessor.HttpContext.Request.Host.Value);
+            _pageWidgetCacheManage.ClearRegion(pageId);
         }
 
-
+        public void ClearCache()
+        {
+            _pageWidgetCacheManage.Clear();
+        }
     }
 }

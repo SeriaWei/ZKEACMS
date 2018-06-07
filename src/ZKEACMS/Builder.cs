@@ -7,46 +7,46 @@
 
 
 using Easy;
+using Easy.Cache;
 using Easy.Extend;
+using Easy.Mvc.Authorize;
+using Easy.Mvc.DataAnnotations;
+using Easy.Mvc.Plugin;
+using Easy.Mvc.Resource;
 using Easy.RepositoryPattern;
+using Easy.StartTask;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using ZKEACMS.Account;
+using ZKEACMS.Article.Models;
+using ZKEACMS.Common.Models;
 using ZKEACMS.Common.Service;
 using ZKEACMS.Dashboard;
 using ZKEACMS.DataArchived;
 using ZKEACMS.ExtendField;
 using ZKEACMS.Layout;
 using ZKEACMS.Media;
+using ZKEACMS.ModelBinder;
+using ZKEACMS.Notification;
+using ZKEACMS.Options;
+using ZKEACMS.PackageManger;
 using ZKEACMS.Page;
+using ZKEACMS.Product.Models;
+using ZKEACMS.Route;
 using ZKEACMS.Setting;
 using ZKEACMS.Theme;
 using ZKEACMS.Widget;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.Zone;
-using ZKEACMS.PackageManger;
-using ZKEACMS.Options;
-using Microsoft.Extensions.Configuration;
-using ZKEACMS.Notification;
-using ZKEACMS.Account;
-using Easy.Mvc.Plugin;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using ZKEACMS.ModelBinder;
-using Easy.Mvc.DataAnnotations;
-using Microsoft.AspNetCore.Authorization;
-using Easy.Mvc.Authorize;
-using ZKEACMS.Route;
-using Microsoft.AspNetCore.Http;
-using System.Linq;
-using ZKEACMS.Article.Models;
-using ZKEACMS.Common.Models;
-using ZKEACMS.Product.Models;
-using System;
-using Easy.Mvc.Resource;
-using CacheManager.Core;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using Easy.StartTask;
 
 namespace ZKEACMS
 {
@@ -110,18 +110,9 @@ namespace ZKEACMS
             services.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             services.AddTransient<IEventViewerService, EventViewerService>();
 
-            services.AddSingleton(serviceProvider => CacheFactory.Build<IEnumerable<WidgetBase>>(setting =>
-            {
-                setting.WithDictionaryHandle("PageWidgets");
-            }));
-            services.AddSingleton(serviceProvider => CacheFactory.Build<IEnumerable<ZoneEntity>>(setting =>
-            {
-                setting.WithDictionaryHandle("PublishedPageZones");
-            }));
-            services.AddSingleton(serviceProvider => CacheFactory.Build<IEnumerable<LayoutHtml>>(setting =>
-            {
-                setting.WithDictionaryHandle("PublishedPageLayoutHtmls");
-            }));
+            services.AddScoped(serviceProvider => serviceProvider.GetService<ICacheProvider>().Build<IEnumerable<WidgetBase>>());
+            services.AddScoped(serviceProvider => serviceProvider.GetService<ICacheProvider>().Build<IEnumerable<ZoneEntity>>());
+            services.AddScoped(serviceProvider => serviceProvider.GetService<ICacheProvider>().Build<IEnumerable<LayoutHtml>>());
 
             services.ConfigureMetaData<ArticleEntity, ArticleEntityMeta>();
             services.ConfigureMetaData<ArticleType, ArtycleTypeMetaData>();
