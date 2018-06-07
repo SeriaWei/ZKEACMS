@@ -211,11 +211,14 @@ namespace ZKEACMS.Controllers
             {
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    var image = Image.Load<Rgba32>(input);
-                    image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(size, size), Mode = ResizeMode.Max }));
-                    image.Save(ms, new JpegEncoder());
-                    ms.Position = 0;
-                    return File(ms.ToArray(), "image/jpeg");
+                    using (var image = Image.Load<Rgba32>(input))
+                    {
+                        image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(size, size), Mode = ResizeMode.Max }));
+                        image.Save(ms, new JpegEncoder());
+                        ms.Position = 0;
+                        return File(ms.ToArray(), "image/jpeg");
+                    }
+
                 }
             }
         }
