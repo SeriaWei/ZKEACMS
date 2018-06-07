@@ -93,7 +93,6 @@ namespace ZKEACMS.Filter
                 var ruleService = requestServices.GetService<IRuleService>();
 
                 LayoutEntity layout = layoutService.GetByPage(page);
-                layout.PageViewMode = GetPageViewMode();
                 layout.Page = page;
                 page.Favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
                 if (filterContext.HttpContext.User.Identity.IsAuthenticated && page.IsPublishedPage)
@@ -166,7 +165,7 @@ namespace ZKEACMS.Filter
                 if (viewResult != null)
                 {
                     layout.Layout = GetLayout();
-                    if (layout.PageViewMode == PageViewMode.Design)
+                    if (GetPageViewMode() == PageViewMode.Design)
                     {
                         layout.Templates = widgetService.Get(m => m.IsTemplate == true);
                     }

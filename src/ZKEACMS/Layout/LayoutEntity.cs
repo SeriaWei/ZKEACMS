@@ -45,8 +45,6 @@ namespace ZKEACMS.Layout
 
         [NotMapped]
         public IEnumerable<WidgetBasePart> Templates { get; set; }
-        [NotMapped]
-        public PageViewMode PageViewMode { get; set; }
     }
 
     class LayoutEntityMetaData : ViewMetaData<LayoutEntity>
