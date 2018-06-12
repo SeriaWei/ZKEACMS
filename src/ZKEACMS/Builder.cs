@@ -47,6 +47,7 @@ using ZKEACMS.Theme;
 using ZKEACMS.Widget;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.Zone;
+using ZKEACMS.SMTP;
 
 namespace ZKEACMS
 {
@@ -140,6 +141,7 @@ namespace ZKEACMS
             services.ConfigureMetaData<ZoneEntity, ZoneEntityMetaData>();
             services.ConfigureMetaData<Rule.Rule, Rule.RuleMetaData>();
             services.ConfigureMetaData<Rule.RuleItem, Rule.RuleItemMetaData>();
+            services.ConfigureMetaData<SmtpSetting, SmtpSettingMetaData>();
 
             services.Configure<NavigationWidget>(option =>
             {

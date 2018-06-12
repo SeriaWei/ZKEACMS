@@ -16,18 +16,18 @@ namespace ZKEACMS.Controllers
         }
         public virtual string Key { get { return typeof(T).FullName; } }
 
-        public IActionResult Config()
+        public virtual IActionResult Config()
         {
             return View("GeneralSetting", _applicationSettingService.Get<T>());
         }
 
         [HttpPost]
-        public IActionResult Config(T entity)
+        public virtual IActionResult Config(T entity)
         {
             if (ModelState.IsValid)
             {
                 _applicationSettingService.Save(entity);
-                return Redirect("Edit");
+                return Redirect("Config");
             }
             return View("GeneralSetting", entity);
         }

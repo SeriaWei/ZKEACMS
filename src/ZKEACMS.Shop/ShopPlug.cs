@@ -70,7 +70,7 @@ namespace ZKEACMS.Shop
                     {
                         Title = "支付宝集成设置",
                         Icon = "glyphicon-credit-card",
-                        Url="~/admin/AliPay/Setting",
+                        Url="~/admin/AliPaySetting/Config",
                         Order = 1,
                         PermissionKey = PermissionKeys.PaymentConfigManage
                     }
