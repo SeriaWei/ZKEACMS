@@ -101,7 +101,7 @@ namespace Easy
             where TMetaData : ViewMetaData<TEntity>
             where TEntity : class
         {
-            service.AddTransient<ViewMetaData<TEntity>, TMetaData>();
+            service.AddSingleton<ViewMetaData<TEntity>, TMetaData>();
         }
 
         public static IEnumerable<IPluginStartup> LoadAvailablePlugins(this IServiceCollection services)
