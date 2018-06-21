@@ -9,7 +9,13 @@
     }
     else
     {
-        layouts = new List<LayoutEntity> { layoutService.GetByPage(page) };
+        var layout = layoutService.GetByPage(page);
+        var fullLayout = layoutService.Get(layout.ID);
+        if (fullLayout != null)
+        {
+            layout.LayoutName = fullLayout.LayoutName;
+        }
+        layouts = new List<LayoutEntity> { layout };
     }
 }
 @inject ILayoutService layoutService
@@ -18,8 +24,13 @@
     @Html.Hidden("", Model, descriptor.ToHtmlProperties())
     @foreach (var layout in layouts)
     {
-        <div class="layout-item pull-left @(layout.ID==Model?"active":"")" data-id="@layout.ID">            
-            <label class="name">@layout.LayoutName</label>            
+        <div class="layout-item pull-left @(layout.ID==Model?"active":"")" data-id="@layout.ID">
+            @if (layout.LayoutName.IsNotNullAndWhiteSpace())
+            {
+                <label class="name">
+                    @layout.LayoutName
+                </label>
+            }
             @for (int i = 0; i < layout.Html.Count; i++)
             {
                 var item = layout.Html[i];
