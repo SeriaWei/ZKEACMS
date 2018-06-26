@@ -10,7 +10,6 @@ namespace Easy.Cache
     public class DefaultCacheProvider : ICacheProvider
     {
         private readonly ConcurrentDictionary<string, object> _allCacheManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         public DefaultCacheProvider()
         {
             _allCacheManager = new ConcurrentDictionary<string, object>();
