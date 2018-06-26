@@ -33,40 +33,54 @@ namespace ZKEACMS.Widget
         }
         public override ServiceResult<T> Add(T item)
         {
-            var id = Guid.NewGuid().ToString("N");
-            var basePart = item.ToWidgetBasePart();
-            basePart.ID = id;
-            WidgetBasePartService.Add(basePart);
-            try
+            ServiceResult<T> result = null;
+            BeginTransaction(() =>
             {
-                item.ID = basePart.ID;
-                return base.Add(item);
-            }
-            catch (Exception ex)
-            {
-                WidgetBasePartService.Remove(item.ID);
-                throw ex;
-            }
+                var id = Guid.NewGuid().ToString("N");
+                var basePart = item.ToWidgetBasePart();
+                basePart.ID = id;
+                WidgetBasePartService.Add(basePart);
+                try
+                {
+                    item.ID = basePart.ID;
+                    result = base.Add(item);
+                }
+                catch (Exception ex)
+                {
+                    WidgetBasePartService.Remove(item.ID);
+                    throw ex;
+                }
+            });
+            return result;
         }
 
         public override ServiceResult<T> Update(T item)
         {
-            var basePart = WidgetBasePartService.Get(item.ID);
-            item.CopyTo(basePart);
-            WidgetBasePartService.Update(basePart);
-            return base.Update(item);
+            ServiceResult<T> result = null;
+            BeginTransaction(() =>
+            {
+                var basePart = WidgetBasePartService.Get(item.ID);
+                item.CopyTo(basePart);
+                WidgetBasePartService.Update(basePart);
+                result = base.Update(item);
+            });
+            return result;
         }
         public override ServiceResult<T> UpdateRange(params T[] items)
         {
-           var ids= items.Select(m => m.ID).ToArray();
+            var ids = items.Select(m => m.ID).ToArray();
             var baseParts = WidgetBasePartService.Get(m => ids.Contains(m.ID));
             foreach (var item in items)
             {
                 item.CopyTo(baseParts.FirstOrDefault(m => m.ID == item.ID));
             }
-            WidgetBasePartService.UpdateRange(baseParts.ToArray());
-
-            return base.UpdateRange(items);
+            ServiceResult<T> result = null;
+            BeginTransaction(() =>
+            {
+                WidgetBasePartService.UpdateRange(baseParts.ToArray());
+                result = base.UpdateRange(items);
+            });
+            return result;
         }
         public override T GetSingle(Expression<Func<T, bool>> filter)
         {
@@ -107,28 +121,32 @@ namespace ZKEACMS.Widget
 
         public override void Remove(Expression<Func<T, bool>> filter)
         {
-            base.Remove(filter);
+            BeginTransaction(() =>
+            {
+                base.Remove(filter);
 
-            WidgetBasePartService.Remove(Expression.Lambda<Func<WidgetBase, bool>>(filter.Body, filter.Parameters));
-
+                WidgetBasePartService.Remove(Expression.Lambda<Func<WidgetBase, bool>>(filter.Body, filter.Parameters));
+            });
         }
 
         public override void Remove(T item)
         {
+            BeginTransaction(() =>
+            {
+                base.Remove(item);
 
-            base.Remove(item);
-
-            WidgetBasePartService.Remove(item.ID);
-
+                WidgetBasePartService.Remove(item.ID);
+            });
         }
         public override void RemoveRange(params T[] items)
         {
-
-            base.RemoveRange(items);
-            var ids = items.Select(n => n.ID).ToArray();
-            var widgets = WidgetBasePartService.Get(m => ids.Contains(m.ID)).ToArray();
-            WidgetBasePartService.RemoveRange(widgets);
-
+            BeginTransaction(() =>
+            {
+                base.RemoveRange(items);
+                var ids = items.Select(n => n.ID).ToArray();
+                var widgets = WidgetBasePartService.Get(m => ids.Contains(m.ID)).ToArray();
+                WidgetBasePartService.RemoveRange(widgets);
+            });
         }
 
 

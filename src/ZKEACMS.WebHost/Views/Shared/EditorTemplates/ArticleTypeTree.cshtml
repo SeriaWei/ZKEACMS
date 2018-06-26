@@ -21,7 +21,8 @@
         function loadedArticleType(p) {            
             var category = $("input[type=hidden]", ".article-type-tree").val();
             if (!category || category=="0") {
-                category = $(".jstree-node:first a.jstree-anchor:first", p.target).attr("id")
+                category = $(".jstree-node:first a.jstree-anchor:first", p.target).attr("id");
+                $("input[type=hidden]", ".article-type-tree").val(category);
             }
             $(p.target).jstree('select_node', category);            
         }

@@ -36,7 +36,10 @@ namespace ZKEACMS.Common.Service
             }
             else if (item.ActionType == ActionType.Delete)
             {
-                Remove(item);
+                if (item.ID > 0)
+                {
+                    Remove(item);
+                }                
             }
             return new ServiceResult<CarouselItemEntity>();
         }

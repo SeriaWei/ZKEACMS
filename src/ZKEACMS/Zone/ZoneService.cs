@@ -9,7 +9,7 @@ using ZKEACMS.Page;
 using Easy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using CacheManager.Core;
+using Easy.Cache;
 
 namespace ZKEACMS.Zone
 {
@@ -42,32 +42,42 @@ namespace ZKEACMS.Zone
         }
         public IEnumerable<ZoneEntity> GetByPage(PageEntity page)
         {
-            Func<string, IEnumerable<ZoneEntity>> get = key =>
-             {
-                 IEnumerable<ZoneEntity> zones = Get().Where(m => m.PageId == page.ID).OrderBy(m => m.ID).ToList();
-                 if (!zones.Any())
-                 {
-                     zones = GetByLayoutId(page.LayoutId);
-                     if (ApplicationContext.IsAuthenticated)
-                     {
-                         foreach (var item in zones)
-                         {
-                             item.PageId = page.ID;
-                             Add(item);
-                         }
-                     }
-                 }
-                 return zones;
-             };
+            Func<string, string, IEnumerable<ZoneEntity>> get = (key, region) =>
+              {
+                  IEnumerable<ZoneEntity> zones = Get().Where(m => m.PageId == page.ID).OrderBy(m => m.ID).ToList();
+                  if (!zones.Any())
+                  {
+                      zones = GetByLayoutId(page.LayoutId);
+                      if (ApplicationContext.IsAuthenticated)
+                      {
+                          foreach (var item in zones)
+                          {
+                              item.PageId = page.ID;
+                              Add(item);
+                          }
+                      }
+                  }
+                  return zones;
+              };
             if (page.IsPublishedPage)
             {
-                return _cacheManager.GetOrAdd(page.ID, get);
+                return _cacheManager.GetOrAdd(page.ID, page.ReferencePageID, get);
             }
-            return get(page.ID);
+            return get(page.ID, page.ReferencePageID);
         }
         public IEnumerable<ZoneEntity> GetByLayoutId(string layoutId)
         {
             return Get().Where(m => m.LayoutId == layoutId && m.PageId == null).OrderBy(m => m.ID).ToList();
+        }
+
+        public void RemoveCache(string pageId)
+        {
+            _cacheManager.ClearRegion(pageId);
+        }
+
+        public void ClearCache()
+        {
+            _cacheManager.Clear();
         }
     }
 }

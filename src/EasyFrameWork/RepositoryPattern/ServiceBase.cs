@@ -36,18 +36,25 @@ namespace Easy.RepositoryPattern
 
         public void BeginTransaction(Action action)
         {
-            using (var transaction = DbContext.Database.BeginTransaction())
+            if (DbContext.Database.CurrentTransaction == null)
             {
-                try
+                using (var transaction = DbContext.Database.BeginTransaction())
                 {
-                    action.Invoke();
-                    transaction.Commit();
+                    try
+                    {
+                        action.Invoke();
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw ex;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    throw ex;
-                }
+            }
+            else
+            {
+                action.Invoke();
             }
         }
         protected ServiceResult<T> Validate(T item)

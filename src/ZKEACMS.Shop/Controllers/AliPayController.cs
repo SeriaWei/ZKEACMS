@@ -24,16 +24,13 @@ namespace ZKEACMS.Shop.Controllers
         private readonly IAlipayService _alipayService;
         private readonly IOrderService _orderService;
         private readonly IOrderItemService _orderItemService;
-        private readonly IDataArchivedService _dataArchivedService;
         public AliPayController(IAlipayService alipayService,
             IOrderService orderService,
-            IOrderItemService orderItemService,
-            IDataArchivedService dataArchivedService)
+            IOrderItemService orderItemService )
         {
             _alipayService = alipayService;
             _orderService = orderService;
             _orderItemService = orderItemService;
-            _dataArchivedService = dataArchivedService;
         }
 
         public IActionResult Pay(string orderId)
@@ -146,17 +143,6 @@ namespace ZKEACMS.Shop.Controllers
 
         }
 
-        #endregion
-        [DefaultAuthorize(Policy = PermissionKeys.PaymentConfigManage)]
-        public IActionResult Setting()
-        {
-            return View(_alipayService.Options);
-        }
-        [DefaultAuthorize(Policy = PermissionKeys.PaymentConfigManage), HttpPost]
-        public IActionResult Setting(AlipayOptions options)
-        {
-            _dataArchivedService.Archive(Service.AlipayService.SettingKey, options);
-            return View(options);
-        }
+        #endregion        
     }
 }

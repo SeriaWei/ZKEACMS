@@ -34,11 +34,15 @@ namespace Easy
         {
             if (type != null)
             {
+                if (typeof(Microsoft.AspNetCore.Mvc.ControllerBase).IsAssignableFrom(type))
+                {
+                    return null;
+                }
                 var metaData = HttpContextAccessor.HttpContext.RequestServices.GetService(MetaDataType.MakeGenericType(type)) as IViewMetaData;
                 if (metaData != null)
                 {
                     return new ViewConfigure(metaData);
-                }                
+                }
             }
             return null;
         }

@@ -47,7 +47,7 @@
                             @if (media.MediaType == (int)MediaType.Image)
                             {
                                 <a href="javascript:void(0)" class="img-link confirm" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
-                                    <img class="img" src="@Url.Action("Thumbnail",new { id=media.ID })" />
+                                    <img class="img" src="@Url.Content(media.Url)" />
                                 </a>
                             }
                             else

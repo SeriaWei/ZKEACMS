@@ -38,6 +38,8 @@ namespace ZKEACMS
         public const string ManageEventViewer = "EventViewer_Manage";
         public const string ManageLanguage = "Language_Manage";
 
+        public const string SMTPSetting = "SMTPSetting";
+
         public static List<PermissionDescriptor> KnownPermissions = new List<PermissionDescriptor>
         {
             new PermissionDescriptor { Module="页面",Title="查看页面",Key=ViewPage,Description="查看页面" },
@@ -59,7 +61,8 @@ namespace ZKEACMS
             new PermissionDescriptor { Module="设置",Title="查看设置",Key=ViewApplicationSetting,Description="查看设置" },
             new PermissionDescriptor { Module="设置",Title="管理设置",Key=ManageApplicationSetting,Description="管理设置" },
             new PermissionDescriptor { Module="设置",Title="查看错误日志",Key=ManageEventViewer,Description="查看系统异常错误信息" },
-            new PermissionDescriptor { Module="设置",Title="翻译",Key=ManageLanguage,Description="翻译系统文本、标签" }
+            new PermissionDescriptor { Module="设置",Title="翻译",Key=ManageLanguage,Description="翻译系统文本、标签" },
+            new PermissionDescriptor { Module="设置",Title="邮件服务器设置",Key=SMTPSetting,Description="邮箱服务器设置" }
         };
         public static void Configure(AuthorizationOptions options)
         {

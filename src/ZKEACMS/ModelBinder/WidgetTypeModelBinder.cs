@@ -110,7 +110,13 @@ namespace ZKEACMS.ModelBinder
                     }
                 }
             }
-
+            if (bindingContext.ModelState.ErrorCount == 0)
+            {
+                foreach (var item in bindingContext.ModelState.Keys)
+                {
+                    bindingContext.ModelState.MarkFieldValid(item);
+                }                
+            }
             bindingContext.Result = ModelBindingResult.Success(bindingContext.Model);
         }
 
@@ -286,7 +292,6 @@ namespace ZKEACMS.ModelBinder
                 var descriptor = viewConfigure.GetViewPortDescriptor(modelName);
                 if (descriptor != null)
                 {
-                    bool isAllValid = true;
                     foreach (var valid in descriptor.Validator)
                     {
                         if (!valid.Validate(value))
@@ -297,12 +302,7 @@ namespace ZKEACMS.ModelBinder
                                 bindingContext.ModelState[modelName].Errors.Clear();
                             }
                             bindingContext.ModelState.TryAddModelError(modelName, valid.ErrorMessage);
-                            isAllValid = false;
                         }
-                    }
-                    if (isAllValid)
-                    {
-                        bindingContext.ModelState.MarkFieldValid(modelName);
                     }
                 }
 

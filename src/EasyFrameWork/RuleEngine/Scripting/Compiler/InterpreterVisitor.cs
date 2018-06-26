@@ -61,17 +61,17 @@ namespace Easy.RuleEngine.Scripting.Compiler
             var right = Evaluate(node.Right);
             if (right.IsError)
                 return right;
-
+           
             switch (node.Token.Kind)
             {
                 case TokenKind.Plus:
-                    return EvaluateArithmetic(left, right, (a, b) => Result(a.Int32Value + b.Int32Value));
+                    return EvaluateArithmetic(left, right, (a, b) => Result(a.MoneyValue + b.MoneyValue));
                 case TokenKind.Minus:
-                    return EvaluateArithmetic(left, right, (a, b) => Result(a.Int32Value - b.Int32Value));
+                    return EvaluateArithmetic(left, right, (a, b) => Result(a.MoneyValue - b.MoneyValue));
                 case TokenKind.Mul:
-                    return EvaluateArithmetic(left, right, (a, b) => Result(a.Int32Value * b.Int32Value));
+                    return EvaluateArithmetic(left, right, (a, b) => Result(a.MoneyValue * b.MoneyValue));
                 case TokenKind.Div:
-                    return EvaluateArithmetic(left, right, (a, b) => b.Int32Value == 0 ? Error("Attempted to divide by zero.") : Result(a.Int32Value / b.Int32Value));
+                    return EvaluateArithmetic(left, right, (a, b) => b.MoneyValue == 0 ? Error("Attempted to divide by zero.") : Result(a.MoneyValue / b.MoneyValue));
                 case TokenKind.And:
                 case TokenKind.AndSign:
                     return EvaluateLogicalAnd(left, right);
@@ -132,11 +132,11 @@ namespace Easy.RuleEngine.Scripting.Compiler
             Func<EvaluationResult, EvaluationResult, EvaluationResult> operation)
         {
             //TODO: Proper type conversion
-            var leftValue = ConvertToInt(left);
+            var leftValue = ConvertToMoney(left);
             if (leftValue.IsError)
                 return leftValue;
 
-            var rightValue = ConvertToInt(right);
+            var rightValue = ConvertToMoney(right);
             if (rightValue.IsError)
                 return rightValue;
 
@@ -155,10 +155,10 @@ namespace Easy.RuleEngine.Scripting.Compiler
             return type.LogicalOr(left, right);
         }
 
-        private static EvaluationResult ConvertToInt(EvaluationResult value)
+        private static EvaluationResult ConvertToMoney(EvaluationResult value)
         {
             //TODO: Proper type conversion
-            if (value.IsInt32)
+            if (value.IsInt32 || value.IsMoney)
                 return value;
 
             return Error(string.Format("Value '{0}' is not convertible to an integer.", value));

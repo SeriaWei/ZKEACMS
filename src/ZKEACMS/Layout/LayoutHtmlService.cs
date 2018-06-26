@@ -7,7 +7,8 @@ using Easy;
 using Microsoft.EntityFrameworkCore;
 using System;
 using ZKEACMS.Page;
-using CacheManager.Core;
+using Easy.Cache;
+using Microsoft.AspNetCore.Http;
 
 namespace ZKEACMS.Layout
 {
@@ -31,32 +32,41 @@ namespace ZKEACMS.Layout
         }
         public IEnumerable<LayoutHtml> GetByPage(PageEntity page)
         {
-            Func<string, IEnumerable<LayoutHtml>> get = key =>
-            {
-                IEnumerable<LayoutHtml> html = Get().Where(m => m.PageId == page.ID).OrderBy(m => m.LayoutHtmlId).ToList();
-                if (!html.Any())
-                {
-                    html = GetByLayoutID(page.LayoutId);
-                    if (ApplicationContext.IsAuthenticated)
-                    {
-                        foreach (var item in html)
-                        {
-                            Add(new LayoutHtml { LayoutId = item.LayoutId, Html = item.Html, PageId = page.ID });
-                        }
-                    }
-                }
-                return html;
-            };
+            Func<string, string, IEnumerable<LayoutHtml>> get = (key, regin) =>
+             {
+                 IEnumerable<LayoutHtml> html = Get().Where(m => m.PageId == page.ID).OrderBy(m => m.LayoutHtmlId).ToList();
+                 if (!html.Any())
+                 {
+                     html = GetByLayoutID(page.LayoutId);
+                     if (ApplicationContext.IsAuthenticated)
+                     {
+                         foreach (var item in html)
+                         {
+                             Add(new LayoutHtml { LayoutId = item.LayoutId, Html = item.Html, PageId = page.ID });
+                         }
+                     }
+                 }
+                 return html;
+             };
             if (page.IsPublishedPage)
             {
-                return _cacheManager.GetOrAdd(page.ID, get);
+                return _cacheManager.GetOrAdd(page.ID, page.ReferencePageID, get);
             }
-            return get(page.ID);
+            return get(page.ID, page.ReferencePageID);
         }
         public IEnumerable<LayoutHtml> GetByLayoutID(string layoutId)
         {
             return Get().Where(m => m.LayoutId == layoutId && m.PageId == null).OrderBy(m => m.LayoutHtmlId).ToList();
         }
 
+        public void RemoveCache(string pageId)
+        {
+            _cacheManager.ClearRegion(pageId);
+        }
+
+        public void ClearCache()
+        {
+            _cacheManager.Clear();
+        }
     }
 }
