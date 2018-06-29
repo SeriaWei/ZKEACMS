@@ -27,21 +27,13 @@ namespace ZKEACMS.SectionWidget.Service
 
         public SectionWidgetService(IWidgetBasePartService widgetService, ISectionGroupService sectionGroupService,
             ISectionContentProviderService sectionContentProviderService, ISectionTemplateService sectionTemplateService,
-            IApplicationContext applicationContext, SectionDbContext dbContext)
+            IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
             _sectionGroupService = sectionGroupService;
             _sectionContentProviderService = sectionContentProviderService;
             _sectionTemplateService = sectionTemplateService;
-        }
-
-        public override DbSet<Models.SectionWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as SectionDbContext).SectionWidget;
-            }
-        }
+        }    
 
         public override WidgetBase GetWidget(WidgetBase widget)
         {
@@ -77,7 +69,7 @@ namespace ZKEACMS.SectionWidget.Service
             });
             return widget;
         }
-        public override void Remove(Models.SectionWidget item, bool saveImmediately = true)
+        public override void Remove(Models.SectionWidget item)
         {
             if (item != null)
             {
@@ -86,7 +78,7 @@ namespace ZKEACMS.SectionWidget.Service
                     _sectionGroupService.Remove(m.ID);
                 });
             }
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
 
         public override ServiceResult<Models.SectionWidget> Add(Models.SectionWidget item)
@@ -164,6 +156,7 @@ namespace ZKEACMS.SectionWidget.Service
             widget.ZoneID = null;
             widget.IsSystem = false;
             widget.IsTemplate = true;
+            widget.Description = "°²×°";
             if (!widget.Thumbnail.StartsWith("http://", StringComparison.OrdinalIgnoreCase) && !widget.Thumbnail.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
             {
                 widget.Thumbnail = Helper.Url.Combine(Loader.PluginFolder, new DirectoryInfo(pluginRootPath).Name, "Thumbnail", Path.GetFileName(widget.Thumbnail));

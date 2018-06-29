@@ -15,7 +15,7 @@ namespace ZKEACMS.SectionWidget.Models
         public int? Height { get; set; }
         public string Url { get; set; }
         public string Code { get; set; }
-
+        [NotMapped]
         public override int SectionContentType
         {
             get

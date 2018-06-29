@@ -1,0 +1,58 @@
+﻿@model String
+@{
+    var page = ViewBag.Page as PageEntity;
+    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
+    IList<LayoutEntity> layouts = null;
+    if (page == null)
+    {
+        layouts = layoutService.GetWithFull();
+    }
+    else
+    {
+        layouts = new List<LayoutEntity> { layoutService.GetByPage(page) };
+    }
+}
+@inject ILayoutService layoutService
+
+<div class="input-group clearfix">
+    @Html.Hidden("", Model, descriptor.ToHtmlProperties())
+    @foreach (var layout in layouts)
+    {
+        <div class="layout-item pull-left @(layout.ID==Model?"active":"")" data-id="@layout.ID">            
+            <label class="name">@layout.LayoutName</label>            
+            @for (int i = 0; i < layout.Html.Count; i++)
+            {
+                var item = layout.Html[i];
+                @Html.Raw(item.Html)
+                if (item.Html == ZoneEntity.ZoneTag)
+                {
+                    i++;
+                    var headingCode = layout.Html[i].Html;
+                    var zone = layout.Zones.FirstOrDefault(m => m.HeadingCode == headingCode);
+                    if (zone != null)
+                    {
+                        <span class="zone-name">@zone.ZoneName</span>
+                    }
+                }
+            }
+        </div>
+
+    }
+</div>
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            $(document).on("click", ".layout-item", function () {
+                $("#LayoutId").val($(this).data("id"));
+                $(this).siblings().removeClass("active");
+                $(this).addClass("active");
+            });
+            if (!$("#LayoutId").val()) {
+                $(".layout-item:first").click();
+            }
+        });
+    </script>
+
+}

@@ -43,7 +43,7 @@ namespace ZKEACMS
             {
                 url = "/";
             }
-            return url + (url.EndsWith("/") ? "" : "/") + StringKeys.PathFormat(StringKeys.RouteValue_Post) + id;
+            return url + (url.EndsWith("/") ? "" : "/") + StringKeys.PathFormat(StringKeys.RouteValue_Post) +$"{id}.html";
         }
         public static string CategoryUrl(this IUrlHelper helper, int id)
         {

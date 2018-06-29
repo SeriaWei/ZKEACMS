@@ -22,6 +22,7 @@ namespace ZKEACMS.Shop.Models
         public string UserId { get; set; }
         public string Contact { get; set; }
         public string PhoneNumber { get; set; }
+        [Column(TypeName = "decimal(18,4)")]
         public decimal Total { get; set; }
         public int OrderStatus { get; set; }
         public DateTime? PayTime { get; set; }
@@ -32,6 +33,7 @@ namespace ZKEACMS.Shop.Models
         public string PaymentGateway { get; set; }
         public string PaymentID { get; set; }
         public string RefundID { get; set; }
+        [Column(TypeName = "decimal(18,4)")]
         public decimal? Refund { get; set; }
         public string RefundReason { get; set; }
         public DateTime? RefundDate { get; set; }

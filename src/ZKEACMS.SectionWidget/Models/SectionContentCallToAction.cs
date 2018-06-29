@@ -11,6 +11,7 @@ namespace ZKEACMS.SectionWidget.Models
     {
         public string InnerText { get; set; }
         public string Href { get; set; }
+        [NotMapped]
         public override int SectionContentType
         {
             get

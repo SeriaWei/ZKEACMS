@@ -23,15 +23,15 @@ namespace ZKEACMS.MetaData
         private void InitViewBase()
         {
             ViewConfig(m => m.ID).AsHidden();
-            ViewConfig(m => m.Position).AsHidden();
-            ViewConfig(m => m.AssemblyName).AsHidden();
+            ViewConfig(m => m.AssemblyName).AsHidden().Required();
             ViewConfig(m => m.FormView).AsHidden();
             ViewConfig(m => m.IsSystem).AsHidden();
-            ViewConfig(m => m.ServiceTypeName).AsHidden();
-            ViewConfig(m => m.ViewModelTypeName).AsHidden();
-            ViewConfig(m => m.PartialView).AsHidden();
+            ViewConfig(m => m.ServiceTypeName).AsHidden().Required();
+            ViewConfig(m => m.ViewModelTypeName).AsHidden().Required();
+            ViewConfig(m => m.PartialView).AsHidden().Required();
             ViewConfig(m => m.LayoutID).AsHidden();
             ViewConfig(m => m.PageID).AsHidden();
+            ViewConfig(m => m.RuleID).AsHidden();
             ViewConfig(m => m.ExtendData).AsHidden();
             ViewConfig(m => m.Status).AsHidden();
             ViewConfig(m => m.Description).AsHidden();
@@ -42,6 +42,7 @@ namespace ZKEACMS.MetaData
 
             ViewConfig(m => m.WidgetName).AsTextBox().Order(NextOrder()).Required();
             ViewConfig(m => m.Title).AsTextBox().Order(NextOrder());
+            ViewConfig(m => m.Position).AsTextBox().Order(NextOrder()).RegularExpression(RegularExpression.Integer,"ÇëÊäÈëÊý×Ö").Required();
             ViewConfig(m => m.ZoneID).AsDropDownList().Order(NextOrder()).DataSource(ViewDataKeys.Zones, SourceType.ViewData).Required();            
             ViewConfig(m => m.IsTemplate).AsCheckBox().Order(NextOrder());
             ViewConfig(m => m.Thumbnail).AsTextBox().Order(NextOrder()).MediaSelector();

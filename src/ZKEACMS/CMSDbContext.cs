@@ -45,5 +45,6 @@ namespace ZKEACMS
         internal DbSet<ScriptWidget> ScriptWidget { get; set; }
         internal DbSet<StyleSheetWidget> StyleSheetWidget { get; set; }
         internal DbSet<VideoWidget> VideoWidget { get; set; }
+        internal DbSet<BreadcrumbWidget> BreadcrumbWidget { get; set; }
     }
 }

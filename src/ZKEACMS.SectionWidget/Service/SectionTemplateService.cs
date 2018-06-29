@@ -9,16 +9,9 @@ namespace ZKEACMS.SectionWidget.Service
 {
     public class SectionTemplateService : ServiceBase<SectionTemplate>, ISectionTemplateService
     {
-        public SectionTemplateService(IApplicationContext applicationContext, SectionDbContext dbContext) : base(applicationContext, dbContext)
+        public SectionTemplateService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<SectionTemplate> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as SectionDbContext).SectionTemplate;
-            }
-        }
+        
     }
 }

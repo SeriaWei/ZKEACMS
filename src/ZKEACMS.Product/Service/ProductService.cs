@@ -16,21 +16,13 @@ namespace ZKEACMS.Product.Service
         private readonly IProductTagService _productTagService;
         private readonly IProductCategoryTagService _productCategoryTagService;
         private readonly IProductImageService _productImageService;
-        public ProductService(IApplicationContext applicationContext, IProductTagService productTagService, IProductCategoryTagService productCategoryTagService, IProductImageService productImageService, ProductDbContext dbContext) : base(applicationContext, dbContext)
+        public ProductService(IApplicationContext applicationContext, IProductTagService productTagService, IProductCategoryTagService productCategoryTagService, IProductImageService productImageService, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
             _productTagService = productTagService;
             _productCategoryTagService = productCategoryTagService;
             _productImageService = productImageService;
         }
-
-        public override DbSet<ProductEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ProductDbContext).Product;
-            }
-        }
-
+        
         public void Publish(int ID)
         {
             var product = Get(ID);
@@ -47,10 +39,12 @@ namespace ZKEACMS.Product.Service
             }
             if (item.ProductTags != null)
             {
+                _productTagService.BeginBulkSave();
                 foreach (var tag in item.ProductTags.Where(m => m.Selected))
                 {
                     _productTagService.Add(new ProductTag { ProductId = item.ID, TagId = tag.ID });
                 }
+                _productTagService.SaveChanges();
             }
             if (item.ProductImages != null)
             {
@@ -81,14 +75,17 @@ namespace ZKEACMS.Product.Service
                     }
                 case ActionType.Delete:
                     {
-                        _productImageService.Remove(item);
+                        if (item.ID > 0)
+                        {
+                            _productImageService.Remove(item);
+                        }
                         break;
                     }
             }
         }
-        public override ServiceResult<ProductEntity> Update(ProductEntity item, bool saveImmediately = true)
+        public override ServiceResult<ProductEntity> Update(ProductEntity item)
         {
-            var result = base.Update(item, saveImmediately);
+            var result = base.Update(item);
             if (result.HasViolation)
             {
                 return result;
@@ -96,18 +93,22 @@ namespace ZKEACMS.Product.Service
             if (item.ProductTags != null)
             {
                 _productTagService.Remove(m => m.ProductId == item.ID);
+                _productTagService.BeginBulkSave();
                 foreach (var tag in item.ProductTags.Where(m => m.Selected))
                 {
                     _productTagService.Add(new ProductTag { ProductId = item.ID, TagId = tag.ID });
                 }
+                _productTagService.SaveChanges();
             }
             if (item.ProductImages != null)
             {
+                _productImageService.BeginBulkSave();
                 item.ProductImages.Each(m =>
                 {
                     m.ProductId = item.ID;
                     SaveImages(m);
                 });
+                _productImageService.SaveChanges();
             }
             return result;
         }
@@ -127,7 +128,7 @@ namespace ZKEACMS.Product.Service
 
             return product;
         }
-        public override void Remove(ProductEntity item, bool saveImmediately = true)
+        public override void Remove(ProductEntity item)
         {
             if (item.ProductTags != null)
             {
@@ -140,7 +141,7 @@ namespace ZKEACMS.Product.Service
                     _productImageService.Remove(m);
                 });
             }
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
     }
 }

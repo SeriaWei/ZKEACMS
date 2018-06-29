@@ -12,6 +12,11 @@ namespace Easy.Modules.Role
     {
         [Key]
         public int ID { get; set; }
+        public void CopyTo(RoleEntity role)
+        {
+            role.Title = Title;
+            role.Description = Description;
+        }
     }
 
     class RoleMetaData : ViewMetaData<RoleEntity>

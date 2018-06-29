@@ -9,17 +9,9 @@ namespace ZKEACMS.SectionWidget.Service
 {
     public class SectionContentVideoService : ServiceBase<SectionContentVideo>, ISectionContentService
     {
-        public SectionContentVideoService(IApplicationContext applicationContext, SectionDbContext dbContext) : base(applicationContext, dbContext)
+        public SectionContentVideoService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
-        }
-
-        public override DbSet<SectionContentVideo> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as SectionDbContext).SectionContentVideo;
-            }
-        }
+        }     
 
         public SectionContentBase.Types ContentType
         {

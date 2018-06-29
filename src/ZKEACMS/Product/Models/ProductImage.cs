@@ -25,7 +25,7 @@ namespace ZKEACMS.Product.Models
             ViewConfig(m => m.ProductId).AsHidden();
             ViewConfig(m => m.Description).AsHidden();
             
-            ViewConfig(m => m.ImageUrl).AsTextBox().MediaSelector();
+            ViewConfig(m => m.ImageUrl).AsTextBox().Required().MediaSelector();
         }
     }
 }

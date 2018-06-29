@@ -167,6 +167,7 @@
             if (!$.trim($(this).val())) {
                 $(this).val("未命名");
             }
+            $(this).attr("value", $(this).val());
         });
         if ($(this).data("done")) {
             return;
@@ -177,7 +178,7 @@
 
         $("zone").each(function (i) {
             $("input", this).each(function () {
-                $(this).attr("name", "zones[" + i + "]." + $(this).attr("name")).addClass("hide");
+                $(this).attr("name", "zones[" + i + "]." + $(this).attr("name")).addClass("hide");               
             }).appendTo(form);
         });
 

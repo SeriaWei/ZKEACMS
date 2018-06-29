@@ -14,19 +14,12 @@ namespace ZKEACMS.Article.Service
     public class ArticleDetailWidgetService : WidgetService<ArticleDetailWidget>
     {
         private readonly IArticleService _articleService;
-        public ArticleDetailWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext, ArticleDbContext dbContext)
+        public ArticleDetailWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
             _articleService = articleService;
         }
-
-        public override DbSet<ArticleDetailWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ArticleDbContext).ArticleDetailWidget;
-            }
-        }
+      
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
@@ -37,8 +30,7 @@ namespace ZKEACMS.Article.Service
                 viewModel.Current = _articleService.Get(articleId);
                 if (viewModel.Current != null)
                 {
-                    viewModel.Current.Counter = (viewModel.Current.Counter ?? 0) + 1;
-                    _articleService.Update(viewModel.Current);
+                    _articleService.IncreaseCount(viewModel.Current);
                     viewModel.Prev = _articleService.GetPrev(viewModel.Current);
                     viewModel.Next = _articleService.GetNext(viewModel.Current);
                 }

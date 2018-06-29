@@ -13,4 +13,4 @@
     </div>
 }
 
-<grid model-type="@(typeof(RoleEntity))" delete-able="Authorizer.Authorize(PermissionKeys.ManageRole)" edit-able="Authorizer.Authorize(PermissionKeys.ManageRole)"></grid>
+<grid model-type="@(typeof(RoleEntity))" order-desc="LastUpdateDate" delete-able="Authorizer.Authorize(PermissionKeys.ManageRole)" edit-able="Authorizer.Authorize(PermissionKeys.ManageRole)"></grid>

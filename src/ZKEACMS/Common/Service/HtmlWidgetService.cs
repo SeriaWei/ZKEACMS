@@ -16,12 +16,6 @@ namespace ZKEACMS.Common.Service
         {
         }
 
-        public override DbSet<HtmlWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).HtmlWidget;
-            }
-        }
+        public override DbSet<HtmlWidget> CurrentDbSet => (DbContext as CMSDbContext).HtmlWidget;
     }
 }

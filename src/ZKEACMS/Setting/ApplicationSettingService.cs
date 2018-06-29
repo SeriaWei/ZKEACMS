@@ -1,9 +1,11 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using System;
 using Easy;
+using Easy.Constant;
 using Easy.Extend;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace ZKEACMS.Setting
 {
@@ -13,13 +15,7 @@ namespace ZKEACMS.Setting
         {
         }
 
-        public override DbSet<ApplicationSetting> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).ApplicationSetting;
-            }
-        }
+        public override DbSet<ApplicationSetting> CurrentDbSet => (DbContext as CMSDbContext).ApplicationSetting;
 
         public override ServiceResult<ApplicationSetting> Add(ApplicationSetting item)
         {
@@ -39,11 +35,51 @@ namespace ZKEACMS.Setting
             {
                 if (setting == null && defaultValue.IsNotNullAndWhiteSpace())
                 {
-                    Add(new ApplicationSetting { SettingKey = settingKey, Value = defaultValue });
+                    Add(new ApplicationSetting { SettingKey = settingKey, Value = defaultValue, Status = (int)RecordStatus.Active });
                 }
                 return defaultValue;
             }
+            if (setting.Status != (int)RecordStatus.Active)
+            {
+                return defaultValue;
+            }
             return setting.Value;
+        }
+
+        public T Get<T>() where T : new()
+        {
+            return Get<T>(typeof(T).FullName);
+        }
+
+        public T Get<T>(string key) where T : new()
+        {
+            var setting = Get(key);
+            if (setting == null)
+            {
+                setting = new ApplicationSetting { SettingKey = key, Value = JsonConvert.SerializeObject(new T()) };
+                Add(setting);
+            }
+            return JsonConvert.DeserializeObject<T>(setting.Value);
+        }
+
+        public void Save<T>(T setting)
+        {
+            Save<T>(typeof(T).FullName, setting);
+        }
+
+        public void Save<T>(string key, T setting)
+        {
+            var settingEntry = Get(key);
+            if (settingEntry == null)
+            {
+                settingEntry = new ApplicationSetting { SettingKey = key, Value = JsonConvert.SerializeObject(setting) };
+                Add(settingEntry);
+            }
+            else
+            {
+                settingEntry.Value = JsonConvert.SerializeObject(setting);
+                Update(settingEntry);
+            }
         }
     }
 }

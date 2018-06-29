@@ -46,19 +46,19 @@ var DataTable = $.fn.dataTable;
 /* Set the defaults for DataTables initialisation */
 $.extend( true, DataTable.defaults, {
 	dom:
-		"<'row'<'col-md-6'l><'col-md-6'f>>" +
-		"<'row'<'col-md-12'tr>>" +
-		"<'row'<'col-md-5'i><'col-md-7'p>>",
+		"<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+		"<'row'<'col-sm-12'tr>>" +
+		"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 	renderer: 'bootstrap'
 } );
 
 
 /* Default class modification */
 $.extend( DataTable.ext.classes, {
-	sWrapper:      "dataTables_wrapper form-inline dt-bootstrap4",
-	sFilterInput:  "form-control input-sm",
-	sLengthSelect: "form-control input-sm",
-	sProcessing:   "dataTables_processing panel panel-default",
+	sWrapper:      "dataTables_wrapper container-fluid dt-bootstrap4",
+	sFilterInput:  "form-control form-control-sm",
+	sLengthSelect: "form-control form-control-sm",
+	sProcessing:   "dataTables_processing card",
 	sPageButton:   "paginate_button page-item"
 } );
 
@@ -174,7 +174,7 @@ DataTable.ext.renderer.pageButton.bootstrap = function ( settings, host, idx, bu
 		buttons
 	);
 
-	if ( activeEl ) {
+	if ( activeEl !== undefined ) {
 		$(host).find( '[data-dt-idx='+activeEl+']' ).focus();
 	}
 };

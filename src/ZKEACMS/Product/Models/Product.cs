@@ -47,14 +47,17 @@ namespace ZKEACMS.Product.Models
         /// <summary>
         /// 销售价格
         /// </summary>
+        [Column(TypeName = "decimal(18,4)")]
         public decimal? Price { get; set; }
         /// <summary>
         /// 折扣价格
         /// </summary>
+        [Column(TypeName = "decimal(18,4)")]
         public decimal? RebatePrice { get; set; }
         /// <summary>
         /// 进价，成本价
         /// </summary>
+        [Column(TypeName = "decimal(18,4)")]
         public decimal? PurchasePrice { get; set; }
         /// <summary>
         /// 规格
@@ -103,8 +106,7 @@ namespace ZKEACMS.Product.Models
                 .AsDropDownList()
                 .Required()
                 .DataSource(ViewDataKeys.ProductCategory, SourceType.ViewData)
-                .AddClass("select")
-                .AddProperty("data-url", "/admin/ProductCategory/Select")
+                .SetTemplate("ProductCategoryTree")
                 .ShowInGrid();
 
             ViewConfig(m => m.ProductTags).AsTextBox().SetTemplate("TagSelector");

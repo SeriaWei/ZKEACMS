@@ -12,28 +12,31 @@
 @echo 注意：发布时会清空发布目录
 WHERE /Q dotnet
 IF %ERRORLEVEL% NEQ 0 (
-ECHO dotnet core sdk was not find, please install the latest sdk at first.
+@echo dotnet core sdk was not find, please install the latest sdk at first.
 @pause
 start https://www.microsoft.com/net/download/windows
 exit
 )
-
+WHERE /Q publish-zkeacms
+IF %ERRORLEVEL% NEQ 0 (
+@echo Installing publish tool, please wait.
+dotnet tool install -g ZKEACMS.Publisher
+)
 set /P i=是否包含运行时发布?(y/n)
 if not "%i%"=="y" goto start
 @echo 详细的运行时RID请访问
 @echo https://docs.microsoft.com/en-us/dotnet/core/rid-catalog
-@echo 常用运行时RID
-@echo win7-x64,win10-x64,ubuntu.16.04-x64,centos.7-x64,osx.10.12-x64
+@echo 常用运行时RID: win-x64,linux-x64
 set /P r=输入运行时 RID:
 :start
 @echo 正在发布，请稍后...
 dotnet restore
 cd src/ZKEACMS.WebHost
 if not "%i%"=="y" (
-    dotnet publish-zkeacms
+    publish-zkeacms
 )
 if "%i%"=="y" (
-    dotnet publish-zkeacms %r%
+    publish-zkeacms -r %r%
 )
 
 explorer %cd%\bin\Release\PublishOutput

@@ -3,15 +3,18 @@
  * http://www.zkea.net/licenses */
 
 using Easy.Extend;
+using Easy.RuleEngine;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using System;
+using System.Linq;
 using ZKEACMS.Event;
 using ZKEACMS.Layout;
 using ZKEACMS.Page;
+using ZKEACMS.Rule;
 using ZKEACMS.Setting;
 using ZKEACMS.Theme;
 using ZKEACMS.Widget;
@@ -87,7 +90,9 @@ namespace ZKEACMS.Filter
                 var applicationSettingService = requestServices.GetService<IApplicationSettingService>();
                 var themeService = requestServices.GetService<IThemeService>();
                 var widgetActivator = requestServices.GetService<IWidgetActivator>();
-                LayoutEntity layout = layoutService.Get(page.LayoutId);
+                var ruleService = requestServices.GetService<IRuleService>();
+
+                LayoutEntity layout = layoutService.GetByPage(page);
                 layout.Page = page;
                 page.Favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
                 if (filterContext.HttpContext.User.Identity.IsAuthenticated && page.IsPublishedPage)
@@ -103,20 +108,59 @@ namespace ZKEACMS.Filter
                         {
                             IWidgetPartDriver partDriver = widgetActivator.Create(widget);
                             WidgetViewModelPart part = partDriver.Display(widget, filterContext);
-                            lock (layout.ZoneWidgets)
+                            if (part != null)
                             {
-                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
+                                lock (layout.ZoneWidgets)
                                 {
-                                    layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
-                                }
-                                else
-                                {
-                                    layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
+                                    if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
+                                    {
+                                        layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
+                                    }
+                                    else
+                                    {
+                                        layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
+                                    }
                                 }
                             }
                             partDriver.Dispose();
                         }
                     });
+                var ruleWorkContext = new RuleWorkContext
+                {
+                    Url = filterContext.RouteData.GetPath(),
+                    QueryString = filterContext.HttpContext.Request.QueryString.ToString(),
+                    UserAgent = filterContext.HttpContext.Request.Headers["User-Agent"]
+                };
+                var rules = ruleService.GetMatchRule(ruleWorkContext);
+                var rulesID = rules.Select(m => m.RuleID).ToArray();
+                if (rules.Any())
+                {
+                    widgetService.GetAllByRule(rulesID, !IsPreView(filterContext)).Each(widget =>
+                    {
+                        if (widget != null)
+                        {
+                            IWidgetPartDriver partDriver = widgetActivator.Create(widget);
+                            WidgetViewModelPart part = partDriver.Display(widget, filterContext);
+                            var zone = layout.Zones.FirstOrDefault(z => z.ZoneName == rules.First(m => m.RuleID == widget.RuleID).ZoneName);
+                            if (part != null && zone != null)
+                            {
+                                lock (layout.ZoneWidgets)
+                                {
+                                    part.Widget.ZoneID = zone.HeadingCode;
+                                    if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
+                                    {
+                                        layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
+                                    }
+                                    else
+                                    {
+                                        layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
+                                    }
+                                }
+                            }
+                            partDriver.Dispose();
+                        }
+                    });
+                }
                 var viewResult = (filterContext.Result as ViewResult);
                 if (viewResult != null)
                 {

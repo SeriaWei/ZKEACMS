@@ -15,14 +15,11 @@ namespace Easy
 {
     public static class Localization
     {
-        static ICacheManager<LanguageEntity> LanguageCache;
-        static Localization()
+        static ICacheManager<LanguageEntity> LanguageCache
         {
-            LanguageCache = CacheFactory.Build<LanguageEntity>(settings =>
-            {
-                settings.WithDictionaryHandle("Localization").WithExpiration(ExpirationMode.Sliding, new TimeSpan(0, 10, 0));
-            });
+            get { return ServiceLocator.GetService<ICacheManager<LanguageEntity>>(); }
         }
+
         public static string Get(string lanKey)
         {
             return LanguageCache.GetOrAdd(lanKey, key =>

@@ -31,10 +31,6 @@ namespace Easy.Mvc.Plugin
 
         public Task Invoke(HttpContext context)
         {
-            if (!context.Response.Headers.ContainsKey("Author"))
-            {
-                context.Response.Headers.Add("Author", new StringValues("ZKEA"));
-            }
             if (IsGetMethod(context.Request.Method) && IsPluginMatchPath(context.Request.Path) && IsSupportContentType(context))
             {
                 string filePath = GetAbsolutePath(context.Request.Path);

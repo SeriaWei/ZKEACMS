@@ -26,21 +26,14 @@ namespace ZKEACMS.Product.Service
             IProductCategoryService productCategoryService,
             IApplicationContext applicationContext,
             IPageService pageService,
-            ProductDbContext dbContext)
+            CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
             _productService = productService;
             _productCategoryService = productCategoryService;
             _pageService = pageService;
         }
-
-        public override DbSet<ProductListWidget> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ProductDbContext).ProductListWidget;
-            }
-        }
+       
         private string GetDetailPageUrl()
         {
             var baseDetail = WidgetBasePartService.Get(m => m.ServiceTypeName == "ZKEACMS.Product.Service.ProductDetailWidgetService").FirstOrDefault();

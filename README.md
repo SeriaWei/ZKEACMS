@@ -1,19 +1,19 @@
-﻿# ZKEACMS Build With Asp.Net Core
-![BuildSuccess](http://cdn.zkeasoft.com/images/buildsuccess.svg) 
+﻿# ZKEACMS Build With Asp.Net Core 2.1
 ### Docker
-在Docker中体验 / Run on docker
 ```
 docker run -d -p 5000:80 zkeasoft/zkeacms
 ```
 ### 发布 / Publish
-使用 Publish.cmd / Publish.sh 或者
+使用 Publish.cmd / Publish.sh，或者安装发布程序后手动发布
 ```
-./dotnet restore
-./src/ZKEACMS.WebHost/dotnet publish-zkeacms
+dotnet tool install -g ZKEACMS.Publisher
+```
+```
+./src/ZKEACMS.WebHost/publish-zkeacms
 ```
 ### 包含运行时发布 / Publish width runtime
 ```
-./src/ZKEACMS.WebHost/dotnet publish-zkeacms win7-x64
+./src/ZKEACMS.WebHost/publish-zkeacms -r win-x64
 ```
 ### 演示 / Demo Site
 [http://demo.zkea.net](http://demo.zkea.net)
@@ -24,7 +24,7 @@ ZKEACMS For .Net Core
 纸壳CMS 是基于 ZKEACMS 的 Asp.Net Core 版本。
 
 ### 架设环境 / Runtime
-* .Net Core 2.0
+* .Net Core 2.1
 * Microsoft Sql Serverl 2008+
 * MySql 5.6+
 * SQLite 3
@@ -34,11 +34,24 @@ ZKEACMS For .Net Core
 * Visual Studio Code
 * Microsoft Sql Server 2008+
 
+### 部署环境 / Deploy
+* Windows Client:7,8.1,10(1607+)
+* Windows Server:2008 R2 SP1+
+* macOS 10.12+
+* RHEL:6+
+* Fedora:26+
+* Ubuntu:14.04+
+* Debian:8+
+* SLES:12+
+* openSUSE:42.3+
+* Alpine:3.7+
+
 ## 基本思想 / Basic idea
 [http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)
 
 ### 设计页面 / Desing Page
 ![简单演示](http://ww4.sinaimg.cn/mw690/005zTNGqgw1f5e6o2kejlg30dw08an3g.gif)
+
 ### 添加内容 / Add Content
 ![简单演示](http://ww3.sinaimg.cn/mw690/005zTNGqgw1f4wcc6gjqqg30dw08g4jr.gif)
 

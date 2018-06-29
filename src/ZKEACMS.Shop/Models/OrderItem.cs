@@ -23,6 +23,7 @@ namespace ZKEACMS.Shop.Models
         public string UserId { get; set; }
         public string ImageUrl { get; set; }
         public int Quantity { get; set; }
+        [Column(TypeName = "decimal(18,4)")]
         public decimal Price { get; set; }
         public int ProductId { get; set; }
         public string PromoCode { get; set; }

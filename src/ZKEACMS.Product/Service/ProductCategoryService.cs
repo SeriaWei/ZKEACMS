@@ -12,25 +12,17 @@ namespace ZKEACMS.Product.Service
     public class ProductCategoryService : ServiceBase<ProductCategory>, IProductCategoryService
     {
         private readonly IProductService _productService;
-        public ProductCategoryService(IProductService productService, IApplicationContext applicationContext, ProductDbContext dbContext)
+        public ProductCategoryService(IProductService productService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _productService = productService;
         }
-
-        public override DbSet<ProductCategory> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as ProductDbContext).ProductCategory;
-            }
-        }
-
+        
         public IEnumerable<ProductCategory> GetChildren(long id)
         {
             return Get(m => m.ParentID == id);
         }
-        public override void Remove(ProductCategory item, bool saveImmediately = true)
+        public override void Remove(ProductCategory item)
         {
             if (item != null)
             {
@@ -41,7 +33,7 @@ namespace ZKEACMS.Product.Service
                 });
                 _productService.Remove(n => n.ProductCategoryID == item.ID);
             }
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
     }
 }

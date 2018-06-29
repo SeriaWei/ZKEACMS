@@ -55,9 +55,11 @@ namespace ZKEACMS.Layout
             ViewConfig(m => m.Layout).AsHidden();
             ViewConfig(m => m.ContainerClass).AsHidden();
             ViewConfig(m => m.Title).AsHidden();
-            ViewConfig(m => m.LayoutName).AsTextBox().Required();            
-            ViewConfig(m => m.ImageThumbUrl).AsTextBox().MediaSelector();
-            ViewConfig(m => m.ImageUrl).AsTextBox().MediaSelector();
+            ViewConfig(m => m.LayoutName).AsTextBox().Required();
+            ViewConfig(m => m.Script).AsTextBox().FileSelector();
+            ViewConfig(m => m.Style).AsTextBox().FileSelector();
+            ViewConfig(m => m.ImageThumbUrl).AsHidden();
+            ViewConfig(m => m.ImageUrl).AsHidden();
         }
     }
 

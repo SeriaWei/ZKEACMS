@@ -14,14 +14,7 @@ namespace ZKEACMS.Common.Service
         public CarouselItemService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<CarouselItemEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).CarouselItem;
-            }
-        }
+        public override DbSet<CarouselItemEntity> CurrentDbSet => (DbContext as CMSDbContext).CarouselItem;
 
         public override ServiceResult<CarouselItemEntity> Add(CarouselItemEntity item)
         {
@@ -31,19 +24,19 @@ namespace ZKEACMS.Common.Service
             }
             return new ServiceResult<CarouselItemEntity>();
         }
-        public override ServiceResult<CarouselItemEntity> Update(CarouselItemEntity item, bool saveImmediately = true)
+        public override ServiceResult<CarouselItemEntity> Update(CarouselItemEntity item)
         {
             if (item.ActionType == ActionType.Update)
             {
-               return base.Update(item, saveImmediately);
+                return base.Update(item);
             }
             else if (item.ActionType == ActionType.Create)
             {
-               return base.Add(item);
+                return base.Add(item);
             }
             else if (item.ActionType == ActionType.Delete)
             {
-                Remove(item, saveImmediately);
+                Remove(item);
             }
             return new ServiceResult<CarouselItemEntity>();
         }

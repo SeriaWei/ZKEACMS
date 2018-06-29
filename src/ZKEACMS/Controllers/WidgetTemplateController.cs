@@ -28,6 +28,7 @@ namespace ZKEACMS.Controllers
                 PageID = context.PageID,
                 LayoutID = context.LayoutID,
                 ZoneID = context.ZoneID,
+                RuleID = context.RuleID,
                 ReturnUrl = context.ReturnUrl,
                 CanPasteWidget = context.ZoneID.IsNotNullAndWhiteSpace() && _cookie.GetValue<string>(Const.CopyWidgetCookie).IsNotNullAndWhiteSpace(),
                 WidgetTemplates = _widgetTemplateService.Get().OrderBy(m => m.Order).ToList()
@@ -37,7 +38,7 @@ namespace ZKEACMS.Controllers
         [HttpPost]
         public ActionResult RedirectToWidget(QueryContext context)
         {
-            return RedirectToAction("Create", "Widget", new { context.PageID, context.LayoutID, context.ZoneID, context.WidgetTemplateID, context.ReturnUrl });
+            return RedirectToAction("Create", "Widget", new { context.PageID, context.LayoutID, context.ZoneID,context.RuleID, context.WidgetTemplateID, context.ReturnUrl });
         }
     }
 }

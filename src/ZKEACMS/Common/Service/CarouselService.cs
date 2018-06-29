@@ -16,20 +16,14 @@ namespace ZKEACMS.Common.Service
     {
         private readonly ICarouselItemService _carouselItemService;
 
-
-
         public CarouselService(ICarouselItemService carouselItemService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _carouselItemService = carouselItemService;
         }
-        public override DbSet<CarouselEntity> CurrentDbSet
-        {
-            get
-            {
-                return (DbContext as CMSDbContext).Carousel;
-            }
-        }
+
+        public override DbSet<CarouselEntity> CurrentDbSet => (DbContext as CMSDbContext).Carousel;
+
         public override CarouselEntity Get(params object[] primaryKey)
         {
             var carousel = base.Get(primaryKey);
@@ -46,6 +40,7 @@ namespace ZKEACMS.Common.Service
             }
             if (item.CarouselItems != null)
             {
+                _carouselItemService.BeginBulkSave();
                 item.CarouselItems.Each(m =>
                 {
                     m.CarouselID = item.ID;
@@ -58,6 +53,7 @@ namespace ZKEACMS.Common.Service
                         }
                     }
                 });
+                _carouselItemService.SaveChanges();
             }
             return result;
         }
@@ -77,25 +73,30 @@ namespace ZKEACMS.Common.Service
                     }
                 case ActionType.Delete:
                     {
-                        _carouselItemService.Remove(item);
+                        if (item.ID > 0)
+                        {
+                            _carouselItemService.Remove(item);
+                        }
                         break;
                     }
             }
         }
-        public override ServiceResult<CarouselEntity> Update(CarouselEntity item, bool saveImmediately = true)
+        public override ServiceResult<CarouselEntity> Update(CarouselEntity item)
         {
-            var result = base.Update(item, saveImmediately);
+            var result = base.Update(item);
             if (result.HasViolation)
             {
                 return result;
             }
             if (item.CarouselItems != null)
             {
+                _carouselItemService.BeginBulkSave();
                 item.CarouselItems.Each(m =>
                 {
                     m.CarouselID = item.ID;
                     SaveCarouselItems(m);
                 });
+                _carouselItemService.SaveChanges();
             }
             return result;
         }
@@ -110,23 +111,26 @@ namespace ZKEACMS.Common.Service
             {
                 if (m.CarouselItems != null)
                 {
+                    _carouselItemService.BeginBulkSave();
                     m.CarouselItems.Each(carItem =>
                     {
                         carItem.CarouselID = m.ID;
                         SaveCarouselItems(carItem);
                     });
-
+                    _carouselItemService.SaveChanges();
                 }
             });
             return result;
         }
-        public override void Remove(CarouselEntity item, bool saveImmediately = true)
+        public override void Remove(CarouselEntity item)
         {
             if (item.CarouselItems != null)
             {
+                _carouselItemService.BeginBulkSave();
                 item.CarouselItems.Each(m => _carouselItemService.Remove(m));
+                _carouselItemService.SaveChanges();
             }
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
     }
 }

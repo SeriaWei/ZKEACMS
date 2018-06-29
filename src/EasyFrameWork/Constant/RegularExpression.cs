@@ -43,43 +43,27 @@ namespace Easy.Constant
         /// <summary>
         /// 匹配正整数
         /// </summary>
-        public const string PositiveIntegers = @"^[1-9]\d*$";
+        public const string PositiveIntegers = @"^[1-9]+$";
         /// <summary>
         /// 匹配负整数
         /// </summary>
-        public const string NegativeIntegers = @"^-[1-9]\d*$";
+        public const string NegativeIntegers = @"^-[1-9]+$";
         /// <summary>
         ///匹配整数
         /// </summary>
-        public const string Integer = @"^-?[1-9]\d*|0$";
+        public const string Integer = @"^-?[0-9]+$";
         /// <summary>
         /// 匹配非负整数（正整数 + 0）
         /// </summary>
-        public const string PositiveIntegersAndZero = @"^[1-9]\d*|0$";
+        public const string PositiveIntegersAndZero = @"^[0-9]+$";
         /// <summary>
         /// 匹配非正整数（负整数 + 0）
         /// </summary>
-        public const string NegativeIntegersAndZero = @"^-[1-9]\d*|0$";
+        public const string NegativeIntegersAndZero = @"^-[0-9]+$";
         /// <summary>
         /// 匹配正浮点数
         /// </summary>
-        public const string PositiveFloat = @"^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$";
-        /// <summary>
-        /// 匹配负浮点数
-        /// </summary>
-        public const string NegativeFloat = @"^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$";
-        /// <summary>
-        /// 匹配浮点数
-        /// </summary>
-        public const string Float = @"^-?([0-9]\d*|[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$";
-        /// <summary>
-        /// 匹配非负浮点数（正浮点数 + 0）
-        /// </summary>
-        public const string PositiveFloatAndZero = @"^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$";
-        /// <summary>
-        /// 匹配非正浮点数（负浮点数 + 0）
-        /// </summary>
-        public const string NegativeFloatAndZero = @"^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$";
+        public const string Float = @"^(\-|\+)?\d+(\.\d+)?$";
         /// <summary>
         /// 匹配由26个英文字母组成的字符串
         /// </summary>

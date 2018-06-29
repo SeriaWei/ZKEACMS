@@ -10,6 +10,7 @@ using Easy.Mvc.Resource;
 using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -19,33 +20,21 @@ namespace ZKEACMS.WebHost
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-             .SetBasePath(env.ContentRootPath)
-             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-             .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-             .AddEnvironmentVariables();
-
-            if (env.IsDevelopment())
-            {
-                builder.AddApplicationInsightsSettings(developerMode: true);
-            }
-            Configuration = builder.Build();
-        }        
-        public IConfigurationRoot Configuration { get; }
+            Configuration = configuration;
+        }
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureResource<DefaultResourceManager>();
-            services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.TryAddTransient<IOnDatabaseConfiguring, EntityFrameWorkConfigure>();
-
+            services.AddScoped<IOnDatabaseConfiguring, EntityFrameWorkConfigure>();
             services.UseZKEACMS(Configuration);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IHttpContextAccessor httpContextAccessor)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -53,14 +42,13 @@ namespace ZKEACMS.WebHost
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
             }
             else
             {
-                loggerFactory.UseFileLog(env);
+                loggerFactory.UseFileLog(env, app.ApplicationServices.GetService<IHttpContextAccessor>());
                 app.UseExceptionHandler("/Error");
             }
-            app.UseZKEACMS(env);
+            app.UseZKEACMS(env, httpContextAccessor);
         }
     }
 }

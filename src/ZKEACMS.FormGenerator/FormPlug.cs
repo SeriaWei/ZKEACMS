@@ -14,6 +14,7 @@ using ZKEACMS.FormGenerator.Service;
 using Easy;
 using ZKEACMS.FormGenerator.Models;
 using ZKEACMS.WidgetTemplate;
+using ZKEACMS.FormGenerator.Service.Validator;
 
 namespace ZKEACMS.FormGenerator
 {
@@ -89,14 +90,11 @@ namespace ZKEACMS.FormGenerator
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
-            yield return new WidgetTemplateEntity
+            yield return new WidgetTemplateEntity<FormWidgetService>
             {
                 Title = "表单",
                 GroupName = "4.表单",
                 PartialView = "Widget.Form",
-                AssemblyName = this.GetType().Assembly.GetName().Name,
-                ServiceType = typeof(FormWidgetService),
-                ViewModelType = typeof(FormWidget),
                 Thumbnail = "~/Plugins/ZKEACMS.FormGenerator/Content/images/Widget.Form.png",
                 Order = 1
             };
@@ -104,6 +102,14 @@ namespace ZKEACMS.FormGenerator
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
+            serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+
+            serviceCollection.AddTransient<IFormDataValidator, DateTimeFormDataValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, EmailFormDataValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, NumberFormDataValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, RequiredFormDataValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, MaxLengthFormDataValidator>();
+
             serviceCollection.TryAddTransient<IFormService, FormService>();
             serviceCollection.TryAddTransient<IFormDataService, FormDataService>();
             serviceCollection.TryAddTransient<IFormDataItemService, FormDataItemService>();
@@ -116,9 +122,7 @@ namespace ZKEACMS.FormGenerator
             {
                 option.DataSourceLinkTitle = "表单";
                 option.DataSourceLink = "~/admin/Form";
-            });
-
-            serviceCollection.AddDbContext<FormGeneratorDbContext>();
+            });            
         }
     }
 }

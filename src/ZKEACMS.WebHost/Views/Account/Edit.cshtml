@@ -11,6 +11,7 @@
     </div>
 }
 <form action="@Url.Action("Edit","Account")" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.UserID)
     @Html.HiddenFor(m => m.PassWord)
     @Html.HiddenFor(m => m.ApiLoginToken)

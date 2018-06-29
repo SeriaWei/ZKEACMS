@@ -9,6 +9,7 @@ namespace ZKEACMS.SectionWidget.Models
     public class SectionContentParagraph : SectionContentBasic
     {
         public string HtmlContent { get; set; }
+        [NotMapped]
         public override int SectionContentType
         {
             get

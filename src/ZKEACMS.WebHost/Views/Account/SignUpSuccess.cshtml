@@ -11,7 +11,7 @@
     <div class="login-panel sign-up-success">
         <div class="login-panel-heading">
             <p>
-                <a href="http://www.zkea.net/" target="_blank">
+                <a href="~/" target="_blank">
                     <img class="logo" src="~/images/logo_min.png" alt="ZKEACMS" />
                 </a>
             </p>
@@ -31,7 +31,7 @@
            
             <br />
             <div class="form-input">
-                <a href="@Url.Action("SignIn")" class="btn-login" >立即登录</a>
+                <a href="@Url.Action("SignIn", new { ReturnUrl =ViewContext.HttpContext.Request.Query["ReturnUrl"] })" class="btn-login" >立即登录</a>
             </div>
         </div>        
     </div>

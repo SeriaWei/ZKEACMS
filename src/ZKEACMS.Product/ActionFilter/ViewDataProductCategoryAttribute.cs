@@ -10,7 +10,7 @@ using ZKEACMS.Product.Service;
 
 namespace ZKEACMS.Product.ActionFilter
 {
-    public class ViewDataProductCategoryAttribute : ViewDataAttribute
+    public class ViewDataProductCategoryAttribute : Easy.Mvc.Attribute.ViewDataAttribute
     {
 
         public override void OnActionExecuted(ActionExecutedContext filterContext)

@@ -16,7 +16,7 @@ namespace ZKEACMS.Dashboard
         public IEnumerable<DashboardPart> GetDashboardParts()
         {
             if (!_dashboardPartDriveServices.Any()) return new List<DashboardPart>();
-            return _dashboardPartDriveServices.Select(p => p.Create());
+            return _dashboardPartDriveServices.Select(p => p.Create()).Where(p => p != null);
         }
     }
 }

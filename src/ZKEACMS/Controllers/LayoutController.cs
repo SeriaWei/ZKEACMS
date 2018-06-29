@@ -35,7 +35,7 @@ namespace ZKEACMS.Controllers
 
         public override IActionResult Index()
         {
-            return View(Service.Get());
+            return View(Service.GetWithFull());
         }
 
         public IActionResult LayoutWidget(string LayoutID)
@@ -51,7 +51,7 @@ namespace ZKEACMS.Controllers
             {
                 Layout = layout,
                 LayoutID = ID,
-                Zones = _zoneService.GetZonesByLayoutId(ID),
+                Zones = _zoneService.GetByLayoutId(ID),
                 Widgets = _widgetService.GetByLayoutId(ID),
                 LayoutHtml = layout.Html
             };
@@ -71,6 +71,7 @@ namespace ZKEACMS.Controllers
 
         public override IActionResult Edit(string ID)
         {
+            ViewBag.CanDelete = _pageService.Count(m => m.LayoutId == ID) == 0;
             return base.Edit(ID);
         }
 
@@ -87,13 +88,15 @@ namespace ZKEACMS.Controllers
         public IActionResult Design(string ID, string PageID)
         {
             LayoutEntity layout = null;
-            if (ID.IsNotNullAndWhiteSpace())
-            {
-                layout = Service.Get(ID);
-            }
             if (PageID.IsNotNullAndWhiteSpace())
             {
-                layout.Page = new PageEntity { ID = PageID };
+                var page = _pageService.Get(PageID);
+                layout = Service.GetByPage(page);
+                layout.Page = page;
+            }
+            else if (ID.IsNotNullAndWhiteSpace())
+            {
+                layout = Service.Get(ID);
             }
             return View(layout ?? new LayoutEntity());
         }

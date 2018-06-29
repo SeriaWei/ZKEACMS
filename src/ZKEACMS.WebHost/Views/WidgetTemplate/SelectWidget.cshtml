@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="panel-body template-list">
-        @using (Html.BeginForm("RedirectToWidget", "WidgetTemplate", new { Model.PageID, Model.LayoutID, Model.ZoneID, Model.ReturnUrl }))
+        @using (Html.BeginForm("RedirectToWidget", "WidgetTemplate", new { Model.PageID, Model.LayoutID, Model.ZoneID,Model.RuleID, Model.ReturnUrl }))
         {
             foreach (var item in Model.WidgetTemplates.GroupBy(m => m.GroupName).OrderBy(m => m.Key))
             {

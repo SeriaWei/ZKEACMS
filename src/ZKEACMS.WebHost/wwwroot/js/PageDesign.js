@@ -84,7 +84,7 @@
         var styleTarget = $(this).closest(".widget").parent();
         styleTarget.toggleClass("custom-style-target");
         window.top.Easy.ShowUrlWindow({
-            url: '/js/StyleEditor/index.html',
+            url: '/admin/StyleEditor/Edit',
             width: 1024,
             title: "编辑样式",
             onLoad: function (box) {
