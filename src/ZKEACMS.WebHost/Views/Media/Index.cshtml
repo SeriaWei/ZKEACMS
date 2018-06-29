@@ -292,7 +292,7 @@
                                                 item.find(".caption").html(result.title).data("id", result.id);
                                                 item.removeClass("new-folder");
                                                 if (result.mediaType == '@(MediaType.Image.ToString("D"))') {
-                                                    item.find(".img").attr("src", '@Url.Action("Thumbnail")' +"/"+ result.id);
+                                                    item.find(".img").attr("src", result.url);
                                                     var preview = $('<a href="javascript:void(0)" class="preview"><i class="glyphicon glyphicon-eye-open"></i></a>');
                                                     preview.data("href", result.url);
                                                     preview.data("title", result.title);
