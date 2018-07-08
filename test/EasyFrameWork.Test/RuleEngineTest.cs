@@ -3,6 +3,8 @@
  * http://www.zkea.net/licenses */
 
 using Easy;
+using Easy.Cache;
+using Easy.Extend;
 using Easy.Mvc;
 using Easy.RuleEngine;
 using Easy.RuleEngine.RuleProviders;
@@ -26,6 +28,10 @@ namespace EasyFrameWork.Test
             serviceCollection.AddTransient<IRuleProvider, DateRuleProvider>();
             serviceCollection.AddTransient<IRuleProvider, MoneyRuleProvider>();
             serviceCollection.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
+
+            serviceCollection.AddSingleton<ICacheProvider, DefaultCacheProvider>();
+            serviceCollection.AddSingleton(serviceProvider => serviceProvider.GetService<ICacheProvider>().Build<ScriptExpressionResult>());
+
             ServiceProvider = serviceCollection.BuildServiceProvider();
         }
         [TestMethod]

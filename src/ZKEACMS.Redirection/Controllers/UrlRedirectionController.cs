@@ -14,6 +14,7 @@ using ZKEACMS.Product.Models;
 using ZKEACMS.Product.Service;
 using ZKEACMS.Redirection.Models;
 using ZKEACMS.Redirection.Service;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Redirection.Controllers
 {
@@ -24,7 +25,7 @@ namespace ZKEACMS.Redirection.Controllers
         }
         private bool Valid(UrlRedirect redirect)
         {
-            if (redirect.InComingUrl == redirect.DestinationURL)
+            if (Url.Content(redirect.InComingUrl) == Url.Content(redirect.DestinationURL))
             {
                 ModelState.AddModelError("InComingUrl", "访问地址和跳转地址不能一样");
                 return false;
@@ -49,11 +50,15 @@ namespace ZKEACMS.Redirection.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageUrlRedirect)]
         public override IActionResult Edit(UrlRedirect entity)
         {
-            if (!Valid(entity))
+            if (ModelState.IsValid)
             {
-                return View(entity);
+                if (!Valid(entity))
+                {
+                    return View(entity);
+                }
+                return base.Edit(entity);
             }
-            return base.Edit(entity);
+            return View(entity);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageUrlRedirect)]
         public override IActionResult Create()
@@ -63,11 +68,15 @@ namespace ZKEACMS.Redirection.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageUrlRedirect)]
         public override IActionResult Create(UrlRedirect entity)
         {
-            if (!Valid(entity))
+            if (ModelState.IsValid)
             {
-                return View(entity);
+                if (!Valid(entity))
+                {
+                    return View(entity);
+                }
+                return base.Create(entity);
             }
-            return base.Create(entity);
+            return View(entity);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ViewUrlRedirect)]
         public override IActionResult GetList(DataTableOption query)
@@ -80,16 +89,20 @@ namespace ZKEACMS.Redirection.Controllers
             {
                 return RedirectPermanent($"~/{(path ?? "")}.html");
             }
-            var redirec = Service.GetSingle(m => m.InComingUrl == $"~/{(path ?? "").Replace(".html", string.Empty, StringComparison.OrdinalIgnoreCase)}");
-            if (redirec.IsPermanent)
+            path = $"~/{(path ?? "").TrimEnd('/')}";
+            var redirec = Service.Get(m => m.InComingUrl == path).FirstOrDefault();
+            if (redirec != null)
             {
-                return RedirectPermanent(redirec.DestinationURL);
+                if (redirec.IsPermanent)
+                {
+                    return RedirectPermanent(redirec.DestinationURL);
+                }
+                else
+                {
+                    return Redirect(redirec.DestinationURL);
+                }
             }
-            else
-            {
-                return Redirect(redirec.DestinationURL);
-            }
-
+            return this.NotFoundResult();
         }
     }
 }

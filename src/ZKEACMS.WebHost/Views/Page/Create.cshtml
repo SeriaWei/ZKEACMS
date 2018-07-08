@@ -16,7 +16,7 @@
                 {
                     <input type="submit" class="btn btn-primary" value="保存" />
                 }
-                <input type="button" class="btn btn-default cancel" value="取消"/>
+                <input type="button" class="btn btn-default cancel" value="取消" />
             </div>
         }
     </div>
@@ -28,7 +28,7 @@
             var url = $("#Url");
             url.data("url", url.val());
         });
-        $("#PageUrl").blur(function () {
+        $(document).on("keyup", "#PageUrl", function () {
             var url = $("#Url");
             var parentUrl = url.data("url");
             if (!parentUrl) {
@@ -41,5 +41,6 @@
             }
             url.val(parentUrl + thisUrl);
         });
+        $("form").on("submit", function () { $("#PageUrl").trigger("keyup"); });
     </script>
 }

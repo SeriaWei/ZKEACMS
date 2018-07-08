@@ -17,7 +17,6 @@ using ZKEACMS.Widget;
 using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Zone;
 using ZKEACMS.Layout;
-using CacheManager.Core;
 using Microsoft.AspNetCore.Http;
 
 namespace ZKEACMS.Page
@@ -87,7 +86,6 @@ namespace ZKEACMS.Page
                 var zones = _zoneService.GetByPage(item);
                 var layoutHtmls = _layoutHtmlService.GetByPage(item);
 
-                _widgetService.RemoveCache(item.ID);
 
                 item.ReferencePageID = item.ID;
                 item.IsPublishedPage = true;
@@ -125,6 +123,9 @@ namespace ZKEACMS.Page
                     DeleteVersion(allPublishedVersion[i].ID);
                 }
             }
+            _widgetService.RemoveCache(pageId);
+            _zoneService.RemoveCache(pageId);
+            _layoutHtmlService.RemoveCache(pageId);
         }
         public void Revert(string ID, bool RetainLatest)
         {
@@ -179,6 +180,9 @@ namespace ZKEACMS.Page
                             widgetService.Publish(m);
                         });
                     }
+
+                    _zoneService.RemoveCache(page.ReferencePageID);
+                    _layoutHtmlService.RemoveCache(page.ReferencePageID);
                 }
             });
 
@@ -187,6 +191,9 @@ namespace ZKEACMS.Page
         public override void Remove(PageEntity item)
         {
             Remove(m => m.ID == item.ID);
+            _widgetService.RemoveCache(item.ID);
+            _zoneService.RemoveCache(item.ID);
+            _layoutHtmlService.RemoveCache(item.ID);
         }
 
         public override void Remove(Expression<Func<PageEntity, bool>> filter)

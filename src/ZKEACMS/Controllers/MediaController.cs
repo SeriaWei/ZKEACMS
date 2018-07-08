@@ -209,13 +209,13 @@ namespace ZKEACMS.Controllers
             const int size = 220;
             using (var input = System.IO.File.OpenRead(Request.MapPath(Service.Get(id).Url)))
             {
-                using (MemoryStream ms = new MemoryStream())
+                MemoryStream ms = new MemoryStream();
+                using (var image = Image.Load<Rgba32>(input))
                 {
-                    var image = Image.Load<Rgba32>(input);
                     image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(size, size), Mode = ResizeMode.Max }));
                     image.Save(ms, new JpegEncoder());
                     ms.Position = 0;
-                    return File(ms.ToArray(), "image/jpeg");
+                    return File(ms, "image/jpeg");
                 }
             }
         }

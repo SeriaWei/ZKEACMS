@@ -27,12 +27,6 @@ namespace ZKEACMS.Filter
         public virtual PageEntity GetPage(ActionExecutedContext filterContext)
         {
             string path = filterContext.RouteData.GetPath();
-            if (path.EndsWith("/") && path.Length > 1)
-            {
-                path = path.Substring(0, path.Length - 1);
-                filterContext.Result = new RedirectResult(path);
-                return null;
-            }
             bool isPreView = IsPreView(filterContext);
             using (var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>())
             {
@@ -102,7 +96,7 @@ namespace ZKEACMS.Filter
                 layout.CurrentTheme = themeService.GetCurrentTheme();
                 layout.ZoneWidgets = new ZoneWidgetCollection();
                 filterContext.HttpContext.TrySetLayout(layout);
-                widgetService.GetAllByPage(page, GetPageViewMode() == PageViewMode.Publish && !IsPreView(filterContext)).Each(widget =>
+                widgetService.GetAllByPage(page).Each(widget =>
                     {
                         if (widget != null)
                         {

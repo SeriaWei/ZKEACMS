@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>ZKEACMS</AssemblyName>
     <PackageId>ZKEACMS</PackageId>
-    <Version>3.0</Version>
+    <Version>3.0.1</Version>
     <Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>
     <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
@@ -11,16 +11,16 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>CMS</PackageTags>
     <Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
-    <AssemblyVersion>3.0.0.0</AssemblyVersion>
-    <FileVersion>3.0.0.0</FileVersion>
+    <AssemblyVersion>3.0.1.0</AssemblyVersion>
+    <FileVersion>3.0.1.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.1.1" />
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0004" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.0" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.0-rc1-final" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.1" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.1" />
   </ItemGroup>
 </Project>

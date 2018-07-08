@@ -9,11 +9,17 @@ namespace ZKEACMS
     {
         public static string GetPath(this RouteData roteData)
         {
+            const string defaultPath = "/";
+            string path = defaultPath;
             if (roteData.Values.ContainsKey(StringKeys.RouteValue_Path) && roteData.Values[StringKeys.RouteValue_Path] != null)
             {
-                return roteData.Values[StringKeys.RouteValue_Path].ToString();
+                path = roteData.Values[StringKeys.RouteValue_Path].ToString();
+                if (path.EndsWith("/") && path.Length > 1)
+                {
+                    return path.Substring(0, path.Length - 1);
+                }
             }
-            return "/";
+            return path;
         }
         public static int GetPost(this RouteData roteData)
         {

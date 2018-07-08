@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ZKEACMS.Extend;
+using ZKEACMS.Filter;
 using ZKEACMS.Page;
 using ZKEACMS.Theme;
 using ZKEACMS.Widget;

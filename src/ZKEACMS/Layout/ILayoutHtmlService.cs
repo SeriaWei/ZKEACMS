@@ -9,5 +9,7 @@ namespace ZKEACMS.Layout
     {
         IEnumerable<LayoutHtml> GetByPage(PageEntity page);
         IEnumerable<LayoutHtml> GetByLayoutID(string layoutId);
+        void RemoveCache(string pageId);
+        void ClearCache();
     }
 }
