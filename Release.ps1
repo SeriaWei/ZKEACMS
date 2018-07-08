@@ -1,6 +1,6 @@
 Add-Type -assembly "system.io.compression.filesystem"
 $source = "Release"
-$destination = "ZKEACMS.Core.v3.0.zip"
+$destination = "ZKEACMS.Core.v3.0.1.zip"
 Write-Host "Starting release" $destination
 Write-Host "This may take a few minutes, please wait..."
 if(Test-Path $source){
