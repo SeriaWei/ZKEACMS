@@ -42,14 +42,7 @@ namespace Easy.Logging
                             writer.WriteLine($"{item.Key}:{item.Value}");
                         }
                     }
-                    if (_httpContextAccessor.HttpContext.Request.Form != null)
-                    {
-                        writer.WriteLine("Form:");
-                        foreach (var item in _httpContextAccessor.HttpContext.Request.Form)
-                        {
-                            writer.WriteLine($"{item.Key}:{item.Value}");
-                        }
-                    }
+                    
                     writer.WriteLine(_httpContextAccessor.HttpContext.Request.GetAbsoluteUrl());
                 }
                 writer.WriteLine(Split);
