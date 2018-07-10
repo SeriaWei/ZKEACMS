@@ -104,16 +104,13 @@ namespace ZKEACMS.Filter
                             WidgetViewModelPart part = partDriver.Display(widget, filterContext);
                             if (part != null)
                             {
-                                lock (layout.ZoneWidgets)
+                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
                                 {
-                                    if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
-                                    {
-                                        layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
-                                    }
-                                    else
-                                    {
-                                        layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
-                                    }
+                                    layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
+                                }
+                                else
+                                {
+                                    layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
                                 }
                             }
                             partDriver.Dispose();
@@ -138,18 +135,16 @@ namespace ZKEACMS.Filter
                             var zone = layout.Zones.FirstOrDefault(z => z.ZoneName == rules.First(m => m.RuleID == widget.RuleID).ZoneName);
                             if (part != null && zone != null)
                             {
-                                lock (layout.ZoneWidgets)
+                                part.Widget.ZoneID = zone.HeadingCode;
+                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
                                 {
-                                    part.Widget.ZoneID = zone.HeadingCode;
-                                    if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
-                                    {
-                                        layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
-                                    }
-                                    else
-                                    {
-                                        layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
-                                    }
+                                    layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
                                 }
+                                else
+                                {
+                                    layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
+                                }
+
                             }
                             partDriver.Dispose();
                         }
