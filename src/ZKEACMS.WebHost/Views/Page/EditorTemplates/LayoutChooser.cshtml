@@ -3,7 +3,7 @@
     var page = ViewBag.Page as PageEntity;
     var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
     IList<LayoutEntity> layouts = null;
-    if (page == null)
+    if (page.ID.IsNullOrWhiteSpace())
     {
         layouts = layoutService.GetWithFull();
     }

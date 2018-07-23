@@ -56,8 +56,8 @@ namespace ZKEACMS.Page
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.PageName).AsTextBox().Order(1).Required();
-            ViewConfig(m => m.PageUrl).AsTextBox().Order(2).Required();
-            ViewConfig(m => m.Url).AsTextBox().ReadOnly();
+            ViewConfig(m => m.PageUrl).AsTextBox().Order(2).Required().SetTemplate("PageUrl");
+            ViewConfig(m => m.Url).AsHidden();
             //ViewConfig(m => m.LayoutId).AsDropDownList().DataSource(ViewDataKeys.Layouts, SourceType.ViewData);
             ViewConfig(m => m.LayoutId).AsTextBox().SetTemplate("LayoutChooser");
             ViewConfig(m => m.Script).AsTextBox().AddClass(StringKeys.SelectMediaClass).AddProperty("data-url", Urls.SelectMedia);
