@@ -159,7 +159,7 @@
             var link = $(this);
             Easy.ShowMessageBox("提示", "确认删除该数据吗？", function () {
                 $.post(link.attr("href"), function () {
-                    link.trigger("change");
+                    link.closest("table.dataTable").DataTable().draw();
                 });
             }, true);
             return false;
