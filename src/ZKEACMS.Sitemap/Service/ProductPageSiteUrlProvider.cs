@@ -10,20 +10,17 @@ namespace ZKEACMS.Sitemap.Service
 {
     public class ProductPageSiteUrlProvider : ISiteUrlProvider
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly SitemapDbContext _sitemapDbContext;
         private readonly IProductService _productService;
         private readonly IProductCategoryService _productCategoryService;
-        public ProductPageSiteUrlProvider(IHttpContextAccessor httpContextAccessor, SitemapDbContext sitemapDbContext, IProductService productService, IProductCategoryService productCategoryService)
+        public ProductPageSiteUrlProvider(SitemapDbContext sitemapDbContext, IProductService productService, IProductCategoryService productCategoryService)
         {
-            _httpContextAccessor = httpContextAccessor;
             _sitemapDbContext = sitemapDbContext;
             _productService = productService;
             _productCategoryService = productCategoryService;
         }
         public IEnumerable<SiteUrl> Get()
         {
-            string host = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host + "/";
             List<string> excuted = new List<string>();
             foreach (var item in _sitemapDbContext.ProductListWidget.ToList())
             {
@@ -35,7 +32,7 @@ namespace ZKEACMS.Sitemap.Service
                     {
                         yield return new SiteUrl
                         {
-                            Url = item.DetailPageUrl.Replace("~/", host) + "/post-" + $"{product.ID}.html",
+                            Url = item.DetailPageUrl.Replace("~/", "/") + "/post-" + $"{product.ID}.html",
                             ModifyDate = product.LastUpdateDate ?? DateTime.Now,
                             Changefreq = "weekly",
                             Priority = 0.5F

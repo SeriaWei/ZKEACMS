@@ -11,25 +11,28 @@ namespace ZKEACMS.Sitemap.Service
     public class PageSiteUrlProvider : ISiteUrlProvider
     {
         private readonly IPageService _pageService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public PageSiteUrlProvider(IPageService pageService, IHttpContextAccessor httpContextAccessor)
+        public PageSiteUrlProvider(IPageService pageService)
         {
             _pageService = pageService;
-            _httpContextAccessor = httpContextAccessor;
         }
         public IEnumerable<SiteUrl> Get()
         {
-            string host = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host + "/";
-            var pages = _pageService.Get(m => m.IsPublishedPage);
+            List<string> distinct = new List<string>();
+            var pages = _pageService.Get().Where(m => m.IsPublishedPage).OrderBy(m => m.Url).ThenByDescending(m => m.PublishDate).ToList();
             foreach (var page in pages)
             {
-                yield return new SiteUrl
+                if (!distinct.Contains(page.Url))
                 {
-                    Url = page.Url.Replace("~/", host),
-                    ModifyDate = page.LastUpdateDate ?? DateTime.Now,
-                    Changefreq = "daily",
-                    Priority = 0.5F
-                };
+                    distinct.Add(page.Url);
+                    yield return new SiteUrl
+                    {
+                        Url = page.Url.Replace("~/", "/"),
+                        ModifyDate = page.PublishDate ?? DateTime.Now,
+                        Changefreq = "daily",
+                        Priority = 0.5F
+                    };
+                }
+
             }
         }
     }
