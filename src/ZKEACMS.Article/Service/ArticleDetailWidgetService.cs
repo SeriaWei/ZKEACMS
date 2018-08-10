@@ -19,15 +19,15 @@ namespace ZKEACMS.Article.Service
         {
             _articleService = articleService;
         }
-      
+
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             int articleId = actionContext.RouteData.GetPost();
             var viewModel = new ArticleDetailViewModel();
-            if (articleId != 0)
+            if (articleId != 0 || actionContext.RouteData.Values.ContainsKey("ArticleUrl"))
             {
-                viewModel.Current = _articleService.Get(articleId);
+                viewModel.Current = articleId != 0 ? _articleService.Get(articleId) : _articleService.GetByUrl(actionContext.RouteData.Values["ArticleUrl"].ToString());
                 if (viewModel.Current != null)
                 {
                     _articleService.IncreaseCount(viewModel.Current);
@@ -56,7 +56,7 @@ namespace ZKEACMS.Article.Service
                     layout.Page.Title = viewModel.Current.Title;
                 }
             }
-            
+
 
             return widget.ToWidgetViewModelPart(viewModel);
         }

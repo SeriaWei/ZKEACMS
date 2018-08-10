@@ -71,10 +71,10 @@ namespace ZKEACMS
             services.TryAddScoped<IApplicationContext, CMSApplicationContext>();
             services.TryAddSingleton<IRouteProvider, RouteProvider>();
 
-            services.AddSingleton<IRouteDataProvider, PaginationRouteDataProvider>();
-            services.AddSingleton<IRouteDataProvider, PostIdRouteDataProvider>();
-            services.AddSingleton<IRouteDataProvider, CategoryRouteDataProvider>();
-            services.AddSingleton<IRouteDataProvider, HtmlRouteDataProvider>();
+            services.AddTransient<IRouteDataProvider, PaginationRouteDataProvider>();
+            services.AddTransient<IRouteDataProvider, PostIdRouteDataProvider>();
+            services.AddTransient<IRouteDataProvider, CategoryRouteDataProvider>();
+            services.AddTransient<IRouteDataProvider, HtmlRouteDataProvider>();
 
             services.TryAddSingleton<IAdminMenuProvider, AdminMenuProvider>();
             services.TryAddTransient<IWidgetActivator, DefaultWidgetActivator>();

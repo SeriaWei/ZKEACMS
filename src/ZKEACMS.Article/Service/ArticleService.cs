@@ -13,7 +13,12 @@ namespace ZKEACMS.Article.Service
     {
         public ArticleService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
-        }    
+        }
+
+        public ArticleEntity GetByUrl(string url)
+        {
+            return Get(m => m.Url == url).FirstOrDefault();
+        }
 
         public ArticleEntity GetNext(ArticleEntity article)
         {
@@ -28,7 +33,7 @@ namespace ZKEACMS.Article.Service
         public void IncreaseCount(ArticleEntity article)
         {
             article.Counter = (article.Counter ?? 0) + 1;
-            DbContext.Attach(article);            
+            DbContext.Attach(article);
             DbContext.Entry(article).Property(x => x.Counter).IsModified = true;
             DbContext.SaveChanges();
         }

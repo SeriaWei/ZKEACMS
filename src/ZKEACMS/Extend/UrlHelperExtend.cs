@@ -14,7 +14,7 @@ namespace ZKEACMS
             return helper.Content(path.IsNullOrEmpty() ? "~/" : path);
         }
 
-        public static string ImageContent(this IUrlHelper helper,string path)
+        public static string ImageContent(this IUrlHelper helper, string path)
         {
             if (path.IsNullOrEmpty())
             {
@@ -32,7 +32,14 @@ namespace ZKEACMS
         {
             return QueryHelpers.AddQueryString(helper.ActionContext.HttpContext.Request.Path, name, value);
         }
-
+        public static string PostUrl(this IUrlHelper helper, string url, Article.Models.ArticleEntity article)
+        {
+            return article.Url.IsNullOrWhiteSpace() ? helper.PostUrl(url, article.ID.ToString()) : helper.CustomUrl(url, article.Url);
+        }
+        public static string PostUrl(this IUrlHelper helper, string url, Product.Models.ProductEntity product)
+        {
+            return product.Url.IsNullOrWhiteSpace() ? helper.PostUrl(url, product.ID.ToString()) : helper.CustomUrl(url, product.Url);
+        }
         public static string PostUrl(this IUrlHelper helper, string url, int id)
         {
             return PostUrl(helper, url, id.ToString());
@@ -43,7 +50,22 @@ namespace ZKEACMS
             {
                 url = "/";
             }
-            return url + (url.EndsWith("/") ? "" : "/") + StringKeys.PathFormat(StringKeys.RouteValue_Post) +$"{id}.html";
+            return $"{url}{(url.EndsWith("/") ? "" : "/")}{StringKeys.PathFormat(StringKeys.RouteValue_Post)}{id}.html";
+        }
+        public static string CustomUrl(this IUrlHelper helper, string url, string ending, bool staticUrl = true)
+        {
+            if (url.IsNullOrWhiteSpace())
+            {
+                url = "/";
+            }
+            if (staticUrl)
+            {
+                return $"{url}{(url.EndsWith("/") ? "" : "/")}{ending}.html";
+            }
+            else
+            {
+                return $"{url}{(url.EndsWith("/") ? "" : "/")}{ending}";
+            }
         }
         public static string CategoryUrl(this IUrlHelper helper, int id)
         {

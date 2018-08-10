@@ -12,7 +12,7 @@ namespace ZKEACMS.Article.Models
     {
         [Key]
         public int ID { get; set; }
-
+        public string Url { get; set; }
         public int? ParentID { get; set; }
     }
     class ArtycleTypeMetaData : ViewMetaData<ArticleType>
@@ -23,6 +23,7 @@ namespace ZKEACMS.Article.Models
             ViewConfig(m => m.ID).AsHidden();
             ViewConfig(m => m.ParentID).AsHidden();
             ViewConfig(m => m.Title).AsTextBox().MaxLength(200).Required();
+            ViewConfig(m => m.Url).AsTextBox().MaxLength(100);
             ViewConfig(m => m.Status).AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary);
         }
     }
