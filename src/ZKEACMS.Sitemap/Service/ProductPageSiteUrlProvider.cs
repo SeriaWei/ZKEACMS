@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ZKEACMS.Product.Service;
 using ZKEACMS.Sitemap.Models;
+using Easy.Extend;
 
 namespace ZKEACMS.Sitemap.Service
 {
@@ -30,9 +31,10 @@ namespace ZKEACMS.Sitemap.Service
                     var products = _productService.Get(m => m.IsPublish && ids.Contains(m.ProductCategoryID ?? 0));
                     foreach (var product in products)
                     {
+                        string post = product.Url.IsNullOrWhiteSpace() ? $"post-{product.ID}" : product.Url;
                         yield return new SiteUrl
                         {
-                            Url = item.DetailPageUrl.Replace("~/", "/") + "/post-" + $"{product.ID}.html",
+                            Url = $"{item.DetailPageUrl.Replace("~/", "/")}/{post}.html",
                             ModifyDate = product.LastUpdateDate ?? DateTime.Now,
                             Changefreq = "weekly",
                             Priority = 0.5F

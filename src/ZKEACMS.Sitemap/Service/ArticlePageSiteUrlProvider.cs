@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ZKEACMS.Article.Service;
 using ZKEACMS.Sitemap.Models;
+using Easy.Extend;
 
 namespace ZKEACMS.Sitemap.Service
 {
@@ -31,9 +32,10 @@ namespace ZKEACMS.Sitemap.Service
                     var articles = _articleService.Get(m => m.IsPublish && ids.Contains(m.ArticleTypeID ?? 0));
                     foreach (var article in articles)
                     {
+                        string post = article.Url.IsNullOrWhiteSpace() ? $"post-{article.ID}" : article.Url;
                         yield return new SiteUrl
                         {
-                            Url = item.DetailPageUrl.Replace("~/", "/") + "/post-" + $"{article.ID}.html",
+                            Url = $"{item.DetailPageUrl.Replace("~/", "/")}/{post}.html",
                             ModifyDate = article.LastUpdateDate ?? DateTime.Now,
                             Changefreq = "daily",
                             Priority = 0.5F
