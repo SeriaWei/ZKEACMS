@@ -7,23 +7,15 @@
         <ul class="media-list">
             @foreach (var item in Model.Products)
             {
-                string url = item.Url;
-                if (item.Url.IsNotNullAndWhiteSpace() || Model.DetailPageUrl.IsNotNullAndWhiteSpace())
-                {
-                    if (url.IsNullOrWhiteSpace() && Model.DetailPageUrl.IsNotNullAndWhiteSpace())
-                    {
-                        url = Url.PostUrl(Model.DetailPageUrl, item.ID);
-                    }
-                }
                 <li class="media">
                     <div class="media-left">
-                        <a target="_blank" href="@Url.PathContent(url)">
+                        <a target="_blank" href="@Url.PostUrl(Model.DetailPageUrl, item)">
                             <img class="media-object" src="@Url.ImageContent(item.ImageThumbUrl)" alt="@item.Title">
                         </a>
                     </div>
                     <div class="media-body">
                         <h3 class="media-heading">
-                            <a target="_blank" href="@Url.PathContent(url)">
+                            <a target="_blank" href="@Url.PostUrl(Model.DetailPageUrl, item)">
                                 @item.Title
                             </a>
                         </h3>
@@ -56,7 +48,7 @@
                         }
                         <br />
                         <p>
-                            <a class="btn btn-flat" href="@Url.PathContent(url)" target="_blank">查看详细</a>
+                            <a class="btn btn-flat" href="@Url.PostUrl(Model.DetailPageUrl, item)" target="_blank">查看详细</a>
                         </p>
                     </div>
                 </li>

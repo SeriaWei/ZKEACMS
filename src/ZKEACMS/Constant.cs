@@ -89,11 +89,16 @@ namespace ZKEACMS
         public const string SelectPageClass = "select select-page";
         public const string StyleEditor = "select custom-style-target";
         public const string HtmlEditorClass = "html";
+        public const string UrlPart = "url-part";
 
         public const string RouteValue_Path = "path";
         public const string RouteValue_Post = "post";
         public const string RouteValue_Category = "cate";
         public const string RouteValue_Page = "p";
+
+        public const string RouteVale_ArticleUrl = "ArticleUrl";
+        public const string RouteVale_ProductUrl = "ProductUrl";
+        public const string RouteVale_CategoryUrl = "CategoryUrl";
 
         public static string PathFormat(string routeKey)
         {

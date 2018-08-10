@@ -6,6 +6,7 @@ using ZKEACMS.Article.Models;
 using Easy;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Easy.Extend;
 
 namespace ZKEACMS.Article.Service
 {
@@ -14,7 +15,32 @@ namespace ZKEACMS.Article.Service
         public ArticleService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
+        public override ServiceResult<ArticleEntity> Add(ArticleEntity item)
+        {
+            if (item.Url.IsNotNullAndWhiteSpace())
+            {
+                if (GetByUrl(item.Url) != null)
+                {
+                    var result = new ServiceResult<ArticleEntity>();
+                    result.RuleViolations.Add(new RuleViolation("Url", "Url已存在"));
+                    return result;
+                }
+            }
+            return base.Add(item);
+        }
+        public override ServiceResult<ArticleEntity> Update(ArticleEntity item)
+        {
+            if (item.Url.IsNotNullAndWhiteSpace())
+            {
+                if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
+                {
+                    var result = new ServiceResult<ArticleEntity>();
+                    result.RuleViolations.Add(new RuleViolation("Url", "Url已存在"));
+                    return result;
+                }
+            }
+            return base.Update(item);
+        }
         public ArticleEntity GetByUrl(string url)
         {
             return Get(m => m.Url == url).FirstOrDefault();

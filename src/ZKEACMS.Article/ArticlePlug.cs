@@ -119,6 +119,7 @@ namespace ZKEACMS.Article
             serviceCollection.AddTransient<IArticleService, ArticleService>();
             serviceCollection.AddTransient<IArticleTypeService, ArticleTypeService>();
             serviceCollection.AddTransient<IRouteDataProvider, ArticleRouteDataProvider>();
+            serviceCollection.AddTransient<IRouteDataProvider, ArticleTypeRouteDataProvider>();
             serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             serviceCollection.Configure<ArticleListWidget>(option =>

@@ -8,12 +8,12 @@ using ZKEACMS.Route;
 
 namespace ZKEACMS.Article
 {
-    public class ArticleRouteDataProvider : IRouteDataProvider
+    public class ArticleTypeRouteDataProvider : IRouteDataProvider
     {
-        private readonly IArticleService _articleService;
-        public ArticleRouteDataProvider(IArticleService articleService)
+        private readonly IArticleTypeService _articleTypeService;
+        public ArticleTypeRouteDataProvider(IArticleTypeService articleTypeService)
         {
-            _articleService = articleService;
+            _articleTypeService = articleTypeService;
         }
         public int Order { get { return 1; } }
 
@@ -22,20 +22,19 @@ namespace ZKEACMS.Article
             var pathArray = path.Split("/", StringSplitOptions.RemoveEmptyEntries);
             if (pathArray.Length > 1)
             {
-                var article = _articleService.GetByUrl(pathArray[pathArray.Length - 1]);
-                if (article != null)
+                var articleType = _articleTypeService.GetByUrl(pathArray[pathArray.Length - 1]);
+                if (articleType != null)
                 {
                     var url = pathArray[pathArray.Length - 1];
-                    if (!values.ContainsKey(StringKeys.RouteVale_ArticleUrl))
+                    if (!values.ContainsKey(StringKeys.RouteVale_CategoryUrl))
                     {
-                        values.Add(StringKeys.RouteVale_ArticleUrl, url);
+                        values.Add(StringKeys.RouteVale_CategoryUrl, url);
                     }
-                    if (!values.ContainsKey(StringKeys.RouteValue_Post))
+                    if (!values.ContainsKey(StringKeys.RouteValue_Category))
                     {
-                        values.Add(StringKeys.RouteValue_Post, article.ID);
+                        values.Add(StringKeys.RouteValue_Category, articleType.ID);
                     }
                     path = $"/{string.Join("/", pathArray, 0, pathArray.Length - 1)}";
-
                 }
                 
             }

@@ -50,7 +50,7 @@ namespace ZKEACMS
             {
                 url = "/";
             }
-            return $"{url}{(url.EndsWith("/") ? "" : "/")}{StringKeys.PathFormat(StringKeys.RouteValue_Post)}{id}.html";
+            return helper.Content($"{url}{(url.EndsWith("/") ? "" : "/")}{StringKeys.PathFormat(StringKeys.RouteValue_Post)}{id}.html");
         }
         public static string CustomUrl(this IUrlHelper helper, string url, string ending, bool staticUrl = true)
         {
@@ -60,11 +60,11 @@ namespace ZKEACMS
             }
             if (staticUrl)
             {
-                return $"{url}{(url.EndsWith("/") ? "" : "/")}{ending}.html";
+                return helper.Content($"{url}{(url.EndsWith("/") ? "" : "/")}{ending}.html");
             }
             else
             {
-                return $"{url}{(url.EndsWith("/") ? "" : "/")}{ending}";
+                return helper.Content($"{url}{(url.EndsWith("/") ? "" : "/")}{ending}");
             }
         }
         public static string CategoryUrl(this IUrlHelper helper, int id)
@@ -77,7 +77,42 @@ namespace ZKEACMS
             string currentCategory = helper.ActionContext.RouteData.GetCategory().ToString();
             if (currentCategory != id)
             {
-                return url + (url.EndsWith("/") ? "" : "/") + StringKeys.PathFormat(StringKeys.RouteValue_Category) + id;
+                return $"{url}{(url.EndsWith("/") ? "" : "/")}{StringKeys.PathFormat(StringKeys.RouteValue_Category)}{id}";
+            }
+            else
+            {
+                return url;
+            }
+        }
+
+        public static string ArticleTypeUrl(this IUrlHelper helper, Article.Models.ArticleType articleType)
+        {
+            if (articleType.Url.IsNullOrWhiteSpace())
+            {
+                return helper.CategoryUrl(articleType.ID);
+            }
+            string url = helper.ActionContext.RouteData.GetPath();
+            string currentCategory = helper.ActionContext.RouteData.GetCategoryUrl();
+            if (currentCategory != articleType.Url)
+            {
+                return $"{url}{(url.EndsWith("/") ? "" : "/")}{articleType.Url}";
+            }
+            else
+            {
+                return url;
+            }
+        }
+        public static string ProductCategoryUrl(this IUrlHelper helper, Product.Models.ProductCategory productCategory)
+        {
+            if (productCategory.Url.IsNullOrWhiteSpace())
+            {
+                return helper.CategoryUrl(productCategory.ID);
+            }
+            string url = helper.ActionContext.RouteData.GetPath();
+            string currentCategory = helper.ActionContext.RouteData.GetCategoryUrl();
+            if (currentCategory != productCategory.Url)
+            {
+                return $"{url}{(url.EndsWith("/") ? "" : "/")}{productCategory.Url}";
             }
             else
             {
@@ -89,11 +124,9 @@ namespace ZKEACMS
             var category = helper.ActionContext.RouteData.GetCategory();
             if (category > 0)
             {
-                return helper.ActionContext.RouteData.GetPath() +
-                    "/" + StringKeys.PathFormat(StringKeys.RouteValue_Category) + category +
-                    "/" + StringKeys.PathFormat(StringKeys.RouteValue_Page) + pageIndex;
+                return $"{helper.ActionContext.RouteData.GetPath()}/{helper.ActionContext.RouteData.GetCategoryUrl() ?? (StringKeys.PathFormat(StringKeys.RouteValue_Category) + category)}/{StringKeys.PathFormat(StringKeys.RouteValue_Page)}{pageIndex}";
             }
-            return helper.ActionContext.RouteData.GetPath() + "/" + StringKeys.PathFormat(StringKeys.RouteValue_Page) + pageIndex;
+            return $"{helper.ActionContext.RouteData.GetPath()}/{StringKeys.PathFormat(StringKeys.RouteValue_Page)}{pageIndex}";
         }
     }
 }
