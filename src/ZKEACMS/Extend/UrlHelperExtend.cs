@@ -124,9 +124,20 @@ namespace ZKEACMS
             var category = helper.ActionContext.RouteData.GetCategory();
             if (category > 0)
             {
-                return $"{helper.ActionContext.RouteData.GetPath()}/{helper.ActionContext.RouteData.GetCategoryUrl() ?? (StringKeys.PathFormat(StringKeys.RouteValue_Category) + category)}/{StringKeys.PathFormat(StringKeys.RouteValue_Page)}{pageIndex}";
+                if (pageIndex > 0)
+                {
+                    return $"{helper.ActionContext.RouteData.GetPath()}/{helper.ActionContext.RouteData.GetCategoryUrl() ?? (StringKeys.PathFormat(StringKeys.RouteValue_Category) + category)}/{StringKeys.PathFormat(StringKeys.RouteValue_Page)}{pageIndex}";
+                }
+                else
+                {
+                    return $"{helper.ActionContext.RouteData.GetPath()}/{helper.ActionContext.RouteData.GetCategoryUrl() ?? (StringKeys.PathFormat(StringKeys.RouteValue_Category) + category)}";
+                }
             }
-            return $"{helper.ActionContext.RouteData.GetPath()}/{StringKeys.PathFormat(StringKeys.RouteValue_Page)}{pageIndex}";
+            if (pageIndex > 0)
+            {
+                return $"{helper.ActionContext.RouteData.GetPath()}/{StringKeys.PathFormat(StringKeys.RouteValue_Page)}{pageIndex}";
+            }
+            return $"{helper.ActionContext.RouteData.GetPath()}";
         }
     }
 }
