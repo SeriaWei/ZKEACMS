@@ -147,10 +147,18 @@ namespace ZKEACMS
                     },
                     new AdminMenu
                     {
+                        Title = "Robots.txt",
+                        Icon = "glyphicon-magnet",
+                        Url = "~/admin/RobotsSetting/Config",
+                        Order = 6,
+                        PermissionKey = PermissionKeys.RobotsSetting
+                    },
+                    new AdminMenu
+                    {
                         Title = "其它设置",
                         Icon = "glyphicon-cog",
                         Url = "~/admin/ApplicationSetting",
-                        Order = 6,
+                        Order = 7,
                         PermissionKey = PermissionKeys.ViewApplicationSetting
                     },
                     new AdminMenu
@@ -158,7 +166,7 @@ namespace ZKEACMS
                         Title = "翻译",
                         Icon = "glyphicon-cog",
                         Url = "~/admin/Language",
-                        Order = 7,
+                        Order = 8,
                         PermissionKey = PermissionKeys.ManageLanguage
                     }
                 }

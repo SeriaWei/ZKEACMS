@@ -142,6 +142,7 @@ namespace ZKEACMS
             services.ConfigureMetaData<Rule.Rule, Rule.RuleMetaData>();
             services.ConfigureMetaData<Rule.RuleItem, Rule.RuleItemMetaData>();
             services.ConfigureMetaData<SmtpSetting, SmtpSettingMetaData>();
+            services.ConfigureMetaData<Robots, RobotsMetaData>();
 
             services.Configure<NavigationWidget>(option =>
             {
