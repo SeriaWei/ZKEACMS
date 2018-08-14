@@ -14,6 +14,7 @@ namespace ZKEACMS.FormGenerator.Models
     {
         [Key]
         public string ID { get; set; }
+        public string NotificationReceiver { get; set; }
         [NotMapped]
         public List<FormField> FormFields { get; set; }
         public string FieldsData { get; set; }
@@ -24,6 +25,7 @@ namespace ZKEACMS.FormGenerator.Models
         {
             ViewConfig(m => m.Status).AsHidden();
             ViewConfig(m => m.FieldsData).AsTextArea();
+            ViewConfig(m => m.NotificationReceiver).AsTextBox();
         }
     }
 }
