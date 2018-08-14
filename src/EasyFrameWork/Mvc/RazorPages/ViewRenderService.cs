@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Easy.Mvc.Plugin;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,13 +21,15 @@ namespace Easy.Mvc.RazorPages
         private readonly IRazorViewEngine _viewEngine;
         private readonly ITempDataProvider _tempDataProvider;
         private readonly IServiceProvider _serviceProvider;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
         public ViewRenderService(IRazorViewEngine viewEngine, ITempDataProvider tempDataProvider,
-            IServiceProvider serviceProvider)
+            IServiceProvider serviceProvider, IHostingEnvironment hostingEnvironment)
         {
             _viewEngine = viewEngine;
             _tempDataProvider = tempDataProvider;
             _serviceProvider = serviceProvider;
+            _hostingEnvironment = hostingEnvironment;
         }
         public string Render(string viewPath)
         {
@@ -35,10 +40,18 @@ namespace Easy.Mvc.RazorPages
             var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };
             var actionContext = new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
 
-            var viewResult = _viewEngine.GetView(null, viewPath, false);
+            string pluginPath = $"~/wwwroot/{Loader.PluginFolder}/";
+            string actualViewPath = viewPath;
+            if (_hostingEnvironment.IsDevelopment() && actualViewPath.StartsWith(pluginPath))
+            {
+                actualViewPath = actualViewPath.Replace(pluginPath, DeveloperViewFileProvider.ProjectRootPath);
+            }
+
+            ViewEngineResult viewResult = _viewEngine.GetView(null, actualViewPath, true);
+
             if (!viewResult.Success)
             {
-                throw new InvalidOperationException($"找不到视图模板 {viewPath}");
+                throw new InvalidOperationException($"Can not find view from path: {viewPath}. If your view is in plugins, please make sure the path is starts with ~/wwwroot/{Loader.PluginFolder}/");
             }
 
             var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
