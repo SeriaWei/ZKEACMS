@@ -2,22 +2,19 @@
 @using ZKEACMS.FormGenerator
 @model FormData
 <!DOCTYPE html>
-<html class="not-ie" lang="zh">
+<html>
 <head>
     <title>新的表单提醒</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link type="text/css" async rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <link type="text/css" async rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.cs" />
-
 </head>
 <body>
     <div>
         <h3>
             @(Model.Form.Title) 收到新的提交
         </h3>
-        <table class="table table-striped table-bordered">
+        <table>
             <thead>
                 <tr>
                     <th>字段</th>
