@@ -1,4 +1,9 @@
-﻿using ZKEACMS.Message.Models;
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+using ZKEACMS.Message.Models;
 using ZKEACMS.Message.Service;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;

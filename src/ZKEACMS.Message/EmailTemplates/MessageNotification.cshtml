@@ -1,14 +1,13 @@
-﻿@using ZKEACMS.FormGenerator.Models
-@using ZKEACMS.FormGenerator
-@model FormData
-@{ 
+﻿@using ZKEACMS.Message.Models
+@model MessageEntity
+@{
     var host = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}";
-    string link = $"{host}/admin/FormData/Edit/{Model.ID}";
+    string link = $"{host}/admin/Message/Edit/{Model.ID}";
 }
 <!DOCTYPE html>
 <html>
 <head>
-    <title>新的表单提醒</title>
+    <title>新的留言提醒</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -16,27 +15,22 @@
 <body>
     <div>
         <h3>
-            @(Model.Form.Title) 收到新的提交
+            收到新的留言
         </h3>
         <table border="1" cellspacing="0" cellpadding="5" bgcolor="" style="border-color: #eee;">
-            <thead>
-                <tr>
-                    <th>字段</th>
-                    <th>值</th>
-                </tr>
-            </thead>
             <tbody>
-                @for (int i = 0; i < Model.Form.FormFields.Count; i++)
-                {
-                    <tr>
-                        <td>
-                            @Model.Form.FormFields[i].DisplayName
-                        </td>
-                        <td>
-                            @Html.DisplayFieldValue(Model.Form.FormFields[i])
-                        </td>
-                    </tr>
-                }
+                <tr>
+                    <td>姓名</td>
+                    <td>@Model.Title</td>
+                </tr>
+                <tr>
+                    <td>邮箱</td>
+                    <td>@Model.Email</td>
+                </tr>
+                <tr>
+                    <td>留言内容</td>
+                    <td>@Model.PostMessage</td>
+                </tr>
             </tbody>
         </table>
     </div>

@@ -1,10 +1,16 @@
-﻿using Easy.Constant;
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+using Easy.Constant;
+using Easy.Extend;
+using Easy.Mvc.Extend;
 using Easy.Mvc.ValueProvider;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using ZKEACMS.Message.Models;
 using ZKEACMS.Message.Service;
-using Easy.Mvc.Extend;
-using Easy.Extend;
 
 namespace ZKEACMS.Message.Controllers
 {
@@ -54,7 +60,7 @@ namespace ZKEACMS.Message.Controllers
             }
             else
             {
-                return RedirectToAction("SignIn", "Account", new { ReturnUrl = Request.GetReferer() });
+                return RedirectToAction("SignIn", "Account", new { ReturnUrl = new Uri(Request.GetReferer()).AbsolutePath });
             }
         }
     }
