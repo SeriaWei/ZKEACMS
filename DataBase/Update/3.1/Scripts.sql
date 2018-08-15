@@ -2,7 +2,7 @@ ALTER TABLE dbo.Article ADD Url NVARCHAR(100) NULL
 ALTER TABLE dbo.ArticleType ADD Url NVARCHAR(100) NULL
 ALTER TABLE dbo.ProductCategory ADD Url NVARCHAR(100) NULL
 
-ALTER TABLE dbo.Forms ADD NotificationReceiver NVARCHAR(200) NULL
+ALTER TABLE dbo.Forms ADD NotificationReceiver NVARCHAR(500) NULL
 
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Robots@Content', N'zh-CN', N'ÄÚÈÝ', N'Robots', N'EntityProperty')
 
