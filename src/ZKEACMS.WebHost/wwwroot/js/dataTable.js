@@ -48,7 +48,7 @@
                     }
                     var result;
                     for (var p in full) {
-                        result = (result || template).replaceAll("{" + p + "}", htmlEncode(full[p]));
+                        result = (result || template).replaceAll("{" + p + "}", htmlEncode(full[p] || ""));
                     }
                     return result;
                 },
@@ -130,23 +130,25 @@
                 });
             }
         }).on("keyup change", function (e) {
-            if (e.type == "change" || (e.type == "keyup" && e.keyCode == 13)) {
-                var valid = true;
-                $("tr.search>th .form-control", this).each(function () {
-                    if (valid) {
-                        var dataType = $(this).data("data-type");
-                        if (dataType == "DateTime" && $(this).val()) {
-                            if (!Date.parse($(this).val())) {
-                                valid = false;
+            if ($(e.target).closest("tr.search").length > 0) {
+                if (e.type == "change" || (e.type == "keyup" && e.keyCode == 13)) {
+                    var valid = true;
+                    $("tr.search>th .form-control", this).each(function () {
+                        if (valid) {
+                            var dataType = $(this).data("data-type");
+                            if (dataType == "DateTime" && $(this).val()) {
+                                if (!Date.parse($(this).val())) {
+                                    valid = false;
+                                }
                             }
                         }
+                    });
+                    if (valid) {
+                        $(this).DataTable().draw();
                     }
-                });
-                if (valid) {
-                    $(this).DataTable().draw();
-                }
 
-            }
+                }
+            }           
         }).on("click", ".range-search .input-group-addon", function () {
             $(this).closest(".range-search").find("input.max").toggleClass("show");
         }).on("click", ".reset-search", function () {
@@ -157,7 +159,7 @@
             var link = $(this);
             Easy.ShowMessageBox("提示", "确认删除该数据吗？", function () {
                 $.post(link.attr("href"), function () {
-                    link.trigger("change");
+                    link.closest("table.dataTable").DataTable().draw();
                 });
             }, true);
             return false;

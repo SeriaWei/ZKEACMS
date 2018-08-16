@@ -43,11 +43,11 @@ namespace Easy.Constant
         /// <summary>
         /// 匹配正整数
         /// </summary>
-        public const string PositiveIntegers = @"^[1-9]+$";
+        public const string PositiveIntegers = @"^[1-9]\d*$";
         /// <summary>
         /// 匹配负整数
         /// </summary>
-        public const string NegativeIntegers = @"^-[1-9]+$";
+        public const string NegativeIntegers = @"^-[1-9]\d*$";
         /// <summary>
         ///匹配整数
         /// </summary>

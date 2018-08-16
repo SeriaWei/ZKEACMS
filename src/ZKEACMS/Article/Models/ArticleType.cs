@@ -4,6 +4,7 @@ using Easy.MetaData;
 using Easy.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Article.Models
 {
@@ -12,7 +13,7 @@ namespace ZKEACMS.Article.Models
     {
         [Key]
         public int ID { get; set; }
-
+        public string Url { get; set; }
         public int? ParentID { get; set; }
     }
     class ArtycleTypeMetaData : ViewMetaData<ArticleType>
@@ -22,7 +23,8 @@ namespace ZKEACMS.Article.Models
         {
             ViewConfig(m => m.ID).AsHidden();
             ViewConfig(m => m.ParentID).AsHidden();
-            ViewConfig(m => m.Title).AsTextBox().MaxLength(200).Required();
+            ViewConfig(m => m.Title).AsTextBox().Order(1).MaxLength(200).Required();
+            ViewConfig(m => m.Url).AsTextBox().Order(2).MaxLength(100).UrlPart();
             ViewConfig(m => m.Status).AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary);
         }
     }

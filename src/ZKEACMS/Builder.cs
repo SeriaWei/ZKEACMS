@@ -71,10 +71,10 @@ namespace ZKEACMS
             services.TryAddScoped<IApplicationContext, CMSApplicationContext>();
             services.TryAddSingleton<IRouteProvider, RouteProvider>();
 
-            services.AddSingleton<IRouteDataProvider, PaginationRouteDataProvider>();
-            services.AddSingleton<IRouteDataProvider, PostIdRouteDataProvider>();
-            services.AddSingleton<IRouteDataProvider, CategoryRouteDataProvider>();
-            services.AddSingleton<IRouteDataProvider, HtmlRouteDataProvider>();
+            services.AddTransient<IRouteDataProvider, PaginationRouteDataProvider>();
+            services.AddTransient<IRouteDataProvider, PostIdRouteDataProvider>();
+            services.AddTransient<IRouteDataProvider, CategoryRouteDataProvider>();
+            services.AddTransient<IRouteDataProvider, HtmlRouteDataProvider>();
 
             services.TryAddSingleton<IAdminMenuProvider, AdminMenuProvider>();
             services.TryAddTransient<IWidgetActivator, DefaultWidgetActivator>();
@@ -142,6 +142,7 @@ namespace ZKEACMS
             services.ConfigureMetaData<Rule.Rule, Rule.RuleMetaData>();
             services.ConfigureMetaData<Rule.RuleItem, Rule.RuleItemMetaData>();
             services.ConfigureMetaData<SmtpSetting, SmtpSettingMetaData>();
+            services.ConfigureMetaData<Robots, RobotsMetaData>();
 
             services.Configure<NavigationWidget>(option =>
             {

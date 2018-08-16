@@ -5,25 +5,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using ZKEACMS.Product.Service;
 using ZKEACMS.Sitemap.Models;
+using Easy.Extend;
 
 namespace ZKEACMS.Sitemap.Service
 {
     public class ProductPageSiteUrlProvider : ISiteUrlProvider
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly SitemapDbContext _sitemapDbContext;
         private readonly IProductService _productService;
         private readonly IProductCategoryService _productCategoryService;
-        public ProductPageSiteUrlProvider(IHttpContextAccessor httpContextAccessor, SitemapDbContext sitemapDbContext, IProductService productService, IProductCategoryService productCategoryService)
+        public ProductPageSiteUrlProvider(SitemapDbContext sitemapDbContext, IProductService productService, IProductCategoryService productCategoryService)
         {
-            _httpContextAccessor = httpContextAccessor;
             _sitemapDbContext = sitemapDbContext;
             _productService = productService;
             _productCategoryService = productCategoryService;
         }
         public IEnumerable<SiteUrl> Get()
         {
-            string host = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host + "/";
             List<string> excuted = new List<string>();
             foreach (var item in _sitemapDbContext.ProductListWidget.ToList())
             {
@@ -33,9 +31,10 @@ namespace ZKEACMS.Sitemap.Service
                     var products = _productService.Get(m => m.IsPublish && ids.Contains(m.ProductCategoryID ?? 0));
                     foreach (var product in products)
                     {
+                        string post = product.Url.IsNullOrWhiteSpace() ? $"post-{product.ID}" : product.Url;
                         yield return new SiteUrl
                         {
-                            Url = item.DetailPageUrl.Replace("~/", host) + "/post-" + $"{product.ID}.html",
+                            Url = $"{item.DetailPageUrl.Replace("~/", "/")}/{post}.html",
                             ModifyDate = product.LastUpdateDate ?? DateTime.Now,
                             Changefreq = "weekly",
                             Priority = 0.5F

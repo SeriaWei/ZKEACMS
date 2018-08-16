@@ -218,14 +218,15 @@
             data: JSON.stringify({
                 ID: $scope.ID,
                 Title: $scope.Title,
+                NotificationReceiver: $scope.NotificationReceiver,
                 Description: $scope.Description,
                 FormFields: $scope.Fields
             }),
             contentType: 'application/json; charset=utf-8',
             async: true,
             success: function (data) {
-                if (data.Message) {
-                    $scope.Message = data.Message;
+                if (data.message) {
+                    $scope.Message = data.message;
                     $scope.$apply();
                 }
                 else {

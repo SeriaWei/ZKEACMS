@@ -6,6 +6,8 @@ using Easy.Notification;
 using System.Net;
 using System.Net.Mail;
 using ZKEACMS.Setting;
+using Easy.Extend;
+using System;
 
 namespace ZKEACMS.SMTP
 {
@@ -19,6 +21,10 @@ namespace ZKEACMS.SMTP
         public SmtpClient Get()
         {
             var setting = _applicationSettingService.Get<SmtpSetting>();
+            if (setting.Host.IsNullOrWhiteSpace() || setting.Email.IsNullOrWhiteSpace())
+            {
+                throw new Exception("SMTP Server is not ready, for more information: https://www.zkea.net/codesnippet/detail/post-97.html");
+            }
             SmtpClient client = null;
             if (setting.Port > 0)
             {

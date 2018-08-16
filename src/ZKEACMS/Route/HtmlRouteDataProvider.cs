@@ -8,6 +8,9 @@ namespace ZKEACMS.Route
     public class HtmlRouteDataProvider : IRouteDataProvider
     {
         const string htmlExt = ".html";
+
+        public int Order { get { return 0; } }
+
         public string ExtractVirtualPath(string path, RouteValueDictionary values)
         {
             if (path.EndsWith(htmlExt, StringComparison.OrdinalIgnoreCase))

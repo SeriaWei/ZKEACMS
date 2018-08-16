@@ -6,6 +6,22 @@ using System.Text.RegularExpressions;
 
 namespace ZKEACMS
 {
+    public class Const
+    {
+        public const string CopyWidgetCookie = "032F84D1BA204DC88F1C2694BF41F989";
+    }
+
+    public class Layouts
+    {
+        public const string PageDesign = "~/Views/Shared/_DesignPageLayout.cshtml";
+        public const string LayoutDesign = "~/Views/Shared/_DesignLayout.cshtml";
+        public const string Default = "~/Views/Shared/_Layout.cshtml";
+        public const string NormalDefault = "~/Views/Shared/_LayoutNormal.cshtml";
+        public const string PopUp = "~/Views/Shared/_PopUpLayout.cshtml";
+        public const string ClientPopUp = "~/Views/Shared/_PopUpClientLayout.cshtml";
+        public const string CustomerCenter = "~/Views/Shared/_CustomerCenterLayout.cshtml";
+    }
+
     public class ViewDataKeys
     {
         public const string Zones = "ViewDataKey_Zones";
@@ -89,11 +105,16 @@ namespace ZKEACMS
         public const string SelectPageClass = "select select-page";
         public const string StyleEditor = "select custom-style-target";
         public const string HtmlEditorClass = "html";
+        public const string UrlPart = "url-part";
 
         public const string RouteValue_Path = "path";
         public const string RouteValue_Post = "post";
         public const string RouteValue_Category = "cate";
         public const string RouteValue_Page = "p";
+
+        public const string RouteVale_ArticleUrl = "ArticleUrl";
+        public const string RouteVale_ProductUrl = "ProductUrl";
+        public const string RouteVale_CategoryUrl = "CategoryUrl";
 
         public static string PathFormat(string routeKey)
         {

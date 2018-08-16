@@ -14,6 +14,7 @@ namespace ZKEACMS.Route
 {
     public interface IRouteDataProvider
     {
+        int Order { get; }
         string ExtractVirtualPath(string path, RouteValueDictionary values);
     }
 }

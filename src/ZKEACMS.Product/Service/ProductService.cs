@@ -32,6 +32,15 @@ namespace ZKEACMS.Product.Service
         }
         public override ServiceResult<ProductEntity> Add(ProductEntity item)
         {
+            if (item.Url.IsNotNullAndWhiteSpace())
+            {
+                if (GetByUrl(item.Url) != null)
+                {
+                    var re = new ServiceResult<ProductEntity>();
+                    re.RuleViolations.Add(new RuleViolation("Url", "Url已存在"));
+                    return re;
+                }
+            }
             var result = base.Add(item);
             if (result.HasViolation)
             {
@@ -85,6 +94,15 @@ namespace ZKEACMS.Product.Service
         }
         public override ServiceResult<ProductEntity> Update(ProductEntity item)
         {
+            if (item.Url.IsNotNullAndWhiteSpace())
+            {
+                if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
+                {
+                    var re = new ServiceResult<ProductEntity>();
+                    re.RuleViolations.Add(new RuleViolation("Url", "Url已存在"));
+                    return re;
+                }
+            }
             var result = base.Update(item);
             if (result.HasViolation)
             {
@@ -142,6 +160,11 @@ namespace ZKEACMS.Product.Service
                 });
             }
             base.Remove(item);
+        }
+
+        public ProductEntity GetByUrl(string url)
+        {
+            return Get(m => m.Url == url).FirstOrDefault();
         }
     }
 }

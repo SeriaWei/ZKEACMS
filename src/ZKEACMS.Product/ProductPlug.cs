@@ -10,6 +10,7 @@ using ZKEACMS.Product.Service;
 using Easy;
 using ZKEACMS.WidgetTemplate;
 using Easy.RepositoryPattern;
+using ZKEACMS.Route;
 
 namespace ZKEACMS.Product
 {
@@ -122,6 +123,9 @@ namespace ZKEACMS.Product
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+            
+            serviceCollection.AddTransient<IRouteDataProvider, ProductRouteDataProvider>();
+            serviceCollection.AddTransient<IRouteDataProvider, ProductCategoryRouteDataProvider>();
 
             serviceCollection.AddTransient<IProductService, ProductService>();
             serviceCollection.AddTransient<IProductCategoryService, ProductCategoryService>();

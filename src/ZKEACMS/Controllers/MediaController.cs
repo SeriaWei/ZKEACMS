@@ -175,6 +175,7 @@ namespace ZKEACMS.Controllers
                     {
                         Request.Form.Files[0].CopyTo(fileStream);
                     }
+                    media.Url = Url.Content(media.Url);
                     return Json(media);
                 }
             }

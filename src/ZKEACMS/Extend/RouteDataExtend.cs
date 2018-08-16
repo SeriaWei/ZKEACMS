@@ -48,5 +48,32 @@ namespace ZKEACMS
             }
             return page;
         }
+
+        public static string GetArticleUrl(this RouteData roteData)
+        {
+            if (roteData.Values.ContainsKey(StringKeys.RouteVale_ArticleUrl))
+            {
+                return roteData.Values[StringKeys.RouteVale_ArticleUrl].ToString();
+            }
+            return null;
+        }        
+
+        public static string GetProductUrl(this RouteData roteData)
+        {
+            if (roteData.Values.ContainsKey(StringKeys.RouteVale_ProductUrl))
+            {
+                return roteData.Values[StringKeys.RouteVale_ProductUrl].ToString();
+            }
+            return null;
+        }
+
+        public static string GetCategoryUrl(this RouteData roteData)
+        {
+            if (roteData.Values.ContainsKey(StringKeys.RouteVale_CategoryUrl))
+            {
+                return roteData.Values[StringKeys.RouteVale_CategoryUrl].ToString();
+            }
+            return null;
+        }
     }
 }

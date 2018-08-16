@@ -14,6 +14,8 @@ namespace ZKEACMS.Route
 {
     public class PostIdRouteDataProvider : IRouteDataProvider
     {
+        public int Order { get { return 1; } }
+
         public string ExtractVirtualPath(string path, RouteValueDictionary values)
         {
             if (CustomRegex.PostIdRegex.IsMatch(path))

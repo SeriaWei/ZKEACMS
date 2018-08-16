@@ -1,4 +1,5 @@
 @echo off
+cd /d %~dp0
 REM:请根据您的个人实际情况修改以下信息：
 REM:如果您运行该批处理时出现乱码或者执行不成功，请参考
 REM:http://www.zkea.net/zkeacms/document/issues

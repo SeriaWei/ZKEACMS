@@ -8,5 +8,6 @@ namespace ZKEACMS.Product.Service
     public interface IProductCategoryService : IService<ProductCategory>
     {
         IEnumerable<ProductCategory> GetChildren(long id);
+        ProductCategory GetByUrl(string url);
     }
 }

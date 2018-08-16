@@ -15,7 +15,7 @@
         {
             foreach (var item in Model.Articles)
             {
-                <a class="list-group-item" href="@Url.PostUrl(Model.Widget.DetailPageUrl, item.ID)" target="_blank">
+                <a class="list-group-item" href="@Url.PostUrl(Model.Widget.DetailPageUrl, item)" target="_blank">
                     @item.Title
                 </a>
             }

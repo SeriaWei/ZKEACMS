@@ -19,7 +19,7 @@ namespace ZKEACMS.Article.Service
         {
             _articleService = articleService;
         }
-      
+
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
@@ -56,7 +56,7 @@ namespace ZKEACMS.Article.Service
                     layout.Page.Title = viewModel.Current.Title;
                 }
             }
-            
+
 
             return widget.ToWidgetViewModelPart(viewModel);
         }
