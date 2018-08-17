@@ -7,6 +7,7 @@ using ZKEACMS.Product.Models;
 using ZKEACMS.Widget;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Easy.Extend;
 
 namespace ZKEACMS.Product.Service
 {
@@ -40,6 +41,10 @@ namespace ZKEACMS.Product.Service
             }
             if (product != null)
             {
+                if (product.Url.IsNotNullAndWhiteSpace() && actionContext.RouteData.GetProductUrl().IsNullOrWhiteSpace())
+                {
+                    actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{product.Url}.html", true);
+                }
                 var layout = actionContext.HttpContext.GetLayout();
                 if (layout != null && layout.Page != null)
                 {

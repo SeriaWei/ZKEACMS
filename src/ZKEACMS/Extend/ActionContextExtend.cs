@@ -18,5 +18,13 @@ namespace ZKEACMS
                 viewResult.ViewName = "NotFound";
             }
         }
+        public static void RedirectTo(this ActionContext actionContext, string url, bool permanent = false)
+        {
+            var executedContext = actionContext as ActionExecutedContext;
+            if (executedContext != null && executedContext.Result is ViewResult)
+            {
+                executedContext.Result = new RedirectResult(url, permanent);
+            }
+        }
     }
 }
