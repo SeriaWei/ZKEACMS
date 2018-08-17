@@ -18,14 +18,21 @@ namespace ZKEACMS.Article.Service
             : base(widgetService, applicationContext, dbContext)
         {
             _articleTypeService = articleTypeService;
-        }   
+        }
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             ArticleTypeWidget currentWidget = widget as ArticleTypeWidget;
             var types = _articleTypeService.Get(m => m.ParentID == currentWidget.ArticleTypeID);
             int ac = actionContext.RouteData.GetCategory();
-
+            if (actionContext.RouteData.GetCategoryUrl().IsNullOrEmpty() && ac > 0)
+            {
+                var articleType = _articleTypeService.Get(ac);
+                if (articleType != null && articleType.Url.IsNotNullAndWhiteSpace())
+                {
+                    actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{articleType.Url}", true);
+                }
+            }
 
             return widget.ToWidgetViewModelPart(new ArticleTypeWidgetViewModel
             {
