@@ -43,7 +43,7 @@
                         <span>
                             上一篇:
                         </span>
-                        <a href="@Url.PostUrl(ViewContext.RouteData.GetPath(), Model.Prev.ID.ToString())">
+                        <a href="@Url.PostUrl(ViewContext.RouteData.GetPath(), Model.Prev)">
                             @Model.Prev.Title
                         </a>
                     }
@@ -55,7 +55,7 @@
                         <span>
                             下一篇:
                         </span>
-                        <a href="@Url.PostUrl(ViewContext.RouteData.GetPath(), Model.Next.ID.ToString())">
+                        <a href="@Url.PostUrl(ViewContext.RouteData.GetPath(), Model.Next)">
                             @Model.Next.Title
                         </a>
                     }

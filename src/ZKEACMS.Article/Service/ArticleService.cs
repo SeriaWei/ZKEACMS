@@ -48,12 +48,12 @@ namespace ZKEACMS.Article.Service
 
         public ArticleEntity GetNext(ArticleEntity article)
         {
-            return CurrentDbSet.Where(m => m.IsPublish && m.ArticleTypeID == article.ArticleTypeID && m.PublishDate > article.PublishDate).OrderBy(m => m.PublishDate).ThenBy(m => m.ID).Take(1).FirstOrDefault();
+            return CurrentDbSet.Where(m => m.IsPublish && m.ArticleTypeID == article.ArticleTypeID && m.PublishDate > article.PublishDate && m.ID != article.ID).OrderBy(m => m.PublishDate).ThenBy(m => m.ID).Take(1).FirstOrDefault();
         }
 
         public ArticleEntity GetPrev(ArticleEntity article)
         {
-            return CurrentDbSet.Where(m => m.IsPublish && m.ArticleTypeID == article.ArticleTypeID && m.PublishDate < article.PublishDate).OrderByDescending(m => m.PublishDate).ThenByDescending(m => m.ID).Take(1).FirstOrDefault();
+            return CurrentDbSet.Where(m => m.IsPublish && m.ArticleTypeID == article.ArticleTypeID && m.PublishDate < article.PublishDate && m.ID != article.ID).OrderByDescending(m => m.PublishDate).ThenByDescending(m => m.ID).Take(1).FirstOrDefault();
         }
 
         public void IncreaseCount(ArticleEntity article)
