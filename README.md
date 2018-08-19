@@ -32,7 +32,7 @@ ZKEACMS For .Net Core
 [http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)
 
 ## 开发环境 / Development
-* [.Net Core SDK 2.1.301](https://www.microsoft.com/net/download/dotnet-core/sdk-2.1.301)
+* [.Net Core SDK 2.1](https://aka.ms/dotnet-download)
 * Microsoft Sql Serverl 2008+
 * MySql 5.6+
 * SQLite 3

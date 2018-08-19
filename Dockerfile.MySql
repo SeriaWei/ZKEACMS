@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1.301-sdk AS builder
+FROM microsoft/dotnet:2.1.400-sdk AS builder
 WORKDIR /build
 # Copy all files
 COPY . ./
@@ -13,7 +13,7 @@ RUN publish-zkeacms
 RUN cp -f /build/DataBase/MySql/appsettings.json /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/appsettings.json
 
 # Build runtime image
-FROM microsoft/dotnet:2.1.1-aspnetcore-runtime
+FROM microsoft/dotnet:2.1.2-aspnetcore-runtime
 WORKDIR /zkeacms
 COPY --from=builder /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput .
 EXPOSE 80
