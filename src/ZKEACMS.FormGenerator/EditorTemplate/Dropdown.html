@@ -18,30 +18,32 @@
     </div>
 </div>
 <div class="form-group">
-	<label class="control-label">
-		选项
-	</label>
-	<div class="control-group">
-		<div style="margin-bottom:10px;" ng-class="{default:option.DefaultSelected}" ng-repeat="option in fieldInfo.FieldOptions | orderBy:'Order'">
-			<div>
-                <div class="input-group">                    
-                    <input type="text" class="form-control" placeholder="输入选项内容" ng-model="option.DisplayText">                    
+    <label class="control-label">
+        选项
+    </label>
+    <div class="control-group">
+        <div style="margin-bottom:10px;" ng-class="{default:option.DefaultSelected}" ng-repeat="option in fieldInfo.FieldOptions | orderBy:'Order'">
+            <div>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="输入选项内容" ng-model="option.DisplayText">
                     <span class="input-group-addon dropdown">
                         <i class="glyphicon glyphicon-remove" ng-click="removeOption(fieldInfo.FieldOptions,option)" data-toggle="dropdown">
                         </i>
                     </span>
-                </div>			
-			</div>
-			<div ng-show="fieldInfo.ShowValue">
-				<input type="text" ng-model="option.Value" />
-				<span class="add-on">
-					<i class="icon-bullhorn dropdown-toggle" data-toggle="dropdown"></i>
-					<code class="dropdown-menu alert alert-info">
-						
-					</code>
-				</span>
-			</div>
-		</div>
-	</div>
+                </div>
+            </div>
+            <div ng-show="fieldInfo.ShowValue">
+                <input type="text" ng-model="option.Value" />
+                <span class="add-on">
+                    <i class="icon-bullhorn dropdown-toggle" data-toggle="dropdown"></i>
+                    <code class="dropdown-menu alert alert-info">
+
+                    </code>
+                </span>
+            </div>
+        </div>
+    </div>
 </div>
 <input type="button" class="btn btn-default btn-xs" value="添加选项" ng-click="addOption(fieldInfo.FieldOptions)" />
+<input type="hidden" class="form-control" name="regexPattern" id="regexPattern" ng-model="fieldInfo.RegexPattern" />
+<input type="hidden" class="form-control" name="regexMessage" id="regexMessage" ng-model="fieldInfo.RegexMessage" />
