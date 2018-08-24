@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+
 using Easy;
+using Easy.Constant;
 using Microsoft.AspNetCore.Mvc;
 using ZKEACMS.Message.Models;
 using ZKEACMS.Widget;
-using Easy.Constant;
 
 namespace ZKEACMS.Message.Service
 {

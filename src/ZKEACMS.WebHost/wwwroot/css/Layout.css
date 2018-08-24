@@ -381,7 +381,6 @@ label.additional {
     margin: 0 auto auto 0;
     z-index: 1;
     color: white;
-    line-height: 25px;
     transition: all 300ms;
     opacity: 0;
     z-index: 10;
@@ -390,6 +389,7 @@ label.additional {
 
 .widget:hover .zoneToolbar {
     opacity: 1;
+    font-size: 18px;
 }
 
 .zoneToolbar:hover {

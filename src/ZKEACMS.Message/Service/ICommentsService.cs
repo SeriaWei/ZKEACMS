@@ -1,8 +1,10 @@
-﻿using Easy.RepositoryPattern;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+
+using Easy.RepositoryPattern;
 using ZKEACMS.Message.Models;
 
 namespace ZKEACMS.Message.Service
