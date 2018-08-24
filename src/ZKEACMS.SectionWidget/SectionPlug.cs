@@ -73,7 +73,7 @@ namespace ZKEACMS.SectionWidget
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+            serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             serviceCollection.AddTransient<ISectionGroupService, SectionGroupService>();
             serviceCollection.AddTransient<ISectionContentProviderService, SectionContentProviderService>();

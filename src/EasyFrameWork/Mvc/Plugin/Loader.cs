@@ -18,7 +18,11 @@ namespace Easy.Mvc.Plugin
     {
         public const string PluginFolder = "Plugins";
         private const string PluginInfoFile = "zkea.plugin";
+#if DEBUG
         private string[] AltDevelopmentPath = new[] { "bin", "Debug", "netcoreapp2.1" };
+#else
+        private string[] AltDevelopmentPath = new[] { "bin", "Release", "netcoreapp2.1" };
+#endif
         private static List<AssemblyLoader> Loaders = new List<AssemblyLoader>();
         private static Dictionary<string, Assembly> LoadedAssemblies = new Dictionary<string, Assembly>();
         public Loader(IHostingEnvironment hostEnvironment)

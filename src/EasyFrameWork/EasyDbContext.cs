@@ -10,7 +10,7 @@ namespace Easy
 {
     public class EasyDbContext : DbContextBase
     {
-        public EasyDbContext(IEnumerable<IOnModelCreating> modelCreatings, IOnDatabaseConfiguring configuring) : base(modelCreatings, configuring)
+        public EasyDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
         {
         }
 

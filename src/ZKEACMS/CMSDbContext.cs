@@ -21,8 +21,12 @@ namespace ZKEACMS
 {
     public class CMSDbContext : EasyDbContext
     {
-        public CMSDbContext(IEnumerable<IOnModelCreating> modelCreatings, IOnDatabaseConfiguring configuring) : base(modelCreatings, configuring)
+        public CMSDbContext(DbContextOptions<CMSDbContext> dbContextOptions) : base(dbContextOptions)
         {
+            var onModelCreateings = Easy.ServiceLocator.GetServices<IOnModelCreating>();
+            Creatings = onModelCreateings;
+            var databaseConfiguring = Easy.ServiceLocator.GetService<IOnDatabaseConfiguring>();
+            DatabaseConfiguring = databaseConfiguring;
         }
 
         internal DbSet<WidgetBasePart> WidgetBasePart { get; set; }

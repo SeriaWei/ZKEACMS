@@ -124,11 +124,11 @@ namespace ZKEACMS
 
     public static class CustomRegex
     {
-        public static readonly Regex StyleRegex = new Regex(@"style=""([^""]*)""", RegexOptions.IgnoreCase);
+        public static readonly Regex StyleRegex = new Regex(@"style=""([^""]*)""", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public static Regex PostIdRegex = new Regex(@"/post-(\d+)", RegexOptions.IgnoreCase);
-        public static Regex CategoryIdRegex = new Regex(@"/cate-(\d+)", RegexOptions.IgnoreCase);
-        public static Regex PageRegex = new Regex(@"/p-(\d+)", RegexOptions.IgnoreCase);
+        public static Regex PostIdRegex = new Regex(@"/post-(\d+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static Regex CategoryIdRegex = new Regex(@"/cate-(\d+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static Regex PageRegex = new Regex(@"/p-(\d+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
     }
     public static class Version
     {
