@@ -77,7 +77,7 @@ namespace ZKEACMS.Redirection
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+            serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             serviceCollection.TryAddTransient<IUrlRedirectService, UrlRedirectService>();
 

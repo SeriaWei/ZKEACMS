@@ -110,7 +110,7 @@ namespace ZKEACMS.Shop
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+            serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             serviceCollection.TryAddTransient<IBasketService, BasketService>();
             serviceCollection.TryAddTransient<IOrderService, OrderService>();

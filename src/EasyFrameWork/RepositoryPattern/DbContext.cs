@@ -7,10 +7,8 @@ namespace Easy.RepositoryPattern
 {
     public class DbContextBase : DbContext
     {
-        public DbContextBase(IEnumerable<IOnModelCreating> modelCreatings, IOnDatabaseConfiguring configuring)
+        public DbContextBase(DbContextOptions dbContextOptions) : base(dbContextOptions)
         {
-            Creatings = modelCreatings;
-            DatabaseConfiguring = configuring;
         }
         public IEnumerable<IOnModelCreating> Creatings { get; set; }
         public IOnDatabaseConfiguring DatabaseConfiguring { get; set; }

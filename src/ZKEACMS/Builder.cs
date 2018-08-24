@@ -156,9 +156,11 @@ namespace ZKEACMS
                 option.DataSourceLink = "~/admin/Carousel";
             });
 
-            services.AddDbContext<CMSDbContext>();
+            //services.AddDbContext<CMSDbContext>();
 
-            services.Configure<DatabaseOption>(configuration.GetSection("Database"));
+            var databaseOption = configuration.GetSection("Database").Get<Options.DatabaseOption>();
+            services.AddSingleton(databaseOption);
+            //services.Configure<DatabaseOption>(configuration.GetSection("Database"));
 
             services.UseEasyFrameWork(configuration);
             foreach (var item in services.LoadAvailablePlugins())

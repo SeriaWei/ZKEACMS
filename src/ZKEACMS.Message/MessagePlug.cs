@@ -109,7 +109,7 @@ namespace ZKEACMS.Message
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+            serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             serviceCollection.AddTransient<IMessageService, MessageService>();
             serviceCollection.AddTransient<ICommentsService, CommentsService>();
