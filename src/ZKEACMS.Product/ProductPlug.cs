@@ -122,7 +122,7 @@ namespace ZKEACMS.Product
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+            serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
             
             serviceCollection.AddTransient<IRouteDataProvider, ProductRouteDataProvider>();
             serviceCollection.AddTransient<IRouteDataProvider, ProductCategoryRouteDataProvider>();

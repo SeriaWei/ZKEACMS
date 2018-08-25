@@ -58,7 +58,7 @@ namespace Easy
             services.TryAddTransient<IDataDictionaryService, DataDictionaryService>();
             services.TryAddTransient<ILanguageService, LanguageService>();
             services.TryAddTransient<IEncryptService, EncryptService>();
-            services.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+            services.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             services.AddTransient<IViewRenderService, ViewRenderService>();
             services.AddTransient<INotificationManager, NotificationManager>();
@@ -94,7 +94,7 @@ namespace Easy
 
             services.AddDataProtection();
 
-            services.AddDbContext<EasyDbContext>();
+            //services.AddDbContext<EasyDbContext>();
         }
 
         public static void ConfigureMetaData<TEntity, TMetaData>(this IServiceCollection service)

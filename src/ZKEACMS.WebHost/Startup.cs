@@ -7,13 +7,11 @@
 
 using Easy;
 using Easy.Mvc.Resource;
-using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
 namespace ZKEACMS.WebHost
@@ -29,8 +27,7 @@ namespace ZKEACMS.WebHost
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureResource<DefaultResourceManager>();
-
-            services.AddScoped<IOnDatabaseConfiguring, EntityFrameWorkConfigure>();
+            services.AddSingleton<SimpleDbConnectionPool.IDatabaseConfiguring, EntityFrameWorkConfigure>();
             services.UseZKEACMS(Configuration);
         }
 

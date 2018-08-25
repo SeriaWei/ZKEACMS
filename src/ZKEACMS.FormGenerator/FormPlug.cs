@@ -102,7 +102,7 @@ namespace ZKEACMS.FormGenerator
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+            serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             serviceCollection.AddTransient<IFormDataValidator, DateTimeFormDataValidator>();
             serviceCollection.AddTransient<IFormDataValidator, EmailFormDataValidator>();

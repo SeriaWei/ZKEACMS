@@ -42,6 +42,10 @@ namespace ZKEACMS.Redirection.Controllers
         {
             return base.Index();
         }
+        public override IActionResult Delete(int id)
+        {
+            return base.Delete(id);
+        }
         [DefaultAuthorize(Policy = PermissionKeys.ManageUrlRedirect)]
         public override IActionResult Edit(int Id)
         {
@@ -90,7 +94,7 @@ namespace ZKEACMS.Redirection.Controllers
                 return RedirectPermanent($"~/{(path ?? "")}.html");
             }
             path = $"~/{(path ?? "").TrimEnd('/')}";
-            var redirec = Service.Get(m => m.InComingUrl == path).FirstOrDefault();
+            var redirec = Service.GetAll().Where(m => m.InComingUrl == path).FirstOrDefault();
             if (redirec != null)
             {
                 if (redirec.IsPermanent)
