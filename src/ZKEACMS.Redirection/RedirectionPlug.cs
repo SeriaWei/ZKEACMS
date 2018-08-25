@@ -2,16 +2,17 @@
  * Copyright 2017 ZKEASOFT 
  * http://www.zkea.net/licenses 
  */
+using Easy;
+using Easy.Extend;
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
-using System;
-using System.Collections.Generic;
+using Easy.RepositoryPattern;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Easy.RepositoryPattern;
-using ZKEACMS.Redirection.Service;
-using Easy;
+using System;
+using System.Collections.Generic;
 using ZKEACMS.Redirection.Models;
+using ZKEACMS.Redirection.Service;
 using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS.Redirection
@@ -82,6 +83,7 @@ namespace ZKEACMS.Redirection
             serviceCollection.TryAddTransient<IUrlRedirectService, UrlRedirectService>();
 
             serviceCollection.ConfigureMetaData<UrlRedirect, UrlRedirectMetaData>();
+            serviceCollection.ConfigureCache<IEnumerable<UrlRedirect>>();
         }
     }
 }

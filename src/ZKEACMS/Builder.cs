@@ -7,7 +7,6 @@
 
 
 using Easy;
-using Easy.Cache;
 using Easy.Extend;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.DataAnnotations;
@@ -20,6 +19,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -43,11 +43,11 @@ using ZKEACMS.Page;
 using ZKEACMS.Product.Models;
 using ZKEACMS.Route;
 using ZKEACMS.Setting;
+using ZKEACMS.SMTP;
 using ZKEACMS.Theme;
 using ZKEACMS.Widget;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.Zone;
-using ZKEACMS.SMTP;
 
 namespace ZKEACMS
 {
@@ -155,23 +155,39 @@ namespace ZKEACMS
                 option.DataSourceLinkTitle = "焦点图";
                 option.DataSourceLink = "~/admin/Carousel";
             });
-
-            //services.AddDbContext<CMSDbContext>();
-
-            var databaseOption = configuration.GetSection("Database").Get<Options.DatabaseOption>();
-            services.AddSingleton(databaseOption);
-            //services.Configure<DatabaseOption>(configuration.GetSection("Database"));
+            #region 数据库配置
+            services.AddSingleton<SimpleDbConnectionPool>();
+            //池的配置：
+            //MaximumRetained规定池的容量（常态最大保有数量）。
+            //MaximumRetained为0时，相当于不使用DbConnection池，
+            //但因为在Request期间Connection是保持打开的，所以对许多场合还是有性能改善的。
+            services.AddSingleton(new SimpleDbConnectionPool.Options() { MaximumRetained = 128 });
+            //提供在Request期间租、还DbConnection的支持
+            services.AddScoped<SimpleDbConnectionPool.TransientObjectHolder>();
+            services.AddScoped<DbContextOptions<CMSDbContext>>(sp =>
+            {
+                //租一个DbConnection（将在Request完成后还回，因为其Lifetime为Scoped类型）
+                SimpleDbConnectionPool.TransientObjectHolder holder = sp.GetService<SimpleDbConnectionPool.TransientObjectHolder>();
+                SimpleDbConnectionPool.IDatabaseConfiguring configure = sp.GetService<SimpleDbConnectionPool.IDatabaseConfiguring>();
+                DbContextOptionsBuilder<CMSDbContext> optBuilder = new DbContextOptionsBuilder<CMSDbContext>();
+                configure.OnConfiguring(optBuilder, holder.Object);
+                return optBuilder.Options;
+            });
+            services.AddDbContext<CMSDbContext>(ServiceLifetime.Scoped);
+            services.AddScoped<EasyDbContext>((provider) => provider.GetService<CMSDbContext>());
+            services.AddSingleton(configuration.GetSection("Database").Get<DatabaseOption>());
+            #endregion
 
             services.UseEasyFrameWork(configuration);
-            foreach (var item in services.LoadAvailablePlugins())
+            foreach (IPluginStartup item in services.LoadAvailablePlugins())
             {
                 item.Setup(services);
             }
-            foreach (var item in WidgetBase.KnownWidgetService)
+            foreach (KeyValuePair<string, Type> item in WidgetBase.KnownWidgetService)
             {
                 services.TryAddTransient(item.Value);
             }
-            foreach (var item in WidgetBase.KnownWidgetModel)
+            foreach (KeyValuePair<string, Type> item in WidgetBase.KnownWidgetModel)
             {
                 services.TryAddTransient(item.Value);
             }
@@ -212,7 +228,7 @@ namespace ZKEACMS
                     routes.MapRoute(route.RouteName, route.Template, route.Defaults, route.Constraints, route.DataTokens);
                 });
             });
-            foreach (var task in applicationBuilder.ApplicationServices.GetServices<IStartTask>())
+            foreach (IStartTask task in applicationBuilder.ApplicationServices.GetServices<IStartTask>())
             {
                 task.Excute();
             }

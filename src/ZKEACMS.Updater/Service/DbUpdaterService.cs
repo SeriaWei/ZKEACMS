@@ -15,9 +15,9 @@ namespace ZKEACMS.Updater.Service
 {
     public class DbUpdaterService : IDbUpdaterService
     {
-        private readonly IOptions<DatabaseOption> _databaseOption;
+        private readonly DatabaseOption _databaseOption;
         private readonly IHostingEnvironment _hostingEnvironment;
-        public DbUpdaterService(IOptions<DatabaseOption> databaseOption, IHostingEnvironment hostingEnvironment)
+        public DbUpdaterService(DatabaseOption databaseOption, IHostingEnvironment hostingEnvironment)
         {
             _databaseOption = databaseOption;
             _hostingEnvironment = hostingEnvironment;

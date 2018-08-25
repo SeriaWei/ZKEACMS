@@ -14,7 +14,7 @@ using ZKEACMS.Options;
 
 namespace ZKEACMS.WebHost
 {
-    public class EntityFrameWorkConfigure
+    public class EntityFrameWorkConfigure: SimpleDbConnectionPool.IDatabaseConfiguring
     {
         private readonly DatabaseOption _dataBaseOption;
         private readonly ILoggerFactory _loggerFactory;

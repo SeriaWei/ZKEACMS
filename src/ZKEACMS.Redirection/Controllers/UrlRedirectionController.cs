@@ -44,7 +44,6 @@ namespace ZKEACMS.Redirection.Controllers
         }
         public override IActionResult Delete(int id)
         {
-            UrlRedirectService.InvalidateCachedItems();
             return base.Delete(id);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageUrlRedirect)]
@@ -61,7 +60,6 @@ namespace ZKEACMS.Redirection.Controllers
                 {
                     return View(entity);
                 }
-                UrlRedirectService.InvalidateCachedItems();
                 return base.Edit(entity);
             }
             return View(entity);
@@ -80,7 +78,6 @@ namespace ZKEACMS.Redirection.Controllers
                 {
                     return View(entity);
                 }
-                UrlRedirectService.InvalidateCachedItems();
                 return base.Create(entity);
             }
             return View(entity);
@@ -97,7 +94,7 @@ namespace ZKEACMS.Redirection.Controllers
                 return RedirectPermanent($"~/{(path ?? "")}.html");
             }
             path = $"~/{(path ?? "").TrimEnd('/')}";
-            var redirec = UrlRedirectService.GetItems(() => Service).Where(m => m.InComingUrl == path).FirstOrDefault();
+            var redirec = Service.GetAll().Where(m => m.InComingUrl == path).FirstOrDefault();
             if (redirec != null)
             {
                 if (redirec.IsPermanent)

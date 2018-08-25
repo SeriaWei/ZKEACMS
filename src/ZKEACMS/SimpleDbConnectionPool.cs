@@ -1,22 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data.Common;
+﻿using Easy;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.ObjectPool;
+using System;
+using System.Data.Common;
+using ZKEACMS.Options;
 
-namespace Easy
+namespace ZKEACMS
 {
     /// <summary>
     /// 仅仅对单独一个数据库提供的连接池，对多个数据库的情形不支持
     /// </summary>
     public class SimpleDbConnectionPool : IDisposable
     {
+        public interface IDatabaseConfiguring
+        {
+            void OnConfiguring(DbContextOptionsBuilder optionsBuilder, DbConnection dbConnectionForReusing);
+        }
         public class Options
         {
             public Options() { MaximumRetained = Environment.ProcessorCount * 2; }
             public int MaximumRetained { get; set; }
         }
-        class PooledObjectPolicy : PooledObjectPolicy<DbConnection>
+
+        private class PooledObjectPolicy : PooledObjectPolicy<DbConnection>
         {
             internal PooledObjectPolicy(int maximumRetained, Func<DbConnection> funcCreateConnection)
             {
@@ -25,19 +32,19 @@ namespace Easy
                 _funcCreateConnection = funcCreateConnection;
             }
             internal readonly DbConnection[] _createdObjects;
-            readonly int _maximumRetained;
-            readonly Func<DbConnection> _funcCreateConnection;
-            int _numObjectsInPool;
+            private readonly int _maximumRetained;
+            private readonly Func<DbConnection> _funcCreateConnection;
+            private int _numObjectsInPool;
 
             public override DbConnection Create()
             {
-                var cnt = System.Threading.Interlocked.Increment(ref _numObjectsInPool);
+                int cnt = System.Threading.Interlocked.Increment(ref _numObjectsInPool);
                 if (cnt > _maximumRetained)
                 {
                     System.Threading.Interlocked.Decrement(ref _numObjectsInPool);
                     return null;
                 }
-                var dbConnection = _funcCreateConnection();
+                DbConnection dbConnection = _funcCreateConnection();
                 _createdObjects[cnt - 1] = dbConnection;
                 return dbConnection;
             }
@@ -48,6 +55,10 @@ namespace Easy
         }
         public class TransientObjectHolder : IDisposable
         {
+            private readonly SimpleDbConnectionPool _pool;
+            private DbConnection _object;
+            private readonly bool _objectShouldReturnToPool;
+
             public TransientObjectHolder(SimpleDbConnectionPool pool)
             {
                 _pool = pool;
@@ -58,7 +69,7 @@ namespace Easy
                 }
                 else
                 {
-                    _object = _pool._funcCreateConnection();
+                    _object = _pool.CreateDbConnection();
                     _objectShouldReturnToPool = false;
                 }
                 if (_object != null && _object.State == System.Data.ConnectionState.Closed)
@@ -71,32 +82,60 @@ namespace Easy
                 if (_object != null)
                 {
                     if (_objectShouldReturnToPool)
+                    {
                         _pool._inner.Return(_object);
+                    }
                     else
+                    {
                         _object.Dispose();
+                    }
+
                     _object = null;
                 }
             }
-            public DbConnection Object { get { return _object; } }
-            readonly SimpleDbConnectionPool _pool;
-            DbConnection _object;
-            readonly bool _objectShouldReturnToPool;
+            public DbConnection Object => _object;
         }
-        public SimpleDbConnectionPool(Options options, Func<DbConnection> funcCreateConnection)
+        public SimpleDbConnectionPool(Options options, DatabaseOption databaseOption)
         {
-            _funcCreateConnection = funcCreateConnection;
+            DatabaseOption = databaseOption;
             int maximumRetained = Math.Max(options.MaximumRetained, 0);
             if (maximumRetained > 0)
             {
-                _pooledObjectPolicy = new PooledObjectPolicy(maximumRetained, _funcCreateConnection);
+                _pooledObjectPolicy = new PooledObjectPolicy(maximumRetained, CreateDbConnection);
                 _inner = new DefaultObjectPool<DbConnection>(_pooledObjectPolicy, maximumRetained);
             }
+        }
+        public DatabaseOption DatabaseOption { get; set; }
+        public DbConnection CreateDbConnection()
+        {
+            switch (DatabaseOption.DbType)
+            {
+                case DbTypes.MsSql:
+                    return null;
+                case DbTypes.MsSqlEarly:
+                    return null;
+                case DbTypes.Sqlite:
+                    {
+                        SqliteConnection result = new SqliteConnection(DatabaseOption.ConnectionString);
+                        result.Open();
+                        using (SqliteCommand cmd = result.CreateCommand())
+                        {
+                            cmd.CommandText = "pragma journal_mode=wal;";
+                            cmd.CommandText += "pragma read_uncommitted=1;";
+                            cmd.ExecuteNonQuery();
+                        }
+                        return result;
+                    }
+                case DbTypes.MySql:
+                    return null;
+            }
+            return null;
         }
         public void Dispose()
         {
             if (_pooledObjectPolicy != null)
             {
-                var objects = _pooledObjectPolicy._createdObjects;
+                DbConnection[] objects = _pooledObjectPolicy._createdObjects;
                 for (int i = 0; i < objects.Length; ++i)
                 {
                     if (objects[i] != null)
@@ -107,8 +146,8 @@ namespace Easy
                 }
             }
         }
-        readonly Func<DbConnection> _funcCreateConnection;
-        readonly PooledObjectPolicy _pooledObjectPolicy;
-        readonly ObjectPool<DbConnection> _inner;
+
+        private readonly PooledObjectPolicy _pooledObjectPolicy;
+        private readonly ObjectPool<DbConnection> _inner;
     }
 }
