@@ -6,23 +6,13 @@ using System;
 using System.Data.Common;
 using ZKEACMS.Options;
 
-namespace ZKEACMS
+namespace ZKEACMS.DbConnectionPool
 {
     /// <summary>
     /// 仅仅对单独一个数据库提供的连接池，对多个数据库的情形不支持
     /// </summary>
-    public class SimpleDbConnectionPool : IDisposable
+    public class SimpleDbConnectionPool : IDisposable, IDbConnectionPool
     {
-        public interface IDatabaseConfiguring
-        {
-            void OnConfiguring(DbContextOptionsBuilder optionsBuilder, DbConnection dbConnectionForReusing);
-        }
-        public class Options
-        {
-            public Options() { MaximumRetained = Environment.ProcessorCount * 2; }
-            public int MaximumRetained { get; set; }
-        }
-
         private class PooledObjectPolicy : PooledObjectPolicy<DbConnection>
         {
             internal PooledObjectPolicy(int maximumRetained, Func<DbConnection> funcCreateConnection)
@@ -53,48 +43,9 @@ namespace ZKEACMS
                 return true;
             }
         }
-        public class TransientObjectHolder : IDisposable
-        {
-            private readonly SimpleDbConnectionPool _pool;
-            private DbConnection _object;
-            private readonly bool _objectShouldReturnToPool;
 
-            public TransientObjectHolder(SimpleDbConnectionPool pool)
-            {
-                _pool = pool;
-                _object = _pool._inner?.Get();
-                if (_object != null)
-                {
-                    _objectShouldReturnToPool = true;
-                }
-                else
-                {
-                    _object = _pool.CreateDbConnection();
-                    _objectShouldReturnToPool = false;
-                }
-                if (_object != null && _object.State == System.Data.ConnectionState.Closed)
-                {//预先打开数据库，为的是确保在使用EF的场合（比如ASP.Net）不会频繁打开/关闭数据库而致使性能下降
-                    _object.Open();
-                }
-            }
-            public void Dispose()
-            {
-                if (_object != null)
-                {
-                    if (_objectShouldReturnToPool)
-                    {
-                        _pool._inner.Return(_object);
-                    }
-                    else
-                    {
-                        _object.Dispose();
-                    }
+        private readonly PooledObjectPolicy _pooledObjectPolicy;
 
-                    _object = null;
-                }
-            }
-            public DbConnection Object => _object;
-        }
         public SimpleDbConnectionPool(Options options, DatabaseOption databaseOption)
         {
             DatabaseOption = databaseOption;
@@ -102,9 +53,12 @@ namespace ZKEACMS
             if (maximumRetained > 0)
             {
                 _pooledObjectPolicy = new PooledObjectPolicy(maximumRetained, CreateDbConnection);
-                _inner = new DefaultObjectPool<DbConnection>(_pooledObjectPolicy, maximumRetained);
+                ConnectionPool = new DefaultObjectPool<DbConnection>(_pooledObjectPolicy, maximumRetained);
             }
         }
+
+        public ObjectPool<DbConnection> ConnectionPool { get; set; }
+
         public DatabaseOption DatabaseOption { get; set; }
         public virtual DbConnection CreateDbConnection()
         {
@@ -147,7 +101,5 @@ namespace ZKEACMS
             }
         }
 
-        private readonly PooledObjectPolicy _pooledObjectPolicy;
-        private readonly ObjectPool<DbConnection> _inner;
     }
 }
