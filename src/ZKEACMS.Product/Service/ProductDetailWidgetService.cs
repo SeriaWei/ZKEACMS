@@ -27,6 +27,10 @@ namespace ZKEACMS.Product.Service
             if (productId != 0)
             {
                 product = _productService.Get(productId);
+                if (product !=null && product.Url.IsNotNullAndWhiteSpace() && actionContext.RouteData.GetProductUrl().IsNullOrWhiteSpace())
+                {
+                    actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{product.Url}.html", true);
+                }
             }
             if (product == null && ApplicationContext.IsAuthenticated)
             {
@@ -41,10 +45,6 @@ namespace ZKEACMS.Product.Service
             }
             if (product != null)
             {
-                if (product.Url.IsNotNullAndWhiteSpace() && actionContext.RouteData.GetProductUrl().IsNullOrWhiteSpace())
-                {
-                    actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{product.Url}.html", true);
-                }
                 var layout = actionContext.HttpContext.GetLayout();
                 if (layout != null && layout.Page != null)
                 {

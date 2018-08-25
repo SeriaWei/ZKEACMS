@@ -37,6 +37,10 @@ namespace ZKEACMS.Article.Service
                     _articleService.IncreaseCount(viewModel.Current);
                     viewModel.Prev = _articleService.GetPrev(viewModel.Current);
                     viewModel.Next = _articleService.GetNext(viewModel.Current);
+                    if (viewModel.Current.Url.IsNotNullAndWhiteSpace() && actionContext.RouteData.GetArticleUrl().IsNullOrWhiteSpace())
+                    {
+                        actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{viewModel.Current.Url}.html", true);
+                    }
                 }
             }
             if (viewModel.Current == null && ApplicationContext.IsAuthenticated)
@@ -52,10 +56,6 @@ namespace ZKEACMS.Article.Service
             }
             else
             {
-                if (viewModel.Current.Url.IsNotNullAndWhiteSpace() && actionContext.RouteData.GetArticleUrl().IsNullOrWhiteSpace())
-                {
-                    actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{viewModel.Current.Url}.html", true);
-                }
                 var layout = actionContext.HttpContext.GetLayout();
                 if (layout != null && layout.Page != null)
                 {
