@@ -106,7 +106,7 @@ namespace ZKEACMS
             }
         }
         public DatabaseOption DatabaseOption { get; set; }
-        public DbConnection CreateDbConnection()
+        public virtual DbConnection CreateDbConnection()
         {
             switch (DatabaseOption.DbType)
             {
