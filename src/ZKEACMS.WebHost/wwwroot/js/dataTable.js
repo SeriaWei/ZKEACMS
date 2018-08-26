@@ -148,7 +148,7 @@
                     }
 
                 }
-            }           
+            }
         }).on("click", ".range-search .input-group-addon", function () {
             $(this).closest(".range-search").find("input.max").toggleClass("show");
         }).on("click", ".reset-search", function () {
@@ -158,8 +158,12 @@
         }).on("click", ".glyphicon.glyphicon-remove", function () {
             var link = $(this);
             Easy.ShowMessageBox("提示", "确认删除该数据吗？", function () {
-                $.post(link.attr("href"), function () {
-                    link.closest("table.dataTable").DataTable().draw();
+                $.post(link.attr("href"), function (data) {
+                    if (data.message) {
+                        Easy.ShowMessageBox("提示", data.message);
+                    } else {
+                        link.closest("table.dataTable").DataTable().draw();
+                    }                    
                 });
             }, true);
             return false;
