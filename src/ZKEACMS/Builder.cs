@@ -165,16 +165,8 @@ namespace ZKEACMS
             services.AddSingleton(new DbConnectionPool.Options() { MaximumRetained = 128 });
             //提供在Request期间租、还DbConnection的支持
             services.AddScoped<IConnectionHolder, TransientConnectionHolder>();
-            services.AddScoped<DbContextOptions<CMSDbContext>>(sp =>
-            {
-                //租一个DbConnection（将在Request完成后还回，因为其Lifetime为Scoped类型）
-                IConnectionHolder holder = sp.GetService<IConnectionHolder>();
-                IDatabaseConfiguring configure = sp.GetService<IDatabaseConfiguring>();
-                DbContextOptionsBuilder<CMSDbContext> optBuilder = new DbContextOptionsBuilder<CMSDbContext>();
-                configure.OnConfiguring(optBuilder, holder.DbConnection);
-                return optBuilder.Options;
-            });
-            services.AddDbContext<CMSDbContext>(ServiceLifetime.Scoped);
+            services.AddDbContextOptions<CMSDbContext>();
+            services.AddDbContext<CMSDbContext>();       
             services.AddScoped<EasyDbContext>((provider) => provider.GetService<CMSDbContext>());
             services.AddSingleton(configuration.GetSection("Database").Get<DatabaseOption>());
             #endregion

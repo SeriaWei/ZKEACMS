@@ -5,9 +5,11 @@
  */
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using ZKEACMS.DbConnectionPool;
 using ZKEACMS.Sitemap.Service;
 using ZKEACMS.WidgetTemplate;
 
@@ -60,6 +62,7 @@ namespace ZKEACMS.Sitemap
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
+            serviceCollection.AddDbContextOptions<SitemapDbContext>();
             serviceCollection.AddDbContext<SitemapDbContext>();
             serviceCollection.AddTransient<ISitemapService, SitemapService>();
             serviceCollection.AddTransient<ISiteUrlProvider, PageSiteUrlProvider>();
