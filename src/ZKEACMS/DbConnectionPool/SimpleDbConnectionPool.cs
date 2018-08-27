@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.ObjectPool;
 using System;
 using System.Data.Common;
+using System.Data.SqlClient;
 using ZKEACMS.Options;
 
 namespace ZKEACMS.DbConnectionPool
@@ -65,7 +66,6 @@ namespace ZKEACMS.DbConnectionPool
             switch (DatabaseOption.DbType)
             {
                 case DbTypes.MsSql:
-                    return null;
                 case DbTypes.MsSqlEarly:
                     return null;
                 case DbTypes.Sqlite:
