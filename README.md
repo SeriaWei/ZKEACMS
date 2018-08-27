@@ -132,9 +132,8 @@ Using LESS to create a theme, by modifying the variables, you can easily create 
 ![关注微信](http://www.zkea.net/UpLoad/Images/20160318/263801921375bdf2.jpg)
 
 ## QQ群
-纸壳CMS群1（493586356）满
-
-纸壳CMS群2（869382969）
+- 纸壳CMS群1（493586356）满
+- 纸壳CMS群2（869382969）
 
 ## License
 [许可协议](http://www.zkea.net/licenses)
