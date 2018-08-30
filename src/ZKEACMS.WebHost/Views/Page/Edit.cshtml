@@ -92,7 +92,8 @@
             var url = $("#Url");
             url.data("url", url.val().substring(0, url.val().lastIndexOf("/")+1));
         });
-        $("#PageUrl").blur(function () {
+        
+        $(document).on("keyup", "#PageUrl", function () {
             var url = $("#Url");
             var parentUrl = url.data("url");
             if (!parentUrl) {
@@ -103,8 +104,10 @@
             for (var i = 0; i < replaceValue.length; i++) {
                 thisUrl = thisUrl.replaceAll(replaceValue[i], "-");
             }
+            $(this).val(thisUrl);
             url.val(parentUrl + thisUrl);
         });
+        $("form").on("submit", function () { $("#PageUrl").trigger("keyup"); });
         var retainLatest = true;
         $(document).on("click", ".revert", function () {
             var id = $(this).data("id");

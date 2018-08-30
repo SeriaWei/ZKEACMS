@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1.300-sdk AS builder
+FROM microsoft/dotnet:2.1.301-sdk AS builder
 WORKDIR /build
 # Copy all files
 COPY . ./
@@ -11,11 +11,11 @@ RUN publish-zkeacms
 
 # Copy Database
 RUN mkdir /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/App_Data
-RUN cp -f /build/DataBase/SQLite/Database-3.0.sqlite /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/App_Data/Database.sqlite
+RUN cp -f /build/DataBase/SQLite/Database-3.1.sqlite /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/App_Data/Database.sqlite
 RUN cp -f /build/DataBase/SQLite/appsettings.json /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/appsettings.json
 
 # Build runtime image
-FROM microsoft/dotnet:2.1-aspnetcore-runtime
+FROM microsoft/dotnet:2.1.1-aspnetcore-runtime
 WORKDIR /zkeacms
 COPY --from=builder /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput .
 EXPOSE 80

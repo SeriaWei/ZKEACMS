@@ -19,5 +19,9 @@ namespace ZKEACMS.Extend
         {
             return descriptor.AddClass(StringKeys.SelectMediaClass).AddProperty("data-url", Urls.SelectMedia).AddProperty("placeholder", "选择文件");
         }
+        public static TextBoxDescriptor UrlPart(this TextBoxDescriptor descriptor)
+        {
+            return descriptor.AddClass(StringKeys.UrlPart).SetTemplate("UrlPart");
+        }
     }
 }

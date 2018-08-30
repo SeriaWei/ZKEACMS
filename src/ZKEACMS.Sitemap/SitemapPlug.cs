@@ -24,6 +24,13 @@ namespace ZKEACMS.Sitemap
                 Defaults = new { controller = "Sitemap", action = "Index" },
                 Priority = 11
             };
+            yield return new RouteDescriptor
+            {
+                RouteName = "Robots",
+                Template = "robots.txt",
+                Defaults = new { controller = "Robots", action = "Index" },
+                Priority = 11
+            };
         }
 
         public override IEnumerable<AdminMenu> AdminMenu()

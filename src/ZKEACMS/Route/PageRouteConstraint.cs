@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using ZKEACMS.Route;
+using System.Linq;
 
 namespace ZKEACMS
 {
@@ -24,7 +25,7 @@ namespace ZKEACMS
                 string path = "/" + value.ToString();
 
                 var routeDataProviders = httpContext.RequestServices.GetService<IEnumerable<IRouteDataProvider>>();
-                foreach (var item in routeDataProviders)
+                foreach (var item in routeDataProviders.OrderBy(m => m.Order))
                 {
                     path = item.ExtractVirtualPath(path, values);
                 }

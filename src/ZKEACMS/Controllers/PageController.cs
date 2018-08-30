@@ -87,6 +87,7 @@ namespace ZKEACMS.Controllers
             {
                 page.Url += "/";
             }
+            ViewBag.Page = page;
             return View(page);
 
         }

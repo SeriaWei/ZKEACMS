@@ -68,7 +68,15 @@ namespace Easy.Mvc.Controllers
         }
         public virtual IActionResult Edit(TPrimarykey Id)
         {
+            if (Id == null)
+            {
+                return NotFound();
+            }
             TEntity entity = Service.Get(Id);
+            if (entity == null)
+            {
+                return NotFound();
+            }
             return View(entity);
         }
 

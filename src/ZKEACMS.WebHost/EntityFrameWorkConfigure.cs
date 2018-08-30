@@ -4,6 +4,7 @@
  * http://www.zkea.net/licenses
  */
 
+using System.Data.Common;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -13,37 +14,49 @@ using ZKEACMS.Options;
 
 namespace ZKEACMS.WebHost
 {
-    public class EntityFrameWorkConfigure : IOnDatabaseConfiguring
+    public class EntityFrameWorkConfigure: SimpleDbConnectionPool.IDatabaseConfiguring
     {
-        private readonly IOptionsSnapshot<DatabaseOption> _dataBaseOption;
+        private readonly DatabaseOption _dataBaseOption;
         private readonly ILoggerFactory _loggerFactory;
-        public EntityFrameWorkConfigure(IOptionsSnapshot<DatabaseOption> dataBaseOption, ILoggerFactory loggerFactory)
+        public EntityFrameWorkConfigure(DatabaseOption dataBaseOption, ILoggerFactory loggerFactory)
         {
             _dataBaseOption = dataBaseOption;
             _loggerFactory = loggerFactory;
         }
-        public void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public void OnConfiguring(DbContextOptionsBuilder optionsBuilder, DbConnection dbConnectionForReusing)
         {
-            switch (_dataBaseOption.Value.DbType)
+            switch (_dataBaseOption.DbType)
             {
                 case Easy.DbTypes.MsSql:
                     {
-                        optionsBuilder.UseSqlServer(_dataBaseOption.Value.ConnectionString);
+                        if (dbConnectionForReusing != null)
+                            optionsBuilder.UseSqlServer(dbConnectionForReusing);
+                        else
+                            optionsBuilder.UseSqlServer(_dataBaseOption.ConnectionString);
                         break;
                     }
                 case Easy.DbTypes.MsSqlEarly:
                     {
-                        optionsBuilder.UseSqlServer(_dataBaseOption.Value.ConnectionString, option => option.UseRowNumberForPaging());
+                        if (dbConnectionForReusing != null)
+                            optionsBuilder.UseSqlServer(dbConnectionForReusing);
+                        else
+                            optionsBuilder.UseSqlServer(_dataBaseOption.ConnectionString, option => option.UseRowNumberForPaging());
                         break;
                     }
                 case Easy.DbTypes.Sqlite:
                     {
-                        optionsBuilder.UseSqlite(_dataBaseOption.Value.ConnectionString);
+                        if (dbConnectionForReusing != null)
+                            optionsBuilder.UseSqlite(dbConnectionForReusing);
+                        else
+                            optionsBuilder.UseSqlite(_dataBaseOption.ConnectionString);
                         break;
                     }
                 case Easy.DbTypes.MySql:
                     {
-                        optionsBuilder.UseMySql(_dataBaseOption.Value.ConnectionString);
+                        if (dbConnectionForReusing != null)
+                            optionsBuilder.UseMySql(dbConnectionForReusing);
+                        else
+                            optionsBuilder.UseMySql(_dataBaseOption.ConnectionString);
                         break;
                     }
             }

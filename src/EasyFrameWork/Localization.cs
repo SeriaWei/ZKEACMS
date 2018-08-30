@@ -4,7 +4,7 @@ using Easy.Modules.MutiLanguage;
 using System.Globalization;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
-using CacheManager.Core;
+using Easy.Cache;
 using Microsoft.Extensions.Options;
 using Easy.Options;
 using Easy.Extend;

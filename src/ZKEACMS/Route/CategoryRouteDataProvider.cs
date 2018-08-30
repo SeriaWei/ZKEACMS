@@ -14,6 +14,7 @@ namespace ZKEACMS.Route
 {
     public class CategoryRouteDataProvider : IRouteDataProvider
     {
+        public int Order { get { return 1; } }
         public string ExtractVirtualPath(string path, RouteValueDictionary values)
         {
             if (CustomRegex.CategoryIdRegex.IsMatch(path))

@@ -1,4 +1,7 @@
-﻿/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+﻿/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using System;
 using System.Collections.Generic;
 
@@ -136,10 +139,26 @@ namespace ZKEACMS
                     },
                     new AdminMenu
                     {
-                        Title = "系统设置",
+                        Title = "邮件设置",
+                        Icon = "glyphicon-envelope",
+                        Url = "~/admin/SmtpSetting/Config",
+                        Order = 5,
+                        PermissionKey = PermissionKeys.SMTPSetting
+                    },
+                    new AdminMenu
+                    {
+                        Title = "Robots.txt",
+                        Icon = "glyphicon-magnet",
+                        Url = "~/admin/RobotsSetting/Config",
+                        Order = 6,
+                        PermissionKey = PermissionKeys.RobotsSetting
+                    },
+                    new AdminMenu
+                    {
+                        Title = "其它设置",
                         Icon = "glyphicon-cog",
                         Url = "~/admin/ApplicationSetting",
-                        Order = 5,
+                        Order = 7,
                         PermissionKey = PermissionKeys.ViewApplicationSetting
                     },
                     new AdminMenu
@@ -147,7 +166,7 @@ namespace ZKEACMS
                         Title = "翻译",
                         Icon = "glyphicon-cog",
                         Url = "~/admin/Language",
-                        Order = 6,
+                        Order = 8,
                         PermissionKey = PermissionKeys.ManageLanguage
                     }
                 }

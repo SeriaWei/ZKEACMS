@@ -10,5 +10,6 @@ namespace ZKEACMS.Article.Service
         void IncreaseCount(ArticleEntity article);
         ArticleEntity GetPrev(ArticleEntity article);
         ArticleEntity GetNext(ArticleEntity article);
+        ArticleEntity GetByUrl(string url);
     }
 }

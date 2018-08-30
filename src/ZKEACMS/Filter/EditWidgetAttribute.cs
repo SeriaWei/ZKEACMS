@@ -20,11 +20,15 @@ namespace ZKEACMS.Filter
                 NoCache = true,
                 NoStore = true
             };
-            string pageId = filterContext.RouteData.Values["id"].ToString();
+            var pageId = filterContext.RouteData.Values["id"];
+            if (pageId == null)
+            {
+                return null;
+            }
 
             using (var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>())
             {
-                return pageService.Get(pageId);
+                return pageService.Get(pageId.ToString());
             }
         }
 

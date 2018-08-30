@@ -27,12 +27,6 @@ namespace ZKEACMS.Filter
         public virtual PageEntity GetPage(ActionExecutedContext filterContext)
         {
             string path = filterContext.RouteData.GetPath();
-            if (path.EndsWith("/") && path.Length > 1)
-            {
-                path = path.Substring(0, path.Length - 1);
-                filterContext.Result = new RedirectResult(path);
-                return null;
-            }
             bool isPreView = IsPreView(filterContext);
             using (var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>())
             {
@@ -102,7 +96,7 @@ namespace ZKEACMS.Filter
                 layout.CurrentTheme = themeService.GetCurrentTheme();
                 layout.ZoneWidgets = new ZoneWidgetCollection();
                 filterContext.HttpContext.TrySetLayout(layout);
-                widgetService.GetAllByPage(page, GetPageViewMode() == PageViewMode.Publish && !IsPreView(filterContext)).Each(widget =>
+                widgetService.GetAllByPage(page).Each(widget =>
                     {
                         if (widget != null)
                         {
@@ -110,16 +104,13 @@ namespace ZKEACMS.Filter
                             WidgetViewModelPart part = partDriver.Display(widget, filterContext);
                             if (part != null)
                             {
-                                lock (layout.ZoneWidgets)
+                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
                                 {
-                                    if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
-                                    {
-                                        layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
-                                    }
-                                    else
-                                    {
-                                        layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
-                                    }
+                                    layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
+                                }
+                                else
+                                {
+                                    layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
                                 }
                             }
                             partDriver.Dispose();
@@ -144,18 +135,16 @@ namespace ZKEACMS.Filter
                             var zone = layout.Zones.FirstOrDefault(z => z.ZoneName == rules.First(m => m.RuleID == widget.RuleID).ZoneName);
                             if (part != null && zone != null)
                             {
-                                lock (layout.ZoneWidgets)
+                                part.Widget.ZoneID = zone.HeadingCode;
+                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
                                 {
-                                    part.Widget.ZoneID = zone.HeadingCode;
-                                    if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
-                                    {
-                                        layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
-                                    }
-                                    else
-                                    {
-                                        layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
-                                    }
+                                    layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
                                 }
+                                else
+                                {
+                                    layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
+                                }
+
                             }
                             partDriver.Dispose();
                         }

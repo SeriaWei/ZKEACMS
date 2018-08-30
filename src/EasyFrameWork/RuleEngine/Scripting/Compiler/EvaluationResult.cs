@@ -40,7 +40,7 @@ namespace Easy.RuleEngine.Scripting.Compiler
         public Error ErrorValue { get { return (Error)Value; } }
         public bool BoolValue { get { return (bool)Value; } }
         public int Int32Value { get { return (int)Value; } }
-        public decimal MoneyValue { get { return (decimal)Value; } }
+        public decimal MoneyValue { get { return Convert.ToDecimal(Value); } }
         public DateTime DateTimeValue { get { return (DateTime)Value; } }
         public string StringValue { get { return (string)Value; } }
 

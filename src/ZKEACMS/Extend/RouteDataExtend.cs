@@ -9,11 +9,17 @@ namespace ZKEACMS
     {
         public static string GetPath(this RouteData roteData)
         {
+            const string defaultPath = "/";
+            string path = defaultPath;
             if (roteData.Values.ContainsKey(StringKeys.RouteValue_Path) && roteData.Values[StringKeys.RouteValue_Path] != null)
             {
-                return roteData.Values[StringKeys.RouteValue_Path].ToString();
+                path = roteData.Values[StringKeys.RouteValue_Path].ToString();
+                if (path.EndsWith("/") && path.Length > 1)
+                {
+                    return path.Substring(0, path.Length - 1);
+                }
             }
-            return "/";
+            return path;
         }
         public static int GetPost(this RouteData roteData)
         {
@@ -41,6 +47,33 @@ namespace ZKEACMS
                 int.TryParse(roteData.Values[StringKeys.RouteValue_Page].ToString(), out page);
             }
             return page;
+        }
+
+        public static string GetArticleUrl(this RouteData roteData)
+        {
+            if (roteData.Values.ContainsKey(StringKeys.RouteVale_ArticleUrl))
+            {
+                return roteData.Values[StringKeys.RouteVale_ArticleUrl].ToString();
+            }
+            return null;
+        }        
+
+        public static string GetProductUrl(this RouteData roteData)
+        {
+            if (roteData.Values.ContainsKey(StringKeys.RouteVale_ProductUrl))
+            {
+                return roteData.Values[StringKeys.RouteVale_ProductUrl].ToString();
+            }
+            return null;
+        }
+
+        public static string GetCategoryUrl(this RouteData roteData)
+        {
+            if (roteData.Values.ContainsKey(StringKeys.RouteVale_CategoryUrl))
+            {
+                return roteData.Values[StringKeys.RouteVale_CategoryUrl].ToString();
+            }
+            return null;
         }
     }
 }

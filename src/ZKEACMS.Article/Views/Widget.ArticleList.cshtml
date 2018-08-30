@@ -13,13 +13,13 @@
             {
                 <li class="media">
                     <div class="media-left">
-                        <a href="@Url.PostUrl(Model.Widget.DetailPageUrl,item.ID.ToString())">
+                        <a target="_blank" href="@Url.PostUrl(Model.Widget.DetailPageUrl,item)">
                             <img class="media-object" src="@Url.ImageContent(item.ImageThumbUrl)" alt="@item.Title">
                         </a>
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading">
-                            <a href="@Url.PostUrl(Model.Widget.DetailPageUrl,item.ID.ToString())">
+                            <a target="_blank" href="@Url.PostUrl(Model.Widget.DetailPageUrl,item)">
                                 @item.Title
                             </a>
                         </h4>

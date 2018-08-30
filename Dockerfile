@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1.300-sdk AS builder
+FROM microsoft/dotnet:2.1.301-sdk AS builder
 WORKDIR /build
 # Copy all files
 COPY . ./
@@ -10,7 +10,7 @@ ENV PATH "$PATH:/root/.dotnet/tools"
 RUN publish-zkeacms
 
 # Build runtime image
-FROM microsoft/dotnet:2.1-aspnetcore-runtime
+FROM microsoft/dotnet:2.1.1-aspnetcore-runtime
 WORKDIR /zkeacms
 COPY --from=builder /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput .
 EXPOSE 80

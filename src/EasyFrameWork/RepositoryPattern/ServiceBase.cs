@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Easy.Extend;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
 
 namespace Easy.RepositoryPattern
 {
@@ -36,18 +37,25 @@ namespace Easy.RepositoryPattern
 
         public void BeginTransaction(Action action)
         {
-            using (var transaction = DbContext.Database.BeginTransaction())
+            if (DbContext.Database.CurrentTransaction == null)
             {
-                try
+                using (var transaction = DbContext.Database.BeginTransaction())
                 {
-                    action.Invoke();
-                    transaction.Commit();
+                    try
+                    {
+                        action.Invoke();
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw ex;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    throw ex;
-                }
+            }
+            else
+            {
+                action.Invoke();
             }
         }
         protected ServiceResult<T> Validate(T item)
@@ -106,7 +114,7 @@ namespace Easy.RepositoryPattern
                 SaveChanges();
             }
             return result;
-        }
+        }   
         public virtual ServiceResult<T> AddRange(params T[] items)
         {
             ServiceResult<T> result = new ServiceResult<T>();
@@ -139,6 +147,7 @@ namespace Easy.RepositoryPattern
             }
             return result;
         }
+       
         public virtual IQueryable<T> Get()
         {
             return CurrentDbSet;
@@ -147,9 +156,17 @@ namespace Easy.RepositoryPattern
         {
             return Get().Single(filter);
         }
+        public virtual async Task<T> GetSingleAsync(Expression<Func<T, bool>> filter)
+        {
+            return await Get().SingleAsync(filter);
+        }
         public virtual IList<T> Get(Expression<Func<T, bool>> filter)
         {
             return Get().Where(filter).ToList();
+        }
+        public virtual async Task<IList<T>> GetAsync(Expression<Func<T, bool>> filter)
+        {
+            return await Get().Where(filter).ToListAsync();
         }
         public virtual IList<T> Get(Expression<Func<T, bool>> filter, Pagination pagination)
         {
@@ -176,9 +193,38 @@ namespace Easy.RepositoryPattern
             }
             return result.Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize).ToList();
         }
+        public virtual async Task<IList<T>> GetAsync(Expression<Func<T, bool>> filter, Pagination pagination)
+        {
+            pagination.RecordCount = await CountAsync(filter);
+            IQueryable<T> result;
+            if (filter != null)
+            {
+                result = Get().Where(filter);
+            }
+            else
+            {
+                result = Get();
+            }
+            if (pagination.OrderBy != null || pagination.OrderByDescending != null)
+            {
+                if (pagination.OrderBy != null)
+                {
+                    result = result.OrderBy(pagination.OrderBy);
+                }
+                else
+                {
+                    result = result.OrderByDescending(pagination.OrderByDescending);
+                }
+            }
+            return await result.Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize).ToListAsync();
+        }
         public virtual T Get(params object[] primaryKey)
         {
             return CurrentDbSet.Find(primaryKey);
+        }
+        public virtual async Task<T> GetAsync(params object[] primaryKey)
+        {
+            return await CurrentDbSet.FindAsync(primaryKey);
         }
         public virtual int Count(Expression<Func<T, bool>> filter)
         {
@@ -187,6 +233,14 @@ namespace Easy.RepositoryPattern
                 return Get().Where(filter).Count();
             }
             return Get().Count();
+        }
+        public virtual async Task<int> CountAsync(Expression<Func<T, bool>> filter)
+        {
+            if (filter != null)
+            {
+                return await Get().Where(filter).CountAsync();
+            }
+            return await Get().CountAsync();
         }
         public virtual ServiceResult<T> Update(T item)
         {

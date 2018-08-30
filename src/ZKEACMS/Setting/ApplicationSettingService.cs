@@ -6,13 +6,16 @@ using Easy.Extend;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using ZKEACMS.DataArchived;
 
 namespace ZKEACMS.Setting
 {
     public class ApplicationSettingService : ServiceBase<ApplicationSetting>, IApplicationSettingService
     {
-        public ApplicationSettingService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
+        private readonly IDataArchivedService _dataArchivedService;
+        public ApplicationSettingService(IApplicationContext applicationContext, IDataArchivedService dataArchivedService, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
+            _dataArchivedService = dataArchivedService;
         }
 
         public override DbSet<ApplicationSetting> CurrentDbSet => (DbContext as CMSDbContext).ApplicationSetting;
@@ -46,40 +49,28 @@ namespace ZKEACMS.Setting
             return setting.Value;
         }
 
-        public T Get<T>() where T : new()
+        #region Serialize Settings
+
+        public T Get<T>() where T : class,new()
         {
+            
             return Get<T>(typeof(T).FullName);
         }
 
-        public T Get<T>(string key) where T : new()
+        public T Get<T>(string key) where T : class, new()
         {
-            var setting = Get(key);
-            if (setting == null)
-            {
-                setting = new ApplicationSetting { SettingKey = key, Value = JsonConvert.SerializeObject(new T()) };
-                Add(setting);
-            }
-            return JsonConvert.DeserializeObject<T>(setting.Value);
+            return _dataArchivedService.Get<T>(key, () => new T());            
         }
 
-        public void Save<T>(T setting)
+        public void Save<T>(T setting) where T : class, new()
         {
             Save<T>(typeof(T).FullName, setting);
         }
 
-        public void Save<T>(string key, T setting)
+        public void Save<T>(string key, T setting) where T : class, new()
         {
-            var settingEntry = Get(key);
-            if (settingEntry == null)
-            {
-                settingEntry = new ApplicationSetting { SettingKey = key, Value = JsonConvert.SerializeObject(setting) };
-                Add(settingEntry);
-            }
-            else
-            {
-                settingEntry.Value = JsonConvert.SerializeObject(setting);
-                Update(settingEntry);
-            }
+            _dataArchivedService.Archive<T>(key, setting);
         }
+        #endregion
     }
 }

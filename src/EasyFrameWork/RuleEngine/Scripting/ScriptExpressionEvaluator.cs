@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CacheManager.Core;
+using Easy.Cache;
 using Easy.RuleEngine.Scripting.Ast;
 using Easy.RuleEngine.Scripting.Compiler;
 

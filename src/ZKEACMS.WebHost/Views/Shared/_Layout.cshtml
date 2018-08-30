@@ -46,16 +46,8 @@
     }
 </head>
 <body class="front">
-    @if (ViewContext.HttpContext.User.Identity.IsAuthenticated)
+    @if (ViewContext.HttpContext.User.Identity.IsAuthenticated && (ApplicationContext as CMSApplicationContext).PageMode != ZKEACMS.Filter.PageViewMode.ViewOnly)
     {
-        <style>
-            .hover-text span {
-                display: none;
-            }
-            .hover-text:hover span {
-                display: inline;
-            }
-        </style>
         <div class="preview-toolbar hover-text">
             <div class="btn-group">
                 <a class="btn btn-primary sort-handle">
@@ -74,6 +66,10 @@
                             <span>预览发布版本</span>
                         </a>
                     }
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Page",new { PageId=Model.Page.ID })">
+                        <i class="glyphicon glyphicon-th-list"></i>
+                        <span>页面概览</span>
+                    </a>
                     <a class="btn btn-primary" href="@Url.Action("PublishPage", "Page", new { Model.Page.ID, ReturnUrl = Model.Page.Url})">
                         <i class="glyphicon glyphicon-open"></i>
                         <span>发布</span>
@@ -111,6 +107,10 @@
                             </span>
                         </a>
                     }
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Page",new { PageId = Model.PreViewPage.ID })">
+                        <i class="glyphicon glyphicon-th-list"></i>
+                        <span>页面概览</span>
+                    </a>
                     <a class="btn btn-primary" href="@Url.Action("Logout", "Account", new { returnurl = ViewContext.HttpContext.Request.Path.Value })">
                         <i class="glyphicon glyphicon-off"></i>
                         <span>退出</span>

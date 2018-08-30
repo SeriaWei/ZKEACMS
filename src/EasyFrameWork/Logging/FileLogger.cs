@@ -34,6 +34,15 @@ namespace Easy.Logging
                 writer.WriteLine(string.Format(TitleTemplate, DateTime.Now.ToString("G")) + msg);
                 if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Request != null)
                 {
+                    if (_httpContextAccessor.HttpContext.Request.Headers != null)
+                    {
+                        writer.WriteLine("Headers:");
+                        foreach (var item in _httpContextAccessor.HttpContext.Request.Headers)
+                        {
+                            writer.WriteLine($"{item.Key}:{item.Value}");
+                        }
+                    }
+                    
                     writer.WriteLine(_httpContextAccessor.HttpContext.Request.GetAbsoluteUrl());
                 }
                 writer.WriteLine(Split);

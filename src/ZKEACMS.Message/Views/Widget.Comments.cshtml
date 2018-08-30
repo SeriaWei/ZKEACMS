@@ -13,7 +13,9 @@
             <input type="hidden" name="ReplyTo" id="ReplyTo" />
             <input type="hidden" name="Title" id="Title" />
             <div class="avatar">
-                <img src="@Url.PathContent(photoUrl)" />
+                <a href="@Url.Action("Index","Account")">
+                    <img src="@Url.PathContent(photoUrl)" />
+                </a>                
             </div>
             <div class="comment">
                 <div class="form-group">

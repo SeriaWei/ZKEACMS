@@ -5,22 +5,14 @@
     <div class="row">
         @foreach (var item in Model.Products)
         {
-            string url = item.Url;
-            if (item.Url.IsNotNullAndWhiteSpace() || Model.DetailPageUrl.IsNotNullAndWhiteSpace())
-            {
-                if (url.IsNullOrWhiteSpace() && Model.DetailPageUrl.IsNotNullAndWhiteSpace())
-                {
-                    url = Url.PostUrl(Model.DetailPageUrl, item.ID);
-                }
-            }
             <div class="@Model.Columns">
                 <div class="thumbnail">
-                    <a href="@Url.PathContent(url)">
+                    <a target="_blank" href="@Url.PostUrl(Model.DetailPageUrl, item)">
                         <img alt="@item.Title" title="@item.Title" src="@Url.ImageContent(item.ImageThumbUrl)" />
                     </a>
                     <div class="caption">
                         <h4>
-                            <a href="@Url.PathContent(url)">
+                            <a target="_blank" href="@Url.PostUrl(Model.DetailPageUrl, item)">
                                 @item.Title
                             </a>
                         </h4>
@@ -50,7 +42,6 @@
                 </div>
             </div>
         }
-        <div class="clearfix"></div>
     </div>
 
     @if (Model.IsPageable)
