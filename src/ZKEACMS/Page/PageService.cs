@@ -49,12 +49,7 @@ namespace ZKEACMS.Page
         {
             get { return (DbContext as CMSDbContext).Page; }
         }
-
-        public override IQueryable<PageEntity> Get()
-        {
-            return CurrentDbSet.AsNoTracking();
-        }
-
+        
         public override ServiceResult<PageEntity> Add(PageEntity item)
         {
             if (!item.IsPublishedPage && Count(m => m.Url == item.Url && m.IsPublishedPage == false) > 0)
