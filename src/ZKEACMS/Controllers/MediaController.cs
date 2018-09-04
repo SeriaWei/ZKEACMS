@@ -12,11 +12,6 @@ using Easy.Net;
 using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.Primitives;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -204,21 +199,21 @@ namespace ZKEACMS.Controllers
             }
             Service.Remove(mediaId);
         }
-        public IActionResult Thumbnail(string id)
-        {
-            const int size = 220;
-            using (var input = System.IO.File.OpenRead(Request.MapPath(Service.Get(id).Url)))
-            {
-                MemoryStream ms = new MemoryStream();
-                using (var image = Image.Load<Rgba32>(input))
-                {
-                    image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(size, size), Mode = ResizeMode.Max }));
-                    image.Save(ms, new JpegEncoder());
-                    ms.Position = 0;
-                    return File(ms, "image/jpeg");
-                }
-            }
-        }
+        //public IActionResult Thumbnail(string id)
+        //{
+        //    const int size = 220;
+        //    using (var input = System.IO.File.OpenRead(Request.MapPath(Service.Get(id).Url)))
+        //    {
+        //        MemoryStream ms = new MemoryStream();
+        //        using (var image = Image.Load<Rgba32>(input))
+        //        {
+        //            image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(size, size), Mode = ResizeMode.Max }));
+        //            image.Save(ms, new JpegEncoder());
+        //            ms.Position = 0;
+        //            return File(ms, "image/jpeg");
+        //        }
+        //    }
+        //}
 
         [HttpPost]
         public IActionResult DownLoadExternalImage(string[] images)
