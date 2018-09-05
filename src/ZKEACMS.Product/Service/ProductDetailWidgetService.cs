@@ -36,7 +36,7 @@ namespace ZKEACMS.Product.Service
             {
                 foreach (var item in _productService.Get().AsQueryable().OrderByDescending(m => m.ID).Take(1))
                 {
-                    product = item;
+                    product = _productService.Get(item.ID);
                 }
             }
             if (product == null)
