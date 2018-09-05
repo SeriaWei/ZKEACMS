@@ -47,7 +47,7 @@ namespace Easy.Mvc.Controllers
                     query.ValueMin = Easy.Reflection.ClassAction.ValueConvert(p, item.Search.ValueMin);
                     query.ValueMax = Easy.Reflection.ClassAction.ValueConvert(p, item.Search.ValueMax);
 
-                    if(query.ValueMax!=null && query.ValueMax is DateTime)
+                    if (query.ValueMax != null && query.ValueMax is DateTime)
                     {
                         query.ValueMax = ((DateTime)query.ValueMax).AddDays(1).AddMilliseconds(-1);
                     }
@@ -83,6 +83,24 @@ namespace Easy.Mvc.Controllers
                 return false;
             }
             return Order[0].Dir.Equals("desc", StringComparison.OrdinalIgnoreCase);
+        }
+        public void AppendCondition(string property, string value, Query.Operators operators = Query.Operators.Equal)
+        {
+            property = property.FirstCharToLowerCase();
+            foreach (var item in Columns)
+            {
+                if (item.Data == property)
+                {
+                    item.SearchAble = true;
+                    item.Search = new SearchOption { Opeartor = operators, Value = value };
+                    return;
+                }
+            }
+            Columns = Columns.Concat(new ColumnOption[]
+            {
+                new ColumnOption { Data = property, SearchAble = true, Search = new SearchOption { Opeartor = operators, Value = value } }
+            }).ToArray();
+
         }
     }
     public class ColumnOption
