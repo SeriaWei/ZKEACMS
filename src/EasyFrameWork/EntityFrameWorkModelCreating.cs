@@ -1,4 +1,5 @@
-﻿using Easy.Modules.Role;
+﻿using Easy.Modules.MutiLanguage;
+using Easy.Modules.Role;
 using Easy.Modules.User.Models;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace Easy
         public void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Permission>().HasKey(m => new { m.PermissionKey, m.RoleId });
+            modelBuilder.Entity<LanguageEntity>().HasKey(m => new { m.LanKey, m.CultureName });
         }
     }
 }

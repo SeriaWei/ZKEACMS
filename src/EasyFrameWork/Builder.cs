@@ -56,7 +56,7 @@ namespace Easy
             services.TryAddTransient<IUserRoleRelationService, UserRoleRelationService>();
             services.TryAddTransient<IPermissionService, PermissionService>();
             services.TryAddTransient<IDataDictionaryService, DataDictionaryService>();
-            services.TryAddTransient<ILanguageService, LanguageService>();
+            services.AddScoped<ILanguageService, LanguageService>();
             services.TryAddTransient<IEncryptService, EncryptService>();
             services.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
 
@@ -72,11 +72,11 @@ namespace Easy
             services.AddTransient<IRuleProvider, MoneyRuleProvider>();
             services.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
             services.AddTransient<WebClient>();
-            
+
             services.AddSingleton<ICacheProvider, HostCacheProvider>();
 
             services.ConfigureCache<ScriptExpressionResult>();
-            services.ConfigureCache<LanguageEntity>();
+            services.ConfigureCache<Dictionary<string, Dictionary<string, LanguageEntity>>>();
 
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
             services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));

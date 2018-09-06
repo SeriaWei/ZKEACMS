@@ -12,6 +12,8 @@ using System.Linq;
 using Easy.RepositoryPattern;
 using Easy.Modules.MutiLanguage;
 using Easy;
+using Easy.Options;
+using Microsoft.Extensions.Options;
 
 namespace ZKEACMS.Controllers
 {
@@ -19,9 +21,11 @@ namespace ZKEACMS.Controllers
     public class LanguageController : Controller
     {
         public readonly ILanguageService _languageService;
-        public LanguageController(ILanguageService languageService)
+        public readonly IOptions<CultureOption> _cultureOption;
+        public LanguageController(ILanguageService languageService, IOptions<CultureOption> cultureOption)
         {
             _languageService = languageService;
+            _cultureOption = cultureOption;
         }
         public IActionResult Index()
         {
@@ -29,14 +33,13 @@ namespace ZKEACMS.Controllers
         }
         public IActionResult Edit(string Id)
         {
-            return View(_languageService.Get(Id));
+            return View(_languageService.Get(Id, _cultureOption.Value.Code));
         }
         [HttpPost]
         public IActionResult Edit(LanguageEntity language)
         {
             if (ModelState.IsValid)
             {
-                Localization.RemoveCache(language.LanKey);
                 _languageService.Update(language);
                 return RedirectToAction("Index");
             }
@@ -60,6 +63,7 @@ namespace ZKEACMS.Controllers
         [HttpPost]
         public virtual IActionResult GetList(DataTableOption query)
         {
+            query.AppendCondition("CultureName", _cultureOption.Value.Code);
             var pagin = new Pagination { PageSize = query.Length, PageIndex = query.Start / query.Length };
             var expression = query.AsExpression<LanguageEntity>();
             var order = query.GetOrderBy<LanguageEntity>();

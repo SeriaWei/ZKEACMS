@@ -60,6 +60,11 @@ namespace Easy.Mvc.RazorPages
             return GetResource(includeRequired, ResourceType.Style, ResourcePosition.Foot);
         }
 
+        public LocalizeString L(string content)
+        {
+            return new LocalizeString(content, this.ViewContext.HttpContext);
+        }
+
         private IHtmlContent GetResource(bool includeRequired, ResourceType type, ResourcePosition position)
         {
             var builder = new HtmlContentBuilder();
