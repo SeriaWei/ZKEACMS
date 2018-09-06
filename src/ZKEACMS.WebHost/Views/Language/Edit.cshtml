@@ -4,7 +4,7 @@
 }
 <div class="panel panel-default">
     <div class="panel-heading">
-        编辑
+        @L("编辑")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -12,7 +12,7 @@
         <div class="form-horizontal">
             <div class="form-group">
                 <div class="col-md-12 col-lg-2">
-                    <label class="control-label">翻译键</label>
+                    <label class="control-label">@L("翻译键")</label>
                 </div>
                 <div class="col-md-12 col-lg-10">
                     <input type="text" class="form-control" readonly="readonly" value="@Model[0].LanKey"  />
@@ -23,7 +23,7 @@
                 var item = Model[i];
                 <div class="form-group">
                     <div class="col-md-12 col-lg-2">
-                        <label class="control-label">翻译内容</label>
+                        <label class="control-label">@L("翻译内容")</label>
                     </div>
                     <div class="col-md-12 col-lg-10">
                         <input type="hidden" name="[@i].CultureName" value="@item.CultureName" />
@@ -37,9 +37,9 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManageApplicationSetting))
                 {
-                    <input type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Update" />
+                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Update" />
                 }
-                <input type="button" class="btn btn-default cancel" value="取消" />
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
             </div>
         }
     </div>

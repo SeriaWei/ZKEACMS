@@ -40,10 +40,10 @@
                 {
                     <a class="btn btn-warning" href="@Url.Action("PasteAndRedirect", "Widget", new { Model.LayoutID, Model.PageID,Model.ZoneID,Model.ReturnUrl })">
                         <i class="glyphicon glyphicon-paste"></i>
-                        粘贴
+                        @L("粘贴")
                     </a>
                 }
-                <input type="button" class="btn btn-default cancel" value="取消" />
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
             </div>
         }
     </div>

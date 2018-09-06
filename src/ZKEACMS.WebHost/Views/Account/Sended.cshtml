@@ -24,13 +24,13 @@
         <div class="login-panel-body">
             <div class="info-bar">
                 <p>
-                    找回密码
+                    @L("找回密码")
                 </p>
                 <img src="~/css/Images/picker_account_msa.svg" />
             </div>
             <br />
             <p>
-                我们已经给您的邮箱
+                @L("我们已经给您的邮箱")
             </p>
             <p>
                 <strong>
@@ -38,10 +38,10 @@
                 </strong>
             </p>
             <p>
-                发送了一封找回密码的邮件，请及时查收并修改密码。
+                @L("发送了一封找回密码的邮件，请及时查收并修改密码。")
             </p>
             <div class="form-input">
-                <a href="@Url.Content(link)" target="_blank" class="btn-login">查收邮件</a>
+                <a href="@Url.Content(link)" target="_blank" class="btn-login">@L("查收邮件")</a>
             </div>
         </div>
     </div>

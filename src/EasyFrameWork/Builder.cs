@@ -74,6 +74,7 @@ namespace Easy
             services.AddTransient<WebClient>();
 
             services.AddSingleton<ICacheProvider, HostCacheProvider>();
+            services.AddTransient<ILocalize, Localize>();
 
             services.ConfigureCache<ScriptExpressionResult>();
             services.ConfigureCache<Dictionary<string, Dictionary<string, LanguageEntity>>>();

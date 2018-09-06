@@ -21,12 +21,15 @@ namespace ZKEACMS.Controllers
     [DefaultAuthorize(Policy = PermissionKeys.ManageLanguage)]
     public class LanguageController : Controller
     {
-        public readonly ILanguageService _languageService;
-        public readonly IOptions<CultureOption> _cultureOption;
-        public LanguageController(ILanguageService languageService, IOptions<CultureOption> cultureOption)
+        private readonly ILanguageService _languageService;
+        private readonly IOptions<CultureOption> _cultureOption;
+        private readonly ILocalize _localize;
+
+        public LanguageController(ILanguageService languageService, IOptions<CultureOption> cultureOption, ILocalize localize)
         {
             _languageService = languageService;
             _cultureOption = cultureOption;
+            _localize = localize;
         }
         public IActionResult Index()
         {
@@ -61,7 +64,7 @@ namespace ZKEACMS.Controllers
             if (_languageService.GetCultures(LanKey).Any())
             {
                 ViewBag.LanKey = LanKey;
-                ModelState.AddModelError("LanKey", "·­Òë¼üÒÑ´æÔÚ");
+                ModelState.AddModelError("LanKey", _localize.Get("·­Òë¼üÒÑ´æÔÚ"));
                 return View(language);
             }
             foreach (var item in language)

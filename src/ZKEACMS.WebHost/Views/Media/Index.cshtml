@@ -201,7 +201,7 @@
 
             $(document).on("click", ".create-folder", function () {
                 var newfolder = $($("#item-template").html());
-                newfolder.find(".caption").append('<input type="text" class="edit" value="新建文件夹" />');
+                newfolder.find(".caption").append('<input type="text" class="edit" value="@L("新建文件夹")" />');
                 newfolder.find(".multi-select").remove();
                 if ($("#media-list > div").size() > 0) {
                     newfolder.insertBefore($("#media-list > div:first"));

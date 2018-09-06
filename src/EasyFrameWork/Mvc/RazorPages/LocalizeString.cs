@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Easy.Modules.MutiLanguage;
 using Easy.Options;
 using Microsoft.Extensions.Options;
+using Easy.Extend;
 
 namespace Easy.Mvc.RazorPages
 {
@@ -23,17 +24,22 @@ namespace Easy.Mvc.RazorPages
         public HttpContext HttpContext { get; set; }
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
+            writer.Write(Get());
+        }
+        private string Get()
+        {
             string lanCode = HttpContext.RequestServices.GetService<IOptions<CultureOption>>().Value.Code;
             var service = HttpContext.RequestServices.GetService<ILanguageService>();
             var lanContent = service.Get(Content, lanCode);
-            if (lanContent != null)
+            if (lanContent != null && lanContent.LanValue.IsNotNullAndWhiteSpace())
             {
-                writer.Write(lanContent.LanValue);
+                return lanContent.LanValue;
             }
-            else
-            {
-                writer.Write(Content);
-            }
+            return Content;
+        }
+        public static implicit operator string(LocalizeString localizeString)
+        {
+            return localizeString.Get();
         }
     }
 }
