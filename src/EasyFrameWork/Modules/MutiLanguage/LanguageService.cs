@@ -19,6 +19,23 @@ namespace Easy.Modules.MutiLanguage
         {
             get { return (DbContext as EasyDbContext).Language; }
         }
+        public override ServiceResult<LanguageEntity> Add(LanguageEntity item)
+        {
+            var result= base.Add(item);
+            if (!result.HasViolation)
+            {
+                var dict = GetAll();
+                if (dict.ContainsKey(item.LanKey))
+                {
+                    dict[item.LanKey].Add(item.CultureName, item);
+                }
+                else
+                {
+                    dict.Add(item.LanKey, new Dictionary<string, LanguageEntity> { { item.CultureName, item } });
+                }
+            }            
+            return result;
+        }
         public override LanguageEntity Get(params object[] primaryKey)
         {
             LanguageEntity languageEntity = null;
@@ -49,9 +66,20 @@ namespace Easy.Modules.MutiLanguage
             Dictionary<string, LanguageEntity> cultureLan;
             if (GetAll().TryGetValue(item.LanKey.ToString(), out cultureLan))
             {
-                cultureLan[item.CultureName] = item;
+                if (cultureLan.ContainsKey(item.CultureName))
+                {
+                    cultureLan[item.CultureName] = item;
+                    return base.Update(item);
+                }
+                else
+                {
+                    return Add(item);
+                }
             }
-            return base.Update(item);
+            else
+            {
+                return Add(item);
+            }
         }
         private Dictionary<string, Dictionary<string, LanguageEntity>> GetAll()
         {

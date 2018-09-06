@@ -14,6 +14,7 @@ using Easy.Modules.MutiLanguage;
 using Easy;
 using Easy.Options;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 
 namespace ZKEACMS.Controllers
 {
@@ -33,31 +34,42 @@ namespace ZKEACMS.Controllers
         }
         public IActionResult Edit(string Id)
         {
-            return View(_languageService.Get(Id, _cultureOption.Value.Code));
+            var culture = _languageService.GetCultures(Id).ToList();
+
+            return View(culture);
         }
         [HttpPost]
-        public IActionResult Edit(LanguageEntity language)
+        public IActionResult Edit(List<LanguageEntity> language)
         {
-            if (ModelState.IsValid)
+            foreach (var item in language)
             {
-                _languageService.Update(language);
-                return RedirectToAction("Index");
+                _languageService.Update(item);
             }
-            return View(language);
+            return RedirectToAction("Index");
         }
         public IActionResult Create()
         {
-            return View();
+            List<LanguageEntity> culture = new List<LanguageEntity>();
+
+            culture.Add(new LanguageEntity { CultureName = _cultureOption.Value.Code });
+
+            return View(culture);
         }
         [HttpPost]
-        public IActionResult Create(LanguageEntity language)
+        public IActionResult Create(List<LanguageEntity> language, string LanKey)
         {
-            if (ModelState.IsValid)
+            if (_languageService.GetCultures(LanKey).Any())
             {
-                _languageService.Add(language);
-                return RedirectToAction("Index");
+                ViewBag.LanKey = LanKey;
+                ModelState.AddModelError("LanKey", "·­Òë¼üÒÑ´æÔÚ");
+                return View(language);
             }
-            return View(language);
+            foreach (var item in language)
+            {
+                item.LanKey = LanKey;
+                _languageService.Add(item);
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
