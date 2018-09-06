@@ -12,8 +12,11 @@ namespace ZKEACMS.Article.Service
 {
     public class ArticleService : ServiceBase<ArticleEntity>, IArticleService
     {
-        public ArticleService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
+        private readonly ILocalize _localize;
+        public ArticleService(IApplicationContext applicationContext, ILocalize localize, CMSDbContext dbContext) 
+            : base(applicationContext, dbContext)
         {
+            _localize = localize;
         }
         public override ServiceResult<ArticleEntity> Add(ArticleEntity item)
         {
@@ -22,7 +25,7 @@ namespace ZKEACMS.Article.Service
                 if (GetByUrl(item.Url) != null)
                 {
                     var result = new ServiceResult<ArticleEntity>();
-                    result.RuleViolations.Add(new RuleViolation("Url", "Url已存在"));
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Url已存在")));
                     return result;
                 }
             }
@@ -35,7 +38,7 @@ namespace ZKEACMS.Article.Service
                 if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
                 {
                     var result = new ServiceResult<ArticleEntity>();
-                    result.RuleViolations.Add(new RuleViolation("Url", "Url已存在"));
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Url已存在")));
                     return result;
                 }
             }

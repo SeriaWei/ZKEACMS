@@ -41,7 +41,7 @@
                     @if (Model.Prev != null)
                     {
                         <span>
-                            上一篇:
+                            @L("上一篇:")
                         </span>
                         <a href="@Url.PostUrl(ViewContext.RouteData.GetPath(), Model.Prev)">
                             @Model.Prev.Title
@@ -53,7 +53,7 @@
                     @if (Model.Next != null)
                     {
                         <span>
-                            下一篇:
+                            @L("下一篇:")
                         </span>
                         <a href="@Url.PostUrl(ViewContext.RouteData.GetPath(), Model.Next)">
                             @Model.Next.Title

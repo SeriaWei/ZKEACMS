@@ -20,6 +20,14 @@ Try it on our demo site
 
 在我们的测试站点进行体验
 
+## Notice
+Change the culture code to `en-US` to use english in `appsettings.json`
+```
+  "Culture": {
+    "Code": "en-US"
+  }
+```
+
 [http://demo.zkea.net](http://demo.zkea.net)
 
 ## 简介 / Summary

@@ -18,11 +18,11 @@ namespace Easy.Mvc.RazorPages
         public LocalizeString(string content, HttpContext httpContext)
         {
             Content = content;
-            HttpContext = httpContext;
+            _httpContext = httpContext;
         }
         private string _translatedContent;
         public string Content { get; set; }
-        public HttpContext HttpContext { get; set; }
+        private HttpContext _httpContext;
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
             writer.Write(Get());
@@ -33,8 +33,8 @@ namespace Easy.Mvc.RazorPages
             {
                 return _translatedContent;
             }
-            string lanCode = HttpContext.RequestServices.GetService<IOptions<CultureOption>>().Value.Code;
-            var service = HttpContext.RequestServices.GetService<ILanguageService>();
+            string lanCode = _httpContext.RequestServices.GetService<IOptions<CultureOption>>().Value.Code;
+            var service = _httpContext.RequestServices.GetService<ILanguageService>();
             var lanContent = service.Get(Content, lanCode);
             if (lanContent != null && lanContent.LanValue.IsNotNullAndWhiteSpace())
             {
@@ -53,6 +53,10 @@ namespace Easy.Mvc.RazorPages
         public static implicit operator string(LocalizeString localizeString)
         {
             return localizeString.Get();
+        }
+        public override string ToString()
+        {
+            return this.Get();
         }
     }
 }
