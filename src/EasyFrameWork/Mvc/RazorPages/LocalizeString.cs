@@ -22,6 +22,7 @@ namespace Easy.Mvc.RazorPages
         }
         private string _translatedContent;
         public string Content { get; set; }
+        public string Text { get { return Get(); } }
         private HttpContext _httpContext;
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
@@ -46,14 +47,7 @@ namespace Easy.Mvc.RazorPages
             }
             return _translatedContent;
         }
-        public IHtmlContent Raw()
-        {
-            return new HtmlString(Get());
-        }
-        public static implicit operator string(LocalizeString localizeString)
-        {
-            return localizeString.Get();
-        }
+        
         public override string ToString()
         {
             return this.Get();

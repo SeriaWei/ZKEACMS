@@ -15,17 +15,17 @@
 
     if (Authorizer.Authorize(PermissionKeys.ManagePage))
     {
-        pageTree.AddPlugin(Plugins.DragAndDrop).AddContextMenuItem(new ContextmenuItem { Label = L("新建"), Action = "Create", Icon = "glyphicon glyphicon-plus" })
-            .AddContextMenuItem(new ContextmenuItem { Label = L("查看"), Action = "View", Icon = "glyphicon glyphicon-new-window" })
-            .AddContextMenuItem(new ContextmenuItem { Label = L("编辑"), Action = "Design", Icon = "glyphicon glyphicon-pencil" })
-            .AddContextMenuItem(new ContextmenuItem { Label = L("预览"), Action = "PreView", Icon = "glyphicon glyphicon-eye-open" })
-            .AddContextMenuItem(new ContextmenuItem { Label = L("属性"), Action = "Edit", Icon = "glyphicon glyphicon-record", SeparatorAfter = true })
-            .AddContextMenuItem(new ContextmenuItem { Label = L("发布"), Action = "Publish", Icon = "glyphicon glyphicon-open" });
+        pageTree.AddPlugin(Plugins.DragAndDrop).AddContextMenuItem(new ContextmenuItem { Label = L("新建").Text, Action = "Create", Icon = "glyphicon glyphicon-plus" })
+            .AddContextMenuItem(new ContextmenuItem { Label = L("查看").Text, Action = "View", Icon = "glyphicon glyphicon-new-window" })
+            .AddContextMenuItem(new ContextmenuItem { Label = L("编辑").Text, Action = "Design", Icon = "glyphicon glyphicon-pencil" })
+            .AddContextMenuItem(new ContextmenuItem { Label = L("预览").Text, Action = "PreView", Icon = "glyphicon glyphicon-eye-open" })
+            .AddContextMenuItem(new ContextmenuItem { Label = L("属性").Text, Action = "Edit", Icon = "glyphicon glyphicon-record", SeparatorAfter = true })
+            .AddContextMenuItem(new ContextmenuItem { Label = L("发布").Text, Action = "Publish", Icon = "glyphicon glyphicon-open" });
     }
     else
     {
-        pageTree.AddContextMenuItem(new ContextmenuItem { Label = L("预览"), Action = "PreView", Icon = "glyphicon glyphicon-search" })
-            .AddContextMenuItem(new ContextmenuItem { Label = L("查看"), Action = "View", Icon = "glyphicon glyphicon-new-window" });
+        pageTree.AddContextMenuItem(new ContextmenuItem { Label = L("预览").Text, Action = "PreView", Icon = "glyphicon glyphicon-search" })
+            .AddContextMenuItem(new ContextmenuItem { Label = L("查看").Text, Action = "View", Icon = "glyphicon glyphicon-new-window" });
     }
 }
 <div>

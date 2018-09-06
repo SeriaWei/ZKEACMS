@@ -37,7 +37,7 @@ namespace ZKEACMS.Product.Models
         /// <summary>
         /// 类别
         /// </summary>
-        public int? ProductCategoryID { get; set; }
+        public int ProductCategoryID { get; set; }
 
         public string PartNumber { get; set; }
         /// <summary>

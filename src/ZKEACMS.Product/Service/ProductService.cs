@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Easy.Extend;
 using Easy.Constant;
+using System.Linq.Expressions;
 
 namespace ZKEACMS.Product.Service
 {
@@ -156,20 +157,21 @@ namespace ZKEACMS.Product.Service
         {
             BeginTransaction(() =>
             {
-                if (item.ProductTags != null)
-                {
-                    _productTagService.Remove(m => m.ProductId == item.ID);
-                }
-                if (item.ProductImages != null)
-                {
-                    item.ProductImages.Each(m =>
-                    {
-                        _productImageService.Remove(m);
-                    });
-                }
+                _productTagService.Remove(m => m.ProductId == item.ID);
+                _productImageService.Remove(m => m.ProductId == item.ID);
                 base.Remove(item);
             });
+        }
 
+        public override void Remove(Expression<Func<ProductEntity, bool>> filter)
+        {
+            var products = Get(filter);
+            var productIds = products.Select(m => m.ID).ToArray();
+
+            _productTagService.Remove(m => productIds.Contains(m.ProductId));
+            _productImageService.Remove(m => productIds.Contains(m.ProductId));
+
+            RemoveRange(products.ToArray());
         }
 
         public ProductEntity GetByUrl(string url)
