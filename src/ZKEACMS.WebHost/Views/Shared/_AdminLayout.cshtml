@@ -34,44 +34,44 @@
                     </p>
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="~/">查看站点</a>
+                            <a href="~/">@L("查看站点")</a>
                         </li>
                         <li>
-                            <a href="http://www.zkea.net/zkeacms/videos" target="_blank">演示视频</a>
+                            <a href="http://www.zkea.net/zkeacms/videos" target="_blank">@L("演示视频")</a>
                         </li>
                         <li>
-                            <a href="http://www.zkea.net/zkeacms/templates" target="_blank">下载板块</a>
+                            <a href="http://www.zkea.net/zkeacms/templates" target="_blank">@L("下载板块")</a>
                         </li>
                         <li>
-                            <a href="http://www.zkea.net/zkeacms/sites" target="_blank">获取模板</a>
+                            <a href="http://www.zkea.net/zkeacms/sites" target="_blank">@L("下载板块")</a>
                         </li>
                         <li>
-                            <a href="http://www.zkea.net/zkeacms/theme" target="_blank">下载主题</a>
+                            <a href="http://www.zkea.net/zkeacms/theme" target="_blank">@L("下载主题")</a>
                         </li>
                         <li>
-                            <a href="http://www.zkea.net/zkeacms/extend" target="_blank">扩展插件</a>
+                            <a href="http://www.zkea.net/zkeacms/extend" target="_blank">@L("扩展插件")</a>
                         </li>
                         <li>
-                            <a href="http://www.zkea.net/zkeacms/document" target="_blank">文档</a>
+                            <a href="http://www.zkea.net/zkeacms/document" target="_blank">@L("文档")</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a href="http://www.zkea.net/zkeacms/price" target="_blank">
                                 <i class="glyphicon glyphicon-copyright-mark"></i>
-                                商业授权
+                                @L("商业授权")
                             </a>
                         </li>
                         <li>
                             <a href="http://www.zkea.net/zkeacms/donate" target="_blank">
                                 <i class="glyphicon glyphicon-usd"></i>
-                                赞助
+                                @L("赞助")
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("Logout", "Account")" target="_self" title="退出">
+                            <a href="@Url.Action("Logout", "Account")" target="_self" title="@L("退出")">
                                 <i class="glyphicon glyphicon-off"></i>
-                                退出
+                                @L("退出")
                             </a>
                         </li>
                     </ul>
@@ -101,7 +101,7 @@
                                 <li class="accordion-group">
                                     <a class="b_9FDDF6 group-item" href="#">
                                         <i class="glyphicon @menu.Icon"></i>
-                                        @menu.Title
+                                        @L(menu.Title)
                                         <i class="glyphicon group"></i>
                                     </a>
                                     <div class="accordion-inner">
@@ -109,7 +109,7 @@
                                         {
                                             <a id="menu@((child.Url ?? child.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(child.Url ?? "~/")">
                                                 <i class="glyphicon @child.Icon"></i>
-                                                @child.Title
+                                                @L(child.Title)
                                             </a>
                                         }
                                     </div>
@@ -121,7 +121,7 @@
                             <li>
                                 <a id="menu@((menu.Url ?? menu.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(menu.Url ?? "~/")">
                                     <i class="glyphicon @menu.Icon"></i>
-                                    @menu.Title
+                                    @L(menu.Title)
                                 </a>
                             </li>
                         }

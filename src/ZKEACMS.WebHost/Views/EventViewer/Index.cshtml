@@ -2,7 +2,7 @@
 
 @model IEnumerable<FileInfo>
 <div class="panel panel-default">
-    <div class="panel-heading">错误日志</div>
+    <div class="panel-heading">@L("错误日志")</div>
     <div class="panel-body">
         @if (Model.Any())
         {
@@ -26,7 +26,7 @@
                                 }
                             </div>
                             <div class="pull-right">
-                                <a href="@Url.Action("ViewLog",new { id = file.Name })" download="@file.Name">下载</a>
+                                <a href="@Url.Action("ViewLog",new { id = file.Name })" download="@file.Name">@L("下载")</a>
                             </div>
                         </div>
                     </li>
@@ -36,7 +36,7 @@
         else
         {
             <code>
-                没有错误日志，程序运行一切正常
+                @L("没有错误日志，程序运行一切正常")
             </code>
         }
     </div>

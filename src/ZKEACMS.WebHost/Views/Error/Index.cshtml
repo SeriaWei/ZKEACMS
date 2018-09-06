@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "服务器错误";
+    ViewBag.Title = L("服务器错误");
     Layout = Layouts.NormalDefault;
 }
 <div class="page-header" style="text-align: center;">
@@ -7,18 +7,18 @@
     <h1 style="font-size: 6em" class="text-danger">500</h1>
 </div>
 <div style="text-align:center">
-    <h2>不好，奔溃了</h2>
+    <h2>@L("不好，奔溃了")</h2>
     <br />
     <br />
-    <p>服务器在响应您的请求时出现了不可预知的错误，如要解决该问题，请联系管理员。</p>
+    <p>@L("服务器在响应您的请求时出现了不可预知的错误，如要解决该问题，请联系管理员。")</p>
     <p>
-        您还可以在 <a href="https://github.com/SeriaWei/ZKEACMS.Core/issues" target="_blank">Github</a> 上给我们反馈，方便我们追踪和解决该问题。
+        @L("您还可以在") <a href="https://github.com/SeriaWei/ZKEACMS.Core/issues" target="_blank">Github</a> @L("上给我们反馈，方便我们追踪和解决该问题。")
     </p>
     <br />
     <hr />
     <div>
         <p>
-            <a href="http://www.zkea.net" target="_blank" title="深圳市纸壳软件科技有限公司">ZKEASOFT</a>. All Rights Reserved,
+            <a href="http://www.zkea.net" target="_blank" title="@L("深圳市纸壳软件科技有限公司")">ZKEASOFT</a>. All Rights Reserved,
             Powered by <a href="http://www.zkea.net/zkeacms/zkeacmscore" target="_blank">ZKEACMS</a>
             <br />Copyright © 2016-@DateTime.Now.Year <a href="http://www.zkea.net/licenses" target="_blank">许可协议</a>
         </p>

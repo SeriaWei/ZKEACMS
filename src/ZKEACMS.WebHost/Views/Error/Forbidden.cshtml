@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "没有权限";
+    ViewBag.Title = L("没有权限");
     Layout = Layouts.NormalDefault;
 }
 <div class="page-header" style="text-align: center;">
@@ -7,23 +7,23 @@
     <h1 style="font-size: 6em" class="text-danger">403</h1>
 </div>
 <div style="text-align:center">
-    <h2>拒绝处理</h2>
+    <h2>@L("拒绝处理")</h2>
     <br />
-    <p>在处理您的请求时出现错误，因为您没有相关的权限，请与管理员联系。</p>
+    <p>@L("在处理您的请求时出现错误，因为您没有相关的权限，请与管理员联系。")</p>
     <br />
-    <p class="text-muted">或者您还可以使用其它账号登录：</p>
+    <p class="text-muted">@L("或者您还可以使用其它账号登录：")</p>
     <br />
     <p>
-        <a href="@Url.Action("Index","Dashboard")" class="btn btn-primary">返回后台</a>
-        <a href="@Url.Action("Login","Account")" class="btn btn-primary">切换账号</a>
+        <a href="@Url.Action("Index","Dashboard")" class="btn btn-primary">@L("返回后台")</a>
+        <a href="@Url.Action("Login","Account")" class="btn btn-primary">@L("切换账号")</a>
     </p>
     <br />
     <hr />
     <div>
         <p>
-            <a href="http://www.zkea.net" target="_blank" title="深圳市纸壳软件科技有限公司">ZKEASOFT</a>. All Rights Reserved,
-            Powered by <a href="http://www.zkea.net/zkeacms/zkeacmscore" target="_blank">ZKEACMS</a>
-            <br />Copyright © 2016-@DateTime.Now.Year <a href="http://www.zkea.net/licenses" target="_blank">许可协议</a>
+            <a href="http://www.zkea.net" target="_blank" title="@L("深圳市纸壳软件科技有限公司")">@L("ZKEASOFT")</a>. @L("All Rights Reserved"),
+            @L("Powered by") <a href="http://www.zkea.net/zkeacms/zkeacmscore" target="_blank">@L("ZKEACMS")</a>
+            <br />Copyright © 2016-@DateTime.Now.Year <a href="http://www.zkea.net/licenses" target="_blank">@L("许可协议")</a>
         </p>
     </div>
 </div>

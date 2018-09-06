@@ -15,68 +15,68 @@
     <li>
         <a href="@Url.Action("Index", "Dashboard")">
             <i class="glyphicon glyphicon-dashboard"></i>
-            仪表盘
+            @L("仪表盘")
         </a>
     </li>
     <li>
         <a href="@Url.Action("Index", "Layout")">
             <i class="glyphicon glyphicon-th-list"></i>
-            布局列表
+            @L("布局列表")
         </a>
     </li>
     <li>
         <a href="@Url.Action("Index", "Page")">
             <i class="glyphicon glyphicon-eye-open"></i>
-            页面管理
+            @L("页面管理")
         </a>
     </li>
     <li>
         <a href="@Url.Action("Index", "Navigation")">
             <i class="glyphicon glyphicon-retweet"></i>
-            导航管理
+            @L("导航管理")
         </a>
     </li>
     <li>
         <a href="@Url.Action("Index", "Theme")">
             <i class="glyphicon glyphicon-blackboard"></i>
-            主题管理
+            @L("主题管理")
         </a>
     </li>
     <li>
         <a href="@Url.Action("Index", "Media")">
             <i class="glyphicon glyphicon glyphicon-picture"></i>
-            媒体库
+            @L("媒体库")
         </a>
     </li>
     <li>
         <a href="@Url.Action("Index", "Carousel")">
             <i class="glyphicon glyphicon-hd-video"></i>
-            焦点图
+            @L("焦点图")
         </a>
     </li>
     <li>
         <a href="@Url.Action("Index", "Article")">
             <i class="glyphicon glyphicon-font"></i>
-            文章列表
+            @L("文章列表")
         </a>
     </li>
     <li>
         <a href="@Url.Action("Index", "Product")">
             <i class="glyphicon glyphicon-list-alt"></i>
-            产品列表
+            @L("产品列表")
         </a>
     </li>
     <li>
         <a target="_blank" href="http://www.zkea.net/zkeacms/templates">
             <i class="glyphicon glyphicon-save-file"></i>
-            下载板块
+            @L("下载板块")
         </a>
     </li>
     <li role="separator" class="divider"></li>
     <li>
-        <a href="@Url.Action("Logout", "Account", new { returnurl = url })" target="_self" title="退出登录">
+        <a href="@Url.Action("Logout", "Account", new { returnurl = url })" target="_self" title="@L("退出登录")">
             <i class="glyphicon glyphicon-off"></i>
-            退出登录
+            @L("退出登录")
         </a>
     </li>
 </ul>

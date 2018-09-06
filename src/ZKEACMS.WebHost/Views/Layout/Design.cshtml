@@ -21,7 +21,7 @@
             var zone = Model.Zones.FirstOrDefault(m => m.HeadingCode == headingCode);
             if (zone != null)
             {
-                <input class="form-control" type="text" name="ZoneName" placeholder="输入名称" value="@zone.ZoneName" />
+                <input class="form-control" type="text" name="ZoneName" placeholder="@L("输入名称")" value="@zone.ZoneName" />
                 <input class="form-control" type="hidden" name="LayoutId" value="@zone.LayoutId" />
                 <input class="form-control" type="hidden" name="ID" value="@zone.ID" />
                 <input class="form-control" type="hidden" name="HeadingCode" value="@zone.HeadingCode" />
@@ -38,7 +38,7 @@ else
                 <div class="colContent row">
                     <div class="additional zone">
                         @Html.Raw(ZoneEntity.ZoneTag)
-                        <input class="form-control" type="text" name="ZoneName" placeholder="输入名称" value="顶部">
+                        <input class="form-control" type="text" name="ZoneName" placeholder="@L("输入名称")" value="@L("顶部")">
                         <input class="form-control" type="hidden" name="LayoutId" value="@Model.ID">
                         <input class="form-control" type="hidden" name="ID" value="">
                         <input class="form-control" type="hidden" name="HeadingCode" value="">
@@ -54,7 +54,7 @@ else
                 <div class="colContent row">
                     <div class="additional zone">
                         @Html.Raw(ZoneEntity.ZoneTag)
-                        <input class="form-control" type="text" name="ZoneName" placeholder="输入名称" value="主内容">
+                        <input class="form-control" type="text" name="ZoneName" placeholder="@L("输入名称")" value="@L("主内容")">
                         <input class="form-control" type="hidden" name="LayoutId" value="@Model.ID">
                         <input class="form-control" type="hidden" name="ID" value="">
                         <input class="form-control" type="hidden" name="HeadingCode" value="">
@@ -70,7 +70,7 @@ else
                 <div class="colContent row">
                     <div class="additional zone">
                         @Html.Raw(ZoneEntity.ZoneTag)
-                        <input class="form-control" type="text" name="ZoneName" placeholder="输入名称" value="底部">
+                        <input class="form-control" type="text" name="ZoneName" placeholder="@L("输入名称")" value="@L("底部")">
                         <input class="form-control" type="hidden" name="LayoutId" value="@Model.ID">
                         <input class="form-control" type="hidden" name="ID" value="">
                         <input class="form-control" type="hidden" name="HeadingCode" value="">

@@ -20,6 +20,7 @@ namespace Easy.Mvc.RazorPages
             Content = content;
             HttpContext = httpContext;
         }
+        private string _translatedContent;
         public string Content { get; set; }
         public HttpContext HttpContext { get; set; }
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
@@ -28,14 +29,26 @@ namespace Easy.Mvc.RazorPages
         }
         private string Get()
         {
+            if (_translatedContent.IsNotNullAndWhiteSpace())
+            {
+                return _translatedContent;
+            }
             string lanCode = HttpContext.RequestServices.GetService<IOptions<CultureOption>>().Value.Code;
             var service = HttpContext.RequestServices.GetService<ILanguageService>();
             var lanContent = service.Get(Content, lanCode);
             if (lanContent != null && lanContent.LanValue.IsNotNullAndWhiteSpace())
             {
-                return lanContent.LanValue;
+                _translatedContent = lanContent.LanValue;
             }
-            return Content;
+            if (_translatedContent.IsNullOrWhiteSpace())
+            {
+                _translatedContent = Content;
+            }
+            return _translatedContent;
+        }
+        public IHtmlContent Raw()
+        {
+            return new HtmlString(Get());
         }
         public static implicit operator string(LocalizeString localizeString)
         {
