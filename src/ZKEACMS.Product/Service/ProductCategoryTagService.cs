@@ -23,14 +23,13 @@ namespace ZKEACMS.Product.Service
             BeginTransaction(() =>
             {
                 _productTagService.Remove(m => m.TagId == item.ID);
-                if (item.ParentId == 0)
-                {
-                    var children = LoadChildren(item);
-                    var ids = children.Select(m => m.ID).ToArray();
-                    _productTagService.Remove(m => ids.Contains(m.TagId));
-                    RemoveRange(children.ToArray());
-                }
                 base.Remove(item);
+
+                var children = LoadChildren(item);
+                var ids = children.Select(m => m.ID).ToArray();
+                _productTagService.Remove(m => ids.Contains(m.TagId));
+                RemoveRange(children.ToArray());
+
             });
         }
         private IEnumerable<ProductCategoryTag> LoadChildren(ProductCategoryTag tag)
@@ -49,13 +48,16 @@ namespace ZKEACMS.Product.Service
             BeginTransaction(() =>
             {
                 var tags = Get(filter);
+                var ids = tags.Select(m => m.ID).ToArray();
+                _productTagService.Remove(m => ids.Contains(m.TagId));
+                RemoveRange(tags.ToArray());
                 foreach (var item in tags)
                 {
                     var children = LoadChildren(item);
-                    var ids = children.Select(m => m.ID).ToArray();
+                    var childIds = children.Select(m => m.ID).ToArray();
                     _productTagService.Remove(m => ids.Contains(m.TagId));
+                    RemoveRange(children.ToArray());
                 }
-                RemoveRange(tags.ToArray());
             });
         }
     }
