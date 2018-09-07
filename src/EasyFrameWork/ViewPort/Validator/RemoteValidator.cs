@@ -8,7 +8,8 @@ namespace Easy.ViewPort.Validator
     {
         public RemoteValidator()
         {
-            this.BaseErrorMessage = "{0}验证失败";
+            var messageFormat = ServiceLocator.GetService<ILocalize>().Get("{0}验证失败");
+            this.BaseErrorMessage = messageFormat;
         }
         public string Url
         {

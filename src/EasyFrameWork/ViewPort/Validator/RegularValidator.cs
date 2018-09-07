@@ -7,8 +7,9 @@ namespace Easy.ViewPort.Validator
     {
         public RegularValidator(string expression)
         {
+            var messageFormat = ServiceLocator.GetService<ILocalize>().Get("{0}的输入的值不舒合要求");
             this.Expression = expression;
-            this.BaseErrorMessage = "{0}的输入的值不舒合要求";
+            this.BaseErrorMessage = messageFormat;
         }
         public string Expression { get; set; }
 

@@ -42,7 +42,7 @@
                             @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProduct) && Model.ID > 0)
                             {
                                 <p>
-                                    <a href="@Url.Action("Edit", "Product", new { id = Model.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">编辑</a>
+                                    <a href="@Url.Action("Edit", "Product", new { id = Model.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">@L("编辑")</a>
                                 </p>
                             }
                             @if (Model.Description.IsNotNullAndWhiteSpace())
@@ -123,14 +123,14 @@
                             @if (Model.Price.HasValue || Model.RebatePrice.HasValue)
                             {
                                 <p class="quantity-set">
-                                    <label>数量</label>
+                                    <label>@L("数量")</label>
                                     <a href="javascript:" class="quantity-minus glyphicon glyphicon-minus-sign"></a>
                                     <span class="quantity">1</span>
                                     <a href="javascript:" class="quantity-plus glyphicon glyphicon-plus-sign"></a>
                                 </p>
                                 <p>
                                     <a class="btn btn-flat btn-lg add-to-basket" href="javascript:" data-productid="@Model.ID" data-quantity="1">
-                                        <i class="glyphicon glyphicon-shopping-cart"></i> 加入购物车
+                                        <i class="glyphicon glyphicon-shopping-cart"></i> @L("加入购物车")
                                     </a>
                                 </p>
                             }

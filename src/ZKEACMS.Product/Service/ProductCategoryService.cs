@@ -14,14 +14,17 @@ namespace ZKEACMS.Product.Service
     {
         private readonly IProductService _productService;
         private readonly IProductCategoryTagService _productCategoryTagService;
+        private readonly ILocalize _localize;
         public ProductCategoryService(IProductService productService, 
             IApplicationContext applicationContext,
             IProductCategoryTagService productCategoryTagService, 
+            ILocalize localize,
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _productService = productService;
             _productCategoryTagService = productCategoryTagService;
+            _localize = localize;
         }
         public override ServiceResult<ProductCategory> Add(ProductCategory item)
         {
@@ -30,7 +33,7 @@ namespace ZKEACMS.Product.Service
                 if (GetByUrl(item.Url) != null)
                 {
                     var result = new ServiceResult<ProductCategory>();
-                    result.RuleViolations.Add(new RuleViolation("Url", "Url已存在"));
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Url已存在")));
                     return result;
                 }
             }
@@ -43,7 +46,7 @@ namespace ZKEACMS.Product.Service
                 if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
                 {
                     var result = new ServiceResult<ProductCategory>();
-                    result.RuleViolations.Add(new RuleViolation("Url", "Url已存在"));
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Url已存在")));
                     return result;
                 }
             }

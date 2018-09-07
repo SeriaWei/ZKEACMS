@@ -24,7 +24,7 @@
                 </span>
                 @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticle) && Model.Current.ID > 0)
                 {
-                    <a href="@Url.Action("Edit", "Article", new { id = Model.Current.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">编辑</a>
+                    <a href="@Url.Action("Edit", "Article", new { id = Model.Current.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">@L("编辑")</a>
                 }
             </div>
         </div>

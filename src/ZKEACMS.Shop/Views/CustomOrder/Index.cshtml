@@ -2,38 +2,38 @@
 @model OrderListViewModel
 @{
     Layout = Layouts.CustomerCenter;
-    ViewBag.Title = "我的订单";
+    ViewBag.Title = L("我的订单").Text;
 }
 <div class="panel panel-default">
     <div class="panel-heading">
-        我的订单
+        @L("我的订单")
     </div>
     <table class="table table-striped table-hover table-response">
         <thead>
             <tr>
                 <th>
-                    订单号
+                    @L("订单号")
                 </th>
                 <th>
-                    金额
+                    @L("金额")
                 </th>
                 <th>
-                    联系人
+                    @L("联系人")
                 </th>
                 <th>
-                    联系电话
+                    @L("联系电话")
                 </th>
                 <th>
-                    收货地址
+                    @L("收货地址")
                 </th>
                 <th>
-                    订单日期
+                    @L("订单日期")
                 </th>
                 <th>
-                    状态
+                    @L("状态")
                 </th>
                 <th>
-                    操作
+                    @L("操作")
                 </th>
             </tr>
         </thead>
@@ -41,33 +41,33 @@
             @foreach (var item in Model.Orders)
             {
                 <tr class="@(item.OrderStatus == (int)ZKEACMS.Shop.OrderStatus.UnPaid?"warning":"")">
-                    <td head="订单号">
+                    <td head="@L("订单号")">
                         <a href="@Url.Action("Detail", new { Id = item.ID })">@item.ID</a>
                     </td>
-                    <td head="金额">
+                    <td head="@L("金额")">
                         @item.Total.ToString("F2")
                     </td>
-                    <td head="联系人">
+                    <td head="@L("联系人")">
                         @item.Contact
                     </td>
-                    <td head="联系电话">
+                    <td head="@L("联系电话")">
                         @item.PhoneNumber
                     </td>
-                    <td head="收货地址">
+                    <td head="@L("收货地址")">
                         @item.ShippingAddress
                     </td>
-                    <td head="订单日期">
+                    <td head="@L("订单日期")">
                         @item.CreateDate.Value.ToString("yyyy/MM/dd")
                     </td>
-                    <td head="状态">
+                    <td head="@L("状态")">
                         @item.OrderStatusText()
                     </td>
-                    <td head="操作">
+                    <td head=" @L("操作")">
                         @if (item.OrderStatus == (int)ZKEACMS.Shop.OrderStatus.UnPaid)
                         {
-                            <a href="@Url.Action("Pay", "AliPay", new { orderId = item.ID })">付款</a>
+                            <a href="@Url.Action("Pay", "AliPay", new { orderId = item.ID })">@L("付款")</a>
                         }
-                        <a class="remove-order" href="javascript:" data-href="@Url.Action("Remove", new { Id = item.ID })">删除</a>
+                        <a class="remove-order" href="javascript:" data-href="@Url.Action("Remove", new { Id = item.ID })">@L("删除")</a>
                     </td>
                 </tr>
             }
@@ -82,8 +82,8 @@
     <script type="text/javascript">
         $(document).on("click", ".remove-order", function () {
             var href = $(this).data("href");
-            Easy.ShowMessageBox('提示', '确定删除订单吗？', function () { window.location.href = href; }, true);
-        })
+            Easy.ShowMessageBox('@L("提示")', '@L("确定删除订单吗？")', function () { window.location.href = href; }, true);
+        });
     </script>
 
 }

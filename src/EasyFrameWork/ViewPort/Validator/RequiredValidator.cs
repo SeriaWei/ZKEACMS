@@ -7,7 +7,8 @@ namespace Easy.ViewPort.Validator
     {
         public RequiredValidator()
         {
-            this.BaseErrorMessage = "请输入{0}";
+            var messageFormat = ServiceLocator.GetService<ILocalize>().Get("请输入{0}");
+            this.BaseErrorMessage = messageFormat;
         }
         public override bool Validate(object value)
         {

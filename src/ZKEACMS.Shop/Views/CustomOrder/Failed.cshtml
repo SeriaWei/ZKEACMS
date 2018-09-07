@@ -1,16 +1,16 @@
 ﻿@{
     Layout = Layouts.CustomerCenter;
-    ViewBag.Title = "订单支付失败";
+    ViewBag.Title = L("订单支付失败");
 }
 <div class="text-center">
     <div class="page-header">
-        <h1>订单支付失败</h1>
+        <h1>@L("订单支付失败")</h1>
     </div>
     <p>
-        在处理您的订单时发生了未知的错误导致支付失败，您可以尝试重新支付
+        @L("在处理您的订单时发生了未知的错误导致支付失败，您可以尝试重新支付")
     </p>
     <p>
-        <a href="@Url.Action("Index")" class="btn btn-primary">我的订单</a>
+        <a href="@Url.Action("Index")" class="btn btn-primary">@L("我的订单")</a>
     </p>
     <br />
 </div>

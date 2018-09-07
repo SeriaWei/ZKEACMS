@@ -1,18 +1,21 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 
+using Easy.Extend;
+
 namespace Easy.ViewPort.Validator
 {
     public class StringLengthValidator : ValidatorBase
     {
         public StringLengthValidator(int min, int max)
         {
+            var localize= ServiceLocator.GetService<ILocalize>();
             if (min > 0)
             {
-                this.BaseErrorMessage = "{0}的长度应大于" + min + "且小于" + max;
+                this.BaseErrorMessage = localize.Get("{{0}}的长度应大于{0}且小于{1}").FormatWith(min, max);
             }
             else
             {
-                this.BaseErrorMessage = "{0}的长度应小于" + max;
+                this.BaseErrorMessage = localize.Get("{{0}}的长度应小于{0}").FormatWith(max);
             }
             this.Max = max;
             this.Min = min;

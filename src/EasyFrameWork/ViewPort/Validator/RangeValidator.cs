@@ -7,7 +7,8 @@ namespace Easy.ViewPort.Validator
     {
         public RangeValidator(double min, double max)
         {
-            this.BaseErrorMessage = "{0}" + string.Format("的值范围应在{0}-{1}之间", min, max);
+            var messageFormat = ServiceLocator.GetService<ILocalize>().Get("{{0}}的值范围应在{0}-{1}之间");
+            this.BaseErrorMessage = string.Format(messageFormat, min, max);
             this.Min = min;
             this.Max = max;
         }

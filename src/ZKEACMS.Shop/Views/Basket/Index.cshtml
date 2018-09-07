@@ -6,7 +6,7 @@
 <div class="basket">
     <div class="basket-header clearfix">
         <div class="pull-left">
-            <h4>购物车</h4>
+            <h4>@L("购物车")</h4>
         </div>
         <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
@@ -38,7 +38,8 @@
                             <div class="clearfix">
                                 <div class="text-right">
                                     <span class="price">
-                                        ￥@Html.Raw(Regex.Replace(item.Price.ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))
+                                        @L("￥")
+                                        @Html.Raw(Regex.Replace(item.Price.ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))
                                         x <span class="quantity">@item.Quantity</span>
                                     </span>
                                     <a href="javascript:" class="remove glyphicon glyphicon-trash"></a>
@@ -52,7 +53,7 @@
             @if (Model.Basket == null || !Model.Basket.Any())
             {
                 <li class="row empty text-center">
-                    您的购物车是空的
+                    @L("您的购物车是空的")
                 </li>
             }
         </ul>
@@ -63,21 +64,21 @@
             <div class="row total">
                 <div class="col-xs-4">
                     <div class="text-center">
-                        <span class="total-items">@Model.Quantity</span> 件
+                        <span class="total-items">@Model.Quantity</span> @L("件")
                     </div>
                 </div>
                 <div class="col-xs-8">
                     <div class="clearfix">
                         <div class="text-right">
-                            总计
+                            @L("总计")
                             <span class="price">
-                                ￥<span class="total-price">@Model.Total.ToString("F2")</span>
+                                @L("￥")<span class="total -price">@Model.Total.ToString("F2")</span>
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
-            <a class="ckeck-out">结 算</a>
+            <a class="ckeck-out">@L("结 算")</a>
         </div>
     }    
 </div>

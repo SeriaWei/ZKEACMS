@@ -17,11 +17,18 @@ namespace ZKEACMS.Product.Service
         private readonly IProductTagService _productTagService;
         private readonly IProductCategoryTagService _productCategoryTagService;
         private readonly IProductImageService _productImageService;
-        public ProductService(IApplicationContext applicationContext, IProductTagService productTagService, IProductCategoryTagService productCategoryTagService, IProductImageService productImageService, CMSDbContext dbContext) : base(applicationContext, dbContext)
+        private readonly ILocalize _localize;
+        public ProductService(IApplicationContext applicationContext,
+            IProductTagService productTagService,
+            IProductCategoryTagService productCategoryTagService,
+            IProductImageService productImageService,
+            ILocalize localize,
+            CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
             _productTagService = productTagService;
             _productCategoryTagService = productCategoryTagService;
             _productImageService = productImageService;
+            _localize = localize;
         }
 
         public void Publish(int ID)
@@ -38,7 +45,7 @@ namespace ZKEACMS.Product.Service
             {
                 if (GetByUrl(item.Url) != null)
                 {
-                    result.RuleViolations.Add(new RuleViolation("Url", "Url已存在"));
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Url已存在")));
                     return result;
                 }
             }
@@ -103,7 +110,7 @@ namespace ZKEACMS.Product.Service
             {
                 if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
                 {
-                    result.RuleViolations.Add(new RuleViolation("Url", "Url已存在"));
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Url已存在")));
                     return result;
                 }
             }

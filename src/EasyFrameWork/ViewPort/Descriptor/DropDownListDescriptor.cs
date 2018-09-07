@@ -35,6 +35,7 @@ namespace Easy.ViewPort.Descriptor
                 if (this.SourceType == SourceType.Dictionary)
                 {
                     IDataDictionaryService dicService = ServiceLocator.GetService<IDataDictionaryService>();
+                    ILocalize localize = ServiceLocator.GetService<ILocalize>();
                     if (dicService != null)
                     {
                         _data = new Dictionary<string, string>();
@@ -44,7 +45,7 @@ namespace Easy.ViewPort.Descriptor
                         {
                             if (!this._data.ContainsKey(item.DicValue))
                             {
-                                this._data.Add(item.DicValue, item.Title);
+                                this._data.Add(item.DicValue, localize.Get(item.Title));
                             }                            
                         }
                     }
