@@ -3,7 +3,6 @@
  * http://www.zkea.net/licenses */
 
 using Easy.Extend;
-using Easy.RuleEngine;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -118,7 +117,7 @@ namespace ZKEACMS.Filter
                     });
                 var ruleWorkContext = new RuleWorkContext
                 {
-                    Url = filterContext.RouteData.GetPath(),
+                    Url = filterContext.HttpContext.Request.Path.Value,
                     QueryString = filterContext.HttpContext.Request.QueryString.ToString(),
                     UserAgent = filterContext.HttpContext.Request.Headers["User-Agent"]
                 };

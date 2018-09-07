@@ -218,7 +218,11 @@ namespace ZKEACMS.Controllers
                 Widgets = _widgetService.GetAllByPage(page),
                 LayoutHtml = layout.Html
             };
-            var rules = _ruleService.GetMatchRule(new RuleWorkContext { Url = Url.Content(page.Url), UserAgent = Request.Headers["User-Agent"] });
+            var rules = _ruleService.GetMatchRule(new RuleWorkContext
+            {
+                Url = Url.Content(page.Url),
+                UserAgent = Request.Headers["User-Agent"]
+            });
             if (rules.Any())
             {
                 var rulesID = rules.Select(m => m.RuleID).ToArray();
