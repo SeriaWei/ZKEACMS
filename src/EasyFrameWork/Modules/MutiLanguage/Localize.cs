@@ -9,16 +9,17 @@ namespace Easy.Modules.MutiLanguage
 {
     public class Localize : ILocalize
     {
-        private readonly IOptions<CultureOption> _options;
-        private readonly ILanguageService _languageService;
-        public Localize(IOptions<CultureOption> options, ILanguageService languageService)
-        {
-            _options = options;
-            _languageService = languageService;
-        }
+        private IOptions<CultureOption> options;
+        private ILanguageService languageService;
+
         public string Get(string content)
         {
-            var lanContent = _languageService.Get(content, _options.Value.Code);
+            if (languageService == null)
+            {
+                languageService = ServiceLocator.GetService<ILanguageService>();
+                options = ServiceLocator.GetService<IOptions<CultureOption>>();
+            }
+            var lanContent = languageService.Get(content, options.Value.Code);
             if (lanContent != null && lanContent.LanValue.IsNotNullAndWhiteSpace())
             {
                 return lanContent.LanValue;
