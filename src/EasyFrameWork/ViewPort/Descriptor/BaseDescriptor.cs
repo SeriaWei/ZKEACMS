@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 
 namespace Easy.ViewPort.Descriptor
 {
@@ -179,6 +180,24 @@ namespace Easy.ViewPort.Descriptor
                     if (translated != null)
                     {
                         lanValue = translated.LanValue;
+                    }
+                    else
+                    {
+                        StringBuilder lanValueBuilder = new StringBuilder();
+                        if (lanValue.EndsWith("ID") || lanValue.EndsWith("Id"))
+                        {
+                            lanValue = lanValue.Substring(0, lanValue.Length - 2);
+                        }
+                        for (int i = 0; i < lanValue.Length; i++)
+                        {
+                            char charLan = lanValue[i];
+                            if (i > 0 && char.IsUpper(charLan))
+                            {
+                                lanValueBuilder.Append(' ');
+                            }
+                            lanValueBuilder.Append(charLan);
+                        }
+                        lanValue = lanValueBuilder.ToString();
                     }
                     lanType = "EntityProperty";
                     module = key.Split('@')[0];

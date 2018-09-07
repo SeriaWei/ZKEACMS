@@ -23,7 +23,10 @@
                 var item = Model[i];
                 <div class="form-group">
                     <div class="col-md-12 col-lg-2">
-                        <label class="control-label">@L("翻译内容")</label>
+                        <label class="control-label">
+                        @L("翻译内容")
+                        [@item.CultureName]
+                        </label>
                     </div>
                     <div class="col-md-12 col-lg-10">
                         <input type="hidden" name="[@i].CultureName" value="@item.CultureName" />
