@@ -10,16 +10,13 @@ namespace Easy.ViewPort.Validator
         {
             this.Min = min;
             this.Max = max;
+            BaseErrorMessage = "{{0}}的值范围应在{0}-{1}之间".FormatWith(Min, Max);
         }
         public double Min { get; set; }
         public double Max { get; set; }
 
         public override bool Validate(object value)
         {
-            if (BaseErrorMessage.IsNotNullAndWhiteSpace())
-            {
-                BaseErrorMessage = ServiceLocator.GetService<ILocalize>().Get("{{0}}的值范围应在{0}-{1}之间").FormatWith(Min, Max);
-            }
             if (value == null) return true;
             double val = Convert.ToDouble(value);
             if (val >= Min && val <= Max) return true;

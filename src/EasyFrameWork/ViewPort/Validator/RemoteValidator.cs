@@ -9,6 +9,7 @@ namespace Easy.ViewPort.Validator
     {
         public RemoteValidator()
         {
+            BaseErrorMessage = "{0}验证失败";
         }
         public string Url
         {
@@ -35,10 +36,6 @@ namespace Easy.ViewPort.Validator
 
         public override bool Validate(object value)
         {
-            if (BaseErrorMessage.IsNotNullAndWhiteSpace())
-            {
-                BaseErrorMessage = ServiceLocator.GetService<ILocalize>().Get("{0}验证失败");
-            }
             return false;
         }
     }

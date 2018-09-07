@@ -7,14 +7,10 @@ namespace Easy.ViewPort.Validator
     {
         public RequiredValidator()
         {
-            
+            BaseErrorMessage = "请输入{0}";
         }
         public override bool Validate(object value)
         {
-            if (BaseErrorMessage.IsNotNullAndWhiteSpace())
-            {
-                BaseErrorMessage = ServiceLocator.GetService<ILocalize>().Get("请输入{0}");
-            }
             if (value == null || value.ToString().IsNullOrEmpty()) return false;
             else return true;
         }

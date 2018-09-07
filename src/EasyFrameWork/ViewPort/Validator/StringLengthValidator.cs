@@ -10,24 +10,21 @@ namespace Easy.ViewPort.Validator
         {
             this.Max = max;
             this.Min = min;
+            if (Max > 0)
+            {
+                this.BaseErrorMessage = "{{0}}的长度应大于{0}且小于{1}".FormatWith(Min, Max);
+            }
+            else
+            {
+                this.BaseErrorMessage = "{{0}}的长度应大于{0}且小于{1}".FormatWith(Max);
+            }
         }
         public int Max { get; set; }
         public int Min { get; set; }
 
         public override bool Validate(object value)
         {
-            if (BaseErrorMessage.IsNotNullAndWhiteSpace())
-            {
-                var localize = ServiceLocator.GetService<ILocalize>();
-                if (Max > 0)
-                {
-                    this.BaseErrorMessage = localize.Get("{{0}}的长度应大于{0}且小于{1}").FormatWith(Min, Max);
-                }
-                else
-                {
-                    this.BaseErrorMessage = localize.Get("{{0}}的长度应小于{0}").FormatWith(Max);
-                }
-            }
+            
             if (value == null) return true;
             string val = value.ToString();
             if (val.Length <= Max)
