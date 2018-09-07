@@ -8,15 +8,6 @@ namespace Easy.ViewPort.Validator
     {
         public StringLengthValidator(int min, int max)
         {
-            var localize= ServiceLocator.GetService<ILocalize>();
-            if (min > 0)
-            {
-                this.BaseErrorMessage = localize.Get("{{0}}的长度应大于{0}且小于{1}").FormatWith(min, max);
-            }
-            else
-            {
-                this.BaseErrorMessage = localize.Get("{{0}}的长度应小于{0}").FormatWith(max);
-            }
             this.Max = max;
             this.Min = min;
         }
@@ -25,6 +16,18 @@ namespace Easy.ViewPort.Validator
 
         public override bool Validate(object value)
         {
+            if (BaseErrorMessage.IsNotNullAndWhiteSpace())
+            {
+                var localize = ServiceLocator.GetService<ILocalize>();
+                if (Max > 0)
+                {
+                    this.BaseErrorMessage = localize.Get("{{0}}的长度应大于{0}且小于{1}").FormatWith(Min, Max);
+                }
+                else
+                {
+                    this.BaseErrorMessage = localize.Get("{{0}}的长度应小于{0}").FormatWith(Max);
+                }
+            }
             if (value == null) return true;
             string val = value.ToString();
             if (val.Length <= Max)
