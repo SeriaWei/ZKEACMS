@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "页面不存在";
+    ViewBag.Title = L("页面不存在");
     Layout = Layouts.NormalDefault;
 }
 <div class="page-header" style="text-align: center;">
@@ -7,25 +7,25 @@
     <h1 style="font-size: 6em" class="text-danger">404</h1>
 </div>
 <div style="text-align:center">
-    <h2>页面不存在</h2>
+    <h2>@L("页面不存在")</h2>
     <br />
     <br />
-    <p>看起来您正在尝试访问一个不存在的页面，您可以重新检查一下访问的URL地址是否正确。</p>
-    <p>如果这是您创建的页面，您可以在<strong>发布</strong>以后，再尝试访问该页面</p>
+    <p>@L("看起来您正在尝试访问一个不存在的页面，您可以重新检查一下访问的URL地址是否正确。")</p>
+    <p>@L("如果这是您创建的页面，您可以在<strong>发布</strong>以后，再尝试访问该页面")</p>
     <br />
-    <p class="text-muted">或者您还可以访问其它页面：</p>
+    <p class="text-muted">@L("或者您还可以访问其它页面：")</p>
     <br />
     <p>
-        <a href="~/" class="btn btn-primary">首页</a>
-        <a href="@Url.Action("Index","Page")" class="btn btn-primary">管理页面</a>
+        <a href="~/" class="btn btn-primary">@L("首页")</a>
+        <a href="@Url.Action("Index","Page")" class="btn btn-primary">@L("管理页面")</a>
     </p>
     <br />
     <hr />
     <div>
         <p>
-            <a href="http://www.zkea.net" target="_blank" title="深圳市纸壳软件科技有限公司">ZKEASOFT</a>. All Rights Reserved,
-            Powered by <a href="http://www.zkea.net/zkeacms/zkeacmscore" target="_blank">ZKEACMS</a>
-            <br />Copyright © 2016-@DateTime.Now.Year <a href="http://www.zkea.net/licenses" target="_blank">许可协议</a>
+            <a href="http://www.zkea.net" target="_blank" title="@L("深圳市纸壳软件科技有限公司")">@L("ZKEASOFT")</a>. @L("All Rights Reserved"),
+            @L("Powered by") <a href="http://www.zkea.net/zkeacms/zkeacmscore" target="_blank">@L("ZKEACMS")</a>
+            <br />Copyright © 2016-@DateTime.Now.Year <a href="http://www.zkea.net/licenses" target="_blank">@L("许可协议")</a>
         </p>
     </div>
 </div>

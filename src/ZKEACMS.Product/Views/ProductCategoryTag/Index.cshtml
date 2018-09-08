@@ -11,13 +11,13 @@
     <div class="col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                产品类别
+                @L("产品类别")
             </div>
             <div class="panel-body">
                 @categoryTree
             </div>
             <div class="panel-footer">
-                选中产品类别，创建标签
+                @L("选中产品类别，创建标签")
             </div>
         </div>
     </div>
@@ -59,7 +59,7 @@
             });
         }
         $(document).on("click", ".btn-add-tag", function () {
-            createTag({ Title: "新建标签", ProductCategoryId: currentCategory, ParentId: $(this).data("id") });
+            createTag({ Title: "@L("新建标签")", ProductCategoryId: currentCategory, ParentId: $(this).data("id") });
         });
         $(document).on("keyup", ".tag-input", function (e) {
             if (e.keyCode == 13) {

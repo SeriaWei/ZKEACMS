@@ -19,19 +19,19 @@
         <div class="login-panel-body">
             <div class="info-bar">
                 <p>
-                    注册结果
+                    @L("注册结果")
                 </p>
                 <img src="~/css/Images/picker_account_msa.svg" />
             </div>
 
             <br />
             <h4>
-                您的账号已经创建成功
+                @L("您的账号已经创建成功")
             </h4>
            
             <br />
             <div class="form-input">
-                <a href="@Url.Action("SignIn", new { ReturnUrl =ViewContext.HttpContext.Request.Query["ReturnUrl"] })" class="btn-login" >立即登录</a>
+                <a href="@Url.Action("SignIn", new { ReturnUrl =ViewContext.HttpContext.Request.Query["ReturnUrl"] })" class="btn-login">@L("立即登录")</a>
             </div>
         </div>        
     </div>

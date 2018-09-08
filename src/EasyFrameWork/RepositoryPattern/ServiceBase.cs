@@ -1,3 +1,6 @@
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
 using Easy.LINQ;
 using Easy.Models;
 using Microsoft.EntityFrameworkCore;
@@ -58,6 +61,30 @@ namespace Easy.RepositoryPattern
                 action.Invoke();
             }
         }
+        public TEntity BeginTransaction<TEntity>(Func<TEntity> action)
+        {
+            if (DbContext.Database.CurrentTransaction == null)
+            {
+                using (var transaction = DbContext.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var result = action.Invoke();
+                        transaction.Commit();
+                        return result;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+            else
+            {
+                return action.Invoke();
+            }
+        }
         protected ServiceResult<T> Validate(T item)
         {
             ServiceResult<T> serviceResult = new ServiceResult<T>();
@@ -114,7 +141,7 @@ namespace Easy.RepositoryPattern
                 SaveChanges();
             }
             return result;
-        }   
+        }
         public virtual ServiceResult<T> AddRange(params T[] items)
         {
             ServiceResult<T> result = new ServiceResult<T>();
@@ -147,7 +174,7 @@ namespace Easy.RepositoryPattern
             }
             return result;
         }
-       
+
         public virtual IQueryable<T> Get()
         {
             return CurrentDbSet;

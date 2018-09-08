@@ -3,7 +3,7 @@
 @inject IHostingEnvironment hostingEnvironment
 <div class="panel panel-default">
     <div class="panel-heading">
-        主题
+        @L("主题")
     </div>
     <div class="panel-body">
         <div class="row">
@@ -23,7 +23,7 @@
                                 @if (hostingEnvironment.IsDevelopment())
                                 {
                                     <div class="pull-right">
-                                        <a class="download pack-theme" href="@Url.Action("ThemePackage", new {id = item.ID})" title="打包">
+                                        <a class="download pack-theme" href="@Url.Action("ThemePackage", new {id = item.ID})" title="@L("打包")">
                                             <i class="glyphicon glyphicon-download-alt"></i>
                                         </a>
                                     </div>
@@ -37,21 +37,21 @@
         <hr/>
         <ul class="text-muted">
             <li>
-                点击主题“缩略图”可进行进行预览，在预览页面右上角点击“退出主题预览”可回到该页面
+                @L("点击主题“缩略图”可进行进行预览，在预览页面右上角点击“退出主题预览”可回到该页面")
             </li>
             <li>
-                点击单选框进行主题切换
+                @L("点击单选框进行主题切换")
             </li>
             <li>
-                若主题有更新，重复安装即可更新
+                @L("若主题有更新，重复安装即可更新")
             </li>
         </ul>
     </div>
     @if (Authorizer.Authorize(PermissionKeys.ManageTheme))
     {
         <div class="panel-footer clearfix">
-            <input type="button" value="安装主题" class="btn btn-primary select-theme"/>
-            <a target="_blank" class="btn btn-danger" href="http://www.zkea.net/zkeacms/theme">下载更多主题</a>
+            <input type="button" value="@L("安装主题")" class="btn btn-primary select-theme"/>
+            <a target="_blank" class="btn btn-danger" href="http://www.zkea.net/zkeacms/theme">@L("下载更多主题")</a>
             <div class="hide">
                 <input id="file" type="file" name="file"/>
             </div>
@@ -65,9 +65,9 @@
             $(document).on("click", "input[name='theme']", function () {
                 $(".thumbnail").removeClass("active");
                 $(this).closest(".thumbnail").addClass("active");
-                Easy.MessageTip.Show("切换主题中...");
+                Easy.MessageTip.Show("@L("切换主题中...")");
                 $.post("@Url.Action("ChangeTheme")", { id: $(this).val() }, function (data) {
-                    Easy.MessageTip.Show("切换主题成功！");
+                    Easy.MessageTip.Show("@L("切换主题成功！")");
                 });
             });
             $(document).on("click", ".select-theme", function () {
@@ -87,7 +87,7 @@
                     }
                     Easy.MessageTip.Show(result.message);
                 }
-                Easy.MessageTip.Show("主题安装中...");
+                Easy.MessageTip.Show("@L("主题安装中...")");
                 xhr.send(formData);
             });
         });

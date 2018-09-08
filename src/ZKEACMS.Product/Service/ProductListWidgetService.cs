@@ -91,7 +91,7 @@ namespace ZKEACMS.Product.Service
             else
             {
                 var ids = _productCategoryService.Get(m => m.ID == currentWidget.ProductCategoryID || m.ParentID == currentWidget.ProductCategoryID).Select(m => m.ID).ToList();
-                filter = m => m.IsPublish && ids.Contains(m.ProductCategoryID ?? 0);
+                filter = m => m.IsPublish && ids.Contains(m.ProductCategoryID);
             }
             if (currentWidget.IsPageable)
             {

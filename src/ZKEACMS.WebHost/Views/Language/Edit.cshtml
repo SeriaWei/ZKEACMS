@@ -1,30 +1,49 @@
-﻿@model Easy.Modules.MutiLanguage.LanguageEntity
+﻿@model List<Easy.Modules.MutiLanguage.LanguageEntity>
 @{
     Script.Reqiured("validate").AtFoot();
 }
 <div class="panel panel-default">
     <div class="panel-heading">
-        编辑
+        @L("编辑")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
         {
-            @Html.EditorForModel()
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-12 col-lg-2">
+                    <label class="control-label">@L("翻译键")</label>
+                </div>
+                <div class="col-md-12 col-lg-10">
+                    <input type="text" class="form-control" readonly="readonly" value="@Model[0].LanKey"  />
+                </div>
+            </div>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var item = Model[i];
+                <div class="form-group">
+                    <div class="col-md-12 col-lg-2">
+                        <label class="control-label">
+                        @L("翻译内容")
+                        [@item.CultureName]
+                        </label>
+                    </div>
+                    <div class="col-md-12 col-lg-10">
+                        <input type="hidden" name="[@i].CultureName" value="@item.CultureName" />
+                        <input type="hidden" name="[@i].LanKey" value="@item.LanKey" />
+                        <input type="hidden" name="[@i].LanType" value="@item.LanType" />
+                        <textarea class="form-control" rows="3" name="[@i].LanValue">@item.LanValue</textarea>
+                    </div>
+                </div>
+            }
+        </div>
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManageApplicationSetting))
                 {
-                    <input type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Update" />
+                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Update" />
                 }
-                <input type="button" class="btn btn-default cancel" value="取消" />
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
             </div>
         }
     </div>
 </div>
-@using (Script.AtFoot())
-{
-    <script type="text/javascript">
-        $(function () {
-            $("#SettingKey").attr("readonly", "readonly");
-        });
-    </script>
-}

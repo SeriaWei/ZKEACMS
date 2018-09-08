@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ZKEACMS.DbConnectionPool;
 
 namespace ZKEACMS.WebHost
 {
@@ -27,7 +28,7 @@ namespace ZKEACMS.WebHost
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureResource<DefaultResourceManager>();
-            services.AddSingleton<SimpleDbConnectionPool.IDatabaseConfiguring, EntityFrameWorkConfigure>();
+            services.AddSingleton<IDatabaseConfiguring, EntityFrameWorkConfigure>();
             services.UseZKEACMS(Configuration);
         }
 

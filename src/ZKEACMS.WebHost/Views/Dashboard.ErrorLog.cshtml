@@ -4,7 +4,7 @@
 @if (Authorizer.Authorize(PermissionKeys.ManageEventViewer) && Model.Any())
 {
     <div class="error-log panel panel-danger">
-        <div class="panel-heading">错误日志</div>
+        <div class="panel-heading">@L("错误日志")</div>
         <div class="panel-body">
             @if (Model.Any())
             {
@@ -28,7 +28,7 @@
                                     }
                                 </div>
                                 <div class="pull-right">
-                                    <a href="@Url.Action("ViewLog","EventViewer",new { id = file.Name })" download="@file.Name">下载</a>
+                                    <a href="@Url.Action("ViewLog","EventViewer",new { id = file.Name })" download="@file.Name">@L("下载")</a>
                                 </div>
                             </div>
                         </li>

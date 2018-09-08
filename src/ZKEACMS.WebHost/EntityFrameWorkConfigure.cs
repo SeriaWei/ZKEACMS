@@ -10,11 +10,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ZKEACMS.DbConnectionPool;
 using ZKEACMS.Options;
 
 namespace ZKEACMS.WebHost
 {
-    public class EntityFrameWorkConfigure: SimpleDbConnectionPool.IDatabaseConfiguring
+    public class EntityFrameWorkConfigure: IDatabaseConfiguring
     {
         private readonly DatabaseOption _dataBaseOption;
         private readonly ILoggerFactory _loggerFactory;
@@ -38,7 +39,7 @@ namespace ZKEACMS.WebHost
                 case Easy.DbTypes.MsSqlEarly:
                     {
                         if (dbConnectionForReusing != null)
-                            optionsBuilder.UseSqlServer(dbConnectionForReusing);
+                            optionsBuilder.UseSqlServer(dbConnectionForReusing, option => option.UseRowNumberForPaging());
                         else
                             optionsBuilder.UseSqlServer(_dataBaseOption.ConnectionString, option => option.UseRowNumberForPaging());
                         break;

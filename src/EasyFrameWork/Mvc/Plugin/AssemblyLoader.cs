@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyModel;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+using Microsoft.Extensions.DependencyModel;
 using System;
 using System.Collections.Generic;
 using System.IO;

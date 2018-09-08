@@ -3,13 +3,26 @@ using System.ComponentModel.DataAnnotations;
 using Easy.MetaData;
 using System.ComponentModel.DataAnnotations.Schema;
 using Easy.Models;
+using System;
+using Easy.Extend;
 
 namespace Easy.Modules.MutiLanguage
 {
     [Table("Language")]
     public class LanguageEntity
     {
-        [Key]
+        [NotMapped]
+        public string ID
+        {
+            get
+            {
+                if (LanKey.IsNullOrWhiteSpace())
+                {
+                    return string.Empty;
+                }
+                return Convert.ToBase64String(LanKey.ToByte()).UrlEncode();
+            }
+        }
         public string LanKey { get; set; }
         public string CultureName { get; set; }
         public string LanValue { get; set; }
@@ -20,10 +33,11 @@ namespace Easy.Modules.MutiLanguage
     {
         protected override void ViewConfigure()
         {
-            ViewConfig(m => m.CultureName).AsTextBox().ReadOnly().ShowInGrid();
-            ViewConfig(m => m.LanKey).AsTextBox().ReadOnly().ShowInGrid().Search(LINQ.Query.Operators.Contains);
-            ViewConfig(m => m.LanType).AsTextBox().ReadOnly();
-            ViewConfig(m => m.Module).AsTextBox().ReadOnly();
+            ViewConfig(m => m.ID).AsHidden().Ignore();
+            ViewConfig(m => m.CultureName).AsTextBox().ShowInGrid().ReadOnly();
+            ViewConfig(m => m.LanKey).AsTextBox().ShowInGrid().Search(LINQ.Query.Operators.Contains).SetGridColumnTemplate("<a href=\"/admin/Language/Edit?Id={id}\">{lanKey}</a>").ReadOnly();
+            ViewConfig(m => m.LanType).AsTextBox();
+            ViewConfig(m => m.Module).AsTextBox();
             ViewConfig(m => m.LanValue).AsTextBox().Required().ShowInGrid().Search(LINQ.Query.Operators.Contains);
         }
     }

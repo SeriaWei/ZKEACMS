@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2016 ZKEASOFT 
+ * http://www.zkea.net/licenses 
+ */
 using System;
 using Easy;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +11,7 @@ using ZKEACMS.Article.ViewModel;
 using ZKEACMS.Widget;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Easy.Extend;
 
 namespace ZKEACMS.Article.Service
 {
@@ -33,6 +37,10 @@ namespace ZKEACMS.Article.Service
                     _articleService.IncreaseCount(viewModel.Current);
                     viewModel.Prev = _articleService.GetPrev(viewModel.Current);
                     viewModel.Next = _articleService.GetNext(viewModel.Current);
+                    if (viewModel.Current.Url.IsNotNullAndWhiteSpace() && actionContext.RouteData.GetArticleUrl().IsNullOrWhiteSpace())
+                    {
+                        actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{viewModel.Current.Url}.html", true);
+                    }
                 }
             }
             if (viewModel.Current == null && ApplicationContext.IsAuthenticated)

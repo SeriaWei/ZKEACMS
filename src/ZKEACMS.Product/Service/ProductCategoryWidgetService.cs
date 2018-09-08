@@ -25,7 +25,14 @@ namespace ZKEACMS.Product.Service
         {
             ProductCategoryWidget currentWidget = widget as ProductCategoryWidget;
             int cate = actionContext.RouteData.GetCategory();
-
+            if (actionContext.RouteData.GetCategoryUrl().IsNullOrEmpty() && cate > 0)
+            {
+                var productCategory = _productCategoryService.Get(cate);
+                if (productCategory != null && productCategory.Url.IsNotNullAndWhiteSpace())
+                {
+                    actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{productCategory.Url}", true);
+                }
+            }
             return widget.ToWidgetViewModelPart(new ProductCategoryWidgetViewModel
             {
                 Categorys = _productCategoryService.Get(m => m.ParentID == currentWidget.ProductCategoryID),

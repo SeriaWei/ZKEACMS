@@ -10,23 +10,23 @@
         <input type="hidden" name="PaymentGateway" id="PaymentGateway" />
         <div class="basket-header clearfix">
             <div class="pull-left">
-                <h4>确认定单</h4>
+                <h4>@L("确认定单")</h4>
             </div>
             <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="basket-body">
             <div class="contact">
                 <div class="form-group">
-                    <label for="Contact">联系人</label>
-                    <input type="text" class="form-control" id="Contact" name="Contact" placeholder="联系人/收货人" value="@ApplicationContext.CurrentCustomer.UserName">
+                    <label for="Contact">@L("联系人")</label>
+                    <input type="text" class="form-control" id="Contact" name="Contact" placeholder="@L("联系人/收货人")" value="@ApplicationContext.CurrentCustomer.UserName">
                 </div>
                 <div class="form-group">
-                    <label for="PhoneNumber">电话</label>
-                    <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="联系电话" value="@(ApplicationContext.CurrentCustomer.MobilePhone??ApplicationContext.CurrentCustomer.Telephone)">
+                    <label for="PhoneNumber">@L("电话")</label>
+                    <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="@L("联系电话")" value="@(ApplicationContext.CurrentCustomer.MobilePhone??ApplicationContext.CurrentCustomer.Telephone)">
                 </div>
                 <div class="form-group">
-                    <label for="ShippingAddress">收货地址</label>
-                    <textarea class="form-control" rows="3" cols="10" name="ShippingAddress" id="ShippingAddress" placeholder="详细的收货地址">@ApplicationContext.CurrentCustomer.Address</textarea>
+                    <label for="ShippingAddress">@L("收货地址")</label>
+                    <textarea class="form-control" rows="3" cols="10" name="ShippingAddress" id="ShippingAddress" placeholder="@L("详细的收货地址")">@ApplicationContext.CurrentCustomer.Address</textarea>
                 </div>
             </div>
             <hr />
@@ -70,7 +70,7 @@
                 @if (Model.Basket == null || !Model.Basket.Any())
                 {
                     <li class="row empty text-center">
-                        您的购物车是空的
+                        @L("您的购物车是空的")
                     </li>
                 }
             </ul>
@@ -79,22 +79,22 @@
             <div class="row total">
                 <div class="col-xs-4">
                     <div class="text-center">
-                        <span class="total-items">@Model.Quantity</span> 件
+                        <span class="total-items">@Model.Quantity</span> @L("件")
                     </div>
                 </div>
                 <div class="col-xs-8">
                     <div class="clearfix">
                         <div class="text-right">
-                            总计
+                            @L("总计")
                             <span class="price">
-                                ￥<span class="total-price">@Model.Total.ToString("F2")</span>
+                                @L("￥")<span class="total-price">@Model.Total.ToString("F2")</span>
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
             <a class="confirm-order" data-payment="@ZKEACMS.Shop.Payment.Gateways.AliPay">
-               在线支付
+               @L("在线支付")
             </a>
         </div>
     }

@@ -13,10 +13,18 @@ namespace ZKEACMS.Product.Service
     public class ProductCategoryService : ServiceBase<ProductCategory>, IProductCategoryService
     {
         private readonly IProductService _productService;
-        public ProductCategoryService(IProductService productService, IApplicationContext applicationContext, CMSDbContext dbContext)
+        private readonly IProductCategoryTagService _productCategoryTagService;
+        private readonly ILocalize _localize;
+        public ProductCategoryService(IProductService productService, 
+            IApplicationContext applicationContext,
+            IProductCategoryTagService productCategoryTagService, 
+            ILocalize localize,
+            CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _productService = productService;
+            _productCategoryTagService = productCategoryTagService;
+            _localize = localize;
         }
         public override ServiceResult<ProductCategory> Add(ProductCategory item)
         {
@@ -25,7 +33,7 @@ namespace ZKEACMS.Product.Service
                 if (GetByUrl(item.Url) != null)
                 {
                     var result = new ServiceResult<ProductCategory>();
-                    result.RuleViolations.Add(new RuleViolation("Url", "Url已存在"));
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Url已存在")));
                     return result;
                 }
             }
@@ -38,7 +46,7 @@ namespace ZKEACMS.Product.Service
                 if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
                 {
                     var result = new ServiceResult<ProductCategory>();
-                    result.RuleViolations.Add(new RuleViolation("Url", "Url已存在"));
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Url已存在")));
                     return result;
                 }
             }
@@ -49,22 +57,30 @@ namespace ZKEACMS.Product.Service
             return Get(m => m.Url == url).FirstOrDefault();
         }
 
-        public IEnumerable<ProductCategory> GetChildren(long id)
+        private IEnumerable<ProductCategory> LoadChildren(ProductCategory category)
         {
-            return Get(m => m.ParentID == id);
+            List<ProductCategory> result = new List<ProductCategory>();
+            var children = Get(m => m.ParentID == category.ID);
+            result.AddRange(children);
+            foreach (var item in children)
+            {
+                result.AddRange(LoadChildren(item));
+            }
+            return result;
         }
         public override void Remove(ProductCategory item)
         {
-            if (item != null)
+            BeginTransaction(() =>
             {
-                GetChildren(item.ID).Each(m =>
-                {
-                    _productService.Remove(n => n.ProductCategoryID == m.ID);
-                    Remove(m.ID);
-                });
                 _productService.Remove(n => n.ProductCategoryID == item.ID);
-            }
-            base.Remove(item);
+                _productCategoryTagService.Remove(m => m.ProductCategoryId == item.ID);
+                var childred = LoadChildren(item);
+                var ids = childred.Select(m => m.ID).ToArray();
+                _productService.Remove(n => ids.Contains(n.ProductCategoryID));
+                _productCategoryTagService.Remove(n => ids.Contains(n.ProductCategoryId));
+                RemoveRange(childred.ToArray());
+                base.Remove(item);
+            });
         }
     }
 }

@@ -24,7 +24,7 @@
     <meta http-equiv="pragma" content="no-cache" />
 
     <meta charset="utf-8" />
-    <title>[设计]@Model.Page.Title</title>
+    <title>[@L("设计")]@Model.Page.Title</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
     @StyleAtHead()
@@ -52,7 +52,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand"><span class="badge">页面设计</span></a>
+                    <a class="navbar-brand"><span class="badge">@L("页面设计")</span></a>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
@@ -61,7 +61,7 @@
                                 <label class="checkbox-inline">
                                     <input class="helper" data-class="design-border" type="checkbox" autocomplete="off" checked />
                                     <span>
-                                        边框(显示空区域)
+                                        @L("边框(显示空区域)")
                                     </span>
                                 </label>
                             </a>
@@ -71,7 +71,7 @@
                                 <label class="checkbox-inline">
                                     <input class="helper" data-class="hideToolBar" type="checkbox" autocomplete="off" checked />
                                     <span>
-                                        工具栏
+                                        @L("工具栏")
                                     </span>
                                 </label>
                             </a>
@@ -81,43 +81,43 @@
                         <div class="btn-group">
                             <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new {Model.Page.ID})">
                                 <i class="glyphicon glyphicon-eye-open"></i>
-                                预览
+                                @L("预览")
                             </a>
                             <a class="btn btn-primary" href="@Url.Action("Index", "Page", new {PageID = Model.Page.ID})">
                                 <i class="glyphicon glyphicon-th-list"></i>
-                                概览
+                                @L("概览")
                             </a>
                             <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new {Model.ID, PageID = Model.Page.ID})">
                                 <i class="glyphicon glyphicon-th"></i>
-                                编辑布局
+                                @L("编辑布局")
                             </a>
                             <a class="btn btn-primary" href="@Url.Action("Edit", "Page", new { Model.Page.ID})">
                                 <i class="glyphicon glyphicon-record"></i>
-                                属性/历史记录
+                                @L("属性/历史记录")
                             </a>
                             <a class="btn btn-primary" href="@Url.Action("SelectWidget", "WidgetTemplate", new { pageId = Model.Page.ID})">
                                 <i class="glyphicon glyphicon-plus"></i>
-                                添加内容
+                                @L("添加内容")
                             </a>
                             <a href="javascript:void(0)" class="upload-template btn btn-primary">
                                 <i class="glyphicon glyphicon-copy"></i>
-                                安装板块
+                                @L("安装板块")
                             </a>
                             <a class="btn btn-primary" href="@Url.Action("PublishPage", "Page", new {Model.Page.ID, ReturnUrl = Model.Page.Url})">
                                 <i class="glyphicon glyphicon-open"></i>
-                                发布
+                                @L("发布")
                             </a>
 
                             @if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
                             {
                                 <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme")">
                                     <i class="glyphicon glyphicon-transfer"></i>
-                                    退出
+                                    @L("退出")
                                     @Model.CurrentTheme.Title
-                                    主题
+                                    @L("主题")
                                 </a>
                             }
-                            @Html.Partial("Partial.Menu", Model)
+                            @await Html.PartialAsync("Partial.Menu", Model)
                         </div>
 
                     </div>

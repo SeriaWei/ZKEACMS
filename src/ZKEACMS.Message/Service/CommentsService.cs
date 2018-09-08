@@ -1,14 +1,16 @@
-﻿using Easy.RepositoryPattern;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+
 using Easy;
-using ZKEACMS.Message.Models;
-using Easy.Notification;
-using ZKEACMS.Setting;
 using Easy.Extend;
+using Easy.Notification;
+using Easy.RepositoryPattern;
+using System;
+using ZKEACMS.Message.Models;
+using ZKEACMS.Setting;
 
 namespace ZKEACMS.Message.Service
 {

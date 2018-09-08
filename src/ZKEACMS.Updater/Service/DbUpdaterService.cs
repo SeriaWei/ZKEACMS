@@ -1,15 +1,16 @@
-﻿using Easy.RepositoryPattern;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Easy;
-using Microsoft.Extensions.Options;
-using ZKEACMS.Options;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+
 using Easy.Mvc.Plugin;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System;
+using System.IO;
+using ZKEACMS.Options;
 
 namespace ZKEACMS.Updater.Service
 {

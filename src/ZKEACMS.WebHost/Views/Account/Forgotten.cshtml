@@ -19,22 +19,22 @@
         <div class="login-panel-body">
             <div class="info-bar">
                 <p>
-                    请输入您的用户信息以找回密码
+                    @L("请输入您的用户信息以找回密码")
                 </p>
                 <img src="~/css/Images/picker_account_msa.svg" />
             </div>
             <div class="form-input">
-                <h4>邮箱</h4>
+                <h4>@L("邮箱")</h4>
                 <input type="text"
-                       placeholder="输入您注册时使用的邮箱地址"
+                       placeholder="@L("输入您注册时使用的邮箱地址")"
                        id="Email"
                        name="Email"
                        class="form-control"
                        data-val="true"
-                       data-val-required="找回密码的邮箱不能为空"
-                       data-val-length="邮箱的长度应小于200"
+                       data-val-required="@L("找回密码的邮箱不能为空")"
+                       data-val-length="@L("邮箱的长度应小于200")"
                        data-val-regex-pattern="@(Easy.Constant.RegularExpression.Email)"
-                       data-val-regex="输入的邮件格式不正确"
+                       data-val-regex="@L("输入的邮件格式不正确")"
                        data-val-length-max="200" />
                 <span class="field-validation-valid " data-valmsg-for="Email" data-valmsg-replace="true"></span>
             </div>
@@ -45,11 +45,11 @@
                 </div>
             }
             <div class="form-input">
-                <input type="submit" class="btn-login" value="找回密码" />
+                <input type="submit" class="btn-login" value="@L("找回密码")" />
             </div>
         </div>
         <div class="login-panel-footer ">
-            <a href="@Url.Action("SignIn", new { ReturnUrl = ViewContext.HttpContext.Request.Query["ReturnUrl"] })">立即登录</a>
+            <a href="@Url.Action("SignIn", new { ReturnUrl = ViewContext.HttpContext.Request.Query["ReturnUrl"] })">@L("立即登录")</a>
         </div>
     </div>
 }

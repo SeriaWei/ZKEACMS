@@ -17,15 +17,15 @@
         </div>
         <div class="login-panel-body">
             <h3 class="version text-center">@ZKEACMS.Version.CurrentVersion <small>@ZKEACMS.Version.Rank</small></h3>
-            <p>请输入您的用户信息以登录系统</p>
+            <p>@L("请输入您的用户信息以登录系统")</p>
             <div class="form-input">
-                <h4>用户名</h4>
-                <input type="text" id="userName" name="userName" class="form-control" data-val="true" data-val-required="请输入用户名" />
+                <h4>@L("用户名")</h4>
+                <input type="text" id="userName" name="userName" class="form-control" data-val="true" data-val-required="@L("请输入用户名")" />
                 <span class="field-validation-valid " data-valmsg-for="userName" data-valmsg-replace="true"></span>
             </div>
             <div class="form-input">
-                <h4>密码</h4>
-                <input type="password" id="password" name="password" class="form-control" data-val="true" data-val-required="请输入密码" />
+                <h4>@L("密码")</h4>
+                <input type="password" id="password" name="password" class="form-control" data-val="true" data-val-required="@L("请输入密码")" />
                 <span class="field-validation-valid" data-valmsg-for="password" data-valmsg-replace="true"></span>
             </div>
             @if (ViewBag.Errormessage != null)
@@ -35,17 +35,17 @@
                 </div>
             }
             <div>
-                <input type="submit" class="btn btn-danger btn-login" value="登录" />
+                <input type="submit" class="btn btn-danger btn-login" value="@L("登录")" />
             </div>
         </div>
         <div class="login-panel-footer">
             <p>
-                <a href="http://www.zkea.net/licenses" target="_blank">许可协议</a>
+                <a href="http://www.zkea.net/licenses" target="_blank">@L("许可协议")</a>
             </p>
             <p>
                 @*/*授权以后，可以修改Copyright，但是请保留Powered by*/*@
-                Copyright © 2016-@DateTime.Now.Year <br /><a href="http://www.zkea.net" target="_blank" title="深圳市纸壳软件科技有限公司">ZKEASOFT</a>. All Rights Reserved <br />
-                Powered by <a href="http://www.zkea.net/zkeacms/zkeacmscore" target="_blank">ZKEACMS</a>
+                Copyright © 2016-@DateTime.Now.Year <br /><a href="http://www.zkea.net" target="_blank" title="@L("深圳市纸壳软件科技有限公司")">@L("ZKEASOFT")</a>. @L("All Rights Reserved") <br />
+                Powered by <a href="http://www.zkea.net/zkeacms/zkeacmscore" target="_blank">@L("ZKEACMS")</a>
             </p>
         </div>
     </div>

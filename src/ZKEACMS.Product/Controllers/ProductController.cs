@@ -106,7 +106,7 @@ namespace ZKEACMS.Product.Controllers
         public JsonResult GetProducts(int ProductCategoryID)
         {
             var ids = _productCategoryService.Get(m => m.ParentID == ProductCategoryID || m.ID == ProductCategoryID).Select(m => m.ID);
-            return Json(Service.Get(m => ids.Contains(m.ProductCategoryID ?? 0))
+            return Json(Service.Get(m => ids.Contains(m.ProductCategoryID))
                 .OrderBy(m => m.OrderIndex)
                 .ThenByDescending(m => m.ID).Select(m => new { m.ID, m.Title }));
         }

@@ -32,6 +32,7 @@ using ZKEACMS.Common.Models;
 using ZKEACMS.Common.Service;
 using ZKEACMS.Dashboard;
 using ZKEACMS.DataArchived;
+using ZKEACMS.DbConnectionPool;
 using ZKEACMS.ExtendField;
 using ZKEACMS.Layout;
 using ZKEACMS.Media;
@@ -156,24 +157,16 @@ namespace ZKEACMS
                 option.DataSourceLink = "~/admin/Carousel";
             });
             #region 数据库配置
-            services.AddSingleton<SimpleDbConnectionPool>();
+            services.AddSingleton<IDbConnectionPool, SimpleDbConnectionPool>();
             //池的配置：
             //MaximumRetained规定池的容量（常态最大保有数量）。
             //MaximumRetained为0时，相当于不使用DbConnection池，
             //但因为在Request期间Connection是保持打开的，所以对许多场合还是有性能改善的。
-            services.AddSingleton(new SimpleDbConnectionPool.Options() { MaximumRetained = 128 });
+            services.AddSingleton(new DbConnectionPool.Options() { MaximumRetained = 128 });
             //提供在Request期间租、还DbConnection的支持
-            services.AddScoped<SimpleDbConnectionPool.TransientObjectHolder>();
-            services.AddScoped<DbContextOptions<CMSDbContext>>(sp =>
-            {
-                //租一个DbConnection（将在Request完成后还回，因为其Lifetime为Scoped类型）
-                SimpleDbConnectionPool.TransientObjectHolder holder = sp.GetService<SimpleDbConnectionPool.TransientObjectHolder>();
-                SimpleDbConnectionPool.IDatabaseConfiguring configure = sp.GetService<SimpleDbConnectionPool.IDatabaseConfiguring>();
-                DbContextOptionsBuilder<CMSDbContext> optBuilder = new DbContextOptionsBuilder<CMSDbContext>();
-                configure.OnConfiguring(optBuilder, holder.Object);
-                return optBuilder.Options;
-            });
-            services.AddDbContext<CMSDbContext>(ServiceLifetime.Scoped);
+            services.AddScoped<IConnectionHolder, TransientConnectionHolder>();
+            services.AddDbContextOptions<CMSDbContext>();
+            services.AddDbContext<CMSDbContext>();       
             services.AddScoped<EasyDbContext>((provider) => provider.GetService<CMSDbContext>());
             services.AddSingleton(configuration.GetSection("Database").Get<DatabaseOption>());
             #endregion

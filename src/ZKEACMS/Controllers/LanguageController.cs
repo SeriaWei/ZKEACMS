@@ -12,16 +12,26 @@ using System.Linq;
 using Easy.RepositoryPattern;
 using Easy.Modules.MutiLanguage;
 using Easy;
+using Easy.Options;
+using Microsoft.Extensions.Options;
+using System.Collections.Generic;
+using System;
+using System.Text;
 
 namespace ZKEACMS.Controllers
 {
     [DefaultAuthorize(Policy = PermissionKeys.ManageLanguage)]
     public class LanguageController : Controller
     {
-        public readonly ILanguageService _languageService;
-        public LanguageController(ILanguageService languageService)
+        private readonly ILanguageService _languageService;
+        private readonly IOptions<CultureOption> _cultureOption;
+        private readonly ILocalize _localize;
+
+        public LanguageController(ILanguageService languageService, IOptions<CultureOption> cultureOption, ILocalize localize)
         {
             _languageService = languageService;
+            _cultureOption = cultureOption;
+            _localize = localize;
         }
         public IActionResult Index()
         {
@@ -29,37 +39,49 @@ namespace ZKEACMS.Controllers
         }
         public IActionResult Edit(string Id)
         {
-            return View(_languageService.Get(Id));
+            string lanKey = Encoding.UTF8.GetString(Convert.FromBase64String(Id));
+            var culture = _languageService.GetCultures(lanKey).ToList();
+
+            return View(culture);
         }
         [HttpPost]
-        public IActionResult Edit(LanguageEntity language)
+        public IActionResult Edit(List<LanguageEntity> language)
         {
-            if (ModelState.IsValid)
+            foreach (var item in language)
             {
-                Localization.RemoveCache(language.LanKey);
-                _languageService.Update(language);
-                return RedirectToAction("Index");
+                _languageService.Update(item);
             }
-            return View(language);
+            return RedirectToAction("Index");
         }
         public IActionResult Create()
         {
-            return View();
+            List<LanguageEntity> culture = new List<LanguageEntity>();
+
+            culture.Add(new LanguageEntity { CultureName = _cultureOption.Value.Code });
+
+            return View(culture);
         }
         [HttpPost]
-        public IActionResult Create(LanguageEntity language)
+        public IActionResult Create(List<LanguageEntity> language, string LanKey)
         {
-            if (ModelState.IsValid)
+            if (_languageService.GetCultures(LanKey).Any())
             {
-                _languageService.Add(language);
-                return RedirectToAction("Index");
+                ViewBag.LanKey = LanKey;
+                ModelState.AddModelError("LanKey", _localize.Get("·­Òë¼üÒÑ´æÔÚ"));
+                return View(language);
             }
-            return View(language);
+            foreach (var item in language)
+            {
+                item.LanKey = LanKey;
+                _languageService.Add(item);
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         public virtual IActionResult GetList(DataTableOption query)
         {
+            query.AppendCondition("CultureName", _cultureOption.Value.Code);
             var pagin = new Pagination { PageSize = query.Length, PageIndex = query.Start / query.Length };
             var expression = query.AsExpression<LanguageEntity>();
             var order = query.GetOrderBy<LanguageEntity>();

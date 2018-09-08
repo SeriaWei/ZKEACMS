@@ -23,65 +23,65 @@
         <div class="login-panel-body">
             <div class="info-bar">
                 <p>
-                    请输入您的用户信息以注册
+                    @L("请输入您的用户信息以注册")
                 </p>
                 <img src="~/css/Images/picker_account_msa.svg" />
             </div>
             <div class="form-input">
-                <h4>姓名</h4>
+                <h4>@L("姓名")</h4>
                 <input type="text"
-                       placeholder="输入姓名"
+                       placeholder="@L("输入姓名")"
                        id="UserName"
                        name="UserName"
                        class="form-control"
                        data-val="true"
-                       data-val-required="姓名不能为空"
-                       data-val-length="姓名的长度应小于50"
+                       data-val-required="@L("姓名不能为空")"
+                       data-val-length="@L("姓名的长度应小于50")"
                        data-val-length-max="50"
                        value="@Model.UserName" />
                 @Html.ValidationMessageFor(m => m.UserName)
             </div>
             <div class="form-input">
-                <h4>邮箱</h4>
+                <h4>@L("邮箱")</h4>
                 <input type="email"
-                       placeholder="输入您常使用的邮箱地址"
+                       placeholder="@L("输入您常使用的邮箱地址")"
                        id="Email"
                        name="Email"
                        class="form-control"
                        data-val="true"
-                       data-val-required="登录邮箱不能为空"
-                       data-val-length="邮箱的长度应小于200"
+                       data-val-required="@L("登录邮箱不能为空")"
+                       data-val-length="@L("邮箱的长度应小于200")"
                        data-val-length-max="200"
                        data-val-regex-pattern="@(Easy.Constant.RegularExpression.Email)"
-                       data-val-regex="输入的邮件格式不正确"
+                       data-val-regex="@L("输入的邮件格式不正确")"
                        value="@Model.Email" />
                 @Html.ValidationMessageFor(m => m.Email)
             </div>
             <div class="form-input">
-                <h4>密码</h4>
+                <h4>@L("密码")</h4>
                 <input type="password"
-                       placeholder="输入密码"
+                       placeholder="@L("输入密码")"
                        id="PassWord"
                        name="PassWord"
                        class="form-control"
                        data-val="true"
-                       data-val-required="密码不能为空"
-                       data-val-length="密码的长度应小于20"
+                       data-val-required="@L("密码不能为空")"
+                       data-val-length="@L("密码的长度应小于20")"
                        data-val-length-max="20" />
                 @Html.ValidationMessageFor(m => m.PassWord)
             </div>
             <div class="form-input">
-                <h4>确认密码</h4>
+                <h4>@L("确认密码")</h4>
                 <input type="password"
-                       placeholder="输入密码"
+                       placeholder="@L("输入密码")"
                        id="PassWordConfirm"
                        name="PassWordConfirm"
                        class="form-control"
                        data-val="true"
-                       data-val-required="请确认密码"
-                       data-val-equalto="密码不一致"
+                       data-val-required="@L("请确认密码")"
+                       data-val-equalto="@L("密码不一致")"
                        data-val-equalto-other="PassWord"
-                       data-val-length="密码的长度应小于20"
+                       data-val-length="@L("密码的长度应小于20")"
                        data-val-length-max="20" />
                 <span class="field-validation-valid" data-valmsg-for="PassWordConfirm" data-valmsg-replace="true"></span>
             </div>
@@ -92,11 +92,11 @@
                 </div>
             }
             <div class="form-input">
-                <input type="submit" class="btn-login" value="立即注册" />
+                <input type="submit" class="btn-login" value="@L("立即注册")" />
             </div>
         </div>
         <div class="login-panel-footer ">
-            已有账号？<a href="@Url.Action("SignIn", new { ReturnUrl = returnUrl })">立即登录</a>
+            @L("已有账号？") <a href="@Url.Action("SignIn", new { ReturnUrl = returnUrl })">@L("立即登录")</a>
         </div>
     </div>
 }

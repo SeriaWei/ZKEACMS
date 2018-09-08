@@ -19,7 +19,7 @@
                 <div class="pull-right">
                     @if (!Model.DetailLink.IsNullOrEmpty())
                     {
-                        @Html.SmartLink(Url.PathContent(Model.DetailLink), "More »")
+                        @Html.SmartLink(Url.PathContent(Model.DetailLink), L("More »").Text)
                     }
                 </div>
             </div>

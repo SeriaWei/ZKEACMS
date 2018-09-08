@@ -4,7 +4,7 @@
 }
 <div class="panel panel-default">
     <div class="panel-heading">
-        标签
+        @L("标签")
     </div>
     <div class="panel-body" id="category-tags">
         <ul class="fullRowList tags">
@@ -15,7 +15,7 @@
                         <a href="javascript:" class="btn-add-tag" data-id="@item.ID"><i class="glyphicon glyphicon-plus"></i></a>
                         <a href="javascript:" class="btn-delete-tag" data-id="@item.ID"><i class="glyphicon glyphicon-trash"></i></a>
                         <input class="tag-input" id="tag-@item.ID" data-id="@item.ID" data-pid="@item.ParentId" type="text" value="@item.Title" />
-                        <code>按回车保存</code>
+                        <code>@L("按回车保存")</code>
                     </div>
                     <ul>
                         @foreach (var child in Model.Where(m => m.ParentId == item.ID).OrderBy(m => m.ID))
@@ -23,7 +23,7 @@
                             <li>
                                 <a href="javascript:" class="btn-delete-tag" data-id="@child.ID"><i class="glyphicon glyphicon-trash"></i></a>
                                 <input class="tag-input" id="tag-@child.ID" data-id="@child.ID" data-pid="@child.ParentId" type="text" value="@child.Title" />
-                                <code>按回车保存</code>
+                                <code>@L("按回车保存")</code>
                             </li>
                         }
                     </ul>
@@ -33,6 +33,6 @@
         </ul>
     </div>
     <div class="panel-footer">
-        <a href="javascript:" class="btn-add-tag" data-category="@ViewBag.ProductCategoryId" data-id="0">添加</a>
+        <a href="javascript:" class="btn-add-tag" data-category="@ViewBag.ProductCategoryId" data-id="0">@L("添加")</a>
     </div>
 </div>

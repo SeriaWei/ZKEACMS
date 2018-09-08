@@ -15,6 +15,7 @@ using ZKEACMS.Page;
 using ZKEACMS.Widget;
 using ZKEACMS.Zone;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace ZKEACMS.Controllers
 {
@@ -41,7 +42,7 @@ namespace ZKEACMS.Controllers
         public IActionResult LayoutWidget(string LayoutID)
         {
             ViewBag.LayoutID = LayoutID;
-            return View(Service.Get());
+            return View(Service.Get().ToList());
         }
         [HttpPost]
         public IActionResult LayoutZones(string ID)

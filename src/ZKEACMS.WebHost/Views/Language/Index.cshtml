@@ -1,9 +1,15 @@
 ﻿@{
     Style.Reqiured("dataTable").AtHead();
-    Script.Reqiured("dataTable").AtFoot();    
-	
-	Script.Reqiured("datepicker").AtFoot();
+    Script.Reqiured("dataTable").AtFoot();
+
+    Script.Reqiured("datepicker").AtFoot();
     Style.Reqiured("datepicker").AtHead();
 }
 @model Easy.Modules.MutiLanguage.LanguageEntity
+@if (Authorizer.Authorize(PermissionKeys.ManageLanguage))
+{
+    <div id="toolBar">
+        <a class="btn btn-primary btn-sm" href="@Url.Action("Create")">@L("新建")</a>
+    </div>
+}
 <grid edit-able="Authorizer.Authorize(PermissionKeys.ManageLanguage)" order-asc="LanKey" delete-able="false"></grid>

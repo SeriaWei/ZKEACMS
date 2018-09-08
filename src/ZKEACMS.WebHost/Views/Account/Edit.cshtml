@@ -1,6 +1,6 @@
 ﻿@model Easy.Modules.User.Models.UserEntity
 @{
-    ViewBag.Title = "个人中心";
+    ViewBag.Title = L("个人中心");
     Layout = Layouts.CustomerCenter;
     Script.Reqiured("validate").AtFoot();
 }
@@ -33,76 +33,76 @@
     @Html.HiddenFor(m => m.Status)
     <div class="panel panel-default">
         <div class="panel-heading clearfix">
-            <div class="pull-left">修改基本信息</div>
+            <div class="pull-left">@L("修改基本信息")</div>
             <div class="pull-right">
-                <a href="@Url.Action("PassWord")">修改密码</a>
+                <a href="@Url.Action("PassWord")">@L("修改密码")</a>
             </div>
         </div>
         <div class="panel-body">
             <div class="form-horizontal">
                 <div class="form-group">
-                    <label for="UserName" class="col-sm-1 control-label">姓 名</label>
+                    <label for="UserName" class="col-sm-1 control-label">@L("姓 名")</label>
                     <div class="col-sm-11">
                         @Html.EditorFor(m => m.UserName)
                         @Html.ValidationMessageFor(m => m.UserName)
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="Email" class="col-sm-1 control-label">邮 箱</label>
+                    <label for="Email" class="col-sm-1 control-label">@L("邮 箱")</label>
                     <div class="col-sm-11">
                         <input type="text" readonly disabled value="@Model.Email" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="Telephone" class="col-sm-1 control-label">头 像</label>
+                    <label for="Telephone" class="col-sm-1 control-label">@L("头 像")</label>
                     <div class="col-sm-11">
                         <input type="file" name="file" class="form-control" accept="image/*" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="Telephone" class="col-sm-1 control-label">电 话</label>
+                    <label for="Telephone" class="col-sm-1 control-label">@L("电 话")</label>
                     <div class="col-sm-11">
                         @Html.EditorFor(m => m.Telephone)
                         @Html.ValidationMessageFor(m => m.Telephone)
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="MobilePhone" class="col-sm-1 control-label">手 机</label>
+                    <label for="MobilePhone" class="col-sm-1 control-label">@L("手 机")</label>
                     <div class="col-sm-11">
                         @Html.EditorFor(m => m.MobilePhone)
                         @Html.ValidationMessageFor(m => m.MobilePhone)
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="QQ" class="col-sm-1 control-label">QQ</label>
+                    <label for="QQ" class="col-sm-1 control-label">@L("QQ")</label>
                     <div class="col-sm-11">
                         @Html.EditorFor(m => m.QQ)
                         @Html.ValidationMessageFor(m => m.QQ)
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="Sex" class="col-sm-1 control-label">性别</label>
+                    <label for="Sex" class="col-sm-1 control-label">@L("性别")</label>
                     <div class="col-sm-11">
                         @Html.EditorFor(m => m.Sex)
                         @Html.ValidationMessageFor(m => m.Sex)
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="Hobby" class="col-sm-1 control-label">爱 好</label>
+                    <label for="Hobby" class="col-sm-1 control-label">@L("爱 好")</label>
                     <div class="col-sm-11">
                         @Html.EditorFor(m => m.Hobby)
                         @Html.ValidationMessageFor(m => m.Hobby)
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="Address" class="col-sm-1 control-label">收货地址</label>
+                    <label for="Address" class="col-sm-1 control-label">@L("收货地址")</label>
                     <div class="col-sm-11">
                         @Html.EditorFor(m => m.Address)
                         @Html.ValidationMessageFor(m => m.Address)
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="ZipCode" class="col-sm-1 control-label">邮政编码</label>
+                    <label for="ZipCode" class="col-sm-1 control-label">@L("邮政编码")</label>
                     <div class="col-sm-11">
                         @Html.EditorFor(m => m.ZipCode)
                         @Html.ValidationMessageFor(m => m.ZipCode)
@@ -111,7 +111,7 @@
                 <div class="form-group">
                     <label for="ZipCode" class="col-sm-1 control-label"></label>
                     <div class="col-sm-11">
-                        <input type="submit" value="保存修改" class="btn btn-primary" />
+                        <input type="submit" value="@L("保存修改")" class="btn btn-primary" />
                     </div>
                 </div>
             </div>

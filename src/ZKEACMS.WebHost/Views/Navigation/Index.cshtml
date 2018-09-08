@@ -12,13 +12,13 @@
     {
         navTree.AddPlugin(Plugins.ContextMenu)
             .AddPlugin(Plugins.DragAndDrop)
-            .AddContextMenuItem(new ContextmenuItem {Label = "新建", Action = "Create", Icon = "glyphicon glyphicon-plus"})
-            .AddContextMenuItem(new ContextmenuItem {Label = "编辑", Action = "Edit", Icon = "glyphicon glyphicon-edit"});
+            .AddContextMenuItem(new ContextmenuItem {Label = L("新建").Text, Action = "Create", Icon = "glyphicon glyphicon-plus"})
+            .AddContextMenuItem(new ContextmenuItem {Label = L("编辑").Text, Action = "Edit", Icon = "glyphicon glyphicon-edit"});
     }
 }
 <div class="panel  panel-default">
     <div class="panel-heading">
-        导航
+        @L("导航")
     </div>
     <div class="panel-body">
         @navTree
@@ -28,13 +28,13 @@
         <div class="panel-footer">
             <a href="@Url.Action("Create", new {ParentID = "#"})" class="btn btn-link btn-xs">
                 <i class="glyphicon glyphicon-plus"></i>
-                添加导航
+                @L("添加导航")
             </a>
             <a href="http://www.zkea.net/zkeacms/document/navigationwidget" class="btn btn-link btn-xs" target="_blank">
                 <i class="glyphicon glyphicon-question-sign"></i>
-                说明文档
+                @L("说明文档")
             </a>
-            <small class="text-muted">"M" 表示该导航会在手机上显示。<strong>右键</strong>可创建子导航。</small>
+            <small class="text-muted">@L("\"M\" 表示该导航会在手机上显示。<strong>右键</strong>可创建子导航。")</small>
         </div>
     }
 </div>

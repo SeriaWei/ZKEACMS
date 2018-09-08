@@ -6,7 +6,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        修改
+        @L("修改")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -15,25 +15,25 @@
             <div class="toolBar">                
                 @if (Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.ManageOrder))
                 {
-                    <input type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Update" />
+                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Update" />
                 }
                 @if (Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.ViewOrderPayment) && Model.PaymentID.IsNotNullAndWhiteSpace())
                 {
-                    <a href="javascript:void(0)" class="btn btn-primary payment-info">支付信息</a>
+                    <a href="javascript:void(0)" class="btn btn-primary payment-info">@L("支付信息")</a>
                 }
                 @if (Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.RefundOrder) && Model.PaymentID.IsNotNullAndWhiteSpace() && Model.RefundID.IsNullOrEmpty())
                 {
-                    <a href="javascript:void(0)" class="btn btn-primary refund">退款</a>
+                    <a href="javascript:void(0)" class="btn btn-primary refund">@L("退款")</a>
                 }
                 @if (Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.ViewOrderRefund) && Model.RefundID.IsNotNullAndWhiteSpace())
                 {
-                    <a href="javascript:void(0)" class="btn btn-primary refund-info">退款信息</a>
+                    <a href="javascript:void(0)" class="btn btn-primary refund-info">@L("退款信息")</a>
                 }
                 @*@if (Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.CloseOrder) && Model.OrderStatus == (int)ZKEACMS.Shop.OrderStatus.UnPaid)
                 {
                     <a href="javascript:void(0)" class="btn btn-danger close-order">关闭订单</a>
                 }*@
-                <input type="button" class="btn btn-default cancel" value="取消" />                
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />                
             </div>
         }
     </div>
@@ -44,13 +44,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">信息</h4>
+                <h4 class="modal-title" id="myModalLabel">@L("信息")</h4>
             </div>
             <div class="modal-body">
                 ...
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">@L("关闭")</button>
             </div>
         </div>
     </div>
@@ -64,19 +64,19 @@
             Easy.Block();
             $.post("@Url.Action("PaymentInfo", new { id=Model.ID })", function (html) {
                 Easy.UnBlock();
-                $("#myModalLabel").text("支付信息")
+                $("#myModalLabel").text("@L("支付信息")")
                 $(".modal-body").html(html);
                 $(".modal").modal();
             }, "html");
         });
         $(document).on("click", ".refund", function () {
             if (!$("#Refund").val()) {
-                Easy.ShowMessageBox("提示", "请输入退款金额");
+                Easy.ShowMessageBox("@L("提示")", "@L("请输入退款金额")");
                 $("#Refund").focus();
                 return;
             }
             if (!$("#RefundReason").val()) {
-                Easy.ShowMessageBox("提示", "请输入退款原因");
+                Easy.ShowMessageBox("@L("提示")", "@L("请输入退款原因")");
                 $("#RefundReason").focus();
                 return;
             }
@@ -84,13 +84,13 @@
                 if (Number($("#Refund").val()) > Number($("#Total").val())) {
                     return;
                 }
-                Easy.ShowMessageBox("提示", "确定要退款吗？", function () {
+                Easy.ShowMessageBox("@L("提示")", "@L("确定要退款吗？")", function () {
                     Easy.Block();
                     $.post("@Url.Action("Refund", new { id = Model.ID })", { amount: $("#Refund").val(), reason: $("#RefundReason").val() }, function (data) {
                         if (data.hasViolation) {
-                            Easy.ShowMessageBox("提示", data.errorMessage);
+                            Easy.ShowMessageBox("@L("提示")", data.errorMessage);
                         } else {
-                            Easy.ShowMessageBox("提示", "退款成功！", function () { window.location.reload(true); },false);
+                            Easy.ShowMessageBox("@L("提示")", "@L("退款成功！")", function () { window.location.reload(true); },false);
                         }
                     });
                  }, true);
@@ -100,7 +100,7 @@
             Easy.Block();
             $.post("@Url.Action("RefundInfo", new { id=Model.ID })", function (html) {
                 Easy.UnBlock();
-                $("#myModalLabel").text("退款信息")
+                $("#myModalLabel").text("@L("退款信息")")
                 $(".modal-body").html(html);
                 $(".modal").modal();
             }, "html");
@@ -109,9 +109,9 @@
             Easy.Block();
             $.post("@Url.Action("CloseOrder", new { id=Model.ID })", function (data) {
                 if (data.hasViolation) {
-                    Easy.ShowMessageBox("提示", data.errorMessage);
+                    Easy.ShowMessageBox("@L("提示")", data.errorMessage);
                 } else {
-                    Easy.ShowMessageBox("提示", "订单已关闭！", function () { window.location.reload(true); }, false);
+                    Easy.ShowMessageBox("@L("提示")", "@L("订单已关闭！")", function () { window.location.reload(true); }, false);
                 }
             });
         });

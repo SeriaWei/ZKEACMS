@@ -21,35 +21,35 @@
         <div class="login-panel-body">
             <div class="info-bar">
                 <p>
-                    请输入您的用户信息以登录
+                    @L("请输入您的用户信息以登录")
                 </p>
                 <img src="~/css/Images/picker_account_msa.svg" />
             </div>
             <div class="form-input">
-                <h4>邮箱</h4>
+                <h4>@L("邮箱")</h4>
                 <input type="email"
-                       placeholder="输入您注册时使用的邮箱地址"
+                       placeholder="@L("输入您注册时使用的邮箱地址")"
                        id="email"
                        name="email"
                        class="form-control"
                        data-val="true"
-                       data-val-required="登录邮箱不能为空"
-                       data-val-length="邮箱的长度应小于200"
+                       data-val-required="@L("登录邮箱不能为空")"
+                       data-val-length="@L("邮箱的长度应小于200")"
                        data-val-regex-pattern="@(Easy.Constant.RegularExpression.Email)"
-                       data-val-regex="输入的邮箱格式不正确"
+                       data-val-regex="@L("输入的邮箱格式不正确")"
                        data-val-length-max="200" />
                 <span class="field-validation-valid " data-valmsg-for="email" data-valmsg-replace="true"></span>
             </div>
             <div class="form-input">
-                <h4>密码</h4>
+                <h4>@L("密码")</h4>
                 <input type="password"
-                       placeholder="输入您的密码"
+                       placeholder="@L("输入您的密码")"
                        id="password"
                        name="password"
                        class="form-control"
                        data-val="true"
-                       data-val-required="密码不能为空"
-                       data-val-length="密码的长度应小于20"
+                       data-val-required="@L("密码不能为空")"
+                       data-val-length="@L("密码的长度应小于20")"
                        data-val-length-max="20" />
                 <span class="field-validation-valid" data-valmsg-for="password" data-valmsg-replace="true"></span>
             </div>
@@ -60,15 +60,15 @@
                 </div>
             }
             <div class="form-input">
-                <input type="submit" class="btn-login" value="登录" />
+                <input type="submit" class="btn-login" value="@L("登录")" />
             </div>
         </div>
         <div class="login-panel-footer clearfix">
             <div class="pull-left">
-                <a href="@Url.Action("SignUp", new { ReturnUrl = returnUrl })">立即注册</a>
+                <a href="@Url.Action("SignUp", new { ReturnUrl = returnUrl })">@L("立即注册")</a>
             </div>
             <div class="pull-right">
-                <a href="@Url.Action("Forgotten", new { ReturnUrl = returnUrl })">忘记密码？</a>
+                <a href="@Url.Action("Forgotten", new { ReturnUrl = returnUrl })">@L("忘记密码？")</a>
             </div>
         </div>
     </div>

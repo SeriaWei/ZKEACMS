@@ -94,6 +94,7 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Create(PageEntity entity)
         {
+            ViewBag.Page = entity;
             if (ModelState.IsValid)
             {
                 try
@@ -124,6 +125,8 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Edit(PageEntity entity)
         {
+            ViewBag.OldVersions = Service.Get(m => m.ReferencePageID == entity.ID && m.IsPublishedPage == true).OrderBy(m => m.PublishDate);
+            ViewBag.Page = entity;
             if (!ModelState.IsValid)
             {
                 return View(entity);
@@ -142,26 +145,21 @@ namespace ZKEACMS.Controllers
             {
                 return RedirectToAction("Design", new { entity.ID });
             }
-            string id = entity.ID;
-            if (entity.ActionType == ActionType.Delete)
+            else if (entity.ActionType == ActionType.Delete)
             {
-                Service.Remove(id);
+                Service.Remove(entity);
                 return RedirectToAction("Index");
             }
-            if (entity.ActionType == ActionType.Publish)
+            else if (entity.ActionType == ActionType.Publish)
             {
                 Service.Publish(entity);
+                return RedirectView(entity.ID, false);
             }
-            return RedirectToAction("Index", new { PageID = id });
+            return RedirectToAction("Index", new { PageID = entity.ID });
         }
         [EditWidget, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public IActionResult Design(string ID)
         {
-            // Stop Caching in IE
-
-
-            // Stop Caching in Firefox
-
             ViewBag.CanPasteWidget = _cookie.GetValue<string>(Const.CopyWidgetCookie).IsNotNullAndWhiteSpace();
             return View();
         }
@@ -220,7 +218,11 @@ namespace ZKEACMS.Controllers
                 Widgets = _widgetService.GetAllByPage(page),
                 LayoutHtml = layout.Html
             };
-            var rules = _ruleService.GetMatchRule(new RuleWorkContext { Url = Url.Content(page.Url), UserAgent = Request.Headers["User-Agent"] });
+            var rules = _ruleService.GetMatchRule(new RuleWorkContext
+            {
+                Url = Url.Content(page.Url),
+                UserAgent = Request.Headers["User-Agent"]
+            });
             if (rules.Any())
             {
                 var rulesID = rules.Select(m => m.RuleID).ToArray();

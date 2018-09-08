@@ -1,9 +1,11 @@
-﻿using Easy.RepositoryPattern;
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+
+using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ZKEACMS.Message.Models;
 
 namespace ZKEACMS.Message

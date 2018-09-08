@@ -1,3 +1,6 @@
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
 using Easy.Cache;
 using Easy.Encrypt;
 using Easy.Extend;
@@ -56,7 +59,7 @@ namespace Easy
             services.TryAddTransient<IUserRoleRelationService, UserRoleRelationService>();
             services.TryAddTransient<IPermissionService, PermissionService>();
             services.TryAddTransient<IDataDictionaryService, DataDictionaryService>();
-            services.TryAddTransient<ILanguageService, LanguageService>();
+            services.AddScoped<ILanguageService, LanguageService>();
             services.TryAddTransient<IEncryptService, EncryptService>();
             services.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
 
@@ -72,11 +75,12 @@ namespace Easy
             services.AddTransient<IRuleProvider, MoneyRuleProvider>();
             services.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
             services.AddTransient<WebClient>();
-            
+
             services.AddSingleton<ICacheProvider, HostCacheProvider>();
+            services.AddTransient<ILocalize, Localize>();
 
             services.ConfigureCache<ScriptExpressionResult>();
-            services.ConfigureCache<LanguageEntity>();
+            services.ConfigureCache<Dictionary<string, Dictionary<string, LanguageEntity>>>();
 
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
             services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));

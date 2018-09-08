@@ -23,106 +23,106 @@
             <div class="tools">
                 @if (Model.Widget.LayoutID.IsNotNullAndWhiteSpace())
                 {
-                    <span class="badge">布局</span>
+                    <span class="badge">@L("布局")</span>
                 }
                 @if (Model.Widget.RuleID.HasValue)
                 {
-                    <span class="badge">全局</span>
+                    <span class="badge">@L("全局")</span>
                 }
-                <i class="glyphicon glyphicon-move sort-handle" title="拖动">
-                    <span>拖动</span>
+                <i class="glyphicon glyphicon-move sort-handle" title="@L("拖动")">
+                    <span>@L("拖动")</span>
                 </i>
                 <a href="@Url.Action("Edit", "Widget", new { Model.Widget.ID, ReturnUrl = Url.Action("Design", "Page", new {ID = Model.PageID})})"
                    class="glyphicon glyphicon-wrench"
-                   title="组件设置">
-                    <span>组件设置</span>
+                   title="@L("组件设置")">
+                    <span>@L("组件设置")</span>
                 </a>
                 @if (Model.Widget.DataSourceLink.IsNotNullAndWhiteSpace())
                 {
                     <a href="@Url.PathContent(Model.Widget.DataSourceLink)"
                        class="glyphicon glyphicon-pencil"
-                       title="编辑内容(@Model.Widget.DataSourceLinkTitle)">
-                        <span>编辑内容(@Model.Widget.DataSourceLinkTitle)</span>
+                       title="@L("编辑内容") (@L(Model.Widget.DataSourceLinkTitle))">
+                        <span>@L("编辑内容") (@L(Model.Widget.DataSourceLinkTitle))</span>
                     </a>
                 }
                 <a href="javascript:void(0)"
                    data-action="@Url.Action("Copy", "Widget", new { widgetId = Model.Widget.ID })"
                    data-class="container"
-                   title="复制"
+                   title="@L("复制")"
                    class="glyphicon glyphicon-copy copy-widget">
-                    <span>复制</span>
+                    <span>@L("复制")</span>
                 </a>
                 <a href="javascript:void(0)"
                    data-action="@toggleClasssAction"
                    data-class="container"
-                   title="切换容器"
+                   title="@L("切换容器")"
                    class="glyphicon glyphicon-transfer transfer-container toggle-widget-class">
-                    <span>切换容器</span>
+                    <span>@L("切换容器")</span>
                 </a>
                 <a href="javascript:void(0)"
                    data-action="@toggleClasssAction"
                    data-class="full"
-                   title="减小外边距"
+                   title="@L("减小外边距")"
                    class="glyphicon glyphicon-fullscreen toggle-widget-class">
-                    <span>减小外边距</span>
+                    <span>@L("减小外边距")</span>
                 </a>
                 <a href="javascript:void(0)"
                    data-action="@toggleClasssAction"
                    data-class="full"
-                   title="增加边距"
+                   title="@L("增加边距")"
                    class="glyphicon glyphicon-th-large toggle-widget-class">
-                    <span>增加边距</span>
+                    <span>@L("增加边距")</span>
                 </a>
                 <a href="javascript:void(0)"
                    data-action="@toggleClasssAction"
                    data-class="align-center"
-                   title="居中"
+                   title="@L("居中")"
                    class="glyphicon glyphicon-align-center toggle-widget-class">
-                    <span>居中</span>
+                    <span>@L("居中")</span>
                 </a>
                 <a href="javascript:void(0)"
                    data-action="@toggleClasssAction"
                    data-class="align-right"
-                   title="右对齐"
+                   title="@L("右对齐")"
                    class="glyphicon glyphicon-align-right toggle-widget-class">
-                    <span>右对齐</span>
+                    <span>@L("右对齐")</span>
                 </a>
                 <a href="javascript:void(0)"
                    data-action="@toggleClasssAction"
                    data-class="border"
-                   title="外边框"
+                   title="@L("外边框")"
                    class="glyphicon glyphicon-unchecked toggle-widget-class">
-                    <span>外边框</span>
+                    <span>@L("外边框")</span>
                 </a>
                 <a href="javascript:void(0)"
                    data-action="@toggleClasssAction"
                    data-class="image-border"
-                   title="图片边框"
+                   title="@L("图片边框")"
                    class="glyphicon glyphicon-picture toggle-widget-class">
-                    <span>图片边框</span>
+                    <span>@L("图片边框")</span>
                 </a>
                 <a href="javascript:void(0)"
                    data-action="@toggleClasssAction"
                    data-class="image-circle"
-                   title="图片圆角"
+                   title="@L("图片圆角")"
                    class="glyphicon glyphicon-adjust toggle-widget-class">
-                    <span>图片圆角</span>
+                    <span>@L("图片圆角")</span>
                 </a>
                 <a href="javascript:void(0)"
                    data-action="@toggleClasssAction"
                    data-class="box-shadow"
-                   title="阴影"
+                   title="@L("阴影")"
                    class="glyphicon glyphicon-tags toggle-widget-class">
-                    <span>阴影</span>
+                    <span>@L("阴影")</span>
                 </a>
                 <a href="javascript:void(0)" data-action="@Url.Action("SaveCustomStyle", "Widget", new {Model.Widget.ID})"
-                   title="自定义样式(设置背景图片等)" class="glyphicon glyphicon-cog custom-style-editor">
-                    <span>自定义样式</span>
+                   title="@L("自定义样式(设置背景图片等)")" class="glyphicon glyphicon-cog custom-style-editor">
+                    <span>@L("自定义样式")</span>
                 </a>
-                <a href="javascript:void(0)" class="delete glyphicon glyphicon-trash" title="删除"
+                <a href="javascript:void(0)" class="delete glyphicon glyphicon-trash" title="@L("删除")"
                    data-url="@Url.Action("DeleteWidget", "Widget")"
                    data-id="@Model.Widget.ID">
-                    <span>确定删除?</span>
+                    <span>@L("确定删除?")</span>
                 </a>
                 <span class="text-muted">|</span>
                 <span>@Model.Widget.WidgetName</span>

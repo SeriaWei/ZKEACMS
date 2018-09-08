@@ -353,17 +353,14 @@ jQuery.fn.extend({
         var MouseY = 0;
         var Qthis = this;
         if (!(targetEle instanceof jQuery)) {
-            if (Qthis.css("position") != "absolute" && Qthis.css("position") != "fixed" && Qthis.css("position") != "relative")
+            if (Qthis.css("position") != "absolute" && Qthis.css("position") != "fixed" && Qthis.css("position") != "relative") {
                 Qthis.css("position", "relative");
-            Qthis.css("left", Qthis.offset().left);
-            Qthis.css("top", Qthis.offset().top);
+            }
         }
         else {
             if (targetEle.css("position") != "absolute" && targetEle.css("position") != "fixed" && targetEle.css("position") != "relative") {
                 targetEle.css("position", "relative");
             }
-            targetEle.css("left", targetEle.offset().left);
-            targetEle.css("top", targetEle.offset().top);
         }
         Qthis.css("cursor", "move");
         Qthis.bind("mousedown", { ac: "move" }, EleMouseDown);

@@ -1,9 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+
 using CommonMark;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Easy.Mvc.TagHelpers;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace ZKEACMS.Message.TagHelps
 {

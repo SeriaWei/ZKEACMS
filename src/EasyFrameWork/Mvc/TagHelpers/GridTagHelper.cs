@@ -1,4 +1,7 @@
-﻿using System;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -61,12 +64,13 @@ namespace Easy.Mvc.TagHelpers
                 }
             }
             var viewConfig = ServiceLocator.GetViewConfigure(ModelType);
+            var localize = ServiceLocator.GetService<ILocalize>();
             StringBuilder tableHeaderBuilder = new StringBuilder();
             StringBuilder tableSearchBuilder = new StringBuilder();
             if (viewConfig != null)
             {
                 var primaryKey = viewConfig.MetaData.Properties.Select(m => m.Value).FirstOrDefault(m => m.CustomAttributes.Any(attr => attr.AttributeType == typeof(KeyAttribute)));
-               
+
                 if ((EditAble ?? true) && primaryKey != null)
                 {
                     string name = primaryKey.Name.FirstCharToLowerCase();
@@ -92,7 +96,7 @@ namespace Easy.Mvc.TagHelpers
                         string.Empty,
                         WebUtility.HtmlEncode(manager),
                         string.Empty,
-                        ActionLable ?? "操作",
+                        ActionLable ?? localize.Get("操作"),
                         string.Empty,
                         Query.Operators.None,
                         string.Empty,
@@ -129,8 +133,8 @@ namespace Easy.Mvc.TagHelpers
                         }
                         else if (m.DataType == typeof(bool) || m.DataType == typeof(bool?))
                         {
-                            optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", "是", "true");
-                            optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", "否", "false");
+                            optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", localize.Get("是"), "true");
+                            optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", localize.Get("否"), "false");
                         }
                         tableHeaderBuilder.AppendFormat(TableHeadStructure,
                             m.Name.FirstCharToLowerCase(),
