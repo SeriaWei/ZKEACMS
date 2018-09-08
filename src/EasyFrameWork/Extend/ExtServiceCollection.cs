@@ -1,4 +1,7 @@
-﻿using Easy.Cache;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+using Easy.Cache;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

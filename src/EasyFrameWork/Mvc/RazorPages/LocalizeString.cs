@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Html;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -20,8 +23,22 @@ namespace Easy.Mvc.RazorPages
             Content = content;
             _httpContext = httpContext;
         }
+        public LocalizeString(string content, string cultureCode, HttpContext httpContext)
+        {
+            Content = content;
+            _cultureCode = cultureCode;
+            _httpContext = httpContext;
+        }
         private string _translatedContent;
         public string Content { get; set; }
+        private string _cultureCode;
+        public string CultureCode
+        {
+            get
+            {
+                return _cultureCode ?? (_cultureCode = _httpContext.RequestServices.GetService<IOptions<CultureOption>>().Value.Code);
+            }
+        }
         public string Text { get { return Get(); } }
         private HttpContext _httpContext;
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
@@ -34,9 +51,8 @@ namespace Easy.Mvc.RazorPages
             {
                 return _translatedContent;
             }
-            string lanCode = _httpContext.RequestServices.GetService<IOptions<CultureOption>>().Value.Code;
             var service = _httpContext.RequestServices.GetService<ILanguageService>();
-            var lanContent = service.Get(Content, lanCode);
+            var lanContent = service.Get(Content, CultureCode);
             if (lanContent != null && lanContent.LanValue.IsNotNullAndWhiteSpace())
             {
                 _translatedContent = lanContent.LanValue;
@@ -47,7 +63,7 @@ namespace Easy.Mvc.RazorPages
             }
             return _translatedContent;
         }
-        
+
         public override string ToString()
         {
             return this.Get();

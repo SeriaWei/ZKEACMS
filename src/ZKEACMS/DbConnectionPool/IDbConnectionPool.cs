@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.ObjectPool;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+using Microsoft.Extensions.ObjectPool;
 using System.Data.Common;
 
 namespace ZKEACMS.DbConnectionPool
