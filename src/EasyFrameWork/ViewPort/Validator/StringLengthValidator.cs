@@ -16,7 +16,7 @@ namespace Easy.ViewPort.Validator
             }
             else
             {
-                this.BaseErrorMessage = "{{0}}的长度应大于{0}且小于{1}".FormatWith(Max);
+                this.BaseErrorMessage = "{{0}}的长度应小于{0}".FormatWith(Max);
             }
         }
         public int Max { get; set; }

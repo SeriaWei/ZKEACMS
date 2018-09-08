@@ -20,7 +20,7 @@ namespace Easy.Modules.MutiLanguage
                 {
                     return string.Empty;
                 }
-                return Convert.ToBase64String(LanKey.ToByte());
+                return Convert.ToBase64String(LanKey.ToByte()).UrlEncode();
             }
         }
         public string LanKey { get; set; }
@@ -35,7 +35,7 @@ namespace Easy.Modules.MutiLanguage
         {
             ViewConfig(m => m.ID).AsHidden().Ignore();
             ViewConfig(m => m.CultureName).AsTextBox().ShowInGrid().ReadOnly();
-            ViewConfig(m => m.LanKey).AsTextBox().ShowInGrid().Search(LINQ.Query.Operators.Contains).SetGridColumnTemplate("<a href=\"/admin/Language/Edit/{id}\">{lanKey}</a>").ReadOnly();
+            ViewConfig(m => m.LanKey).AsTextBox().ShowInGrid().Search(LINQ.Query.Operators.Contains).SetGridColumnTemplate("<a href=\"/admin/Language/Edit?Id={id}\">{lanKey}</a>").ReadOnly();
             ViewConfig(m => m.LanType).AsTextBox();
             ViewConfig(m => m.Module).AsTextBox();
             ViewConfig(m => m.LanValue).AsTextBox().Required().ShowInGrid().Search(LINQ.Query.Operators.Contains);
