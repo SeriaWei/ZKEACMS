@@ -1,7 +1,25 @@
 ﻿# ZKEACMS Build With Asp.Net Core 2.1
-## Docker
+## 简介 / Summary
+ZKEACMS For .Net Core
+
+这个是[ZKEACMS](https://github.com/SeriaWei/ASP.NET-MVC-CMS)的Asp .Net Core版本。
+
+页面基本思想
+
+[http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)
+## 演示 / Demo
+Try it on our demo site
+
+在我们的测试站点进行体验
+
+[http://demo.zkea.net](http://demo.zkea.net)
+
+## Notice
+Change the culture code to `en-US` to use english in `appsettings.json`
 ```
-docker run -d -p 5000:80 zkeasoft/zkeacms
+  "Culture": {
+    "Code": "en-US"
+  }
 ```
 ## 发布 / Publish
 使用 Publish.cmd / Publish.sh，或者安装发布程序后手动发布
@@ -15,21 +33,10 @@ dotnet tool install -g ZKEACMS.Publisher
 ```
 ./src/ZKEACMS.WebHost/publish-zkeacms -r win-x64
 ```
-## 演示 / Demo
-Try it on our demo site
-
-在我们的测试站点进行体验
-
-[http://demo.zkea.net](http://demo.zkea.net)
-
-## 简介 / Summary
-ZKEACMS For .Net Core
-
-这个是[ZKEACMS](https://github.com/SeriaWei/ASP.NET-MVC-CMS)的Asp .Net Core版本。
-
-页面基本思想
-
-[http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)
+## Docker
+```
+docker run -d -p 5000:80 zkeasoft/zkeacms
+```
 
 ## 开发环境 / Development
 * [.Net Core SDK 2.1.301](https://www.microsoft.com/net/download/dotnet-core/sdk-2.1.301)
