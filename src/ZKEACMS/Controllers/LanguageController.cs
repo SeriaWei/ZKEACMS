@@ -15,6 +15,8 @@ using Easy;
 using Easy.Options;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using System;
+using System.Text;
 
 namespace ZKEACMS.Controllers
 {
@@ -37,7 +39,8 @@ namespace ZKEACMS.Controllers
         }
         public IActionResult Edit(string Id)
         {
-            var culture = _languageService.GetCultures(Id).ToList();
+            string lanKey = Encoding.UTF8.GetString(Convert.FromBase64String(Id));
+            var culture = _languageService.GetCultures(lanKey).ToList();
 
             return View(culture);
         }
