@@ -15,7 +15,7 @@
                 @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
                 {
                     <input type="submit" value="@L("保存")" class="btn btn-primary" data-value="@ActionType.Update" />
-                    <input type="submit" value="设计" class="btn btn-success" data-value="@ActionType.Design" />
+                    <input type="submit" value="@L("设计")" class="btn btn-success" data-value="@ActionType.Design" />
                     @if (ViewBag.CanDelete)
                     {
                         <input type="submit" value="@L("删除")" class="btn btn-danger delete" data-value="@ActionType.Delete" />
