@@ -52,7 +52,7 @@
                                 @foreach (var item in menu.OrderBy(m => m.Order))
                                 {
                                     <li>
-                                        <a target="_self" href="@Url.PathContent(item.Url)">@item.Title</a>
+                                        <a target="_self" href="@Url.PathContent(item.Url)">@L(item.Title)</a>
                                     </li>
                                 }
                             </ul>
