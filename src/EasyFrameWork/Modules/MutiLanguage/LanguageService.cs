@@ -1,5 +1,6 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Easy.Cache;
 using Easy.RepositoryPattern;
@@ -9,8 +10,11 @@ namespace Easy.Modules.MutiLanguage
 {
     public class LanguageService : ServiceBase<LanguageEntity>, ILanguageService
     {
-        private readonly ICacheManager<Dictionary<string, Dictionary<string, LanguageEntity>>> _cacheManager;
-        public LanguageService(IApplicationContext applicationContext, ICacheManager<Dictionary<string, Dictionary<string, LanguageEntity>>> cacheManager, EasyDbContext easyDbContext) : base(applicationContext, easyDbContext)
+        private readonly ICacheManager<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>> _cacheManager;
+        public LanguageService(IApplicationContext applicationContext,
+            ICacheManager<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>> cacheManager,
+            EasyDbContext easyDbContext)
+            : base(applicationContext, easyDbContext)
         {
             _cacheManager = cacheManager;
         }
@@ -21,19 +25,21 @@ namespace Easy.Modules.MutiLanguage
         }
         public override ServiceResult<LanguageEntity> Add(LanguageEntity item)
         {
-            var result= base.Add(item);
+            var result = base.Add(item);
             if (!result.HasViolation)
             {
                 var dict = GetAll();
                 if (dict.ContainsKey(item.LanKey))
                 {
-                    dict[item.LanKey].Add(item.CultureName, item);
+                    dict[item.LanKey].TryAdd(item.CultureName, item);
                 }
                 else
                 {
-                    dict.Add(item.LanKey, new Dictionary<string, LanguageEntity> { { item.CultureName, item } });
+                    ConcurrentDictionary<string, LanguageEntity> cultureDic = new ConcurrentDictionary<string, LanguageEntity>();
+                    cultureDic.TryAdd(item.CultureName, item);
+                    dict.TryAdd(item.LanKey, cultureDic);
                 }
-            }            
+            }
             return result;
         }
         public override LanguageEntity Get(params object[] primaryKey)
@@ -41,7 +47,7 @@ namespace Easy.Modules.MutiLanguage
             LanguageEntity languageEntity = null;
             if (primaryKey.Length == 2)
             {
-                Dictionary<string, LanguageEntity> cultureLan;
+                ConcurrentDictionary<string, LanguageEntity> cultureLan;
                 if (GetAll().TryGetValue(primaryKey[0].ToString(), out cultureLan))
                 {
                     cultureLan.TryGetValue(primaryKey[1].ToString(), out languageEntity);
@@ -52,7 +58,7 @@ namespace Easy.Modules.MutiLanguage
 
         public IEnumerable<LanguageEntity> GetCultures(string lanKey)
         {
-            Dictionary<string, LanguageEntity> cultureDic;
+            ConcurrentDictionary<string, LanguageEntity> cultureDic;
             if (GetAll().TryGetValue(lanKey, out cultureDic))
             {
                 foreach (var item in cultureDic)
@@ -63,12 +69,13 @@ namespace Easy.Modules.MutiLanguage
         }
         public override ServiceResult<LanguageEntity> Update(LanguageEntity item)
         {
-            Dictionary<string, LanguageEntity> cultureLan;
+            ConcurrentDictionary<string, LanguageEntity> cultureLan;
             if (GetAll().TryGetValue(item.LanKey.ToString(), out cultureLan))
             {
-                if (cultureLan.ContainsKey(item.CultureName))
+                LanguageEntity oldItem;
+                if (cultureLan.TryGetValue(item.CultureName, out oldItem))
                 {
-                    cultureLan[item.CultureName] = item;
+                    cultureLan.TryUpdate(item.CultureName, item, oldItem);
                     return base.Update(item);
                 }
                 else
@@ -81,24 +88,25 @@ namespace Easy.Modules.MutiLanguage
                 return Add(item);
             }
         }
-        private Dictionary<string, Dictionary<string, LanguageEntity>> GetAll()
+        private ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>> GetAll()
         {
             return _cacheManager.GetOrAdd("AllLanguageEntry", factory =>
             {
-                Dictionary<string, Dictionary<string, LanguageEntity>> result = new Dictionary<string, Dictionary<string, LanguageEntity>>();
+                ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>> result = new ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>();
                 foreach (var item in Get())
                 {
-                    Dictionary<string, LanguageEntity> cultureDic;
+                    ConcurrentDictionary<string, LanguageEntity> cultureDic;
                     if (!result.TryGetValue(item.LanKey, out cultureDic))
                     {
-                        cultureDic = new Dictionary<string, LanguageEntity> { { item.CultureName, item } };
-                        result.Add(item.LanKey, cultureDic);
+                        cultureDic = new ConcurrentDictionary<string, LanguageEntity>();
+                        cultureDic.TryAdd(item.CultureName, item);
+                        result.TryAdd(item.LanKey, cultureDic);
                     }
                     else
                     {
                         if (!cultureDic.ContainsKey(item.CultureName))
                         {
-                            cultureDic.Add(item.CultureName, item);
+                            cultureDic.TryAdd(item.CultureName, item);
                         }
                     }
 
