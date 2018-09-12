@@ -34,6 +34,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
@@ -80,7 +81,7 @@ namespace Easy
             services.AddTransient<ILocalize, Localize>();
 
             services.ConfigureCache<ScriptExpressionResult>();
-            services.ConfigureCache<Dictionary<string, Dictionary<string, LanguageEntity>>>();
+            services.ConfigureCache<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>>();
 
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
             services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
