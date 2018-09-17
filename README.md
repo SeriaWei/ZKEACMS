@@ -17,9 +17,9 @@ Try it on our demo site
 ## Notice
 Change the culture code to `en-US` to use english in `appsettings.json`
 ```
-  "Culture": {
-    "Code": "en-US"
-  }
+"Culture": {
+  "Code": "en-US"
+}
 ```
 ## 发布 / Publish
 使用 Publish.cmd / Publish.sh，或者安装发布程序后手动发布
@@ -39,7 +39,7 @@ docker run -d -p 5000:80 zkeasoft/zkeacms
 ```
 
 ## 开发环境 / Development
-* [.Net Core SDK 2.1.301](https://www.microsoft.com/net/download/dotnet-core/sdk-2.1.301)
+* [.Net Core SDK 2.1.401](https://www.microsoft.com/net/download/dotnet-core/2.1#sdk-2.1.401)
 * Microsoft Sql Serverl 2008+
 * MySql 5.6+
 * SQLite 3
