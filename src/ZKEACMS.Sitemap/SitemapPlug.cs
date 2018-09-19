@@ -5,12 +5,11 @@
  */
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using ZKEACMS.DbConnectionPool;
 using ZKEACMS.Sitemap.Service;
+using ZKEACMS.Sitemap.Service.SiteUrlProviders;
 using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS.Sitemap

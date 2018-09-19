@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ZKEACMS.Page;
 using ZKEACMS.Sitemap.Models;
 
-namespace ZKEACMS.Sitemap.Service
+namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
 {
     public class PageSiteUrlProvider : ISiteUrlProvider
     {

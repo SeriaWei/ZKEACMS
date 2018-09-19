@@ -7,7 +7,7 @@ using ZKEACMS.Article.Service;
 using ZKEACMS.Sitemap.Models;
 using Easy.Extend;
 
-namespace ZKEACMS.Sitemap.Service
+namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
 {
     public class ArticlePageSiteUrlProvider : ISiteUrlProvider
     {
