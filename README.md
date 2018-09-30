@@ -1,8 +1,8 @@
 ﻿# ZKEACMS Build With Asp.Net Core 2.1
 ## 简介 / Summary
-ZKEACMS For .Net Core
+ZKEACMS is a visual design, online edit content management system
 
-这个是[ZKEACMS](https://github.com/SeriaWei/ASP.NET-MVC-CMS)的Asp .Net Core版本。
+纸壳CMS是一个可视化设计，在线编辑的内容管理系统
 
 页面基本思想
 
