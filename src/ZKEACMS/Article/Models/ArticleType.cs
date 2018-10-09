@@ -15,6 +15,9 @@ namespace ZKEACMS.Article.Models
         public int ID { get; set; }
         public string Url { get; set; }
         public int? ParentID { get; set; }
+        public string SEOTitle { get; set; }
+        public string SEOKeyWord { get; set; }
+        public string SEODescription { get; set; }
     }
     class ArtycleTypeMetaData : ViewMetaData<ArticleType>
     {
@@ -26,6 +29,9 @@ namespace ZKEACMS.Article.Models
             ViewConfig(m => m.Title).AsTextBox().Order(1).MaxLength(200).Required();
             ViewConfig(m => m.Url).AsTextBox().Order(2).MaxLength(100).UrlPart();
             ViewConfig(m => m.Status).AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary);
+            ViewConfig(m => m.SEOTitle).AsTextBox().Order(4).MaxLength(100);
+            ViewConfig(m => m.SEOKeyWord).AsTextBox().Order(5).MaxLength(100);
+            ViewConfig(m => m.SEODescription).AsTextBox().Order(6).MaxLength(300);
         }
     }
 
