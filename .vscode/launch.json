@@ -1,39 +1,21 @@
 {
-   // Use IntelliSense to find out which attributes exist for C# debugging
-   // Use hover for the description of the existing attributes
-   // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-   "version": "0.2.0",
-   "configurations": [
-       {
-           "name": ".NET Core Launch (web)",
-           "type": "coreclr",
-           "request": "launch",
-           "preLaunchTask": "build",
-           "program": "${workspaceRoot}/src/ZKEACMS.WebHost/bin/Debug/netcoreapp2.0/ZKEACMS.WebHost.dll",
-           "args": [],
-           "cwd": "${workspaceRoot}/src/ZKEACMS.WebHost",
-           "stopAtEntry": false,
-           "launchBrowser": {
-               "enabled": true,
-               "args": "${auto-detect-url}",
-               "windows": {
-                   "command": "cmd.exe",
-                   "args": "/C start ${auto-detect-url}"
-               },
-               "osx": {
-                   "command": "open"
-               },
-               "linux": {
-                   "command": "xdg-open"
-               }
-           },
-           "env": {
-               "ASPNETCORE_ENVIRONMENT": "Development"
-           },
-           "sourceFileMap": {
-               "/Views": "${workspaceRoot}/src/ZKEACMS.WebHost/Views"
-           }
-       },
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/ZKEACMS.WebHost/bin/Debug/netcoreapp2.1/ZKEACMS.WebHost.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/ZKEACMS.WebHost",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart"
+        },
         {
             "name": ".NET Core Attach",
             "type": "coreclr",
