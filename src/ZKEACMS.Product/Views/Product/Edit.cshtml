@@ -7,6 +7,16 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         @L("编辑")
+        <span class="badge pull-right">
+            @if (!Model.IsPublish)
+            {
+                @L("未发布")
+            }
+            else
+            {
+                @L("已发布")
+            }
+        </span>
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())

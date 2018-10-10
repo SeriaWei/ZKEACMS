@@ -1,0 +1,7 @@
+﻿ALTER TABLE dbo.ArticleType ADD [SEOTitle] NVARCHAR(100) NULL
+ALTER TABLE dbo.ArticleType ADD [SEOKeyWord] NVARCHAR(100) NULL
+ALTER TABLE dbo.ArticleType ADD [SEODescription] NVARCHAR(300) NULL
+
+ALTER TABLE dbo.ProductCategory ADD [SEOTitle] NVARCHAR(100) NULL
+ALTER TABLE dbo.ProductCategory ADD [SEOKeyWord] NVARCHAR(100) NULL
+ALTER TABLE dbo.ProductCategory ADD [SEODescription] NVARCHAR(300) NULL

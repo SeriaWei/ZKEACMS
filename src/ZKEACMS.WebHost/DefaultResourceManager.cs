@@ -34,7 +34,7 @@ namespace ZKEACMS.WebHost
 
             script("validate")
                 .Include($"{LibraryPath}/jquery-validation/dist/jquery.validate.js", $"{LibraryPath}/jquery-validation/dist/jquery.validate.min.js")
-                .Include($"{LibraryPath}/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js", $"{LibraryPath}/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js");
+                .Include($"{LibraryPath}/jquery-validation-unobtrusive/src/jquery.validate.unobtrusive.js");
 
             script("jsTree")
                 .Include($"{LibraryPath}/jstree/dist/jstree.js", $"{LibraryPath}/jstree/dist/jstree.min.js");

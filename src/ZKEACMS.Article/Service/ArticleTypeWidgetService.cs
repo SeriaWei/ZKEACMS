@@ -25,15 +25,28 @@ namespace ZKEACMS.Article.Service
             ArticleTypeWidget currentWidget = widget as ArticleTypeWidget;
             var types = _articleTypeService.Get(m => m.ParentID == currentWidget.ArticleTypeID);
             int ac = actionContext.RouteData.GetCategory();
-            if (actionContext.RouteData.GetCategoryUrl().IsNullOrEmpty() && ac > 0)
+            ArticleType articleType = null;
+            if (ac > 0)
             {
-                var articleType = _articleTypeService.Get(ac);
-                if (articleType != null && articleType.Url.IsNotNullAndWhiteSpace())
+                articleType = _articleTypeService.Get(ac);
+            }
+            if (actionContext.RouteData.GetCategoryUrl().IsNullOrEmpty() && articleType != null)
+            {
+                if (articleType.Url.IsNotNullAndWhiteSpace())
                 {
                     actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{articleType.Url}", true);
                 }
             }
-
+            if (articleType != null)
+            {
+                var layout = actionContext.HttpContext.GetLayout();
+                if (layout != null && layout.Page != null)
+                {
+                    layout.Page.Title = articleType.SEOTitle ?? articleType.Title;
+                    layout.Page.MetaKeyWorlds = articleType.SEOKeyWord;
+                    layout.Page.MetaDescription = articleType.SEODescription;
+                }
+            }
             return widget.ToWidgetViewModelPart(new ArticleTypeWidgetViewModel
             {
                 ArticleTypes = types,

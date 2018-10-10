@@ -14,6 +14,8 @@ namespace ZKEACMS.Sitemap
         {
         }
         internal DbSet<ArticleListWidget> ArticleListWidget { get; set; }
+        internal DbSet<ArticleDetailWidget> ArticleDetailWidget { get; set; }
         internal DbSet<ProductListWidget> ProductListWidget { get; set; }
+        internal DbSet<ProductDetailWidget> ProductDetailWidget { get; set; }
     }
 }

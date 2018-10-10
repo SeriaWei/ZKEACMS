@@ -1,6 +1,6 @@
 {
   "name": "jquery-validation-unobtrusive",
-  "version": "3.2.10",
+  "version": "3.2.11",
   "homepage": "https://github.com/aspnet/jquery-validation-unobtrusive",
   "description": "Add-on to jQuery Validation to enable unobtrusive validation options in data-* attributes.",
   "main": "dist/jquery.validate.unobtrusive.js",
@@ -18,7 +18,7 @@
   "author": {
     "name": "Microsoft"
   },
-  "license": "https://www.microsoft.com/web/webpi/eula/net_library_eula_enu.htm",
+  "license": "https://aka.ms/jqueryunobtrusivelicense",
   "readme": "The jQuery Unobtrusive Validation library complements jQuery Validation by adding support for specifying validation options as HTML5 data-* elements",
   "files": [
     "dist/jquery.validate.unobtrusive.js",
