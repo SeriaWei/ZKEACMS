@@ -2,7 +2,7 @@
 	"name": "jquery-validation",
 	"title": "jQuery Validation Plugin",
 	"description": "Client-side form validation made easy",
-	"version": "1.17.0",
+	"version": "1.18.0",
 	"homepage": "https://jqueryvalidation.org/",
 	"license": "MIT",
 	"author": {
@@ -30,6 +30,7 @@
 	"files": [
 		"dist/localization/",
 		"dist/additional-methods.js",
+		"dist/additional-methods.min.js",
 		"dist/jquery.validate.js",
 		"dist/jquery.validate.min.js"
 	],
@@ -48,6 +49,7 @@
 		"grunt-contrib-uglify": "1.0.1",
 		"grunt-contrib-watch": "1.0.0",
 		"grunt-jscs": "2.8.0",
+		"grunt-sri": "0.2.0",
 		"grunt-text-replace": "0.4.0",
 		"qunitjs": "2.3.3"
 	},

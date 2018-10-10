@@ -1,8 +1,10 @@
 [jQuery Validation Plugin](https://jqueryvalidation.org/) - Form validation made easy
 ================================
 
+[![release](https://img.shields.io/github/release/jquery-validation/jquery-validation.svg)](https://github.com/jquery-validation/jquery-validation/releases/latest)
 [![Build Status](https://secure.travis-ci.org/jquery-validation/jquery-validation.svg)](https://travis-ci.org/jquery-validation/jquery-validation)
 [![devDependency Status](https://david-dm.org/jquery-validation/jquery-validation/dev-status.svg?theme=shields.io)](https://david-dm.org/jquery-validation/jquery-validation#info=devDependencies)
+[![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/jquery-validation/badge?style=rounded)](https://www.jsdelivr.com/package/npm/jquery-validation)
 
 The jQuery Validation Plugin provides drop-in validation for your existing forms, while making all kinds of customizations to fit your application really easy.
 
@@ -31,7 +33,7 @@ Include jQuery and the plugin on a page. Then select a form to validate and call
 <script src="jquery.js"></script>
 <script src="jquery.validate.js"></script>
 <script>
-$("form").validate();
+    $("form").validate();
 </script>
 ```
 

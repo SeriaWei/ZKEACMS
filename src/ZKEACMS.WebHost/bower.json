@@ -3,27 +3,27 @@
   "private": true,
   "dependencies": {
     "bootstrap": "v3.3.7",
-    "jquery-validation": "1.17.0",
-    "jquery-validation-unobtrusive": "v3.2.10",
+    "jquery-validation": "1.18.0",
+    "jquery-validation-unobtrusive": "v3.2.11",
     "jquery": "3.3.1",
-    "jstree": "3.3.5",
+    "jstree": "3.3.6",
     "lightbox2": "v2.10.0",
-    "datatables": "1.10.16",
+    "datatables": "1.10.19",
     "bootstrap-datepicker": "v1.8.0",
     "jquery-pjax": "v2.0.1",
-    "angular": "v1.7.0",
+    "angular": "v1.7.5",
     "jquery-ui": "1.12.1"
   },
   "resolutions": {
     "jquery": "3.3.1",
-    "jquery-validation": "1.17.0",
+    "jquery-validation": "1.18.0",
     "bootstrap": "v3.3.7",
     "jquery-ui": "1.12.1",
     "bootstrap-datepicker": "v1.8.0",
-    "jstree": "3.3.5",
+    "jstree": "3.3.6",
     "lightbox2": "v2.10.0",
-    "angular": "v1.7.0",
-    "datatables": "1.10.16",
-    "jquery-validation-unobtrusive": "v3.2.10"
+    "angular": "v1.7.5",
+    "datatables": "1.10.19",
+    "jquery-validation-unobtrusive": "v3.2.11"
   }
 }

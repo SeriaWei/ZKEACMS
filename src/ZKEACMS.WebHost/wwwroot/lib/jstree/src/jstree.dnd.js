@@ -181,11 +181,23 @@
 			marker = $('<div id="jstree-marker">&#160;</div>').hide(); //.appendTo('body');
 
 		$(document)
+			.on('dragover.vakata.jstree', function (e) {
+				if (elm) {
+					$.vakata.dnd._trigger('move', e, { 'helper': $(), 'element': elm, 'data': drg });
+				}
+			})
+			.on('drop.vakata.jstree', function (e) {
+				if (elm) {
+					$.vakata.dnd._trigger('stop', e, { 'helper': $(), 'element': elm, 'data': drg });
+					elm = null;
+					drg = null;
+				}
+			})
 			.on('dnd_start.vakata.jstree', function (e, data) {
 				lastmv = false;
 				lastev = false;
 				if(!data || !data.data || !data.data.jstree) { return; }
-				marker.appendTo('body'); //.show();
+				marker.appendTo(document.body); //.show();
 			})
 			.on('dnd_move.vakata.jstree', function (e, data) {
 				var isDifferentNode = data.event.target !== lastev.target;
@@ -319,7 +331,7 @@
 				lastmv = false;
 				data.helper.find('.jstree-icon').removeClass('jstree-ok').addClass('jstree-er');
 				if (data.event.originalEvent && data.event.originalEvent.dataTransfer) {
-					data.event.originalEvent.dataTransfer.dropEffect = 'none';
+					//data.event.originalEvent.dataTransfer.dropEffect = 'none';
 				}
 				marker.hide();
 			})
@@ -530,7 +542,7 @@
 						Math.abs(e.pageY - vakata_dnd.init_y) > (vakata_dnd.is_touch ? $.vakata.dnd.settings.threshold_touch : $.vakata.dnd.settings.threshold)
 					) {
 						if(vakata_dnd.helper) {
-							vakata_dnd.helper.appendTo("body");
+							vakata_dnd.helper.appendTo(document.body);
 							vakata_dnd.helper_w = vakata_dnd.helper.outerWidth();
 						}
 						vakata_dnd.is_drag = true;
