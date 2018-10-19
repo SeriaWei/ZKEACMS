@@ -11,7 +11,7 @@ RUN publish-zkeacms
 
 # Copy Database
 RUN mkdir /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/App_Data
-RUN cp -f /build/DataBase/SQLite/Database-3.1.1.sqlite /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/App_Data/Database.sqlite
+RUN cp -f /build/DataBase/SQLite/Database-3.1.2.sqlite /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/App_Data/Database.sqlite
 RUN cp -f /build/DataBase/SQLite/appsettings.json /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/appsettings.json
 
 # Build runtime image
