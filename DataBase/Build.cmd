@@ -24,10 +24,7 @@ set /P dbUserId=3.输入数据库用户名，默认(sa):
 if "%dbUserId%"=="" set dbUserId=sa
 set /P dbPassword=4.输入数据库密码，默认(sa):
 if "%dbPassword%"=="" set dbPassword=sa
-set dbPath=%cd%\App_Data
-if not exist "%dbPath%" (
-mkdir "%dbPath%"
-)
+
 @echo 创建数据库可能要花一点时间，请稍后...
 @echo Creating DataBase %dataBase%
 sqlcmd -S %server% -d master -U %dbUserId% -P %dbPassword% -b -i "CreateDataBase.sql"
