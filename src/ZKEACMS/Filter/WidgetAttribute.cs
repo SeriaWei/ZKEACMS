@@ -22,7 +22,7 @@ namespace ZKEACMS.Filter
 {
     public class WidgetAttribute : ActionFilterAttribute, IActionFilter
     {
-
+        private const string UnknownZone = "UnknownZone";
         public virtual PageEntity GetPage(ActionExecutedContext filterContext)
         {
             string path = filterContext.RouteData.GetPath();
@@ -103,13 +103,13 @@ namespace ZKEACMS.Filter
                             WidgetViewModelPart part = partDriver.Display(widget, filterContext);
                             if (part != null)
                             {
-                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
+                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID ?? UnknownZone))
                                 {
-                                    layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
+                                    layout.ZoneWidgets[part.Widget.ZoneID ?? UnknownZone].TryAdd(part);
                                 }
                                 else
                                 {
-                                    layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
+                                    layout.ZoneWidgets.Add(part.Widget.ZoneID ?? UnknownZone, new WidgetCollection { part });
                                 }
                             }
                             partDriver.Dispose();
@@ -135,13 +135,13 @@ namespace ZKEACMS.Filter
                             if (part != null && zone != null)
                             {
                                 part.Widget.ZoneID = zone.HeadingCode;
-                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
+                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID ?? UnknownZone))
                                 {
-                                    layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
+                                    layout.ZoneWidgets[part.Widget.ZoneID ?? UnknownZone].TryAdd(part);
                                 }
                                 else
                                 {
-                                    layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
+                                    layout.ZoneWidgets.Add(part.Widget.ZoneID ?? UnknownZone, new WidgetCollection { part });
                                 }
 
                             }
