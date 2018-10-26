@@ -18,7 +18,7 @@ using ZKEACMS.Controllers;
 
 namespace ZKEACMS.GlobalScripts.Controllers
 {
-    [DefaultAuthorize(Policy = PermissionKeys.ManageLiveChatScript)]
+    [DefaultAuthorize(Policy = PermissionKeys.ManageStatisticsScript)]
     public class StatisticsScriptController : SettingController<StatisticsScript>
     {
         public StatisticsScriptController(IApplicationSettingService applicationSettingService) : base(applicationSettingService)
