@@ -1,0 +1,24 @@
+﻿@model ZKEACMS.GlobalScripts.Models.Standard
+@{
+    Script.Reqiured("validate").AtFoot();
+    Script.Reqiured("tinymce").AtFoot();
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        修改
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.EditorForModel()
+            <div class="toolBar">
+                @if (Authorizer.Authorize(ZKEACMS.GlobalScripts.PermissionKeys.ManageStandard))
+                {
+                    <input type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Update" />
+                }        
+                <input type="button" class="btn btn-default cancel" value="取消" />
+            </div>
+        }
+    </div>
+</div>

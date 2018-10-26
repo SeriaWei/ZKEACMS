@@ -7,7 +7,15 @@
         return;
     }
     Style.Reqiured("Easy").AtFoot();
-
+    CMSApplicationContext appContext = ApplicationContext as CMSApplicationContext;
+    foreach (var item in appContext.Styles)
+    {
+        Style.Reqiured(item).AtFoot();
+    }
+    foreach (var item in appContext.Scripts)
+    {
+        Script.Reqiured(item).AtFoot();
+    }
 }
 <!-- http://www.zkea.net/ Copyright 2017 ZKEASOFT http://www.zkea.net/licenses -->
 <!DOCTYPE html>
@@ -43,6 +51,10 @@
         {
             <link type="text/css" async rel="stylesheet" href="@Url.Content(Model.CurrentTheme.Url)" />
         }
+    }
+    @foreach (var item in appContext.HeaderPart)
+    {
+        @item
     }
 </head>
 <body class="front">
@@ -148,6 +160,10 @@
     @if (!Model.Page.Script.IsNullOrEmpty())
     {
         <script type="text/javascript" src="@Url.Content(Model.Page.Script)"></script>
+    }    
+    @foreach (var item in appContext.FooterPart)
+    {
+        @item
     }
 </body>
 
