@@ -29,6 +29,7 @@ namespace ZKEACMS.Common.Service
             var currentWidget = widget as NavigationWidget;
             var navs = _navigationService.Get()
                 .Where(m => m.Status == (int)RecordStatus.Active).OrderBy(m => m.DisplayOrder).ToList();
+
             string path = null;
             if (ApplicationContext.As<CMSApplicationContext>().IsDesignMode)
             {
@@ -46,11 +47,10 @@ namespace ZKEACMS.Common.Service
             {
                 NavigationEntity current = null;
                 int length = 0;
-                IUrlHelper urlHelper = ((actionContext as ActionExecutedContext).Controller as Controller).Url;
                 foreach (var navigationEntity in navs)
                 {
                     if (navigationEntity.Url.IsNotNullAndWhiteSpace()
-                        && path.StartsWith(urlHelper.PathContent(navigationEntity.Url).ToLower())
+                        && path.IndexOf((navigationEntity.Url ?? "").Replace("~/", "/"), StringComparison.OrdinalIgnoreCase) == 0
                         && length < navigationEntity.Url.Length)
                     {
                         current = navigationEntity;
