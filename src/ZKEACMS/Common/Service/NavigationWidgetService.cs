@@ -29,17 +29,21 @@ namespace ZKEACMS.Common.Service
             var currentWidget = widget as NavigationWidget;
             var navs = _navigationService.Get()
                 .Where(m => m.Status == (int)RecordStatus.Active).OrderBy(m => m.DisplayOrder).ToList();
-            if (actionContext is ActionExecutedContext)
+            string path = null;
+            if (ApplicationContext.As<CMSApplicationContext>().IsDesignMode)
             {
-                string path = actionContext.HttpContext.Request.Path.Value.ToLower();
-                if (ApplicationContext.As<CMSApplicationContext>().IsDesignMode)
+                var layout = actionContext.HttpContext.GetLayout();
+                if (layout != null && layout.Page != null)
                 {
-                    var layout = actionContext.HttpContext.GetLayout();
-                    if (layout != null && layout.Page != null)
-                    {
-                        path = layout.Page.Url.Replace("~/", "/");
-                    }
+                    path = layout.Page.Url.Replace("~/", "/");
                 }
+            }
+            else if (actionContext is ActionExecutedContext)
+            {
+                path = actionContext.HttpContext.Request.Path.Value.ToLower();
+            }
+            if (path != null)
+            {
                 NavigationEntity current = null;
                 int length = 0;
                 IUrlHelper urlHelper = ((actionContext as ActionExecutedContext).Controller as Controller).Url;
