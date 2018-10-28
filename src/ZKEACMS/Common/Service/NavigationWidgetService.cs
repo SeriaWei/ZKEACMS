@@ -41,7 +41,7 @@ namespace ZKEACMS.Common.Service
             }
             else if (actionContext is ActionExecutedContext)
             {
-                path = actionContext.HttpContext.Request.Path.Value.ToLower();
+                path = (actionContext as ActionExecutedContext).RouteData.GetPath();
             }
             if (path != null)
             {
