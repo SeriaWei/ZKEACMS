@@ -37,7 +37,7 @@ namespace ZKEACMS.Sitemap.Service
                 {
                     if (articleDetailPage.Contains(item.Url) || productDetailPage.Contains(item.Url)) continue;
                     xmlBuilder.AppendFormat("<url><loc>{0}</loc><lastmod>{1}</lastmod><changefreq>{2}</changefreq><priority>{3}</priority></url>",
-                     host + item.Url, item.ModifyDate.ToString("yyyy-MM-ddThh:mmTZD"), item.Changefreq, item.Priority);
+                     host + item.Url, item.ModifyDate.ToString("yyyy-MM-dd"), item.Changefreq, item.Priority);
                 }
             }
             xmlBuilder.AppendLine("</urlset>");
