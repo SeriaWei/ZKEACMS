@@ -125,6 +125,9 @@ namespace ZKEACMS.WebHost
 
             style("datepicker")
                 .Include($"{LibraryPath}/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css", $"{LibraryPath}/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css");
+
+            style("rule")
+                .Include($"{StylePath}/rule.css", $"{StylePath}/rule.min.css");
         }
     }
 }

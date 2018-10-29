@@ -34,6 +34,9 @@
                 </div>
                 <div class="panel-footer">
                     <a href="@Url.Action("Create")" class="btn btn-primary btn-sm">@L("新建")</a>
+                    <small class="text-muted" style="margin-left:1rem">
+                        @L("说明：点击条件文字，右则将展示出满足该条件时的内容")
+                    </small>                    
                 </div>
             </div>
         </div>
@@ -48,7 +51,7 @@
     <script type="text/javascript">
         $(function () {
             if (!location.hash) {
-                location.hash = '@ViewBag.LayoutID';
+                location.hash = '@ViewBag.RuleID';
             }
             if (location.hash && location.hash != "#") {
                 $("a" + location.hash).trigger("click");
