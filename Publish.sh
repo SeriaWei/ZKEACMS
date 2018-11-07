@@ -3,4 +3,4 @@ dotnet restore
 dotnet tool install -g ZKEACMS.Publisher
 cd src/ZKEACMS.WebHost
 export PATH="$PATH:/root/.dotnet/tools"
-dotnet publish-zkeacms
+publish-zkeacms
