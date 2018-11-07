@@ -2,7 +2,7 @@
 ## 简介 / Summary
 ZKEACMS is a visual design, online edit content management system
 
-纸壳CMS是一个可视化设计，在线编辑的内容管理系统
+纸壳CMS是一个可视化设计，在线编辑的内容管理系统，使用它可以快速创建一个美观、性能优异的响应式网站。
 
 页面基本思想
 
