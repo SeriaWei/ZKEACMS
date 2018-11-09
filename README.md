@@ -143,5 +143,7 @@ Using LESS to create a theme, by modifying the variables, you can easily create 
 
 纸壳CMS群2（869382969）[点击加群](https://jq.qq.com/?_wv=1027&k=5A7a3Zt)
 
-## Enterprise
-[企业版/Enterprise](http://www.zkea.net/zkeacms/enterprise)
+## License
+For commercial, keep your source code private/proprietary by purchasing a [Commercial License](http://www.zkea.net/zkeacms/enterprise).
+
+对于商业用途，请通过购买[企业版/Enterprise](http://www.zkea.net/zkeacms/enterprise)来私有化你的源代码。
