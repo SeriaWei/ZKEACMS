@@ -27,8 +27,6 @@
     <title>[@L("设计")]@Model.Page.Title</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
-    @StyleAtHead()
-    @ScriptAtHead()
     @if (Model.CurrentTheme != null)
     {
         if (hostingEnvironment.IsDevelopment())
@@ -40,6 +38,8 @@
             <link type="text/css" rel="stylesheet" href="@Url.Content(Model.CurrentTheme.Url)" />
         }
     }
+    @StyleAtHead()
+    @ScriptAtHead()
 </head>
 <body class="front">
     <nav id="toolBar" class="navbar navbar-inverse navbar-fixed-top">
