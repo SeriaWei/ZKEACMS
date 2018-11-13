@@ -301,6 +301,14 @@ $(function () {
         slide: slide,
         create: slideCreate
     });
+    $(".color-picker").spectrum({
+        preferredFormat: "hex",
+        showButtons: false,
+        showInput: true,
+        showInitial: true,
+        showAlpha: true,
+        allowEmpty: true
+    });
     updateDisplay();
 });
 
