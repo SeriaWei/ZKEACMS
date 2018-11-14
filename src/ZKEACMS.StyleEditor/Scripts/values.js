@@ -308,6 +308,9 @@ $(function () {
         showInitial: true,
         showAlpha: true,
         allowEmpty: true
+    }).on("dragstop.spectrum", function (e, color) {
+        $(this).val(color.toHexString());
+        updateDisplay();
     });
     updateDisplay();
 });
