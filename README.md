@@ -22,7 +22,10 @@ Change the culture code to `en-US` to use english in `appsettings.json`
 }
 ```
 ## 发布 / Publish
-使用 Publish.cmd / Publish.sh，或者安装发布程序后手动发布
+
+Use `Publish.cmd / Publish.sh` to release the project or use the command line below:
+
+使用 `Publish.cmd / Publish.sh`，或者使用下列命令进行发布：
 ```
 dotnet tool install -g ZKEACMS.Publisher
 ```
@@ -33,20 +36,17 @@ dotnet tool install -g ZKEACMS.Publisher
 ```
 ./src/ZKEACMS.WebHost/publish-zkeacms -r win-x64
 ```
-## Docker
+## Run on Docker
 ```
 docker run -d -p 5000:80 zkeasoft/zkeacms
 ```
 
 ## 开发环境 / Development
-* [.Net Core SDK 2.1.401](https://www.microsoft.com/net/download/dotnet-core/2.1#sdk-2.1.401)
-* Microsoft Sql Server 2008+
-* MySql 8.0+
-* SQLite 3
-* Microsoft Visual Studio 2017 15.3+
-* Visual Studio Code
+* [.Net Core SDK 2.1](https://aka.ms/dotnet-download)
+* Microsoft Sql Server 2008+ / MySql 8.0+ / SQLite 3
+* Microsoft Visual Studio 2017 15.3+ / Visual Studio Code
 
-## 设计页面 / Desing Page
+## 设计页面 / Page Design
 ![简单演示](http://ww4.sinaimg.cn/mw690/005zTNGqgw1f5e6o2kejlg30dw08an3g.gif)
 
 ## 添加内容 / Add Content
@@ -60,25 +60,17 @@ ZKEACMS is featuring a modern responsive design that automatically adapts to dif
 ## 布局设计 / Design Layout
 ![布局设计](https://cloud.githubusercontent.com/assets/6006218/23800807/b4298c0a-05e8-11e7-834f-fef335e64a94.jpg)
 
-Layout, used to make a page of the region, the user drag the "line", "column" way to layout design. Layout of the division, the use of rows, columns divided way, can be nested.
+Layout is used to make a page of the zone, the user drag the "line", "column" way to design layout. The layout uses the Bootstrap3 Grid system.
 
-A layout inside, you can add any line, each line using 12 equally divided raster, can be divided into up to 12 columns. After the division is completed, to add "widget area" in the column, we can add widgets in the column.
-
-布局，用于对页面做区域划分，用户使用拖拉“行”，“列”的方式进行布局的设计。布局的划分，采用行，列的方式进行划分，可嵌套。
-
-一个布局里面，可以添加任意行，每一行使用12等分进行栅格，最多可划分为12列。行列划分完成以后，要在列中加入“组件区域”，才可以在该列中加入组件。
+布局，用于对页面做区域划分，用户使用拖拉“行”，“列”的方式进行布局的设计。布局采用的是Bootstrap3的Grid系统。
 
 
 ## 组件 / Widgets
 ![选择组件](https://cloud.githubusercontent.com/assets/6006218/23800984/5c243978-05e9-11e7-8804-6a82e92b519b.png)
 
-After you have added widget areas to your layout, these areas are available for adding widgets, and different widgets have different capabilities.
+A widget is a `HTML Components`. Add different widget to build your page. Multiple widgets can be added to the same zone, and can be sorted by drag and drop. 
 
-Widgets that is to enrich the site content widget. You can add a wide range of widgets to meet the needs of your site. Multiple widgets can be added to the same widget area and can be dragged and dropped.
-
-在布局中添加了组件区域后，这些区域就可用于添加组件，不同的组件拥有不同的功能。
-
-组件，就是于丰富网站内容的小插件。你可以添加各式各样的组件来满足你网站的需求。同一组件区域可以添加多个组件并且可以对其进行拖拉排序。
+组件，就是于丰富网站内容的小部件。你可以添加各式各样的组件来满足你网站的需求。同一组件区域可以添加多个组件并且可以对其进行拖拉排序。
 
 ## 主题 / Theme
 
