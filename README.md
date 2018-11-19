@@ -60,7 +60,7 @@ ZKEACMS is featuring a modern responsive design that automatically adapts to dif
 ## 布局设计 / Design Layout
 ![布局设计](https://cloud.githubusercontent.com/assets/6006218/23800807/b4298c0a-05e8-11e7-834f-fef335e64a94.jpg)
 
-Layout is used to make a page of the zone, the user drag the "line", "column" way to design layout. The layout uses the Bootstrap3 Grid system.
+Layout is used to make a page of the zone, the user can drag the "row", "column" to design layout. The layout uses the Bootstrap3 Grid system.
 
 布局，用于对页面做区域划分，用户使用拖拉“行”，“列”的方式进行布局的设计。布局采用的是Bootstrap3的Grid系统。
 
