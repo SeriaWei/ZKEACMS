@@ -92,7 +92,9 @@ Using LESS to create a theme, by modifying the variables, you can easily create 
 [http://www.zkea.net/zkeacms/videos](http://www.zkea.net/zkeacms/videos)
 
 **企业版演示 / Enterprise Edition**
+
 The following videos will help you know the Enterprise Edition:
+
 下面这些演示视频有助于您了解企业版：
 - https://v.vuevideo.net/share/post/5481323210292563522 
 - https://v.vuevideo.net/share/post/-639458500689997299
@@ -102,7 +104,7 @@ The following videos will help you know the Enterprise Edition:
 
 
 ## 官方网站 / Official Website
-[ZKEASOFT](http://www.zkea.net/zkeacms/zkeacmscore)
+[http://www.zkea.net](http://www.zkea.net/zkeacms/zkeacmscore)
 
 
 ## 关注微信(ZKEASOFT)
