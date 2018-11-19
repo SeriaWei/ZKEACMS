@@ -46,18 +46,6 @@ docker run -d -p 5000:80 zkeasoft/zkeacms
 * Microsoft Visual Studio 2017 15.3+
 * Visual Studio Code
 
-## 支持平台 / Platform Support
-* Windows Client:7,8.1,10(1607+)
-* Windows Server:2008 R2 SP1+
-* macOS 10.12+
-* RHEL:6+
-* Fedora:26+
-* Ubuntu:14.04+
-* Debian:8+
-* SLES:12+
-* openSUSE:42.3+
-* Alpine:3.7+
-
 ## 设计页面 / Desing Page
 ![简单演示](http://ww4.sinaimg.cn/mw690/005zTNGqgw1f5e6o2kejlg30dw08an3g.gif)
 
@@ -80,27 +68,6 @@ A layout inside, you can add any line, each line using 12 equally divided raster
 
 一个布局里面，可以添加任意行，每一行使用12等分进行栅格，最多可划分为12列。行列划分完成以后，要在列中加入“组件区域”，才可以在该列中加入组件。
 
-## 页面概览 / Overview Page
-![概览设计](https://cloud.githubusercontent.com/assets/6006218/23800896/0dccf814-05e9-11e7-8fe5-f55f46063f17.jpg)
-
-The overview page is a thumbnail display of the page. In this page, users can see the layout of the page and the widgets in the page directly.
-
-In the overview page, users can add widgets to any area. You can sort widgets in any area or drag them to another area for display.
-
-概览页面，是页面的缩略显示。在这个页面里面，用户可以直接看到页面的布局，和页面中的组件。
-
-在概览页面中，用户可以添加组件到任意区域。可以对任意区域内的组件进行排序或者拖放到别的区域显示。
-
-## 预览设计 / Preview Page
-![预览设计](https://cloud.githubusercontent.com/assets/6006218/23800942/33b46774-05e9-11e7-8a10-5da57484b138.jpg)
-
-The preview page is the real display of the page. In this page, users can see the real situation of the page, and the real situation of the widgets in the page.
-
-In the preview page, users can add widgets to any area. You can sort widgets in any area or drag them to another area for display.
-
-预览页面，是页面的真实显示。在这个页面里面，用户可以直接看到页面的真实情况，和页面中组件的真实情况。
-
-在预览页面中，用户可以添加组件到任意区域。可以对任意区域内的组件进行排序或者拖放到别的区域显示。
 
 ## 组件 / Widgets
 ![选择组件](https://cloud.githubusercontent.com/assets/6006218/23800984/5c243978-05e9-11e7-8804-6a82e92b519b.png)
@@ -112,13 +79,6 @@ Widgets that is to enrich the site content widget. You can add a wide range of w
 在布局中添加了组件区域后，这些区域就可用于添加组件，不同的组件拥有不同的功能。
 
 组件，就是于丰富网站内容的小插件。你可以添加各式各样的组件来满足你网站的需求。同一组件区域可以添加多个组件并且可以对其进行拖拉排序。
-## 显示模板 / Template
-
-Template widget can be more easily extended. Directly replace the display template can achieve the effect you want.
-
-纸壳CMS的模板组件可以更方便的进行扩展。直接更换显示模板就可以达到您想要的效果。
-
-![显示模板](https://cloud.githubusercontent.com/assets/6006218/23801091/cd3c03d4-05e9-11e7-8196-5ef107fc4442.jpg)
 
 ## 主题 / Theme
 
@@ -128,10 +88,20 @@ Using LESS to create a theme, by modifying the variables, you can easily create 
 
 ![主题](https://cloud.githubusercontent.com/assets/6006218/23801129/f5be52ee-05e9-11e7-8a7e-6465a4cb3c9f.jpg)
 
-## 视频演示
+## 视频演示 / Videos
 [http://www.zkea.net/zkeacms/videos](http://www.zkea.net/zkeacms/videos)
 
-## 官方网站
+**企业版演示 / Enterprise Edition**
+The following videos will help you know the Enterprise Edition:
+下面这些演示视频有助于您了解企业版：
+- https://v.vuevideo.net/share/post/5481323210292563522 
+- https://v.vuevideo.net/share/post/-639458500689997299
+- https://v.vuevideo.net/share/post/7761412908248591201 
+- https://v.vuevideo.net/share/post/2774403749855987239 
+- https://v.vuevideo.net/share/post/779279774519648270 
+
+
+## 官方网站 / Official Website
 [ZKEASOFT](http://www.zkea.net/zkeacms/zkeacmscore)
 
 
@@ -144,6 +114,6 @@ Using LESS to create a theme, by modifying the variables, you can easily create 
 纸壳CMS群2（869382969）[点击加群](https://jq.qq.com/?_wv=1027&k=5A7a3Zt)
 
 ## License
-For commercial, keep your source code private/proprietary by purchasing a [Commercial License](http://www.zkea.net/zkeacms/enterprise).
+For commercial, keep your source code private/proprietary by purchasing a [Commercial License/Enterprise Edition](http://www.zkea.net/zkeacms/enterprise).
 
 对于商业用途，请通过购买[企业版/Enterprise](http://www.zkea.net/zkeacms/enterprise)来私有化你的源代码。
