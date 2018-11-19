@@ -8,14 +8,21 @@ ZKEACMS is a visual design, online edit content management system
 
 [http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)
 ## 演示 / Demo
-Try it on our demo site
+Try it on our demo site, the demo site is Enterprise Edition:
 
-在我们的测试站点进行体验
+在我们的测试站点进行体验，测试站是企业版：
 
 [http://demo.zkea.net](http://demo.zkea.net)
 
+**多租户演示 / Multi-tenant demo**
+
+http://build.zkeasoft.com/
+
 ## Notice
 Change the culture code to `en-US` to use english in `appsettings.json`
+
+通过修改`appsettings.json`来将语言切换为英文：
+
 ```
 "Culture": {
   "Code": "en-US"
