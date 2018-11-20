@@ -13,3 +13,7 @@ else
         @Html.Raw(Model.StyleSheet)
     </style>
 }
+@if (ApplicationContext.As<CMSApplicationContext>().IsDesignMode)
+{
+    <pre class="code" code="CSS">@Model.StyleSheet</pre>
+}
