@@ -115,6 +115,6 @@ The following videos will help you know the Enterprise Edition:
 纸壳CMS群2（869382969）[点击加群](https://jq.qq.com/?_wv=1027&k=5A7a3Zt)
 
 ## License
-For commercial, keep your source code private/proprietary by purchasing a [Commercial License/Enterprise Edition](http://www.zkea.net/zkeacms/enterprise).
+For commercial, keep your source code private/proprietary by purchasing a [Commercial License/Enterprise Edition](https://github.com/SeriaWei/ZKEACMS.Core/wiki/Purchase-commercial-license).
 
 对于商业用途，请通过购买[企业版/Enterprise](http://www.zkea.net/zkeacms/enterprise)来私有化你的源代码。
