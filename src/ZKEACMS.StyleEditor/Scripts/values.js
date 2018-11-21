@@ -266,14 +266,26 @@ $(function () {
         }
     }];
     var styleArray = attrs.split(';');
+    window.unKnownStyle = [];
     for (var i = 0; i < styleArray.length; i++) {
+        var styleItem = $.trim(styleArray[i]);
+        if (!styleItem) {
+            continue;
+        }
+        var match = false;
         for (var j = 0; j < attrRexs.length; j++) {
-            $.trim(styleArray[i]).replace(attrRexs[j].reg, function (a, v) {
-                attrRexs[j].setValue($.trim(v));
-            });
+            if (attrRexs[j].reg.test(styleItem)) {
+                styleItem.replace(attrRexs[j].reg, function (a, v) {
+                    attrRexs[j].setValue($.trim(v));
+                });
+                match = true;
+                break;
+            }
+        }
+        if (!match) {
+            window.unKnownStyle.push(styleItem);
         }
     }
-
     function slide(event, ui) {
         var $id = $(this).attr('id');
         $id = $id.replace('slider_', '#');

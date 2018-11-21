@@ -5,11 +5,11 @@
 
     var textColor = document.getElementById("t-color").value;
     var backgroundColor = document.getElementById("b-color").value;
-    
+
     var borderWidth = document.getElementById("border-width").innerHTML + "px";
     var borderColor = document.getElementById("bc-color").value;
     var borderStyle = document.getElementById("border-style").value;
-    
+
     var padding = document.getElementById("padding-custom").value;
     if (!padding) {
         padding = document.getElementById("padding").innerHTML + "px";
@@ -18,21 +18,21 @@
     if (!margin) {
         margin = document.getElementById("margin").innerHTML + "px";
     }
-    
+
     var fontName = document.getElementById("font-name").value;
     var fontStyle = document.getElementById("font-style").value;
     var fontWeight = document.getElementById("font-weight").value;
     var fontSize = document.getElementById("font-size").innerHTML + "px";
     var fontVariant = document.getElementById("font-variant").value;
     var lineHeight = document.getElementById("line-height").innerHTML + "px";
-    
+
     var textAlign = document.getElementById("text-align").value;
     var textDecoration = document.getElementById("text-decoration").value;
     var textIndent = document.getElementById("text-indent").innerHTML + "px";
     var letterSpacing = document.getElementById("letter-spacing").innerHTML + "px";
     var wordSpacing = document.getElementById("word-spacing").innerHTML + "px";
     var textTransform = document.getElementById("text-transform").value;
-    
+
     var backgroundImage = document.getElementById("background-image").value;
     if (backgroundImage) {
         backgroundImage = 'url(' + backgroundImage.replace("~/", "/") + ')';
@@ -42,7 +42,7 @@
     var backgroundAttachment = document.getElementById("background-attachment").value;
     var backgroundSize = document.getElementById("background-size").value;
     var background = document.getElementById("background").value;
-    
+
     var cssPosition = document.getElementById("position").value;
     var cssTop = document.getElementById("position-top").value + "px";
     var cssLeft = document.getElementById("position-left").value + "px";
@@ -54,11 +54,11 @@
     var cssVisibility = document.getElementById("visibility").value;
     var cssOverflow = document.getElementById("overflow").value;
     var cssFloat = document.getElementById("float").value;
-    
+
     var borderRadius = document.getElementById("border-radius-custom").value;
     if (!borderRadius) {
         borderRadius = document.getElementById("border-radius").innerHTML + "px";
-    }        
+    }
 
     var textShadowH = document.getElementById("text-h-length").innerHTML + "px";
     var textShadowV = document.getElementById("text-v-length").innerHTML + "px";
@@ -184,6 +184,9 @@
     if (boxShadowH !== "0px" || boxShadowV !== "0px" || boxShadowB !== "0px") {
         this.css.push('box-shadow:' + boxShadowH + ' ' + boxShadowV + ' ' + boxShadowB + ' ' + boxShadowColor);
     }
+    for (var i = 0; i < window.unKnownStyle.length; i++) {
+        this.css.push(window.unKnownStyle[i]);
+    }
     this.css.push("");
     var target = window.top.$(".custom-style-target");
     if (target.hasClass('form-control')) {
@@ -218,5 +221,5 @@
     return cssResult;
 }
 $(function () {
-    $("body").slimscroll({ height: window.innerHeight, color:"#b0b8c5" });
+    $("body").slimscroll({ height: window.innerHeight, color: "#b0b8c5" });
 });
