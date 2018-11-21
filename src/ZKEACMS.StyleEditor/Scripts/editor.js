@@ -5,13 +5,11 @@
 
     var textColor = document.getElementById("t-color").value;
     var backgroundColor = document.getElementById("b-color").value;
-
-    //Border//
+    
     var borderWidth = document.getElementById("border-width").innerHTML + "px";
     var borderColor = document.getElementById("bc-color").value;
     var borderStyle = document.getElementById("border-style").value;
-
-    //Padding & Margins//
+    
     var padding = document.getElementById("padding-custom").value;
     if (!padding) {
         padding = document.getElementById("padding").innerHTML + "px";
@@ -20,24 +18,21 @@
     if (!margin) {
         margin = document.getElementById("margin").innerHTML + "px";
     }
-
-    //Fonts//
+    
     var fontName = document.getElementById("font-name").value;
     var fontStyle = document.getElementById("font-style").value;
     var fontWeight = document.getElementById("font-weight").value;
     var fontSize = document.getElementById("font-size").innerHTML + "px";
     var fontVariant = document.getElementById("font-variant").value;
     var lineHeight = document.getElementById("line-height").innerHTML + "px";
-
-    //Text Style//
+    
     var textAlign = document.getElementById("text-align").value;
     var textDecoration = document.getElementById("text-decoration").value;
     var textIndent = document.getElementById("text-indent").innerHTML + "px";
     var letterSpacing = document.getElementById("letter-spacing").innerHTML + "px";
     var wordSpacing = document.getElementById("word-spacing").innerHTML + "px";
     var textTransform = document.getElementById("text-transform").value;
-
-    //Background Styles//
+    
     var backgroundImage = document.getElementById("background-image").value;
     if (backgroundImage) {
         backgroundImage = 'url(' + backgroundImage.replace("~/", "/") + ')';
@@ -47,21 +42,19 @@
     var backgroundAttachment = document.getElementById("background-attachment").value;
     var backgroundSize = document.getElementById("background-size").value;
     var background = document.getElementById("background").value;
-
-    //Position Style//
+    
     var cssPosition = document.getElementById("position").value;
     var cssTop = document.getElementById("position-top").value + "px";
     var cssLeft = document.getElementById("position-left").value + "px";
     var cssRight = document.getElementById("position-right").value + "px";
     var cssBottom = document.getElementById("position-bottom").value + "px";
+    var zIndex = document.getElementById("z-index").value;
 
-    //Extras//
     var cssCursor = document.getElementById("cursor").value;
     var cssVisibility = document.getElementById("visibility").value;
     var cssOverflow = document.getElementById("overflow").value;
     var cssFloat = document.getElementById("float").value;
-
-    //CSS3 Styles//
+    
     var borderRadius = document.getElementById("border-radius-custom").value;
     if (!borderRadius) {
         borderRadius = document.getElementById("border-radius").innerHTML + "px";
@@ -166,6 +159,9 @@
     }
     if (cssBottom != "px") {
         this.css.push('bottom:' + cssBottom);
+    }
+    if (zIndex) {
+        this.css.push('z-index:' + zIndex);
     }
     if (cssCursor) {
         this.css.push('cursor:' + cssCursor);

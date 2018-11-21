@@ -236,7 +236,7 @@ $(function () {
         }
     }, {
         reg: /^border-radius:(.+)/g, setValue: function setValue(v) {
-                if (v.indexOf("%") >= 0 || v.indexOf(" ") >= 0) {
+            if (v.indexOf("%") >= 0 || v.indexOf(" ") >= 0) {
                 $("#border-radius-custom").val(v);
             } else {
                 $("#border-radius").text(parseInt(v));
@@ -259,6 +259,10 @@ $(function () {
                 $("#box-b-length").html(s3);
                 $("#box-s-color").val(s4);
             });
+        }
+    }, {
+        reg: /^z-index:(\d+)/g, setValue: function setValue(v) {
+            $("#z-index").val(v);
         }
     }];
     var styleArray = attrs.split(';');

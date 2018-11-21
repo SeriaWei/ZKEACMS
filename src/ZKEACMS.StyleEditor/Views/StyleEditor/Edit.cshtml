@@ -8,6 +8,7 @@
 <div class="editor-main clearfix">
     <div class="examples">
         <div id="accordion2">
+            <input type="hidden" id="unknow" />
             <fieldset>
                 <legend>@L("背景")</legend>
                 <div class="column">
@@ -377,6 +378,10 @@
                     <div class="input-group">
                         <span class="input-group-addon">@(L("底部距离"))(px)</span>
                         <input type="text" class="form-control" id="position-bottom" onchange="updateDisplay()" />
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">@L("z-index")</span>
+                        <input type="text" class="form-control" id="z-index" onchange="updateDisplay()" />
                     </div>
                 </div>
             </fieldset>
