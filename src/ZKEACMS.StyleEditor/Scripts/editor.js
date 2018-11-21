@@ -50,10 +50,10 @@
 
     //Position Style//
     var cssPosition = document.getElementById("position").value;
-    var cssTop = document.getElementById("top").innerHTML + "px";
-    var cssLeft = document.getElementById("left").innerHTML + "px";
-    var cssRight = document.getElementById("right").innerHTML + "px";
-    var cssBottom = document.getElementById("bottom").innerHTML + "px";
+    var cssTop = document.getElementById("position-top").value + "px";
+    var cssLeft = document.getElementById("position-left").value + "px";
+    var cssRight = document.getElementById("position-right").value + "px";
+    var cssBottom = document.getElementById("position-bottom").value + "px";
 
     //Extras//
     var cssCursor = document.getElementById("cursor").value;
@@ -62,7 +62,11 @@
     var cssFloat = document.getElementById("float").value;
 
     //CSS3 Styles//
-    var borderRadius = document.getElementById("border-radius").innerHTML + "px";
+    var borderRadius = document.getElementById("border-radius-custom").value;
+    if (!borderRadius) {
+        borderRadius = document.getElementById("border-radius").innerHTML + "px";
+    }        
+
     var textShadowH = document.getElementById("text-h-length").innerHTML + "px";
     var textShadowV = document.getElementById("text-v-length").innerHTML + "px";
     var textShadowB = document.getElementById("text-b-length").innerHTML + "px";
@@ -151,16 +155,16 @@
     if (cssPosition) {
         this.css.push('position:' + cssPosition);
     }
-    if (cssTop !== "0px") {
+    if (cssTop != "px") {
         this.css.push('top:' + cssTop);
     }
-    if (cssLeft !== "0px") {
+    if (cssLeft != "px") {
         this.css.push('left:' + cssLeft);
     }
-    if (cssRight !== "0px") {
+    if (cssRight != "px") {
         this.css.push('right:' + cssRight);
     }
-    if (cssBottom !== "0px") {
+    if (cssBottom != "px") {
         this.css.push('bottom:' + cssBottom);
     }
     if (cssCursor) {

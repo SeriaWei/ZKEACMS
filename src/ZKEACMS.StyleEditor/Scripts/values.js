@@ -204,19 +204,19 @@ $(function () {
         }
     }, {
         reg: /^top:(\d+)px/g, setValue: function setValue(v) {
-            $("#top").text(v);
+            $("#position-top").val(v);
         }
     }, {
         reg: /^left:(\d+)px/g, setValue: function setValue(v) {
-            $("#left").text(v);
+            $("#position-left").val(v);
         }
     }, {
         reg: /^right:(\d+)px/g, setValue: function setValue(v) {
-            $("#right").text(v);
+            $("#position-right").val(v);
         }
     }, {
         reg: /^bottom:(\d+)px/g, setValue: function setValue(v) {
-            $("#bottom").text(v);
+            $("#position-bottom").val(v);
         }
     }, {
         reg: /^cursor:(.+)/g, setValue: function setValue(v) {
@@ -235,8 +235,12 @@ $(function () {
             $("#float").val(v);
         }
     }, {
-        reg: /^border-radius:(\d+)px/g, setValue: function setValue(v) {
-            $("#border-radius").text(v);
+        reg: /^border-radius:(.+)/g, setValue: function setValue(v) {
+                if (v.indexOf("%") >= 0 || v.indexOf(" ") >= 0) {
+                $("#border-radius-custom").val(v);
+            } else {
+                $("#border-radius").text(parseInt(v));
+            }
         }
     }, {
         reg: /^text-shadow:(.+)/g, setValue: function setValue(v) {
@@ -279,25 +283,25 @@ $(function () {
     }
     $(".border").slider({
         min: 0,
-        max: 10,
+        max: 30,
         slide: slide,
         create: slideCreate
     });
     $(".padding").slider({
         min: 0,
-        max: 50,
+        max: 100,
+        slide: slide,
+        create: slideCreate
+    });
+    $(".border-radius").slider({
+        min: 0,
+        max: 100,
         slide: slide,
         create: slideCreate
     });
     $(".fontsize").slider({
         min: 0,
         max: 60,
-        slide: slide,
-        create: slideCreate
-    });
-    $(".position").slider({
-        min: 0,
-        max: 150,
         slide: slide,
         create: slideCreate
     });
@@ -312,6 +316,7 @@ $(function () {
         $(this).val(color.toHexString());
         updateDisplay();
     });
+
     updateDisplay();
 });
 
