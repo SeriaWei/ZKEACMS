@@ -80,7 +80,8 @@ namespace ZKEACMS.Product.Service
             {
                 PageIndex = pageIndex,
                 PageSize = currentWidget.PageSize ?? 20,
-                OrderBy = "OrderIndex"
+                OrderBy = "OrderIndex",
+                ThenByDescending= "ID"
             };
 
             Expression<Func<ProductEntity, bool>> filter = null;
