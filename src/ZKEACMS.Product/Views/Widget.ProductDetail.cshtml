@@ -38,7 +38,7 @@
                             </ul>
                         </div>
                         <div class="col-sm-6">
-                            <h1>@Model.Title</h1>
+                            <h2>@Model.Title</h2>
                             @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProduct) && Model.ID > 0)
                             {
                                 <p>
