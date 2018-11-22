@@ -17,44 +17,70 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace ZKEACMS.Widget
 {
-    public abstract class WidgetService<T, TDB> : ServiceBase<T, TDB>, IWidgetPartDriver where T : WidgetBase where TDB : CMSDbContext, new()
+    public abstract class WidgetService<T> : ServiceBase<T>, IWidgetPartDriver where T : WidgetBase
     {
-        public WidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext)
-            : base(applicationContext)
+        public WidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(applicationContext, dbContext)
         {
             WidgetBasePartService = widgetBasePartService;
         }
 
         public IWidgetBasePartService WidgetBasePartService { get; private set; }
-
-
-        public override void Add(T item)
+        public bool IsNeedNotifyChange
         {
-            item.ID = Guid.NewGuid().ToString("N");
-            WidgetBasePartService.Add(item.ToWidgetBasePart());
-            try
+            get { return WidgetBasePartService.IsNeedNotifyChange; }
+            set { WidgetBasePartService.IsNeedNotifyChange = value; }
+        }
+        public override ServiceResult<T> Add(T item)
+        {
+            ServiceResult<T> result = null;
+            BeginTransaction(() =>
             {
-                base.Add(item);
-            }
-            catch (Exception ex)
-            {
-                WidgetBasePartService.Remove(item.ID);
-                throw ex;
-            }
+                var id = Guid.NewGuid().ToString("N");
+                var basePart = item.ToWidgetBasePart();
+                basePart.ID = id;
+                WidgetBasePartService.Add(basePart);
+                try
+                {
+                    item.ID = basePart.ID;
+                    result = base.Add(item);
+                }
+                catch (Exception ex)
+                {
+                    WidgetBasePartService.Remove(item.ID);
+                    throw ex;
+                }
+            });
+            return result;
         }
 
-        public override void Update(T item, bool saveImmediately = true)
+        public override ServiceResult<T> Update(T item)
         {
-            WidgetBasePartService.Update(item.ToWidgetBasePart());
-
-            base.Update(item, saveImmediately);
+            ServiceResult<T> result = null;
+            BeginTransaction(() =>
+            {
+                var basePart = WidgetBasePartService.Get(item.ID);
+                item.CopyTo(basePart);
+                WidgetBasePartService.Update(basePart);
+                result = base.Update(item);
+            });
+            return result;
         }
-        public override void UpdateRange(params T[] items)
+        public override ServiceResult<T> UpdateRange(params T[] items)
         {
-
-            WidgetBasePartService.UpdateRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
-
-            base.UpdateRange(items);
+            var ids = items.Select(m => m.ID).ToArray();
+            var baseParts = WidgetBasePartService.Get(m => ids.Contains(m.ID));
+            foreach (var item in items)
+            {
+                item.CopyTo(baseParts.FirstOrDefault(m => m.ID == item.ID));
+            }
+            ServiceResult<T> result = null;
+            BeginTransaction(() =>
+            {
+                WidgetBasePartService.UpdateRange(baseParts.ToArray());
+                result = base.UpdateRange(items);
+            });
+            return result;
         }
         public override T GetSingle(Expression<Func<T, bool>> filter)
         {
@@ -65,9 +91,10 @@ namespace ZKEACMS.Widget
             }
             return model;
         }
-        public override IEnumerable<T> Get(Expression<Func<T, bool>> filter)
+
+        public override IList<T> Get(Expression<Func<T, bool>> filter)
         {
-            var widgets = base.Get(filter)?.ToList();
+            var widgets = base.Get(filter);
 
             if (widgets != null && typeof(T) != typeof(WidgetBase))
             {
@@ -94,27 +121,32 @@ namespace ZKEACMS.Widget
 
         public override void Remove(Expression<Func<T, bool>> filter)
         {
-            base.Remove(filter);
+            BeginTransaction(() =>
+            {
+                base.Remove(filter);
 
-            WidgetBasePartService.Remove(Expression.Lambda<Func<WidgetBase, bool>>(filter.Body, filter.Parameters));
-
+                WidgetBasePartService.Remove(Expression.Lambda<Func<WidgetBase, bool>>(filter.Body, filter.Parameters));
+            });
         }
 
-        public override void Remove(T item, bool saveImmediately = true)
+        public override void Remove(T item)
         {
+            BeginTransaction(() =>
+            {
+                base.Remove(item);
 
-            base.Remove(item, saveImmediately);
-
-            WidgetBasePartService.Remove(WidgetBasePartService.Get(item.ID));
-
+                WidgetBasePartService.Remove(item.ID);
+            });
         }
         public override void RemoveRange(params T[] items)
         {
-
-            base.RemoveRange(items);
-
-            WidgetBasePartService.RemoveRange(items.Select(m => m.ToWidgetBasePart()).ToArray());
-
+            BeginTransaction(() =>
+            {
+                base.RemoveRange(items);
+                var ids = items.Select(n => n.ID).ToArray();
+                var widgets = WidgetBasePartService.Get(m => ids.Contains(m.ID)).ToArray();
+                WidgetBasePartService.RemoveRange(widgets);
+            });
         }
 
 
@@ -179,6 +211,7 @@ namespace ZKEACMS.Widget
             var widget = new WidgetPackageInstaller(ApplicationContext.HostingEnvironment).Install(pack);
             if (widget != null)
             {
+                (widget as WidgetBase).Description = "°²×°";
                 AddWidget(widget as WidgetBase);
             }
 

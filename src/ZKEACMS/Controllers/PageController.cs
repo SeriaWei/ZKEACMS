@@ -1,70 +1,76 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
-using System.Linq;
-using ZKEACMS.Common.ViewModels;
+/* http://www.zkea.net/ 
+ * Copyright 2016 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using Easy.Constant;
 using Easy.Extend;
-using Easy.Mvc.Controllers;
-using ZKEACMS.Page;
-using Microsoft.AspNetCore.Mvc;
-using ZKEACMS.Filter;
-using Easy.Mvc.Attribute;
-using ZKEACMS.Layout;
-using Easy;
-using Easy.Mvc.ValueProvider;
-using ZKEACMS.Zone;
-using ZKEACMS.Widget;
-using System;
-using Microsoft.AspNetCore.Http;
-using Easy.ViewPort.jsTree;
-using Microsoft.Extensions.DependencyInjection;
-using Easy.Mvc.Authorize;
 using Easy.Mvc;
+using Easy.Mvc.Authorize;
+using Easy.Mvc.Controllers;
+using Easy.Mvc.ValueProvider;
+using Easy.ViewPort.jsTree;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Net;
+using ZKEACMS.Common.ViewModels;
+using ZKEACMS.Filter;
+using ZKEACMS.Layout;
+using ZKEACMS.Page;
+using ZKEACMS.Setting;
+using ZKEACMS.Widget;
+using ZKEACMS.Zone;
+using ZKEACMS.Rule;
 
 namespace ZKEACMS.Controllers
 {
     public class PageController : BasicController<PageEntity, string, IPageService>
     {
         private readonly ICookie _cookie;
-        private readonly IZoneService _zoneService;
         private readonly ILayoutService _layoutService;
         private readonly IWidgetBasePartService _widgetService;
+        private readonly IRuleService _ruleService;
+        private readonly IApplicationSettingService _applicationSettingService;
         public PageController(IPageService service,
             ICookie cookie,
-            IZoneService zoneService,
             ILayoutService layoutService,
-            IWidgetBasePartService widgetService)
+            IWidgetBasePartService widgetService,
+            IRuleService ruleService,
+            IApplicationSettingService applicationSettingService)
             : base(service)
         {
             _cookie = cookie;
-            _zoneService = zoneService;
             _layoutService = layoutService;
             _widgetService = widgetService;
+            _ruleService = ruleService;
+            _applicationSettingService = applicationSettingService;
         }
         [Widget]
-        public ActionResult PreView()
+        public IActionResult Main()
         {
-            return View();
+            return View("PreView");
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewPage)]
-        public override ActionResult Index()
+        public override IActionResult Index()
         {
             return base.Index();
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewPage)]
         public JsonResult GetPageTree()
         {
+            var expandAll = _applicationSettingService.Get(SettingKeys.ExpandAllPage, "true");
             var pages = Service.Get(m => !m.IsPublishedPage).OrderBy(m => m.DisplayOrder);
-            var node = new Tree<PageEntity>().Source(pages).ToNode(m => m.ID, m => m.PageName, m => m.ParentId, "#");
+            var node = new Tree<PageEntity>().Source(pages).ToNode(m => m.ID, m => m.PageName, m => m.ParentId, "#", expandAll.Equals("true", StringComparison.OrdinalIgnoreCase));
             return Json(node);
         }
         [NonAction]
-        public override ActionResult Create()
+        public override IActionResult Create()
         {
             return base.Create();
         }
 
-        [ViewDataLayouts, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
-        public ActionResult Create(string ParentID = "#")
+        [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
+        public IActionResult Create(string ParentID = "#")
         {
             var page = new PageEntity
             {
@@ -81,12 +87,14 @@ namespace ZKEACMS.Controllers
             {
                 page.Url += "/";
             }
+            ViewBag.Page = page;
             return View(page);
 
         }
-        [ViewDataLayouts, HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
-        public override ActionResult Create(PageEntity entity)
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
+        public override IActionResult Create(PageEntity entity)
         {
+            ViewBag.Page = entity;
             if (ModelState.IsValid)
             {
                 try
@@ -102,33 +110,30 @@ namespace ZKEACMS.Controllers
             }
             return View(entity);
         }
-        [ViewDataLayouts, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
-        public override ActionResult Edit(string Id)
+        [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
+        public override IActionResult Edit(string Id)
         {
             var page = Service.Get(Id);
             if (page == null || page.IsPublishedPage)
             {
                 return RedirectToAction("Index");
             }
-            ViewBag.OldVersions = Service.Get(m => m.Url == page.Url && m.IsPublishedPage == true).OrderBy(m => m.PublishDate);
+            ViewBag.OldVersions = Service.Get(m => m.ReferencePageID == page.ID && m.IsPublishedPage == true).OrderBy(m => m.PublishDate);
+            ViewBag.Page = page;
             return View(page);
         }
-        [ViewDataLayouts, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
-        [HttpPost]
-        public override ActionResult Edit(PageEntity entity)
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
+        public override IActionResult Edit(PageEntity entity)
         {
-            if (entity.ActionType == ActionType.Design)
+            ViewBag.OldVersions = Service.Get(m => m.ReferencePageID == entity.ID && m.IsPublishedPage == true).OrderBy(m => m.PublishDate);
+            ViewBag.Page = entity;
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction("Design", new { entity.ID });
-            }
-            string id = entity.ID;
-            if (entity.ActionType == ActionType.Delete)
-            {
-                Service.Remove(id);
-                return RedirectToAction("Index");
+                return View(entity);
             }
             try
             {
+                ViewBag.Page = entity;
                 Service.Update(entity);
             }
             catch (PageExistException ex)
@@ -136,25 +141,30 @@ namespace ZKEACMS.Controllers
                 ModelState.AddModelError("PageUrl", ex.Message);
                 return View(entity);
             }
-            if (entity.ActionType == ActionType.Publish)
+            if (entity.ActionType == ActionType.Design)
+            {
+                return RedirectToAction("Design", new { entity.ID });
+            }
+            else if (entity.ActionType == ActionType.Delete)
+            {
+                Service.Remove(entity);
+                return RedirectToAction("Index");
+            }
+            else if (entity.ActionType == ActionType.Publish)
             {
                 Service.Publish(entity);
+                return RedirectView(entity.ID, false);
             }
-            return RedirectToAction("Index", new { PageID = id });
+            return RedirectToAction("Index", new { PageID = entity.ID });
         }
         [EditWidget, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
-        public ActionResult Design(string ID)
+        public IActionResult Design(string ID)
         {
-            // Stop Caching in IE
-
-
-            // Stop Caching in Firefox
-
             ViewBag.CanPasteWidget = _cookie.GetValue<string>(Const.CopyWidgetCookie).IsNotNullAndWhiteSpace();
             return View();
         }
         [ViewPage, DefaultAuthorize(Policy = PermissionKeys.ViewPage)]
-        public ActionResult ViewPage(string ID)
+        public IActionResult ViewPage(string ID)
         {
             return View("PreView");
         }
@@ -178,30 +188,57 @@ namespace ZKEACMS.Controllers
             });
 
         }
-        public ActionResult RedirectView(string Id, bool? preview)
+        public IActionResult RedirectView(string Id, bool? preview)
         {
-            return Redirect(Service.Get(Id).Url + ((preview ?? true) ? "?ViewType=" + ReView.Review : ""));
+            var pathArray = Service.Get(Id).Url.Split('/');
+            for (int i = 1; i < pathArray.Length; i++)
+            {
+                pathArray[i] = WebUtility.UrlEncode(pathArray[i]);
+            }
+            var url = string.Join("/", pathArray);
+            return Redirect(url + ((preview ?? true) ? "?ViewType=" + ReView.Review : ""));
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewPage)]
-        public ActionResult Select()
+        public IActionResult Select()
         {
             return View();
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewPage)]
-        public ActionResult PageZones(QueryContext context)
+        public IActionResult PageZones(QueryContext context)
         {
             var page = Service.Get(context.PageID);
-            var layout = _layoutService.Get(page.LayoutId);
+            var layout = _layoutService.GetByPage(page);
             var viewModel = new LayoutZonesViewModel
             {
                 Page = page,
                 Layout = layout,
                 PageID = context.PageID,
                 LayoutID = layout.ID,
-                Zones = _zoneService.GetZonesByPageId(context.PageID),
-                Widgets = _widgetService.GetAllByPage(Service.Get(context.PageID)),
+                Zones = layout.Zones,
+                Widgets = _widgetService.GetAllByPage(page),
                 LayoutHtml = layout.Html
             };
+            var rules = _ruleService.GetMatchRule(new RuleWorkContext
+            {
+                Url = Url.Content(page.Url),
+                UserAgent = Request.Headers["User-Agent"]
+            });
+            if (rules.Any())
+            {
+                var rulesID = rules.Select(m => m.RuleID).ToArray();
+                var ruleWidgets = _widgetService.GetAllByRule(rulesID);
+                ruleWidgets.Each(widget =>
+                {
+                    var zone = layout.Zones.FirstOrDefault(z => z.ZoneName == rules.First(m => m.RuleID == widget.RuleID).ZoneName);
+                    if (zone != null)
+                    {
+                        widget.ZoneID = zone.HeadingCode;
+                    }
+                });
+                viewModel.Widgets = viewModel.Widgets.Concat(ruleWidgets);
+            }
+
+
             return View(viewModel);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]

@@ -7,7 +7,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.SectionWidget.Models
 {
-    [ViewConfigure(typeof(SectionContentTitleMetaData)), Table("SectionContentTitle")]
+    [Table("SectionContentTitle")]
     public class SectionContentTitle : SectionContentBasic
     {
         public const string H1 = "h1";
@@ -19,6 +19,7 @@ namespace ZKEACMS.SectionWidget.Models
         public string InnerText { get; set; }
         public string Href { get; set; }
         public string TitleLevel { get; set; }
+        [NotMapped]
         public override int SectionContentType
         {
             get

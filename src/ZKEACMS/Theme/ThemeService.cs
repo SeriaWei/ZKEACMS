@@ -12,27 +12,21 @@ using System;
 
 namespace ZKEACMS.Theme
 {
-    public class ThemeService : ServiceBase<ThemeEntity, CMSDbContext>, IThemeService
+    public class ThemeService : ServiceBase<ThemeEntity>, IThemeService
     {
         private readonly ICookie _cookie;
         private const string PreViewCookieName = "PreViewTheme";
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-
-
-        public ThemeService(ICookie cookie, IHttpContextAccessor httpContextAccessor, IApplicationContext applicationContext)
-            : base(applicationContext)
+        public ThemeService(ICookie cookie, IHttpContextAccessor httpContextAccessor, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(applicationContext, dbContext)
         {
             _cookie = cookie;
             _httpContextAccessor = httpContextAccessor;
         }
-        public override DbSet<ThemeEntity> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.Theme;
-            }
-        }
+
+        public override DbSet<ThemeEntity> CurrentDbSet => (DbContext as CMSDbContext).Theme;
+
         public void SetPreview(string id)
         {
             _cookie.SetValue(PreViewCookieName, id, true, true);

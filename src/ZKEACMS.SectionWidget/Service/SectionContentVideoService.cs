@@ -7,19 +7,11 @@ using System;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionContentVideoService : ServiceBase<SectionContentVideo, SectionDbContext>, ISectionContentService
+    public class SectionContentVideoService : ServiceBase<SectionContentVideo>, ISectionContentService
     {
-        public SectionContentVideoService(IApplicationContext applicationContext) : base(applicationContext)
+        public SectionContentVideoService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
-        }
-
-        public override DbSet<SectionContentVideo> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.SectionContentVideo;
-            }
-        }
+        }     
 
         public SectionContentBase.Types ContentType
         {

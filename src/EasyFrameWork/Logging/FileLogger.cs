@@ -1,23 +1,30 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Easy.Mvc.Extend;
 
 namespace Easy.Logging
 {
-    public class FileLogger : Microsoft.Extensions.Logging.ILogger
+    public class FileLogger : ILogger
     {
-        public const string Path = "Logs";
-        public const string TitleTemplate = "----------------------------------------------------------------\r\n时间：{0}\r\n详细信息:\r\n";
-        public const string Split = "\r\n----------------------------------------------------------------\r\n";
-        public const string FileTemplate = "LOG_{0}.txt";
+        public static string Path = "Logs";
+        public const string TitleTemplate = "----------------------------------------------------------------\r\nEvent Time: {0}\r\nError Message:\r\n";
+        public const string Split = "----------------------------------------------------------------";
+        public const string FileTemplate = "{0}.log";
         public const string DateNameTemplate = "yyyy-MM-dd";
         private readonly IHostingEnvironment _hostingEnvironment;
-        public FileLogger(IHostingEnvironment hostingEnvironment)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public FileLogger(IHostingEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
         {
             _hostingEnvironment = hostingEnvironment;
+            _httpContextAccessor = httpContextAccessor;
         }
         #region 私有方法
         void WriteInfo(string msg)
@@ -26,8 +33,22 @@ namespace Easy.Logging
             {
                 string logPath = GetLogFile();
                 FileStream fs = new FileStream(logPath, FileMode.Append, FileAccess.Write);
-                StreamWriter writer = new StreamWriter(fs);
-                writer.WriteLine(string.Format(TitleTemplate, DateTime.Now) + msg + Split);
+                StreamWriter writer = new StreamWriter(fs, Encoding.UTF8);
+                writer.WriteLine(string.Format(TitleTemplate, DateTime.Now.ToString("G")) + msg);
+                if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Request != null)
+                {
+                    if (_httpContextAccessor.HttpContext.Request.Headers != null)
+                    {
+                        writer.WriteLine("Headers:");
+                        foreach (var item in _httpContextAccessor.HttpContext.Request.Headers)
+                        {
+                            writer.WriteLine($"{item.Key}:{item.Value}");
+                        }
+                    }
+                    
+                    writer.WriteLine(_httpContextAccessor.HttpContext.Request.GetAbsoluteUrl());
+                }
+                writer.WriteLine(Split);
                 writer.Flush();
                 fs.Flush();
                 writer.Dispose();
@@ -36,7 +57,7 @@ namespace Easy.Logging
         }
         string GetLogFile()
         {
-            string logPath = System.IO.Path.Combine(_hostingEnvironment.WebRootPath, Path);
+            string logPath = System.IO.Path.Combine(_hostingEnvironment.ContentRootPath, Path);
             if (!Directory.Exists(logPath))
             {
                 Directory.CreateDirectory(logPath);

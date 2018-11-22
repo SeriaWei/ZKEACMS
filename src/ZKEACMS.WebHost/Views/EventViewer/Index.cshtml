@@ -1,28 +1,57 @@
 ﻿@using System.IO
 
 @model IEnumerable<FileInfo>
+<div class="panel panel-default">
+    <div class="panel-heading">@L("错误日志")</div>
+    <div class="panel-body">
+        @if (Model.Any())
+        {
+            <ul class="fullRowList">
+                @foreach (FileInfo file in Model)
+                {
+                    <li style="cursor:default">
+                        <div class="clearfix">
+                            <div class="pull-left">
+                                <a class="delete" href="@Url.Action("Delete",new { id = file.Name })">
+                                    <i class="text-danger glyphicon glyphicon-remove"></i>
+                                </a>
+                                <a href="@Url.Action("ViewLog",new { id = file.Name })" target="_blank">@file.Name</a>
+                                @if (file.Length >= 1048576)
+                                {
+                                    <span class="text-muted small">@((file.Length / 1048576d).ToString("F2")) MB</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">@((file.Length / 1024d).ToString("F2")) KB</span>
+                                }
+                            </div>
+                            <div class="pull-right">
+                                <a href="@Url.Action("ViewLog",new { id = file.Name })" download="@file.Name">@L("下载")</a>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <code>
+                @L("没有错误日志，程序运行一切正常")
+            </code>
+        }
+    </div>
+</div>
 
-<ul class="fullRowList">
-  @foreach (FileInfo file in Model)
-  {
-    <li style="cursor:default">
-        <a class="delete" href="@Url.Action("Delete",new { fileName = file.Name })">
-            <i class="text-danger glyphicon glyphicon-remove"></i>
-        </a>
-        <a href="~/Logs/@file.Name" target="_blank">@file.Name</a>
-    </li>
-  }
-</ul>
 @using (Script.AtFoot())
 {
     <script type="text/javascript">
-        $(function () { 
-            $(document).on("click", "a.delete", function () { 
+        $(function () {
+            $(document).on("click", "a.delete", function () {
                 var target = $(this);
                 $.get(target.attr("href"), function (data) {
                     if (data) {
                         target.closest("li").remove();
-                    }                    
+                    }
                 });
                 return false;
             });

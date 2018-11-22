@@ -1,0 +1,42 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <ItemGroup>
+        <VersionFile Include="version.props"/>
+    </ItemGroup>
+    <PropertyGroup>
+        <NuspecPath>Microsoft.jQuery.Unobtrusive.Validation.nuspec</NuspecPath>
+        <DistDir>$(MSBuildThisFileDirectory)dist\</DistDir>
+        <ArtifactsDir>$(MSBuildThisFileDirectory)artifacts\build\</ArtifactsDir>
+        <WebPackTestDir>$(MSBuildThisFileDirectory)test\webpacktest\</WebPackTestDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <DistDirFiles Include="$(DistDir)*.*;"/>
+    </ItemGroup>
+
+    <Target Name="Build">
+        <ReadLinesFromFile File="@(VersionFile)">
+            <Output TaskParameter="Lines" PropertyName="PackageVersion"/>
+        </ReadLinesFromFile>
+        <Exec Command="npm install" />
+        <Exec Command="npm version --no-git-tag-version --allow-same-version $(PackageVersion)" />
+        <Exec Command="$(MSBuildThisFileDirectory)node_modules\.bin\gulp" />
+        <MakeDir Directories="$(ArtifactsDir)" />
+        <Copy
+            SourceFiles="@(DistDirFiles)"
+            DestinationFolder="$(ArtifactsDir)" OverwriteReadOnlyFiles="true"/>
+        <Exec Command="npm pack $(MSBuildThisFileDirectory)" WorkingDirectory="$(ArtifactsDir)" />
+        <Exec Command="nuget pack $(NuspecPath) -Version $(PackageVersion) -OutputDirectory $(ArtifactsDir)" />
+
+        <MSBuild Projects ="$(MSBuildProjectFullPath)"
+            Properties="PackageVersion=$(PackageVersion)"
+            Targets="Test" />
+    </Target>
+
+    <Target Name="Test">
+        <Message Text="Testing Webpack build..." />
+        <Exec Command="npm init -y" WorkingDirectory="$(WebPackTestDir)" />
+        <Exec Command="npm install $(ArtifactsDir)jquery-validation-unobtrusive-$(PackageVersion).tgz --save-dev --force" WorkingDirectory="$(WebPackTestDir)" />
+        <Exec Command="npm install webpack webpack-cli --save-dev" WorkingDirectory="$(WebPackTestDir)" />
+        <Exec Command="npx webpack" WorkingDirectory="$(WebPackTestDir)" />
+    </Target>
+</Project>

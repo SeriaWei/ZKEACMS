@@ -11,7 +11,7 @@ using ZKEACMS.Common.Service;
 
 namespace ZKEACMS.Controllers
 {
-    [DefaultAuthorize]
+    [DefaultAuthorize(Policy = PermissionKeys.ViewNavigation)]
     public class NavigationController : BasicController<NavigationEntity, string, INavigationService>
     {
         public NavigationController(INavigationService service)
@@ -20,12 +20,12 @@ namespace ZKEACMS.Controllers
 
         }
         [NonAction]
-        public override ActionResult Create()
+        public override IActionResult Create()
         {
             return base.Create();
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
-        public ActionResult Create(string ParentID)
+        public IActionResult Create(string ParentID)
         {
             var navication = new NavigationEntity
             {
@@ -35,17 +35,17 @@ namespace ZKEACMS.Controllers
             return View(navication);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
-        public override ActionResult Create(NavigationEntity entity)
+        public override IActionResult Create(NavigationEntity entity)
         {
             return base.Create(entity);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
-        public override ActionResult Edit(string Id)
+        public override IActionResult Edit(string Id)
         {
             return base.Edit(Id);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
-        public override ActionResult Edit(NavigationEntity entity)
+        public override IActionResult Edit(NavigationEntity entity)
         {
             return base.Edit(entity);
         }
@@ -70,7 +70,7 @@ namespace ZKEACMS.Controllers
             Service.Move(id, parentId, position, oldPosition);
             return Json(true);
         }
-        public ActionResult Select(string selected)
+        public IActionResult Select(string selected)
         {
             ViewBag.Selected = selected;
             return View();

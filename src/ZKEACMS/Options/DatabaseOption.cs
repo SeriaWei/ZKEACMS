@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+using Easy;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,8 +10,7 @@ namespace ZKEACMS.Options
 {
     public class DatabaseOption
     {
-        public string DefaultConnection { get; set; }
-        public string Sqlite { get; set; }
-        public string MySql { get; set; }
+        public DbTypes DbType { get; set; }
+        public string ConnectionString { get; set; }
     }
 }

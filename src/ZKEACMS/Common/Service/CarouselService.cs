@@ -12,23 +12,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Common.Service
 {
-    public class CarouselService : ServiceBase<CarouselEntity, CMSDbContext>, ICarouselService
+    public class CarouselService : ServiceBase<CarouselEntity>, ICarouselService
     {
         private readonly ICarouselItemService _carouselItemService;
 
-        public override DbSet<CarouselEntity> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.Carousel;
-            }
-        }
-
-        public CarouselService(ICarouselItemService carouselItemService, IApplicationContext applicationContext)
-            : base(applicationContext)
+        public CarouselService(ICarouselItemService carouselItemService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(applicationContext, dbContext)
         {
             _carouselItemService = carouselItemService;
         }
+
+        public override DbSet<CarouselEntity> CurrentDbSet => (DbContext as CMSDbContext).Carousel;
+
         public override CarouselEntity Get(params object[] primaryKey)
         {
             var carousel = base.Get(primaryKey);
@@ -36,20 +31,31 @@ namespace ZKEACMS.Common.Service
             return carousel;
         }
 
-        public override void Add(CarouselEntity item)
+        public override ServiceResult<CarouselEntity> Add(CarouselEntity item)
         {
-            base.Add(item);
+            var result = base.Add(item);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             if (item.CarouselItems != null)
             {
+                _carouselItemService.BeginBulkSave();
                 item.CarouselItems.Each(m =>
                 {
                     m.CarouselID = item.ID;
                     if (m.ActionType == ActionType.Create)
                     {
-                        _carouselItemService.Add(m);
+                        var itemResult = _carouselItemService.Add(m);
+                        if (itemResult.HasViolation)
+                        {
+                            result.RuleViolations.AddRange(itemResult.RuleViolations);
+                        }
                     }
                 });
+                _carouselItemService.SaveChanges();
             }
+            return result;
         }
         private void SaveCarouselItems(CarouselItemEntity item)
         {
@@ -67,38 +73,64 @@ namespace ZKEACMS.Common.Service
                     }
                 case ActionType.Delete:
                     {
-                        _carouselItemService.Remove(item);
+                        if (item.ID > 0)
+                        {
+                            _carouselItemService.Remove(item);
+                        }
                         break;
                     }
             }
         }
-        public override void Update(CarouselEntity item, bool saveImmediately = true)
+        public override ServiceResult<CarouselEntity> Update(CarouselEntity item)
         {
-            base.Update(item, saveImmediately);
+            var result = base.Update(item);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             if (item.CarouselItems != null)
             {
+                _carouselItemService.BeginBulkSave();
                 item.CarouselItems.Each(m =>
                 {
                     m.CarouselID = item.ID;
                     SaveCarouselItems(m);
                 });
+                _carouselItemService.SaveChanges();
             }
+            return result;
         }
-        public override void UpdateRange(params CarouselEntity[] items)
+        public override ServiceResult<CarouselEntity> UpdateRange(params CarouselEntity[] items)
         {
-            base.UpdateRange(items);
+            var result = base.UpdateRange(items);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             items.Each(m =>
             {
                 if (m.CarouselItems != null)
                 {
+                    _carouselItemService.BeginBulkSave();
                     m.CarouselItems.Each(carItem =>
                     {
                         carItem.CarouselID = m.ID;
                         SaveCarouselItems(carItem);
                     });
-
+                    _carouselItemService.SaveChanges();
                 }
             });
+            return result;
+        }
+        public override void Remove(CarouselEntity item)
+        {
+            if (item.CarouselItems != null)
+            {
+                _carouselItemService.BeginBulkSave();
+                item.CarouselItems.Each(m => _carouselItemService.Remove(m));
+                _carouselItemService.SaveChanges();
+            }
+            base.Remove(item);
         }
     }
 }

@@ -5,6 +5,7 @@
 using Easy;
 using Easy.Constant;
 using Easy.Extend;
+using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -14,29 +15,24 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Common.Service
 {
-    public class CarouselWidgetService : WidgetService<CarouselWidget, CMSDbContext>
+    public class CarouselWidgetService : WidgetService<CarouselWidget>
     {
         private readonly ICarouselItemService _carouselItemService;
 
-        public override DbSet<CarouselWidget> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.CarouselWidget;
-            }
-        }
 
-        public CarouselWidgetService(IWidgetBasePartService widgetService, ICarouselItemService carouselItemService, IApplicationContext applicationContext)
-            : base(widgetService, applicationContext)
+        public CarouselWidgetService(IWidgetBasePartService widgetService, ICarouselItemService carouselItemService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
             _carouselItemService = carouselItemService;
         }
+
+        public override DbSet<CarouselWidget> CurrentDbSet => (DbContext as CMSDbContext).CarouselWidget;
 
         public override WidgetBase GetWidget(WidgetBase widget)
         {
             var carouselWidget = base.GetWidget(widget) as CarouselWidget;
 
-            carouselWidget.CarouselItems = _carouselItemService.Get(m => m.CarouselWidgetID == carouselWidget.ID).ToList();
+            carouselWidget.CarouselItems = _carouselItemService.Get(m => m.CarouselWidgetID == carouselWidget.ID);
             carouselWidget.CarouselItems.Each(m => m.ActionType = ActionType.Update);
             return carouselWidget;
         }
@@ -47,6 +43,7 @@ namespace ZKEACMS.Common.Service
             var item = widget as CarouselWidget;
             if (item.CarouselItems != null && item.CarouselItems.Any())
             {
+                _carouselItemService.BeginBulkSave();
                 item.CarouselItems.Each(m =>
                 {
                     if (m.ActionType != ActionType.Delete)
@@ -61,6 +58,7 @@ namespace ZKEACMS.Common.Service
                         });
                     }
                 });
+                _carouselItemService.SaveChanges();
             }
 
         }
@@ -70,6 +68,7 @@ namespace ZKEACMS.Common.Service
             var item = widget as CarouselWidget;
             if (item.CarouselItems != null && item.CarouselItems.Any())
             {
+                _carouselItemService.BeginBulkSave();
                 item.CarouselItems.Each(m =>
                 {
                     m.CarouselWidgetID = item.ID;
@@ -79,13 +78,17 @@ namespace ZKEACMS.Common.Service
                     }
                     else if (m.ActionType == ActionType.Delete)
                     {
-                        _carouselItemService.Remove(m);
+                        if (m.ID > 0)
+                        {
+                            _carouselItemService.Remove(m);
+                        }                        
                     }
                     else
                     {
                         _carouselItemService.Update(m);
                     }
                 });
+                _carouselItemService.SaveChanges();
             }
         }
 
@@ -101,7 +104,7 @@ namespace ZKEACMS.Common.Service
             var carouselWidget = widget as CarouselWidget;
             if (carouselWidget.CarouselID.HasValue)
             {
-                carouselWidget.CarouselItems = _carouselItemService.Get(m => m.CarouselID == carouselWidget.CarouselID).ToList();
+                carouselWidget.CarouselItems = _carouselItemService.Get(m => m.CarouselID == carouselWidget.CarouselID);
             }
             carouselWidget.CarouselItems = carouselWidget.CarouselItems.Where(m => m.Status == (int)RecordStatus.Active);
             return base.Display(widget, actionContext);

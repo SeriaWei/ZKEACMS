@@ -1,4 +1,7 @@
-﻿using Easy.Mvc.Route;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+using Easy.Mvc.Route;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +17,7 @@ namespace ZKEACMS
              {
                 RouteName = "pageRoute",
                 Template = "{*path}",
-                Defaults = new { controller = "Page", action = "PreView" },
+                Defaults = new { controller = "Page", action = "Main" },
                 Constraints = new { path = new PageRouteConstraint() },
                 Priority = -1
              },

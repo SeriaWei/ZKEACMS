@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2016 ZKEASOFT 
+ * http://www.zkea.net/licenses 
+ */
 using System;
 using Easy;
 using Microsoft.AspNetCore.Http;
@@ -8,24 +11,19 @@ using ZKEACMS.Article.ViewModel;
 using ZKEACMS.Widget;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Easy.Extend;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleDetailWidgetService : WidgetService<ArticleDetailWidget, ArticleDbContext>
+    public class ArticleDetailWidgetService : WidgetService<ArticleDetailWidget>
     {
         private readonly IArticleService _articleService;
-        public ArticleDetailWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext) : base(widgetService, applicationContext)
+        public ArticleDetailWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
             _articleService = articleService;
         }
 
-        public override DbSet<ArticleDetailWidget> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.ArticleDetailWidget;
-            }
-        }
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
@@ -36,13 +34,16 @@ namespace ZKEACMS.Article.Service
                 viewModel.Current = _articleService.Get(articleId);
                 if (viewModel.Current != null)
                 {
-                    viewModel.Current.Counter = (viewModel.Current.Counter ?? 0) + 1;
-                    _articleService.Update(viewModel.Current);
+                    _articleService.IncreaseCount(viewModel.Current);
                     viewModel.Prev = _articleService.GetPrev(viewModel.Current);
                     viewModel.Next = _articleService.GetNext(viewModel.Current);
+                    if (viewModel.Current.Url.IsNotNullAndWhiteSpace() && actionContext.RouteData.GetArticleUrl().IsNullOrWhiteSpace())
+                    {
+                        actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{viewModel.Current.Url}.html", true);
+                    }
                 }
             }
-            if (viewModel.Current == null)
+            if (viewModel.Current == null && ApplicationContext.IsAuthenticated)
             {
                 foreach (var item in _articleService.Get().AsQueryable().OrderByDescending(m => m.ID).Take(1))
                 {
@@ -51,18 +52,20 @@ namespace ZKEACMS.Article.Service
             }
             if (viewModel.Current == null)
             {
-                viewModel.Current = new ArticleEntity
-                {
-                    Title = "文章明细组件使用说明",
-                    ImageUrl = "~/Plugins/ZKEACMS.Article/Content/Image/Example.png",
-                    ArticleContent = "<p>如上图所示，该组件需要一个<code>文章列表组件</code>组合使用，您需要在其它页面添加一个文章列表组件并链接过来，然后点击文章列表中的文章，该组件就可正常显示文章的内容</p>",
-                    CreatebyName = "ZKEASOFT"
-                };
+                actionContext.NotFoundResult();
             }
-            var layout = actionContext.HttpContext.GetLayout();
-            layout.Page.MetaKeyWorlds = viewModel.Current.MetaKeyWords;
-            layout.Page.MetaDescription = viewModel.Current.MetaDescription;
-            layout.Page.Title = viewModel.Current.Title;
+            else
+            {
+                var layout = actionContext.HttpContext.GetLayout();
+                if (layout != null && layout.Page != null)
+                {
+                    layout.Page.MetaKeyWorlds = viewModel.Current.MetaKeyWords;
+                    layout.Page.MetaDescription = viewModel.Current.MetaDescription;
+                    layout.Page.Title = viewModel.Current.Title;
+                }
+            }
+
+
             return widget.ToWidgetViewModelPart(viewModel);
         }
     }

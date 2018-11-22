@@ -1,0 +1,9 @@
+﻿[
+  {
+    "outputFile": "Content/product-ecommerce.css",
+    "inputFile": "Content/product-ecommerce.less",
+    "options": {
+      "sourceMap": true
+    }
+  }
+]

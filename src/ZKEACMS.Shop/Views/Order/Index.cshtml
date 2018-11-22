@@ -1,0 +1,12 @@
+﻿@using ZKEACMS.Shop.Models
+@model Order
+@{
+    Style.Reqiured("dataTable").AtHead();
+    Script.Reqiured("dataTable").AtFoot();
+
+    Script.Reqiured("datepicker").AtFoot();
+    Style.Reqiured("datepicker").AtHead();
+
+}
+<grid delete-able="Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.ManageOrder)" 
+      edit-able="Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.ManageOrder)"></grid>

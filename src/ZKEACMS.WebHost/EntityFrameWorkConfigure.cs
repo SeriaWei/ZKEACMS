@@ -4,40 +4,66 @@
  * http://www.zkea.net/licenses
  */
 
+using System.Data.Common;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql;
-
-using Easy.Extend;
-using System;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ZKEACMS.DbConnectionPool;
 using ZKEACMS.Options;
 
 namespace ZKEACMS.WebHost
 {
-    public class EntityFrameWorkConfigure : IOnConfiguring
+    public class EntityFrameWorkConfigure: IDatabaseConfiguring
     {
-        private readonly IOptions<DatabaseOption> _dataBaseOption;
-        public EntityFrameWorkConfigure(IOptions<DatabaseOption> dataBaseOption)
+        private readonly DatabaseOption _dataBaseOption;
+        private readonly ILoggerFactory _loggerFactory;
+        public EntityFrameWorkConfigure(DatabaseOption dataBaseOption, ILoggerFactory loggerFactory)
         {
             _dataBaseOption = dataBaseOption;
+            _loggerFactory = loggerFactory;
         }
-        public void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public void OnConfiguring(DbContextOptionsBuilder optionsBuilder, DbConnection dbConnectionForReusing)
         {
-           
-            if (_dataBaseOption.Value.DefaultConnection.IsNotNullAndWhiteSpace())
+            switch (_dataBaseOption.DbType)
             {
-                optionsBuilder.UseSqlServer(_dataBaseOption.Value.DefaultConnection);
-            }
-            else if (_dataBaseOption.Value.Sqlite.IsNotNullAndWhiteSpace())
-            {
-                optionsBuilder.UseSqlite(_dataBaseOption.Value.Sqlite);
-            }
-            else if (_dataBaseOption.Value.MySql.IsNotNullAndWhiteSpace())
-            {
-                optionsBuilder.UseMySql(_dataBaseOption.Value.MySql);
+                case Easy.DbTypes.MsSql:
+                    {
+                        if (dbConnectionForReusing != null)
+                            optionsBuilder.UseSqlServer(dbConnectionForReusing);
+                        else
+                            optionsBuilder.UseSqlServer(_dataBaseOption.ConnectionString);
+                        break;
+                    }
+                case Easy.DbTypes.MsSqlEarly:
+                    {
+                        if (dbConnectionForReusing != null)
+                            optionsBuilder.UseSqlServer(dbConnectionForReusing, option => option.UseRowNumberForPaging());
+                        else
+                            optionsBuilder.UseSqlServer(_dataBaseOption.ConnectionString, option => option.UseRowNumberForPaging());
+                        break;
+                    }
+                case Easy.DbTypes.Sqlite:
+                    {
+                        if (dbConnectionForReusing != null)
+                            optionsBuilder.UseSqlite(dbConnectionForReusing);
+                        else
+                            optionsBuilder.UseSqlite(_dataBaseOption.ConnectionString);
+                        break;
+                    }
+                case Easy.DbTypes.MySql:
+                    {
+                        if (dbConnectionForReusing != null)
+                            optionsBuilder.UseMySql(dbConnectionForReusing);
+                        else
+                            optionsBuilder.UseMySql(_dataBaseOption.ConnectionString);
+                        break;
+                    }
             }
 
+            optionsBuilder.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
+            optionsBuilder.UseLoggerFactory(_loggerFactory);
         }
     }
 }

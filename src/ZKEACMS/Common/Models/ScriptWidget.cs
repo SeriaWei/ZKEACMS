@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Common.Models
 {
-    [ViewConfigure(typeof(ScriptWidgetMetaData)),Table("ScriptWidget")]
+    [Table("ScriptWidget")]
     public class ScriptWidget : BasicWidget
     {
         public string Script { get; set; }

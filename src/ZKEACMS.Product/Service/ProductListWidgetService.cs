@@ -16,7 +16,7 @@ using ZKEACMS.Page;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductListWidgetService : WidgetService<ProductListWidget, ProductDbContext>
+    public class ProductListWidgetService : WidgetService<ProductListWidget>
     {
         private readonly IProductService _productService;
         private readonly IProductCategoryService _productCategoryService;
@@ -25,21 +25,15 @@ namespace ZKEACMS.Product.Service
             IProductService productService,
             IProductCategoryService productCategoryService,
             IApplicationContext applicationContext,
-            IPageService pageService)
-            : base(widgetService, applicationContext)
+            IPageService pageService,
+            CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
             _productService = productService;
             _productCategoryService = productCategoryService;
             _pageService = pageService;
         }
-
-        public override DbSet<ProductListWidget> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.ProductListWidget;
-            }
-        }
+       
         private string GetDetailPageUrl()
         {
             var baseDetail = WidgetBasePartService.Get(m => m.ServiceTypeName == "ZKEACMS.Product.Service.ProductDetailWidgetService").FirstOrDefault();
@@ -53,7 +47,7 @@ namespace ZKEACMS.Product.Service
             }
             return "~/View-Product";
         }
-        public override void Add(ProductListWidget item)
+        public override ServiceResult<ProductListWidget> Add(ProductListWidget item)
         {
             if (!item.PageSize.HasValue || item.PageSize.Value == 0)
             {
@@ -64,7 +58,7 @@ namespace ZKEACMS.Product.Service
             {
                 item.DetailPageUrl = GetDetailPageUrl();
             }
-            base.Add(item);
+            return base.Add(item);
         }
         public override ProductListWidget Get(params object[] primaryKeys)
         {
@@ -97,22 +91,26 @@ namespace ZKEACMS.Product.Service
             else
             {
                 var ids = _productCategoryService.Get(m => m.ID == currentWidget.ProductCategoryID || m.ParentID == currentWidget.ProductCategoryID).Select(m => m.ID).ToList();
-                filter = m => m.IsPublish && ids.Contains(m.ProductCategoryID ?? 0);
+                filter = m => m.IsPublish && ids.Contains(m.ProductCategoryID);
             }
             if (currentWidget.IsPageable)
             {
-                products = _productService.Get(filter, pagin).ToList();
+                products = _productService.Get(filter, pagin);
             }
             else
             {
-                products = _productService.Get(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID).ToList();
+                products = _productService.Get().Where(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID).ToList();
             }
 
             var currentCategory = _productCategoryService.Get(cate == 0 ? currentWidget.ProductCategoryID : cate);
             if (currentCategory != null)
             {
-                var page = actionContext.HttpContext.GetLayout().Page;
-                page.Title = (page.Title ?? "") + " - " + currentCategory.Title;
+                var layout = actionContext.HttpContext.GetLayout();
+                if (layout != null && layout.Page != null)
+                {
+                    var page = layout.Page;
+                    page.Title = (page.Title ?? "") + " - " + currentCategory.Title;
+                }
             }
 
             return widget.ToWidgetViewModelPart(new ProductListWidgetViewModel

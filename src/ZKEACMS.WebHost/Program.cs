@@ -1,12 +1,11 @@
 ﻿/*!
  * http://www.zkea.net/
- * Copyright 2017 ZKEASOFT
+ * Copyright 2018 ZKEASOFT
  * 深圳市纸壳软件有限公司
  * http://www.zkea.net/licenses
  */
 
 using Microsoft.AspNetCore.Hosting;
-using System.IO;
 
 namespace ZKEACMS.WebHost
 {
@@ -14,14 +13,11 @@ namespace ZKEACMS.WebHost
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .Build();
-
-            host.Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            Microsoft.AspNetCore.WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
     }
 }

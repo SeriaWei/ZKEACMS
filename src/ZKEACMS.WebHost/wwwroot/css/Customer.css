@@ -158,7 +158,7 @@ body {
     background: url(./Images/head-bg.jpg) bottom center no-repeat;
     text-align: center;
     color: #fff;
-    background-size:cover;
+    background-size: cover;
 }
 
     .customer-center header .thumbnail {
@@ -198,4 +198,50 @@ body {
     width: 80px;
     text-align: right;
     margin-right: 10px;
+}
+
+@media screen and (max-width:425px) {
+    .login-panel {
+        width: 300px;
+        min-height: 366px;
+        background: #fff;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -150px;
+        margin-top: -183px;
+        padding: 3rem;
+        border: 1px solid #f2f2f2;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .table-response thead {
+        display: none;
+    }
+
+    .table-response tbody > tr {
+        display: block;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+        .table-response tbody > tr:last-child {
+            margin-bottom: 0;
+            border-bottom: 0;
+        }
+
+        .table-response tbody > tr > td {
+            display: block;
+            border-top: none;
+        }
+
+    .table-response > tbody > tr > td::before {
+        content: attr(head);
+        display: inline-block;
+        min-width: 60px;
+        text-align: right;
+        margin-right: 10px;
+        font-weight: bold;
+    }
 }

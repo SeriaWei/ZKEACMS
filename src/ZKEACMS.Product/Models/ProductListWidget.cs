@@ -16,7 +16,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.Product.Models
 {
-    [ViewConfigure(typeof(ProductListWidgetMetaData)), Table("ProductListWidget")]
+    [Table("ProductListWidget")]
     public class ProductListWidget : BasicWidget
     {
         public bool IsPageable { get; set; }
@@ -31,10 +31,7 @@ namespace ZKEACMS.Product.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
-            ViewConfig(m => m.ProductCategoryID).AsDropDownList().DataSource(() =>
-            {
-                return ServiceLocator.GetService<IProductCategoryService>().Get().ToDictionary(m => m.ID.ToString(), m => m.Title);
-            }).Required().Order(NextOrder()).AddClass("select").AddProperty("data-url", "/admin/ProductCategory/Select");
+            ViewConfig(m => m.ProductCategoryID).AsDropDownList().SetTemplate("ProductCategoryTree").Required().Order(NextOrder());
 
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector();
             ViewConfig(m => m.IsPageable).AsCheckBox().Order(NextOrder());

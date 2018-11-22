@@ -1,0 +1,29 @@
+﻿@model ZKEACMS.FormGenerator.Models.FormField
+@{ 
+    string maxLength = "1000";
+    Model.Attributes.TryAdd("data-val-length", L("{0}的长度应小于{1}").Text.FormatWith(Model.DisplayName, maxLength));
+    Model.Attributes.TryAdd("data-val-length-max", maxLength);
+    Model.Attributes.TryAdd("rows", "3");
+}
+<div class="form-group size-@Model.Size">
+    @if (Model.DisplayName.IsNotNullAndWhiteSpace())
+    {
+        <label class="control-label" for="@Model.ID">
+            @Model.DisplayName
+            @if (Model.IsRequired)
+            {
+                <span class="required">*</span>
+            }
+        </label>
+    }
+    @Html.TextArea(Model.ID, Model.Value, Model.Attributes)
+    <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
+    @if (Model.Description.IsNotNullAndWhiteSpace())
+    {
+        <dl>
+            <dd>
+                @Model.Description
+            </dd>
+        </dl>
+    }
+</div>

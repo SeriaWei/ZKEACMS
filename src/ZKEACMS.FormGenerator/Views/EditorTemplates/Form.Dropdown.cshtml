@@ -1,0 +1,30 @@
+﻿@model ZKEACMS.FormGenerator.Models.FormField
+@{
+    List<SelectListItem> items = new List<SelectListItem>();
+    foreach (var item in Model.FieldOptions)
+    {
+        items.Add(new SelectListItem { Value = item.Value, Text = item.DisplayText, Selected = item.Selected ?? false });
+    }
+}
+<div class="form-group size-@Model.Size">
+    @if (Model.DisplayName.IsNotNullAndWhiteSpace())
+    {
+        <label class="control-label" for="@Model.ID">
+            @Model.DisplayName
+            @if (Model.IsRequired)
+            {
+                <span class="required">*</span>
+            }
+        </label>
+    }
+    @Html.DropDownList(Model.ID, items, L("-- 请选择 --").Text, Model.Attributes)
+    <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
+    @if (Model.Description.IsNotNullAndWhiteSpace())
+    {
+        <dl>
+            <dd>
+                @Model.Description
+            </dd>
+        </dl>
+    }
+</div>

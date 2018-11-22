@@ -1,0 +1,22 @@
+﻿@model ZKEACMS.FormGenerator.Models.Form
+@{
+
+}
+
+<div ng-app="fild" ng-controller="formgenerator">
+    <div class="row" ng-app="fieldSetting" ng-controller="setting" ng-init="saveUrl='@Url.Action("Edit")'">
+        @await Html.PartialAsync("Setting")
+    </div>
+</div>
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        angular.module("fild", ["fieldSetting"]).controller("formgenerator", function ($scope) {
+            $scope.ID = '@Model.ID';
+            $scope.Title = decodeURIComponent('@System.Net.WebUtility.UrlEncode(Model.Title)');
+            $scope.Description = decodeURIComponent('@System.Net.WebUtility.UrlEncode(Model.Description)');
+            $scope.NotificationReceiver = decodeURIComponent('@System.Net.WebUtility.UrlEncode(Model.NotificationReceiver)');
+            $scope.Fields = @Html.Raw(Model.FieldsData);
+        });
+    </script>
+}

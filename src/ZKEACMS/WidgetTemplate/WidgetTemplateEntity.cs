@@ -6,26 +6,27 @@ using ZKEACMS.Widget;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text;
+using System.Linq;
 
 namespace ZKEACMS.WidgetTemplate
 {
-    [ViewConfigure(typeof(WidgetTemplateMetaData)), Table("CMS_WidgetTemplate")]
-    public class WidgetTemplateEntity : EditorEntity
+    public abstract class WidgetTemplateEntity : EditorEntity
     {
-        [Key]
-        public int ID { get; set; }
+        public string ID { get { return Convert.ToBase64String(Encoding.UTF8.GetBytes(AssemblyName + ServiceTypeName)); } }
         public string GroupName { get; set; }
-
         public string PartialView { get; set; }
-        public string AssemblyName { get; set; }
-        public string ServiceTypeName { get; set; }
+        public string AssemblyName { get { return ServiceType.Assembly.GetName().Name; } }
+        public virtual Type ServiceType { get; set; }
+        public string ServiceTypeName { get { return ServiceType.FullName; } }
         public string Thumbnail { get; set; }
-        public string ViewModelTypeName { get; set; }
+        public virtual Type ViewModelType { get; set; }
+        public string ViewModelTypeName { get { return ViewModelType.FullName; } }
         public int? Order { get; set; }
 
         public string FormView { get; set; }
 
-        public WidgetBase ToWidget(IServiceProvider serviceProvider)
+        public virtual WidgetBase ToWidget(IServiceProvider serviceProvider)
         {
             WidgetBase widget = new WidgetBase();
             widget.AssemblyName = AssemblyName;
@@ -37,13 +38,9 @@ namespace ZKEACMS.WidgetTemplate
             return serviceProvider.GetService<IWidgetActivator>().CreateWidgetViewModel(widget);
         }
     }
-    class WidgetTemplateMetaData : ViewMetaData<WidgetTemplateEntity>
+    public class WidgetTemplateEntity<T> : WidgetTemplateEntity
     {
-
-        protected override void ViewConfigure()
-        {
-
-        }
+        public override Type ServiceType { get { return typeof(T); } }
+        public override Type ViewModelType { get { return ServiceType.IsGenericType ? ServiceType.GetGenericArguments().First() : ServiceType.BaseType.GetGenericArguments().First(); } }
     }
-
 }

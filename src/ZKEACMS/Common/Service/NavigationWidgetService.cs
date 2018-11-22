@@ -11,48 +11,58 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace ZKEACMS.Common.Service
 {
-    public class NavigationWidgetService : WidgetService<NavigationWidget, CMSDbContext>
+    public class NavigationWidgetService : WidgetService<NavigationWidget>
     {
         private readonly INavigationService _navigationService;
-        public NavigationWidgetService(IWidgetBasePartService widgetService, INavigationService navigationService, IApplicationContext applicationContext)
-            : base(widgetService, applicationContext)
+        public NavigationWidgetService(IWidgetBasePartService widgetService, INavigationService navigationService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
             _navigationService = navigationService;
         }
-
-        public override DbSet<NavigationWidget> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.NavigationWidget;
-            }
-        }
-
+        public override DbSet<NavigationWidget> CurrentDbSet => (DbContext as CMSDbContext).NavigationWidget;
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             var currentWidget = widget as NavigationWidget;
             var navs = _navigationService.Get()
                 .Where(m => m.Status == (int)RecordStatus.Active).OrderBy(m => m.DisplayOrder).ToList();
-            string path = "~" + actionContext.RouteData.GetPath();
-            NavigationEntity current = null;
-            int length = 0;
-            foreach (var navigationEntity in navs)
+
+            string path = null;
+            if (ApplicationContext.As<CMSApplicationContext>().IsDesignMode)
             {
-                if (navigationEntity.Url.IsNotNullAndWhiteSpace()
-                    && path.StartsWith(navigationEntity.Url.ToLower())
-                    && length < navigationEntity.Url.Length)
+                var layout = actionContext.HttpContext.GetLayout();
+                if (layout != null && layout.Page != null)
                 {
-                    current = navigationEntity;
-                    length = navigationEntity.Url.Length;
+                    path = layout.Page.Url.Replace("~/", "/");
                 }
             }
-            if (current != null)
+            else if (actionContext is ActionExecutedContext)
             {
-                current.IsCurrent = true;
+                path = (actionContext as ActionExecutedContext).RouteData.GetPath();
             }
+            if (path != null)
+            {
+                NavigationEntity current = null;
+                int length = 0;
+                foreach (var navigationEntity in navs)
+                {
+                    if (navigationEntity.Url.IsNotNullAndWhiteSpace()
+                        && path.IndexOf((navigationEntity.Url ?? "").Replace("~/", "/"), StringComparison.OrdinalIgnoreCase) == 0
+                        && length < navigationEntity.Url.Length)
+                    {
+                        current = navigationEntity;
+                        length = navigationEntity.Url.Length;
+                    }
+                }
+                if (current != null)
+                {
+                    current.IsCurrent = true;
+                }
+            }
+
 
             if (currentWidget.RootID.IsNullOrEmpty() || currentWidget.RootID == "root")
             {

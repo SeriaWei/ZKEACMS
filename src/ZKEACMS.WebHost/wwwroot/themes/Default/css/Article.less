@@ -15,3 +15,20 @@
 .panel-body > .article-category {
     margin: -15px;
 }
+@media all and (max-width:@screen-xs){
+    .article-list {
+        .media {
+            .media-left {
+                display:block;
+                width: 100%;
+                max-width:none;
+                padding-right:0;
+                margin-bottom:@margin-base;
+            }
+        }
+
+        .media-body {
+            width: auto;
+        }
+    }
+}

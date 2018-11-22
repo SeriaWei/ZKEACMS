@@ -1,0 +1,16 @@
+﻿@model ZKEACMS.Shop.Models.RefundInfo
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@L("退款金额")</th>
+            <th>@L("订单总额")</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.RefundAmount</td>
+            <td>@Model.TotalAmount</td>
+        </tr>
+    </tbody>
+</table>

@@ -7,19 +7,12 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Common.Service
 {
-    public class ScriptWidgetService : WidgetService<ScriptWidget, CMSDbContext>
+    public class ScriptWidgetService : WidgetService<ScriptWidget>
     {
-        public ScriptWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext)
-            : base(widgetService, applicationContext)
+        public ScriptWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
         }
-
-        public override DbSet<ScriptWidget> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.ScriptWidget;
-            }
-        }
+        public override DbSet<ScriptWidget> CurrentDbSet => (DbContext as CMSDbContext).ScriptWidget;
     }
 }

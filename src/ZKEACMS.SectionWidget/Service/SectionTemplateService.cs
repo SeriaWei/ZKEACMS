@@ -7,18 +7,11 @@ using System;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionTemplateService : ServiceBase<SectionTemplate,SectionDbContext>, ISectionTemplateService
+    public class SectionTemplateService : ServiceBase<SectionTemplate>, ISectionTemplateService
     {
-        public SectionTemplateService(IApplicationContext applicationContext) : base(applicationContext)
+        public SectionTemplateService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<SectionTemplate> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.SectionTemplate;
-            }
-        }
+        
     }
 }

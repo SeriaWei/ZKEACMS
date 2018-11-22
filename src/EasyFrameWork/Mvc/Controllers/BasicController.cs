@@ -36,13 +36,11 @@ namespace Easy.Mvc.Controllers
             string filePath = Request.SaveImage();
         }
 
-
-
-        public virtual ActionResult Index()
+        public virtual IActionResult Index()
         {
             return View();
         }
-        public virtual ActionResult Create()
+        public virtual IActionResult Create()
         {
             var entity = Activator.CreateInstance<TEntity>();
             entity.Status = (int)RecordStatus.Active;
@@ -50,24 +48,40 @@ namespace Easy.Mvc.Controllers
         }
 
         [HttpPost]
-        public virtual ActionResult Create(TEntity entity)
+        public virtual IActionResult Create(TEntity entity)
         {
             if (ModelState.IsValid)
             {
                 UpLoadImage(entity as IImage);
-                Service.Add(entity);
+                var result = Service.Add(entity);
+                if (result.HasViolation)
+                {
+                    foreach (var item in result.RuleViolations)
+                    {
+                        ModelState.AddModelError(item.ParameterName, item.ErrorMessage);
+                    }
+                    return View(entity);
+                }
                 return RedirectToAction("Index");
             }
             return View(entity);
         }
-        public virtual ActionResult Edit(TPrimarykey Id)
+        public virtual IActionResult Edit(TPrimarykey Id)
         {
+            if (Id == null)
+            {
+                return NotFound();
+            }
             TEntity entity = Service.Get(Id);
+            if (entity == null)
+            {
+                return NotFound();
+            }
             return View(entity);
         }
 
         [HttpPost]
-        public virtual ActionResult Edit(TEntity entity)
+        public virtual IActionResult Edit(TEntity entity)
         {
             if (entity.ActionType == ActionType.Delete)
             {
@@ -75,18 +89,25 @@ namespace Easy.Mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Title = entity.Title;
             if (ModelState.IsValid)
             {
                 UpLoadImage(entity as IImage);
-                Service.Update(entity);
+                var result = Service.Update(entity);
+                if (result.HasViolation)
+                {
+                    foreach (var item in result.RuleViolations)
+                    {
+                        ModelState.AddModelError(item.ParameterName, item.ErrorMessage);
+                    }
+                    return View(entity);
+                }
                 return RedirectToAction("Index");
             }
             return View(entity);
         }
 
         [HttpPost]
-        public virtual JsonResult Delete(TPrimarykey id)
+        public virtual IActionResult Delete(TPrimarykey id)
         {
             try
             {
@@ -101,7 +122,7 @@ namespace Easy.Mvc.Controllers
             }
         }
         [HttpPost]
-        public virtual JsonResult GetList(DataTableOption query)
+        public virtual IActionResult GetList(DataTableOption query)
         {
             var pagin = new Pagination { PageSize = query.Length, PageIndex = query.Start / query.Length };
             var expression = query.AsExpression<TEntity>();

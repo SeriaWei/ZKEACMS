@@ -1,22 +1,37 @@
-﻿@{
+﻿@model WidgetBase
+@{
     Script.Reqiured("validate").AtFoot();
     Script.Reqiured("tinymce").AtFoot();
 }
 <div class="panel panel-default">
     <div class="panel-heading">
         <div>
-            添加
+            @L("添加")
             @ViewBag.WidgetTemplateName
         </div>
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
         {
+            if (Model.DataSourceLink.IsNotNullAndWhiteSpace())
+            {
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-12 col-lg-2">
+                            <label class="control-label">@L("内容来源")</label>
+                        </div>
+                        <div class="col-md-12 col-lg-10">
+                            <a href="@Url.PathContent(Model.DataSourceLink)" class="btn btn-link" style="padding-left:0">@Model.DataSourceLinkTitle</a>
+                            <code>@L("页面展现的内容")</code>
+                        </div>
+                    </div>
+                </div>
+            }
             @Html.EditorForModel()
             <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
             <div class="toolBar">
-                <input id="design" type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Create" />
-                <input type="button" class="btn btn-default cancel" value="取消" />
+                <input id="design" type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Create" />
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
             </div>
         }
     </div>

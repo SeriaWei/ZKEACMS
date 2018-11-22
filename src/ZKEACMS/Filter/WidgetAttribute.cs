@@ -2,39 +2,30 @@
  * Copyright 2017 ZKEASOFT 
  * http://www.zkea.net/licenses */
 
-using System;
 using Easy.Extend;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
+using System;
+using System.Linq;
 using ZKEACMS.Event;
 using ZKEACMS.Layout;
 using ZKEACMS.Page;
+using ZKEACMS.Rule;
 using ZKEACMS.Setting;
 using ZKEACMS.Theme;
 using ZKEACMS.Widget;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Easy.Mvc;
-using Microsoft.AspNetCore.Mvc;
-using Easy;
-using Easy.Modules.User.Service;
-using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Http;
 
 namespace ZKEACMS.Filter
 {
     public class WidgetAttribute : ActionFilterAttribute, IActionFilter
     {
-
+        private const string UnknownZone = "UnknownZone";
         public virtual PageEntity GetPage(ActionExecutedContext filterContext)
         {
             string path = filterContext.RouteData.GetPath();
-            if (path.EndsWith("/") && path.Length > 1)
-            {
-                path = path.Substring(0, path.Length - 1);
-                filterContext.Result = new RedirectResult(path);
-                return null;
-            }
             bool isPreView = IsPreView(filterContext);
             using (var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>())
             {
@@ -47,11 +38,12 @@ namespace ZKEACMS.Filter
                     };
                     //filterContext.HttpContext.Response.Headers[HeaderNames.Vary] = new string[] { "Accept-Encoding" };
                 }
-                else
+                else if (isPreView)
                 {
                     filterContext.HttpContext.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
                     {
-                        NoCache = true
+                        NoCache = true,
+                        NoStore = true
                     };
                 }
                 return pageService.GetByPath(path, isPreView);
@@ -91,7 +83,9 @@ namespace ZKEACMS.Filter
                 var applicationSettingService = requestServices.GetService<IApplicationSettingService>();
                 var themeService = requestServices.GetService<IThemeService>();
                 var widgetActivator = requestServices.GetService<IWidgetActivator>();
-                LayoutEntity layout = layoutService.Get(page.LayoutId);
+                var ruleService = requestServices.GetService<IRuleService>();
+
+                LayoutEntity layout = layoutService.GetByPage(page);
                 layout.Page = page;
                 page.Favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
                 if (filterContext.HttpContext.User.Identity.IsAuthenticated && page.IsPublishedPage)
@@ -101,33 +95,67 @@ namespace ZKEACMS.Filter
                 layout.CurrentTheme = themeService.GetCurrentTheme();
                 layout.ZoneWidgets = new ZoneWidgetCollection();
                 filterContext.HttpContext.TrySetLayout(layout);
-                widgetService.GetAllByPage(page, GetPageViewMode() == PageViewMode.Publish && !IsPreView(filterContext)).Each(widget =>
+                widgetService.GetAllByPage(page).Each(widget =>
                     {
                         if (widget != null)
                         {
                             IWidgetPartDriver partDriver = widgetActivator.Create(widget);
                             WidgetViewModelPart part = partDriver.Display(widget, filterContext);
-                            lock (layout.ZoneWidgets)
+                            if (part != null)
                             {
-                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID))
+                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID ?? UnknownZone))
                                 {
-                                    layout.ZoneWidgets[part.Widget.ZoneID].TryAdd(part);
+                                    layout.ZoneWidgets[part.Widget.ZoneID ?? UnknownZone].TryAdd(part);
                                 }
                                 else
                                 {
-                                    layout.ZoneWidgets.Add(part.Widget.ZoneID, new WidgetCollection { part });
+                                    layout.ZoneWidgets.Add(part.Widget.ZoneID ?? UnknownZone, new WidgetCollection { part });
                                 }
                             }
                             partDriver.Dispose();
                         }
                     });
+                var ruleWorkContext = new RuleWorkContext
+                {
+                    Url = filterContext.HttpContext.Request.Path.Value,
+                    QueryString = filterContext.HttpContext.Request.QueryString.ToString(),
+                    UserAgent = filterContext.HttpContext.Request.Headers["User-Agent"]
+                };
+                var rules = ruleService.GetMatchRule(ruleWorkContext);
+                var rulesID = rules.Select(m => m.RuleID).ToArray();
+                if (rules.Any())
+                {
+                    widgetService.GetAllByRule(rulesID, !IsPreView(filterContext)).Each(widget =>
+                    {
+                        if (widget != null)
+                        {
+                            IWidgetPartDriver partDriver = widgetActivator.Create(widget);
+                            WidgetViewModelPart part = partDriver.Display(widget, filterContext);
+                            var zone = layout.Zones.FirstOrDefault(z => z.ZoneName == rules.First(m => m.RuleID == widget.RuleID).ZoneName);
+                            if (part != null && zone != null)
+                            {
+                                part.Widget.ZoneID = zone.HeadingCode;
+                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID ?? UnknownZone))
+                                {
+                                    layout.ZoneWidgets[part.Widget.ZoneID ?? UnknownZone].TryAdd(part);
+                                }
+                                else
+                                {
+                                    layout.ZoneWidgets.Add(part.Widget.ZoneID ?? UnknownZone, new WidgetCollection { part });
+                                }
+
+                            }
+                            partDriver.Dispose();
+                        }
+                    });
+                }
                 var viewResult = (filterContext.Result as ViewResult);
                 if (viewResult != null)
                 {
                     layout.Layout = GetLayout();
                     if (GetPageViewMode() == PageViewMode.Design)
                     {
-                        layout.Templates = widgetService.Get(m => m.IsTemplate == true).ToList();
+                        layout.Templates = widgetService.Get(m => m.IsTemplate == true);
                     }
                     (filterContext.Controller as Controller).ViewData.Model = layout;
                 }
@@ -145,7 +173,16 @@ namespace ZKEACMS.Filter
             {
                 if (!(filterContext.Result is RedirectResult))
                 {
-                    filterContext.Result = new RedirectResult("~/error/notfond?f=" + filterContext.HttpContext.Request.Path);
+                    var viewResult = filterContext.Result as ViewResult;
+                    if (viewResult != null)
+                    {
+                        viewResult.StatusCode = 404;
+                        viewResult.ViewName = "NotFound";
+                    }
+                    else
+                    {
+                        filterContext.Result = new RedirectResult("~/error/notfond?f=" + filterContext.HttpContext.Request.Path);
+                    }
                 }
             }
         }

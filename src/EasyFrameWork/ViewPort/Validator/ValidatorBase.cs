@@ -14,7 +14,8 @@ namespace Easy.ViewPort.Validator
             {
                 if (string.IsNullOrEmpty(_ErrorMessage))
                 {
-                    return string.Format(BaseErrorMessage, DisplayName ?? Property);
+                    var localize = ServiceLocator.GetService<ILocalize>();
+                    return string.Format(localize.Get(BaseErrorMessage), DisplayName ?? Property);
                 }
                 else
                 {

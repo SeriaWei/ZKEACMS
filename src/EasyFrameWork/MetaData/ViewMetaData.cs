@@ -19,12 +19,8 @@ namespace Easy.MetaData
     {
         public ViewMetaData()
         {
-            Init();
-        }
-        public void Init()
-        {
-            ViewPortDescriptors = new Dictionary<string, BaseDescriptor>();          
-            
+            ViewPortDescriptors = new Dictionary<string, BaseDescriptor>();
+
             TargetType = typeof(T);
             foreach (var item in TargetType.GetProperties())
             {
@@ -62,13 +58,14 @@ namespace Easy.MetaData
                     case TypeCode.String:
                         ViewConfig(item.Name).AsTextBox().MaxLength(200).Search(LINQ.Query.Operators.Contains);
                         break;
-                        
+
                     case TypeCode.Byte:
                     case TypeCode.Empty:
-                    default: ViewConfig(item.Name).AsTextBox();
+                    default:
+                        ViewConfig(item.Name).AsTextBox();
                         break;
                 }
-                
+
             }
             if (typeof(EditorEntity).IsAssignableFrom(TargetType))
             {
@@ -83,14 +80,14 @@ namespace Easy.MetaData
                 ViewConfig("Title").AsTextBox().Order(1).ShowInGrid().Search(LINQ.Query.Operators.Contains).MaxLength(200);
                 ViewConfig("Description").AsTextArea().Order(101).MaxLength(500);
                 ViewConfig("Status").AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary).ShowInGrid();
-              
+
             }
             if (typeof(IImage).IsAssignableFrom(TargetType))
             {
                 ViewConfig("ImageUrl").AsTextBox();
                 ViewConfig("ImageThumbUrl").AsTextBox();
             }
-            
+
             ViewConfigure();
         }
 

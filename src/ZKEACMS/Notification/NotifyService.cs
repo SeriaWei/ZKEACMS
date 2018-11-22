@@ -1,4 +1,7 @@
-﻿using System;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Easy.Modules.User.Models;
@@ -13,22 +16,23 @@ namespace ZKEACMS.Notification
     {
         private readonly INotificationManager _notificationManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IDataProtector _dataProtector;
+        private readonly IDataProtectionProvider _dataProtectionProvider;
         public NotifyService(INotificationManager notificationManager, IHttpContextAccessor httpContextAccessor, IDataProtectionProvider dataProtectionProvider)
         {
             _notificationManager = notificationManager;
             _httpContextAccessor = httpContextAccessor;
-            _dataProtector = dataProtectionProvider.CreateProtector("ResetPassword");
+            _dataProtectionProvider = dataProtectionProvider;
         }
         public void ResetPassword(UserEntity user)
         {
+            var dataProtector = _dataProtectionProvider.CreateProtector("ResetPassword");
             _notificationManager.Send(new RazorEmailNotice
             {
                 Subject = "重置密码",
                 To = new string[] { user.Email },
                 Model = new ResetPasswordViewModel
                 {
-                    Link = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/Account/Reset?token={user.ResetToken}&pt={_dataProtector.Protect(user.ResetToken)}"
+                    Link = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/Account/Reset?token={user.ResetToken}&pt={dataProtector.Protect(user.ResetToken)}"
                 },
                 TemplatePath = "~/EmailTemplates/ResetPassword.cshtml"
             });

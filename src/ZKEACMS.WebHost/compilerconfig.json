@@ -1,6 +1,9 @@
 ﻿[
   {
     "outputFile": "wwwroot/Themes/Default/css/Theme.css",
-    "inputFile": "wwwroot/Themes/Default/css/Theme.less"
+    "inputFile": "wwwroot/Themes/Default/css/Theme.less",
+    "options": {
+      "sourceMap": true
+    }
   }
 ]

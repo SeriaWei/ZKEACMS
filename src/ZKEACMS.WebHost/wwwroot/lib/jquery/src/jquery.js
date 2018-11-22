@@ -4,13 +4,13 @@ define( [
 	"./traversing",
 	"./callbacks",
 	"./deferred",
+	"./deferred/exceptionHook",
 	"./core/ready",
 	"./data",
 	"./queue",
 	"./queue/delay",
 	"./attributes",
 	"./event",
-	"./event/alias",
 	"./event/focusin",
 	"./manipulation",
 	"./manipulation/_evalUrl",
@@ -29,9 +29,12 @@ define( [
 	"./offset",
 	"./dimensions",
 	"./deprecated",
-	"./exports/amd"
+	"./exports/amd",
+	"./exports/global"
 ], function( jQuery ) {
 
-return ( window.jQuery = window.$ = jQuery );
+"use strict";
+
+return jQuery;
 
 } );

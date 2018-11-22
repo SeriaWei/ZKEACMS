@@ -11,33 +11,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Common.Service
 {
-    public class NavigationService : ServiceBase<NavigationEntity, CMSDbContext>, INavigationService
+    public class NavigationService : ServiceBase<NavigationEntity>, INavigationService
     {
-        public NavigationService(IApplicationContext applicationContext) : base(applicationContext)
+        public NavigationService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-
-        public override DbSet<NavigationEntity> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.Navigation;
-            }
-        }
-
-        public override void Add(NavigationEntity item)
+        public override DbSet<NavigationEntity> CurrentDbSet => (DbContext as CMSDbContext).Navigation;
+        public override ServiceResult<NavigationEntity> Add(NavigationEntity item)
         {
             if (item.ParentId.IsNullOrEmpty())
             {
                 item.ParentId = "#";
             }
             item.ID = Guid.NewGuid().ToString("N");
-            base.Add(item);
+            return base.Add(item);
         }
-        public override void Remove(NavigationEntity item, bool saveImmediately = true)
+        public override void Remove(NavigationEntity item)
         {
             Remove(m => m.ParentId == item.ID);
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
 
         public override void RemoveRange(params NavigationEntity[] items)
@@ -63,9 +55,7 @@ namespace ZKEACMS.Common.Service
             nav.ParentId = parentId;
             nav.DisplayOrder = position;
 
-            IEnumerable<NavigationEntity> navs = null;
-
-            navs = CurrentDbSet.Where(m => m.ParentId == nav.ParentId && m.ID != nav.ID).OrderBy(m => m.DisplayOrder);
+            IEnumerable<NavigationEntity> navs = CurrentDbSet.AsTracking().Where(m => m.ParentId == nav.ParentId && m.ID != nav.ID).OrderBy(m => m.DisplayOrder);
 
             int order = 1;
             for (int i = 0; i < navs.Count(); i++)
@@ -76,7 +66,6 @@ namespace ZKEACMS.Common.Service
                     order++;
                 }
                 eleNav.DisplayOrder = order;
-                Update(eleNav);
                 order++;
             }
             Update(nav);

@@ -105,6 +105,12 @@
   -ms-user-select: none;
   user-select: none;
 }
+.jstree-contextmenu .jstree-anchor {
+  -webkit-user-select: none;
+  /* disable selection/Copy of UIWebView */
+  -webkit-touch-callout: none;
+  /* disable the IOS popup when long-press on a link */
+}
 .vakata-context {
   display: none;
 }
@@ -286,18 +292,19 @@
   background-color: transparent;
 }
 .jstree-default-dark .jstree-anchor,
+.jstree-default-dark .jstree-animated,
 .jstree-default-dark .jstree-wholerow {
   transition: background-color 0.15s, box-shadow 0.15s;
 }
 .jstree-default-dark .jstree-hovered {
-  background: #555555;
+  background: #555;
   border-radius: 2px;
-  box-shadow: inset 0 0 1px #555555;
+  box-shadow: inset 0 0 1px #555;
 }
 .jstree-default-dark .jstree-context {
-  background: #555555;
+  background: #555;
   border-radius: 2px;
-  box-shadow: inset 0 0 1px #555555;
+  box-shadow: inset 0 0 1px #555;
 }
 .jstree-default-dark .jstree-clicked {
   background: #5fa2db;
@@ -340,13 +347,13 @@
   box-shadow: none;
 }
 .jstree-default-dark.jstree-checkbox-no-clicked .jstree-clicked.jstree-hovered {
-  background: #555555;
+  background: #555;
 }
 .jstree-default-dark.jstree-checkbox-no-clicked > .jstree-wholerow-ul .jstree-wholerow-clicked {
   background: transparent;
 }
 .jstree-default-dark.jstree-checkbox-no-clicked > .jstree-wholerow-ul .jstree-wholerow-clicked.jstree-wholerow-hovered {
-  background: #555555;
+  background: #555;
 }
 .jstree-default-dark > .jstree-striped {
   min-width: 100%;
@@ -365,7 +372,7 @@
   box-sizing: border-box;
 }
 .jstree-default-dark .jstree-wholerow-hovered {
-  background: #555555;
+  background: #555;
 }
 .jstree-default-dark .jstree-wholerow-clicked {
   background: #5fa2db;
@@ -538,6 +545,14 @@
 }
 #jstree-dnd.jstree-default-dark .jstree-er {
   background-position: -36px -68px;
+}
+.jstree-default-dark .jstree-ellipsis {
+  overflow: hidden;
+}
+.jstree-default-dark .jstree-ellipsis .jstree-anchor {
+  width: calc(100% - 29px);
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .jstree-default-dark.jstree-rtl .jstree-node {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAACAQMAAAB49I5GAAAABlBMVEUAAAAdHRvEkCwcAAAAAXRSTlMAQObYZgAAAAxJREFUCNdjAAMOBgAAGAAJMwQHdQAAAABJRU5ErkJggg==");
@@ -712,6 +727,14 @@
 #jstree-dnd.jstree-default-dark-small .jstree-er {
   background-position: -39px -71px;
 }
+.jstree-default-dark-small .jstree-ellipsis {
+  overflow: hidden;
+}
+.jstree-default-dark-small .jstree-ellipsis .jstree-anchor {
+  width: calc(100% - 23px);
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 .jstree-default-dark-small.jstree-rtl .jstree-node {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAACAQMAAABv1h6PAAAABlBMVEUAAAAdHRvEkCwcAAAAAXRSTlMAQObYZgAAAAxJREFUCNdjAAMHBgAAiABBI4gz9AAAAABJRU5ErkJggg==");
 }
@@ -885,6 +908,14 @@
 #jstree-dnd.jstree-default-dark-large .jstree-er {
   background-position: -32px -64px;
 }
+.jstree-default-dark-large .jstree-ellipsis {
+  overflow: hidden;
+}
+.jstree-default-dark-large .jstree-ellipsis .jstree-anchor {
+  width: calc(100% - 37px);
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 .jstree-default-dark-large.jstree-rtl .jstree-node {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAACAQMAAAAD0EyKAAAABlBMVEUAAAAdHRvEkCwcAAAAAXRSTlMAQObYZgAAAAxJREFUCNdjgIIGBgABCgCBvVLXcAAAAABJRU5ErkJggg==");
 }
@@ -957,6 +988,7 @@
   .jstree-default-dark-responsive.jstree-rtl .jstree-node {
     margin-left: 0;
     margin-right: 40px;
+    background: transparent;
   }
   .jstree-default-dark-responsive.jstree-rtl .jstree-container-ul > .jstree-node {
     margin-right: 0;
@@ -966,17 +998,18 @@
   .jstree-default-dark-responsive .jstree-checkbox {
     background-size: 120px 240px;
   }
-  .jstree-default-dark-responsive .jstree-leaf > .jstree-ocl {
+  .jstree-default-dark-responsive .jstree-leaf > .jstree-ocl,
+  .jstree-default-dark-responsive.jstree-rtl .jstree-leaf > .jstree-ocl {
     background: transparent;
   }
   .jstree-default-dark-responsive .jstree-open > .jstree-ocl {
-    background-position: 0 0px !important;
+    background-position: 0 0 !important;
   }
   .jstree-default-dark-responsive .jstree-closed > .jstree-ocl {
     background-position: 0 -40px !important;
   }
   .jstree-default-dark-responsive.jstree-rtl .jstree-closed > .jstree-ocl {
-    background-position: -40px 0px !important;
+    background-position: -40px 0 !important;
   }
   .jstree-default-dark-responsive .jstree-themeicon {
     background-position: -40px -40px;
@@ -1004,13 +1037,13 @@
     background: transparent;
   }
   .jstree-default-dark-responsive .jstree-wholerow {
-    border-top: 1px solid #666666;
-    border-bottom: 1px solid #000000;
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #000;
     background: #333333;
     height: 40px;
   }
   .jstree-default-dark-responsive .jstree-wholerow-hovered {
-    background: #555555;
+    background: #555;
   }
   .jstree-default-dark-responsive .jstree-wholerow-clicked {
     background: #5fa2db;

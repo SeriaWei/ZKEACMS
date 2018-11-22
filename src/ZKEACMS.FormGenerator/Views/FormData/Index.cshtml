@@ -1,0 +1,11 @@
+﻿@using ZKEACMS.FormGenerator.Models
+@model FormData
+@{
+    Style.Reqiured("dataTable").AtHead();
+    Script.Reqiured("dataTable").AtFoot();
+
+    Script.Reqiured("datepicker").AtFoot();
+    Style.Reqiured("datepicker").AtHead();
+
+}
+<grid edit-template="@("<a href=\"{0}\" class=\"glyphicon glyphicon-eye-open\"></a>")" delete-able="Authorizer.Authorize(ZKEACMS.FormGenerator.PermissionKeys.ManageFormData)"></grid>

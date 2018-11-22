@@ -9,19 +9,13 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Common.Service
 {
-    public class HtmlWidgetService : WidgetService<HtmlWidget, CMSDbContext>
+    public class HtmlWidgetService : WidgetService<HtmlWidget>
     {
-        public HtmlWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext)
-            : base(widgetService, applicationContext)
+        public HtmlWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
         }
 
-        public override DbSet<HtmlWidget> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.HtmlWidget;
-            }
-        }
+        public override DbSet<HtmlWidget> CurrentDbSet => (DbContext as CMSDbContext).HtmlWidget;
     }
 }

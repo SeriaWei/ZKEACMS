@@ -16,27 +16,19 @@ using Easy.Extend;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleListWidgetService : WidgetService<ArticleListWidget, ArticleDbContext>
+    public class ArticleListWidgetService : WidgetService<ArticleListWidget>
     {
         private readonly IArticleTypeService _articleTypeService;
         private readonly IArticleService _articleService;
         private readonly IPageService _pageService;
         public ArticleListWidgetService(IWidgetBasePartService widgetService, IArticleTypeService articleTypeService,
-            IArticleService articleService, IApplicationContext applicationContext, IPageService pageService)
-            : base(widgetService, applicationContext)
+            IArticleService articleService, IApplicationContext applicationContext, IPageService pageService, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
             _articleTypeService = articleTypeService;
             _articleService = articleService;
             _pageService = pageService;
-        }
-
-        public override DbSet<ArticleListWidget> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.ArticleListWidget;
-            }
-        }
+        } 
 
         private string GetDetailPageUrl()
         {
@@ -52,18 +44,13 @@ namespace ZKEACMS.Article.Service
             return "~/View-Article";
         }
 
-        public override void Add(ArticleListWidget item)
+        public override ServiceResult<ArticleListWidget> Add(ArticleListWidget item)
         {
             if (item.DetailPageUrl.IsNullOrEmpty())
             {
                 item.DetailPageUrl = GetDetailPageUrl();
             }
-            if (!item.PageSize.HasValue || item.PageSize.Value == 0)
-            {
-                item.PageSize = 5;
-            }
-            item.IsPageable = true;
-            base.Add(item);
+            return base.Add(item);
         }
 
         public override ArticleListWidget Get(params object[] primaryKeys)
@@ -111,18 +98,22 @@ namespace ZKEACMS.Article.Service
             }
             if (currentWidget.IsPageable)
             {
-                articles = _articleService.Get(filter, pagin).ToList();
+                articles = _articleService.Get(filter, pagin);
             }
             else
             {
-                articles = _articleService.Get(filter).OrderByDescending(m => m.PublishDate).ToList();
+                articles = _articleService.Get().Where(filter).OrderByDescending(m => m.PublishDate).ToList();
             }
 
             var currentArticleType = _articleTypeService.Get(cate == 0 ? currentWidget.ArticleTypeID : cate);
             if (currentArticleType != null)
             {
-                var page = actionContext.HttpContext.GetLayout().Page;
-                page.Title = (page.Title ?? "") + " - " + currentArticleType.Title;
+                var layout = actionContext.HttpContext.GetLayout();
+                if (layout != null && layout.Page != null)
+                {
+                    var page = layout.Page;
+                    page.Title = (page.Title ?? "") + " - " + currentArticleType.Title;
+                }
             }
 
             return widget.ToWidgetViewModelPart(new ArticleListWidgetViewModel

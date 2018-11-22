@@ -14,7 +14,7 @@ using Easy.Constant;
 
 namespace ZKEACMS.Common.Models
 {
-    [ViewConfigure(typeof(CarouselWidgetMetaData)), Table("CarouselWidget")]
+    [Table("CarouselWidget")]
     public class CarouselWidget : BasicWidget
     {
         public CarouselWidget()

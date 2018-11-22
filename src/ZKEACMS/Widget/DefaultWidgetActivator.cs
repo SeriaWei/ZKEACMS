@@ -1,4 +1,7 @@
-﻿using System;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +19,10 @@ namespace ZKEACMS.Widget
         }
         public IWidgetPartDriver Create(WidgetBase widget)
         {
+            if (widget == null)
+            {
+                throw new Exception($"Fail to create widget service. Because the widget is null.");
+            }
             string key = $"{widget.AssemblyName},{widget.ServiceTypeName}";
             if (WidgetBase.KnownWidgetService.ContainsKey(key))
             {
@@ -36,16 +43,19 @@ namespace ZKEACMS.Widget
                     }
                 }
             }
-            return null;
+            throw new Exception($"Fail to create {key} instance. May be the plugin is not exists or not regist.");
         }
 
         public WidgetBase CreateWidgetViewModel(WidgetBase widget)
         {
+            if (widget == null)
+            {
+                throw new Exception($"Fail to create widget service. Because the widget is null.");
+            }
             string key = $"{widget.AssemblyName},{widget.ViewModelTypeName}";
-            WidgetBase viewModel = null;
             if (WidgetBase.KnownWidgetModel.ContainsKey(key))
             {
-                viewModel = _serviceProvider.GetService(WidgetBase.KnownWidgetModel[key]) as WidgetBase;
+                return widget.CopyTo(_serviceProvider.GetService(WidgetBase.KnownWidgetModel[key]) as WidgetBase);
             }
             else
             {
@@ -58,11 +68,11 @@ namespace ZKEACMS.Widget
                     key = $"{widget.AssemblyName},{widget.ServiceTypeName}";
                     if (WidgetBase.KnownWidgetService.ContainsKey(key))
                     {
-                        viewModel = _serviceProvider.GetService(WidgetBase.KnownWidgetModel[key]) as WidgetBase;
+                        return widget.CopyTo(_serviceProvider.GetService(WidgetBase.KnownWidgetModel[key]) as WidgetBase);
                     }
                 }
             }
-            return viewModel == null ? null : widget.CopyTo(viewModel);
+            throw new Exception($"Fail to create {key} instance. May be the plugin is not exists or not regist.");
         }
     }
 }

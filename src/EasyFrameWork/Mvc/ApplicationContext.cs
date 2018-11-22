@@ -83,5 +83,9 @@ namespace Easy.Mvc
         {
             get { return HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated; }
         }
+        public T As<T>() where T : class, IApplicationContext
+        {
+            return this as T;
+        }
     }
 }

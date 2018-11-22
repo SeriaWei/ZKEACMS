@@ -48,8 +48,12 @@
  *   S         Letter
  *
  */
-$.validator.addMethod( "cifES", function( value ) {
+$.validator.addMethod( "cifES", function( value, element ) {
 	"use strict";
+
+	if ( this.optional( element ) ) {
+		return true;
+	}
 
 	var cifRegEx = new RegExp( /^([ABCDEFGHJKLMNPQRSUVW])(\d{7})([0-9A-J])$/gi );
 	var letter  = value.substring( 0, 1 ), // [ T ]
@@ -102,12 +106,9 @@ $.validator.addMethod( "cifES", function( value ) {
 	// Control must be a letter
 	} else if ( letter.match( /[KPQS]/ ) ) {
 		return control === control_letter;
-
-	// Can be either
-	} else {
-		return control === control_digit || control === control_letter;
 	}
 
-	return false;
+	// Can be either
+	return control === control_digit || control === control_letter;
 
 }, "Please specify a valid CIF number." );

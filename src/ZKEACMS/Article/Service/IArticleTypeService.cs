@@ -8,5 +8,6 @@ namespace ZKEACMS.Article.Service
     public interface IArticleTypeService : IService<ArticleType>
     {
         IEnumerable<ArticleType> GetChildren(long id);
+        ArticleType GetByUrl(string url);
     }
 }

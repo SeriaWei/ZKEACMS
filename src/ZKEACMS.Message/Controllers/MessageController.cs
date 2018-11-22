@@ -1,4 +1,9 @@
-﻿using ZKEACMS.Message.Models;
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+using ZKEACMS.Message.Models;
 using ZKEACMS.Message.Service;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
@@ -13,24 +18,29 @@ namespace ZKEACMS.Message.Controllers
         {
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
-        public override ActionResult Create()
+        public override IActionResult Create()
         {
             return base.Create();
         }
-        [DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
-        public override ActionResult Create(MessageEntity entity)
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
+        public override IActionResult Create(MessageEntity entity)
         {
             return base.Create(entity);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
-        public override ActionResult Edit(int Id)
+        public override IActionResult Edit(int Id)
         {
             return base.Edit(Id);
         }
-        [DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
-        public override ActionResult Edit(MessageEntity entity)
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
+        public override IActionResult Edit(MessageEntity entity)
         {
             return base.Edit(entity);
+        }
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
+        public override IActionResult Delete(int id)
+        {
+            return base.Delete(id);
         }
     }
 }

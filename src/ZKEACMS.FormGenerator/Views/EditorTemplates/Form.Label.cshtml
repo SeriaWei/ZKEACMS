@@ -1,0 +1,17 @@
+﻿@model ZKEACMS.FormGenerator.Models.FormField
+<div class="form-group">
+    @if (Model.DisplayName.IsNotNullAndWhiteSpace())
+    {
+        <h3>
+            @Model.DisplayName
+        </h3>
+    }
+    @if (Model.Description.IsNotNullAndWhiteSpace())
+    {
+        <dl>
+            <dd>
+                @Model.Description
+            </dd>
+        </dl>
+    }
+</div>

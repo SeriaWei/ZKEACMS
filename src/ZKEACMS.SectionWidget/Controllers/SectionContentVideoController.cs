@@ -60,7 +60,7 @@ namespace ZKEACMS.SectionWidget.Controllers
 
         public ActionResult Play(string Id)
         {
-            return View(_sectionContentProviderService.Get(Id));
+            return View(_sectionContentProviderService.GetContent(Id));
         }
     }
 }

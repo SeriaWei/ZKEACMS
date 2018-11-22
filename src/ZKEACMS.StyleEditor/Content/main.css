@@ -1,0 +1,178 @@
+html {
+    background-color: #212636 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+body {
+    background-color: #212636 !important;
+    color: #B0B8C5 !important;
+    font-size: 13px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.editor-main {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#preview {
+    display: none;
+}
+
+.panel-body > div > h3:first-child {
+    margin-top: 0;
+}
+
+
+.glyphicon-search {
+    cursor: pointer;
+}
+
+.panel-heading {
+    padding: 7px 15px;
+}
+
+fieldset {
+    margin-bottom: 10px;
+}
+fieldset>*{
+    margin:0 10px;
+}
+fieldset legend {
+    display: block;
+    width: 100%;
+    padding: 5px 8px;
+    margin:0 0 10px;
+    font-size: 15px;
+    line-height: inherit;
+    color: #fff;
+    font-weight:bold;
+    border: 0;
+    background: #242A3B;
+    box-shadow: inset 0 1px 0 0 #181A26, inset 0 -1px 0 0 #181A26, inset 1px 0 0 0 #151721;
+}
+    fieldset label {
+        font-weight: normal;
+    }
+    fieldset .input-group{
+        margin-bottom:5px;
+    }
+    fieldset .form-control {
+        height: 28px;
+        padding: 2px 3px;
+        background: #1A1E2D;
+        color: #B0B8C5;
+        border: 1px solid #151721;
+        border-radius: 0px;
+    }
+    fieldset select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+    fieldset .input-group-addon {
+        background-color: #212636;
+        color: #B0B8C5;
+        border-color: #212636;
+        padding: 2px 3px;
+        border-radius: 0;
+    }
+
+    fieldset .column .input-group {
+        width: 49%;
+        margin-right: 1%;
+        float: left;
+    }
+
+    fieldset .column::after {
+        display: table;
+        content: " ";
+        clear: both;
+    }
+
+    fieldset .ui-slider {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    fieldset .input-group .form-control {
+        position: static;
+    }
+
+    fieldset .input-group.loading::before {
+        display: block;
+        content: " ";
+        position: absolute;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        background: red;
+    }
+
+    fieldset .input-group.loading.processing::before {
+        width: 100%;
+        transition: width 2s;
+    }
+
+    fieldset .text-info {
+        color: #B0B8C5;
+    }
+
+    fieldset .ui-widget-content {
+        background: none;
+        border-color: #151721;
+    }
+
+
+#preview > .panel-body {
+    padding-top: 0;
+}
+#preview .panel-default {
+    border-color: #181A26;
+    border-radius: 0;
+}
+    #preview .panel-default > .panel-heading {
+        background-image: -webkit-linear-gradient(top,#242a3b 0,#242a3b 100%);
+        background-image: -o-linear-gradient(top,#242a3b 0,#242a3b 100%);
+        background-image: -webkit-gradient(linear,left top,left bottom,from(#242a3b),to(#242a3b));
+        background-image: linear-gradient(to bottom,#242a3b 0,#242a3b 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff242a3b', endColorstr='#ff242a3b', GradientType=0);
+        background-repeat: repeat-x;
+        background-color: #242a3b;
+        border-color: #181A26;
+        border-radius:0;
+    }
+#preview .panel-footer {
+    background-color: #242a3b;
+    border-top: 1px solid #181A26;
+    border-radius:0;
+}
+    #preview .panel-footer pre {
+        background-color: #242a3b;
+        color: #B0B8C5;
+    }
+
+@media (min-width:500px) {
+    .examples {
+        float: left;
+        width: 60%;
+        padding: 0 0 0 10px;
+    }
+
+    #preview {
+        float: left;
+        display: block;
+        width: 40%;
+        position:fixed;
+        right:0;
+    }
+
+        #preview pre {
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+}

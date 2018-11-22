@@ -7,26 +7,19 @@ using ZKEACMS.Product.Models;
 using ZKEACMS.Widget;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Easy.Extend;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductDetailWidgetService : WidgetService<ProductDetailWidget, ProductDbContext>
+    public class ProductDetailWidgetService : WidgetService<ProductDetailWidget>
     {
         private readonly IProductService _productService;
-        public ProductDetailWidgetService(IWidgetBasePartService widgetService, IProductService productService, IApplicationContext applicationContext)
-            : base(widgetService, applicationContext)
+        public ProductDetailWidgetService(IWidgetBasePartService widgetService, IProductService productService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
             _productService = productService;
         }
-
-        public override DbSet<ProductDetailWidget> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.ProductDetailWidget;
-            }
-        }
-
+        
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             int productId = actionContext.RouteData.GetPost();
@@ -34,32 +27,35 @@ namespace ZKEACMS.Product.Service
             if (productId != 0)
             {
                 product = _productService.Get(productId);
+                if (product !=null && product.Url.IsNotNullAndWhiteSpace() && actionContext.RouteData.GetProductUrl().IsNullOrWhiteSpace())
+                {
+                    actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{product.Url}.html", true);
+                }
             }
-            if (product == null)
+            if (product == null && ApplicationContext.IsAuthenticated)
             {
                 foreach (var item in _productService.Get().AsQueryable().OrderByDescending(m => m.ID).Take(1))
                 {
-                    product = item;
+                    product = _productService.Get(item.ID);
                 }
             }
             if (product == null)
             {
-                product = new ProductEntity
+                actionContext.NotFoundResult();
+            }
+            if (product != null)
+            {
+                var layout = actionContext.HttpContext.GetLayout();
+                if (layout != null && layout.Page != null)
                 {
-                    Title = "产品明细组件使用说明",
-                    ImageUrl = "~/Plugins/ZKEACMS.Product/Content/Image/Example.png",
-                    ProductContent = "<p>如上图所示，该组件需要一个<code>产品列表组件</code>组合使用，您需要在其它页面添加一个产品列表组件并链接过来，然后点击产品列表中的产品，该组件就可正常显示产品的内容</p>",
-                    CreatebyName = "ZKEASOFT"
-                };
+                    var page = layout.Page;
+                    page.MetaDescription = product.SEODescription;
+                    page.MetaKeyWorlds = product.SEOKeyWord;
+                    page.Title = product.SEOTitle ?? product.Title;
+                }
             }
 
-
-            var page = actionContext.HttpContext.GetLayout().Page;
-            page.MetaDescription = product.SEODescription;
-            page.MetaKeyWorlds = product.SEOKeyWord;
-            page.Title = product.SEOTitle ?? product.Title;
-
-            return widget.ToWidgetViewModelPart(product);
+            return widget.ToWidgetViewModelPart(product ?? new ProductEntity());
         }
     }
 }

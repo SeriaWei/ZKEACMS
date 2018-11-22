@@ -1,11 +1,10 @@
 ﻿@using ZKEACMS.Common.ViewModels
 @model MediaViewModel
 @{
-    ViewBag.Title = "媒体库";
+    ViewBag.Title = L("媒体库");
     var action = Html.ViewContext.RouteData.Values["action"].ToString();
 
-    Script.Reqiured("lightBox").AtFoot();
-    Style.Reqiured("lightBox").AtHead();
+    Script.Reqiured("image-viewer").AtFoot();
 
     if (ViewBag.PopUp != null)
     {
@@ -13,11 +12,11 @@
     }
 
 }
-<div class="container-fluid">
+<div>
     <div class="clearfix thumbnail">
         <div class="pull-left">
             <span style="line-height: 30px">
-                &nbsp;<a href="@Url.Action(action)">媒体库</a>
+                &nbsp;<a href="@Url.Action(action)">@L("媒体库")</a>
                 @if (Model.Parents != null)
                 {
                     foreach (MediaEntity item in Model.Parents)
@@ -28,64 +27,66 @@
                 }
             </span>
         </div>
-        @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
-        {
-            <div class="pull-right">
-                <input type="button" class="btn btn-primary btn-sm upload" value="上传文件" />
-                <input type="button" class="btn btn-primary btn-sm create-folder" value="创建文件夹" />
-            </div>
-        }
-    </div>
-    <div id="media-list" class="row" data-parent="@Model.ParentID">
-        @if (Model.Medias != null)
-        {
-            foreach (var media in Model.Medias)
+        <div class="pull-right">
+            @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
             {
-                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
-                    <div class="thumbnail">
-                        @if (media.MediaType == (int)MediaType.Image)
-                        {
-                            <a href="javascript:void(0)" class="img-link confirm" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
-                                <img class="img" src="@Url.Content(media.Url)" />
-                            </a>
-                        }
-                        else
-                        {
-                            <a href="@(media.MediaType==(int)MediaType.Folder?Url.Action(action, new {ParentId = media.ID}):"javascript:void(0)")" 
-                               class="img-link @(media.MediaType==(int)MediaType.Folder?"":"confirm")" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
-                                <img class="img" src="@Url.Content("~/images/{0}.png".FormatWith(media.MediaTypeImage))" />
-                            </a>
-                        }
-                        <div class="caption" data-id="@media.ID">
-                            @media.Title
-                        </div>
-                        <div class="tool">
-                            @if (media.MediaType == (int) MediaType.Image && media.Url.IsNotNullAndWhiteSpace())
-                            {
-                                <a target="_blank" class="preview" href="@Url.Content(media.Url)"
-                                   data-lightbox="thumbnail" data-title="@media.Title">
-                                    <i class="glyphicon glyphicon-eye-open"></i>
-                                </a>
-                            }
-                            @if (media.MediaType != (int) MediaType.Folder && media.Url.IsNotNullAndWhiteSpace())
-                            {
-                                <a target="_blank" class="download" download="@media.Title" href="@Url.Content(media.Url)">
-                                    <i class="glyphicon glyphicon-download-alt"></i>
-                                </a>
-                            }
-                        </div>
-                        @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
-                        {
-                            <div class="close">
-                                <img src="~/images/close_red.png" />
-                            </div>
-                        }
-                    </div>
-                </div>
+                <input type="button" class="btn btn-primary btn-sm upload" value="@L("上传文件")" />
+                <input type="button" class="btn btn-primary btn-sm create-folder" value="@L("创建文件夹")" />
             }
-        }
-    </div>
+        </div>
 
+    </div>
+    <div class="container-fluid">
+        <div id="media-list" class="row" data-parent="@Model.ParentID">
+            @if (Model.Medias != null)
+            {
+                foreach (var media in Model.Medias)
+                {
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+                        <div class="thumbnail status-@media.Status">
+                            @if (media.MediaType == (int)MediaType.Image)
+                            {
+                                <a href="javascript:void(0)" class="img-link confirm" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
+                                    <img class="img" src="@Url.Content(media.Url)" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@(media.MediaType==(int)MediaType.Folder?Url.Action(action, new {ParentId = media.ID}):"javascript:void(0)")"
+                                   class="img-link @(media.MediaType==(int)MediaType.Folder?"":"confirm")" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
+                                    <img class="img" src="@Url.Content("~/images/{0}.png".FormatWith(media.MediaTypeImage))" />
+                                </a>
+                            }
+                            <div class="caption" data-id="@media.ID">
+                                @media.Title
+                            </div>
+                            <div class="tool">
+                                @if (media.MediaType == (int)MediaType.Image && media.Url.IsNotNullAndWhiteSpace())
+                                {
+                                    <a class="preview" href="javascript:void(0)" data-href="@Url.Content(media.Url)" data-title="@media.Title"><i class="glyphicon glyphicon-eye-open"></i></a>
+                                }
+                                @if (media.MediaType != (int)MediaType.Folder && media.Url.IsNotNullAndWhiteSpace())
+                                {
+                                    <a class="download" download="@media.Title" href="@Url.Content(media.Url)"><i class="glyphicon glyphicon-download-alt"></i></a>
+                                }
+                            </div>
+
+                            @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
+                            {
+                                <div class="close">
+                                    <i class="glyphicon glyphicon-remove-sign"></i>
+                                </div>
+                            }
+                            @if (ViewBag.MultiSelect != null && media.MediaType != (int)MediaType.Folder)
+                            {
+                                <i title="@L("选择")" class="multi-select unchecked glyphicon glyphicon-check glyphicon-unchecked" data-result="@Url.PathContent(media.Url)" data-name="@media.Title"></i>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
     <ul class="pagination">
         @if (Model.Pagin.PageIndex >= 1)
         {
@@ -148,9 +149,16 @@
                     <div class="caption">
                     </div>
                     <div class="tool"></div>
-                    <div class="close">
-                        <img src="~/images/close_red.png" />
-                    </div>
+                    @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
+                    {
+                        <div class="close">
+                            <i class="glyphicon glyphicon-remove-sign"></i>
+                        </div>
+                    }
+                    @if (ViewBag.MultiSelect != null)
+                    {
+                        <i title="@L("选择")" class="multi-select unchecked glyphicon glyphicon-check glyphicon-unchecked"></i>
+                    }
                 </div>
             </div>
         </div>
@@ -161,9 +169,40 @@
 {
     <script type="text/javascript">
         $(function () {
+            $(document).on("click", "#media-list .preview", function () {
+                var images = [];
+                var index = 0;
+                var current = $(this).data("href");
+                $("#media-list .preview").each(function (i) {
+                    var imageUrl = $(this).data("href");
+                    if (imageUrl) {
+                        images.push({ src: imageUrl, desc: $(this).data("title")});
+                        if (imageUrl == current) {
+                            index = i;
+                        }
+                    }
+                });
+                var civer =  new CIV({
+                    animation: CIV.ANIMATION.TRANSLATE,
+                    background: "#444",
+                    list: images,
+                    index: index,
+                    preload: false,
+                    save: true,
+                    saveBtn: "@L("确定")",
+                    noSave:true,
+                    onsave: function (a) {
+                        this.hide();                        
+                        $($("#media-list .preview")[a.index]).closest(".thumbnail").find("a.confirm")[0].click();
+                    }
+                });                
+                civer.show();
+             });
+
             $(document).on("click", ".create-folder", function () {
                 var newfolder = $($("#item-template").html());
-                newfolder.find(".caption").append('<input type="text" class="edit" value="新建文件夹" />');
+                newfolder.find(".caption").append('<input type="text" class="edit" value="@L("新建文件夹")" />');
+                newfolder.find(".multi-select").remove();
                 if ($("#media-list > div").size() > 0) {
                     newfolder.insertBefore($("#media-list > div:first"));
                 } else {
@@ -175,26 +214,29 @@
                 if (!$.trim(input.val())) {
                     return false;
                 }
+                input.data("saving", true);
                 $.post("@Url.Action("Save")", { id: input.closest(".caption").data("id"), title: input.val(), parentId: $("#media-list").data("parent") }, function (data) {
                     if (data) {
                         var caption = input.closest(".caption");
                         if (caption.data("id")) {
                             input.replaceWith(data.title);
                         } else {
-                            input.closest(".new-folder").removeClass("new-folder").find("a").attr("href", "@Url.Action(action)" + "?ParentId=" + data.ID);
-                            caption.data("id", data.ID);
+                            input.closest(".new-folder").removeClass("new-folder").find("a").attr("href", "@Url.Action(action)" + "?ParentId=" + data.id);
+                            caption.data("id", data.id);
                             input.replaceWith(data.title);
                         }
                     }
                 });
             }
-            $(document).on("keyup", ".edit", function (e) {
+            $(document).on("keyup", "input.edit", function (e) {
                 if (e.keyCode === 13) {
                     save($(this));
                 }
             });
-            $(document).on("blur", ".edit", function () {
-                save($(this));
+            $(document).on("blur", "input.edit", function () {
+                if (!$(this).data("saving")) {
+                    save($(this));
+                }
             });
             $(document).on("click", ".caption", function () {
                 var cap = $(this);
@@ -210,57 +252,88 @@
             $(document).on("change", "#fileUp", function () {
                 var threads = [];
                 for (var i = 0; i < this.files.length; i++) {
-                    if (this.files[i].size > 4194304) {
-                        Easy.MessageTip.Show(this.files[i].name + " 文件大小超过限制！");
-                        continue;
-                    }
                     var newitem = $($("#item-template").html());
                     newitem.find(".img").attr("src", "@Url.Content("~/images/loader.gif")");
-                    newitem.find(".caption").html('<label class="label label-danger">排队中...</label>');
+                    newitem.find(".caption").html('<label class="label label-danger">@L("排队中...")</label>');
                     if ($("#media-list > div").size() > 0) {
                         newitem.insertBefore($("#media-list > div:first"));
                     } else {
                         $("#media-list").append(newitem);
                     }
-                    var formData = new FormData();
-                    formData.append('file', this.files[i]);
-                    formData.append("parentId", $("#media-list").data("parent"));
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('POST', '@Url.Action("Upload")');
-                    xhr.target = newitem;
-                    xhr.onload = function (e) {
-                        var result = JSON.parse(e.target.response);
-                        if (result.id) {
-                            this.target.find(".img").attr("src", "@Url.Content("~/Images/")" + result.mediaTypeImage+".png")
-                                .parent().attr("href", "javascript:void(0)")
-                                .addClass("confirm").attr("data-result", result.url);
-                            this.target.find(".caption").html(result.title).data("id",result.id);
-                            this.target.removeClass("new-folder");
-                            if (result.mediaType == '@(MediaType.Image.ToString("D"))') {
-                                this.target.find(".img").attr("src",result.url);
-                                var preview = $('<a target="_blank" class="preview" data-lightbox="thumbnail"><i class="glyphicon glyphicon-eye-open"></i></a>');
-                                preview.attr("href", result.url);
-                                preview.data("title", result.title);
-                                this.target.find(".tool").append(preview);
+                    var formData = { Data: this.files[i], target: newitem };
+                    threads.push({
+                        Req: {
+                            send: function (fileData) {
+                                var item = fileData.target;
+                                function sliceSend(start, url, result) {
+                                    var end = start + 1048000;
+                                    if (end > fileData.Data.size) {
+                                        end = fileData.Data.size;
+                                    }
+                                    var chunk = fileData.Data.slice(start, end);
+                                    var fd = new FormData();
+                                    fd.append("file", chunk, fileData.Data.name);
+                                    fd.append("parentId", $("#media-list").data("parent"));
+                                    fd.append("size", fileData.Data.size);
+                                    if (result) {
+                                        fd.append("id", result.id);
+                                        fd.append("position", start);
+                                    }
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.open('POST', url);
+                                    if (end == fileData.Data.size) {
+                                        xhr.onload = function (e) {
+                                            var result = JSON.parse(e.target.response);
+                                            if (result.id) {
+                                                item.find(".img").attr("src", "@Url.Content("~/images/")" + result.mediaTypeImage + ".png")
+                                                    .parent().attr("href", "javascript:void(0)")
+                                                    .addClass("confirm").attr("data-result", result.url).attr("data-name", result.title);
+                                                item.find(".multi-select").attr("data-result", result.url).attr("data-name", result.title);
+                                                item.find(".caption").html(result.title).data("id", result.id);
+                                                item.removeClass("new-folder");
+                                                if (result.mediaType == '@(MediaType.Image.ToString("D"))') {
+                                                    item.find(".img").attr("src", result.url);
+                                                    var preview = $('<a href="javascript:void(0)" class="preview"><i class="glyphicon glyphicon-eye-open"></i></a>');
+                                                    preview.data("href", result.url);
+                                                    preview.data("title", result.title);
+                                                    item.find(".tool").append(preview);
+                                                }
+                                                var downLoad = $('<a class="download" download="' + result.title + '"><i class="glyphicon glyphicon-download-alt"></i></a>');
+                                                downLoad.attr("href", result.url);
+                                                item.find(".tool").append(downLoad);
+                                            } else {
+                                                Easy.MessageTip.Show("@L("文件上传失败。可能是因为上传的文件不被允许！")");
+                                                item.remove();
+                                            }
+                                            if (threads.length > 0) {
+                                                var task = threads.pop();
+                                                task.Req.send(task.Data);
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        xhr.onload = function (e) {
+                                            var result = JSON.parse(e.target.response);
+                                            if (result) {
+                                                sliceSend(end, '@Url.Action("AppendFile")', result);
+                                            }
+                                            else {
+                                                Easy.MessageTip.Show("@L("文件上传失败。可能是因为上传的文件不被允许！")");
+                                                item.remove();
+                                            }
+                                        }
+                                    }
+                                    xhr.upload.onprogress = function (e) {
+                                        var persecnt = (e.loaded + start) / fileData.Data.size * 100;
+                                        item.find(".caption").html('<label class="label label-danger">' + Math.round(persecnt) + "%" + '</label>');
+                                    };
+                                    xhr.send(fd);
+                                }
+                                sliceSend(0,'@Url.Action("Upload")')
                             }
-                            var downLoad = $('<a target="_blank" class="download" download="'+result.title+'"><i class="glyphicon glyphicon-download-alt"></i></a>');
-                            downLoad.attr("href", result.url);
-                            this.target.find(".tool").append(downLoad);
-                        } else {
-                            Easy.MessageTip.Show("文件上传失败。可能是因为上传的文件不被允许！");
-                            this.target.remove();
-                        }
-                        if (threads.length > 0) {
-                            var task = threads.pop();
-                            task.Req.send(task.Data);
-                        }
-                    };
-                    xhr.upload.target = newitem;
-                    xhr.upload.onprogress = function (e) {
-                        var persecnt = e.loaded / e.total * 100;
-                        this.target.find(".caption").html('<label class="label label-danger">' + Math.round(persecnt) + "%" + '</label>');
-                    }
-                    threads.push({ Req: xhr, Data: formData });
+                        },
+                        Data: formData
+                    });
                 }
                 if (threads.length > 0) {
                     var task = threads.pop();
@@ -269,13 +342,15 @@
             });
             $(document).on("click", ".close", function () {
                 var caption = $(this).siblings(".caption");
-                Easy.ShowMessageBox("提示", "确定要删除吗？", function () {
+                Easy.ShowMessageBox("@L("提示")", "@L("确定要删除吗？")", function () {
                     Easy.Block();
                     $.post("@Url.Action("Delete")", { ids: caption.data("id") }, function () {
                         caption.closest(".thumbnail").parent().remove();
                         Easy.UnBlock();
                     });
                 }, true);
+            }).on("click", ".multi-select", function () {
+                $(this).toggleClass("glyphicon-unchecked").toggleClass("unchecked");
             });
         });
 

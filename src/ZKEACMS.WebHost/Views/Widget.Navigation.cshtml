@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Html
 @model ZKEACMS.Common.ViewModels.NavigationWidgetViewModel
 @{
-    if (Model.Navigations == null || !Model.Navigations.Any())
+    if (!Model.Navigations.Any())
     {
         return;
     }
@@ -27,56 +27,83 @@
                 }
                 @{
                     <ul class="nav navbar-nav nav-mobile visible-xs">
-                      @foreach (var item in Model.Navigations.Where(m => m.ParentId == Model.Widget.RootID && (m.IsMobile ?? false)))
-                      {
-                        <li class="pull-left @(item.IsCurrent ? "active" : "")">
-                            @Html.SmartLink(Url.PathContent(item.Url), item.Title)
-                        </li>
-                      }
+                        @foreach (var item in Model.Mobiles)
+                        {
+
+                            <li class="pull-left @(item.IsCurrent ? "active" : "")">
+                                @if (item.Html.IsNullOrWhiteSpace())
+                                {
+                                    @Html.SmartLink(Url.PathContent(item.Url), item.Title)
+                                }
+                                else
+                                {
+                                    @Html.Raw(item.Html)
+                                }
+                            </li>
+                        }
                     </ul>
                 }
             </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav @Model.Widget.AlignClass">
-                    @foreach (NavigationEntity item in Model.Navigations.Where(m => m.ParentId == Model.Widget.RootID))
+                    @foreach (var item in Model.Navigations)
                     {
-                        if (Model.Navigations.Any(m => m.ParentId == item.ID))
+                        if (item.Children.Any())
                         {
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@item.Title <b class="caret"></b></a>
-                                @if (Model.Navigations.Any(m => m.ParentId == item.ID))
-                                {
-                                    <ul class="dropdown-menu">
-                                        @foreach (NavigationEntity child in Model.Navigations.Where(m => m.ParentId == item.ID))
-                                        {
-                                            IEnumerable<NavigationEntity> children = Model.Navigations.Where(m => m.ParentId == child.ID);
-                                            if (children.Any())
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@item.Current.Title <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    @foreach (var child in item.Children)
+                                    {
+                                        <li class="@(child.Current.IsCurrent ? "active" : "")">
+                                            @if (child.Current.Html.IsNullOrWhiteSpace())
                                             {
-                                                <li class="dropdown hoveropen">
-                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@child.Title <b class="caret right"></b></a>
-                                                    @*@DropDown(children)*@
-                                                </li>
+                                                @Html.SmartLink(Url.PathContent(child.Current.Url), child.Current.Title)
                                             }
                                             else
                                             {
-                                                <li class="@(child.IsCurrent ? "active" : "")">
-                                                    @Html.SmartLink(Url.PathContent(child.Url), child.Title)
-                                                </li>
+                                                @Html.Raw(child.Current.Html)
                                             }
-                                        }
-                                    </ul>
-                                }
+                                        </li>
+                                    }
+                                </ul>
                             </li>
-
                         }
                         else
                         {
-                            <li class="@(item.IsCurrent ? "active" : "")">
-                                @Html.SmartLink(Url.PathContent(item.Url), item.Title)
+                            <li class="@(item.Current.IsCurrent ? "active" : "")">
+                                @if (item.Current.Html.IsNullOrWhiteSpace())
+                                {
+                                    @Html.SmartLink(Url.PathContent(item.Current.Url), item.Current.Title)
+                                }
+                                else
+                                {
+                                    @Html.Raw(item.Current.Html)
+                                }
                             </li>
                         }
                     }
+                    @if ((Model.Widget.ShowBasket ?? false) && Model.Widget.AlignClass == "navbar-right")
+                    {
+                        <li>
+                            <a href="javascript:" class="show-basket" title="@L("购物车")">
+                                <i class="glyphicon glyphicon-shopping-cart"></i>
+                                <sup class="quantity"></sup>
+                            </a>
+                        </li>
+                    }
                 </ul>
+                @if ((Model.Widget.ShowBasket ?? false) && Model.Widget.AlignClass != "navbar-right")
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="javascript:" class="show-basket" title="@L("购物车")">
+                                <i class="glyphicon glyphicon-shopping-cart"></i>
+                                <sup class="quantity"></sup>
+                            </a>
+                        </li>
+                    </ul>
+                }
             </div>
         </div>
     </div>

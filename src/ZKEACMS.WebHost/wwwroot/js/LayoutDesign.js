@@ -20,8 +20,8 @@
         '</div>'].join('');
     var colTools = [
         '<div class="tools">',
-        '<i class="glyphicon glyphicon-menu-left" title="减小宽度 -1"></i>',
-        '<i class="glyphicon glyphicon glyphicon-menu-right" title="增加宽度 +1"></i>',
+        '<i class="glyphicon glyphicon-menu-left" title="宽度 - 1"></i>',
+        '<i class="glyphicon glyphicon glyphicon-menu-right" title="宽度 + 1"></i>',
         '<i class="glyphicon glyphicon-remove-circle" title="删除"></i>',
         '</div>'].join('');
     function getNewZone() {
@@ -167,6 +167,7 @@
             if (!$.trim($(this).val())) {
                 $(this).val("未命名");
             }
+            $(this).attr("value", $(this).val());
         });
         if ($(this).data("done")) {
             return;
@@ -177,7 +178,7 @@
 
         $("zone").each(function (i) {
             $("input", this).each(function () {
-                $(this).attr("name", "zones[" + i + "]." + $(this).attr("name")).addClass("hide");
+                $(this).attr("name", "zones[" + i + "]." + $(this).attr("name")).addClass("hide");               
             }).appendTo(form);
         });
 

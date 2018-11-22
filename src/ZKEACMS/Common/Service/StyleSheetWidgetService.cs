@@ -7,19 +7,12 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Common.Service
 {
-    public class StyleSheetWidgetService : WidgetService<StyleSheetWidget, CMSDbContext>
+    public class StyleSheetWidgetService : WidgetService<StyleSheetWidget>
     {
-        public StyleSheetWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext)
-            : base(widgetService, applicationContext)
+        public StyleSheetWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
         }
-
-        public override DbSet<StyleSheetWidget> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.StyleSheetWidget;
-            }
-        }
+        public override DbSet<StyleSheetWidget> CurrentDbSet => (DbContext as CMSDbContext).StyleSheetWidget;
     }
 }

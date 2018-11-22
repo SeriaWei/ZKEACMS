@@ -1,0 +1,2 @@
+@echo off
+publish-zkeacms

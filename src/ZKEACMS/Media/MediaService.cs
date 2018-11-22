@@ -1,4 +1,4 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+﻿/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.Extend;
 using Easy.Image;
 using Easy.RepositoryPattern;
@@ -7,26 +7,25 @@ using System.IO;
 using System.Linq.Expressions;
 using Easy;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ZKEACMS.Media
 {
-    public class MediaService : ServiceBase<MediaEntity, CMSDbContext>, IMediaService
+    public class MediaService : ServiceBase<MediaEntity>, IMediaService
     {
-        public MediaService(IApplicationContext applicationContext) : base(applicationContext)
+        public MediaService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
 
-        public override DbSet<MediaEntity> CurrentDbSet
+        public override DbSet<MediaEntity> CurrentDbSet => (DbContext as CMSDbContext).Media;
+
+        public override ServiceResult<MediaEntity> Add(MediaEntity item)
         {
-            get
+            if (item.ID.IsNullOrEmpty())
             {
-                return DbContext.Media;
-            }
-        }
-
-        public override void Add(MediaEntity item)
-        {
-            item.ID = Guid.NewGuid().ToString("N");
+                item.ID = Guid.NewGuid().ToString("N");
+            }            
             if (item.ParentID.IsNullOrWhiteSpace())
             {
                 item.ParentID = "#";
@@ -75,12 +74,36 @@ namespace ZKEACMS.Media
             {
                 item.MediaType = (int)MediaType.Folder;
             }
-            base.Add(item);
+            return base.Add(item);
         }
-        public override void Remove(MediaEntity item, bool saveImmediately = true)
+
+        public MediaEntity GetImageFolder()
+        {
+            const string imageFolder = "图片";
+            var folder = Get(m => m.Title == imageFolder && m.MediaType == (int)MediaType.Folder).FirstOrDefault();
+            if (folder == null)
+            {
+                folder = new MediaEntity
+                {
+                    Title = imageFolder,
+                    MediaType = (int)MediaType.Folder,
+                    ParentID = "#"
+                };
+                Add(folder);
+            }
+            return folder;
+        }
+
+        public IList<MediaEntity> GetPage(string parentId, Pagination pagin)
+        {
+            pagin.RecordCount = Count(m => m.ParentID == parentId);
+            return Get().Where(m => m.ParentID == parentId).OrderBy(m => m.MediaType).ThenByDescending(m => m.CreateDate).Skip(pagin.PageIndex * pagin.PageSize).Take(pagin.PageSize).ToList();
+        }
+
+        public override void Remove(MediaEntity item)
         {
             Remove(m => m.ParentID == item.ID);
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
 
         public override void Remove(Expression<Func<MediaEntity, bool>> filter)

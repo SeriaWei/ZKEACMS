@@ -9,7 +9,7 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Common.Models
 {
-    [ViewConfigure(typeof(HtmlWidgetMetaData)), Table("HtmlWidget")]
+    [Table("HtmlWidget")]
     public class HtmlWidget : BasicWidget
     {
         public string HTML { get; set; }

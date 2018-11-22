@@ -1,0 +1,51 @@
+﻿@model Pagin
+
+<ul class="pagination">
+    @if (Model.PageIndex >= 1)
+    {
+        <li><a href="@Model.BaseUrlFormat.FormatWith(0)">«</a></li>
+    }
+    else
+    {
+        <li class="disabled"><a href="javascript:void(0)">«</a></li>
+    }
+    @{
+        if (Model.PageIndex >= 5)
+        {
+            <li>
+                <a>...</a>
+            </li>
+        }
+        int start = Model.PageIndex - 4;
+        int end = Model.PageIndex + 4;
+        if (start < 0)
+        {
+            start = 0;
+        }
+        for (; start < Model.AllPage && start <= end; start++)
+        {
+            <li class="@(start == Model.PageIndex ? "active" : "")">
+                <a href="@Url.Content(Model.BaseUrlFormat.FormatWith(start))">@(start + 1)</a>
+            </li>
+        }
+        if (Model.AllPage - Model.PageIndex > 5)
+        {
+            <li>
+                <a>...</a>
+            </li>
+        }
+    }
+
+    @if (Model.PageIndex < Model.AllPage - 1)
+    {
+        <li>
+            <a href="@Url.Content(Model.BaseUrlFormat.FormatWith(Model.PageIndex + 1))">»</a>
+        </li>
+    }
+    else
+    {
+        <li class="disabled">
+            <a href="javascript:void(0)">»</a>
+        </li>
+    }
+</ul>

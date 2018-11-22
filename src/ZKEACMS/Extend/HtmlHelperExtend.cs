@@ -62,5 +62,9 @@ namespace ZKEACMS
         {
             html.RenderPartial("Partial_Pagination", pagin);
         }
+        public static void Pagin(this IHtmlHelper html, Pagin pagin)
+        {
+            html.RenderPartial("Partial_RegularPagination", pagin);
+        }
     }
 }

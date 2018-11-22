@@ -1,0 +1,32 @@
+[
+  {
+    "outputFileName": "Content/field-setting.min.css",
+    "inputFiles": [
+      "Content/field-setting.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/fieldSettings.min.js",
+    "inputFiles": [
+      "Scripts/fieldSettings.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/form-widget.min.css",
+    "inputFiles": [
+      "Content/form-widget.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/form-widget.min.js",
+    "inputFiles": [
+      "Scripts/form-widget.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/distpicker.min.js",
+    "inputFiles": [
+      "Scripts/distpicker.js"
+    ]
+  }
+]

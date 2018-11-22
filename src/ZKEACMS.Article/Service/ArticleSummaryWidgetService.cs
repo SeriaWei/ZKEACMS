@@ -7,19 +7,11 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleSummaryWidgetService : WidgetService<ArticleSummaryWidget, ArticleDbContext>
+    public class ArticleSummaryWidgetService : WidgetService<ArticleSummaryWidget>
     {
-        public ArticleSummaryWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext)
-            : base(widgetService, applicationContext)
+        public ArticleSummaryWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
-        }
-
-        public override DbSet<ArticleSummaryWidget> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.ArticleSummaryWidget;
-            }
-        }
+        }     
     }
 }

@@ -5,6 +5,7 @@ using Easy.Mvc.Attribute;
 using Easy.Mvc.Authorize;
 using Microsoft.AspNetCore.Mvc;
 using ZKEACMS.Dashboard;
+using Microsoft.AspNetCore.Http;
 
 namespace ZKEACMS.Controllers
 {

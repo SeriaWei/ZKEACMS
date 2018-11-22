@@ -14,35 +14,26 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using Newtonsoft.Json.Linq;
 using Easy.Mvc.Plugin;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionWidgetService : WidgetService<Models.SectionWidget, SectionDbContext>, ISectionWidgetService
+    public class SectionWidgetService : WidgetService<Models.SectionWidget>, ISectionWidgetService
     {
         private readonly ISectionGroupService _sectionGroupService;
         private readonly ISectionContentProviderService _sectionContentProviderService;
         private readonly ISectionTemplateService _sectionTemplateService;
-        private readonly IPluginLoader _pluginLoader;
         private readonly string[] packFiles = new[] { "Views/{0}.cshtml", "Thumbnail/{0}.png", "Thumbnail/{0}.xml" };
 
         public SectionWidgetService(IWidgetBasePartService widgetService, ISectionGroupService sectionGroupService,
             ISectionContentProviderService sectionContentProviderService, ISectionTemplateService sectionTemplateService,
-            IApplicationContext applicationContext, IPluginLoader pluginLoader)
-            : base(widgetService, applicationContext)
+            IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
             _sectionGroupService = sectionGroupService;
             _sectionContentProviderService = sectionContentProviderService;
             _sectionTemplateService = sectionTemplateService;
-            _pluginLoader = pluginLoader;
-        }
-
-        public override DbSet<Models.SectionWidget> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.SectionWidget;
-            }
-        }
+        }    
 
         public override WidgetBase GetWidget(WidgetBase widget)
         {
@@ -60,8 +51,8 @@ namespace ZKEACMS.SectionWidget.Service
         {
             if (widget == null) return null;
 
-            widget.Groups = _sectionGroupService.Get(m => m.SectionWidgetId == widget.ID).ToList();
-            var contents = _sectionContentProviderService.Get(m => m.SectionWidgetId == widget.ID).ToList();
+            widget.Groups = _sectionGroupService.Get(m => m.SectionWidgetId == widget.ID).OrderBy(m => m.Order).ToList();
+            var contents = _sectionContentProviderService.Get(m => m.SectionWidgetId == widget.ID);
             List<SectionContent> filled = new List<SectionContent>();
             contents.AsParallel().Each(content =>
             {
@@ -74,11 +65,11 @@ namespace ZKEACMS.SectionWidget.Service
 
             widget.Groups.Each(m =>
             {
-                m.SectionContents = filled.Where(n => n.SectionGroupId == m.ID).ToList();
+                m.SectionContents = filled.Where(n => n.SectionGroupId == m.ID).OrderBy(c => c.Order).ToList();
             });
             return widget;
         }
-        public override void Remove(Models.SectionWidget item, bool saveImmediately = true)
+        public override void Remove(Models.SectionWidget item)
         {
             if (item != null)
             {
@@ -87,12 +78,16 @@ namespace ZKEACMS.SectionWidget.Service
                     _sectionGroupService.Remove(m.ID);
                 });
             }
-            base.Remove(item, saveImmediately);
+            base.Remove(item);
         }
 
-        public override void Add(Models.SectionWidget item)
+        public override ServiceResult<Models.SectionWidget> Add(Models.SectionWidget item)
         {
-            base.Add(item);
+            var result = base.Add(item);
+            if (result.HasViolation)
+            {
+                return result;
+            }
             if (item.Groups != null && item.Groups.Any())
             {
                 item.Groups.Each(m =>
@@ -101,12 +96,13 @@ namespace ZKEACMS.SectionWidget.Service
                     _sectionGroupService.Add(m);
                 });
             }
+            return result;
         }
         public override WidgetPackage PackWidget(WidgetBase widget)
         {
             var package = base.PackWidget(widget);
             var sectionWidget = package.Widget as Models.SectionWidget;
-            var pluginRootPath = _pluginLoader.GetPlugins().First(m => m.ID == SectionPlug.PluginID).RelativePath;
+            var pluginRootPath = PluginBase.GetPath<SectionPlug>();
             var cmsApplicationContext = ApplicationContext as CMSApplicationContext;
             var rootPath = cmsApplicationContext.MapPath("~/");
 
@@ -134,7 +130,7 @@ namespace ZKEACMS.SectionWidget.Service
         }
         public override void InstallWidget(WidgetPackage pack)
         {
-            var pluginRootPath = _pluginLoader.GetPlugins().First(m => m.ID == SectionPlug.PluginID).RelativePath;
+            var pluginRootPath = PluginBase.GetPath<SectionPlug>();
 
             pack.Files.Each(file =>
             {
@@ -160,6 +156,11 @@ namespace ZKEACMS.SectionWidget.Service
             widget.ZoneID = null;
             widget.IsSystem = false;
             widget.IsTemplate = true;
+            widget.Description = "°²×°";
+            if (!widget.Thumbnail.StartsWith("http://", StringComparison.OrdinalIgnoreCase) && !widget.Thumbnail.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            {
+                widget.Thumbnail = Helper.Url.Combine(Loader.PluginFolder, new DirectoryInfo(pluginRootPath).Name, "Thumbnail", Path.GetFileName(widget.Thumbnail));
+            }
             AddWidget(widget);
         }
     }

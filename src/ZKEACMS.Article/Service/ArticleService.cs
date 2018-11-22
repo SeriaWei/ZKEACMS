@@ -6,31 +6,65 @@ using ZKEACMS.Article.Models;
 using Easy;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Easy.Extend;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleService : ServiceBase<ArticleEntity, ArticleDbContext>, IArticleService
+    public class ArticleService : ServiceBase<ArticleEntity>, IArticleService
     {
-        public ArticleService(IApplicationContext applicationContext) : base(applicationContext)
+        private readonly ILocalize _localize;
+        public ArticleService(IApplicationContext applicationContext, ILocalize localize, CMSDbContext dbContext) 
+            : base(applicationContext, dbContext)
         {
+            _localize = localize;
         }
-
-        public override DbSet<ArticleEntity> CurrentDbSet
+        public override ServiceResult<ArticleEntity> Add(ArticleEntity item)
         {
-            get
+            if (item.Url.IsNotNullAndWhiteSpace())
             {
-                return DbContext.Article;
+                if (GetByUrl(item.Url) != null)
+                {
+                    var result = new ServiceResult<ArticleEntity>();
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Url已存在")));
+                    return result;
+                }
             }
+            return base.Add(item);
+        }
+        public override ServiceResult<ArticleEntity> Update(ArticleEntity item)
+        {
+            if (item.Url.IsNotNullAndWhiteSpace())
+            {
+                if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
+                {
+                    var result = new ServiceResult<ArticleEntity>();
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Url已存在")));
+                    return result;
+                }
+            }
+            return base.Update(item);
+        }
+        public ArticleEntity GetByUrl(string url)
+        {
+            return Get(m => m.Url == url).FirstOrDefault();
         }
 
         public ArticleEntity GetNext(ArticleEntity article)
         {
-            return CurrentDbSet.Where(m => m.IsPublish && m.ArticleTypeID == article.ArticleTypeID && m.PublishDate > article.PublishDate).OrderBy(m => m.PublishDate).ThenBy(m => m.ID).Take(1).FirstOrDefault();
+            return CurrentDbSet.Where(m => m.IsPublish && m.ArticleTypeID == article.ArticleTypeID && m.PublishDate > article.PublishDate && m.ID != article.ID).OrderBy(m => m.PublishDate).ThenBy(m => m.ID).Take(1).FirstOrDefault();
         }
 
         public ArticleEntity GetPrev(ArticleEntity article)
         {
-            return CurrentDbSet.Where(m => m.IsPublish && m.ArticleTypeID == article.ArticleTypeID && m.PublishDate < article.PublishDate).OrderByDescending(m => m.PublishDate).ThenByDescending(m => m.ID).Take(1).FirstOrDefault();
+            return CurrentDbSet.Where(m => m.IsPublish && m.ArticleTypeID == article.ArticleTypeID && m.PublishDate < article.PublishDate && m.ID != article.ID).OrderByDescending(m => m.PublishDate).ThenByDescending(m => m.ID).Take(1).FirstOrDefault();
+        }
+
+        public void IncreaseCount(ArticleEntity article)
+        {
+            article.Counter = (article.Counter ?? 0) + 1;
+            DbContext.Attach(article);
+            DbContext.Entry(article).Property(x => x.Counter).IsModified = true;
+            DbContext.SaveChanges();
         }
 
         public void Publish(int ID)

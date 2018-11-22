@@ -16,6 +16,7 @@ namespace ZKEACMS.Layout
         [Key]
         public int LayoutHtmlId { get; set; }
         public string LayoutId { get; set; }
+        public string PageId { get; set; }
         public string Html { get; set; }
 
         public string NoStyleHtml
@@ -27,5 +28,5 @@ namespace ZKEACMS.Layout
     {
 
     }
-    
+
 }

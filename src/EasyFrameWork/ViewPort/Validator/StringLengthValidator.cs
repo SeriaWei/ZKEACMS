@@ -1,27 +1,30 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 
+using Easy.Extend;
+
 namespace Easy.ViewPort.Validator
 {
     public class StringLengthValidator : ValidatorBase
     {
         public StringLengthValidator(int min, int max)
         {
-            if (min > 0)
+            this.Max = max;
+            this.Min = min;
+            if (Max > 0)
             {
-                this.BaseErrorMessage = "{0}的长度应大于" + min + "且小于" + max;
+                this.BaseErrorMessage = "{{0}}的长度应大于{0}且小于{1}".FormatWith(Min, Max);
             }
             else
             {
-                this.BaseErrorMessage = "{0}的长度应小于" + max;
+                this.BaseErrorMessage = "{{0}}的长度应小于{0}".FormatWith(Max);
             }
-            this.Max = max;
-            this.Min = min;
         }
         public int Max { get; set; }
         public int Min { get; set; }
 
         public override bool Validate(object value)
         {
+            
             if (value == null) return true;
             string val = value.ToString();
             if (val.Length <= Max)

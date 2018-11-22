@@ -21,7 +21,8 @@ namespace Easy.Constant
         Design = 4,
         Publish = 5,
         Unattached = 6,
-        Continue = 7
+        Continue = 7,
+        UnAttach = 8
     }
     public enum UserType
     {

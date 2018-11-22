@@ -8,12 +8,18 @@ using ZKEACMS.ExtendField;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Easy.LINQ;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Product.Models
 {
-    [ViewConfigure(typeof(ProductMetaData)), Table("Product")]
+    [Table("Product")]
     public class ProductEntity : EditorEntity, IImage
     {
+        public ProductEntity()
+        {
+            ProductImages = new List<ProductImage>();
+        }
+
         [Key]
         public int ID { get; set; }
         /// <summary>
@@ -31,7 +37,7 @@ namespace ZKEACMS.Product.Models
         /// <summary>
         /// 类别
         /// </summary>
-        public int? ProductCategoryID { get; set; }
+        public int ProductCategoryID { get; set; }
 
         public string PartNumber { get; set; }
         /// <summary>
@@ -41,14 +47,17 @@ namespace ZKEACMS.Product.Models
         /// <summary>
         /// 销售价格
         /// </summary>
+        [Column(TypeName = "decimal(18,4)")]
         public decimal? Price { get; set; }
         /// <summary>
         /// 折扣价格
         /// </summary>
+        [Column(TypeName = "decimal(18,4)")]
         public decimal? RebatePrice { get; set; }
         /// <summary>
         /// 进价，成本价
         /// </summary>
+        [Column(TypeName = "decimal(18,4)")]
         public decimal? PurchasePrice { get; set; }
         /// <summary>
         /// 规格
@@ -73,6 +82,10 @@ namespace ZKEACMS.Product.Models
         public DateTime? PublishDate { get; set; }
         public string TargetFrom { get; set; }
         public string TargetUrl { get; set; }
+        [NotMapped]
+        public IList<ProductCategoryTag> ProductTags { get; set; }
+        [NotMapped]
+        public IList<ProductImage> ProductImages { get; set; }
 
     }
     class ProductMetaData : ViewMetaData<ProductEntity>
@@ -81,19 +94,24 @@ namespace ZKEACMS.Product.Models
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.ID).AsHidden();
+            ViewConfig(m => m.TargetFrom).AsHidden();
+            ViewConfig(m => m.TargetUrl).AsHidden();
             ViewConfig(m => m.Title).AsTextBox().Required().Order(0).ShowInGrid().Search(Query.Operators.Contains);
-            ViewConfig(m => m.ImageUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
-            ViewConfig(m => m.ImageThumbUrl).AsTextBox().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
+            ViewConfig(m => m.Url).AsTextBox().Order(1).MaxLength(100).UrlPart();
+            ViewConfig(m => m.ImageUrl).AsTextBox().Required().MediaSelector();
+            ViewConfig(m => m.ImageThumbUrl).AsTextBox().Required().MediaSelector();
             ViewConfig(m => m.PartNumber).AsTextBox().ShowInGrid().Search(Query.Operators.Contains);
             ViewConfig(m => m.BrandCD).AsHidden();
             ViewConfig(m => m.ProductCategoryID)
                 .AsDropDownList()
                 .Required()
                 .DataSource(ViewDataKeys.ProductCategory, SourceType.ViewData)
-                .AddClass("select")
-                .AddProperty("data-url", "/admin/ProductCategory/Select")
+                .SetTemplate("ProductCategoryTree")
                 .ShowInGrid();
-            
+
+            ViewConfig(m => m.ProductTags).AsTextBox().SetTemplate("TagSelector");
+            ViewConfig(m => m.ProductImages).AsListEditor();
+
             ViewConfig(m => m.ProductContent).AsTextArea().AddClass("html");
             ViewConfig(m => m.Description).AsTextArea();
             ViewConfig(m => m.IsPublish).AsTextBox().Hide();

@@ -46,7 +46,7 @@ var DataTable = $.fn.dataTable;
 /* Set the defaults for DataTables initialisation */
 $.extend( true, DataTable.defaults, {
 	dom:
-		"<'ui grid'"+
+		"<'ui stackable grid'"+
 			"<'row'"+
 				"<'eight wide column'l>"+
 				"<'right aligned eight wide column'f>"+
@@ -179,11 +179,11 @@ DataTable.ext.renderer.pageButton.semanticUI = function ( settings, host, idx, b
 	catch (e) {}
 
 	attach(
-		$(host).empty().html('<div class="ui pagination menu"/>').children(),
+		$(host).empty().html('<div class="ui stackable pagination menu"/>').children(),
 		buttons
 	);
 
-	if ( activeEl ) {
+	if ( activeEl !== undefined ) {
 		$(host).find( '[data-dt-idx='+activeEl+']' ).focus();
 	}
 };
@@ -195,12 +195,16 @@ $(document).on( 'init.dt', function (e, ctx) {
 		return;
 	}
 
+	var api = new $.fn.dataTable.Api( ctx );
+
 	// Length menu drop down
 	if ( $.fn.dropdown ) {
-		var api = new $.fn.dataTable.Api( ctx );
-
 		$( 'div.dataTables_length select', api.table().container() ).dropdown();
 	}
+
+	// Filtering input
+	$( 'div.dataTables_filter.ui.input', api.table().container() ).removeClass('input').addClass('form');
+	$( 'div.dataTables_filter input', api.table().container() ).wrap( '<span class="ui input" />' );
 } );
 
 

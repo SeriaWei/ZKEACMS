@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Media
 {
-    [ViewConfigure(typeof(MediaEntityMetaData)), Table("CMS_Media")]
+    [Table("CMS_Media")]
     public class MediaEntity : EditorEntity
     {
         [Key]

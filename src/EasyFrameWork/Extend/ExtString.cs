@@ -10,16 +10,14 @@ namespace Easy.Extend
     {
         public static string NoHTML(this string Htmlstring)
         {
-            //删除脚本
-            Htmlstring = Htmlstring.Replace("\r\n", "");
-            Htmlstring = Regex.Replace(Htmlstring, @"<script.*?</script>", "", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"<style.*?</style>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"<script[\s\S]*?</script>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"<noscript[\s\S]*?</noscript>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"<style[\s\S]*?</style>", "", RegexOptions.IgnoreCase);
             Htmlstring = Regex.Replace(Htmlstring, @"<.*?>", "", RegexOptions.IgnoreCase);
-            //删除HTML
-            Htmlstring = Regex.Replace(Htmlstring, @"<(.[^>]*)>", "", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"([\r\n])[\s]+", "", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"-->", "", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"<!--.*", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"<(.[^>]*)>", " ", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"([\r\n])[\s]+", " ", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"-->", " ", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"<!--.*", " ", RegexOptions.IgnoreCase);
             Htmlstring = Regex.Replace(Htmlstring, @"&(quot|#34);", "\"", RegexOptions.IgnoreCase);
             Htmlstring = Regex.Replace(Htmlstring, @"&(amp|#38);", "&", RegexOptions.IgnoreCase);
             Htmlstring = Regex.Replace(Htmlstring, @"&(lt|#60);", "<", RegexOptions.IgnoreCase);
@@ -29,13 +27,7 @@ namespace Easy.Extend
             Htmlstring = Regex.Replace(Htmlstring, @"&(cent|#162);", "\xa2", RegexOptions.IgnoreCase);
             Htmlstring = Regex.Replace(Htmlstring, @"&(pound|#163);", "\xa3", RegexOptions.IgnoreCase);
             Htmlstring = Regex.Replace(Htmlstring, @"&(copy|#169);", "\xa9", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"&#(\d+);", "", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, "\\s{2,}", "", RegexOptions.IgnoreCase);
-            Htmlstring = Htmlstring.Replace("<", "");
-            Htmlstring = Htmlstring.Replace(">", "");
-            Htmlstring = Htmlstring.Replace("\r\n", "");
-            Htmlstring = Htmlstring.Replace("\n", "");
-            // Htmlstring = HttpContext.Current.Server.HtmlEncode(Htmlstring).Trim();
+            Htmlstring = Regex.Replace(Htmlstring, @"&#(\d+);", " ", RegexOptions.IgnoreCase);
             return Htmlstring;
         }
 
@@ -195,15 +187,23 @@ namespace Easy.Extend
 
         public static string FirstCharToLowerCase(this string instance)
         {
-            if (instance.IsNotNullAndWhiteSpace() && instance.Length > 1 && char.IsUpper(instance[0]))
+            if (instance.IsNotNullAndWhiteSpace() && instance.Length > 2 && char.IsUpper(instance[0]))
             {
                 return char.ToLower(instance[0]) + instance.Substring(1);
+            }
+            if (instance.Length == 2)
+            {
+                return instance.ToLower();
             }
             return instance;
         }
         public static string ToFilePath(this string path)
         {
-            return Path.Combine(path.Split('/', '\\'));
+            return string.Join(Path.DirectorySeparatorChar.ToString(), path.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+        }
+        public static string CombinePath(this string p,string path)
+        {
+            return p + Path.DirectorySeparatorChar + path;
         }
     }
 }

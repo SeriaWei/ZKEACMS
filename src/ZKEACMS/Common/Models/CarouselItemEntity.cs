@@ -9,7 +9,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.Common.Models
 {
-    [ViewConfigure(typeof(CarouselItemEntityMeta)), Table("CarouselItem")]
+    [Table("CarouselItem")]
     public class CarouselItemEntity : EditorEntity
     {
         [Key]
@@ -32,7 +32,7 @@ namespace ZKEACMS.Common.Models
             ViewConfig(m => m.CarouselWidgetID).AsHidden();
             ViewConfig(m => m.Description).AsHidden();
             ViewConfig(m => m.TargetLink).AsTextBox().PageSelector();
-            ViewConfig(m => m.ImageUrl).AsTextBox().MediaSelector();
+            ViewConfig(m => m.ImageUrl).AsTextBox().MediaSelector().Required();
         }
     }
 

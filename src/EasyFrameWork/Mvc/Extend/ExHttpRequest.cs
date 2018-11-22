@@ -19,7 +19,7 @@ namespace Easy.Mvc.Extend
         const string ImageFolder = "Images";
         const string FileFolder = "Files";
 
-        private static string ChangeToWebPath(HttpRequest request, string path)
+        public static string ChangeToWebPath(this HttpRequest request, string path)
         {
             return path.Replace(request.MapPath("~/"), "~").Replace("\\", "/");
         }
@@ -45,7 +45,8 @@ namespace Easy.Mvc.Extend
         public static string MapPath(this HttpRequest request, string path)
         {
             var environment = request.HttpContext.RequestServices.GetService<IHostingEnvironment>();
-            return Path.Combine(environment.WebRootPath, path.Replace("~/", "").ToFilePath());
+            path = path.Replace("~/", "").Trim('/').Trim('\\');
+            return Path.Combine(environment.WebRootPath, path.ToFilePath());
         }
         /// <summary>
         /// 保存图片到UpLoad/Images
@@ -72,7 +73,7 @@ namespace Easy.Mvc.Extend
                             return filePath;
                         }
                     }
-                    return ChangeToWebPath(request, path);
+                    return request.ChangeToWebPath(path);
                 }
             }
             return string.Empty;
@@ -87,7 +88,7 @@ namespace Easy.Mvc.Extend
                 if (Common.IsImage(ext))
                 {
                     fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
-                    path += fileName;
+                    path = Path.Combine(path, fileName);
                     request.Form.Files[name].SaveAs(path);
                     var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
                     if (storage != null)
@@ -98,7 +99,7 @@ namespace Easy.Mvc.Extend
                             return filePath;
                         }
                     }
-                    return ChangeToWebPath(request, path);
+                    return request.ChangeToWebPath(path);
                 }
             }
             return string.Empty;
@@ -118,7 +119,7 @@ namespace Easy.Mvc.Extend
                 if (Common.FileCanUp(ext))
                 {
                     fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
-                    path += fileName;
+                    path = Path.Combine(path, fileName);
                     request.Form.Files[0].SaveAs(path);
                     var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
                     if (storage != null)
@@ -129,7 +130,7 @@ namespace Easy.Mvc.Extend
                             return filePath;
                         }
                     }
-                    return ChangeToWebPath(request, path);
+                    return request.ChangeToWebPath(path);
                 }
             }
             return string.Empty;
@@ -144,7 +145,7 @@ namespace Easy.Mvc.Extend
                 if (Common.FileCanUp(ext))
                 {
                     fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
-                    path += fileName;
+                    path = Path.Combine(path, fileName);
                     request.Form.Files[0].SaveAs(path);
                     var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
                     if (storage != null)
@@ -155,7 +156,7 @@ namespace Easy.Mvc.Extend
                             return filePath;
                         }
                     }
-                    return ChangeToWebPath(request, path);
+                    return request.ChangeToWebPath(path);
                 }
             }
             return string.Empty;
@@ -173,6 +174,19 @@ namespace Easy.Mvc.Extend
             {
                 storage.DeleteFile(file);
             }
+        }
+
+        public static string GetAbsoluteUrl(this HttpRequest request)
+        {
+            return request.Path.Value + request.QueryString;
+        }
+        public static string GetReferer(this HttpRequest request)
+        {
+            return request.Headers["Referer"].ToString();
+        }
+        public static string GetHostWithScheme(this HttpRequest request)
+        {
+            return request.Scheme + "://" + request.Host;
         }
     }
 }

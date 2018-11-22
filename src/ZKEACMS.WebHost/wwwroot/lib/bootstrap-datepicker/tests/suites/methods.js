@@ -3,7 +3,8 @@ module('Methods', {
         this.input = $('<input type="text" value="31-03-2011">')
                         .appendTo('#qunit-fixture')
                         .datepicker({format: "dd-mm-yyyy"});
-        this.dp = this.input.data('datepicker')
+        this.dp = this.input.data('datepicker');
+        this.picker = this.dp.picker;
     },
     teardown: function(){
         this.dp.remove();
@@ -32,7 +33,7 @@ test('update - String', function(){
     var returnedObject = this.dp.update('13-03-2012');
     datesEqual(this.dp.dates[0], UTCDate(2012, 2, 13));
     var date = this.dp.picker.find('.datepicker-days td:contains(13)');
-    ok(date.is('.active'), 'Date is selected');
+    ok(date.hasClass('active'), 'Date is selected');
     strictEqual(returnedObject, this.dp, "is chainable");
 });
 
@@ -40,7 +41,15 @@ test('update - Date', function(){
     var returnedObject = this.dp.update(new Date(2012, 2, 13));
     datesEqual(this.dp.dates[0], UTCDate(2012, 2, 13));
     var date = this.dp.picker.find('.datepicker-days td:contains(13)');
-    ok(date.is('.active'), 'Date is selected');
+    ok(date.hasClass('active'), 'Date is selected');
+    strictEqual(returnedObject, this.dp, "is chainable");
+});
+
+test('update - Date with time', function(){
+    var returnedObject = this.dp.update(new Date(2012, 2, 13, 23, 59, 59, 999));
+    datesEqual(this.dp.dates[0], UTCDate(2012, 2, 13, 23, 59, 59, 999));
+    var date = this.dp.picker.find('.datepicker-days td:contains(13)');
+    ok(date.hasClass('active'), 'Date is selected');
     strictEqual(returnedObject, this.dp, "is chainable");
 });
 
@@ -75,8 +84,8 @@ test('setUTCDate', function(){
 });
 
 test('setStartDate', function(){
-    var date_in = new Date(Date.UTC(2012, 3, 5)),
-        expected_date = date_in,
+    var date_in = new Date(2012, 3, 5),
+        expected_date = new Date(Date.UTC(2012, 3, 5)),
         returnedObject = this.dp.setStartDate(date_in);
     // ...
     datesEqual(this.dp.o.startDate, expected_date);
@@ -84,8 +93,8 @@ test('setStartDate', function(){
 });
 
 test('setEndDate', function(){
-    var date_in = new Date(Date.UTC(2012, 3, 5)),
-        expected_date = date_in,
+    var date_in = new Date(2012, 3, 5),
+        expected_date = new Date(Date.UTC(2012, 3, 5)),
         returnedObject = this.dp.setEndDate(date_in);
     // ...
     datesEqual(this.dp.o.endDate, expected_date);
@@ -93,8 +102,8 @@ test('setEndDate', function(){
 });
 
 test('getStartDate', function(){
-    var date_in = new Date(Date.UTC(2012, 3, 5)),
-        expected_date = date_in,
+    var date_in = new Date(2012, 3, 5),
+        expected_date = new Date(Date.UTC(2012, 3, 5)),
         returnedObject = this.dp.setStartDate(date_in);
     // ...
     datesEqual(returnedObject.getStartDate(), expected_date);
@@ -102,8 +111,8 @@ test('getStartDate', function(){
 });
 
 test('getEndDate', function(){
-    var date_in = new Date(Date.UTC(2012, 3, 5)),
-        expected_date = date_in,
+    var date_in = new Date(2012, 3, 5),
+        expected_date = new Date(Date.UTC(2012, 3, 5)),
         returnedObject = this.dp.setEndDate(date_in);
     // ...
     datesEqual(returnedObject.getEndDate(), expected_date);
@@ -128,6 +137,15 @@ test('setDaysOfWeekDisabled - Array', function(){
     strictEqual(returnedObject, this.dp, "is chainable");
 });
 
+test('setDatesDisabled', function(){
+    var monthShown = this.picker.find('.datepicker-days thead th.datepicker-switch');
+    var returnedObject = this.dp.setDatesDisabled(['01-03-2011']);
+    ok(this.picker.find('.datepicker-days tbody td.day:not(.old):first').hasClass('disabled'), 'day is disabled');
+    this.dp.setDatesDisabled(['01-01-2011']);
+    equal(monthShown.text(), 'March 2011', 'should not change viewDate');
+    strictEqual(returnedObject, this.dp, "is chainable");
+});
+
 test('setValue', function(){
     var returnedObject = this.dp.setValue();
     // ...
@@ -149,22 +167,22 @@ test('moveMonth - can handle invalid date', function(){
 });
 
 test('parseDate - outputs correct value', function(){
-    var parsedDate = $.fn.datepicker.DPGlobal.parseDate('11/13/2015',$.fn.datepicker.DPGlobal.parseFormat('mm/dd/yyyy'),'en');
-    equal(parsedDate.getDate(), "13", "date is correct");
-    equal(parsedDate.getMonth(), "10", "month is correct");
-    equal(parsedDate.getFullYear(), "2015", "fullyear is correct");
+    var parsedDate = $.fn.datepicker.DPGlobal.parseDate('11/13/2015', $.fn.datepicker.DPGlobal.parseFormat('mm/dd/yyyy'), 'en');
+    equal(parsedDate.getUTCDate(), "13", "date is correct");
+    equal(parsedDate.getUTCMonth(), "10", "month is correct");
+    equal(parsedDate.getUTCFullYear(), "2015", "fullyear is correct");
 });
 
 test('parseDate - outputs correct value for yyyy\u5E74mm\u6708dd\u65E5 format', function(){
-    var parsedDate = $.fn.datepicker.DPGlobal.parseDate('2015\u5E7411\u670813',$.fn.datepicker.DPGlobal.parseFormat('yyyy\u5E74mm\u6708dd\u65E5'),'ja');
-    equal(parsedDate.getDate(), "13", "date is correct");
-    equal(parsedDate.getMonth(), "10", "month is correct");
-    equal(parsedDate.getFullYear(), "2015", "fullyear is correct");
+    var parsedDate = $.fn.datepicker.DPGlobal.parseDate('2015\u5E7411\u670813', $.fn.datepicker.DPGlobal.parseFormat('yyyy\u5E74mm\u6708dd\u65E5'), 'ja');
+    equal(parsedDate.getUTCDate(), "13", "date is correct");
+    equal(parsedDate.getUTCMonth(), "10", "month is correct");
+    equal(parsedDate.getUTCFullYear(), "2015", "fullyear is correct");
 });
 
 test('parseDate - outputs correct value for dates containing unicodes', function(){
-    var parsedDate = $.fn.datepicker.DPGlobal.parseDate('\u5341\u4E00\u6708 13 2015',$.fn.datepicker.DPGlobal.parseFormat('MM dd yyyy'),'zh-CN');
-    equal(parsedDate.getDate(), "13", "date is correct");
-    equal(parsedDate.getMonth(), "10", "month is correct");
-    equal(parsedDate.getFullYear(), "2015", "fullyear is correct");
+    var parsedDate = $.fn.datepicker.DPGlobal.parseDate('\u5341\u4E00\u6708 13 2015', $.fn.datepicker.DPGlobal.parseFormat('MM dd yyyy'), 'zh-CN');
+    equal(parsedDate.getUTCDate(), "13", "date is correct");
+    equal(parsedDate.getUTCMonth(), "10", "month is correct");
+    equal(parsedDate.getUTCFullYear(), "2015", "fullyear is correct");
 });

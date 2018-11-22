@@ -1,0 +1,58 @@
+﻿@using System.IO
+
+@model IEnumerable<FileInfo>
+@if (Authorizer.Authorize(PermissionKeys.ManageEventViewer) && Model.Any())
+{
+    <div class="error-log panel panel-danger">
+        <div class="panel-heading">@L("错误日志")</div>
+        <div class="panel-body">
+            @if (Model.Any())
+            {
+                <ul class="fullRowList">
+                    @foreach (FileInfo file in Model)
+                    {
+                        <li style="cursor:default">
+                            <div class="clearfix">
+                                <div class="pull-left">
+                                    <a class="delete" href="@Url.Action("Delete","EventViewer",new { id = file.Name })">
+                                        <i class="text-danger glyphicon glyphicon-remove"></i>
+                                    </a>
+                                    <a href="@Url.Action("ViewLog","EventViewer",new { id = file.Name })" target="_blank">@file.Name</a>
+                                    @if (file.Length >= 1048576)
+                                    {
+                                        <span class="text-muted small">@((file.Length / 1048576d).ToString("F2")) MB</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small">@((file.Length / 1024d).ToString("F2")) KB</span>
+                                    }
+                                </div>
+                                <div class="pull-right">
+                                    <a href="@Url.Action("ViewLog","EventViewer",new { id = file.Name })" download="@file.Name">@L("下载")</a>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+
+    @using (Script.AtFoot())
+    {
+        <script type="text/javascript">
+            $(function () {
+                $(document).on("click", ".error-log a.delete", function () {
+                    var target = $(this);
+                    $.get(target.attr("href"), function (data) {
+                        if (data) {
+                            target.closest("li").remove();
+                        }
+                    });
+                    return false;
+                });
+            });
+        </script>
+    }
+}
+

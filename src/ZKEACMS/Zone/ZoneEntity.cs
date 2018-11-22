@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Zone
 {
-    [ViewConfigure(typeof(ZoneEntityMetaData)), Table("CMS_Zone")]
+    [Table("CMS_Zone")]
     public class ZoneEntity : EditorEntity
     {
         public const string ZoneTag = "<zone>";
@@ -14,6 +14,7 @@ namespace ZKEACMS.Zone
         [Key]
         public string ID { get; set; }
         public string LayoutId { get; set; }
+        public string PageId { get; set; }
         public string ZoneName { get; set; }
         public string HeadingCode { get; set; }
     }

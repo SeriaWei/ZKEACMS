@@ -1,8 +1,12 @@
-﻿using System;
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+
 using Easy;
 using Easy.Constant;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Message.Models;
 using ZKEACMS.Widget;
 
@@ -11,8 +15,8 @@ namespace ZKEACMS.Message.Service
     public class MessageBoxWidgetService : SimpleWidgetService<MessageBoxWidget>
     {
         private readonly IMessageService _messageService;
-        public MessageBoxWidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext, IMessageService messageService)
-            : base(widgetBasePartService, applicationContext)
+        public MessageBoxWidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext, IMessageService messageService, CMSDbContext dbContext)
+            : base(widgetBasePartService, applicationContext, dbContext)
         {
             _messageService = messageService;
         }

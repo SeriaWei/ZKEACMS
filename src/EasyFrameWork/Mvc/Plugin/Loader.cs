@@ -18,23 +18,30 @@ namespace Easy.Mvc.Plugin
     {
         public const string PluginFolder = "Plugins";
         private const string PluginInfoFile = "zkea.plugin";
-        public IHostingEnvironment HostingEnvironment { get; set; }
+#if DEBUG
+        private string[] AltDevelopmentPath = new[] { "bin", "Debug", "netcoreapp2.1" };
+#else
+        private string[] AltDevelopmentPath = new[] { "bin", "Release", "netcoreapp2.1" };
+#endif
         private static List<AssemblyLoader> Loaders = new List<AssemblyLoader>();
         private static Dictionary<string, Assembly> LoadedAssemblies = new Dictionary<string, Assembly>();
         public Loader(IHostingEnvironment hostEnvironment)
         {
             HostingEnvironment = hostEnvironment;
         }
-        public void LoadEnablePlugins(Action<IPluginStartup> onLoading, Action<Assembly> onLoaded, Func<IServiceCollection> services)
+        public IHostingEnvironment HostingEnvironment { get; set; }
+        public IEnumerable<IPluginStartup> LoadEnablePlugins(IServiceCollection serviceCollection)
         {
-            GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>
+            var start = DateTime.Now;
+            Loaders.AddRange(GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Select(m =>
             {
                 var loader = new AssemblyLoader();
-                loader.HostingEnvironment = HostingEnvironment;
-                loader.OnLoading = onLoading;
-                loader.OnLoaded = onLoaded;
-                loader.Services = services;
-                var assemblies = loader.LoadPlugin(Path.Combine(m.RelativePath, (HostingEnvironment.IsDevelopment() ? m.DeveloperFileName : m.FileName).ToFilePath()));
+                loader.CurrentPath = m.RelativePath;
+                var assemblyPath = Path.Combine(m.RelativePath, (HostingEnvironment.IsDevelopment() ? Path.Combine(AltDevelopmentPath) : string.Empty), m.FileName);
+
+                Console.WriteLine("Loading: {0}", m.Name);
+
+                var assemblies = loader.LoadPlugin(assemblyPath);
                 assemblies.Each(assembly =>
                 {
                     if (!LoadedAssemblies.ContainsKey(assembly.FullName))
@@ -42,8 +49,10 @@ namespace Easy.Mvc.Plugin
                         LoadedAssemblies.Add(assembly.FullName, assembly);
                     }
                 });
-                Loaders.Add(loader);
-            });
+                return loader;
+            }));
+            Console.WriteLine("All plugins are loaded. Elapsed: {0}ms", (DateTime.Now - start).Milliseconds);
+            return serviceCollection.ConfigurePlugin().BuildServiceProvider().GetPlugins();
         }
 
         public IEnumerable<Assembly> GetPluginAssemblies()
@@ -78,7 +87,7 @@ namespace Easy.Mvc.Plugin
             GetPlugins().Where(m => m.ID == pluginId).Each(m =>
             {
                 m.Enable = false;
-                File.WriteAllText(m.RelativePath + $"\\{PluginInfoFile}", JsonConvert.SerializeObject(m));
+                File.WriteAllText(m.RelativePath.CombinePath(PluginInfoFile), JsonConvert.SerializeObject(m));
             });
         }
 
@@ -87,7 +96,7 @@ namespace Easy.Mvc.Plugin
             GetPlugins().Where(m => m.ID == pluginId).Each(m =>
             {
                 m.Enable = true;
-                File.WriteAllText(m.RelativePath + $"\\{PluginInfoFile}", JsonConvert.SerializeObject(m));
+                File.WriteAllText(m.RelativePath.CombinePath(PluginInfoFile), JsonConvert.SerializeObject(m));
             });
         }
 

@@ -7,19 +7,11 @@ using System;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionContentCallToActionService : ServiceBase<SectionContentCallToAction, SectionDbContext>, ISectionContentService
+    public class SectionContentCallToActionService : ServiceBase<SectionContentCallToAction>, ISectionContentService
     {
-        public SectionContentCallToActionService(IApplicationContext applicationContext) : base(applicationContext)
+        public SectionContentCallToActionService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
-        }
-
-        public override DbSet<SectionContentCallToAction> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.SectionContentCallToAction;
-            }
-        }
+        }       
         public SectionContentBase.Types ContentType
         {
             get { return SectionContentBase.Types.CallToAction; }

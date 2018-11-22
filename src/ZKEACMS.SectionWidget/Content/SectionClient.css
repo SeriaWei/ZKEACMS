@@ -5,6 +5,7 @@
  */
 .video {
     position: relative;
+    display:inline-block;
 }
 
     .video .video-play {

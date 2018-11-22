@@ -9,5 +9,6 @@ namespace ZKEACMS.Redirection.Service
 {
     public interface IUrlRedirectService : IService<UrlRedirect>
     {
+        IEnumerable<UrlRedirect> GetAll();
     }
 }

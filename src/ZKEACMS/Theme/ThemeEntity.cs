@@ -3,10 +3,11 @@ using Easy.MetaData;
 using Easy.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Theme
 {
-    [ViewConfigure(typeof(ThemeEntityMetaData)), Table("CMS_Theme")]
+    [Table("CMS_Theme")]
     public class ThemeEntity : EditorEntity
     {
         public const string DefaultThumbnail = "~/Content/Images/theme.jpg";
@@ -27,8 +28,8 @@ namespace ZKEACMS.Theme
         {
             ViewConfig(m => m.ID).AsHidden();
             ViewConfig(m => m.Title).AsTextBox().Required();
-            ViewConfig(m => m.Url).AsTextBox().Required().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia); ;
-            ViewConfig(m => m.Thumbnail).AsTextBox().Required().AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia); ;
+            ViewConfig(m => m.Url).AsTextBox().Required().MediaSelector();
+            ViewConfig(m => m.Thumbnail).AsTextBox().Required().MediaSelector();
             ViewConfig(m => m.Description).AsTextArea();
         }
     }

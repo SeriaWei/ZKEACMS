@@ -3,11 +3,11 @@ table.dataTable {
   margin-top: 6px !important;
   margin-bottom: 6px !important;
   max-width: none !important;
+  border-collapse: separate !important;
 }
 table.dataTable td,
 table.dataTable th {
   -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
   box-sizing: content-box;
 }
 table.dataTable td.dataTables_empty,
@@ -117,22 +117,25 @@ div.dataTables_scrollHead table.dataTable {
   margin-bottom: 0 !important;
 }
 
-div.dataTables_scrollBody table {
+div.dataTables_scrollBody > table {
   border-top: none;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
-div.dataTables_scrollBody table thead .sorting:after,
-div.dataTables_scrollBody table thead .sorting_asc:after,
-div.dataTables_scrollBody table thead .sorting_desc:after {
+div.dataTables_scrollBody > table > thead .sorting:after,
+div.dataTables_scrollBody > table > thead .sorting_asc:after,
+div.dataTables_scrollBody > table > thead .sorting_desc:after {
   display: none;
 }
-div.dataTables_scrollBody table tbody tr:first-child th,
-div.dataTables_scrollBody table tbody tr:first-child td {
+div.dataTables_scrollBody > table > tbody > tr:first-child > th,
+div.dataTables_scrollBody > table > tbody > tr:first-child > td {
   border-top: none;
 }
 
-div.dataTables_scrollFoot table {
+div.dataTables_scrollFoot > .dataTables_scrollFootInner {
+  box-sizing: content-box;
+}
+div.dataTables_scrollFoot > .dataTables_scrollFootInner > table {
   margin-top: 0 !important;
   border-top: none;
 }
@@ -155,9 +158,6 @@ table.dataTable.table-condensed .sorting_desc:after {
   right: 6px;
 }
 
-table.table-bordered.dataTable {
-  border-collapse: separate !important;
-}
 table.table-bordered.dataTable th,
 table.table-bordered.dataTable td {
   border-left-width: 0;

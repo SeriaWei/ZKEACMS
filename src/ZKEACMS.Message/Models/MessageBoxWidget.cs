@@ -1,10 +1,14 @@
-﻿using Easy.MetaData;
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+
 using ZKEACMS.MetaData;
 using ZKEACMS.Widget;
 
 namespace ZKEACMS.Message.Models
 {
-    [ViewConfigure(typeof(MessageBoxWidgetMetaData))]
     public class MessageBoxWidget : SimpleWidgetBase
     {
     }

@@ -1,11 +1,19 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2017 ZKEASOFT 
+ * http://www.zkea.net/licenses 
+ */
+
+using Easy.Extend;
+using Easy.LINQ;
+using Easy.Modules.MutiLanguage;
+using Easy.Options;
 using Easy.ViewPort.Validator;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using Easy.Extend;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using Easy.LINQ;
+using System.Globalization;
+using System.Linq;
+using System.Text;
 
 namespace Easy.ViewPort.Descriptor
 {
@@ -69,7 +77,20 @@ namespace Easy.ViewPort.Descriptor
         /// <summary>
         /// 显示名称
         /// </summary>
-        public string DisplayName { get; set; }
+        private string _displayName;
+        public string DisplayName
+        {
+            get
+            {
+                if (_displayName.IsNotNullAndWhiteSpace())
+                {
+                    return _displayName;
+                }
+                return GetLocalize($"{ModelType.Name}@{Name}");
+            }
+            set { _displayName = value; }
+        }
+
 
         public object DefaultValue { get; set; }
 
@@ -102,6 +123,7 @@ namespace Easy.ViewPort.Descriptor
         public bool IsIgnore { get; set; }
 
         public bool IsHidden { get; set; }
+        public bool IsHideSurroundingHtml { get; set; }
         public bool IsShowInGrid { get; set; }
         public Query.Operators SearchOperator { get; set; }
         public string GridColumnTemplate { get; set; }
@@ -136,7 +158,64 @@ namespace Easy.ViewPort.Descriptor
             return result;
         }
 
-
+        private string GetLocalize(string key)
+        {
+            var languageService = ServiceLocator.GetService<ILanguageService>();
+            var cultureOption = ServiceLocator.GetService<IOptions<CultureOption>>();
+            string culture = CultureInfo.CurrentUICulture.Name;
+            if (cultureOption != null && cultureOption.Value.Code.IsNotNullAndWhiteSpace())
+            {
+                culture = cultureOption.Value.Code;
+            }
+            var language = languageService.Get(key, culture);
+            if (language == null)
+            {
+                string lanValue = key;
+                string lanType = "UnKnown";
+                string module = "Unknown";
+                if (key.Contains("@"))
+                {
+                    lanValue = key.Split('@')[1];
+                    var translated = languageService.Get(n => n.LanKey.EndsWith("@" + lanValue) && n.CultureName == culture).FirstOrDefault();
+                    if (translated != null)
+                    {
+                        lanValue = translated.LanValue;
+                    }
+                    else
+                    {
+                        StringBuilder lanValueBuilder = new StringBuilder();
+                        if (lanValue.EndsWith("ID") || lanValue.EndsWith("Id"))
+                        {
+                            lanValue = lanValue.Substring(0, lanValue.Length - 2);
+                        }
+                        for (int i = 0; i < lanValue.Length; i++)
+                        {
+                            char charLan = lanValue[i];
+                            if (i > 0 && char.IsUpper(charLan))
+                            {
+                                lanValueBuilder.Append(' ');
+                            }
+                            lanValueBuilder.Append(charLan);
+                        }
+                        lanValue = lanValueBuilder.ToString();
+                    }
+                    lanType = "EntityProperty";
+                    module = key.Split('@')[0];
+                    language = new LanguageEntity
+                    {
+                        CultureName = culture,
+                        LanValue = lanValue,
+                        LanKey = key,
+                        LanType = lanType,
+                        Module = module
+                    };
+                    languageService.Add(language);
+                    return language.LanValue;
+                }
+                return key;
+            }
+            return language.LanValue;
+        }
     }
 
     public abstract class BaseDescriptor<T> : BaseDescriptor where T : BaseDescriptor
@@ -228,6 +307,11 @@ namespace Easy.ViewPort.Descriptor
             this.IsHidden = true;
             return this as T;
         }
+        public T HideSurroundingHtml()
+        {
+            this.IsHideSurroundingHtml = true;
+            return this as T;
+        }
         public T Ignore()
         {
             this.IsIgnore = true;
@@ -252,6 +336,11 @@ namespace Easy.ViewPort.Descriptor
         public T SetTemplate(string template)
         {
             this.TemplateName = template;
+            return this as T;
+        }
+        public T SetGridColumnTemplate(string template)
+        {
+            this.GridColumnTemplate = template;
             return this as T;
         }
         public T ShowInGrid(bool show = true)

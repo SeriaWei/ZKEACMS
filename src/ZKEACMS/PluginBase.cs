@@ -8,26 +8,55 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using ZKEACMS.Widget;
+using Easy.Extend;
+using System.IO;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS
 {
     public abstract class PluginBase : ResourceManager, IRouteRegister, IPluginStartup
     {
-        public IHostingEnvironment HostingEnvironment { get; set; }
+        public Assembly Assembly { get; set; }
         public abstract IEnumerable<RouteDescriptor> RegistRoute();
         public abstract IEnumerable<AdminMenu> AdminMenu();
         public abstract IEnumerable<PermissionDescriptor> RegistPermission();
-        public abstract IEnumerable<Type> WidgetServiceTypes();
+        public abstract IEnumerable<WidgetTemplateEntity> WidgetServiceTypes();
         public abstract void ConfigureServices(IServiceCollection serviceCollection);
-
-        public virtual void InitPlug()
+        public virtual void ConfigureApplication(IApplicationBuilder app, IHostingEnvironment env)
         {
+
+        }
+        public static Dictionary<Type, string> pluginPathCache = new Dictionary<Type, string>();
+        public string CurrentPluginPath
+        {
+            get;
+            set;
+        }
+
+        public static string GetPath<T>() where T : PluginBase
+        {
+            Type pluginType = typeof(T);
+            if (pluginPathCache.ContainsKey(pluginType))
+            {
+                return pluginPathCache[pluginType];
+            }
+            return string.Empty;
+        }
+        public virtual void Setup(params object[] args)
+        {
+            var pluginType = this.GetType();
+            if (!pluginPathCache.ContainsKey(pluginType))
+            {
+                pluginPathCache.Add(pluginType, CurrentPluginPath);
+            }
             var menus = this.AdminMenu();
             if (menus != null)
             {
                 AdminMenus.Menus.AddRange(menus);
             }
-            this.Excute();
+            this.SetupResource();
             var permissions = this.RegistPermission();
             if (permissions != null)
             {
@@ -41,24 +70,37 @@ namespace ZKEACMS
             var widgets = this.WidgetServiceTypes();
             if (widgets != null)
             {
-                foreach (var item in widgets)
+                WidgetTemplateService.KnownWidgets.AddRange(widgets);
+                foreach (var item in WidgetTemplateService.KnownWidgets)
                 {
-                    string name = $"{item.GetTypeInfo().Assembly.GetName().Name},{item.FullName}";
+                    string name = $"{item.AssemblyName},{item.ServiceTypeName}";
                     if (!WidgetBase.KnownWidgetService.ContainsKey(name))
                     {
-
-                        WidgetBase.KnownWidgetService.Add(name, item);
+                        WidgetBase.KnownWidgetService.Add(name, item.ServiceType);
                     }
-                    foreach (var widgetModel in item.GetTypeInfo().BaseType.GetGenericArguments())
+                    string modelName = $"{item.AssemblyName},{item.ViewModelTypeName}";
+                    if (!WidgetBase.KnownWidgetModel.ContainsKey(modelName))
                     {
-                        string modelName = $"{widgetModel.GetTypeInfo().Assembly.GetName().Name},{widgetModel.FullName}";
-                        if (!WidgetBase.KnownWidgetModel.ContainsKey(modelName))
+                        WidgetBase.KnownWidgetModel.Add(modelName, item.ViewModelType);
+                    }
+                }
+            }
+            if (args != null && args.Length > 0)
+            {
+                foreach (var item in args)
+                {
+                    IServiceCollection serviceCollection = item as IServiceCollection;
+                    if (serviceCollection != null)
+                    {
+                        ConfigureServices(serviceCollection);
+                        if (ActionDescriptorProvider.PluginControllers.ContainsKey(Assembly.FullName))
                         {
-                            WidgetBase.KnownWidgetModel.Add(modelName, widgetModel);
+                            ActionDescriptorProvider.PluginControllers[Assembly.FullName].Each(c => serviceCollection.TryAddTransient(c.AsType()));
                         }
                     }
                 }
             }
+
         }
     }
 }

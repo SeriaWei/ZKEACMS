@@ -26,7 +26,7 @@ namespace Easy.Mvc.Resource
         protected abstract void InitScript(Func<string, ResourceHelper> script);
         protected abstract void InitStyle(Func<string, ResourceHelper> style);
 
-        public virtual void Excute()
+        public virtual void SetupResource()
         {
             InitScript(Script);
             InitStyle(Style);

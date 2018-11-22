@@ -7,19 +7,14 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Common.Service
 {
-    public class ImageWidgetService : WidgetService<ImageWidget,CMSDbContext>
+    public class ImageWidgetService : WidgetService<ImageWidget>
     {
-        public ImageWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext)
-            : base(widgetService, applicationContext)
+        public ImageWidgetService(IWidgetBasePartService widgetService, IApplicationContext applicationContext, CMSDbContext dbContext)
+            : base(widgetService, applicationContext, dbContext)
         {
         }
 
-        public override DbSet<ImageWidget> CurrentDbSet
-        {
-            get
-            {
-                return DbContext.ImageWidget;
-            }
-        }
+        public override DbSet<ImageWidget> CurrentDbSet => (DbContext as CMSDbContext).ImageWidget;
+
     }
 }

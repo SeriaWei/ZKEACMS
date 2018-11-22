@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.SectionWidget.Models
 {
-    [ViewConfigure(typeof(SectionWidgetMetaData)), Table("SectionWidget")]
+    [Table("SectionWidget")]
     public class SectionWidget : BasicWidget
     {
         public string SectionTitle { get; set; }

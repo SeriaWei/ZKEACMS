@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -47,6 +50,11 @@ namespace ZKEACMS.Widget
         }
         [NotMapped]
         public override string PageID
+        {
+            get; set;
+        }
+        [NotMapped]
+        public override int? RuleID
         {
             get; set;
         }

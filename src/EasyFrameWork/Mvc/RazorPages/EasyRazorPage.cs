@@ -1,3 +1,6 @@
+/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
 using Microsoft.AspNetCore.Mvc.Razor;
 using Easy.Mvc.Resource;
 using Microsoft.AspNetCore.Html;
@@ -58,6 +61,16 @@ namespace Easy.Mvc.RazorPages
         public IHtmlContent StyleAtFoot(bool includeRequired = true)
         {
             return GetResource(includeRequired, ResourceType.Style, ResourcePosition.Foot);
+        }
+
+        public LocalizeString L(string content)
+        {
+            return new LocalizeString(content, this.ViewContext.HttpContext);
+        }
+
+        public LocalizeString L(string content,string cultureCode)
+        {
+            return new LocalizeString(content, cultureCode, this.ViewContext.HttpContext);
         }
 
         private IHtmlContent GetResource(bool includeRequired, ResourceType type, ResourcePosition position)
