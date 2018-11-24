@@ -22,5 +22,17 @@
     "inputFiles": [
       "Scripts/bgrins-spectrum/themes/sp-dark.css"
     ]
+  },
+  {
+    "outputFileName": "Scripts/values.min.js",
+    "inputFiles": [
+      "Scripts/values.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/editor.min.js",
+    "inputFiles": [
+      "Scripts/editor.js"
+    ]
   }
 ]

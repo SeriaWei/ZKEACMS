@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using Easy.Cache;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,10 @@ namespace Easy.Modules.MutiLanguage
         public override DbSet<LanguageEntity> CurrentDbSet
         {
             get { return (DbContext as EasyDbContext).Language; }
+        }
+        public override IQueryable<LanguageEntity> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
         }
         public override ServiceResult<LanguageEntity> Add(LanguageEntity item)
         {
