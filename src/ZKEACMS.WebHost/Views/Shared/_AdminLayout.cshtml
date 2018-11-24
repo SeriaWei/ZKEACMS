@@ -90,43 +90,45 @@
                         }
                     </div>
                 </div>
-                <ul id="main-menu" class="nav navbar-nav">
-                    @foreach (AdminMenu menu in menus.Where(m => Authorizer.Authorize(m.PermissionKey) && (m.HasPermission == null || m.HasPermission())).OrderBy(m => m.Order))
-                    {
-                        List<AdminMenu> children = (menu.Children ?? Enumerable.Empty<AdminMenu>()).ToList();
-                        if (children.Any())
+                <div id="left-menu">
+                    <ul id="main-menu" class="nav navbar-nav">
+                        @foreach (AdminMenu menu in menus.Where(m => Authorizer.Authorize(m.PermissionKey) && (m.HasPermission == null || m.HasPermission())).OrderBy(m => m.Order))
                         {
-                            if (children.Any(m => Authorizer.Authorize(m.PermissionKey) && (m.HasPermission == null || m.HasPermission())))
+                            List<AdminMenu> children = (menu.Children ?? Enumerable.Empty<AdminMenu>()).ToList();
+                            if (children.Any())
                             {
-                                <li class="accordion-group">
-                                    <a class="b_9FDDF6 group-item" href="#">
+                                if (children.Any(m => Authorizer.Authorize(m.PermissionKey) && (m.HasPermission == null || m.HasPermission())))
+                                {
+                                    <li class="accordion-group">
+                                        <a class="b_9FDDF6 group-item" href="#">
+                                            <i class="glyphicon @menu.Icon"></i>
+                                            @L(menu.Title)
+                                            <i class="glyphicon group"></i>
+                                        </a>
+                                        <div class="accordion-inner">
+                                            @foreach (AdminMenu child in children.Where(m => Authorizer.Authorize(m.PermissionKey) && (m.HasPermission == null || m.HasPermission())).OrderBy(m => m.Order))
+                                            {
+                                                <a id="menu@((child.Url ?? child.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(child.Url ?? "~/")">
+                                                    <i class="glyphicon @child.Icon"></i>
+                                                    @L(child.Title)
+                                                </a>
+                                            }
+                                        </div>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <li>
+                                    <a id="menu@((menu.Url ?? menu.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(menu.Url ?? "~/")">
                                         <i class="glyphicon @menu.Icon"></i>
                                         @L(menu.Title)
-                                        <i class="glyphicon group"></i>
                                     </a>
-                                    <div class="accordion-inner">
-                                        @foreach (AdminMenu child in children.Where(m => Authorizer.Authorize(m.PermissionKey) && (m.HasPermission == null || m.HasPermission())).OrderBy(m => m.Order))
-                                        {
-                                            <a id="menu@((child.Url ?? child.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(child.Url ?? "~/")">
-                                                <i class="glyphicon @child.Icon"></i>
-                                                @L(child.Title)
-                                            </a>
-                                        }
-                                    </div>
                                 </li>
                             }
                         }
-                        else
-                        {
-                            <li>
-                                <a id="menu@((menu.Url ?? menu.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(menu.Url ?? "~/")">
-                                    <i class="glyphicon @menu.Icon"></i>
-                                    @L(menu.Title)
-                                </a>
-                            </li>
-                        }
-                    }
-                </ul>
+                    </ul>
+                </div>
             </div>
 
         </nav>

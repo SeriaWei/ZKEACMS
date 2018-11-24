@@ -1,0 +1,1 @@
+{"version":3,"file":"get-pointer-data.js","sourceRoot":"","sources":["../src/utils/get-pointer-data.ts"],"names":[],"mappings":"AAAA;;GAEG;AACH,MAAM,UAAU,cAAc,CAAC,GAAQ;IACrC,mDAAmD;IACnD,6BAA6B;IAC7B,OAAO,GAAG,CAAC,OAAO,CAAC,CAAC,CAAC,GAAG,CAAC,OAAO,CAAC,GAAG,CAAC,OAAO,CAAC,MAAM,GAAG,CAAC,CAAC,CAAC,CAAC,CAAC,GAAG,CAAC;AACjE,CAAC"}

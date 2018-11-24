@@ -54,10 +54,10 @@ namespace ZKEACMS.WebHost
                 .Include($"{ScriptPath}/admin.js", $"{ScriptPath}/admin.min.js")
                 .Include($"{LibraryPath}/CryptoJS/components/core.js", $"{LibraryPath}/CryptoJS/components/core-min.js")
                 .Include($"{LibraryPath}/CryptoJS/components/enc-base64.js", $"{LibraryPath}/CryptoJS/components/enc-base64-min.js")
-                .Include($"{LibraryPath}/slimscroll/jquery.slimscroll.min.js", $"{LibraryPath}/slimscroll/jquery.slimscroll.min.js");
+                .Include($"{LibraryPath}/smooth-scrollbar/dist/smooth-scrollbar.js");
 
-            script("slimscroll")
-                .Include($"{LibraryPath}/slimscroll/jquery.slimscroll.min.js", $"{LibraryPath}/slimscroll/jquery.slimscroll.min.js");
+            script("smooth-scrollbar")
+                .Include($"{LibraryPath}/smooth-scrollbar/dist/smooth-scrollbar.js");
 
             script("tinymce")
                 .Include($"{ScriptPath}/tinymce/tinymce.min.js")

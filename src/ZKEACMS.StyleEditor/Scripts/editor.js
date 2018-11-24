@@ -215,11 +215,17 @@
     } else {
         codeDiv.textContent = cssResult;
     }
-
-    $('style').remove();
-    $('head').append('<style type="text/css">' + cssResult + '</style>');
+    
+    if (!window.displayStyle) {
+        window.displayStyle = $('<style type="text/css">' + cssResult + '</style>');
+        $('head').append(window.displayStyle);
+    }
+    else {
+        window.displayStyle.text(cssResult);
+    }
     return cssResult;
 }
 $(function () {
-    $("body").slimscroll({ height: window.innerHeight, color: "#b0b8c5" });
+    $("#accordion2").height(window.innerHeight - 20);
+    window.Scrollbar.init(document.querySelector("#accordion2"), { continuousScrolling: false })
 });

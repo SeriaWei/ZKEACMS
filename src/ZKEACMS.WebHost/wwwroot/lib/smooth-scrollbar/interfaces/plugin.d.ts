@@ -1,0 +1,12 @@
+import { Scrollbar } from './scrollbar';
+import { Data2d } from './data-2d';
+export interface ScrollbarPlugin {
+    readonly scrollbar: Scrollbar;
+    readonly options: any;
+    readonly name: string;
+    onInit(): void;
+    onDestory(): void;
+    onUpdate(): void;
+    onRender(remainMomentum: Data2d): void;
+    transformDelta(delta: Data2d, fromEvent: any): Data2d;
+}
