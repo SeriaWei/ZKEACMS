@@ -1,15 +1,15 @@
 @echo off
 @echo -----------------------------------------------------------------------------
-@echo *** 欢迎使用 ZKEACMS ***
+@echo *** Welcome to use ZKEACMS ***
 @echo -----------------------------------------------------------------------------
-@echo 该工具将帮助您发布您的 ZKEACMS 程序
-@echo 在开始之前请您先查看我们的许可协议
+@echo This tool will help you to publish ZKEACMS
+@echo License
 @echo http://www.zkea.net/licenses
 @echo -----------------------------------------------------------------------------
-@echo 部署相关请访问
+@echo Deploy
 @echo http://www.zkea.net/zkeacms/document/deploy/core
 @echo -----------------------------------------------------------------------------
-@echo 注意：发布时会清空发布目录
+@echo Notice: Output folder(src/ZKEACMS.WebHost/bin/Release/PublishOutput) will be cleaned when publish start
 WHERE /Q dotnet
 IF %ERRORLEVEL% NEQ 0 (
 @echo dotnet core sdk was not find, please install the latest sdk at first.
@@ -22,14 +22,13 @@ IF %ERRORLEVEL% NEQ 0 (
 @echo Installing publish tool, please wait.
 dotnet tool install -g ZKEACMS.Publisher
 )
-set /P i=是否包含运行时发布?(y/n)
+set /P i=Publish witch runtime?(y/n)
 if not "%i%"=="y" goto start
-@echo 详细的运行时RID请访问
+@echo RID details
 @echo https://docs.microsoft.com/en-us/dotnet/core/rid-catalog
-@echo 常用运行时RID: win-x64,linux-x64
-set /P r=输入运行时 RID:
+set /P r=Input RID:
 :start
-@echo 正在发布，请稍后...
+@echo Publishing, please wait...
 dotnet restore
 cd src/ZKEACMS.WebHost
 if not "%i%"=="y" (
