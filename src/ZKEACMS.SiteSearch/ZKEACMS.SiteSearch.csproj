@@ -24,11 +24,5 @@
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.5" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Content Update="Views\Widget.SiteSearch.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-  </ItemGroup>
 
 </Project>
