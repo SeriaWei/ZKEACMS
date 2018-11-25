@@ -4,6 +4,7 @@
     {
         return;
     }
+    Script.Reqiured("smooth-scrollbar").AtFoot();
     Layout = Model.Layout;
 }
 @for (int i = 0; i < Model.Html.Count; i++)
@@ -47,4 +48,18 @@
     {
         @Html.Raw(item.Html)
     }
+}
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            var body = document.querySelector("body");
+            body.style.height = window.innerHeight + "px";
+            window.Scrollbar.init(body);
+            $(document).on("click", "a", function () {
+                var href = $(this).attr("href") || "";
+                return href.indexOf("#") == 0 || href == "javascript:" || href == "javascript:void(0)"
+            });
+        });
+    </script>
 }
