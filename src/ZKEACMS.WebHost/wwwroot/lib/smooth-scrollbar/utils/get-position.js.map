@@ -1,1 +1,0 @@
-{"version":3,"file":"get-position.js","sourceRoot":"","sources":["../src/utils/get-position.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,cAAc,EAAE,MAAM,oBAAoB,CAAC;AAEpD;;GAEG;AACH,MAAM,UAAU,WAAW,CAAC,GAAQ;IAClC,IAAM,IAAI,GAAG,cAAc,CAAC,GAAG,CAAC,CAAC;IAEjC,OAAO;QACL,CAAC,EAAE,IAAI,CAAC,OAAO;QACf,CAAC,EAAE,IAAI,CAAC,OAAO;KAChB,CAAC;AACJ,CAAC"}
