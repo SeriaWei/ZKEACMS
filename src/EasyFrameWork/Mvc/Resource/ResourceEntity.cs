@@ -13,14 +13,27 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Easy.Options;
+using System.Collections.Generic;
+using System.Collections.Concurrent;
+using Microsoft.Extensions.Primitives;
 
 namespace Easy.Mvc.Resource
 {
     public class ResourceEntity
     {
+        class FilePathMap
+        {
+            public string Source { get; set; }
+            public string FilePath { get; set; }
+        }
         const string StyleFormt = "<link href=\"{0}\" rel=\"stylesheet\" />\r\n\t";
         const string ScriptFormt = "<script src=\"{0}\" type=\"text/javascript\"></script>\r\n\t";
-        
+        static ConcurrentDictionary<string, string> VersionMap;
+
+        static ResourceEntity()
+        {
+            VersionMap = new ConcurrentDictionary<string, string>();
+        }
         public ResourcePosition Position { get; set; }
         public IHtmlContent Source { get; set; }
 
@@ -51,8 +64,6 @@ namespace Easy.Mvc.Resource
                 return _CDNSource = CDN.Value.Url.TrimEnd('/') + "/" + ReleaseSource;
             }
         }
-        public IUrlHelper UrlHelper { get; private set; }
-        public IHostingEnvironment HostingEnvironment { get; private set; }
         public IOptions<CDNOption> CDN { get; set; }
         public bool UseCNDSource
         {
@@ -68,38 +79,71 @@ namespace Easy.Mvc.Resource
             {
                 return Source;
             }
-            if (UrlHelper == null)
-            {
-                UrlHelper = page.Context.RequestServices.GetService<IUrlHelperFactory>().GetUrlHelper(page.ViewContext);
-            }
-            if (HostingEnvironment == null)
-            {
-                HostingEnvironment = page.Context.RequestServices.GetService<IHostingEnvironment>();
-            }
+            IUrlHelper urlHelper = page.Context.RequestServices.GetService<IUrlHelperFactory>().GetUrlHelper(page.ViewContext);
+            IHostingEnvironment hostingEnvironment = page.Context.RequestServices.GetService<IHostingEnvironment>();
             if (CDN == null)
             {
                 CDN = page.Context.RequestServices.GetService<IOptions<CDNOption>>();
             }
             string source = null;
-            if (System.Diagnostics.Debugger.IsAttached || HostingEnvironment.IsDevelopment())
+            if (System.Diagnostics.Debugger.IsAttached || hostingEnvironment.IsDevelopment())
             {
+                string debugSource = VersionSource(hostingEnvironment, DebugSource);
                 switch (SourceType)
                 {
-                    case ResourceType.Script: source = string.Format(ScriptFormt, UrlHelper.Content(DebugSource)); break;
-                    case ResourceType.Style: source = string.Format(StyleFormt, UrlHelper.Content(DebugSource)); break;
+                    case ResourceType.Script: source = string.Format(ScriptFormt, urlHelper.Content(debugSource)); break;
+                    case ResourceType.Style: source = string.Format(StyleFormt, urlHelper.Content(debugSource)); break;
                 }
             }
             else
             {
+                string releaseSource = VersionSource(hostingEnvironment, ReleaseSource);
                 switch (SourceType)
                 {
-                    case ResourceType.Script: source = string.Format(ScriptFormt, UseCNDSource ? CDNSource : UrlHelper.Content(ReleaseSource)); break;
-                    case ResourceType.Style: source = string.Format(StyleFormt, UseCNDSource ? CDNSource : UrlHelper.Content(ReleaseSource)); break;
+                    case ResourceType.Script: source = string.Format(ScriptFormt, UseCNDSource ? CDNSource : urlHelper.Content(releaseSource)); break;
+                    case ResourceType.Style: source = string.Format(StyleFormt, UseCNDSource ? CDNSource : urlHelper.Content(releaseSource)); break;
                 }
             }
             return new HtmlString(source);
         }
 
+        private string VersionSource(IHostingEnvironment hostingEnvironment, string source)
+        {
+            return VersionMap.GetOrAdd(source, factory =>
+            {
+                if ((factory.StartsWith("~/") || factory.StartsWith("/")) && factory.IndexOf("?") < 0)
+                {
+                    const string pluginPath = "~/" + Plugin.Loader.PluginFolder + "/";
+                    string filePath = null;
+                    if (hostingEnvironment.IsDevelopment() && factory.StartsWith(pluginPath))
+                    {
+                        filePath = Directory.GetParent(hostingEnvironment.ContentRootPath).FullName.CombinePath(factory.Replace(pluginPath, ""));
+                    }
+                    else
+                    {
+                        string relatePath = source.Replace("~/", "");
+                        filePath = hostingEnvironment.WebRootPath.CombinePath(relatePath);
+                        hostingEnvironment.WebRootFileProvider.Watch(relatePath).RegisterChangeCallback(OnFileChange, new FilePathMap { Source = factory, FilePath = filePath });
+                    }
+
+                    return factory + "?v=" + File.GetLastWriteTime(filePath).ToFileTime().ToString("x");
+                }
+                return factory;
+            });
+        }
+        private void OnFileChange(object filePath)
+        {
+            var map = filePath as FilePathMap;
+            if (map != null)
+            {
+                string newValue = map.Source + "?v=" + File.GetLastWriteTime(map.FilePath).ToFileTime().ToString("x");
+                string oldValue = null;
+                if (VersionMap.TryGetValue(map.Source, out oldValue))
+                {
+                    VersionMap.TryUpdate(map.Source, newValue, oldValue);
+                }
+            }
+        }
         public ResourceEntity ToNew()
         {
             return new ResourceEntity()
