@@ -26,10 +26,10 @@ namespace ZKEACMS.SectionWidget.Service
             _sectionContentProviderService = sectionContentProviderService;
             _pluginLoader = pluginLoader;
         }
-        
+
         public SectionGroup GenerateContentFromConfig(SectionGroup group)
         {
-            string configFile = PluginBase.GetPath<SectionPlug>() + @"\Thumbnail\{0}.xml".FormatWith(group.PartialView).ToFilePath();
+            string configFile = PluginBase.GetPath<SectionPlug>().CombinePath("Thumbnail/{0}.xml".FormatWith(group.PartialView).ToFilePath());
             List<SectionContent> contents = new List<SectionContent>();
             if (File.Exists(configFile))
             {
