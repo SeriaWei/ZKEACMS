@@ -75,7 +75,7 @@
         </ul>
         if (Model.IsPageable)
         {
-            Html.Pagin(Model.Pagin);
+            await Html.Pagin(Model.Pagin);
         }
     }
 </div>

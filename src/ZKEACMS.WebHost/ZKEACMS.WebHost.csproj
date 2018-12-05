@@ -15,6 +15,7 @@
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
     <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
     <ServerGarbageCollection>false</ServerGarbageCollection>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
   
   <ItemGroup>
@@ -23,6 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 </Project>

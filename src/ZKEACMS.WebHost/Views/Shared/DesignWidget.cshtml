@@ -136,13 +136,13 @@
                     @Model.Widget.Title
                 </div>
                 <div class="panel-body">
-                    @Html.DisPlayWidget(Model)
+                    @await Html.DisPlayWidget(Model)
                 </div>
             </div>
         }
         else
         {
-            @Html.DisPlayWidget(Model)
+            @await Html.DisPlayWidget(Model)
         }
     </div>
 </div>

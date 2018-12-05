@@ -61,6 +61,7 @@ namespace ZKEACMS
             {
                 option.ModelBinderProviders.Insert(0, new WidgetTypeModelBinderProvider());
                 option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
+                option.EnableEndpointRouting = false;
             })
             .AddControllersAsServices()
             .AddJsonOptions(option => { option.SerializerSettings.DateFormatString = "yyyy-MM-dd"; })

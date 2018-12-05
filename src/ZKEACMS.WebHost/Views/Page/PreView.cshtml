@@ -28,13 +28,13 @@
                                         @widgetPart.Widget.Title
                                     </div>
                                     <div class="panel-body">
-                                        @Html.DisPlayWidget(widgetPart)
+                                        @await Html.DisPlayWidget(widgetPart)
                                     </div>
                                 </div>
                             }
                             else
                             {
-                                @Html.DisPlayWidget(widgetPart)
+                                @await Html.DisPlayWidget(widgetPart)
                             }
                         </div>
                     </div>
