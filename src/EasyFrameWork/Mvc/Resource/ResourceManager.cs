@@ -1,11 +1,12 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.Mvc.Resource.Enums;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using System;
 using System.Collections.Generic;
 
 namespace Easy.Mvc.Resource
 {
-    public abstract class ResourceManager
+    public abstract class ResourceManager : ApplicationPart
     {
         public static Dictionary<string, ResourceCollection> ScriptSource { get; private set; }
         public static Dictionary<string, ResourceCollection> StyleSource { get; private set; }

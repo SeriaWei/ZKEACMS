@@ -14,6 +14,7 @@ namespace ZKEACMS.WebHost
         const string LibraryPath = "~/lib";
         const string ScriptPath = "~/js";
         const string StylePath = "~/css";
+        public override string Name { get; }
         protected override void InitScript(Func<string, ResourceHelper> script)
         {
 

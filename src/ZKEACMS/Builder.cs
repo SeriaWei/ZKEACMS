@@ -178,13 +178,9 @@ namespace ZKEACMS
             services.UseEasyFrameWork(configuration);
             foreach (IPluginStartup item in services.LoadAvailablePlugins())
             {
-                item.Setup(services);
-                mvcBuilder.ConfigureApplicationPartManager(manguage => manguage.ApplicationParts.Add(new PluginApplicationPart(item.Assembly)));
+                item.Setup(new object[] { services, mvcBuilder });
             }
-            foreach (var item in ActionDescriptorProvider.PluginControllers.SelectMany(m => m.Value))
-            {
-                services.AddTransient(item);
-            }
+
             foreach (KeyValuePair<string, Type> item in WidgetBase.KnownWidgetService)
             {
                 services.TryAddTransient(item.Value);
