@@ -19,13 +19,16 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.DependencyModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using ZKEACMS.Account;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Common.Models;
@@ -57,12 +60,12 @@ namespace ZKEACMS
         public static void UseZKEACMS(this IServiceCollection services, IConfiguration configuration)
         {
 
-            services.AddMvc(option =>
-            {
-                option.ModelBinderProviders.Insert(0, new WidgetTypeModelBinderProvider());
-                option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
-                option.EnableEndpointRouting = false;
-            })
+            IMvcBuilder mvcBuilder = services.AddMvc(option =>
+             {
+                 option.ModelBinderProviders.Insert(0, new WidgetTypeModelBinderProvider());
+                 option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
+                 option.EnableEndpointRouting = false;
+             })
             .AddControllersAsServices()
             .AddJsonOptions(option => { option.SerializerSettings.DateFormatString = "yyyy-MM-dd"; })
             .SetCompatibilityVersion(CompatibilityVersion.Latest);
@@ -167,7 +170,7 @@ namespace ZKEACMS
             //提供在Request期间租、还DbConnection的支持
             services.AddScoped<IConnectionHolder, TransientConnectionHolder>();
             services.AddDbContextOptions<CMSDbContext>();
-            services.AddDbContext<CMSDbContext>();       
+            services.AddDbContext<CMSDbContext>();
             services.AddScoped<EasyDbContext>((provider) => provider.GetService<CMSDbContext>());
             services.AddSingleton(configuration.GetSection("Database").Get<DatabaseOption>());
             #endregion
@@ -176,6 +179,11 @@ namespace ZKEACMS
             foreach (IPluginStartup item in services.LoadAvailablePlugins())
             {
                 item.Setup(services);
+                mvcBuilder.ConfigureApplicationPartManager(manguage => manguage.ApplicationParts.Add(new PluginApplicationPart(item.Assembly)));
+            }
+            foreach (var item in ActionDescriptorProvider.PluginControllers.SelectMany(m => m.Value))
+            {
+                services.AddTransient(item);
             }
             foreach (KeyValuePair<string, Type> item in WidgetBase.KnownWidgetService)
             {
