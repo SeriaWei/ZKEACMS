@@ -13,7 +13,7 @@
                 <div class="column">
                     <div class="input-group">
                         <span class="input-group-addon">@L("颜色")</span>
-                        <input class="form-control jscolor {hash:true,required:false}" id="b-color" type="text" onchange="updateDisplay()" />
+                        <input class="form-control color-picker" id="b-color" type="text" onchange="updateDisplay()" />
                     </div>
 
                     <div class="input-group">
@@ -39,14 +39,15 @@
                         <span class="input-group-addon">@L("位置")</span>
                         <select class="form-control" onchange="updateDisplay()" id="background-position">
                             <option value="">@L("默认")</option>
+                            <option value="center">@L("居中")</option>
+                            <option value="top">@L("顶部对齐")</option>
+                            <option value="bottom">@L("底部对齐")</option>
                             <option value="left">@L("左对齐")</option>
                             <option value="right">@L("右对齐")</option>
-                            <option value="top">@L("顶部对齐")</option>
                             <option value="left top">@L("左上对齐")</option>
                             <option value="right top">@L("右上对齐")</option>
                             <option value="left bottom">@L("左下对齐")</option>
                             <option value="right bottom">@L("右下对齐")</option>
-                            <option value="50% 50%">@L("居中")</option>
                         </select>
                     </div>
                     <div class="input-group">
@@ -68,92 +69,18 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">@L("自定义")</span>
-                        <input type="text" class="form-control" placeholder="#ddd" onchange="updateDisplay()" id="background" />
+                        <input type="text" class="form-control" onchange="updateDisplay()" id="background" />
                     </div>
                 </div>
             </fieldset>
             <fieldset>
                 <legend>
-                    @L("边距")
-                </legend>
-                <div>
-                    <p>
-                        <label for="padding">@L("内边距"):</label>
-                        <strong class="text-info"><span id="padding">0</span>px</strong>
-                    </p>
-                    <div id="slider_padding" class="slider padding">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">@L("自定义")</span>
-                        <input type="text" class="form-control" placeholder="0 auto" id="padding-custom" onchange="updateDisplay()" />
-                    </div>
-                    <p>
-                        <label for="margin">@L("外边距"):</label>
-                        <strong class="text-info"><span id="margin">0</span>px</strong>
-                    </p>
-                    <div id="slider_margin" class="slider padding">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">@L("自定义")</span>
-                        <input type="text" class="form-control" placeholder="0 auto" id="margin-custom" onchange="updateDisplay()" />
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset>
-                <legend>
-                    @L("宽 / 高")
-                </legend>
-                <div class="column">
-                    <div class="input-group">
-                        <span class="input-group-addon">@L("宽(px)")</span>
-                        <input class="form-control" id="width" type="text" placeholder="50" onchange="updateDisplay()" />
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">@L("高(px)")</span>
-                        <input type="text" class="form-control" placeholder="50" onchange="updateDisplay()" id="height" />
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset>
-                <legend>
-                    @L("边框")
-                </legend>
-                <div>
-                    <p>
-                        <label for="border-width">@L("大小"):</label>
-                        <strong class="text-info"><span id="border-width">0</span>px</strong>
-                    </p>
-                    <div id="slider_border-width" class="slider border">
-                    </div>
-                    <div class="column">
-                        <div class="input-group">
-                            <span class="input-group-addon">@L("颜色")</span>
-                            <input class="form-control jscolor {hash:true}" id="bc-color" value="#6D6D6D" type="text" onchange="updateDisplay()" />
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-addon">@L("样式")</span>
-                            <select class="form-control" onchange="updateDisplay()" id="border-style">
-                                <option value="solid">@L("实线")</option>
-                                <option value="dashed">@L("虚线")</option>
-                                <option value="dotted">@L("点划线")</option>
-                                <option value="double">@L("双线")</option>
-                                <option value="groove">@L("凹槽")</option>
-                                <option value="inset">@L("内嵌")</option>
-                                <option value="outset">@L("外嵌")</option>
-                                <option value="ridge">@L("屋脊")</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset>
-                <legend>
-                    文本
+                    @L("文本")
                 </legend>
                 <div class="column">
                     <div class="input-group">
                         <span class="input-group-addon">@L("颜色")</span>
-                        <input class="form-control jscolor {hash:true,required:false}" id="t-color" type="text" onchange="updateDisplay()" />
+                        <input class="form-control color-picker" id="t-color" type="text" onchange="updateDisplay()" />
                     </div>
 
                     <div class="input-group">
@@ -207,6 +134,80 @@
                         <strong class="text-info"><span id="word-spacing">0</span>px</strong>
                     </p>
                     <div id="slider_word-spacing" class="slider border">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>
+                    @L("边距")
+                </legend>
+                <div>
+                    <p>
+                        <label for="padding">@L("内边距"):</label>
+                        <strong class="text-info"><span id="padding">0</span>px</strong>
+                    </p>
+                    <div id="slider_padding" class="slider padding">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">@L("自定义")</span>
+                        <input type="text" class="form-control" id="padding-custom" onchange="updateDisplay()" />
+                    </div>
+                    <p>
+                        <label for="margin">@L("外边距"):</label>
+                        <strong class="text-info"><span id="margin">0</span>px</strong>
+                    </p>
+                    <div id="slider_margin" class="slider padding">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">@L("自定义")</span>
+                        <input type="text" class="form-control" id="margin-custom" onchange="updateDisplay()" />
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>
+                    @L("宽 / 高")
+                </legend>
+                <div class="column">
+                    <div class="input-group">
+                        <span class="input-group-addon">@L("宽(px)")</span>
+                        <input class="form-control" id="width" type="text" onchange="updateDisplay()" />
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">@L("高(px)")</span>
+                        <input type="text" class="form-control" onchange="updateDisplay()" id="height" />
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>
+                    @L("边框")
+                </legend>
+                <div>
+                    <p>
+                        <label for="border-width">@L("大小"):</label>
+                        <strong class="text-info"><span id="border-width">0</span>px</strong>
+                    </p>
+                    <div id="slider_border-width" class="slider border">
+                    </div>
+                    <div class="column">
+                        <div class="input-group">
+                            <span class="input-group-addon">@L("颜色")</span>
+                            <input class="form-control color-picker" id="bc-color" type="text" onchange="updateDisplay()" />
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">@L("样式")</span>
+                            <select class="form-control" onchange="updateDisplay()" id="border-style">
+                                <option value="solid">@L("实线")</option>
+                                <option value="dashed">@L("虚线")</option>
+                                <option value="dotted">@L("点划线")</option>
+                                <option value="double">@L("双线")</option>
+                                <option value="groove">@L("凹槽")</option>
+                                <option value="inset">@L("内嵌")</option>
+                                <option value="outset">@L("外嵌")</option>
+                                <option value="ridge">@L("屋脊")</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </fieldset>
@@ -274,96 +275,13 @@
             </fieldset>
             <fieldset>
                 <legend>
-                    @L("文字阴影")
-                </legend>
-                <div>
-                    <p>
-                        <label for="text-h-length">@L("水平大小"):</label>
-                        <strong class="text-info"><span id="text-h-length">0</span>px</strong>
-                    </p>
-                    <div id="slider_text-h-length" class="slider border">
-                    </div>
-                    <p>
-                        <label for="text-v-length">@L("垂直大小"):</label>
-                        <strong class="text-info"><span id="text-v-length">0</span>px</strong>
-                    </p>
-                    <div id="slider_text-v-length" class="slider border">
-                    </div>
-                    <p>
-                        <label for="text-b-length">@L("模糊"):</label>
-                        <strong class="text-info"><span id="text-b-length">0</span>px</strong>
-                    </p>
-                    <div id="slider_text-b-length" class="slider border">
-                    </div>
-
-                    <div class="input-group">
-                        <span class="input-group-addon">@L("颜色")</span>
-                        <input class="form-control jscolor {pickerPosition:'top',hash:true}" id="text-s-color" value="#000000" type="text" onchange="updateDisplay()" />
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset>
-                <legend>
-                    @L("定位")
-                </legend>
-                <div>
-                    <div class="input-group">
-                        <span class="input-group-addon">@L("定位")</span>
-                        <select class="form-control" onchange="updateDisplay()" id="position">
-                            <option value="">@L("默认")</option>
-                            <option value="static">@L("静止")</option>
-                            <option value="relative">@L("相对")</option>
-                            <option value="absolute">@L("绝对")</option>
-                            <option value="fixed">@L("固定")</option>
-                        </select>
-                    </div>
-                    <p>
-                        <label for="top">@L("顶部距离"):</label>
-                        <strong class="text-info"><span id="top">0</span>px</strong>
-                    </p>
-                    <div id="slider_top" class="slider position">
-                    </div>
-                    <p>
-                        <label for="left">@L("左边距离"):</label>
-                        <strong class="text-info"><span id="left">0</span>px</strong>
-
-                    </p>
-                    <div id="slider_left" class="slider position">
-                    </div>
-                    <p>
-                        <label for="right">@L("右边距离"):</label>
-                        <strong class="text-info"><span id="right">0</span>px</strong>
-                    </p>
-                    <div id="slider_right" class="slider position">
-                    </div>
-                    <p>
-                        <label for="bottom">@L("底部距离"):</label>
-                        <strong class="text-info"><span id="bottom">0</span>px</strong>
-                    </p>
-                    <div id="slider_bottom" class="slider position">
-                    </div>
-                </div>
-            </fieldset>
-
-            <fieldset>
-                <legend>
-                    @L("圆角")
-                </legend>
-                <div>
-                    <p>
-                        <label for="border-radius">@L("大小"):</label>
-                        <strong class="text-info"><span id="border-radius">0</span>px</strong>
-                    </p>
-                    <div id="slider_border-radius" class="slider padding">
-                    </div>
-                </div>
-            </fieldset>
-
-            <fieldset>
-                <legend>
                     @L("阴影")
                 </legend>
                 <div>
+                    <div class="input-group">
+                        <span class="input-group-addon">@L("颜色")</span>
+                        <input class="form-control color-picker" id="box-s-color" type="text" onchange="updateDisplay()" />
+                    </div>
                     <p>
                         <label for="box-h-length">@L("水平大小"):</label>
                         <strong class="text-info"><span id="box-h-length">0</span>px</strong>
@@ -382,9 +300,88 @@
                     </p>
                     <div id="slider_box-b-length" class="slider border">
                     </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>
+                    @L("文字阴影")
+                </legend>
+                <div>
                     <div class="input-group">
                         <span class="input-group-addon">@L("颜色")</span>
-                        <input class="form-control jscolor {pickerPosition:'top',hash:true}" id="box-s-color" value="#000000" type="text" onchange="updateDisplay()" />
+                        <input class="form-control color-picker" id="text-s-color" type="text" onchange="updateDisplay()" />
+                    </div>
+                    <p>
+                        <label for="text-h-length">@L("水平大小"):</label>
+                        <strong class="text-info"><span id="text-h-length">0</span>px</strong>
+                    </p>
+                    <div id="slider_text-h-length" class="slider border">
+                    </div>
+                    <p>
+                        <label for="text-v-length">@L("垂直大小"):</label>
+                        <strong class="text-info"><span id="text-v-length">0</span>px</strong>
+                    </p>
+                    <div id="slider_text-v-length" class="slider border">
+                    </div>
+                    <p>
+                        <label for="text-b-length">@L("模糊"):</label>
+                        <strong class="text-info"><span id="text-b-length">0</span>px</strong>
+                    </p>
+                    <div id="slider_text-b-length" class="slider border">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>
+                    @L("圆角")
+                </legend>
+                <div>
+                    <p>
+                        <label for="border-radius">@L("大小"):</label>
+                        <strong class="text-info"><span id="border-radius">0</span>px</strong>
+                    </p>
+                    <div id="slider_border-radius" class="slider border-radius">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">@L("自定义")</span>
+                        <input type="text" class="form-control" id="border-radius-custom" onchange="updateDisplay()" />
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>
+                    @L("定位")
+                </legend>
+                <div>
+                    <div class="input-group">
+                        <span class="input-group-addon">@L("定位")</span>
+                        <select class="form-control" onchange="updateDisplay()" id="position">
+                            <option value="">@L("默认")</option>
+                            <option value="static">@L("静止")</option>
+                            <option value="relative">@L("相对")</option>
+                            <option value="absolute">@L("绝对")</option>
+                            <option value="fixed">@L("固定")</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">@(L("左边距离"))(px)</span>
+                        <input type="text" class="form-control" id="position-left" onchange="updateDisplay()" />
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">@(L("顶部距离"))(px)</span>
+                        <input type="text" class="form-control" id="position-top" onchange="updateDisplay()" />
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">@(L("右边距离"))(px)</span>
+                        <input type="text" class="form-control" id="position-right" onchange="updateDisplay()" />
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">@(L("底部距离"))(px)</span>
+                        <input type="text" class="form-control" id="position-bottom" onchange="updateDisplay()" />
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">@L("z-index")</span>
+                        <input type="text" class="form-control" id="z-index" onchange="updateDisplay()" />
                     </div>
                 </div>
             </fieldset>

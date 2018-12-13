@@ -56,9 +56,9 @@ zone {
     cursor: move;
 }
 
-    .AddCol > select {
-        color: black;
-    }
+.AddCol > select {
+    color: black;
+}
 
 .design {
 }
@@ -153,7 +153,7 @@ label.additional {
 .container-fluid.design .additional,
 .container.design .additional {
     position: relative;
-    transition:width 500ms;
+    transition: width 500ms;
 }
 
     .container-fluid.design .additional.zone,
@@ -615,7 +615,7 @@ label.additional {
 
 
     .templates .widget-design {
-        cursor:move;
+        cursor: move;
         position: relative;
     }
 
@@ -717,4 +717,22 @@ li.ui-sortable-helper {
     .WeiWindow.StyleEditor .TitleBarRight {
         background-color: #212636;
         border-bottom: 1px solid #212636;
+    }
+
+.code {
+    position: relative;
+    margin: 0;
+}
+
+    .code::before {
+        display: block;
+        position: absolute;
+        content: attr(code);
+        padding: 2px 4px;
+        font-size: 90%;
+        color: #c7254e;
+        background-color: #f9f2f4;
+        border-radius: 4px;
+        right: 5px;
+        top: 5px;
     }

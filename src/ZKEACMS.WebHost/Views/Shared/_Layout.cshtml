@@ -38,9 +38,6 @@
 
     <link href="@Url.PathContent(Model.Page.Favicon)" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
-
-    @StyleAtHead()
-    @ScriptAtHead()
     @if (Model.CurrentTheme != null)
     {
         if (hostingEnvironment.IsDevelopment())
@@ -52,6 +49,8 @@
             <link type="text/css" async rel="stylesheet" href="@Url.Content(Model.CurrentTheme.Url)" />
         }
     }
+    @StyleAtHead()
+    @ScriptAtHead()
     @foreach (var item in appContext.HeaderPart)
     {
         @item

@@ -1,3 +1,2 @@
-数据库升级脚本
-
-升级时，请按版本逐个执行升级脚本。
+Update existsing ZKEACMS database.
+Execute the scripts with your application. For example, if your application version is 3.0, you need to run 3.0.1, 3.1, 3.1.2.....

@@ -13,3 +13,7 @@ else
         @Html.Raw(Model.Script)
     </script>
 }
+@if (ApplicationContext.As<CMSApplicationContext>().IsDesignMode)
+{
+    <pre class="code" code="JavaScript">@Model.Script</pre>
+}

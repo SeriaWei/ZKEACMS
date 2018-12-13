@@ -217,6 +217,18 @@ namespace Easy.RepositoryPattern
                 {
                     result = result.OrderByDescending(pagination.OrderByDescending);
                 }
+
+                if (pagination.ThenBy != null || pagination.ThenByDescending != null)
+                {
+                    if (pagination.ThenBy != null)
+                    {
+                        result = (result as IOrderedQueryable<T>).ThenBy(pagination.ThenBy);
+                    }
+                    else
+                    {
+                        result = (result as IOrderedQueryable<T>).ThenByDescending(pagination.ThenByDescending);
+                    }
+                }
             }
             return result.Skip(pagination.PageIndex * pagination.PageSize).Take(pagination.PageSize).ToList();
         }

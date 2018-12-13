@@ -45,7 +45,7 @@ namespace Easy.Logging
                             writer.WriteLine($"{item.Key}:{item.Value}");
                         }
                     }
-                    
+
                     writer.WriteLine(_httpContextAccessor.HttpContext.Request.GetAbsoluteUrl());
                 }
                 writer.WriteLine(Split);
@@ -79,9 +79,16 @@ namespace Easy.Logging
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            if (IsEnabled(logLevel) && exception != null)
+            if (IsEnabled(logLevel))
             {
-                WriteInfo(exception.ToString());
+                if (exception == null)
+                {
+                    WriteInfo(formatter(state, exception));
+                }
+                else
+                {
+                    WriteInfo(exception.ToString());
+                }
             }
         }
     }
