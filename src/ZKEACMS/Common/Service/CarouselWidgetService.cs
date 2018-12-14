@@ -51,6 +51,7 @@ namespace ZKEACMS.Common.Service
                         _carouselItemService.Add(new CarouselItemEntity
                         {
                             CarouselID = m.CarouselID,
+                            Title = m.Title,
                             CarouselWidgetID = item.ID,
                             TargetLink = m.TargetLink,
                             ImageUrl = m.ImageUrl,
