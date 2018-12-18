@@ -70,11 +70,11 @@ namespace Easy.Modules.User.Service
             }
             if (Get(item.UserID) != null)
             {
-                throw new Exception($"ÓÃ»§ {item.UserID} ÒÑ´æÔÚ");
+                throw new Exception($"ç”¨æˆ· {item.UserID} å·²å­˜åœ¨");
             }
             if (item.Email.IsNotNullAndWhiteSpace() && Count(m => m.Email == item.Email && m.UserTypeCD == item.UserTypeCD) > 0)
             {
-                throw new Exception($"ÓÊ¼şµØÖ· {item.Email} ÒÑ±»Ê¹ÓÃ");
+                throw new Exception($"é‚®ä»¶åœ°å€ {item.Email} å·²è¢«ä½¿ç”¨");
             }
             var result = base.Add(item);
             if (!result.HasViolation)
@@ -122,7 +122,7 @@ namespace Easy.Modules.User.Service
             }
             if (item.Email.IsNotNullAndWhiteSpace() && Count(m => m.UserID != item.UserID && m.Email == item.Email && m.UserTypeCD == item.UserTypeCD) > 0)
             {
-                throw new Exception($"ÓÊ¼şµØÖ· {item.Email} ÒÑ±»Ê¹ÓÃ");
+                throw new Exception($"é‚®ä»¶åœ°å€ {item.Email} å·²è¢«ä½¿ç”¨");
             }
 
             var result = base.Update(item);

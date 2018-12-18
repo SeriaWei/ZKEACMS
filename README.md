@@ -1,4 +1,4 @@
-﻿# ZKEACMS Build With Asp.Net Core 2.1
+# ZKEACMS Build With Asp.Net Core 2.2
 ## 简介 / Summary
 ZKEACMS is a visual design, online edit content management system
 
