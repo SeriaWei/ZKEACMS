@@ -35,7 +35,7 @@ namespace ZKEACMS.Widget
                     else
                     {
                         var localize = filterContext.HttpContext.RequestServices.GetService<ILocalize>();
-                        (filterContext.Controller as Controller).ViewData[ViewDataKeys.Zones] = new SelectList(new List<ZoneEntity> { new ZoneEntity { HeadingCode = "ZONE-X", ZoneName = localize.Get("∂ØÃ¨") } }, "HeadingCode", "ZoneName");
+                        (filterContext.Controller as Controller).ViewData[ViewDataKeys.Zones] = new SelectList(new List<ZoneEntity> { new ZoneEntity { HeadingCode = "ZONE-X", ZoneName = localize.Get("Âä®ÊÄÅ") } }, "HeadingCode", "ZoneName");
                     }
                 }
             }

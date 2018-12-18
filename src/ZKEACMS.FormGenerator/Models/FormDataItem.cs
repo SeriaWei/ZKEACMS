@@ -1,4 +1,4 @@
-﻿using Easy.Models;
+using Easy.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
