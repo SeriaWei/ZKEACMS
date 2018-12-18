@@ -19,8 +19,8 @@ using ZKEACMS.Layout;
 using ZKEACMS.Page;
 using ZKEACMS.Setting;
 using ZKEACMS.Widget;
-using ZKEACMS.Zone;
 using ZKEACMS.Rule;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 
 namespace ZKEACMS.Controllers
 {
@@ -46,6 +46,7 @@ namespace ZKEACMS.Controllers
             _applicationSettingService = applicationSettingService;
         }
         [Widget]
+        [LowPriority]
         public IActionResult Main()
         {
             return View("PreView");
@@ -258,6 +259,13 @@ namespace ZKEACMS.Controllers
         {
             Service.Publish(Service.Get(ID));
             return Redirect(ReturnUrl);
+        }
+
+        private class LowPriorityAttribute : Attribute, IActionConstraint
+        {
+            public int Order => 0;
+
+            public bool Accept(ActionConstraintContext context) => context.Candidates.Count == 1;
         }
     }
 }

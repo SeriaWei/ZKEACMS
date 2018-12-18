@@ -1,4 +1,4 @@
-﻿@using ZKEACMS.Shop.ViewModel
+@using ZKEACMS.Shop.ViewModel
 @model OrderListViewModel
 @{
     Layout = Layouts.CustomerCenter;
@@ -40,7 +40,7 @@
         <tbody>
             @foreach (var item in Model.Orders)
             {
-                <tr class="@(item.OrderStatus == (int)ZKEACMS.Shop.OrderStatus.UnPaid?"warning":"")">
+                <tr class="@(item.OrderStatus == (int)ZKEACMS.Shop.OrderStatus.UnPaid ? "warning" : "")">
                     <td head="@L("订单号")">
                         <a href="@Url.Action("Detail", new { Id = item.ID })">@item.ID</a>
                     </td>
@@ -75,7 +75,7 @@
     </table>
 </div>
 @{
-    Html.Pagin(Model.Pagin);
+    await Html.Pagin(Model.Pagin);
 }
 @using (Script.AtFoot())
 {

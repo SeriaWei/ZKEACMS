@@ -1,4 +1,4 @@
-﻿@model ZKEACMS.Article.ViewModel.ArticleListWidgetViewModel
+@model ZKEACMS.Article.ViewModel.ArticleListWidgetViewModel
 @{
     if (!Model.Widget.DetailPageUrl.IsNullOrEmpty())
     {
@@ -75,7 +75,7 @@
         </ul>
         if (Model.IsPageable)
         {
-            Html.Pagin(Model.Pagin);
+            await Html.Pagin(Model.Pagin);
         }
     }
 </div>
