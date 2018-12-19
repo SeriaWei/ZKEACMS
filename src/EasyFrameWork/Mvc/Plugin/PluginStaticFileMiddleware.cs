@@ -81,7 +81,7 @@ namespace Easy.Mvc.Plugin
         {
             string parentPath = new DirectoryInfo(_hostingEnvironment.ContentRootPath).Parent.FullName;
             string subPath = path.Replace($"/{_pluginLoader.PluginFolderName()}/", "/").ToFilePath();
-            return $"{parentPath}{subPath}";
+            return parentPath.CombinePath(subPath);
         }
     }
 }

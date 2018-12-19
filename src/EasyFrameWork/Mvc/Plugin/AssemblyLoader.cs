@@ -19,7 +19,6 @@ namespace Easy.Mvc.Plugin
 {
     public class AssemblyLoader
     {
-        private const string ControllerTypeNameSuffix = "Controller";
         private static bool Resolving { get; set; }
         public AssemblyLoader()
         {
@@ -38,7 +37,6 @@ namespace Easy.Mvc.Plugin
                 //AssemblyLoadContext.Default.Resolving += AssemblyResolving;
                 CurrentAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
                 ResolveDenpendency(CurrentAssembly);
-                RegistAssembly(CurrentAssembly);
                 yield return CurrentAssembly;
                 foreach (var item in DependencyAssemblies)
                 {
@@ -72,7 +70,7 @@ namespace Easy.Mvc.Plugin
         private void ResolveDenpendency(Assembly assembly)
         {
             string currentName = assembly.GetName().Name;
-            var dependencyCompilationLibrary = DependencyContext.Load(assembly)
+            List<CompilationLibrary> dependencyCompilationLibrary = DependencyContext.Load(assembly)
                 .CompileLibraries.Where(de => de.Name != currentName && !DependencyContext.Default.CompileLibraries.Any(m => m.Name == de.Name))
                 .ToList();
 
@@ -102,73 +100,26 @@ namespace Easy.Mvc.Plugin
                 }
             });
 
-
-        }
-
-        private void RegistAssembly(Assembly assembly)
-        {
-            List<TypeInfo> controllers = new List<TypeInfo>();
             PluginDescriptor plugin = null;
             foreach (var typeInfo in assembly.DefinedTypes)
             {
                 if (typeInfo.IsAbstract || typeInfo.IsInterface) continue;
 
-                if (IsController(typeInfo) && !controllers.Contains(typeInfo))
-                {
-                    controllers.Add(typeInfo);
-                }
-                else if (PluginTypeInfo.IsAssignableFrom(typeInfo))
+                if (PluginTypeInfo.IsAssignableFrom(typeInfo))
                 {
                     plugin = new PluginDescriptor();
                     plugin.PluginType = typeInfo.AsType();
                     plugin.Assembly = assembly;
+                    plugin.Dependency = dependencyCompilationLibrary;
                     plugin.CurrentPluginPath = CurrentPath;
                 }
             }
-            if (controllers.Count > 0 && !ActionDescriptorProvider.PluginControllers.ContainsKey(assembly.FullName))
-            {
-                ActionDescriptorProvider.PluginControllers.Add(assembly.FullName, controllers);
-            }
+
             if (plugin != null)
             {
                 PluginActivtor.LoadedPlugins.Add(plugin);
             }
-        }
-        protected bool IsController(TypeInfo typeInfo)
-        {
-            if (!typeInfo.IsClass)
-            {
-                return false;
-            }
 
-            if (typeInfo.IsAbstract)
-            {
-                return false;
-            }
-
-
-            if (!typeInfo.IsPublic)
-            {
-                return false;
-            }
-
-            if (typeInfo.ContainsGenericParameters)
-            {
-                return false;
-            }
-
-            if (typeInfo.IsDefined(typeof(NonControllerAttribute)))
-            {
-                return false;
-            }
-
-            if (!typeInfo.Name.EndsWith(ControllerTypeNameSuffix, StringComparison.OrdinalIgnoreCase) &&
-                !typeInfo.IsDefined(typeof(ControllerAttribute)))
-            {
-                return false;
-            }
-
-            return true;
         }
     }
 }

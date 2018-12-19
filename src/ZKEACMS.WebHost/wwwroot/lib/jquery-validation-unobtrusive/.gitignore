@@ -1,8 +1,0 @@
-bower_components/
-node_modules/
-*.nupkg
-npmpackoutput/
-test/webpacktest/package*.json
-test/webpacktest/dist/
-artifacts/
-dist/

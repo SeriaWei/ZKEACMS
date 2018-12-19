@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * http://www.zkea.net/
  * Copyright 2017 ZKEASOFT
  * 深圳市纸壳软件有限公司
@@ -19,12 +19,16 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.DependencyModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using ZKEACMS.Account;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Common.Models;
@@ -56,11 +60,12 @@ namespace ZKEACMS
         public static void UseZKEACMS(this IServiceCollection services, IConfiguration configuration)
         {
 
-            services.AddMvc(option =>
-            {
-                option.ModelBinderProviders.Insert(0, new WidgetTypeModelBinderProvider());
-                option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
-            })
+            IMvcBuilder mvcBuilder = services.AddMvc(option =>
+             {
+                 option.ModelBinderProviders.Insert(0, new WidgetTypeModelBinderProvider());
+                 option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
+                 //option.EnableEndpointRouting = false;
+             })
             .AddControllersAsServices()
             .AddJsonOptions(option => { option.SerializerSettings.DateFormatString = "yyyy-MM-dd"; })
             .SetCompatibilityVersion(CompatibilityVersion.Latest);
@@ -173,8 +178,9 @@ namespace ZKEACMS
             services.UseEasyFrameWork(configuration);
             foreach (IPluginStartup item in services.LoadAvailablePlugins())
             {
-                item.Setup(services);
+                item.Setup(new object[] { services, mvcBuilder });
             }
+
             foreach (KeyValuePair<string, Type> item in WidgetBase.KnownWidgetService)
             {
                 services.TryAddTransient(item.Value);

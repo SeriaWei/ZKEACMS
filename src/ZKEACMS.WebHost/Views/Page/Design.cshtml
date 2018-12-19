@@ -1,4 +1,4 @@
-@model LayoutEntity
+﻿@model LayoutEntity
 @{
     Layout = Layouts.PageDesign;
     Style.Reqiured("Layout").AtHead();
@@ -28,7 +28,7 @@
             {
                 foreach (var widgetPart in Model.ZoneWidgets[zoneId].OrderBy(m => m.Widget.Position).ThenBy(m => m.Widget.WidgetName))
                 {
-                    @(await Html.DesignWidget(new DesignWidgetViewModel(widgetPart, Model.Page.ID)));
+                    @await Html.DesignWidget(new DesignWidgetViewModel(widgetPart, Model.Page.ID));
                 }
             }
             if (Model.Zones.Any(m => m.HeadingCode == zoneId))

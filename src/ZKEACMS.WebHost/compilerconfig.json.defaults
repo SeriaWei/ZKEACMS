@@ -10,7 +10,7 @@
       "rootPath": "",
       "sourceMapRoot": "",
       "sourceMapBasePath": "",
-      "sourceMap": false
+      "sourceMap": true
     },
     "sass": {
       "includePath": "",
@@ -20,7 +20,7 @@
       "Precision": 5,
       "relativeUrls": true,
       "sourceMapRoot": "",
-      "sourceMap": false
+      "sourceMap": true
     },
     "stylus": {
       "sourceMap": false

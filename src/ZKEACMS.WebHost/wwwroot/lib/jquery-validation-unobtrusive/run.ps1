@@ -1,1 +1,0 @@
-dotnet msbuild .\build.msbuild

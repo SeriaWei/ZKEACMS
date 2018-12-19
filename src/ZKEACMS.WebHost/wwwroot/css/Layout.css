@@ -736,3 +736,36 @@ li.ui-sortable-helper {
         right: 5px;
         top: 5px;
     }
+
+#mobile-frame .modal-dialog {
+    width: 372px;
+}
+
+#mobile-frame .modal-content {
+    background: none;
+    box-shadow: none;
+    border: none;
+}
+
+#mobile-frame .close {
+    color: #fff;
+    opacity: 1;
+}
+
+#mobile-frame .mobile {
+    background: url(../images/mobile-frame.png) no-repeat center center;
+    width: 342px;
+    height: 667px;
+    padding: 48px 6px;
+}
+    #mobile-frame .mobile.mini {
+        background: url(../images/mobile-frame-small.png) no-repeat center center;
+        width: 342px;
+        height: 500px;
+    }
+    #mobile-frame .mobile iframe {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ddd;
+        background:#fff;
+    }

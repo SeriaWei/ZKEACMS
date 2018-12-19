@@ -37,6 +37,7 @@ namespace Easy.Mvc.Plugin
             {
                 var plugin = ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, item.PluginType) as IPluginStartup;
                 plugin.Assembly = item.Assembly;
+                plugin.Dependency = item.Dependency;
                 plugin.CurrentPluginPath = item.CurrentPluginPath;
                 yield return plugin;
             }
