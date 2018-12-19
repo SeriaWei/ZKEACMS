@@ -82,6 +82,7 @@ namespace Easy.Mvc.Plugin
                     var files = new DirectoryInfo(Path.GetDirectoryName(assembly.Location)).GetFiles(Path.GetFileName(item));
                     foreach (var file in files)
                     {
+                        Console.WriteLine(file.FullName);
                         DependencyAssemblies.Add(AssemblyLoadContext.Default.LoadFromAssemblyPath(file.FullName));
                         depLoaded = true;
                         break;
