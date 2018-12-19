@@ -76,27 +76,9 @@ namespace Easy.Mvc.Plugin
 
             dependencyCompilationLibrary.Each(libaray =>
             {
-                bool depLoaded = false;
-                foreach (var item in libaray.Assemblies)
+                foreach (var item in libaray.ResolveReferencePaths(new DependencyAssemblyResolver(Path.GetDirectoryName(assembly.Location))))
                 {
-                    var files = new DirectoryInfo(Path.GetDirectoryName(assembly.Location)).GetFiles(Path.GetFileName(item));
-                    foreach (var file in files)
-                    {
-                        DependencyAssemblies.Add(AssemblyLoadContext.Default.LoadFromAssemblyPath(file.FullName));
-                        depLoaded = true;
-                        break;
-                    }
-                }
-                if (!depLoaded)
-                {
-                    foreach (var item in libaray.ResolveReferencePaths())
-                    {
-                        if (File.Exists(item))
-                        {
-                            DependencyAssemblies.Add(AssemblyLoadContext.Default.LoadFromAssemblyPath(item));
-                            break;
-                        }
-                    }
+                    DependencyAssemblies.Add(AssemblyLoadContext.Default.LoadFromAssemblyPath(item));
                 }
             });
 
