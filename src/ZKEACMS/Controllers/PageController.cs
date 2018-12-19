@@ -46,7 +46,6 @@ namespace ZKEACMS.Controllers
             _applicationSettingService = applicationSettingService;
         }
         [Widget]
-        [LowPriority]
         public IActionResult Main()
         {
             return View("PreView");
@@ -259,13 +258,6 @@ namespace ZKEACMS.Controllers
         {
             Service.Publish(Service.Get(ID));
             return Redirect(ReturnUrl);
-        }
-
-        private class LowPriorityAttribute : Attribute, IActionConstraint
-        {
-            public int Order => 0;
-
-            public bool Accept(ActionConstraintContext context) => context.Candidates.Count == 1;
         }
     }
 }
