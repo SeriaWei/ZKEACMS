@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * http://www.zkea.net/
  * Copyright 2017 ZKEASOFT
  * 深圳市纸壳软件有限公司
@@ -34,9 +34,6 @@ namespace ZKEACMS.WebHost
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IHttpContextAccessor httpContextAccessor)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

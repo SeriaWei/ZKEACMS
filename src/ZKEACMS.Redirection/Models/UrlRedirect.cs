@@ -1,4 +1,4 @@
-﻿using Easy.LINQ;
+using Easy.LINQ;
 using Easy.MetaData;
 using Easy.Models;
 using System;

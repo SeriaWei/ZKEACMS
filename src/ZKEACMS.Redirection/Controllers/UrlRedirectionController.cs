@@ -30,12 +30,12 @@ namespace ZKEACMS.Redirection.Controllers
         {
             if (Url.Content(redirect.InComingUrl) == Url.Content(redirect.DestinationURL))
             {
-                ModelState.AddModelError("InComingUrl", _localize.Get("·ÃÎÊµØÖ·ºÍÌø×ªµØÖ·²»ÄÜÒ»Ñù"));
+                ModelState.AddModelError("InComingUrl", _localize.Get("è®¿é—®åœ°å€å’Œè·³è½¬åœ°å€ä¸èƒ½ä¸€æ ·"));
                 return false;
             }
             if (Service.Count(m => m.InComingUrl == redirect.InComingUrl && m.ID != redirect.ID) > 0)
             {
-                ModelState.AddModelError("InComingUrl", _localize.Get("·ÃÎÊµØÖ·ÒÑ¾­´æÔÚ£¬²»¿ÉÖØ¸´Ìí¼Ó"));
+                ModelState.AddModelError("InComingUrl", _localize.Get("è®¿é—®åœ°å€å·²ç»å­˜åœ¨ï¼Œä¸å¯é‡å¤æ·»åŠ "));
                 return false;
             }
             return true;

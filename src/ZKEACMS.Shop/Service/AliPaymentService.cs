@@ -1,4 +1,4 @@
-﻿using Alipay.AopSdk.AspnetCore;
+using Alipay.AopSdk.AspnetCore;
 using Alipay.AopSdk.Core.Domain;
 using Alipay.AopSdk.Core.Request;
 using Easy.RepositoryPattern;

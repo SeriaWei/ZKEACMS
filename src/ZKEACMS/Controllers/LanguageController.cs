@@ -67,7 +67,7 @@ namespace ZKEACMS.Controllers
             if (_languageService.GetCultures(LanKey).Any())
             {
                 ViewBag.LanKey = LanKey;
-                ModelState.AddModelError("LanKey", _localize.Get("·­Òë¼üÒÑ´æÔÚ"));
+                ModelState.AddModelError("LanKey", _localize.Get("ç¿»è¯‘é”®å·²å­˜åœ¨"));
                 return View(language);
             }
             foreach (var item in language)

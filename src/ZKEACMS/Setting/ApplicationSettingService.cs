@@ -27,7 +27,7 @@ namespace ZKEACMS.Setting
                 return base.Add(item);
             }
             var result = new ServiceResult<ApplicationSetting>();
-            result.RuleViolations.Add(new RuleViolation("SettingKey", "ÒÑ¾­´æÔÚ¸Ã¼üÖµ"));
+            result.RuleViolations.Add(new RuleViolation("SettingKey", "å·²ç»å­˜åœ¨è¯¥é”®å€¼"));
             return result;
         }
 

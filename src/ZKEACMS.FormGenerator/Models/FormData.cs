@@ -1,4 +1,4 @@
-﻿using Easy.MetaData;
+using Easy.MetaData;
 using Easy.Models;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using Easy;
+using Easy;
 using Easy.Cache;
 using Easy.RepositoryPattern;
 using System;

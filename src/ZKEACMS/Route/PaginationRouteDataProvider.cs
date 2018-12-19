@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * http://www.zkea.net/
  * Copyright 2018 ZKEASOFT
  * 深圳市纸壳软件有限公司

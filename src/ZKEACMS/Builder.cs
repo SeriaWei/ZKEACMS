@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * http://www.zkea.net/
  * Copyright 2017 ZKEASOFT
  * 深圳市纸壳软件有限公司
@@ -19,7 +19,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -166,7 +165,7 @@ namespace ZKEACMS
             //提供在Request期间租、还DbConnection的支持
             services.AddScoped<IConnectionHolder, TransientConnectionHolder>();
             services.AddDbContextOptions<CMSDbContext>();
-            services.AddDbContext<CMSDbContext>();       
+            services.AddDbContext<CMSDbContext>();
             services.AddScoped<EasyDbContext>((provider) => provider.GetService<CMSDbContext>());
             services.AddSingleton(configuration.GetSection("Database").Get<DatabaseOption>());
             #endregion
