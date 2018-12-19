@@ -158,9 +158,27 @@ namespace ZKEACMS
             {
                 return Enumerable.Empty<string>();
             }
-            
+
             if (Dependency.Count > 0)
             {
+                List<string> dependencyFiles = new List<string>();
+                foreach (var libaray in Dependency)
+                {
+                    foreach (var item in libaray.Assemblies)
+                    {
+                        var files = new DirectoryInfo(Path.GetDirectoryName(Assembly.Location)).GetFiles(Path.GetFileName(item));
+                        if (files.Any())
+                        {
+                            dependencyFiles.AddRange(files.Select(m => m.FullName));
+                        }
+                    }
+                }
+                if (dependencyFiles.Any())
+                {
+                    dependencyFiles.Add(Assembly.Location);
+                    return dependencyFiles;
+                }
+
                 return Dependency.SelectMany(library => library.ResolveReferencePaths()).Concat(new[] { Assembly.Location });
             }
 
