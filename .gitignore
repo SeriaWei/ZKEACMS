@@ -157,3 +157,4 @@ src/ZKEACMS.WebHost/wwwroot/UpLoad
 src/ZKEACMS.WebHost/wwwroot/Logs
 DataBase/App_Data
 *.userprefs
+/*.userprefs
