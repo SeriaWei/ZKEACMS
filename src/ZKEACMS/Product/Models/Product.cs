@@ -9,10 +9,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Easy.LINQ;
 using ZKEACMS.Extend;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Product.Models
 {
-    [Table("Product")]
+    [DataTable("Product")]
     public class ProductEntity : EditorEntity, IImage
     {
         public ProductEntity()

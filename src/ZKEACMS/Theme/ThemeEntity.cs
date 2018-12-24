@@ -1,13 +1,14 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.MetaData;
 using Easy.Models;
+using Easy.RepositoryPattern;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ZKEACMS.Extend;
 
 namespace ZKEACMS.Theme
 {
-    [Table("CMS_Theme")]
+    [DataTable("CMS_Theme")]
     public class ThemeEntity : EditorEntity
     {
         public const string DefaultThumbnail = "~/Content/Images/theme.jpg";

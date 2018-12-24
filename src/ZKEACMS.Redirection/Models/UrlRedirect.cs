@@ -1,6 +1,7 @@
 using Easy.LINQ;
 using Easy.MetaData;
 using Easy.Models;
+using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +12,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.Redirection.Models
 {
-    [Table("CMS_Redirection")]
+    [DataTable("CMS_Redirection")]
     public class UrlRedirect : EditorEntity
     {
         [Key]

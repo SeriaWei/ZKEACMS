@@ -172,7 +172,9 @@ namespace ZKEACMS
             services.AddDbContextOptions<CMSDbContext>();
             services.AddDbContext<CMSDbContext>();
             services.AddScoped<EasyDbContext>((provider) => provider.GetService<CMSDbContext>());
-            services.AddSingleton(configuration.GetSection("Database").Get<DatabaseOption>());
+            DatabaseOption databaseOption = configuration.GetSection("Database").Get<DatabaseOption>();
+            DataTableAttribute.IsLowerCaseTableNames = databaseOption.DbType == DbTypes.MySql;
+            services.AddSingleton(databaseOption);
             #endregion
 
             services.UseEasyFrameWork(configuration);

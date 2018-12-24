@@ -2,13 +2,14 @@
 using Easy.Constant;
 using Easy.MetaData;
 using Easy.Models;
+using Easy.RepositoryPattern;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ZKEACMS.Extend;
 
 namespace ZKEACMS.Article.Models
 {
-    [Table("ArticleType")]
+    [DataTable("ArticleType")]
     public class ArticleType : EditorEntity
     {
         [Key]
