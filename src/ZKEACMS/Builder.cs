@@ -161,6 +161,7 @@ namespace ZKEACMS
                 option.DataSourceLink = "~/admin/Carousel";
             });
             #region 数据库配置
+            services.AddSingleton<IDatabaseConfiguring, EntityFrameWorkConfigure>();
             services.AddSingleton<IDbConnectionPool, SimpleDbConnectionPool>();
             //池的配置：
             //MaximumRetained规定池的容量（常态最大保有数量）。

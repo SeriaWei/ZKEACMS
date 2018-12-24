@@ -28,7 +28,6 @@ namespace ZKEACMS.WebHost
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureResource<DefaultResourceManager>();
-            services.AddSingleton<IDatabaseConfiguring, EntityFrameWorkConfigure>();
             services.UseZKEACMS(Configuration);
         }
 
