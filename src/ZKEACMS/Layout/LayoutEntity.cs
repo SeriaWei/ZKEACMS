@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.MetaData;
 using Easy.Models;
+using Easy.RepositoryPattern;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,7 @@ using ZKEACMS.Zone;
 
 namespace ZKEACMS.Layout
 {
-    [Table("CMS_Layout")]
+    [DataTable("CMS_Layout")]
     public class LayoutEntity : EditorEntity, IImage
     {
         public const string DefaultThumbnial = "~/images/layout.jpg";

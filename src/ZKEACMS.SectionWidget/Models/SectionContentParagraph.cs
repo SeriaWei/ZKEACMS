@@ -2,10 +2,11 @@
 using System;
 using Easy.MetaData;
 using System.ComponentModel.DataAnnotations.Schema;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.SectionWidget.Models
 {
-    [Table("SectionContentParagraph")]
+    [DataTable("SectionContentParagraph")]
     public class SectionContentParagraph : SectionContentBasic
     {
         public string HtmlContent { get; set; }

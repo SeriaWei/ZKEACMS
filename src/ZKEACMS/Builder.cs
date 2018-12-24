@@ -161,6 +161,7 @@ namespace ZKEACMS
                 option.DataSourceLink = "~/admin/Carousel";
             });
             #region 数据库配置
+            services.AddSingleton<IDatabaseConfiguring, EntityFrameWorkConfigure>();
             services.AddSingleton<IDbConnectionPool, SimpleDbConnectionPool>();
             //池的配置：
             //MaximumRetained规定池的容量（常态最大保有数量）。
@@ -172,7 +173,9 @@ namespace ZKEACMS
             services.AddDbContextOptions<CMSDbContext>();
             services.AddDbContext<CMSDbContext>();
             services.AddScoped<EasyDbContext>((provider) => provider.GetService<CMSDbContext>());
-            services.AddSingleton(configuration.GetSection("Database").Get<DatabaseOption>());
+            DatabaseOption databaseOption = configuration.GetSection("Database").Get<DatabaseOption>();
+            DataTableAttribute.IsLowerCaseTableNames = databaseOption.DbType == DbTypes.MySql;
+            services.AddSingleton(databaseOption);
             #endregion
 
             services.UseEasyFrameWork(configuration);

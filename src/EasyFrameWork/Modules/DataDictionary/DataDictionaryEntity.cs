@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Easy.MetaData;
 using Easy.Models;
+using Easy.RepositoryPattern;
 
 namespace Easy.Modules.DataDictionary
 {
-    [Table("DataDictionary")]
+    [DataTable("DataDictionary")]
     public class DataDictionaryEntity : IImage
     {
         [Key]
@@ -65,8 +66,6 @@ namespace Easy.Modules.DataDictionary
     }
     class DataDictionaryEntityMetaData : ViewMetaData<DataDictionaryEntity>
     {
-       
-
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.ID).AsHidden();

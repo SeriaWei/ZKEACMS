@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+using Easy.RepositoryPattern;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.Widget
 {
-    [Table("CMS_WidgetBase")]
+    [DataTable("CMS_WidgetBase")]
     public sealed class WidgetBasePart : WidgetBase
     {
 

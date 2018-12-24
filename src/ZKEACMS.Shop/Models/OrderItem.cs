@@ -5,6 +5,7 @@
  */
 using Easy.MetaData;
 using Easy.Models;
+using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.Shop.Models
 {
-    [Table("OrderItem")]
+    [DataTable("OrderItem")]
     public class OrderItem : EditorEntity
     {
         [Key]

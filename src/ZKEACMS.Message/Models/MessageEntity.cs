@@ -6,12 +6,13 @@
 
 using Easy.MetaData;
 using Easy.Models;
+using Easy.RepositoryPattern;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Message.Models
 {
-    [Table("CMS_Message")]
+    [DataTable("CMS_Message")]
     public class MessageEntity : EditorEntity
     {
         [Key]

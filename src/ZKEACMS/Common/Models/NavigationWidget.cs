@@ -10,10 +10,11 @@ using Easy;
 using ZKEACMS.Common.Service;
 using Easy.Extend;
 using ZKEACMS.Extend;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Common.Models
 {
-    [Table("NavigationWidget")]
+    [DataTable("NavigationWidget")]
     public class NavigationWidget : BasicWidget
     {
         public string Logo { get; set; }

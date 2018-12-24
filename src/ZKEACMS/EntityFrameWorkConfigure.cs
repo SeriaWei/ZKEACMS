@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 using ZKEACMS.DbConnectionPool;
 using ZKEACMS.Options;
 
-namespace ZKEACMS.WebHost
+namespace ZKEACMS
 {
     public class EntityFrameWorkConfigure: IDatabaseConfiguring
     {
