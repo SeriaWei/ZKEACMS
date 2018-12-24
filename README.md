@@ -50,7 +50,7 @@ docker run -d -p 5000:80 zkeasoft/zkeacms
 
 ## 开发环境 / Development
 * [.Net Core SDK 2.2](https://aka.ms/dotnet-download)
-* Microsoft Sql Server 2008+ / MySql 8.0+ / SQLite 3
+* Microsoft Sql Server 2008+ / MySql 5.6+ / SQLite 3
 * Microsoft Visual Studio 2017 15.9+ / Visual Studio Code
 
 ## 设计页面 / Page Design
