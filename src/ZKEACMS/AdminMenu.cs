@@ -60,12 +60,19 @@ namespace ZKEACMS
                 Order = 2,
                 PermissionKey = PermissionKeys.ViewPage
             },
-
+            new AdminMenu
+            {
+                Title = "导航",
+                Icon = "glyphicon-retweet",
+                Url = "~/admin/Navigation",
+                Order = 3,
+                PermissionKey = PermissionKeys.ViewNavigation
+            },
             new AdminMenu
             {
                 Title = "基础内容",
                 Icon = "glyphicon-tree-deciduous",
-                Order = 3,
+                Order = 4,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu
@@ -78,18 +85,10 @@ namespace ZKEACMS
                     },
                     new AdminMenu
                     {
-                        Title = "导航",
-                        Icon = "glyphicon-retweet",
-                        Url = "~/admin/Navigation",
-                        Order = 2,
-                        PermissionKey = PermissionKeys.ViewNavigation
-                    },
-                    new AdminMenu
-                    {
                         Title = "焦点图",
                         Icon = "glyphicon-eye-open",
                         Url = "~/admin/Carousel",
-                        Order = 3,
+                        Order = 2,
                         PermissionKey = PermissionKeys.ViewCarousel
                     },
                     new AdminMenu
@@ -97,18 +96,18 @@ namespace ZKEACMS
                         Title = "媒体库",
                         Icon = "glyphicon-picture",
                         Url = "~/admin/Media",
-                        Order = 4,
+                        Order = 3,
                         PermissionKey = PermissionKeys.ViewMedia
+                    },
+                    new AdminMenu
+                    {
+                        Title = "主题",
+                        Icon = "glyphicon-blackboard",
+                        Url = "~/admin/Theme",
+                        Order = 4,
+                        PermissionKey = PermissionKeys.ViewTheme
                     }
                 }
-            },
-            new AdminMenu
-            {
-                Title = "主题",
-                Icon = "glyphicon-blackboard",
-                Url = "~/admin/Theme",
-                Order = 4,
-                PermissionKey = PermissionKeys.ViewTheme
             },
             new AdminMenu
             {
