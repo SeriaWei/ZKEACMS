@@ -233,6 +233,7 @@ namespace ZKEACMS
             {
                 task.Excute();
             }
+            System.IO.Directory.SetCurrentDirectory(hostingEnvironment.ContentRootPath);
             Console.WriteLine("Welcome to use ZKEACMS");
         }
     }
