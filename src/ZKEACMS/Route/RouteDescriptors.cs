@@ -38,7 +38,7 @@ namespace ZKEACMS
              new RouteDescriptor
              {
                 RouteName = "error",
-                Template = "error/{action}",
+                Template = "error/{action}/{code?}",
                 Defaults = new { controller = "Error", action = "index" },
                 Priority = 11
              },
