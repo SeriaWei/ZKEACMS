@@ -45,6 +45,23 @@ namespace ZKEACMS.Page
             _layoutHtmlService = layoutHtmlService;
         }
 
+        private string FormatPath(string path)
+        {
+            if (path != "/" && path.EndsWith("/"))
+            {
+                path = path.Substring(0, path.Length - 1);
+            }
+            if (path == "/")
+            {
+                path = "~/index";
+            }
+            else
+            {
+                path = $"~{path}";
+            }
+            return path;
+        }
+
         public override DbSet<PageEntity> CurrentDbSet
         {
             get { return (DbContext as CMSDbContext).Page; }
@@ -298,20 +315,7 @@ namespace ZKEACMS.Page
         }
         public PageEntity GetByPath(string path, bool isPreView)
         {
-            if (path != "/" && path.EndsWith("/"))
-            {
-                path = path.Substring(0, path.Length - 1);
-            }
-            if (path == "/")
-            {
-                path = "~/index";
-            }
-            else
-            {
-                path = $"~{path}";
-            }
-
-
+            path = FormatPath(path);
             return Get()
                       .Where(m => m.Url == path && m.IsPublishedPage == !isPreView)
                       .OrderByDescending(m => m.PublishDate)
@@ -332,6 +336,12 @@ namespace ZKEACMS.Page
                 }
                 base.Update(pageEntity);
             }
+        }
+
+        public bool IsExists(string path)
+        {
+            path = FormatPath(path);
+            return Count(m => m.Url == path) > 0;
         }
     }
 }

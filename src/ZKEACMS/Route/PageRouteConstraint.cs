@@ -20,25 +20,22 @@ namespace ZKEACMS
     {
         public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
         {
-            var value = values[routeKey];
-            if (routeKey == "path" && value != null)
-            {
-                string path = "/" + value.ToString();
+            const string start = "/";
+            string path = start;
 
+            path = $"{start}{values[routeKey]}";
+
+            if (path != start)
+            {
                 var routeDataProviders = httpContext.RequestServices.GetService<IEnumerable<IRouteDataProvider>>();
                 foreach (var item in routeDataProviders.OrderBy(m => m.Order))
                 {
                     path = item.ExtractVirtualPath(path, values);
                 }
-                if (path.IsNullOrWhiteSpace())
-                {
-                    path = "/";
-                }
-                values[routeKey] = path;
-                string relatedPath = $"~{path}";
-                return httpContext.RequestServices.GetService<IPageService>().Count(m => m.Url == relatedPath) > 0;
             }
-            return false;
+            values[routeKey] = path;
+            if (path == start) return true;
+            return httpContext.RequestServices.GetService<IPageService>().IsExists(path);
         }
     }
 }
