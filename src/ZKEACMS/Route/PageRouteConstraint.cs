@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using ZKEACMS.Route;
 using System.Linq;
+using ZKEACMS.Page;
 
 namespace ZKEACMS
 {
@@ -34,8 +35,10 @@ namespace ZKEACMS
                     path = "/";
                 }
                 values[routeKey] = path;
+                string relatedPath = $"~{path}";
+                return httpContext.RequestServices.GetService<IPageService>().Count(m => m.Url == relatedPath) > 0;
             }
-            return true;
+            return false;
         }
     }
 }
