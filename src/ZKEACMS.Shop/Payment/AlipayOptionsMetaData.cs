@@ -1,4 +1,4 @@
-﻿using Alipay.AopSdk.AspnetCore;
+using Alipay.AopSdk.AspnetCore;
 using Easy.MetaData;
 using System;
 using System.Collections.Generic;

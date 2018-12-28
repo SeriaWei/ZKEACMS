@@ -8,10 +8,11 @@ using ZKEACMS.ExtendField;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using ZKEACMS.Extend;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Article.Models
 {
-    [Table("Article")]
+    [DataTable("Article")]
     public class ArticleEntity : EditorEntity, IImage
     {
         [Key]

@@ -44,14 +44,15 @@ dotnet tool install -g ZKEACMS.Publisher
 ./src/ZKEACMS.WebHost/publish-zkeacms -r win-x64
 ```
 ## Run on Docker
+https://hub.docker.com/r/zkeasoft/zkeacms
 ```
 docker run -d -p 5000:80 zkeasoft/zkeacms
 ```
 
 ## 开发环境 / Development
 * [.Net Core SDK 2.2](https://aka.ms/dotnet-download)
-* Microsoft Sql Server 2008+ / MySql 8.0+ / SQLite 3
-* Microsoft Visual Studio 2017 15.3+ / Visual Studio Code
+* Microsoft Sql Server 2012+ / MySql 5.6+ / SQLite 3
+* Microsoft Visual Studio 2017 15.9+ / Visual Studio Code
 
 ## 设计页面 / Page Design
 ![简单演示](http://ww4.sinaimg.cn/mw690/005zTNGqgw1f5e6o2kejlg30dw08an3g.gif)

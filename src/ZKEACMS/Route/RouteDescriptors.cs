@@ -1,4 +1,4 @@
-﻿/* http://www.zkea.net/ 
+/* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 using Easy.Mvc.Route;
@@ -38,7 +38,7 @@ namespace ZKEACMS
              new RouteDescriptor
              {
                 RouteName = "error",
-                Template = "error/{action}",
+                Template = "error/{action}/{code?}",
                 Defaults = new { controller = "Error", action = "index" },
                 Priority = 11
              },

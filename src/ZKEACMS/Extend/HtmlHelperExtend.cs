@@ -11,18 +11,18 @@ namespace ZKEACMS
 {
     public static class HtmlHelperExtend
     {
-        public static Task<IHtmlContent> DisPlayWidget(this IHtmlHelper html, WidgetViewModelPart widget)
+        public static async Task<IHtmlContent> DisPlayWidget(this IHtmlHelper html, WidgetViewModelPart widget)
         {
             if (widget.ViewModel != null)
             {
-                return html.PartialAsync(widget.Widget.PartialView, widget.ViewModel);
+                return await html.PartialAsync(widget.Widget.PartialView, widget.ViewModel);
             }
-            return html.WidgetError();
+            return await html.WidgetError();
         }
 
-        public static Task<IHtmlContent> DesignWidget(this IHtmlHelper html, DesignWidgetViewModel viewModel)
+        public static async Task<IHtmlContent> DesignWidget(this IHtmlHelper html, DesignWidgetViewModel viewModel)
         {
-            return html.PartialAsync("DesignWidget", viewModel);
+            return await html.PartialAsync("DesignWidget", viewModel);
         }
         public static IHtmlContent SmartLink(this IHtmlHelper html, string link, string text, string cssClass = null)
         {
@@ -54,18 +54,18 @@ namespace ZKEACMS
             return true;
         }
 
-        public static Task<IHtmlContent> WidgetError(this IHtmlHelper html)
+        public static async Task<IHtmlContent> WidgetError(this IHtmlHelper html)
         {
-            return html.PartialAsync("Widget.Error");
+            return await html.PartialAsync("Widget.Error");
         }
 
-        public static Task Pagin(this IHtmlHelper html, Pagination pagin)
+        public static async Task Pagin(this IHtmlHelper html, Pagination pagin)
         {
-           return html.RenderPartialAsync("Partial_Pagination", pagin);
+            await html.RenderPartialAsync("Partial_Pagination", pagin);
         }
-        public static Task Pagin(this IHtmlHelper html, Pagin pagin)
+        public static async Task Pagin(this IHtmlHelper html, Pagin pagin)
         {
-            return html.RenderPartialAsync("Partial_RegularPagination", pagin);
+            await html.RenderPartialAsync("Partial_RegularPagination", pagin);
         }
     }
 }

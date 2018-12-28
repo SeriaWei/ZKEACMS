@@ -87,7 +87,7 @@ namespace ZKEACMS.Controllers
                 Service.Update(logOnUser);
                 return RedirectToAction("Logout", "Account", new { returnurl = "~/Account/Login" });
             }
-            ViewBag.Message = "Ô­ÃÜÂë´íÎó";
+            ViewBag.Message = "åŸå¯†ç é”™è¯¯";
             return View();
         }
     }

@@ -1,4 +1,4 @@
-﻿@model DateTime?
+@model DateTime?
 @{
     var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
     string dateFormat = (descriptor as Easy.ViewPort.Descriptor.TextBoxDescriptor)?.DateFormat;

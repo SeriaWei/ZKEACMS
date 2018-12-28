@@ -1,4 +1,4 @@
-﻿using Alipay.AopSdk.AspnetCore;
+using Alipay.AopSdk.AspnetCore;
 using Easy.Mvc.Authorize;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

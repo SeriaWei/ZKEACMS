@@ -5,6 +5,7 @@
 using Easy.Extend;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
@@ -20,7 +21,7 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Filter
 {
-    public class WidgetAttribute : ActionFilterAttribute, IActionFilter
+    public class WidgetAttribute : ActionFilterAttribute, IActionFilter, IActionConstraint
     {
         private const string UnknownZone = "UnknownZone";
         public virtual PageEntity GetPage(ActionExecutedContext filterContext)
@@ -200,6 +201,11 @@ namespace ZKEACMS.Filter
             {
                 _onPageExecutings.Each(m => m.OnExecuting(filterContext.HttpContext));
             }
+        }
+
+        public bool Accept(ActionConstraintContext context)
+        {
+            return context.Candidates.Count == 1;
         }
     }
 

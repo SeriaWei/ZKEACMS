@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * http://www.zkea.net/
  * Copyright 2017 ZKEASOFT
  * 深圳市纸壳软件有限公司
@@ -28,7 +28,6 @@ namespace ZKEACMS.WebHost
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureResource<DefaultResourceManager>();
-            services.AddSingleton<IDatabaseConfiguring, EntityFrameWorkConfigure>();
             services.UseZKEACMS(Configuration);
         }
 
@@ -42,6 +41,7 @@ namespace ZKEACMS.WebHost
             {
                 loggerFactory.UseFileLog(env, app.ApplicationServices.GetService<IHttpContextAccessor>());
                 app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithReExecute("/Error/Code/{0}");
             }
             app.UseZKEACMS(env, httpContextAccessor);
         }

@@ -14,10 +14,11 @@ using ZKEACMS.Article.Service;
 using ZKEACMS.MetaData;
 using ZKEACMS.Widget;
 using ZKEACMS.Extend;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Article.Models
 {
-    [Table("ArticleListWidget")]
+    [DataTable("ArticleListWidget")]
     public class ArticleListWidget : BasicWidget
     {
         public int ArticleTypeID { get; set; }

@@ -158,10 +158,11 @@ namespace ZKEACMS
             {
                 return Enumerable.Empty<string>();
             }
-            
+
             if (Dependency.Count > 0)
             {
-                return Dependency.SelectMany(library => library.ResolveReferencePaths()).Concat(new[] { Assembly.Location });
+                return Dependency.SelectMany(library => library.ResolveReferencePaths(new DependencyAssemblyResolver(Path.GetDirectoryName(Assembly.Location))))
+                    .Concat(new[] { Assembly.Location });
             }
 
             return new[] { Assembly.Location };

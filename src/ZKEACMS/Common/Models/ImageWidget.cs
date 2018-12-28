@@ -6,10 +6,11 @@ using ZKEACMS.MetaData;
 using ZKEACMS.Widget;
 using System.ComponentModel.DataAnnotations.Schema;
 using ZKEACMS.Extend;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Common.Models
 {
-    [Table("ImageWidget")]
+    [DataTable("ImageWidget")]
     public class ImageWidget : BasicWidget
     {
         public string ImageUrl { get; set; }
