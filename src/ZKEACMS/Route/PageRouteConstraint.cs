@@ -35,7 +35,8 @@ namespace ZKEACMS
                     path = "/";
                 }
                 values[routeKey] = path;
-                return httpContext.RequestServices.GetService<IPageService>().Count(m => m.Url == path) > 0;
+                string relatedPath = $"~{path}";
+                return httpContext.RequestServices.GetService<IPageService>().Count(m => m.Url == relatedPath) > 0;
             }
             return false;
         }
