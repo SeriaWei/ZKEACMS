@@ -11,16 +11,19 @@ namespace ZKEACMS.Product
     public class ProductRouteDataProvider : IRouteDataProvider
     {
         private readonly IProductService _productService;
-        public ProductRouteDataProvider(IProductService productService)
+        private readonly ProductDetailWidgetService _productDetailWidgetService;
+        public ProductRouteDataProvider(IProductService productService, ProductDetailWidgetService productDetailWidgetService)
         {
             _productService = productService;
+            _productDetailWidgetService = productDetailWidgetService;
         }
         public int Order { get { return 1; } }
 
         public string ExtractVirtualPath(string path, RouteValueDictionary values)
         {
             var pathArray = path.Split("/", StringSplitOptions.RemoveEmptyEntries);
-            if (pathArray.Length > 1)
+            string[] urls = _productDetailWidgetService.GetRelatedPageUrls();
+            if (pathArray.Length > 1 && urls.Any(m => m.Length < path.Length && path.StartsWith(m, StringComparison.InvariantCultureIgnoreCase)))
             {
                 var product = _productService.GetByUrl(pathArray[pathArray.Length - 1]);
                 if (product != null)
