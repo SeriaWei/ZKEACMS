@@ -76,7 +76,6 @@ namespace ZKEACMS.Filter
             var page = GetPage(filterContext);
             if (page != null)
             {
-
                 var requestServices = filterContext.HttpContext.RequestServices;
                 var onPageExecuteds = requestServices.GetServices<IOnPageExecuted>();
                 var layoutService = requestServices.GetService<ILayoutService>();
