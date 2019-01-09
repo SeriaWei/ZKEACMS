@@ -26,7 +26,10 @@ namespace ZKEACMS.SectionWidget.Service
             _sectionContentProviderService = sectionContentProviderService;
             _pluginLoader = pluginLoader;
         }
-
+        public override IQueryable<SectionGroup> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
+        }
         public SectionGroup GenerateContentFromConfig(SectionGroup group)
         {
             string configFile = PluginBase.GetPath<SectionPlug>().CombinePath("Thumbnail/{0}.xml".FormatWith(group.PartialView).ToFilePath());

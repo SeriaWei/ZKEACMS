@@ -18,7 +18,11 @@ namespace ZKEACMS.SectionWidget.Service
             : base(applicationContext, dbContext)
         {
             _sectionContentServices = sectionContentServices;
-        }        
+        }
+        public override IQueryable<SectionContentBasePart> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
+        }
         public void Add(SectionContent item)
         {
             if (!item.Order.HasValue || item.Order.Value == 0)
