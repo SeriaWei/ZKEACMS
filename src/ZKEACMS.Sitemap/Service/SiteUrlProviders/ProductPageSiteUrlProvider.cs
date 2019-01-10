@@ -25,7 +25,7 @@ namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
             List<string> excuted = new List<string>();
             foreach (var item in _sitemapDbContext.ProductListWidget.ToList())
             {
-                if (!excuted.Contains(item.DetailPageUrl))
+                if (item.DetailPageUrl.IsNotNullAndWhiteSpace() && !excuted.Contains(item.DetailPageUrl))
                 {
                     var ids = _productCategoryService.Get(m => m.ID == item.ProductCategoryID || m.ParentID == item.ProductCategoryID).Select(m => m.ID).ToList();
                     var products = _productService.Get(m => m.IsPublish && ids.Contains(m.ProductCategoryID));
