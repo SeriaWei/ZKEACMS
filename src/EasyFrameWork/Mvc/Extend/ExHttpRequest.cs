@@ -34,11 +34,6 @@ namespace Easy.Mvc.Extend
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
-                var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
-                if (storage != null)
-                {
-                    storage.CreateFolder(path);
-                }
             }
             return path;
         }
@@ -63,16 +58,7 @@ namespace Easy.Mvc.Extend
                 if (Common.IsImage(ext))
                 {
                     path = Path.Combine(path, string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext));
-                    request.Form.Files[0].SaveAs(path);
-                    var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
-                    if (storage != null)
-                    {
-                        string filePath = storage.SaveFile(path);
-                        if (filePath.IsNotNullAndWhiteSpace())
-                        {
-                            return filePath;
-                        }
-                    }
+                    request.Form.Files[0].SaveAs(path);                    
                     return request.ChangeToWebPath(path);
                 }
             }
@@ -89,16 +75,7 @@ namespace Easy.Mvc.Extend
                 {
                     fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
                     path = Path.Combine(path, fileName);
-                    request.Form.Files[name].SaveAs(path);
-                    var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
-                    if (storage != null)
-                    {
-                        string filePath = storage.SaveFile(path);
-                        if (filePath.IsNotNullAndWhiteSpace())
-                        {
-                            return filePath;
-                        }
-                    }
+                    request.Form.Files[name].SaveAs(path);                    
                     return request.ChangeToWebPath(path);
                 }
             }
@@ -120,16 +97,7 @@ namespace Easy.Mvc.Extend
                 {
                     fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
                     path = Path.Combine(path, fileName);
-                    request.Form.Files[0].SaveAs(path);
-                    var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
-                    if (storage != null)
-                    {
-                        string filePath = storage.SaveFile(path);
-                        if (filePath.IsNotNullAndWhiteSpace())
-                        {
-                            return filePath;
-                        }
-                    }
+                    request.Form.Files[0].SaveAs(path);                    
                     return request.ChangeToWebPath(path);
                 }
             }
@@ -146,16 +114,7 @@ namespace Easy.Mvc.Extend
                 {
                     fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
                     path = Path.Combine(path, fileName);
-                    request.Form.Files[0].SaveAs(path);
-                    var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
-                    if (storage != null)
-                    {
-                        string filePath = storage.SaveFile(path);
-                        if (filePath.IsNotNullAndWhiteSpace())
-                        {
-                            return filePath;
-                        }
-                    }
+                    request.Form.Files[0].SaveAs(path);                    
                     return request.ChangeToWebPath(path);
                 }
             }
@@ -168,12 +127,7 @@ namespace Easy.Mvc.Extend
             if (File.Exists(file))
             {
                 File.Delete(file);
-            }
-            var storage = request.HttpContext.RequestServices.GetService<IStorageService>();
-            if (storage != null)
-            {
-                storage.DeleteFile(file);
-            }
+            }            
         }
 
         public static string GetAbsoluteUrl(this HttpRequest request)
