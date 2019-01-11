@@ -19,6 +19,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using ZKEACMS.Common.ViewModels;
 using ZKEACMS.Media;
 
@@ -112,7 +113,7 @@ namespace ZKEACMS.Controllers
             return Json(entity);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
-        public JsonResult Upload(string parentId, string folder, long size)
+        public async Task<IActionResult> Upload(string parentId, string folder, long size)
         {
             if (Request.Form.Files.Count > 0)
             {
@@ -140,7 +141,7 @@ namespace ZKEACMS.Controllers
                     Status = Request.Form.Files[0].Length == size ? (int)RecordStatus.Active : (int)RecordStatus.InActive
                 };
                 string extension = Path.GetExtension(fileName).ToLower();
-                entity.Url = _storage.SaveFile(Request.Form.Files[0].OpenReadStream(), $"{Guid.NewGuid().ToString("N")}{extension}");
+                entity.Url = await _storage.SaveFileAsync(Request.Form.Files[0].OpenReadStream(), $"{Guid.NewGuid().ToString("N")}{extension}");
                 if (entity.Url.IsNotNullAndWhiteSpace())
                 {
                     Service.Add(entity);
@@ -151,7 +152,7 @@ namespace ZKEACMS.Controllers
             return Json(false);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
-        public JsonResult AppendFile(string id, long position, long size)
+        public async Task<IActionResult> AppendFile(string id, long position, long size)
         {
             var media = Service.Get(id);
             if (media != null && Request.Form.Files.Count > 0)
@@ -161,7 +162,7 @@ namespace ZKEACMS.Controllers
                     media.Status = (int)RecordStatus.Active;
                     Service.Update(media);
                 }
-                _storage.AppendFile(Request.Form.Files[0].OpenReadStream(), media.Url);
+                await _storage.AppendFileAsync(Request.Form.Files[0].OpenReadStream(), media.Url);
                 media.Url = Url.Content(media.Url);
                 return Json(media);
             }
