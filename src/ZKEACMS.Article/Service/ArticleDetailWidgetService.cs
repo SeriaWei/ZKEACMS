@@ -17,13 +17,30 @@ namespace ZKEACMS.Article.Service
 {
     public class ArticleDetailWidgetService : WidgetService<ArticleDetailWidget>
     {
+        private const string ArticleDetailWidgetRelatedPageUrls = "ArticleDetailWidgetRelatedPageUrls";
         private readonly IArticleService _articleService;
         public ArticleDetailWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
             _articleService = articleService;
         }
+        private void DismissRelatedPageUrls()
+        {
+            string[] urls;
+            ArticlePlug.AllRelatedUrlCache.TryRemove(ArticleDetailWidgetRelatedPageUrls, out urls);
+        }
 
+        public override void AddWidget(WidgetBase widget)
+        {
+            base.AddWidget(widget);
+            DismissRelatedPageUrls();
+        }
+
+        public override void DeleteWidget(string widgetId)
+        {
+            base.DeleteWidget(widgetId);
+            DismissRelatedPageUrls();
+        }
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
@@ -67,6 +84,15 @@ namespace ZKEACMS.Article.Service
 
 
             return widget.ToWidgetViewModelPart(viewModel);
+        }
+
+        public string[] GetRelatedPageUrls()
+        {
+            return ArticlePlug.AllRelatedUrlCache.GetOrAdd(ArticleDetailWidgetRelatedPageUrls, fac =>
+            {
+                var pages = WidgetBasePartService.Get(w => Get().Select(m => m.ID).Contains(w.ID)).Select(m => m.PageID).ToArray();
+                return (DbContext as CMSDbContext).Page.Where(p => pages.Contains(p.ID)).Select(m => m.Url.Replace("~/", "/")).Distinct().ToArray();
+            });
         }
     }
 }

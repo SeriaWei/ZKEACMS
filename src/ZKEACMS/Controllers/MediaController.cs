@@ -281,5 +281,11 @@ namespace ZKEACMS.Controllers
             }
             return sBuilder.ToString();
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            _webClient.Dispose();
+            base.Dispose(disposing);
+        }
     }
 }

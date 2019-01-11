@@ -76,7 +76,7 @@ namespace ZKEACMS.Redirection.Service
         }
         public IEnumerable<UrlRedirect> GetAll()
         {
-            return _cacheManager.GetOrAdd(CacheKey, Get().ToList());
+            return _cacheManager.GetOrAdd(CacheKey, key => Get().ToList());
         }
     }
 }

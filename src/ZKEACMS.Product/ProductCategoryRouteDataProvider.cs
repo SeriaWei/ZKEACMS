@@ -11,16 +11,19 @@ namespace ZKEACMS.Product
     public class ProductCategoryRouteDataProvider : IRouteDataProvider
     {
         private readonly IProductCategoryService _productCategoryService;
-        public ProductCategoryRouteDataProvider(IProductCategoryService productCategoryService)
+        private readonly ProductCategoryWidgetService _productCategoryWidgetService;
+        public ProductCategoryRouteDataProvider(IProductCategoryService productCategoryService, ProductCategoryWidgetService productCategoryWidgetService)
         {
             _productCategoryService = productCategoryService;
+            _productCategoryWidgetService = productCategoryWidgetService;
         }
         public int Order { get { return 1; } }
 
         public string ExtractVirtualPath(string path, RouteValueDictionary values)
         {
             var pathArray = path.Split("/", StringSplitOptions.RemoveEmptyEntries);
-            if (pathArray.Length > 1)
+            string[] urls = _productCategoryWidgetService.GetRelatedPageUrls();
+            if (pathArray.Length > 1 && urls.Any(m => m.Length < path.Length && path.StartsWith(m, StringComparison.InvariantCultureIgnoreCase)))
             {
                 var category = _productCategoryService.GetByUrl(pathArray[pathArray.Length - 1]);
                 if (category != null)
@@ -36,7 +39,7 @@ namespace ZKEACMS.Product
                     }
                     path = $"/{string.Join("/", pathArray, 0, pathArray.Length - 1)}";
                 }
-                
+
             }
             return path;
         }

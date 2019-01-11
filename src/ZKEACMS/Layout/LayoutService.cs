@@ -38,7 +38,7 @@ namespace ZKEACMS.Layout
         }
 
         public override DbSet<LayoutEntity> CurrentDbSet => (DbContext as CMSDbContext).Layout;
-        
+
 
         private string GenerateKey(object id)
         {
@@ -178,7 +178,15 @@ namespace ZKEACMS.Layout
         }
         public LayoutEntity GetByPage(PageEntity page)
         {
-            LayoutEntity entity = new LayoutEntity { ID = page.LayoutId };
+            LayoutEntity baseLayout = base.Get(page.LayoutId);
+            LayoutEntity entity = new LayoutEntity
+            {
+                ID = baseLayout.ID,
+                Style = baseLayout.Style,
+                Script = baseLayout.Script,
+                LayoutName = baseLayout.LayoutName,
+                ContainerClass = baseLayout.ContainerClass
+            };
             IEnumerable<ZoneEntity> zones = _zoneService.GetByPage(page);
             entity.Zones = new ZoneCollection();
             zones.Each(entity.Zones.Add);

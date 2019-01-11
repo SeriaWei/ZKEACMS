@@ -8,16 +8,35 @@ using ZKEACMS.Article.Models;
 using ZKEACMS.Article.ViewModel;
 using ZKEACMS.Widget;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace ZKEACMS.Article.Service
 {
     public class ArticleTypeWidgetService : WidgetService<ArticleTypeWidget>
     {
+        private const string ArticleTypeWidgetRelatedPageUrls = "ArticleTypeWidgetRelatedPageUrls";
+
         private readonly IArticleTypeService _articleTypeService;
         public ArticleTypeWidgetService(IWidgetBasePartService widgetService, IArticleTypeService articleTypeService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
             _articleTypeService = articleTypeService;
+        }
+        private void DismissRelatedPageUrls()
+        {
+            string[] urls;
+            ArticlePlug.AllRelatedUrlCache.TryRemove(ArticleTypeWidgetRelatedPageUrls, out urls);
+        }
+        public override void AddWidget(WidgetBase widget)
+        {
+            base.AddWidget(widget);
+            DismissRelatedPageUrls();
+        }
+
+        public override void DeleteWidget(string widgetId)
+        {
+            base.DeleteWidget(widgetId);
+            DismissRelatedPageUrls();
         }
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
@@ -51,6 +70,15 @@ namespace ZKEACMS.Article.Service
             {
                 ArticleTypes = types,
                 ArticleTypeID = ac
+            });
+        }
+
+        public string[] GetRelatedPageUrls()
+        {
+            return ArticlePlug.AllRelatedUrlCache.GetOrAdd(ArticleTypeWidgetRelatedPageUrls, fac =>
+            {
+                var pages = WidgetBasePartService.Get(w => Get().Select(m => m.ID).Contains(w.ID)).Select(m => m.PageID).ToArray();
+                return (DbContext as CMSDbContext).Page.Where(p => pages.Contains(p.ID)).Select(m => m.Url.Replace("~/", "/")).Distinct().ToArray();
             });
         }
     }
