@@ -22,8 +22,7 @@ namespace ZKEACMS.Product.Service
         }
         private void DismissRelatedPageUrls()
         {
-            string[] urls;
-            ProductPlug.AllRelatedUrlCache.TryRemove(ProductDetailWidgetRelatedPageUrls, out urls);
+            ProductPlug.AllRelatedUrlCache.TryRemove(ProductDetailWidgetRelatedPageUrls, out var urls);
         }
 
         public override void AddWidget(WidgetBase widget)
@@ -80,7 +79,7 @@ namespace ZKEACMS.Product.Service
             return ProductPlug.AllRelatedUrlCache.GetOrAdd(ProductDetailWidgetRelatedPageUrls, fac =>
             {
                 var pages = WidgetBasePartService.Get(w => Get().Select(m => m.ID).Contains(w.ID)).Select(m => m.PageID).ToArray();
-                return (DbContext as CMSDbContext).Page.Where(p => pages.Contains(p.ID)).Select(m => m.Url.Replace("~/", "/")).Distinct().ToArray();
+                return DbContext.Page.Where(p => pages.Contains(p.ID)).Select(m => m.Url.Replace("~/", "/")).Distinct().ToArray();
             });
         }
     }

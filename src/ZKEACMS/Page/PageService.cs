@@ -21,7 +21,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace ZKEACMS.Page
 {
-    public class PageService : ServiceBase<PageEntity>, IPageService
+    public class PageService : ServiceBase<PageEntity, CMSDbContext>, IPageService
     {
         private readonly IWidgetBasePartService _widgetService;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -64,7 +64,7 @@ namespace ZKEACMS.Page
 
         public override DbSet<PageEntity> CurrentDbSet
         {
-            get { return (DbContext as CMSDbContext).Page; }
+            get { return DbContext.Page; }
         }
         
         public override ServiceResult<PageEntity> Add(PageEntity item)

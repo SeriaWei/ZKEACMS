@@ -12,7 +12,7 @@ using System.Security.Cryptography;
 
 namespace Easy.Modules.User.Service
 {
-    public class UserService : ServiceBase<UserEntity>, IUserService
+    public class UserService : ServiceBase<UserEntity, EasyDbContext>, IUserService
     {
         public UserService(IApplicationContext applicationContext, EasyDbContext easyDbContext) : base(applicationContext, easyDbContext)
         {
@@ -21,7 +21,7 @@ namespace Easy.Modules.User.Service
         {
             get
             {
-                return (DbContext as EasyDbContext).Users;
+                return DbContext.Users;
             }
         }
         public override UserEntity Get(params object[] primaryKey)
@@ -29,7 +29,7 @@ namespace Easy.Modules.User.Service
             var userEntity = CurrentDbSet.AsNoTracking().Where(m => m.UserID == primaryKey[0].ToString()).FirstOrDefault();
             if (userEntity != null)
             {
-                userEntity.Roles = (DbContext as EasyDbContext).UserRoleRelation.AsNoTracking().Where(m => m.UserID == userEntity.UserID).ToList();
+                userEntity.Roles = DbContext.UserRoleRelation.AsNoTracking().Where(m => m.UserID == userEntity.UserID).ToList();
             }
             return userEntity;
         }
@@ -86,7 +86,7 @@ namespace Easy.Modules.User.Service
                         m.UserID = item.UserID;
                         if (m.ActionType == ActionType.Create)
                         {
-                            (DbContext as EasyDbContext).UserRoleRelation.Add(m);
+                            DbContext.UserRoleRelation.Add(m);
                         }
                     });
                 }
@@ -108,15 +108,15 @@ namespace Easy.Modules.User.Service
                     m.UserID = item.UserID;
                     if (m.ActionType == ActionType.Create)
                     {
-                        (DbContext as EasyDbContext).UserRoleRelation.Add(m);
+                        DbContext.UserRoleRelation.Add(m);
                     }
                     else if (m.ID > 0 && m.ActionType == ActionType.Delete)
                     {
-                        (DbContext as EasyDbContext).UserRoleRelation.Remove(m);
+                        DbContext.UserRoleRelation.Remove(m);
                     }
                     else if (m.ActionType == ActionType.Update)
                     {
-                        (DbContext as EasyDbContext).UserRoleRelation.Update(m);
+                        DbContext.UserRoleRelation.Update(m);
                     }
                 });
             }

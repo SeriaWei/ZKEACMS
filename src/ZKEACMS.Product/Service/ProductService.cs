@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductService : ServiceBase<ProductEntity>, IProductService
+    public class ProductService : ServiceBase<ProductEntity, CMSDbContext>, IProductService
     {
         private readonly IProductTagService _productTagService;
         private readonly IProductCategoryTagService _productCategoryTagService;

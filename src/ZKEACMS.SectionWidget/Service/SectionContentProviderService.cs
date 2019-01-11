@@ -10,7 +10,7 @@ using Easy.Extend;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionContentProviderService : ServiceBase<SectionContentBasePart>, ISectionContentProviderService
+    public class SectionContentProviderService : ServiceBase<SectionContentBasePart, CMSDbContext>, ISectionContentProviderService
     {
         private readonly IEnumerable<ISectionContentService> _sectionContentServices;
 

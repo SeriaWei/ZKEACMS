@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleTypeService : ServiceBase<ArticleType>, IArticleTypeService
+    public class ArticleTypeService : ServiceBase<ArticleType, CMSDbContext>, IArticleTypeService
     {
         private readonly IArticleService _articleService;
         private readonly ILocalize _localize;

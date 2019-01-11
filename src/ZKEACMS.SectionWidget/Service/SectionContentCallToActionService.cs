@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionContentCallToActionService : ServiceBase<SectionContentCallToAction>, ISectionContentService
+    public class SectionContentCallToActionService : ServiceBase<SectionContentCallToAction, CMSDbContext>, ISectionContentService
     {
         public SectionContentCallToActionService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {

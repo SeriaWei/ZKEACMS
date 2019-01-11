@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductImageService : ServiceBase<ProductImage>, IProductImageService
+    public class ProductImageService : ServiceBase<ProductImage, CMSDbContext>, IProductImageService
     {
         public ProductImageService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {

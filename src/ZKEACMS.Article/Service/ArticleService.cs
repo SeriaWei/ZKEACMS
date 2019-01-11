@@ -10,7 +10,7 @@ using Easy.Extend;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleService : ServiceBase<ArticleEntity>, IArticleService
+    public class ArticleService : ServiceBase<ArticleEntity, CMSDbContext>, IArticleService
     {
         private readonly ILocalize _localize;
         public ArticleService(IApplicationContext applicationContext, ILocalize localize, CMSDbContext dbContext) 

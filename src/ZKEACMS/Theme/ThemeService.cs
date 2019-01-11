@@ -15,7 +15,7 @@ using System.IO;
 
 namespace ZKEACMS.Theme
 {
-    public class ThemeService : ServiceBase<ThemeEntity>, IThemeService
+    public class ThemeService : ServiceBase<ThemeEntity, CMSDbContext>, IThemeService
     {
         class FilePathMap
         {
@@ -46,7 +46,7 @@ namespace ZKEACMS.Theme
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public override DbSet<ThemeEntity> CurrentDbSet => (DbContext as CMSDbContext).Theme;
+        public override DbSet<ThemeEntity> CurrentDbSet => DbContext.Theme;
 
         public void SetPreview(string id)
         {
@@ -109,12 +109,10 @@ namespace ZKEACMS.Theme
         }
         private void OnFileChange(object filePath)
         {
-            var map = filePath as FilePathMap;
-            if (map != null)
+            if (filePath is FilePathMap map)
             {
                 string newValue = map.Source + "?v=" + File.GetLastWriteTime(map.FilePath).ToFileTime().ToString("x");
-                string oldValue = null;
-                if (VersionMap.TryGetValue(map.Source, out oldValue))
+                if (VersionMap.TryGetValue(map.Source, out string oldValue))
                 {
                     VersionMap.TryUpdate(map.Source, newValue, oldValue);
                 }

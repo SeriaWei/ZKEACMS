@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace ZKEACMS.FormGenerator.Service
 {
-    public class FormService : ServiceBase<Form>, IFormService
+    public class FormService : ServiceBase<Form, CMSDbContext>, IFormService
     {
         public FormService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {

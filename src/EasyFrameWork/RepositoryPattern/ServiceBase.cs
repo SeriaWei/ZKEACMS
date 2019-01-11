@@ -17,17 +17,18 @@ using System.Threading.Tasks;
 
 namespace Easy.RepositoryPattern
 {
-    public abstract class ServiceBase<T> : IService<T>
+    public abstract class ServiceBase<T, TdbContext> : IService<T>
         where T : class
+        where TdbContext : DbContext
     {
-        public ServiceBase(IApplicationContext applicationContext, DbContext dbContext)
+        public ServiceBase(IApplicationContext applicationContext, TdbContext dbContext)
         {
             ApplicationContext = applicationContext;
             DbContext = dbContext;
             isWaitingSave = false;
         }
 
-        public virtual DbContext DbContext
+        public virtual TdbContext DbContext
         {
             get;
             set;
