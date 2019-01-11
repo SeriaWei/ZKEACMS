@@ -12,13 +12,13 @@ using System.Linq;
 
 namespace ZKEACMS.Media
 {
-    public class MediaService : ServiceBase<MediaEntity>, IMediaService
+    public class MediaService : ServiceBase<MediaEntity, CMSDbContext>, IMediaService
     {
         public MediaService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
 
-        public override DbSet<MediaEntity> CurrentDbSet => (DbContext as CMSDbContext).Media;
+        public override DbSet<MediaEntity> CurrentDbSet => DbContext.Media;
 
         public override ServiceResult<MediaEntity> Add(MediaEntity item)
         {

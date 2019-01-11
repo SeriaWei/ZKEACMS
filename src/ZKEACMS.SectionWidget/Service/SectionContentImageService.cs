@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionContentImageService : ServiceBase<SectionContentImage>, ISectionContentService
+    public class SectionContentImageService : ServiceBase<SectionContentImage, CMSDbContext>, ISectionContentService
     {
         public SectionContentImageService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {

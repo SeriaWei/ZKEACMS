@@ -14,7 +14,7 @@ using ZKEACMS.Setting;
 
 namespace ZKEACMS.Message.Service
 {
-    public class CommentsService : ServiceBase<Comments>, ICommentsService
+    public class CommentsService : ServiceBase<Comments, CMSDbContext>, ICommentsService
     {
         private readonly INotificationManager _notificationManager;
         private readonly IApplicationSettingService _applicationSettingService;

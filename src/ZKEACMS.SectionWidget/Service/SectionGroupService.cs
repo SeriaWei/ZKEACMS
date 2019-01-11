@@ -15,7 +15,7 @@ using Easy.Mvc.Plugin;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionGroupService : ServiceBase<SectionGroup>, ISectionGroupService
+    public class SectionGroupService : ServiceBase<SectionGroup, CMSDbContext>, ISectionGroupService
     {
         private readonly ISectionContentProviderService _sectionContentProviderService;
         private readonly IPluginLoader _pluginLoader;

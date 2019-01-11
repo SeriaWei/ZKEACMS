@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Layout
 {
-    public class LayoutService : ServiceBase<LayoutEntity>, ILayoutService
+    public class LayoutService : ServiceBase<LayoutEntity, CMSDbContext>, ILayoutService
     {
         private readonly IZoneService _zoneService;
         private readonly ILayoutHtmlService _layoutHtmlService;
@@ -37,7 +37,7 @@ namespace ZKEACMS.Layout
             _widgetActivator = widgetActivator;
         }
 
-        public override DbSet<LayoutEntity> CurrentDbSet => (DbContext as CMSDbContext).Layout;
+        public override DbSet<LayoutEntity> CurrentDbSet => DbContext.Layout;
 
 
         private string GenerateKey(object id)

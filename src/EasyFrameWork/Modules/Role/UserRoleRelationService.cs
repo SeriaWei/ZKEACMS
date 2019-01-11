@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Easy.Modules.Role
 {
-    public class UserRoleRelationService : ServiceBase<UserRoleRelation>, IUserRoleRelationService
+    public class UserRoleRelationService : ServiceBase<UserRoleRelation, EasyDbContext>, IUserRoleRelationService
     {
         public UserRoleRelationService(IApplicationContext applicationContext, EasyDbContext easyDbContext) : base(applicationContext, easyDbContext)
         {
@@ -15,7 +15,7 @@ namespace Easy.Modules.Role
         {
             get
             {
-                return (DbContext as EasyDbContext).UserRoleRelation;
+                return DbContext.UserRoleRelation;
             }
         }
     }

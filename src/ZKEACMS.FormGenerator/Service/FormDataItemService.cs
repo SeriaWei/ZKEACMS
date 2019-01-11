@@ -9,7 +9,7 @@ using Easy;
 
 namespace ZKEACMS.FormGenerator.Service
 {
-    public class FormDataItemService : ServiceBase<FormDataItem>, IFormDataItemService
+    public class FormDataItemService : ServiceBase<FormDataItem, CMSDbContext>, IFormDataItemService
     {
         public FormDataItemService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {

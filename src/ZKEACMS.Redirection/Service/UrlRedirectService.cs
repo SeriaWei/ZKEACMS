@@ -9,7 +9,7 @@ using ZKEACMS.Redirection.Models;
 
 namespace ZKEACMS.Redirection.Service
 {
-    public class UrlRedirectService : ServiceBase<UrlRedirect>, IUrlRedirectService
+    public class UrlRedirectService : ServiceBase<UrlRedirect, CMSDbContext>, IUrlRedirectService
     {
         private const string CacheKey = "AllUrlRedirectItems";
         private readonly ICacheManager<IEnumerable<UrlRedirect>> _cacheManager;

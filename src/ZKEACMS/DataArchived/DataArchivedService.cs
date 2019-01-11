@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace ZKEACMS.DataArchived
 {
-    public class DataArchivedService : ServiceBase<DataArchived>, IDataArchivedService
+    public class DataArchivedService : ServiceBase<DataArchived, CMSDbContext>, IDataArchivedService
     {
         private const string ArchiveLock = "ArchiveLock";
 
@@ -18,7 +18,7 @@ namespace ZKEACMS.DataArchived
         {
         }
 
-        public override DbSet<DataArchived> CurrentDbSet => (DbContext as CMSDbContext).DataArchived;
+        public override DbSet<DataArchived> CurrentDbSet => DbContext.DataArchived;
 
         public JsonConverter[] JsonConverters { get; set; }
 

@@ -10,7 +10,7 @@ using ZKEACMS.DataArchived;
 
 namespace ZKEACMS.Setting
 {
-    public class ApplicationSettingService : ServiceBase<ApplicationSetting>, IApplicationSettingService
+    public class ApplicationSettingService : ServiceBase<ApplicationSetting, CMSDbContext>, IApplicationSettingService
     {
         private readonly IDataArchivedService _dataArchivedService;
         public ApplicationSettingService(IApplicationContext applicationContext, IDataArchivedService dataArchivedService, CMSDbContext dbContext) : base(applicationContext, dbContext)
@@ -18,7 +18,7 @@ namespace ZKEACMS.Setting
             _dataArchivedService = dataArchivedService;
         }
 
-        public override DbSet<ApplicationSetting> CurrentDbSet => (DbContext as CMSDbContext).ApplicationSetting;
+        public override DbSet<ApplicationSetting> CurrentDbSet => DbContext.ApplicationSetting;
 
         public override ServiceResult<ApplicationSetting> Add(ApplicationSetting item)
         {

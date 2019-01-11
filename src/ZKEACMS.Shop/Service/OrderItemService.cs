@@ -9,7 +9,7 @@ using Easy;
 
 namespace ZKEACMS.Shop.Service
 {
-    public class OrderItemService : ServiceBase<OrderItem>, IOrderItemService
+    public class OrderItemService : ServiceBase<OrderItem, CMSDbContext>, IOrderItemService
     {
         public OrderItemService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {

@@ -17,7 +17,8 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace ZKEACMS.Widget
 {
-    public abstract class WidgetService<T> : ServiceBase<T>, IWidgetPartDriver where T : WidgetBase
+    public abstract class WidgetService<T> : ServiceBase<T, CMSDbContext>, IWidgetPartDriver 
+        where T : WidgetBase
     {
         public WidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(applicationContext, dbContext)
