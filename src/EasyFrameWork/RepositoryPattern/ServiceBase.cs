@@ -381,4 +381,11 @@ namespace Easy.RepositoryPattern
             isWaitingSave = true;
         }
     }
+    public abstract class ServiceBase<T> : ServiceBase<T, DbContext> 
+        where T : class
+    {
+        public ServiceBase(IApplicationContext applicationContext, DbContext dbContext) : base(applicationContext, dbContext)
+        {
+        }
+    }
 }
