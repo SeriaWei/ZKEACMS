@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Easy.Storage
 {
-    public interface IStorageService
+    public interface IStorage
     {
         string SaveFile(Stream stream, string fileName);
         string SaveFile(Stream stream, string directory, string fileName);

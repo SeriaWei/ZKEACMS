@@ -10,6 +10,7 @@ using Easy.Mvc.Controllers;
 using Easy.Mvc.Extend;
 using Easy.Net;
 using Easy.RepositoryPattern;
+using Easy.Storage;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -28,11 +29,16 @@ namespace ZKEACMS.Controllers
     {
         private readonly ILogger _logger;
         private readonly WebClient _webClient;
-        public MediaController(IMediaService service, ILoggerFactory loggerFactory, WebClient webClient)
+        private readonly IStorage _storage;
+        public MediaController(IMediaService service,
+            ILoggerFactory loggerFactory,
+            WebClient webClient,
+            IStorage storage)
             : base(service)
         {
             _logger = loggerFactory.CreateLogger<MediaController>();
             _webClient = webClient;
+            _storage = storage;
         }
         [NonAction]
         public override IActionResult Index()
@@ -134,14 +140,7 @@ namespace ZKEACMS.Controllers
                     Status = Request.Form.Files[0].Length == size ? (int)RecordStatus.Active : (int)RecordStatus.InActive
                 };
                 string extension = Path.GetExtension(fileName).ToLower();
-                if (ImageHelper.IsImage(extension))
-                {
-                    entity.Url = Request.SaveImage();
-                }
-                else
-                {
-                    entity.Url = Request.SaveFile();
-                }
+                entity.Url = _storage.SaveFile(Request.Form.Files[0].OpenReadStream(), $"{Guid.NewGuid().ToString("N")}{extension}");
                 if (entity.Url.IsNotNullAndWhiteSpace())
                 {
                     Service.Add(entity);
@@ -162,16 +161,9 @@ namespace ZKEACMS.Controllers
                     media.Status = (int)RecordStatus.Active;
                     Service.Update(media);
                 }
-                var file = Request.MapPath(media.Url);
-                if (System.IO.File.Exists(file))
-                {
-                    using (var fileStream = new FileStream(file, FileMode.Append))
-                    {
-                        Request.Form.Files[0].CopyTo(fileStream);
-                    }
-                    media.Url = Url.Content(media.Url);
-                    return Json(media);
-                }
+                _storage.AppendFile(Request.Form.Files[0].OpenReadStream(), media.Url);
+                media.Url = Url.Content(media.Url);
+                return Json(media);
             }
             return Json(false);
         }
@@ -191,7 +183,8 @@ namespace ZKEACMS.Controllers
                 {
                     media.Url = "~" + new Uri(media.Url).AbsolutePath;
                 }
-                Request.DeleteFile(media.Url);
+
+                _storage.Delete(media.Url);
             }
             else
             {
@@ -223,7 +216,6 @@ namespace ZKEACMS.Controllers
             //_webClient.Proxy = new System.Net.WebProxy("kyproxy.keyou.corp", 8080);
 
             string parentId = Service.GetImageFolder().ID;
-            string path = Request.GetUploadPath();
             foreach (var item in images)
             {
                 if (!result.ContainsKey(item))
@@ -233,7 +225,7 @@ namespace ZKEACMS.Controllers
                     {
                         ext = ".jpg";
                     }
-                    string filePath = Path.Combine(path, string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext));
+                    string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
                     try
                     {
                         using (MD5 md5hash = MD5.Create())
@@ -246,17 +238,16 @@ namespace ZKEACMS.Controllers
                             }
                             else
                             {
-                                _webClient.DownloadFile(item, filePath);
-                                string webPath = Request.ChangeToWebPath(filePath);
+                                string url = _storage.SaveFile(_webClient.OpenRead(item), fileName);
                                 Service.Add(new MediaEntity
                                 {
                                     ParentID = parentId,
-                                    Title = Path.GetFileName(filePath),
+                                    Title = fileName,
                                     Status = (int)RecordStatus.Active,
-                                    Url = webPath,
+                                    Url = url,
                                     ID = id
                                 });
-                                result.Add(item, webPath);
+                                result.Add(item, url);
                             }
                         }
 
