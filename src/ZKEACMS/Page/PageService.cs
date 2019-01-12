@@ -28,7 +28,7 @@ namespace ZKEACMS.Page
         private readonly IWidgetActivator _widgetActivator;
         private readonly IZoneService _zoneService;
         private readonly ILayoutHtmlService _layoutHtmlService;
-
+        private Dictionary<string, IEnumerable<PageEntity>> _cachedPage;
         public PageService(IWidgetBasePartService widgetService,
             IApplicationContext applicationContext,
             IHttpContextAccessor httpContextAccessor,
@@ -43,6 +43,7 @@ namespace ZKEACMS.Page
             _widgetActivator = widgetActivator;
             _zoneService = zoneService;
             _layoutHtmlService = layoutHtmlService;
+            _cachedPage = new Dictionary<string, IEnumerable<PageEntity>>();
         }
 
         private string FormatPath(string path)
@@ -66,7 +67,7 @@ namespace ZKEACMS.Page
         {
             get { return DbContext.Page; }
         }
-        
+
         public override ServiceResult<PageEntity> Add(PageEntity item)
         {
             if (!item.IsPublishedPage && Count(m => m.Url == item.Url && m.IsPublishedPage == false) > 0)
@@ -315,9 +316,15 @@ namespace ZKEACMS.Page
         }
         public PageEntity GetByPath(string path, bool isPreView)
         {
-            path = FormatPath(path);
+            string formatedPath = FormatPath(path);
+            if (_cachedPage.ContainsKey(formatedPath))
+            {
+                return _cachedPage[formatedPath].Where(m => m.Url == formatedPath && m.IsPublishedPage == !isPreView)
+                      .OrderByDescending(m => m.PublishDate)
+                      .FirstOrDefault();
+            }
             return Get()
-                      .Where(m => m.Url == path && m.IsPublishedPage == !isPreView)
+                      .Where(m => m.Url == formatedPath && m.IsPublishedPage == !isPreView)
                       .OrderByDescending(m => m.PublishDate)
                       .FirstOrDefault();
         }
@@ -340,8 +347,13 @@ namespace ZKEACMS.Page
 
         public bool IsExists(string path)
         {
-            path = FormatPath(path);
-            return Count(m => m.Url == path) > 0;
+            string formatedPath = FormatPath(path);
+            var pages = Get(m => m.Url == formatedPath);
+            if (pages.Any() && !_cachedPage.ContainsKey(path))
+            {
+                _cachedPage.Add(formatedPath, pages);
+            }
+            return pages.Any();
         }
     }
 }

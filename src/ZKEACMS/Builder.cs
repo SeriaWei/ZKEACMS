@@ -83,7 +83,7 @@ namespace ZKEACMS
             services.AddTransient<IRouteDataProvider, HtmlRouteDataProvider>();
 
             services.TryAddSingleton<IAdminMenuProvider, AdminMenuProvider>();
-            services.TryAddTransient<IWidgetActivator, DefaultWidgetActivator>();
+            services.TryAddScoped<IWidgetActivator, DefaultWidgetActivator>();
             services.TryAddTransient<ICarouselItemService, CarouselItemService>();
             services.TryAddTransient<ICarouselService, CarouselService>();
             services.TryAddTransient<INavigationService, NavigationService>();
@@ -96,15 +96,15 @@ namespace ZKEACMS
             services.TryAddTransient<IExtendFieldService, ExtendFieldService>();
             services.TryAddTransient<INotifyService, NotifyService>();
             services.AddTransient<IUserCenterLinksProvider, UserCenterLinksProvider>();
-            services.TryAddTransient<ILayoutService, LayoutService>();
-            services.TryAddTransient<ILayoutHtmlService, LayoutHtmlService>();
+            services.TryAddScoped<ILayoutService, LayoutService>();
+            services.TryAddScoped<ILayoutHtmlService, LayoutHtmlService>();
             services.TryAddTransient<IMediaService, MediaService>();
-            services.TryAddTransient<IPageService, PageService>();
-            services.TryAddTransient<IApplicationSettingService, ApplicationSettingService>();
-            services.TryAddTransient<IThemeService, ThemeService>();
+            services.TryAddScoped<IPageService, PageService>();
+            services.TryAddScoped<IApplicationSettingService, ApplicationSettingService>();
+            services.TryAddScoped<IThemeService, ThemeService>();
             services.TryAddTransient<IWidgetTemplateService, WidgetTemplateService>();
-            services.TryAddTransient<IWidgetBasePartService, WidgetBasePartService>();
-            services.TryAddTransient<IZoneService, ZoneService>();
+            services.TryAddScoped<IWidgetBasePartService, WidgetBasePartService>();
+            services.TryAddScoped<IZoneService, ZoneService>();
             services.TryAddTransient<Rule.IRuleService, Rule.RuleService>();
 
             services.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
