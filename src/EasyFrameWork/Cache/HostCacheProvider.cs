@@ -28,7 +28,12 @@ namespace Easy.Cache
         }
         public string Key(string key)
         {
-            return $"{_httpContextAccessor.HttpContext.Request.Host.Value}-{key}";
+            string host = _httpContextAccessor.HttpContext.Request.Host.Value.ToLowerInvariant();
+            if (host.StartsWith("www."))
+            {
+                return $"{host.Substring(4)}-{key}";
+            }
+            return $"{host}-{key}";
         }
     }
 }
