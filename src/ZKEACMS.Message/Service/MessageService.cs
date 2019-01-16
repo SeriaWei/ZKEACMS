@@ -14,7 +14,7 @@ using ZKEACMS.Setting;
 
 namespace ZKEACMS.Message.Service
 {
-    public class MessageService : ServiceBase<MessageEntity>, IMessageService
+    public class MessageService : ServiceBase<MessageEntity, CMSDbContext>, IMessageService
     {
         private readonly INotificationManager _notificationManager;
         private readonly IApplicationSettingService _applicationSettingService;

@@ -15,7 +15,7 @@ using Easy.Mvc.Plugin;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionGroupService : ServiceBase<SectionGroup>, ISectionGroupService
+    public class SectionGroupService : ServiceBase<SectionGroup, CMSDbContext>, ISectionGroupService
     {
         private readonly ISectionContentProviderService _sectionContentProviderService;
         private readonly IPluginLoader _pluginLoader;
@@ -26,7 +26,10 @@ namespace ZKEACMS.SectionWidget.Service
             _sectionContentProviderService = sectionContentProviderService;
             _pluginLoader = pluginLoader;
         }
-
+        public override IQueryable<SectionGroup> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
+        }
         public SectionGroup GenerateContentFromConfig(SectionGroup group)
         {
             string configFile = PluginBase.GetPath<SectionPlug>().CombinePath("Thumbnail/{0}.xml".FormatWith(group.PartialView).ToFilePath());

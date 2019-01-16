@@ -11,12 +11,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Common.Service
 {
-    public class NavigationService : ServiceBase<NavigationEntity>, INavigationService
+    public class NavigationService : ServiceBase<NavigationEntity, CMSDbContext>, INavigationService
     {
         public NavigationService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-        public override DbSet<NavigationEntity> CurrentDbSet => (DbContext as CMSDbContext).Navigation;
+        public override DbSet<NavigationEntity> CurrentDbSet => DbContext.Navigation;
         public override ServiceResult<NavigationEntity> Add(NavigationEntity item)
         {
             if (item.ParentId.IsNullOrEmpty())

@@ -21,7 +21,7 @@ namespace ZKEACMS.Common.Service
             _pageService = pageService;
         }
 
-        public override DbSet<BreadcrumbWidget> CurrentDbSet => (DbContext as CMSDbContext).BreadcrumbWidget;
+        public override DbSet<BreadcrumbWidget> CurrentDbSet => DbContext.BreadcrumbWidget;
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {

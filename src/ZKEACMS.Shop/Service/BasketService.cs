@@ -11,7 +11,7 @@ using ZKEACMS.Product.Service;
 
 namespace ZKEACMS.Shop.Service
 {
-    public class BasketService : ServiceBase<Basket>, IBasketService
+    public class BasketService : ServiceBase<Basket, CMSDbContext>, IBasketService
     {
         private readonly IProductService _productService;
         private readonly IOrderService _orderService;
