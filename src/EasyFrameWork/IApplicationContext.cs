@@ -12,5 +12,7 @@ namespace Easy
         IHostingEnvironment HostingEnvironment { get; }
         bool IsAuthenticated { get; }
         T As<T>() where T : class, IApplicationContext;
+        T Get<T>(string name);
+        void Set(string name, object value);
     }
 }

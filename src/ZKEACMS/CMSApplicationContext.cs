@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using ZKEACMS.Filter;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Html;
+using Easy.Mvc.StateProviders;
 
 namespace ZKEACMS
 {
@@ -16,8 +17,8 @@ namespace ZKEACMS
 
         private Uri _requestUrl;
 
-        public CMSApplicationContext(IHttpContextAccessor httpContextAccessor, IHostingEnvironment hostingEnvironment) :
-            base(httpContextAccessor, hostingEnvironment)
+        public CMSApplicationContext(IEnumerable<IApplicationContextStateProvider> applicationContextStateProviders) :
+            base(applicationContextStateProviders)
         {
             HeaderPart = new List<IHtmlContent>();
             FooterPart = new List<IHtmlContent>();

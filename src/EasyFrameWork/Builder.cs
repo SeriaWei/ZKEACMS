@@ -14,6 +14,7 @@ using Easy.Modules.User.Service;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Plugin;
 using Easy.Mvc.RazorPages;
+using Easy.Mvc.StateProviders;
 using Easy.Mvc.ValueProvider;
 using Easy.Net;
 using Easy.Notification;
@@ -85,6 +86,11 @@ namespace Easy
 
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
             services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
+
+            services.AddScoped<IApplicationContextStateProvider, CurrentCustomerStateProvider>();
+            services.AddScoped<IApplicationContextStateProvider, CurrentUserStateProvider>();
+            services.AddScoped<IApplicationContextStateProvider, HostingEnvironmentStateProvider>();
+            services.AddScoped<IApplicationContextStateProvider, HttpContextAccessorStateProvider>();
 
             services.ConfigureMetaData<UserEntity, UserMetaData>();
             services.ConfigureMetaData<DataDictionaryEntity, DataDictionaryEntityMetaData>();
