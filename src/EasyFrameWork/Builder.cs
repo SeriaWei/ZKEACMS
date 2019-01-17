@@ -46,14 +46,14 @@ namespace Easy
     {
         public static void UseEasyFrameWork(this IServiceCollection services, IConfiguration configuration)
         {
-            services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<RazorViewEngineOptions>, PluginRazorViewEngineOptionsSetup>());
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<RazorViewEngineOptions>, PluginRazorViewEngineOptionsSetup>());
 
             //services.Replace(ServiceDescriptor.Transient<IControllerActivator, Mvc.Controllers.ServiceBasedControllerActivator>());
             //services.TryAddEnumerable(ServiceDescriptor.Transient<IActionDescriptorProvider, ActionDescriptorProvider>());
             services.TryAddSingleton<IPluginLoader, Loader>();
 
 
-            services.TryAddTransient<IAuthorizer, DefaultAuthorizer>();
+            services.TryAddScoped<IAuthorizer, DefaultAuthorizer>();
 
             services.TryAddTransient<ICookie, Cookie>();
             services.TryAddTransient<IUserService, UserService>();

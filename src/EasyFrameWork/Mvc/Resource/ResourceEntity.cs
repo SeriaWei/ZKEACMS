@@ -73,17 +73,15 @@ namespace Easy.Mvc.Resource
             }
         }
 
-        public IHtmlContent ToSource<T>(RazorPage<T> page)
+        public IHtmlContent ToSource(IUrlHelper urlHelper, IHostingEnvironment hostingEnvironment, IOptions<CDNOption> options)
         {
             if (Source != null)
             {
                 return Source;
             }
-            IUrlHelper urlHelper = page.Context.RequestServices.GetService<IUrlHelperFactory>().GetUrlHelper(page.ViewContext);
-            IHostingEnvironment hostingEnvironment = page.Context.RequestServices.GetService<IHostingEnvironment>();
             if (CDN == null)
             {
-                CDN = page.Context.RequestServices.GetService<IOptions<CDNOption>>();
+                CDN = options;
             }
             string source = null;
             if (System.Diagnostics.Debugger.IsAttached || hostingEnvironment.IsDevelopment())

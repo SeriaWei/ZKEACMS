@@ -36,7 +36,6 @@ namespace Easy.Mvc
                 return Get<IUser>(nameof(CurrentUser));
             }
         }
-        IUser _currentCustomer;
         public IUser CurrentCustomer
         {
             get
