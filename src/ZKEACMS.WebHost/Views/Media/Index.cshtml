@@ -90,11 +90,11 @@
     <ul class="pagination">
         @if (Model.Pagin.PageIndex >= 1)
         {
-            <li><a href="@Url.Action(action, new {ParentId = Model.ParentID})"><<</a></li>
+            <li><a href="@Url.Action(action, new {ParentId = Model.ParentID})"><i class="glyphicon glyphicon-chevron-left"></i></a></li>
         }
         else
         {
-            <li class="disabled"><a href="javascript:void(0)"><<</a></li>
+            <li class="disabled"><a href="javascript:void(0)"><i class="glyphicon glyphicon-chevron-left"></i></a></li>
         }
         @{
             if (Model.Pagin.PageIndex >= 5)
@@ -126,13 +126,13 @@
         @if (Model.Pagin.PageIndex < Model.Pagin.AllPage - 1)
         {
             <li>
-                <a href="@Url.Action(action, new {parentId = Model.ParentID, pageIndex = Model.Pagin.PageIndex + 1})">>></a>
+                <a href="@Url.Action(action, new {parentId = Model.ParentID, pageIndex = Model.Pagin.PageIndex + 1})"><i class="glyphicon glyphicon-chevron-right"></i></a>
             </li>
         }
         else
         {
             <li class="disabled">
-                <a href="javascript:void(0)">>></a>
+                <a href="javascript:void(0)"><i class="glyphicon glyphicon-chevron-right"></i></a>
             </li>
         }
     </ul>
