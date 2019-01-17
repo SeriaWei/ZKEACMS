@@ -13,13 +13,29 @@ namespace ZKEACMS.Product.Service
 {
     public class ProductDetailWidgetService : WidgetService<ProductDetailWidget>
     {
+        private const string ProductDetailWidgetRelatedPageUrls = "ProductDetailWidgetRelatedPageUrls";
         private readonly IProductService _productService;
         public ProductDetailWidgetService(IWidgetBasePartService widgetService, IProductService productService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
             _productService = productService;
         }
-        
+        private void DismissRelatedPageUrls()
+        {
+            ProductPlug.AllRelatedUrlCache.TryRemove(ProductDetailWidgetRelatedPageUrls, out var urls);
+        }
+
+        public override void AddWidget(WidgetBase widget)
+        {
+            base.AddWidget(widget);
+            DismissRelatedPageUrls();
+        }
+
+        public override void DeleteWidget(string widgetId)
+        {
+            base.DeleteWidget(widgetId);
+            DismissRelatedPageUrls();
+        }
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             int productId = actionContext.RouteData.GetPost();
@@ -56,6 +72,15 @@ namespace ZKEACMS.Product.Service
             }
 
             return widget.ToWidgetViewModelPart(product ?? new ProductEntity());
+        }
+
+        public string[] GetRelatedPageUrls()
+        {
+            return ProductPlug.AllRelatedUrlCache.GetOrAdd(ProductDetailWidgetRelatedPageUrls, fac =>
+            {
+                var pages = WidgetBasePartService.Get(w => Get().Select(m => m.ID).Contains(w.ID)).Select(m => m.PageID).ToArray();
+                return DbContext.Page.Where(p => pages.Contains(p.ID)).Select(m => m.Url.Replace("~/", "/")).Distinct().ToArray();
+            });
         }
     }
 }

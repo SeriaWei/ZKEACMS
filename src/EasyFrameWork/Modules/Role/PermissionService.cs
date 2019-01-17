@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Easy.Modules.Role
 {
-    public class PermissionService : ServiceBase<Permission>, IPermissionService
+    public class PermissionService : ServiceBase<Permission, EasyDbContext>, IPermissionService
     {
         public PermissionService(IApplicationContext applicationContext, EasyDbContext easyDbContext) : base(applicationContext, easyDbContext)
         {
@@ -15,7 +15,7 @@ namespace Easy.Modules.Role
         {
             get
             {
-                return (DbContext as EasyDbContext).Permission;
+                return DbContext.Permission;
             }
         }
 

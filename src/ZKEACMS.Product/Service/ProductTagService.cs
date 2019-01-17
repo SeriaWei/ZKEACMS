@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductTagService : ServiceBase<ProductTag>, IProductTagService
+    public class ProductTagService : ServiceBase<ProductTag, CMSDbContext>, IProductTagService
     {
         public ProductTagService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {

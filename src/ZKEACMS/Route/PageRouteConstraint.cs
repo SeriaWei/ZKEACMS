@@ -20,6 +20,8 @@ namespace ZKEACMS
     {
         public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
         {
+            if (routeDirection == RouteDirection.UrlGeneration) return false;
+
             const string start = "/";
             string path = start;
 

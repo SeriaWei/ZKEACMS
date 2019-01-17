@@ -12,14 +12,14 @@ using Microsoft.AspNetCore.Http;
 
 namespace ZKEACMS.Layout
 {
-    public class LayoutHtmlService : ServiceBase<LayoutHtml>, ILayoutHtmlService
+    public class LayoutHtmlService : ServiceBase<LayoutHtml, CMSDbContext>, ILayoutHtmlService
     {
         private readonly ICacheManager<IEnumerable<LayoutHtml>> _cacheManager;
         public LayoutHtmlService(IApplicationContext applicationContext, ICacheManager<IEnumerable<LayoutHtml>> cacheManager, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
             _cacheManager = cacheManager;
         }
-        public override DbSet<LayoutHtml> CurrentDbSet => (DbContext as CMSDbContext).LayoutHtml;
+        public override DbSet<LayoutHtml> CurrentDbSet => DbContext.LayoutHtml;
 
         public override IQueryable<LayoutHtml> Get()
         {
@@ -32,22 +32,22 @@ namespace ZKEACMS.Layout
         }
         public IEnumerable<LayoutHtml> GetByPage(PageEntity page)
         {
-            Func<string, string, IEnumerable<LayoutHtml>> get = (key, regin) =>
-             {
-                 IEnumerable<LayoutHtml> html = Get().Where(m => m.PageId == page.ID).OrderBy(m => m.LayoutHtmlId).ToList();
-                 if (!html.Any())
-                 {
-                     html = GetByLayoutID(page.LayoutId);
-                     if (ApplicationContext.IsAuthenticated)
-                     {
-                         foreach (var item in html)
-                         {
-                             Add(new LayoutHtml { LayoutId = item.LayoutId, Html = item.Html, PageId = page.ID });
-                         }
-                     }
-                 }
-                 return html;
-             };
+            IEnumerable<LayoutHtml> get(string key, string regin)
+            {
+                IEnumerable<LayoutHtml> html = Get().Where(m => m.PageId == page.ID).OrderBy(m => m.LayoutHtmlId).ToList();
+                if (!html.Any())
+                {
+                    html = GetByLayoutID(page.LayoutId);
+                    if (ApplicationContext.IsAuthenticated)
+                    {
+                        foreach (var item in html)
+                        {
+                            Add(new LayoutHtml { LayoutId = item.LayoutId, Html = item.Html, PageId = page.ID });
+                        }
+                    }
+                }
+                return html;
+            }
             if (page.IsPublishedPage)
             {
                 return _cacheManager.GetOrAdd(page.ID, page.ReferencePageID, get);

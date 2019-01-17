@@ -11,16 +11,19 @@ namespace ZKEACMS.Article
     public class ArticleTypeRouteDataProvider : IRouteDataProvider
     {
         private readonly IArticleTypeService _articleTypeService;
-        public ArticleTypeRouteDataProvider(IArticleTypeService articleTypeService)
+        private readonly ArticleTypeWidgetService _articleTypeWidgetService;
+        public ArticleTypeRouteDataProvider(IArticleTypeService articleTypeService, ArticleTypeWidgetService articleTypeWidgetService)
         {
             _articleTypeService = articleTypeService;
+            _articleTypeWidgetService = articleTypeWidgetService;
         }
         public int Order { get { return 1; } }
 
         public string ExtractVirtualPath(string path, RouteValueDictionary values)
         {
             var pathArray = path.Split("/", StringSplitOptions.RemoveEmptyEntries);
-            if (pathArray.Length > 1)
+            string[] urls = _articleTypeWidgetService.GetRelatedPageUrls();
+            if (pathArray.Length > 1 && urls.Any(m => m.Length < path.Length && path.StartsWith(m, StringComparison.InvariantCultureIgnoreCase)))
             {
                 var articleType = _articleTypeService.GetByUrl(pathArray[pathArray.Length - 1]);
                 if (articleType != null)
@@ -36,7 +39,7 @@ namespace ZKEACMS.Article
                     }
                     path = $"/{string.Join("/", pathArray, 0, pathArray.Length - 1)}";
                 }
-                
+
             }
             return path;
         }

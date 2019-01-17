@@ -13,11 +13,17 @@ using Microsoft.Extensions.Options;
 using ZKEACMS.WidgetTemplate;
 using Easy.RepositoryPattern;
 using ZKEACMS.Route;
+using System.Collections.Concurrent;
 
 namespace ZKEACMS.Article
 {
     public class ArticlePlug : PluginBase
     {
+        public static ConcurrentDictionary<string, string[]> AllRelatedUrlCache { get; }
+        static ArticlePlug()
+        {
+            AllRelatedUrlCache = new ConcurrentDictionary<string, string[]>();
+        }
         public override IEnumerable<RouteDescriptor> RegistRoute()
         {
             return null;
