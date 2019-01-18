@@ -18,16 +18,15 @@ namespace Easy.Mvc
     public class ApplicationContext : IApplicationContext
     {
         private readonly ConcurrentDictionary<string, Func<object>> _stateResolvers;
-        private readonly IEnumerable<IApplicationContextStateProvider> _applicationContextStateProviders;
-        public ApplicationContext(IEnumerable<IApplicationContextStateProvider> applicationContextStateProviders)
+        private IEnumerable<IApplicationContextStateProvider> _applicationContextStateProviders;
+        public ApplicationContext(IHttpContextAccessor httpContextAccessor)
         {
             _stateResolvers = new ConcurrentDictionary<string, Func<object>>();
-            _applicationContextStateProviders = applicationContextStateProviders;
+            HttpContextAccessor = httpContextAccessor;
         }
         public IHttpContextAccessor HttpContextAccessor
         {
-            get { return Get<IHttpContextAccessor>(nameof(HttpContextAccessor)); }
-            set { Set(nameof(HttpContextAccessor), value); }
+            get;
         }
         public IUser CurrentUser
         {
@@ -57,6 +56,10 @@ namespace Easy.Mvc
         }
         Func<object> FindResolverForState<T>(string name)
         {
+            if (_applicationContextStateProviders == null)
+            {
+                _applicationContextStateProviders = HttpContextAccessor.HttpContext.RequestServices.GetServices<IApplicationContextStateProvider>();
+            }
             var resolver = _applicationContextStateProviders.FirstOrDefault(m => m.Name == name).Get<T>();
 
             if (resolver == null)

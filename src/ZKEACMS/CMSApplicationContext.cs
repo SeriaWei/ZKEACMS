@@ -17,8 +17,8 @@ namespace ZKEACMS
 
         private Uri _requestUrl;
 
-        public CMSApplicationContext(IEnumerable<IApplicationContextStateProvider> applicationContextStateProviders) :
-            base(applicationContextStateProviders)
+        public CMSApplicationContext(IHttpContextAccessor httpContextAccessor) :
+            base(httpContextAccessor)
         {
             HeaderPart = new List<IHtmlContent>();
             FooterPart = new List<IHtmlContent>();

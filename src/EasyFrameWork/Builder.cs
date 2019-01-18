@@ -85,12 +85,11 @@ namespace Easy
             services.ConfigureCache<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>>();
 
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
-            services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
+            //services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
 
             services.AddScoped<IApplicationContextStateProvider, CurrentCustomerStateProvider>();
             services.AddScoped<IApplicationContextStateProvider, CurrentUserStateProvider>();
             services.AddScoped<IApplicationContextStateProvider, HostingEnvironmentStateProvider>();
-            services.AddScoped<IApplicationContextStateProvider, HttpContextAccessorStateProvider>();
 
             services.ConfigureMetaData<UserEntity, UserMetaData>();
             services.ConfigureMetaData<DataDictionaryEntity, DataDictionaryEntityMetaData>();

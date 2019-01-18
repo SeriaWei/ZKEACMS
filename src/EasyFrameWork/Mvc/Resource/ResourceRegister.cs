@@ -119,7 +119,7 @@ namespace Easy.Mvc.Resource
         public override ResourceCapture Reqiured(string name)
         {
             if (!ResourceManager.ScriptSource.ContainsKey(name))
-                throw new Exception("找不到名称为“{0}”的相关资源".FormatWith(name));
+                throw new Exception("Can't find source:{0}".FormatWith(name));
             return new ResourceCapture(_page, Resource.ResourceManager.ScriptSource[name], OnRegisted);
         }
 
@@ -146,6 +146,8 @@ namespace Easy.Mvc.Resource
 
         public override ResourceCapture Reqiured(string name)
         {
+            if (!ResourceManager.StyleSource.ContainsKey(name))
+                throw new Exception("Can't find source:{0}".FormatWith(name));
             return new ResourceCapture(_page, ResourceManager.StyleSource[name], OnRegisted);
         }
     }

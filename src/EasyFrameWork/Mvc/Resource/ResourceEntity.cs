@@ -55,21 +55,21 @@ namespace Easy.Mvc.Resource
                 }
                 if (ReleaseSource.StartsWith("~"))
                 {
-                    return _CDNSource = ReleaseSource.Replace("~", CDN.Value.Url);
+                    return _CDNSource = ReleaseSource.Replace("~", CDN.Url);
                 }
                 if (ReleaseSource.StartsWith("/"))
                 {
-                    return _CDNSource = CDN.Value.Url.TrimEnd('/') + ReleaseSource;
+                    return _CDNSource = CDN.Url.TrimEnd('/') + ReleaseSource;
                 }
-                return _CDNSource = CDN.Value.Url.TrimEnd('/') + "/" + ReleaseSource;
+                return _CDNSource = CDN.Url.TrimEnd('/') + "/" + ReleaseSource;
             }
         }
-        public IOptions<CDNOption> CDN { get; set; }
+        public CDNOption CDN { get; set; }
         public bool UseCNDSource
         {
             get
             {
-                return CDN != null && CDN.Value.Enable && CDN.Value.Url.IsNotNullAndWhiteSpace();
+                return CDN != null && CDN.Enable && CDN.Url.IsNotNullAndWhiteSpace();
             }
         }
 
@@ -81,7 +81,7 @@ namespace Easy.Mvc.Resource
             }
             if (CDN == null)
             {
-                CDN = options;
+                CDN = options.Value;
             }
             string source = null;
             if (System.Diagnostics.Debugger.IsAttached || hostingEnvironment.IsDevelopment())
