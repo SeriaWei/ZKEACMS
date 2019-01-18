@@ -27,6 +27,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyModel;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -122,6 +123,7 @@ namespace ZKEACMS
             services.ConfigureCache<IEnumerable<WidgetBase>>();
             services.ConfigureCache<IEnumerable<ZoneEntity>>();
             services.ConfigureCache<IEnumerable<LayoutHtml>>();
+            services.ConfigureCache<ConcurrentDictionary<string, object>>();
 
             services.ConfigureMetaData<ArticleEntity, ArticleEntityMeta>();
             services.ConfigureMetaData<ArticleType, ArtycleTypeMetaData>();

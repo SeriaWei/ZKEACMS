@@ -1,6 +1,7 @@
 using Easy;
 using Easy.Cache;
 using Easy.RepositoryPattern;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,10 @@ namespace ZKEACMS.Redirection.Service
         private void RemoveCache()
         {
             _cacheManager.Remove(CacheKey);
+        }
+        public override IQueryable<UrlRedirect> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
         }
         public override ServiceResult<UrlRedirect> Add(UrlRedirect item)
         {
