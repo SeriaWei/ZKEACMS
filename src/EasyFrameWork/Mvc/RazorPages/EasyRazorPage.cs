@@ -90,7 +90,7 @@ namespace Easy.Mvc.RazorPages
                     {
                         if (includeRequired)
                         {
-                            ResourceManager.ScriptSource.Where(m => m.Value.Required && m.Value.Position == position)
+                            ResourceHelper.ScriptSource.Where(m => m.Value.Required && m.Value.Position == position)
                                                     .Each(m => m.Value.Each(r =>
                                                     {
                                                         builder.AppendHtml(r.ToSource(urlHelper, hostingEnvironment, options));
@@ -106,7 +106,7 @@ namespace Easy.Mvc.RazorPages
                     {
                         if (includeRequired)
                         {
-                            ResourceManager.StyleSource.Where(m => m.Value.Required && m.Value.Position == position)
+                            ResourceHelper.StyleSource.Where(m => m.Value.Required && m.Value.Position == position)
                                                         .Each(m => m.Value.Each(r =>
                                                         {
                                                             builder.AppendHtml(r.ToSource(urlHelper, hostingEnvironment, options));

@@ -55,17 +55,17 @@ namespace Easy.Mvc.Resource
             resource.Name = "Capture-" + partResult.Value.GetHashCode();
             resource.Position = _position;
             _onRegisted(resource);
+            _page = null;
+            _onRegisted = null;
         }
     }
 
     public class ResourceCapture
     {
-        private RazorPage _page;
         private ResourceCollection _resource;
         private Action<ResourceCollection> _onRegisted;
-        public ResourceCapture(RazorPage page, ResourceCollection source, Action<ResourceCollection> onRegisted)
+        public ResourceCapture(ResourceCollection source, Action<ResourceCollection> onRegisted)
         {
-            _page = page;
             _resource = source;
             _onRegisted = onRegisted;
         }
@@ -81,6 +81,7 @@ namespace Easy.Mvc.Resource
                 resources.Add(entity);
             });
             _onRegisted(resources);
+            _onRegisted = null;
         }
         public void AtFoot()
         {
@@ -94,6 +95,7 @@ namespace Easy.Mvc.Resource
                 resources.Add(entity);
             });
             _onRegisted(resources);
+            _onRegisted = null;
         }
     }
 
@@ -118,9 +120,9 @@ namespace Easy.Mvc.Resource
 
         public override ResourceCapture Reqiured(string name)
         {
-            if (!ResourceManager.ScriptSource.ContainsKey(name))
+            if (!ResourceHelper.ScriptSource.ContainsKey(name))
                 throw new Exception("Can't find source:{0}".FormatWith(name));
-            return new ResourceCapture(_page, Resource.ResourceManager.ScriptSource[name], OnRegisted);
+            return new ResourceCapture(ResourceHelper.ScriptSource[name], OnRegisted);
         }
 
 
@@ -146,9 +148,9 @@ namespace Easy.Mvc.Resource
 
         public override ResourceCapture Reqiured(string name)
         {
-            if (!ResourceManager.StyleSource.ContainsKey(name))
+            if (!ResourceHelper.StyleSource.ContainsKey(name))
                 throw new Exception("Can't find source:{0}".FormatWith(name));
-            return new ResourceCapture(_page, ResourceManager.StyleSource[name], OnRegisted);
+            return new ResourceCapture(ResourceHelper.StyleSource[name], OnRegisted);
         }
     }
 

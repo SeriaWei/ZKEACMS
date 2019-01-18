@@ -6,6 +6,15 @@ namespace Easy.Mvc.Resource
 {
     public class ResourceHelper
     {
+        public static Dictionary<string, ResourceCollection> ScriptSource { get; private set; }
+        public static Dictionary<string, ResourceCollection> StyleSource { get; private set; }
+
+        static ResourceHelper()
+        {
+            ScriptSource = new Dictionary<string, ResourceCollection>();
+            StyleSource = new Dictionary<string, ResourceCollection>();
+        }
+
         private readonly ResourceCollection _source;
         private readonly ResourceType _resourceType;
         public ResourceHelper(string name, ResourceType resourceType)
@@ -14,14 +23,14 @@ namespace Easy.Mvc.Resource
             {
                 case ResourceType.Script:
                     {
-                        ResourceManager.ScriptSource.Add(name, new ResourceCollection { Name = name });
-                        _source = ResourceManager.ScriptSource[name];
+                        ScriptSource.Add(name, new ResourceCollection { Name = name });
+                        _source = ScriptSource[name];
                         break;
                     }
                 case ResourceType.Style:
                     {
-                        ResourceManager.StyleSource.Add(name, new ResourceCollection { Name = name });
-                        _source = ResourceManager.StyleSource[name];
+                        StyleSource.Add(name, new ResourceCollection { Name = name });
+                        _source = StyleSource[name];
                         break;
                     }
             }
