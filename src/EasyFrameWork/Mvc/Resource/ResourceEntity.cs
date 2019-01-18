@@ -84,7 +84,7 @@ namespace Easy.Mvc.Resource
                 CDN = options.Value;
             }
             string source = null;
-            if (System.Diagnostics.Debugger.IsAttached || hostingEnvironment.IsDevelopment())
+            if (hostingEnvironment.IsDevelopment())
             {
                 string debugSource = VersionSource(hostingEnvironment, DebugSource);
                 switch (SourceType)
