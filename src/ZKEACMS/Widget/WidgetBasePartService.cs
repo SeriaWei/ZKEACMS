@@ -65,6 +65,11 @@ namespace ZKEACMS.Widget
 
         }
 
+        public override IQueryable<WidgetBasePart> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
+        }
+
         public IEnumerable<WidgetBase> GetByLayoutId(string layoutId)
         {
             return Get(m => m.LayoutID == layoutId);

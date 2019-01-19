@@ -55,38 +55,36 @@ namespace Easy.Mvc.Resource
                 }
                 if (ReleaseSource.StartsWith("~"))
                 {
-                    return _CDNSource = ReleaseSource.Replace("~", CDN.Value.Url);
+                    return _CDNSource = ReleaseSource.Replace("~", CDN.Url);
                 }
                 if (ReleaseSource.StartsWith("/"))
                 {
-                    return _CDNSource = CDN.Value.Url.TrimEnd('/') + ReleaseSource;
+                    return _CDNSource = CDN.Url.TrimEnd('/') + ReleaseSource;
                 }
-                return _CDNSource = CDN.Value.Url.TrimEnd('/') + "/" + ReleaseSource;
+                return _CDNSource = CDN.Url.TrimEnd('/') + "/" + ReleaseSource;
             }
         }
-        public IOptions<CDNOption> CDN { get; set; }
+        public CDNOption CDN { get; set; }
         public bool UseCNDSource
         {
             get
             {
-                return CDN != null && CDN.Value.Enable && CDN.Value.Url.IsNotNullAndWhiteSpace();
+                return CDN != null && CDN.Enable && CDN.Url.IsNotNullAndWhiteSpace();
             }
         }
 
-        public IHtmlContent ToSource<T>(RazorPage<T> page)
+        public IHtmlContent ToSource(IUrlHelper urlHelper, IHostingEnvironment hostingEnvironment, IOptions<CDNOption> options)
         {
             if (Source != null)
             {
                 return Source;
             }
-            IUrlHelper urlHelper = page.Context.RequestServices.GetService<IUrlHelperFactory>().GetUrlHelper(page.ViewContext);
-            IHostingEnvironment hostingEnvironment = page.Context.RequestServices.GetService<IHostingEnvironment>();
             if (CDN == null)
             {
-                CDN = page.Context.RequestServices.GetService<IOptions<CDNOption>>();
+                CDN = options.Value;
             }
             string source = null;
-            if (System.Diagnostics.Debugger.IsAttached || hostingEnvironment.IsDevelopment())
+            if (hostingEnvironment.IsDevelopment())
             {
                 string debugSource = VersionSource(hostingEnvironment, DebugSource);
                 switch (SourceType)

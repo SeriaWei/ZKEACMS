@@ -8,13 +8,6 @@ namespace Easy.Mvc.Resource
 {
     public abstract class ResourceManager : ApplicationPart
     {
-        public static Dictionary<string, ResourceCollection> ScriptSource { get; private set; }
-        public static Dictionary<string, ResourceCollection> StyleSource { get; private set; }
-        static ResourceManager()
-        {
-            ScriptSource = new Dictionary<string, ResourceCollection>();
-            StyleSource = new Dictionary<string, ResourceCollection>();
-        }
         protected ResourceHelper Script(string name)
         {
             return new ResourceHelper(name, ResourceType.Script);

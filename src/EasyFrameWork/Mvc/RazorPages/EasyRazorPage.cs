@@ -10,6 +10,11 @@ using Easy.Extend;
 using System.Collections.Generic;
 using Easy.Mvc.Authorize;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Easy.Options;
+using Microsoft.Extensions.Options;
 
 namespace Easy.Mvc.RazorPages
 {
@@ -68,7 +73,7 @@ namespace Easy.Mvc.RazorPages
             return new LocalizeString(content, this.ViewContext.HttpContext);
         }
 
-        public LocalizeString L(string content,string cultureCode)
+        public LocalizeString L(string content, string cultureCode)
         {
             return new LocalizeString(content, cultureCode, this.ViewContext.HttpContext);
         }
@@ -76,17 +81,24 @@ namespace Easy.Mvc.RazorPages
         private IHtmlContent GetResource(bool includeRequired, ResourceType type, ResourcePosition position)
         {
             var builder = new HtmlContentBuilder();
+            IUrlHelper urlHelper = Context.RequestServices.GetService<IUrlHelperFactory>().GetUrlHelper(ViewContext);
+            IHostingEnvironment hostingEnvironment = Context.RequestServices.GetService<IHostingEnvironment>();
+            IOptions<CDNOption> options = Context.RequestServices.GetService<IOptions<CDNOption>>();
             switch (type)
             {
                 case ResourceType.Script:
                     {
                         if (includeRequired)
                         {
-                            ResourceManager.ScriptSource.Where(m => m.Value.Required && m.Value.Position == position)
-                                                    .Each(m => m.Value.Each(r => builder.AppendHtml(r.ToSource(this))));
+                            ResourceHelper.ScriptSource.Where(m => m.Value.Required && m.Value.Position == position)
+                                                    .Each(m => m.Value.Each(r =>
+                                                    {
+                                                        builder.AppendHtml(r.ToSource(urlHelper, hostingEnvironment, options));
+                                                    }));
                         }
 
-                        _requiredScripts.Where(m => m.Position == position).Each(m => m.Each(r => builder.AppendHtml(r.ToSource(this))));
+                        _requiredScripts.Where(m => m.Position == position).Each(m => m.Each(r =>
+                        builder.AppendHtml(r.ToSource(urlHelper, hostingEnvironment, options))));
                         break;
                     }
 
@@ -94,32 +106,36 @@ namespace Easy.Mvc.RazorPages
                     {
                         if (includeRequired)
                         {
-                            ResourceManager.StyleSource.Where(m => m.Value.Required && m.Value.Position == position)
-                                                        .Each(m => m.Value.Each(r => builder.AppendHtml(r.ToSource(this))));
+                            ResourceHelper.StyleSource.Where(m => m.Value.Required && m.Value.Position == position)
+                                                        .Each(m => m.Value.Each(r =>
+                                                        {
+                                                            builder.AppendHtml(r.ToSource(urlHelper, hostingEnvironment, options));
+                                                        }));
                         }
 
-                        _requiredStyles.Where(m => m.Position == position).Each(m => m.Each(r => builder.AppendHtml(r.ToSource(this))));
+                        _requiredStyles.Where(m => m.Position == position).Each(m => m.Each(r =>
+                        {
+                            builder.AppendHtml(r.ToSource(urlHelper, hostingEnvironment, options));
+                        }));
                         break;
                     }
             }
             return builder;
         }
 
-        private ScriptRegister _script;
         public ScriptRegister Script
         {
             get
             {
-                return _script ?? (_script = new ScriptRegister(this, RegistScript));
+                return new ScriptRegister(this, RegistScript);
             }
         }
 
-        private StyleRegister _style;
         public StyleRegister Style
         {
             get
             {
-                return _style ?? (_style = new StyleRegister(this, RegistStyle));
+                return new StyleRegister(this, RegistStyle);
             }
         }
         private void RegistStyle(ResourceCollection resource)
@@ -136,28 +152,18 @@ namespace Easy.Mvc.RazorPages
                 _requiredScripts.Add(resource);
             }
         }
-        private IApplicationContext _applicationContext;
         public IApplicationContext ApplicationContext
         {
             get
             {
-                if (_applicationContext == null)
-                {
-                    _applicationContext = ViewContext.HttpContext.RequestServices.GetService<IApplicationContext>();
-                }
-                return _applicationContext;
+                return ViewContext.HttpContext.RequestServices.GetService<IApplicationContext>();
             }
         }
-        private IAuthorizer _authorizer;
         public IAuthorizer Authorizer
         {
             get
             {
-                if (_authorizer == null)
-                {
-                    _authorizer = ViewContext.HttpContext.RequestServices.GetService<IAuthorizer>();
-                }
-                return _authorizer;
+                return ViewContext.HttpContext.RequestServices.GetService<IAuthorizer>();
             }
         }
     }

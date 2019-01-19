@@ -22,6 +22,16 @@ namespace ZKEACMS.DataArchived
 
         public JsonConverter[] JsonConverters { get; set; }
 
+        public override IQueryable<DataArchived> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
+        }
+
+        public override DataArchived Get(params object[] primaryKey)
+        {
+            string key = primaryKey[0].ToString();
+            return Get().FirstOrDefault(m => m.ID == key);
+        }
 
         public override ServiceResult<DataArchived> Add(DataArchived item)
         {

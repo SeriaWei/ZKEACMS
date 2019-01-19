@@ -12,6 +12,7 @@ using System;
 using System.Collections.Concurrent;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Easy.Cache;
 
 namespace ZKEACMS.Theme
 {
@@ -27,26 +28,32 @@ namespace ZKEACMS.Theme
         private const string PreViewCookieName = "PreViewTheme";
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHostingEnvironment _hostingEnvironment;
-        static ConcurrentDictionary<string, string> VersionMap;
-
-        static ThemeService()
-        {
-            VersionMap = new ConcurrentDictionary<string, string>();
-        }
+        private readonly ConcurrentDictionary<string, object> _cache;
+        private readonly ConcurrentDictionary<string, object> _versionMap;
+        private const string CurrentThemeCacheKey = "CurrentThemeCacheKey";
+        private const string CurrentThemeVersionMapCacheKey = "CurrentThemeVersionMapCacheKey"; 
 
         public ThemeService(ICookie cookie,
             IHttpContextAccessor httpContextAccessor,
             IHostingEnvironment hostingEnvironment,
             IApplicationContext applicationContext,
+            ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _cookie = cookie;
             _httpContextAccessor = httpContextAccessor;
             _hostingEnvironment = hostingEnvironment;
+            _cache = cacheManager.GetOrAdd(CurrentThemeCacheKey, key => new ConcurrentDictionary<string, object>());
+            _versionMap = cacheManager.GetOrAdd(CurrentThemeVersionMapCacheKey, key => new ConcurrentDictionary<string, object>());
         }
 
         public override DbSet<ThemeEntity> CurrentDbSet => DbContext.Theme;
+
+        public override IQueryable<ThemeEntity> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
+        }
 
         public void SetPreview(string id)
         {
@@ -57,7 +64,16 @@ namespace ZKEACMS.Theme
         {
             _cookie.Delete(PreViewCookieName);
         }
-
+        public override ServiceResult<ThemeEntity> Add(ThemeEntity item)
+        {
+            _cache.Clear();
+            return base.Add(item);
+        }
+        public override ServiceResult<ThemeEntity> Update(ThemeEntity item)
+        {
+            _cache.Clear();
+            return base.Update(item);
+        }
         public ThemeEntity GetCurrentTheme()
         {
             var id = _cookie.GetValue<string>(PreViewCookieName);
@@ -68,11 +84,20 @@ namespace ZKEACMS.Theme
                 if (theme != null)
                 {
                     theme.IsPreView = true;
+                    theme.UrlDebugger = VersionSource(theme.UrlDebugger);
+                    theme.Url = VersionSource(theme.Url);
                 }
             }
-            theme = theme ?? Get(m => m.IsActived == true).FirstOrDefault();
-            theme.UrlDebugger = VersionSource(theme.UrlDebugger);
-            theme.Url = VersionSource(theme.Url);
+            if (theme == null)
+            {
+                theme = _cache.GetOrAdd(CurrentThemeCacheKey, key =>
+                {
+                    ThemeEntity entry = Get(m => m.IsActived == true).FirstOrDefault();
+                    entry.UrlDebugger = VersionSource(entry.UrlDebugger);
+                    entry.Url = VersionSource(entry.Url);
+                    return entry;
+                }) as ThemeEntity;
+            }
             return theme;
         }
 
@@ -95,7 +120,7 @@ namespace ZKEACMS.Theme
 
         private string VersionSource(string source)
         {
-            return VersionMap.GetOrAdd(source, factory =>
+            return _versionMap.GetOrAdd(source, factory =>
             {
                 if ((factory.StartsWith("~/") || factory.StartsWith("/")) && factory.IndexOf("?") < 0)
                 {
@@ -105,16 +130,16 @@ namespace ZKEACMS.Theme
                     return factory + "?v=" + File.GetLastWriteTime(filePath).ToFileTime().ToString("x");
                 }
                 return factory;
-            });
+            }).ToString();
         }
         private void OnFileChange(object filePath)
         {
             if (filePath is FilePathMap map)
             {
                 string newValue = map.Source + "?v=" + File.GetLastWriteTime(map.FilePath).ToFileTime().ToString("x");
-                if (VersionMap.TryGetValue(map.Source, out string oldValue))
+                if (_versionMap.TryGetValue(map.Source, out object oldValue))
                 {
-                    VersionMap.TryUpdate(map.Source, newValue, oldValue);
+                    _versionMap.TryUpdate(map.Source, newValue, oldValue);
                 }
             }
         }

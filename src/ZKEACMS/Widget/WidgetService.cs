@@ -14,6 +14,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Widget
 {
@@ -31,6 +32,10 @@ namespace ZKEACMS.Widget
         {
             get { return WidgetBasePartService.IsNeedNotifyChange; }
             set { WidgetBasePartService.IsNeedNotifyChange = value; }
+        }
+        public override IQueryable<T> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
         }
         public override ServiceResult<T> Add(T item)
         {

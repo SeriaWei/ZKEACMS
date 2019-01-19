@@ -50,7 +50,7 @@ namespace ZKEACMS.Common.Service
                 foreach (var navigationEntity in navs)
                 {
                     if (navigationEntity.Url.IsNotNullAndWhiteSpace()
-                        && path.IndexOf((navigationEntity.Url ?? "").Replace("~/", "/"), StringComparison.OrdinalIgnoreCase) == 0
+                        && path.IndexOf((navigationEntity.Url ?? "").Replace("~/", "/").Replace(".html", string.Empty), StringComparison.OrdinalIgnoreCase) == 0
                         && length < navigationEntity.Url.Length)
                     {
                         current = navigationEntity;
