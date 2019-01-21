@@ -29,14 +29,8 @@ namespace ZKEACMS.Product
                 if (product != null)
                 {
                     var url = pathArray[pathArray.Length - 1];
-                    if (!values.ContainsKey(StringKeys.RouteVale_ProductUrl))
-                    {
-                        values.Add(StringKeys.RouteVale_ProductUrl, url);
-                    }
-                    if (!values.ContainsKey(StringKeys.RouteValue_Post))
-                    {
-                        values.Add(StringKeys.RouteValue_Post, product.ID);
-                    }
+                    values.SetProductUrl(url);
+                    values.SetPost(product.ID);
                     path = $"/{string.Join("/", pathArray, 0, pathArray.Length - 1)}";
                 }
                 

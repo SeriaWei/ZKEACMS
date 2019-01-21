@@ -42,8 +42,8 @@ namespace ZKEACMS.Product.Service
             ProductEntity product = null;
             if (productId != 0)
             {
-                product = _productService.Get(productId);
-                if (product !=null && product.Url.IsNotNullAndWhiteSpace() && actionContext.RouteData.GetProductUrl().IsNullOrWhiteSpace())
+                product = actionContext.RouteData.GetProduct(productId) ?? _productService.Get(productId);
+                if (product != null && product.Url.IsNotNullAndWhiteSpace() && actionContext.RouteData.GetProductUrl().IsNullOrWhiteSpace())
                 {
                     actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{product.Url}.html", true);
                 }

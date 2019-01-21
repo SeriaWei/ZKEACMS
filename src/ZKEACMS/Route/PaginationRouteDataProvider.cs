@@ -25,9 +25,9 @@ namespace ZKEACMS.Route
                     int.TryParse(evaluator.Groups[1].Value, out page);
                     return string.Empty;
                 });
-                if (page >= 0 && !values.ContainsKey(StringKeys.RouteValue_Page))
+                if (page >= 0)
                 {
-                    values.Add(StringKeys.RouteValue_Page, page);
+                    values.SetPage(page);
                 }                
             }
             return path;

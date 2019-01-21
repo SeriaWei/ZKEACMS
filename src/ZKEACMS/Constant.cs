@@ -113,7 +113,9 @@ namespace ZKEACMS
         public const string RouteValue_Page = "p";
 
         public const string RouteVale_ArticleUrl = "ArticleUrl";
+        public const string RouteVale_Article = "Article-{0}";
         public const string RouteVale_ProductUrl = "ProductUrl";
+        public const string RouteVale_Product = "Product-{0}";
         public const string RouteVale_CategoryUrl = "CategoryUrl";
 
         public static string PathFormat(string routeKey)
