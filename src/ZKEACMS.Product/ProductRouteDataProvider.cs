@@ -31,6 +31,7 @@ namespace ZKEACMS.Product
                     var url = pathArray[pathArray.Length - 1];
                     values.SetProductUrl(url);
                     values.SetPost(product.ID);
+                    values.SetProduct(product);
                     path = $"/{string.Join("/", pathArray, 0, pathArray.Length - 1)}";
                 }
                 
