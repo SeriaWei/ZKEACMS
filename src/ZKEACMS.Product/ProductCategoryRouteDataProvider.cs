@@ -29,14 +29,10 @@ namespace ZKEACMS.Product
                 if (category != null)
                 {
                     var url = pathArray[pathArray.Length - 1];
-                    if (!values.ContainsKey(StringKeys.RouteVale_CategoryUrl))
-                    {
-                        values.Add(StringKeys.RouteVale_CategoryUrl, url);
-                    }
-                    if (!values.ContainsKey(StringKeys.RouteValue_Category))
-                    {
-                        values.Add(StringKeys.RouteValue_Category, category.ID);
-                    }
+                    
+                    values.SetCategoryUrl(url);
+                    values.SetCategory(category.ID);
+
                     path = $"/{string.Join("/", pathArray, 0, pathArray.Length - 1)}";
                 }
 

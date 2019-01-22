@@ -47,7 +47,7 @@ namespace ZKEACMS.Article.Service
             var viewModel = new ArticleDetailViewModel();
             if (articleId != 0)
             {
-                viewModel.Current = _articleService.Get(articleId);
+                viewModel.Current = actionContext.RouteData.GetArticle(articleId) ?? _articleService.Get(articleId);
                 if (viewModel.Current != null)
                 {
                     _articleService.IncreaseCount(viewModel.Current);

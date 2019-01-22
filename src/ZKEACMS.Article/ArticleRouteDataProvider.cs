@@ -29,14 +29,9 @@ namespace ZKEACMS.Article
                 if (article != null)
                 {
                     var url = pathArray[pathArray.Length - 1];
-                    if (!values.ContainsKey(StringKeys.RouteVale_ArticleUrl))
-                    {
-                        values.Add(StringKeys.RouteVale_ArticleUrl, url);
-                    }
-                    if (!values.ContainsKey(StringKeys.RouteValue_Post))
-                    {
-                        values.Add(StringKeys.RouteValue_Post, article.ID);
-                    }
+                    values.SetArticleUrl(url);
+                    values.SetArticle(article);
+                    values.SetPost(article.ID);
                     path = $"/{string.Join("/", pathArray, 0, pathArray.Length - 1)}";
                 }
                 
