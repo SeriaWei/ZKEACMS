@@ -24,31 +24,31 @@ namespace ZKEACMS
             }
             return path;
         }
-        public static void SetPost(this RouteValueDictionary routeValue,int post)
+        public static void SetPost(this RouteValueDictionary routeValue, int post)
         {
             routeValue.TryAdd(StringKeys.RouteValue_Post, post);
         }
         public static int GetPost(this RouteData routeData)
         {
-            int post = 0;
-            if (routeData.Values.ContainsKey(StringKeys.RouteValue_Post))
+            object post;
+            if (routeData.Values.TryGetValue(StringKeys.RouteValue_Post, out post))
             {
-                int.TryParse(routeData.Values[StringKeys.RouteValue_Post].ToString(), out post);
+                return (int)post;
             }
-            return post;
+            return 0;
         }
-        public static void SetCategory(this RouteValueDictionary routeValue,int category)
+        public static void SetCategory(this RouteValueDictionary routeValue, int category)
         {
             routeValue.TryAdd(StringKeys.RouteValue_Category, category);
         }
         public static int GetCategory(this RouteData routeData)
         {
-            int post = 0;
-            if (routeData.Values.ContainsKey(StringKeys.RouteValue_Category))
+            object post;
+            if (routeData.Values.TryGetValue(StringKeys.RouteValue_Category, out post))
             {
-                int.TryParse(routeData.Values[StringKeys.RouteValue_Category].ToString(), out post);
+                return (int)post;
             }
-            return post;
+            return 0;
         }
         public static void SetPage(this RouteValueDictionary routeValue, int page)
         {
@@ -56,12 +56,12 @@ namespace ZKEACMS
         }
         public static int GetPage(this RouteData routeData)
         {
-            int page = 0;
-            if (routeData.Values.ContainsKey(StringKeys.RouteValue_Page))
+            object page;
+            if (routeData.Values.TryGetValue(StringKeys.RouteValue_Page, out page))
             {
-                int.TryParse(routeData.Values[StringKeys.RouteValue_Page].ToString(), out page);
+                return (int)page;
             }
-            return page;
+            return 0;
         }
         public static void SetArticle(this RouteValueDictionary routeValue, ArticleEntity article)
         {
@@ -84,9 +84,10 @@ namespace ZKEACMS
         }
         public static string GetArticleUrl(this RouteData roteData)
         {
-            if (roteData.Values.ContainsKey(StringKeys.RouteVale_ArticleUrl))
+            object result;
+            if (roteData.Values.TryGetValue(StringKeys.RouteVale_ArticleUrl, out result))
             {
-                return roteData.Values[StringKeys.RouteVale_ArticleUrl].ToString();
+                return result.ToString();
             }
             return null;
         }
@@ -105,27 +106,29 @@ namespace ZKEACMS
             }
             return null;
         }
-        public static void SetProductUrl(this RouteValueDictionary routeValue,string url)
+        public static void SetProductUrl(this RouteValueDictionary routeValue, string url)
         {
             routeValue.TryAdd(StringKeys.RouteVale_ProductUrl, url);
         }
         public static string GetProductUrl(this RouteData routeData)
         {
-            if (routeData.Values.ContainsKey(StringKeys.RouteVale_ProductUrl))
+            object result;
+            if (routeData.Values.TryGetValue(StringKeys.RouteVale_ProductUrl, out result))
             {
-                return routeData.Values[StringKeys.RouteVale_ProductUrl].ToString();
+                return result.ToString();
             }
             return null;
         }
-        public static void SetCategoryUrl(this RouteValueDictionary routeValue,string url)
+        public static void SetCategoryUrl(this RouteValueDictionary routeValue, string url)
         {
             routeValue.TryAdd(StringKeys.RouteVale_CategoryUrl, url);
         }
         public static string GetCategoryUrl(this RouteData routeData)
         {
-            if (routeData.Values.ContainsKey(StringKeys.RouteVale_CategoryUrl))
+            object result;
+            if (routeData.Values.TryGetValue(StringKeys.RouteVale_CategoryUrl, out result))
             {
-                return routeData.Values[StringKeys.RouteVale_CategoryUrl].ToString();
+                return result.ToString();
             }
             return null;
         }
