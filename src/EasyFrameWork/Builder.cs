@@ -78,7 +78,7 @@ namespace Easy
             services.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
             services.AddTransient<WebClient>();
 
-            services.AddSingleton<ICacheProvider, HostCacheProvider>();
+            services.AddSingleton<ICacheProvider, DefaultCacheProvider>();
             services.AddTransient<ILocalize, Localize>();
 
             services.ConfigureCache<ScriptExpressionResult>();
