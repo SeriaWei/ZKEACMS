@@ -59,6 +59,17 @@ namespace ZKEACMS.DataArchived
             return result;
         }
 
+        public T Get<T>(string key) where T : class
+        {
+            var archived = Get(key);
+            T result = null;
+            if (archived != null && archived.Data.IsNotNullAndWhiteSpace())
+            {
+                result = Deserialize<T>(archived.Data);
+            }
+            return result;
+        }
+
         private string Serialize(object obj)
         {
             return JsonConvert.SerializeObject(obj, Formatting.None, JsonConverters);
@@ -87,5 +98,6 @@ namespace ZKEACMS.DataArchived
                 Update(archived);
             }
         }
+
     }
 }
