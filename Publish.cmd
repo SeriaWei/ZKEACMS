@@ -22,7 +22,7 @@ IF %ERRORLEVEL% NEQ 0 (
 @echo Installing publish tool, please wait.
 dotnet tool install -g ZKEACMS.Publisher
 )
-set /P i=Publish witch runtime?(y/n)
+set /P i=Publish with runtime?(y/n)
 if not "%i%"=="y" goto start
 @echo RID details
 @echo https://docs.microsoft.com/en-us/dotnet/core/rid-catalog
