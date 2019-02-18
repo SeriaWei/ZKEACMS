@@ -2,11 +2,13 @@
  * Copyright 2016 ZKEASOFT 
  * http://www.zkea.net/licenses */
 
+using Easy;
 using Easy.Constant;
 using Easy.Extend;
 using Easy.Modules.Role;
 using Easy.Modules.User.Models;
 using Easy.Modules.User.Service;
+using Easy.Mvc;
 using Easy.Mvc.Attribute;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
@@ -22,10 +24,12 @@ namespace ZKEACMS.Controllers
     public class UserController : BasicController<UserEntity, string, IUserService>
     {
         private IApplicationContextAccessor _applicationContextAccessor;
-        public UserController(IUserService userService, IApplicationContextAccessor applicationContextAccessor)
+        private ILocalize _localize;
+        public UserController(IUserService userService, IApplicationContextAccessor applicationContextAccessor, ILocalize localize)
             : base(userService)
         {
             _applicationContextAccessor = applicationContextAccessor;
+            _localize = localize;
         }
         [DefaultAuthorize(Policy = PermissionKeys.ViewUser)]
         public override IActionResult Index()
@@ -87,8 +91,18 @@ namespace ZKEACMS.Controllers
                 Service.Update(logOnUser);
                 return RedirectToAction("Logout", "Account", new { returnurl = "~/Account/Login" });
             }
-            ViewBag.Message = "原密码错误";
+            ViewBag.Message = _localize.Get("原密码错误");
             return View();
+        }
+
+        [HttpPost]
+        public override IActionResult Delete(string id)
+        {
+            if (id == _applicationContextAccessor.Current.CurrentUser.UserID)
+            {
+                return Json(new AjaxResult { Status = AjaxStatus.Error, Message = _localize.Get("不能删除当前登录用户") });
+            }
+            return base.Delete(id);
         }
     }
 }
