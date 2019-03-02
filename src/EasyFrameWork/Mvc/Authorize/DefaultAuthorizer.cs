@@ -15,18 +15,15 @@ namespace Easy.Mvc.Authorize
         private readonly IApplicationContext _applicationContext;
         private readonly IRoleService _roleService;
         private readonly IUserRoleRelationService _userRoleRelationService;
-        private readonly IPermissionService _permissionService;
         private readonly Dictionary<string, HashSet<string>> _userPermissions;
 
         public DefaultAuthorizer(IApplicationContext applicationContext,
             IRoleService roleService,
-            IUserRoleRelationService userRoleRelationService,
-            IPermissionService permissionService)
+            IUserRoleRelationService userRoleRelationService)
         {
             _applicationContext = applicationContext;
             _roleService = roleService;
             _userRoleRelationService = userRoleRelationService;
-            _permissionService = permissionService;
             _userPermissions = new Dictionary<string, HashSet<string>>();
         }
         public bool Authorize(string permission)
@@ -67,7 +64,7 @@ namespace Easy.Mvc.Authorize
             _roleService.Get(m => roles.Contains(m.ID) && m.Status == (int)RecordStatus.Active)
                 .Each(r =>
                 {
-                    var pers = _permissionService.Get(m => m.RoleId == r.ID);
+                    var pers = _roleService.GetPermission(r.ID);
                     pers.Each(p => permissions.Add(p.PermissionKey));
                 });
             _userPermissions.Add(user.UserID, permissions);
