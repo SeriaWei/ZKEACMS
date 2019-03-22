@@ -28,7 +28,22 @@ namespace ZKEACMS.PackageManger
         }
         public virtual string MapPath(string path)
         {
-            return Path.Combine(HostingEnvironment.WebRootPath, path.Replace("~/", "").ToFilePath());
+            if (HostingEnvironment.IsProduction())
+            {
+                return Path.Combine(HostingEnvironment.WebRootPath, path.Replace("~/", "").ToFilePath());
+            }
+            else
+            {
+                string[] pathArry = path.Replace("~/", "").Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+                if (pathArry[0] == Easy.Mvc.Plugin.Loader.PluginFolder)
+                {
+                    return Path.Combine(new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent.FullName, Path.Combine(pathArry.Skip(1).ToArray()));
+                }
+                else
+                {
+                    return Path.Combine(HostingEnvironment.WebRootPath, path.Replace("~/", "").ToFilePath());
+                }
+            }
         }
         public virtual object Install(Package package)
         {

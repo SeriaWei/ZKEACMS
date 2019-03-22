@@ -171,5 +171,27 @@ namespace Easy.Modules.User.Service
             }
             return false;
         }
+
+        public override void Remove(UserEntity item)
+        {
+            BeginTransaction(() =>
+            {
+                DbContext.UserRoleRelation.RemoveRange(DbContext.UserRoleRelation.Where(m => m.UserID == item.UserID));
+                base.Remove(item);
+            });
+        }
+        public override void Remove(Expression<Func<UserEntity, bool>> filter)
+        {
+            RemoveRange(Get(filter).ToArray());
+        }
+        public override void RemoveRange(params UserEntity[] items)
+        {
+            BeginTransaction(() =>
+            {
+                string[] userIds = items.Select(m => m.UserID).ToArray();
+                DbContext.UserRoleRelation.RemoveRange(DbContext.UserRoleRelation.Where(m => userIds.Contains(m.UserID)));
+                base.RemoveRange(items);
+            });
+        }
     }
 }

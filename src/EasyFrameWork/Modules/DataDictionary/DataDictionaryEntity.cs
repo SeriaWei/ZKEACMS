@@ -69,7 +69,7 @@ namespace Easy.Modules.DataDictionary
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.ID).AsHidden();
-            ViewConfig(m => m.DicName).AsTextBox().Required().MaxLength(25);
+            ViewConfig(m => m.DicName).AsTextBox().Required();
             ViewConfig(m => m.IsSystem).AsCheckBox().ReadOnly();
             ViewConfig(m => m.DicValue).AsTextBox();
             ViewConfig(m => m.Title).AsHidden();

@@ -341,6 +341,13 @@ $(function () {
         var form = $(this).closest("form");
         var allValid = true;
         $("input,select,textarea", $(this).parent()).each(function () {
+            if ($(this).hasClass("required") && !$(this).val()) {
+                if ($(this).is("select")) {
+                    $(this).val($("option:last", this).val());
+                } else {
+                    $(this).val("None");
+                }
+            }
             if (allValid) {
                 allValid = form.validate().element("#" + $(this).attr("id"));
             }
