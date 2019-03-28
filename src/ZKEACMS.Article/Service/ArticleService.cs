@@ -69,10 +69,17 @@ namespace ZKEACMS.Article.Service
 
         public void Publish(int ID)
         {
-            var article = Get(ID);
+            Publish(Get(ID));
+        }
+
+        public void Publish(ArticleEntity article)
+        {
             article.IsPublish = true;
             article.PublishDate = DateTime.Now;
-            Update(article);
+            if (article.ID > 0)
+            {
+                Update(article);
+            }
         }
     }
 }

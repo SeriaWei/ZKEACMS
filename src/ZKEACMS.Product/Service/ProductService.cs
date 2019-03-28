@@ -33,10 +33,7 @@ namespace ZKEACMS.Product.Service
 
         public void Publish(int ID)
         {
-            var product = Get(ID);
-            product.IsPublish = true;
-            product.PublishDate = DateTime.Now;
-            base.Update(product);
+            Publish(Get(ID));
         }
         public override ServiceResult<ProductEntity> Add(ProductEntity item)
         {
@@ -184,6 +181,16 @@ namespace ZKEACMS.Product.Service
         public ProductEntity GetByUrl(string url)
         {
             return Get(m => m.Url == url).FirstOrDefault();
+        }
+
+        public void Publish(ProductEntity product)
+        {
+            product.IsPublish = true;
+            product.PublishDate = DateTime.Now;
+            if (product.ID > 0)
+            {
+                base.Update(product);
+            }            
         }
     }
 }
