@@ -147,6 +147,19 @@ namespace ZKEACMS
                 return _version;
             }
         }
+        static string _versionInfo;
+        public static string VersionInfo
+        {
+            get
+            {
+                if (_versionInfo == null)
+                {
+                    var attr = typeof(Version).GetTypeInfo().Assembly.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
+                    _versionInfo = attr.InformationalVersion;
+                }
+                return _versionInfo;
+            }
+        }
         public static string Rank
         {
             get { return "Community"; }

@@ -174,6 +174,14 @@ namespace ZKEACMS
                     },
                     new AdminMenu
                     {
+                        Title = "插件",
+                        Icon = "glyphicon-equalizer",
+                        Url = "~/admin/Plugin",
+                        Order = 99,
+                        PermissionKey = PermissionKeys.ViewPlugins
+                    },
+                    new AdminMenu
+                    {
                         Title = "其它设置",
                         Icon = "glyphicon-cog",
                         Url = "~/admin/ApplicationSetting",
