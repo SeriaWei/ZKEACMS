@@ -10,7 +10,13 @@ namespace ZKEACMS.Shop
     {
         public IEnumerable<AdminMenu> GetLinks()
         {
-            yield return new AdminMenu { Order = 1, Title = "我的订单", Url = "~/MyOrder" };
+            yield return new AdminMenu
+            {
+                PluginName = PluginBase.GetName<ShopPlug>(),
+                Order = 1,
+                Title = "我的订单",
+                Url = "~/MyOrder"
+            };
         }
     }
 }

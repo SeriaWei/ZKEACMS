@@ -16,6 +16,7 @@ namespace ZKEACMS
         public string PermissionKey { get; set; }
         public Func<bool> HasPermission { get; set; }
         public string Group { get; set; }
+        public string PluginName { get; set; }
         public IEnumerable<AdminMenu> Children { get; set; }
     }
     public static class AdminMenus

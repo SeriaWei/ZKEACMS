@@ -34,7 +34,8 @@ namespace ZKEACMS
         {
 
         }
-        public static Dictionary<Type, string> pluginPathCache = new Dictionary<Type, string>();
+        static Dictionary<Type, string> pluginPathCache = new Dictionary<Type, string>();
+        static Dictionary<Type, string> pluginNameCache = new Dictionary<Type, string>();
         public string CurrentPluginPath
         {
             get;
@@ -53,6 +54,15 @@ namespace ZKEACMS
             }
             return string.Empty;
         }
+        public static string GetName<T>() where T : PluginBase
+        {
+            Type pluginType = typeof(T);
+            if (pluginNameCache.ContainsKey(pluginType))
+            {
+                return pluginNameCache[pluginType];
+            }
+            return string.Empty;
+        }
         public virtual void Setup(params object[] args)
         {
             var pluginType = this.GetType();
@@ -60,16 +70,29 @@ namespace ZKEACMS
             {
                 pluginPathCache.Add(pluginType, CurrentPluginPath);
             }
+            if (!pluginNameCache.ContainsKey(pluginType))
+            {
+                pluginNameCache.Add(pluginType, this.Name);
+            }
             var menus = this.AdminMenu();
             if (menus != null)
             {
-                AdminMenus.Menus.AddRange(menus);
+                foreach (var item in menus)
+                {
+                    item.PluginName = this.Name;
+                    AdminMenus.Menus.Add(item);
+                }
+                
             }
             this.SetupResource();
             var permissions = this.RegistPermission();
             if (permissions != null)
             {
-                PermissionKeys.KnownPermissions.AddRange(permissions);
+                foreach (var item in permissions)
+                {
+                    item.PluginName = this.Name;
+                    PermissionKeys.KnownPermissions.Add(item);
+                }                
             }
             var routes = this.RegistRoute();
             if (routes != null)
@@ -82,6 +105,7 @@ namespace ZKEACMS
                 WidgetTemplateService.KnownWidgets.AddRange(widgets);
                 foreach (var item in WidgetTemplateService.KnownWidgets)
                 {
+                    item.PluginName = this.Name;
                     string name = $"{item.AssemblyName},{item.ServiceTypeName}";
                     if (!WidgetBase.KnownWidgetService.ContainsKey(name))
                     {

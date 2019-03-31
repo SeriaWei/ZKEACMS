@@ -17,5 +17,6 @@ namespace ZKEACMS
 
         }
         public Func<bool> IsAvailable { get; set; }
+        public string PluginName { get; set; }
     }
 }
