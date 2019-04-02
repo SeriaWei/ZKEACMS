@@ -34,6 +34,10 @@ namespace ZKEACMS
         {
 
         }
+        public virtual void ConfigureMVC(IMvcBuilder mvcBuilder)
+        {
+            mvcBuilder.ConfigureApplicationPartManager(manguage => manguage.ApplicationParts.Add(this));
+        }
         static Dictionary<Type, string> pluginPathCache = new Dictionary<Type, string>();
         static Dictionary<Type, string> pluginNameCache = new Dictionary<Type, string>();
         public string CurrentPluginPath
@@ -133,7 +137,7 @@ namespace ZKEACMS
                     }
                     else if (item is IMvcBuilder)
                     {
-                        (item as IMvcBuilder).ConfigureApplicationPartManager(manguage => manguage.ApplicationParts.Add(this));
+                        ConfigureMVC(item as IMvcBuilder);
                     }
                 }
             }
