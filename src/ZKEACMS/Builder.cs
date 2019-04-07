@@ -97,6 +97,7 @@ namespace ZKEACMS
             services.TryAddTransient<IExtendFieldService, ExtendFieldService>();
             services.TryAddTransient<INotifyService, NotifyService>();
             services.AddTransient<IUserCenterLinksProvider, UserCenterLinksProvider>();
+            services.AddTransient<IUserCenterLinkService, UserCenterLinkService>();
             services.TryAddScoped<ILayoutService, LayoutService>();
             services.TryAddScoped<ILayoutHtmlService, LayoutHtmlService>();
             services.TryAddTransient<IMediaService, MediaService>();

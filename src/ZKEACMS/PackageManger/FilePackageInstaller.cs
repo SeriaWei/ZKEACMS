@@ -35,7 +35,7 @@ namespace ZKEACMS.PackageManger
             else
             {
                 string[] pathArry = path.Replace("~/", "").Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
-                if (pathArry[0] == Easy.Mvc.Plugin.Loader.PluginFolder)
+                if (pathArry.Length > 0 && pathArry[0] == Easy.Mvc.Plugin.Loader.PluginFolder)
                 {
                     return Path.Combine(new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent.FullName, Path.Combine(pathArry.Skip(1).ToArray()));
                 }

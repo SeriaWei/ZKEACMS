@@ -16,6 +16,7 @@ namespace ZKEACMS
         public string PermissionKey { get; set; }
         public Func<bool> HasPermission { get; set; }
         public string Group { get; set; }
+        public string PluginName { get; set; }
         public IEnumerable<AdminMenu> Children { get; set; }
     }
     public static class AdminMenus
@@ -170,6 +171,14 @@ namespace ZKEACMS
                         Url = "~/admin/Language",
                         Order = 7,
                         PermissionKey = PermissionKeys.ManageLanguage
+                    },
+                    new AdminMenu
+                    {
+                        Title = "插件",
+                        Icon = "glyphicon-equalizer",
+                        Url = "~/admin/Plugin",
+                        Order = 99,
+                        PermissionKey = PermissionKeys.ViewPlugins
                     },
                     new AdminMenu
                     {
