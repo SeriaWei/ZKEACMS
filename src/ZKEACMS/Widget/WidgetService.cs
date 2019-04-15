@@ -169,7 +169,12 @@ namespace ZKEACMS.Widget
             }
             return result;
         }
-
+        /// <summary>
+        /// Display the specified widget.
+        /// </summary>
+        /// <returns>The widget view model</returns>
+        /// <param name="widget">Widget.</param>
+        /// <param name="actionContext">Action context.</param>
         public virtual WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             return widget.ToWidgetViewModelPart();
