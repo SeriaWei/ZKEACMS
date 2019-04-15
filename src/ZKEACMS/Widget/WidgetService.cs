@@ -178,6 +178,10 @@ namespace ZKEACMS.Widget
         #region PartDrive
         public virtual void AddWidget(WidgetBase widget)
         {
+            if (widget.PartialView.IsNullOrWhiteSpace())
+            {
+                throw new Exception("Widget.PartialView must be specified!");
+            }
             Add((T)widget);
         }
 
@@ -189,6 +193,10 @@ namespace ZKEACMS.Widget
 
         public virtual void UpdateWidget(WidgetBase widget)
         {
+            if (widget.PartialView.IsNullOrWhiteSpace())
+            {
+                throw new Exception("Widget.PartialView must be specified!");
+            }
             Update((T)widget);
         }
         #endregion
