@@ -13,7 +13,8 @@
     "jquery-pjax": "v2.0.1",
     "angular": "v1.7.8",
     "jquery-ui": "1.12.1",
-    "smooth-scrollbar": "v8.3.1"
+    "smooth-scrollbar": "v8.3.1",
+    "select2": "select2-dist#4.0.5"
   },
   "resolutions": {
     "jquery": "3.3.1",
