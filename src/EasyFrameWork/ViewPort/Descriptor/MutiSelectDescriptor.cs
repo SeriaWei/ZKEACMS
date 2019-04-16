@@ -19,7 +19,7 @@ namespace Easy.ViewPort.Descriptor
             : base(modelType, property)
         {
             this.TagType = HTMLEnumerate.HTMLTagTypes.MutiSelect;
-            this.TemplateName = "MutiSelect";
+            this.TemplateName = "MultiSelect";
         }
 
 

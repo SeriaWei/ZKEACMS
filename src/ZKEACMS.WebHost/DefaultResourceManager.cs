@@ -79,6 +79,9 @@ namespace ZKEACMS.WebHost
             script("angular")
                 .Include($"{LibraryPath}/angular/angular.js", $"{LibraryPath}/angular/angular.min.js");
 
+            script("select2")
+                .Include($"{LibraryPath}/select2/dist/js/select2.js", $"{LibraryPath}/select2/dist/js/select2.min.js");
+
             script("image-viewer")
                 .Include($"{ScriptPath}/cimageviewer.min.js");
         }
@@ -126,6 +129,9 @@ namespace ZKEACMS.WebHost
 
             style("datepicker")
                 .Include($"{LibraryPath}/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css", $"{LibraryPath}/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css");
+
+            style("select2")
+                .Include($"{LibraryPath}/select2/dist/css/select2.css", $"{LibraryPath}/select2/dist/css/select2.min.css");
 
             style("rule")
                 .Include($"{StylePath}/rule.css", $"{StylePath}/rule.min.css");

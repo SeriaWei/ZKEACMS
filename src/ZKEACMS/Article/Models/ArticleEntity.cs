@@ -28,8 +28,6 @@ namespace ZKEACMS.Article.Models
         public int? ArticleTypeID { get; set; }
         public DateTime? PublishDate { get; set; }
         public bool IsPublish { get; set; }
-        [NotMapped]
-        public int[] Test { get; set; }
     }
     class ArticleEntityMeta : ViewMetaData<ArticleEntity>
     {
@@ -51,7 +49,6 @@ namespace ZKEACMS.Article.Models
             ViewConfig(m => m.ArticleContent).AsTextArea().AddClass(StringKeys.HtmlEditorClass);
             ViewConfig(m => m.PublishDate).AsTextBox().Hide();
             ViewConfig(m => m.IsPublish).AsTextBox().Hide().ShowInGrid();
-            ViewConfig(m => m.Test).AsMutiSelect();
         }
     }
 
