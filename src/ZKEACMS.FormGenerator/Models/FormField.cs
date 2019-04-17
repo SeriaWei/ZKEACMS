@@ -32,6 +32,7 @@ namespace ZKEACMS.FormGenerator.Models
         public string Description { get; set; }
         public string Placeholder { get; set; }
         public bool IsRequired { get; set; }
+        public string RequiredMessage { get; set; }
         public int? Size { get; set; }
         public string Column { get; set; }
         public string RegexPattern { get; set; }
@@ -49,7 +50,7 @@ namespace ZKEACMS.FormGenerator.Models
                     attirbutes.Add("data-val", "true");
                     if (IsRequired)
                     {
-                        attirbutes.Add("data-val-required", DisplayName + "不能为空");
+                        attirbutes.Add("data-val-required", RequiredMessage ?? "The field is required");
                     }
                     if (Placeholder.IsNotNullAndWhiteSpace())
                     {
@@ -57,7 +58,7 @@ namespace ZKEACMS.FormGenerator.Models
                     }
                     if (RegexPattern.IsNotNullAndWhiteSpace())
                     {
-                        Attributes.Add("data-val-regex", RegexMessage ?? "输入不正确");
+                        Attributes.Add("data-val-regex", RegexMessage ?? "Invalid value");
                         Attributes.Add("data-val-regex-pattern", RegexPattern);
                     }
                 }
