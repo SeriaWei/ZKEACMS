@@ -85,27 +85,43 @@
 
     .quantity-set {
         margin: 15px 0;
-
-        label {
-            margin-right: 10px;
-        }
+        display: table;
+        background: #efefef;
+        text-align: center;
+        border: 1px solid #ccc;
 
         a {
-            color: #337ab7;
+            display: table-cell;
+            height: 35px;
+            width: 35px;
             text-decoration: none;
             font-size: 16px;
+            vertical-align: middle;
 
             &:hover {
-                color: #2f6fa7;
+                background: #dedede;
             }
 
             &:active {
-                color: #2b6598;
+                background: #d2d2d2;
             }
         }
 
         .quantity {
-            margin: 0 5px;
+            display: table-cell;
+            padding: 0 5px;
+            vertical-align: middle;
+            background: #fff;
+            height: 35px;
+            width: 38px;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+        }
+
+        svg {
+            width: 15px;
+            height: 15px;
+            fill: #999
         }
     }
 }

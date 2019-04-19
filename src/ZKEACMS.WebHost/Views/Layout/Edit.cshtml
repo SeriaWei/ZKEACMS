@@ -1,11 +1,11 @@
-﻿@model LayoutEntity
+@model LayoutEntity
 @{
     Style.Reqiured("Layout").AtFoot();
     Script.Reqiured("validate").AtFoot();
 }
 <div class="panel panel-default">
     <div class="panel-heading">
-        <div>布局</div>
+        @L("布局")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -14,11 +14,14 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
                 {
-                    <input type="submit" value="保存" class="btn btn-primary" data-value="@ActionType.Update" />
-                    <input type="submit" value="设计" class="btn btn-success" data-value="@ActionType.Design" />
-                    <input type="submit" value="删除" class="btn btn-danger delete" data-value="@ActionType.Delete" />
-                }                
-                <input type="button" class="btn btn-default cancel" value="取消" />
+                    <input type="submit" value="@L("保存")" class="btn btn-primary" data-value="@ActionType.Update" />
+                    <input type="submit" value="@L("设计")" class="btn btn-success" data-value="@ActionType.Design" />
+                    @if (ViewBag.CanDelete)
+                    {
+                        <input type="submit" value="@L("删除")" class="btn btn-danger delete" data-value="@ActionType.Delete" />
+                    }
+                }
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
             </div>
         }
 
@@ -28,7 +31,7 @@
 {
     <script type="text/javascript">
         $(".delete").click(function () {
-            return confirm("删除布局会删除对应的页面，确定要删除吗？");
+            return confirm("@L("确定要删除吗？")");
         });
     </script>
 }

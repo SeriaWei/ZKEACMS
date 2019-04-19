@@ -1,4 +1,4 @@
-﻿//https://github.com/dotnetcore/Alipay.AopSdk.Core/blob/master/Alipay.AopSdk.AspnetCore/AlipayService.cs
+//https://github.com/dotnetcore/Alipay.AopSdk.Core/blob/master/Alipay.AopSdk.AspnetCore/AlipayService.cs
 using Alipay.AopSdk.AspnetCore;
 using Alipay.AopSdk.Core;
 using Alipay.AopSdk.Core.Util;
@@ -8,19 +8,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ZKEACMS.DataArchived;
+using ZKEACMS.Setting;
+using Easy.Extend;
 
 namespace ZKEACMS.Shop.Service
 {
     public class AlipayService : IAlipayService
     {
-        public AlipayOptions Options { get; set; }
-
-        public const string SettingKey = "ZKEACMS.Shop.AliPayConfigOptions";
+        public AlipayOptions Options { get; set; }        
 
         private readonly IAopClient _aopClient;
-        public AlipayService(IOptions<AlipayOptions> alipayOptions, IDataArchivedService dataArchivedService)
+        public AlipayService(IOptions<AlipayOptions> alipayOptions, IApplicationSettingService applicationSettingService)
         {
-            Options = dataArchivedService.Get(SettingKey, () => alipayOptions.Value);
+            Options = applicationSettingService.Get<AlipayOptions>();
+            if (Options.AppId.IsNullOrWhiteSpace())
+            {
+                Options = alipayOptions.Value;
+            }
             _aopClient = new DefaultAopClient(Options.Gatewayurl, Options.AppId, Options.PrivateKey, "json", "1.0",
                 Options.SignType, Options.AlipayPublicKey, Options.CharSet, Options.IsKeyFromFile);
         }

@@ -1,0 +1,33 @@
+@using ZKEACMS.Article
+@using Easy.ViewPort.jsTree
+@using ZKEACMS.Article.Models
+
+@model int?
+@{
+    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
+    Script.Reqiured("jsTree").AtFoot();
+    Style.Reqiured("jsTree").AtHead();
+    var categoryTree = Html.Tree<ArticleType>().Source("GetArticleTypeTree", "ArticleType", new { module = "admin" })
+    .On(Events.Loaded, "loadedArticleType")
+    .On(Events.ActiveNode, "activedArticleType");
+}
+<div class="input-group article-type-tree">
+    @Html.Hidden("", Model, descriptor.ToHtmlProperties())
+    @categoryTree
+</div>
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        function loadedArticleType(p) {            
+            var category = $("input[type=hidden]", ".article-type-tree").val();
+            if (!category || category=="0") {
+                category = $(".jstree-node:first a.jstree-anchor:first", p.target).attr("id");
+                $("input[type=hidden]", ".article-type-tree").val(category);
+            }
+            $(p.target).jstree('select_node', category);            
+        }
+        function activedArticleType(node, selected) {
+            $("input[name=@(ViewData.TemplateInfo.GetFullHtmlFieldName(""))]", ".article-type-tree").val(selected.node.id);
+        }
+    </script>
+}

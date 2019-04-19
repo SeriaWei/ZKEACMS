@@ -1,10 +1,11 @@
-﻿/*!
+/*!
  * http://www.zkea.net/
  * Copyright 2017 ZKEASOFT
  * http://www.zkea.net/licenses
  */
 using Easy.MetaData;
 using Easy.Models;
+using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.Shop.Models
 {
-    [Table("Basket")]
+    [DataTable("Basket")]
     public class Basket : EditorEntity
     {
         [Key]
@@ -22,6 +23,7 @@ namespace ZKEACMS.Shop.Models
         public string UserId { get; set; }
         public string ImageUrl { get; set; }
         public int Quantity { get; set; }
+        [Column(TypeName = "decimal(18,4)")]
         public decimal Price { get; set; }
         public int ProductId { get; set; }
         public string PromoCode { get; set; }

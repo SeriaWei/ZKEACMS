@@ -1,0 +1,20 @@
+@model String
+@{
+    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
+}
+@Html.TextBox("", Model, descriptor.ToHtmlProperties())
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            $(document).on("keyup", ".url-part", function () {               
+                var thisUrl = $(this).val();
+                var replaceValue = ["/", " ", "?", "`", "~", "!", "@@", "#", "$", "%", "^", "&", "*", "(", ")", "+", "[", "]", "{", "}", "\\", "|", ";", ":", "'", "\"", ",", ".", "<", ">"];
+                for (var i = 0; i < replaceValue.length; i++) {
+                    thisUrl = thisUrl.replaceAll(replaceValue[i], "-");
+                }
+                $(this).val(thisUrl);
+            });
+        });
+    </script>
+}

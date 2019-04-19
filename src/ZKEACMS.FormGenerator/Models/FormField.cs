@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +17,7 @@ namespace ZKEACMS.FormGenerator.Models
             {
                 if (id.IsNullOrEmpty())
                 {
-                    id = Guid.NewGuid().ToString("N");
+                    id = $"FF{Guid.NewGuid().ToString("N")}";
                 }
                 return id;
             }
@@ -34,6 +34,8 @@ namespace ZKEACMS.FormGenerator.Models
         public bool IsRequired { get; set; }
         public int? Size { get; set; }
         public string Column { get; set; }
+        public string RegexPattern { get; set; }
+        public string RegexMessage { get; set; }
         Dictionary<string, object> attirbutes;
         [JsonIgnore]
         public Dictionary<string, object> Attributes
@@ -52,6 +54,11 @@ namespace ZKEACMS.FormGenerator.Models
                     if (Placeholder.IsNotNullAndWhiteSpace())
                     {
                         attirbutes.Add("placeholder", Placeholder);
+                    }
+                    if (RegexPattern.IsNotNullAndWhiteSpace())
+                    {
+                        Attributes.Add("data-val-regex", RegexMessage ?? "输入不正确");
+                        Attributes.Add("data-val-regex-pattern", RegexPattern);
                     }
                 }
                 return attirbutes;

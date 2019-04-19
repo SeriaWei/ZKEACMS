@@ -1,4 +1,4 @@
-﻿@{
+@{
     Style.Reqiured("datepicker").AtHead();
     Script.Reqiured("datepicker").AtHead();
     var metaData = ViewData.ModelMetadata;
@@ -9,22 +9,15 @@
     {
         if (item.HideSurroundingHtml)
         {
-            <div class="form-group">
-                <div class="col-md-offset-12 col-lg-offset-2">
-                    @Html.Label(item.PropertyName, item.DisplayName, new { @class = "control-label" })
-                </div>  
-                <div class="col-md-12 col-lg-10">
-                    @Html.Editor(item.PropertyName)
-                    @Html.ValidationMessage(item.PropertyName)
-                </div>
-            </div>
+            @Html.Editor(item.PropertyName)
+            @Html.ValidationMessage(item.PropertyName)
         }
         else
         {
             <div class="form-group">
                 <div class="col-md-12 col-lg-2">
                     @Html.Label(item.PropertyName, item.DisplayName, new { @class = "control-label" })
-                </div>                
+                </div>
                 <div class="col-md-12 col-lg-10">
                     @Html.Editor(item.PropertyName)
                     @Html.ValidationMessage(item.PropertyName)

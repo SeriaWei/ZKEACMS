@@ -1,4 +1,4 @@
-﻿/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
 using System;
@@ -73,7 +73,7 @@ namespace ZKEACMS.SectionWidget
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+            serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             serviceCollection.AddTransient<ISectionGroupService, SectionGroupService>();
             serviceCollection.AddTransient<ISectionContentProviderService, SectionContentProviderService>();

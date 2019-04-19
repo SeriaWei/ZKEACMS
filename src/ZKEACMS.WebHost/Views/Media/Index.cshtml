@@ -1,7 +1,7 @@
-﻿@using ZKEACMS.Common.ViewModels
+@using ZKEACMS.Common.ViewModels
 @model MediaViewModel
 @{
-    ViewBag.Title = "媒体库";
+    ViewBag.Title = L("媒体库");
     var action = Html.ViewContext.RouteData.Values["action"].ToString();
 
     Script.Reqiured("image-viewer").AtFoot();
@@ -16,7 +16,7 @@
     <div class="clearfix thumbnail">
         <div class="pull-left">
             <span style="line-height: 30px">
-                &nbsp;<a href="@Url.Action(action)">媒体库</a>
+                &nbsp;<a href="@Url.Action(action)">@L("媒体库")</a>
                 @if (Model.Parents != null)
                 {
                     foreach (MediaEntity item in Model.Parents)
@@ -30,8 +30,8 @@
         <div class="pull-right">
             @if (Authorizer.Authorize(PermissionKeys.ManageMedia))
             {
-                <input type="button" class="btn btn-primary btn-sm upload" value="上传文件" />
-                <input type="button" class="btn btn-primary btn-sm create-folder" value="创建文件夹" />
+                <input type="button" class="btn btn-primary btn-sm upload" value="@L("上传文件")" />
+                <input type="button" class="btn btn-primary btn-sm create-folder" value="@L("创建文件夹")" />
             }
         </div>
 
@@ -47,7 +47,7 @@
                             @if (media.MediaType == (int)MediaType.Image)
                             {
                                 <a href="javascript:void(0)" class="img-link confirm" data-result="@Url.PathContent(media.Url)" data-name="@media.Title">
-                                    <img class="img" src="@Url.Action("Thumbnail",new { id=media.ID })" />
+                                    <img class="img" src="@Url.Content(media.Url)" />
                                 </a>
                             }
                             else
@@ -79,7 +79,7 @@
                             }
                             @if (ViewBag.MultiSelect != null && media.MediaType != (int)MediaType.Folder)
                             {
-                                <i title="选择" class="multi-select unchecked glyphicon glyphicon-check glyphicon-unchecked" data-result="@Url.PathContent(media.Url)" data-name="@media.Title"></i>
+                                <i title="@L("选择")" class="multi-select unchecked glyphicon glyphicon-check glyphicon-unchecked" data-result="@Url.PathContent(media.Url)" data-name="@media.Title"></i>
                             }
                         </div>
                     </div>
@@ -90,11 +90,11 @@
     <ul class="pagination">
         @if (Model.Pagin.PageIndex >= 1)
         {
-            <li><a href="@Url.Action(action, new {ParentId = Model.ParentID})">«</a></li>
+            <li><a href="@Url.Action(action, new {ParentId = Model.ParentID})"><i class="glyphicon glyphicon-chevron-left"></i></a></li>
         }
         else
         {
-            <li class="disabled"><a href="javascript:void(0)">«</a></li>
+            <li class="disabled"><a href="javascript:void(0)"><i class="glyphicon glyphicon-chevron-left"></i></a></li>
         }
         @{
             if (Model.Pagin.PageIndex >= 5)
@@ -126,13 +126,13 @@
         @if (Model.Pagin.PageIndex < Model.Pagin.AllPage - 1)
         {
             <li>
-                <a href="@Url.Action(action, new {parentId = Model.ParentID, pageIndex = Model.Pagin.PageIndex + 1})">»</a>
+                <a href="@Url.Action(action, new {parentId = Model.ParentID, pageIndex = Model.Pagin.PageIndex + 1})"><i class="glyphicon glyphicon-chevron-right"></i></a>
             </li>
         }
         else
         {
             <li class="disabled">
-                <a href="javascript:void(0)">»</a>
+                <a href="javascript:void(0)"><i class="glyphicon glyphicon-chevron-right"></i></a>
             </li>
         }
     </ul>
@@ -157,7 +157,7 @@
                     }
                     @if (ViewBag.MultiSelect != null)
                     {
-                        <i title="选择" class="multi-select unchecked glyphicon glyphicon-check glyphicon-unchecked"></i>
+                        <i title="@L("选择")" class="multi-select unchecked glyphicon glyphicon-check glyphicon-unchecked"></i>
                     }
                 </div>
             </div>
@@ -189,7 +189,7 @@
                     index: index,
                     preload: false,
                     save: true,
-                    saveBtn: "确定",
+                    saveBtn: "@L("确定")",
                     noSave:true,
                     onsave: function (a) {
                         this.hide();                        
@@ -201,7 +201,7 @@
 
             $(document).on("click", ".create-folder", function () {
                 var newfolder = $($("#item-template").html());
-                newfolder.find(".caption").append('<input type="text" class="edit" value="新建文件夹" />');
+                newfolder.find(".caption").append('<input type="text" class="edit" value="@L("新建文件夹")" />');
                 newfolder.find(".multi-select").remove();
                 if ($("#media-list > div").size() > 0) {
                     newfolder.insertBefore($("#media-list > div:first"));
@@ -254,7 +254,7 @@
                 for (var i = 0; i < this.files.length; i++) {
                     var newitem = $($("#item-template").html());
                     newitem.find(".img").attr("src", "@Url.Content("~/images/loader.gif")");
-                    newitem.find(".caption").html('<label class="label label-danger">排队中...</label>');
+                    newitem.find(".caption").html('<label class="label label-danger">@L("排队中...")</label>');
                     if ($("#media-list > div").size() > 0) {
                         newitem.insertBefore($("#media-list > div:first"));
                     } else {
@@ -292,7 +292,7 @@
                                                 item.find(".caption").html(result.title).data("id", result.id);
                                                 item.removeClass("new-folder");
                                                 if (result.mediaType == '@(MediaType.Image.ToString("D"))') {
-                                                    item.find(".img").attr("src", '@Url.Action("Thumbnail")' +"/"+ result.id);
+                                                    item.find(".img").attr("src", result.url);
                                                     var preview = $('<a href="javascript:void(0)" class="preview"><i class="glyphicon glyphicon-eye-open"></i></a>');
                                                     preview.data("href", result.url);
                                                     preview.data("title", result.title);
@@ -302,7 +302,7 @@
                                                 downLoad.attr("href", result.url);
                                                 item.find(".tool").append(downLoad);
                                             } else {
-                                                Easy.MessageTip.Show("文件上传失败。可能是因为上传的文件不被允许！");
+                                                Easy.MessageTip.Show("@L("文件上传失败。可能是因为上传的文件不被允许！")");
                                                 item.remove();
                                             }
                                             if (threads.length > 0) {
@@ -318,7 +318,7 @@
                                                 sliceSend(end, '@Url.Action("AppendFile")', result);
                                             }
                                             else {
-                                                Easy.MessageTip.Show("文件上传失败。可能是因为上传的文件不被允许！");
+                                                Easy.MessageTip.Show("@L("文件上传失败。可能是因为上传的文件不被允许！")");
                                                 item.remove();
                                             }
                                         }
@@ -342,7 +342,7 @@
             });
             $(document).on("click", ".close", function () {
                 var caption = $(this).siblings(".caption");
-                Easy.ShowMessageBox("提示", "确定要删除吗？", function () {
+                Easy.ShowMessageBox("@L("提示")", "@L("确定要删除吗？")", function () {
                     Easy.Block();
                     $.post("@Url.Action("Delete")", { ids: caption.data("id") }, function () {
                         caption.closest(".thumbnail").parent().remove();

@@ -1,10 +1,10 @@
-﻿@model ZKEACMS.Product.ViewModel.ProductCategoryWidgetViewModel
+@model ZKEACMS.Product.ViewModel.ProductCategoryWidgetViewModel
 
 <div class="product-category">
     <div class="list-group">
         @foreach (var item in Model.Categorys)
         {
-            <a href="@Url.CategoryUrl(item.ID)" class="list-group-item @(item.ID == Model.CurrentCategory ? "active" : "")">
+            <a href="@Url.ProductCategoryUrl(item)" class="list-group-item @(item.ID == Model.CurrentCategory ? "active" : "")">
                 @item.Title
             </a>
         }

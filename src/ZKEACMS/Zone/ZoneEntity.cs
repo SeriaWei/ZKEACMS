@@ -1,12 +1,13 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.MetaData;
 using Easy.Models;
+using Easy.RepositoryPattern;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Zone
 {
-    [Table("CMS_Zone")]
+    [DataTable("CMS_Zone")]
     public class ZoneEntity : EditorEntity
     {
         public const string ZoneTag = "<zone>";
@@ -14,6 +15,7 @@ namespace ZKEACMS.Zone
         [Key]
         public string ID { get; set; }
         public string LayoutId { get; set; }
+        public string PageId { get; set; }
         public string ZoneName { get; set; }
         public string HeadingCode { get; set; }
     }

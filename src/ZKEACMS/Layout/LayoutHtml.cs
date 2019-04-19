@@ -10,12 +10,13 @@ using System;
 
 namespace ZKEACMS.Layout
 {
-    [Table("CMS_LayoutHtml")]
+    [DataTable("CMS_LayoutHtml")]
     public class LayoutHtml : EditorEntity
     {
         [Key]
         public int LayoutHtmlId { get; set; }
         public string LayoutId { get; set; }
+        public string PageId { get; set; }
         public string Html { get; set; }
 
         public string NoStyleHtml
@@ -27,5 +28,5 @@ namespace ZKEACMS.Layout
     {
 
     }
-    
+
 }

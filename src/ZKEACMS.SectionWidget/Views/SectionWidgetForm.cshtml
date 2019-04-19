@@ -1,4 +1,4 @@
-﻿@model SectionWidget
+@model SectionWidget
 @{
     Script.Reqiured("jQueryUi").AtHead();
     Script.Reqiured("lightBox").AtFoot();
@@ -7,32 +7,32 @@
     Style.Reqiured("lightBox").AtHead();
     Style.Reqiured("SectionAdmin").AtHead();
     var templates = new List<List<string>>
-    {
-        new List<string>{""},
-        new List<string>{"col-sm-6","col-sm-6"},
-        new List<string>{"col-sm-7","col-sm-5"},
-        new List<string>{"col-sm-8","col-sm-4"},
-        new List<string>{"col-sm-9","col-sm-3"},
-        new List<string>{"col-sm-5","col-sm-7"},
-        new List<string>{"col-sm-4","col-sm-8"},
-        new List<string>{"col-sm-3","col-sm-9"},
-        new List<string>{"col-sm-4","col-sm-4","col-sm-4"},
-        new List<string>{"col-sm-3","col-sm-6","col-sm-3"},
-        new List<string>{"col-sm-5","col-sm-2","col-sm-5"},
-        new List<string>{"col-xs-6 col-sm-3", "col-xs-6 col-sm-3", "col-xs-6 col-sm-3", "col-xs-6 col-sm-3"},
-        new List<string>{"col-sm-2 col-sm-offset-1","col-sm-2","col-sm-2","col-sm-2", "col-sm-2" },
-        new List<string>{"col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2" }
-    };
+{
+new List<string>{""},
+new List<string>{"col-sm-6","col-sm-6"},
+new List<string>{"col-sm-7","col-sm-5"},
+new List<string>{"col-sm-8","col-sm-4"},
+new List<string>{"col-sm-9","col-sm-3"},
+new List<string>{"col-sm-5","col-sm-7"},
+new List<string>{"col-sm-4","col-sm-8"},
+new List<string>{"col-sm-3","col-sm-9"},
+new List<string>{"col-sm-4","col-sm-4","col-sm-4"},
+new List<string>{"col-sm-3","col-sm-6","col-sm-3"},
+new List<string>{"col-sm-5","col-sm-2","col-sm-5"},
+new List<string>{"col-xs-6 col-sm-3", "col-xs-6 col-sm-3", "col-xs-6 col-sm-3", "col-xs-6 col-sm-3"},
+new List<string>{"col-sm-2 col-sm-offset-1","col-sm-2","col-sm-2","col-sm-2", "col-sm-2" },
+new List<string>{"col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2" }
+};
 
 }
 
 @using (Html.BeginForm())
 {
     <ul class="nav nav-tabs">
-        <li role="presentation"><a href="#info">基本信息</a></li>
+        <li role="presentation"><a href="#info">@L("基本信息")</a></li>
         @if (Model.Groups != null)
         {
-            <li role="presentation" class="active"><a href="#group">模板分组</a></li>
+            <li role="presentation" class="active"><a href="#group">@L("模板分组")</a></li>
         }
     </ul>
     <div class="panel panel-default  tab-content">
@@ -47,7 +47,7 @@
                 <div id="section-groups">
                     @foreach (SectionGroup group in Model.Groups.OrderBy(m => m.Order))
                     {
-                        Html.RenderPartial("SectionGroup.Edit", group);
+                        await Html.RenderPartialAsync("SectionGroup.Edit", group);
                     }
                 </div>
                 <div class="group-template">
@@ -57,7 +57,7 @@
                                 <div class="text-center">
                                     <a href="@Url.Action("Create", "SectionGroup", new {sectionWidgetId = Model.ID})" class="btn btn-link btn-xs dialog" data-width="1000" data-height="600">
                                         <i class="glyphicon glyphicon-plus"></i>
-                                        添加
+                                        @L("添加")
                                     </a>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                         <div class="row">
                             <div class="col-xs-1">
                                 <div class="text-center">
-                                    水平排列
+                                    @L("水平排列")
                                 </div>
                             </div>
                             <div class="col-xs-11">
@@ -85,7 +85,7 @@
                                     }
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -96,21 +96,21 @@
         <div class="panel-footer">
             @if (Model.ID.IsNullOrEmpty())
             {
-                <input id="design" type="submit" class="btn btn-primary" value="继续" data-value="@ActionType.Continue" />
+                <input id="design" type="submit" class="btn btn-primary" value="@L("继续")" data-value="@ActionType.Continue" />
             }
             else
             {
-                <input id="design" type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Update"/>
+                <input id="design" type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Update" />
                 if (Model.IsTemplate && Model.Thumbnail.IsNotNullAndWhiteSpace())
                 {
                     <a href="@Url.Action("Pack", new {Model.ID})" class="btn btn-success">
                         <i class="glyphicon glyphicon-save-file"></i>
-                        打包模板
+                        @L("打包模板")
                     </a>
                 }
             }
-            <input id="copy-widget" type="button" class="btn btn-warning" data-id="@Model.ID" value="复制" />
-            <input type="button" class="btn btn-default cancel" value="取消" />
+            <input id="copy-widget" type="button" class="btn btn-warning" data-id="@Model.ID" value="@L("复制")" />
+            <input type="button" class="btn btn-default cancel" value="@L("取消")" />
         </div>
 
     </div>
@@ -131,7 +131,7 @@
             return false;
         }).on("click", "a.ajax.delete", function () {
             var link = $(this).attr("href");
-            Easy.ShowMessageBox("提示", "确定要删除吗？", function () {
+            Easy.ShowMessageBox("@L("提示")", "@L("确定要删除吗？")", function () {
                 $.get(link, {}, function (data) {
                     reload();
                 }, "json");
@@ -214,7 +214,7 @@
                 groups[i] = {};
                 groups[i].PercentWidth = $(this).data("col");
                 groups[i].SectionWidgetId = '@Model.ID';
-                groups[i].GroupName = "组" + (i + 1);
+                groups[i].GroupName = "@L("组")" + (i + 1);
                 groups[i].PartialView = "SectionTemplate.Default";
                 groups[i].Order = (i + 1);
                 groups[i].ID = $(".section-group:eq(" + i + ")").data("id") || '';

@@ -1,15 +1,118 @@
 {
-    "version": "0.1.0",
-    "command": "dotnet",
-    "isShellCommand": true,
-    "args": [],
+    "version": "2.0.0",
     "tasks": [
         {
-            "taskName": "build",
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
             "args": [
-                "${workspaceRoot}/ZKEACMS.sln"
+                "build",
+                "${workspaceFolder}"
             ],
-            "isBuildCommand": true,
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build ZKEACMS.Article",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/ZKEACMS.Article/ZKEACMS.Article.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build ZKEACMS.FormGenerator",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/ZKEACMS.FormGenerator/ZKEACMS.FormGenerator.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build ZKEACMS.Message",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/ZKEACMS.Message/ZKEACMS.Message.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build ZKEACMS.Product",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/ZKEACMS.Product/ZKEACMS.Product.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build ZKEACMS.Redirection",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/ZKEACMS.Redirection/ZKEACMS.Redirection.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build ZKEACMS.SectionWidget",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/ZKEACMS.SectionWidget/ZKEACMS.SectionWidget.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build ZKEACMS.Shop",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/ZKEACMS.Shop/ZKEACMS.Shop.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build ZKEACMS.Sitemap",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/ZKEACMS.Sitemap/ZKEACMS.Sitemap.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build ZKEACMS.StyleEditor",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/ZKEACMS.StyleEditor/ZKEACMS.StyleEditor.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build ZKEACMS.Updater",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/ZKEACMS.Updater/ZKEACMS.Updater.csproj"
+            ],
             "problemMatcher": "$msCompile"
         }
     ]

@@ -1,4 +1,4 @@
-﻿/* http://www.zkea.net/ 
+/* http://www.zkea.net/ 
  * Copyright 2017 ZKEASOFT 
  * http://www.zkea.net/licenses 
  *
@@ -14,6 +14,7 @@ using ZKEACMS.FormGenerator.Service;
 using Easy;
 using ZKEACMS.FormGenerator.Models;
 using ZKEACMS.WidgetTemplate;
+using ZKEACMS.FormGenerator.Service.Validator;
 
 namespace ZKEACMS.FormGenerator
 {
@@ -53,7 +54,7 @@ namespace ZKEACMS.FormGenerator
                     }
                 },
                 Icon = "glyphicon-list-alt",
-                Order = 10
+                Order = 12
             };
         }
 
@@ -101,7 +102,14 @@ namespace ZKEACMS.FormGenerator
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+            serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
+
+            serviceCollection.AddTransient<IFormDataValidator, DateTimeFormDataValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, EmailFormDataValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, NumberFormDataValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, RequiredFormDataValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, MaxLengthFormDataValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, RegexPatternValidator>();
 
             serviceCollection.TryAddTransient<IFormService, FormService>();
             serviceCollection.TryAddTransient<IFormDataService, FormDataService>();

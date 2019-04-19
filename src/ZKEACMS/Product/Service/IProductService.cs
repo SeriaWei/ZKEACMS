@@ -7,5 +7,7 @@ namespace ZKEACMS.Product.Service
     public interface IProductService : IService<ProductEntity>
     {
         void Publish(int ID);
+        void Publish(ProductEntity product);
+        ProductEntity GetByUrl(string url);
     }
 }

@@ -1,8 +1,12 @@
-﻿using System;
+/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+
 using Easy;
 using Easy.Constant;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Message.Models;
 using ZKEACMS.Widget;
 

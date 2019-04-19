@@ -1,0 +1,84 @@
+@using ZKEACMS.Rule
+@model IEnumerable<Rule>
+<div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    @L("定义条件")
+                </div>
+                <div class="panel-body">
+                    <ul id="rules" class="fullRowList">
+                        @foreach (var item in Model)
+                        {
+                            <li class="clearfix">
+                                <div class="pull-left">
+                                    <i class="glyphicon glyphicon-equalizer"></i>
+                                    <a href="javascript:void(0)" class="role-item" id="rule-@item.RuleID" data-id="@item.RuleID">
+                                        @item.Title
+                                        [@item.ZoneName]
+                                        @L("区域")
+                                    </a>
+                                </div>
+                                @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+                                {
+                                    <div class="pull-right">
+                                        <a href="@Url.Action("Edit", new {ID = item.RuleID})" title="编辑">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                        </a>
+                                    </div>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <a href="@Url.Action("Create")" class="btn btn-primary btn-sm">@L("新建")</a>
+                    <small class="text-muted" style="margin-left:1rem">
+                        @L("提示：点击左边条件，右则将展示出满足该条件时的内容")
+                    </small>                    
+                </div>
+            </div>
+        </div>
+        <div id="widgets" class="col-md-8">
+
+        </div>
+    </div>
+</div>
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            if (!location.hash) {
+                location.hash = '@ViewBag.RuleID';
+            }
+            if (location.hash && location.hash != "#") {
+                $("a" + location.hash).trigger("click");
+            }
+            else if ($("#rules>li.actived").size() === 0) {
+                $("#rules .role-item").first().trigger("click");
+            }
+        });
+
+        $(document).on("click", ".fullRowList .delete", function () {
+            var id = $(this).data("widgetid");
+            if (confirm("@L("确定要删除该组件吗？")")) {
+                $.post("@Url.Action("DeleteWidget", "Widget")", { ID: id }, function (data) {
+                    if (data) {
+                        $("#widget_" + id).remove();
+                    }
+                }, "json");
+            }
+        }).on("click", "#rules .role-item", function () {
+            $(this).closest("li").siblings().removeClass("actived");
+            $(this).closest("li").addClass("actived");
+            location.hash ="rule-" + $(this).data("id");
+            var widgets = $("#widgets");
+            widgets.empty();
+            $.post("@Url.Action("RuleWidgets")", { Id:$(this).data("id") }, function (data) {
+                widgets.html(data);
+             }, "html");
+        });
+    </script>
+}

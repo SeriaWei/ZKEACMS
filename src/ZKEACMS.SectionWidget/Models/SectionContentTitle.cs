@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using Easy.MetaData;
 using System.ComponentModel.DataAnnotations.Schema;
 using ZKEACMS.Extend;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.SectionWidget.Models
 {
-    [Table("SectionContentTitle")]
+    [DataTable("SectionContentTitle")]
     public class SectionContentTitle : SectionContentBasic
     {
         public const string H1 = "h1";
@@ -19,6 +20,7 @@ namespace ZKEACMS.SectionWidget.Models
         public string InnerText { get; set; }
         public string Href { get; set; }
         public string TitleLevel { get; set; }
+        [NotMapped]
         public override int SectionContentType
         {
             get

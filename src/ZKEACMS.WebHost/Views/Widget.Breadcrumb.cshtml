@@ -1,11 +1,10 @@
-﻿@model List<PageEntity>
+@model List<PageEntity>
 <ol class="breadcrumb">
-    <li><a href="~/">首页</a></li>
     @for (int i = 0; i < Model.Count; i++)
     {
         if (i == Model.Count - 1)
         {
-            <li class="active">@ViewContext.HttpContext.GetLayout().Page.Title</li>
+            <li class="active">@Model[i].PageName</li>
         }
         else
         {

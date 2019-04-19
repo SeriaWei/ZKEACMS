@@ -1,4 +1,4 @@
-﻿@model SectionGroup
+@model SectionGroup
 <p class="section-group-linkgroup btn-group">
     @foreach (SectionContent content in Model.SectionContents.Where(m => m.SectionContentType == (int)SectionContentBase.Types.CallToAction).OrderBy(m => m.Order))
     {

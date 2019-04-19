@@ -14,8 +14,10 @@ namespace ZKEACMS.Widget
         bool IsNeedNotifyChange { get; set; }
         IEnumerable<WidgetBase> GetByLayoutId(string layoutId);
         IEnumerable<WidgetBase> GetByPageId(string pageId);
-        IEnumerable<WidgetBase> GetAllByPage(PageEntity page, bool formCache = false);
+        IEnumerable<WidgetBase> GetAllByPage(PageEntity page);
+        IEnumerable<WidgetBase> GetAllByRule(int[] roleId, bool formCache = false);
         WidgetViewModelPart ApplyTemplate(WidgetBase widget, ActionContext actionContext);
         void RemoveCache(string pageId);
+        void ClearCache();
     }
 }

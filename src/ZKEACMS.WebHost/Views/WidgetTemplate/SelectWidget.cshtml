@@ -1,4 +1,4 @@
-﻿@model WidgetTemplateViewModel
+@model WidgetTemplateViewModel
 @{
     Style.Reqiured("Layout").AtFoot();
 }
@@ -6,16 +6,16 @@
     <div class="panel-heading">        
         <div class="form-inline">
             <div class="form-group">
-                <label for="exampleInputName2">搜索</label>
-                <input id="search" class="form-control" type="text" placeholder="输入关键字进行搜索..." />
+                <label for="exampleInputName2">@L("搜索")</label>
+                <input id="search" class="form-control" type="text" placeholder="@L("输入关键字进行搜索...")" />
             </div>
             <div class="form-group">
-                选择组件，<strong>双击</strong>或者点击<strong>下一步</strong>
+                @L("选择组件，<strong>双击</strong>或者点击<strong>下一步</strong>")
             </div>
         </div>
     </div>
     <div class="panel-body template-list">
-        @using (Html.BeginForm("RedirectToWidget", "WidgetTemplate", new { Model.PageID, Model.LayoutID, Model.ZoneID, Model.ReturnUrl }))
+        @using (Html.BeginForm("RedirectToWidget", "WidgetTemplate", new { Model.PageID, Model.LayoutID, Model.ZoneID,Model.RuleID, Model.ReturnUrl }))
         {
             foreach (var item in Model.WidgetTemplates.GroupBy(m => m.GroupName).OrderBy(m => m.Key))
             {
@@ -27,7 +27,7 @@
                             <label for="template-@template.ID" class="thumbnail">
                                 <img src="@Url.Content(template.Thumbnail)" />
                                 <span>
-                                    @template.Title
+                                    @L(template.Title)
                                 </span>
                             </label>
                         </div>
@@ -40,10 +40,10 @@
                 {
                     <a class="btn btn-warning" href="@Url.Action("PasteAndRedirect", "Widget", new { Model.LayoutID, Model.PageID,Model.ZoneID,Model.ReturnUrl })">
                         <i class="glyphicon glyphicon-paste"></i>
-                        粘贴
+                        @L("粘贴")
                     </a>
                 }
-                <input type="button" class="btn btn-default cancel" value="取消" />
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
             </div>
         }
     </div>

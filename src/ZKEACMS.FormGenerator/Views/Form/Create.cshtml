@@ -1,11 +1,11 @@
-﻿@model ZKEACMS.FormGenerator.Models.Form
+@model ZKEACMS.FormGenerator.Models.Form
 @{
 
 }
 
 <div ng-app="fild" ng-controller="formgenerator">
     <div class="row" ng-app="fieldSetting" ng-controller="setting" ng-init="saveUrl='@Url.Action("Create")'">
-        @Html.Partial("Setting")
+        @await Html.PartialAsync("Setting")
     </div>
 </div>
 @using (Script.AtFoot())

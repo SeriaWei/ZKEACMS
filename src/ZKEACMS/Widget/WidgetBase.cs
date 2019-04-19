@@ -23,6 +23,7 @@ namespace ZKEACMS.Widget
         public virtual int? Position { get; set; }
         public virtual string LayoutID { get; set; }
         public virtual string PageID { get; set; }
+        public virtual int? RuleID { get; set; }
         public virtual string ZoneID { get; set; }
         public virtual bool IsTemplate { get; set; }
         public virtual string Thumbnail { get; set; }
@@ -129,6 +130,7 @@ namespace ZKEACMS.Widget
             widget.LastUpdateDate = LastUpdateDate;
             widget.LayoutID = LayoutID;
             widget.PageID = PageID;
+            widget.RuleID = RuleID;
             widget.PartialView = PartialView;
             widget.Position = Position;
             widget.ServiceTypeName = ServiceTypeName;

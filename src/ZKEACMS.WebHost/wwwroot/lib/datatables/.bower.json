@@ -29,15 +29,15 @@
     "package.json"
   ],
   "homepage": "https://github.com/DataTables/DataTables",
-  "version": "1.10.11",
-  "_release": "1.10.11",
+  "version": "1.10.19",
+  "_release": "1.10.19",
   "_resolution": {
     "type": "version",
-    "tag": "1.10.11",
-    "commit": "8a3412a1aee8fdb4b65f426faa6c9a986994abfe"
+    "tag": "1.10.19",
+    "commit": "cedff8828e4507e36de9dc58e22edff5b8d37dfe"
   },
   "_source": "https://github.com/DataTables/DataTables.git",
-  "_target": "1.10.11",
+  "_target": "1.10.19",
   "_originalSource": "datatables",
   "_direct": true
 }

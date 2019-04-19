@@ -1,11 +1,11 @@
-﻿@model ZKEACMS.Common.Models.NavigationEntity
+@model ZKEACMS.Common.Models.NavigationEntity
 @{
     Script.Reqiured("validate").AtFoot();
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <div>导航</div>
+        @L("导航")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -14,10 +14,33 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManageNavigation))
                 {
-                    <input type="submit" class="btn btn-primary" value="保存" />
+                    <input type="submit" class="btn btn-primary" value="@L("保存")" />
+                    <input type="button" class="btn btn-warning append-html" value="@L("转为伪静态路径")" />
                 }
-                <input type="button" class="btn btn-default cancel" value="取消" />
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
             </div>
         }
     </div>
 </div>
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            $(document).on("click", ".append-html", function () {
+                var url = $("#Url");
+                var path = url.val();
+                if (!url.val()) {
+                    Easy.ShowMessageBox("@L("提示")", "@L("请先输入URL地址")");
+                }
+                else if (path.indexOf("?") >= 0) {
+                    Easy.ShowMessageBox("@L("提示")", "@L("不支持带有参数的URL地址静态化")");
+                }
+                else {
+                    if (path.indexOf(".html") < 0) {
+                        url.val(path + ".html");
+                    }
+                }
+            });
+        });
+    </script>
+}

@@ -1,4 +1,4 @@
-﻿@model MessageEntity
+@model MessageEntity
 @{
     Script.Reqiured("validate").AtFoot();
 }
@@ -6,9 +6,9 @@
     @if (ViewContext.HttpContext.Request.Cookies.Any(key => key.Key == "Message"))
     {
         <div class="alert alert-info">
-            <h4>Thank You!</h4>
+            <h4>@L("Thank You!")</h4>
             <p>
-                我们已经收到您的留言，我们会在第一时间处理您的信息，并在需要的时候通过邮件与您取得联系。
+                @L("我们已经收到您的留言，我们会在第一时间处理您的信息，并在需要的时候通过邮件与您取得联系。")
             </p>
         </div>
     }
@@ -41,6 +41,6 @@
                 </div>
             </div>
         </div>
-        <input type="submit" value="提交留言" class="btn btn-primary" />
+        <input type="submit" value="@L("提交留言")" class="btn btn-default" />
     }
 </div>

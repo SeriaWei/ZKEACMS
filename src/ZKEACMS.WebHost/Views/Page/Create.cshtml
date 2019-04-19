@@ -1,11 +1,11 @@
-﻿@model PageEntity
+@model PageEntity
 @{
     Script.Reqiured("validate").AtFoot();
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <div>页面</div>
+        @L("页面")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -14,9 +14,9 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                 {
-                    <input type="submit" class="btn btn-primary" value="保存" />
+                    <input type="submit" class="btn btn-primary" value="@L("保存")" />
                 }
-                <input type="button" class="btn btn-default cancel" value="取消"/>
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
             </div>
         }
     </div>
@@ -28,7 +28,7 @@
             var url = $("#Url");
             url.data("url", url.val());
         });
-        $("#PageUrl").blur(function () {
+        $(document).on("keyup", "#PageUrl", function () {
             var url = $("#Url");
             var parentUrl = url.data("url");
             if (!parentUrl) {
@@ -39,7 +39,9 @@
             for (var i = 0; i < replaceValue.length; i++) {
                 thisUrl = thisUrl.replaceAll(replaceValue[i], "-");
             }
+            $(this).val(thisUrl);
             url.val(parentUrl + thisUrl);
         });
+        $("form").on("submit", function () { $("#PageUrl").trigger("keyup"); });
     </script>
 }

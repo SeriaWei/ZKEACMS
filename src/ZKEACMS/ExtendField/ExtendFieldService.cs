@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.ExtendField
 {
-    public class ExtendFieldService : ServiceBase<ExtendFieldEntity>, IExtendFieldService
+    public class ExtendFieldService : ServiceBase<ExtendFieldEntity, CMSDbContext>, IExtendFieldService
     {
         public ExtendFieldService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {

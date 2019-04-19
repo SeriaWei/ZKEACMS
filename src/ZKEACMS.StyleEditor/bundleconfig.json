@@ -1,0 +1,38 @@
+[
+  {
+    "outputFileName": "Content/main.min.css",
+    "inputFiles": [
+      "Content/main.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/bgrins-spectrum/spectrum.min.js",
+    "inputFiles": [
+      "Scripts/bgrins-spectrum/spectrum.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/bgrins-spectrum/spectrum.min.css",
+    "inputFiles": [
+      "Scripts/bgrins-spectrum/spectrum.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/bgrins-spectrum/themes/sp-dark.min.css",
+    "inputFiles": [
+      "Scripts/bgrins-spectrum/themes/sp-dark.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/values.min.js",
+    "inputFiles": [
+      "Scripts/values.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/editor.min.js",
+    "inputFiles": [
+      "Scripts/editor.js"
+    ]
+  }
+]

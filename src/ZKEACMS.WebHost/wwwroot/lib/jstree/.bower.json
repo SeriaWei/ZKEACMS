@@ -1,7 +1,7 @@
 {
   "name": "jstree",
   "license": "MIT",
-  "version": "3.3.5",
+  "version": "3.3.6",
   "main": [
     "./dist/jstree.js",
     "./dist/themes/default/style.css"
@@ -31,14 +31,14 @@
     "jstree"
   ],
   "homepage": "https://github.com/vakata/jstree",
-  "_release": "3.3.5",
+  "_release": "3.3.6",
   "_resolution": {
     "type": "version",
-    "tag": "3.3.5",
-    "commit": "0097fab41981daf36c234b73b683166daabd5f28"
+    "tag": "3.3.6",
+    "commit": "39d167dc3f931fa95e588d4d106d9b44cbcdb6f9"
   },
   "_source": "https://github.com/vakata/jstree.git",
-  "_target": "3.3.5",
+  "_target": "3.3.6",
   "_originalSource": "jstree",
   "_direct": true
 }

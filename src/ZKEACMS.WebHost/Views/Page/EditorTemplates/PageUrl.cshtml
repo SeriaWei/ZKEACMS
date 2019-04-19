@@ -1,0 +1,25 @@
+@using Microsoft.AspNetCore.Http
+@model String
+@{
+    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
+    var pageModel = ViewContext.ViewBag.Page as PageEntity;
+    string path = string.Empty;
+    if (pageModel != null && pageModel.Url.IsNotNullAndWhiteSpace())
+    {
+        var pathArray = pageModel.Url.Split('/').ToList();
+        pathArray.RemoveAt(0);
+        pathArray.RemoveAt(pathArray.Count - 1);
+        if (pathArray.Count > 0)
+        {
+            path = string.Join("/", pathArray) + "/";
+        }
+    }
+}
+@inject IHttpContextAccessor httpContextAccessor
+
+<div class="input-group clearfix">
+    <div class="input-group-addon" style="max-width:600px;overflow:hidden;text-overflow:ellipsis;">        
+        @(httpContextAccessor.HttpContext.Request.Scheme + "://" + httpContextAccessor.HttpContext.Request.Host + "/" + path)       
+    </div>
+    @Html.TextBox("", Model, descriptor.ToHtmlProperties())
+</div>

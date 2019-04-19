@@ -21,3 +21,11 @@
         </div>
     </div>
 </div>
+<div class="form-group">
+    <label class="control-label" for="regexPattern">自定义验证</label>
+    <input type="text" class="form-control" name="regexPattern" id="regexPattern" ng-model="fieldInfo.RegexPattern" placeholder="正则表达式验证"/>
+</div>
+<div class="form-group">
+    <label class="control-label" for="regexMessage">错误提示信息</label>
+    <input type="text" class="form-control" name="regexMessage" id="regexMessage" ng-model="fieldInfo.RegexMessage" placeholder="自定义验证失败提示信息" />
+</div>

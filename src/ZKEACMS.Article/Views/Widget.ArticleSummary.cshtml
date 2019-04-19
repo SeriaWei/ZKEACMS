@@ -1,4 +1,4 @@
-﻿@model ZKEACMS.Article.Models.ArticleSummaryWidget
+@model ZKEACMS.Article.Models.ArticleSummaryWidget
 @{
     if (!Model.DetailLink.IsNullOrEmpty())
     {
@@ -19,7 +19,7 @@
                 <div class="pull-right">
                     @if (!Model.DetailLink.IsNullOrEmpty())
                     {
-                        @Html.SmartLink(Url.PathContent(Model.DetailLink), "More »")
+                        @Html.SmartLink(Url.PathContent(Model.DetailLink), L("More >>").Text)
                     }
                 </div>
             </div>

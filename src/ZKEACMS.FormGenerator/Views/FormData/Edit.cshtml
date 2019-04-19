@@ -1,4 +1,4 @@
-﻿@using ZKEACMS.FormGenerator.Models
+@using ZKEACMS.FormGenerator.Models
 @using ZKEACMS.FormGenerator
 @model FormData
 @{
@@ -9,14 +9,15 @@
     <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                表单@(Model.Form.Title)的数据
+                @L("表单数据")
+                @Model.Form.Title
             </div>
             <div class="panel-body form-widget">
                 <table class="table table-striped table-bordered ">
                     <thead>
                         <tr>
-                            <th>字段</th>
-                            <th>值</th>
+                            <th>@L("字段")</th>
+                            <th>@L("值")</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,14 +37,15 @@
 
             </div>
             <div class="panel-footer">
-                <a class="btn btn-default cancel">返回</a>
+                <a class="btn btn-default cancel">@L("返回")</a>
                 @if (Authorizer.Authorize(ZKEACMS.FormGenerator.PermissionKeys.ExportFormData))
                 {
                     <a class="btn btn-primary" href="@Url.Action("Export",new { id = Model.ID })" download="@Model.Form.Title">
-                        导出Excel
+                        @L("导出Excel")
                     </a>
                     <a class="btn btn-danger" href="@Url.Action("ExportForm",new { id = Model.FormId })" download="@Model.Form.Title">
-                        导出表单 @(Model.Form.Title) 的所有数据
+                        @L("导出所有数据")
+                        @Model.Form.Title
                     </a>
                 }
 

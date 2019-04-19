@@ -1,9 +1,9 @@
-﻿@model ZKEACMS.FormGenerator.Models.FormField
+@model ZKEACMS.FormGenerator.Models.FormField
 @{ 
     string maxLength = "200";
-    Model.Attributes.Add("data-val-length", "{0}的长度应小于{1}".FormatWith(Model.DisplayName, maxLength));
-    Model.Attributes.Add("data-val-length-max", maxLength);
-    Model.Attributes.Add("data-val-email", "邮箱地址格式不正确");
+    Model.Attributes.TryAdd("data-val-length", L("{0}的长度应小于{1}").Text.FormatWith(Model.DisplayName, maxLength));
+    Model.Attributes.TryAdd("data-val-length-max", maxLength);
+    Model.Attributes.TryAdd("data-val-email", L("邮箱地址格式不正确").Text);
 }
 <div class="form-group size-@Model.Size">
     @if (Model.DisplayName.IsNotNullAndWhiteSpace())

@@ -1,0 +1,5 @@
+﻿INSERT INTO [Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES ('SmtpSetting@Email', 'zh-CN', '邮箱', 'SmtpSetting', 'EntityProperty');
+INSERT INTO [Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES ('SmtpSetting@EnableSsl', 'zh-CN', '启用SSL', 'SmtpSetting', 'EntityProperty');
+INSERT INTO [Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES ('SmtpSetting@Host', 'zh-CN', '服务器', 'SmtpSetting', 'EntityProperty');
+INSERT INTO [Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES ('SmtpSetting@PassWord', 'zh-CN', '密码', 'SmtpSetting', 'EntityProperty');
+INSERT INTO [Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES ('SmtpSetting@Port', 'zh-CN', '端口', 'SmtpSetting', 'EntityProperty');

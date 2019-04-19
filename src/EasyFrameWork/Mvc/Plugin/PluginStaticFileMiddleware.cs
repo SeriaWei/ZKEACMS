@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+using Easy.Extend;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -31,10 +35,6 @@ namespace Easy.Mvc.Plugin
 
         public Task Invoke(HttpContext context)
         {
-            if (!context.Response.Headers.ContainsKey("Author"))
-            {
-                context.Response.Headers.Add("Author", new StringValues("ZKEA"));
-            }
             if (IsGetMethod(context.Request.Method) && IsPluginMatchPath(context.Request.Path) && IsSupportContentType(context))
             {
                 string filePath = GetAbsolutePath(context.Request.Path);
@@ -80,8 +80,8 @@ namespace Easy.Mvc.Plugin
         private string GetAbsolutePath(string path)
         {
             string parentPath = new DirectoryInfo(_hostingEnvironment.ContentRootPath).Parent.FullName;
-            string subPath = path.Replace($"/{_pluginLoader.PluginFolderName()}/", "/").Replace("/", "\\");
-            return parentPath + subPath;
+            string subPath = path.Replace($"/{_pluginLoader.PluginFolderName()}/", "/").ToFilePath();
+            return parentPath.CombinePath(subPath);
         }
     }
 }

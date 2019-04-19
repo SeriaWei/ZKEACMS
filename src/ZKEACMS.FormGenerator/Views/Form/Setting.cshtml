@@ -1,4 +1,4 @@
-﻿@model ZKEACMS.FormGenerator.Models.Form
+@model ZKEACMS.FormGenerator.Models.Form
 @{
     Style.Reqiured("field-setting").AtHead();
     Script.Reqiured("angular").AtFoot();
@@ -6,7 +6,7 @@
 }
 <div class="col-md-3">
     <div class="panel panel-default">
-        <div class="panel-heading">选择字段</div>
+        <div class="panel-heading">@L("选择字段")</div>
         <div class="panel-body">
             <div class="field-item" id="{{template.Name}}" ng-class="template.Name" ng-repeat="template in templates" ng-bind="template.DisplayName"
                  draggable="true" ondragstart="angular.element(this).scope().drag(event)">
@@ -14,23 +14,27 @@
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading">基本信息</div>
+        <div class="panel-heading">@L("基本信息")</div>
         <div class="panel-body">
             <div class="form-group">
-                <label class="control-label" for="Title">名称</label>
+                <label class="control-label" for="Title">@L("名称")</label>
                 <input type="text" class="form-control required" id="Title" ng-model="Title">
             </div>
             <div class="form-group">
-                <label class="control-label" for="Description">描述</label>
+                <label class="control-label" for="NotificationReceiver">@L("通知邮箱")</label>
+                <textarea class="form-control" id="NotificationReceiver" ng-model="NotificationReceiver" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="Description">@L("描述")</label>
                 <textarea class="form-control" id="Description" ng-model="Description"></textarea>
             </div>
         </div>
         <div class="panel-footer">
             @if (Authorizer.Authorize(ZKEACMS.FormGenerator.PermissionKeys.ManageForm))
             {
-                <a ng-click="save()" class="btn btn-primary">保存</a>
+                <a ng-click="save()" class="btn btn-primary">@L("保存")</a>
             }
-            <a class="btn btn-default cancel">取消</a>
+            <a class="btn btn-default cancel">@L("取消")</a>
         </div>
     </div>
 </div>
@@ -39,7 +43,7 @@
         {{Message}}
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading">表单</div>
+        <div class="panel-heading">@L("表单")</div>
         <div class="panel-body form-display">
             <div class="row">
                 <div ng-class="columnCute(field,$index)" ng-repeat="field in Fields"
@@ -59,16 +63,16 @@
 </div>
 <div class="col-md-3">
     <div class="panel panel-default">
-        <div class="panel-heading">字段设置</div>
+        <div class="panel-heading">@L("字段设置")</div>
         <div class="panel-body">
             <div ng-if="fieldInfo">
                 <form name="fieldForm">
                     <div class="form-group">
-                        <label class="control-label" for="DisplayName">名称</label>
+                        <label class="control-label" for="DisplayName">@L("名称")</label>
                         <input class="form-control" type="text" id="DisplayName" name="DisplayName" ng-model="fieldInfo.DisplayName" maxlength="100" />
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="Description">说明</label>
+                        <label class="control-label" for="Description">@L("描述")</label>
                         <textarea name="Description" id="Description" class="form-control" rows="3" cols="10" maxlength="500" ng-model="fieldInfo.Description"></textarea>
                     </div>
                     <div class="form-group" ng-if="fieldInfo.AdditionalSettings" ng-repeat="setting in fieldInfo.AdditionalSettings">
@@ -76,13 +80,13 @@
                         <input class="form-control" type="text" id="{{setting.Name}}" ng-model="setting.Value" />
                     </div>
                     <div class="form-group">
-                        <label class="control-label">布局</label>
+                        <label class="control-label">@L("布局")</label>
                         <div>
                             <div class="btn-group">
-                                <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Column=='col-md-12'}" ng-click="fieldInfo.Column='col-md-12'">整行</a>
-                                <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Column=='col-md-4'}" ng-click="fieldInfo.Column='col-md-4'">1/3行</a>
-                                <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Column=='col-md-6'}" ng-click="fieldInfo.Column='col-md-6'">1/2行</a>
-                                <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Column=='col-md-8'}" ng-click="fieldInfo.Column='col-md-8'">2/3行</a>
+                                <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Column=='col-md-12'}" ng-click="fieldInfo.Column='col-md-12'">@L("整行")</a>
+                                <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Column=='col-md-4'}" ng-click="fieldInfo.Column='col-md-4'">@L("1/3行")</a>
+                                <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Column=='col-md-6'}" ng-click="fieldInfo.Column='col-md-6'">@L("1/2行")</a>
+                                <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Column=='col-md-8'}" ng-click="fieldInfo.Column='col-md-8'">@L("2/3行")</a>
                             </div>
                         </div>
                     </div>

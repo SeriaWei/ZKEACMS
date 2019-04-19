@@ -1,4 +1,4 @@
-﻿<script type="text/javascript">
+<script type="text/javascript">
     $("#noZoneWidgets>.widget").draggable({ revert: "invalid", connectToSortable: ".widgets" });
     $(".widgets").sortable({
         connectWith: ".connectedSortable",
@@ -8,9 +8,9 @@
             ui.item.removeAttr("style");
             var target = ui.item.parent();
             var widgets = [];
-            target.children().each(function (i, ui) {
+            target.children().each(function (i, w) {
                 widgets.push({
-                    ID: $(ui).data("widgetid"),
+                    ID: $(w).data("widgetid"),
                     ZoneID: target.data("zoneid"),
                     Position: i + 1
                 });

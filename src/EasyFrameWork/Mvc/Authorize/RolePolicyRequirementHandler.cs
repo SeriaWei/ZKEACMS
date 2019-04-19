@@ -1,4 +1,7 @@
-﻿using Easy.Modules.Role;
+/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+using Easy.Modules.Role;
 using Easy.Modules.User.Service;
 using Microsoft.AspNetCore.Authorization;
 using System;

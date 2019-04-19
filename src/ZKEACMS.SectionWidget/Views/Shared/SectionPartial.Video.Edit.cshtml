@@ -1,4 +1,4 @@
-﻿@model SectionContentVideo
+@model SectionContentVideo
 
 
 
@@ -9,14 +9,14 @@
             </i>
             <a href="@Url.Action("Edit", "SectionContentVideo", new {Id = Model.ID})"
                class="dialog glyphicon glyphicon-edit text-primary"
-               data-width="800" data-height="600" title="编辑视频">
+               data-width="800" data-height="600" title="@L("编辑视频")">
             </a>
             <a href="@Url.Action("Delete", "SectionContentVideo", new { Id = Model.ID })" class="ajax glyphicon glyphicon-remove text-danger delete">
             </a>
         </div>
         <div class="pull-left">
-            <label class="label label-primary">视频</label>
-            @Html.Partial("SectionPartial.Video",Model)
+            <label class="label label-primary">@L("视频")</label>
+            @await Html.PartialAsync("SectionPartial.Video",Model)
         </div>
     </div>
 </li>

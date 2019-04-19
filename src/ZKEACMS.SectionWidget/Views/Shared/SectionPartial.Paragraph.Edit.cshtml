@@ -1,4 +1,4 @@
-﻿@model SectionContentParagraph
+@model SectionContentParagraph
 
 <li class="list-group-item" data-id="@Model.ID">
     <div class="icon-left clearfix">
@@ -7,14 +7,14 @@
             </i>
             <a href="@Url.Action("Edit", "SectionContentParagraph", new {Id = Model.ID})"
                class="dialog glyphicon glyphicon-edit text-primary" 
-               data-width="800" data-height="475" title="编辑段落">
+               data-width="800" data-height="475" title="@L("编辑段落")">
             </a>
             <a href="@Url.Action("Delete", "SectionContentParagraph", new { Id = Model.ID })" class="ajax glyphicon glyphicon-remove text-danger delete">
             </a>
         </div>
         <div class="pull-left edit-pragraph">
-            <label class="label label-primary">段落</label>
-            @Html.Partial("SectionPartial.Paragraph",Model)
+            <label class="label label-primary">@L("段落")</label>
+            @await Html.PartialAsync("SectionPartial.Paragraph",Model)
         </div>
     </div>
 </li>

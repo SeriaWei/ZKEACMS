@@ -1,4 +1,4 @@
-﻿/* http://www.zkea.net/ 
+/* http://www.zkea.net/ 
  * Copyright 2017 ZKEASOFT 
  * http://www.zkea.net/licenses */
 
@@ -28,7 +28,6 @@ namespace ZKEACMS
             modelBuilder.Entity<CarouselItemEntity>();
             modelBuilder.Entity<CarouselWidget>();
             modelBuilder.Entity<LayoutEntity>();
-            modelBuilder.Entity<LayoutHtml>();
             modelBuilder.Entity<MediaEntity>();
             modelBuilder.Entity<PageEntity>();
             modelBuilder.Entity<ThemeEntity>();
@@ -42,6 +41,7 @@ namespace ZKEACMS
             modelBuilder.Entity<ScriptWidget>();
             modelBuilder.Entity<StyleSheetWidget>();
             modelBuilder.Entity<VideoWidget>();
+            modelBuilder.Entity<Rule.Rule>();
         }
     }
 }

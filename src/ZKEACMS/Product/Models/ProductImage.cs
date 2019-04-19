@@ -1,5 +1,9 @@
-﻿using Easy.MetaData;
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+using Easy.MetaData;
 using Easy.Models;
+using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +13,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.Product.Models
 {
-    [Table("ProductImage")]
+    [DataTable("ProductImage")]
     public class ProductImage : EditorEntity
     {
         [Key]

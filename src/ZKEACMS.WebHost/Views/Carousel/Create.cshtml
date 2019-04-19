@@ -1,11 +1,11 @@
-﻿@model ZKEACMS.Common.Models.CarouselEntity
+@model ZKEACMS.Common.Models.CarouselEntity
 @{
     Script.Reqiured("validate").AtFoot();
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        新建
+        @L("新建")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -14,9 +14,9 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManageCarousel))
                 {
-                    <input type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Create" />
+                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Create" />
                 }
-                <input type="button" class="btn btn-default cancel" value="取消" />
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
             </div>
         }
     </div>

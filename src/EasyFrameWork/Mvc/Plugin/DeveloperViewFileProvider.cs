@@ -1,4 +1,7 @@
-﻿using Easy.Extend;
+/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+using Easy.Extend;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.FileProviders.Physical;
@@ -10,6 +13,7 @@ namespace Easy.Mvc.Plugin
 {
     public class DeveloperViewFileProvider : IFileProvider
     {
+        public const string ProjectRootPath = "/Porject.RootPath/";
         public DeveloperViewFileProvider(IHostingEnvironment hostingEnvironment)
         {
             HostingEnvironment = hostingEnvironment;
@@ -22,10 +26,10 @@ namespace Easy.Mvc.Plugin
 
         public IFileInfo GetFileInfo(string subpath)
         {
-            if (subpath.StartsWith("/Porject.RootPath/", StringComparison.Ordinal))
+            if (subpath.StartsWith(ProjectRootPath, StringComparison.Ordinal))
             {
                 var parent = new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent;
-                var file = Path.Combine(parent.FullName, subpath.Replace("/Porject.RootPath/", "").ToFilePath());
+                var file = Path.Combine(parent.FullName, subpath.Replace(ProjectRootPath, string.Empty).ToFilePath());
                 if (File.Exists(file))
                 {
                     return new PhysicalFileInfo(new FileInfo(file));
@@ -36,10 +40,10 @@ namespace Easy.Mvc.Plugin
 
         public IChangeToken Watch(string filter)
         {
-            if (filter.StartsWith("/Porject.RootPath/", StringComparison.Ordinal))
+            if (filter.StartsWith(ProjectRootPath, StringComparison.Ordinal))
             {
                 var parent = new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent;
-                var file = Path.Combine(parent.FullName, filter.Replace("/Porject.RootPath/", "").ToFilePath());
+                var file = Path.Combine(parent.FullName, filter.Replace(ProjectRootPath, string.Empty).ToFilePath());
                 if (File.Exists(file))
                 {
                     return new PollingFileChangeToken(new FileInfo(file));

@@ -1,4 +1,4 @@
-﻿@model ZKEACMS.FormGenerator.Models.FormField
+@model ZKEACMS.FormGenerator.Models.FormField
 <div class="form-group size-@Model.Size">
     @if (Model.DisplayName.IsNotNullAndWhiteSpace())
     {
@@ -28,7 +28,7 @@
 
     </div>
     <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true">
-        <span id="@(Model.ID)-error" class="">请至少选择一个选项</span>
+        <span id="@(Model.ID)-error" class="">@L("请至少选择一个选项")</span>
     </span>
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {

@@ -1,4 +1,4 @@
-﻿@model ZKEACMS.Article.ViewModel.ArticleTypeWidgetViewModel
+@model ZKEACMS.Article.ViewModel.ArticleTypeWidgetViewModel
 
 <div class="article-category">
     <div class="list-group">
@@ -6,7 +6,7 @@
         {
             foreach (var item in Model.ArticleTypes)
             {
-                <a href="@Url.CategoryUrl(item.ID)" class="list-group-item @(item.ID == Model.ArticleTypeID ? "active" : "")">@item.Title</a>
+                <a href="@Url.ArticleTypeUrl(item)" class="list-group-item @(item.ID == Model.ArticleTypeID ? "active" : "")">@item.Title</a>
             }
         }
     </div>

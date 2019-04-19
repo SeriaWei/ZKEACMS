@@ -52,10 +52,14 @@ namespace ZKEACMS.Controllers
             return Json(true);
         }
 
-        public FileResult ThemePackage(string id)
+        public IActionResult ThemePackage(string id)
         {
-            var package = _packageInstallerProvider.CreateInstaller("ThemePackageInstaller").Pack(id) as ThemePackage;
-            return File(package.ToFilePackage(), "Application/zip", package.Theme.Title + ".theme");
+            if (_hostingEnvironment.IsDevelopment())
+            {
+                var package = _packageInstallerProvider.CreateInstaller("ThemePackageInstaller").Pack(id) as ThemePackage;
+                return File(package.ToFilePackage(), "Application/zip", package.Theme.Title + ".theme");
+            }
+            return NotFound();
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTheme)]
         public JsonResult UploadTheme()

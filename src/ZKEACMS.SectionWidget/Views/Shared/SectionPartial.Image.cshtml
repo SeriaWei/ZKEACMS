@@ -1,16 +1,16 @@
-﻿@model SectionContentImage
+@model SectionContentImage
 
 
 @if (Model.Href.IsNotNullAndWhiteSpace())
 {
     <a href="@Url.PathContent(Model.Href)" target="@Html.SmartLinkTarget(Model.Href)">
-        <img src="@Url.Content(Model.ImageSrc)" alt="@Model.ImageAlt" title="@Model.ImageTitle" style="width: @(Model.Width.HasValue ? Model.Width.Value + "px" : "auto"); height: @(Model.Height.HasValue ? Model.Height.Value + "px" : "auto");" />
+        <img src="@Url.Content(Model.ImageSrc)" alt="@Model.ImageAlt" title="@Model.ImageTitle" style="@(Model.Width.HasValue ? "width:" + Model.Width.Value + "px;" : string.Empty)@(Model.Height.HasValue ? "height:" + Model.Height.Value + "px;" : string.Empty);" />
     </a>
 
 }
 else
 {
-    <img src="@Url.Content(Model.ImageSrc)" alt="@Model.ImageAlt" title="@Model.ImageTitle" style="width: @(Model.Width.HasValue ? Model.Width.Value + "px" : "auto"); height: @(Model.Height.HasValue ? Model.Height.Value + "px" : "auto");" />
+    <img src="@Url.Content(Model.ImageSrc)" alt="@Model.ImageAlt" title="@Model.ImageTitle" style="@(Model.Width.HasValue ? "width:" + Model.Width.Value + "px;" : string.Empty)@(Model.Height.HasValue ? "height:" + Model.Height.Value + "px;" : string.Empty);" />
 }
 
 

@@ -9,6 +9,7 @@ namespace ZKEACMS.DataArchived
     {
         JsonConverter[] JsonConverters { get; set; }
         T Get<T>(string key, Func<T> fun) where T : class;
+        T Get<T>(string key) where T : class;
         void Archive<T>(string key, T obj);
     }
 }

@@ -8,16 +8,18 @@ using Easy.Image;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
 using Easy.Mvc.Extend;
+using Easy.Net;
 using Easy.RepositoryPattern;
+using Easy.Storage;
 using Microsoft.AspNetCore.Mvc;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.Primitives;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
 using ZKEACMS.Common.ViewModels;
 using ZKEACMS.Media;
 
@@ -26,9 +28,18 @@ namespace ZKEACMS.Controllers
     [DefaultAuthorize(Policy = PermissionKeys.ViewMedia)]
     public class MediaController : BasicController<MediaEntity, string, IMediaService>
     {
-        public MediaController(IMediaService service)
+        private readonly ILogger _logger;
+        private readonly WebClient _webClient;
+        private readonly IStorage _storage;
+        public MediaController(IMediaService service,
+            ILoggerFactory loggerFactory,
+            WebClient webClient,
+            IStorage storage)
             : base(service)
         {
+            _logger = loggerFactory.CreateLogger<MediaController>();
+            _webClient = webClient;
+            _storage = storage;
         }
         [NonAction]
         public override IActionResult Index()
@@ -102,7 +113,7 @@ namespace ZKEACMS.Controllers
             return Json(entity);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
-        public JsonResult Upload(string parentId, string folder, long size)
+        public async Task<IActionResult> Upload(string parentId, string folder, long size)
         {
             if (Request.Form.Files.Count > 0)
             {
@@ -130,14 +141,7 @@ namespace ZKEACMS.Controllers
                     Status = Request.Form.Files[0].Length == size ? (int)RecordStatus.Active : (int)RecordStatus.InActive
                 };
                 string extension = Path.GetExtension(fileName).ToLower();
-                if (ImageHelper.IsImage(extension))
-                {
-                    entity.Url = Request.SaveImage();
-                }
-                else
-                {
-                    entity.Url = Request.SaveFile();
-                }
+                entity.Url = await _storage.SaveFileAsync(Request.Form.Files[0].OpenReadStream(), $"{Guid.NewGuid().ToString("N")}{extension}");
                 if (entity.Url.IsNotNullAndWhiteSpace())
                 {
                     Service.Add(entity);
@@ -148,7 +152,7 @@ namespace ZKEACMS.Controllers
             return Json(false);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
-        public JsonResult AppendFile(string id, long position, long size)
+        public async Task<IActionResult> AppendFile(string id, long position, long size)
         {
             var media = Service.Get(id);
             if (media != null && Request.Form.Files.Count > 0)
@@ -158,15 +162,9 @@ namespace ZKEACMS.Controllers
                     media.Status = (int)RecordStatus.Active;
                     Service.Update(media);
                 }
-                var file = Request.MapPath(media.Url);
-                if (System.IO.File.Exists(file))
-                {
-                    using (var fileStream = new FileStream(file, FileMode.Append))
-                    {
-                        Request.Form.Files[0].CopyTo(fileStream);
-                    }
-                    return Json(media);
-                }
+                await _storage.AppendFileAsync(Request.Form.Files[0].OpenReadStream(), media.Url);
+                media.Url = Url.Content(media.Url);
+                return Json(media);
             }
             return Json(false);
         }
@@ -186,7 +184,8 @@ namespace ZKEACMS.Controllers
                 {
                     media.Url = "~" + new Uri(media.Url).AbsolutePath;
                 }
-                Request.DeleteFile(media.Url);
+
+                _storage.Delete(media.Url);
             }
             else
             {
@@ -194,20 +193,91 @@ namespace ZKEACMS.Controllers
             }
             Service.Remove(mediaId);
         }
-        public IActionResult Thumbnail(string id)
+        //public IActionResult Thumbnail(string id)
+        //{
+        //    const int size = 220;
+        //    using (var input = System.IO.File.OpenRead(Request.MapPath(Service.Get(id).Url)))
+        //    {
+        //        MemoryStream ms = new MemoryStream();
+        //        using (var image = Image.Load<Rgba32>(input))
+        //        {
+        //            image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(size, size), Mode = ResizeMode.Max }));
+        //            image.Save(ms, new JpegEncoder());
+        //            ms.Position = 0;
+        //            return File(ms, "image/jpeg");
+        //        }
+        //    }
+        //}
+
+        [HttpPost]
+        public IActionResult DownLoadExternalImage(string[] images)
         {
-            const int size = 220;
-            using (var input = System.IO.File.OpenRead(Request.MapPath(Service.Get(id).Url)))
+            Dictionary<string, string> result = new Dictionary<string, string>();
+
+            //_webClient.Proxy = new System.Net.WebProxy("kyproxy.keyou.corp", 8080);
+
+            string parentId = Service.GetImageFolder().ID;
+            foreach (var item in images)
             {
-                using (MemoryStream ms = new MemoryStream())
+                if (!result.ContainsKey(item))
                 {
-                    var image = Image.Load<Rgba32>(input);
-                    image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(size, size), Mode = ResizeMode.Max }));
-                    image.Save(ms, new JpegEncoder());
-                    ms.Position = 0;
-                    return File(ms.ToArray(), "image/jpeg");
+                    string ext = Path.GetExtension(item);
+                    if (!Easy.Mvc.Common.IsImage(ext))
+                    {
+                        ext = ".jpg";
+                    }
+                    string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
+                    try
+                    {
+                        using (MD5 md5hash = MD5.Create())
+                        {
+                            var id = GetMd5Hash(md5hash, item);
+                            var media = Service.Get(id);
+                            if (media != null)
+                            {
+                                result.Add(item, media.Url);
+                            }
+                            else
+                            {
+                                string url = _storage.SaveFile(_webClient.OpenRead(item), fileName);
+                                Service.Add(new MediaEntity
+                                {
+                                    ParentID = parentId,
+                                    Title = fileName,
+                                    Status = (int)RecordStatus.Active,
+                                    Url = url,
+                                    ID = id
+                                });
+                                result.Add(item, url);
+                            }
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex.Message);
+                    }
+
+
                 }
             }
+            return Json(result.Select(m => new KeyValuePair<string, string>(m.Key, Url.Content(m.Value))));
+        }
+        string GetMd5Hash(MD5 md5Hash, string input)
+        {
+            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+            StringBuilder sBuilder = new StringBuilder();
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+            return sBuilder.ToString();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _webClient.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

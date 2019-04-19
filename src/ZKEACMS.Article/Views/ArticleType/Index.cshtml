@@ -1,4 +1,4 @@
-﻿@using ZKEACMS.Article
+@using ZKEACMS.Article
 @using Easy.ViewPort.jsTree
 @using ZKEACMS.Article.Models
 @{
@@ -9,13 +9,13 @@
     {
         articleTree
         .AddPlugin(Plugins.ContextMenu)
-            .AddContextMenuItem(new ContextmenuItem {Label = "新建", Action = "Create", Icon = "glyphicon glyphicon-plus"})
-            .AddContextMenuItem(new ContextmenuItem {Label = "编辑", Action = "Edit", Icon = "glyphicon glyphicon-edit"});
+            .AddContextMenuItem(new ContextmenuItem {Label = L("新建").Text, Action = "Create", Icon = "glyphicon glyphicon-plus"})
+            .AddContextMenuItem(new ContextmenuItem {Label = L("编辑").Text, Action = "Edit", Icon = "glyphicon glyphicon-edit"});
     }
 }
 <div class="panel  panel-default">
     <div class="panel-heading">
-        文章类别
+        @L("文章类别")
     </div>
     <div class="panel-body">
         @articleTree
@@ -25,7 +25,7 @@
         <div class="panel-footer">
             <a href="@Url.Action("Create")" class="btn btn-link btn-xs">
                 <i class="glyphicon glyphicon-plus"></i>
-                添加类别
+                @L("添加类别")
             </a>
         </div>
     }

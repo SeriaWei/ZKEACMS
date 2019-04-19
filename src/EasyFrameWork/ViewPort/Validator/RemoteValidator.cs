@@ -1,5 +1,6 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using System;
+using Easy.Extend;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Easy.ViewPort.Validator
@@ -8,7 +9,7 @@ namespace Easy.ViewPort.Validator
     {
         public RemoteValidator()
         {
-            this.BaseErrorMessage = "{0}验证失败";
+            BaseErrorMessage = "{0}验证失败";
         }
         public string Url
         {
@@ -35,7 +36,7 @@ namespace Easy.ViewPort.Validator
 
         public override bool Validate(object value)
         {
-            throw new NotImplementedException();
+            return false;
         }
     }
 }

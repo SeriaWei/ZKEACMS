@@ -1,22 +1,27 @@
-﻿using Easy;
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+using Easy;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ZKEACMS
 {
     public class ApplicationContextAccessor : IApplicationContextAccessor
     {
-        private readonly CMSApplicationContext _applicationContext;
-        public ApplicationContextAccessor(IApplicationContext applicationContext)
+        private readonly IServiceProvider _serviceProvider;
+        public ApplicationContextAccessor(IServiceProvider serviceProvider)
         {
-            _applicationContext = applicationContext as CMSApplicationContext;
+            _serviceProvider = serviceProvider;
         }
+        private CMSApplicationContext current;
         public CMSApplicationContext Current
         {
             get
             {
-                return _applicationContext;
+                return current ?? (current = _serviceProvider.GetService<IApplicationContext>().As<CMSApplicationContext>());
             }
         }
     }

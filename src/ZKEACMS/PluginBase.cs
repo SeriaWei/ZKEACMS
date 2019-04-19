@@ -13,12 +13,18 @@ using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ZKEACMS.WidgetTemplate;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyModel;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
 namespace ZKEACMS
 {
-    public abstract class PluginBase : ResourceManager, IRouteRegister, IPluginStartup
+    public abstract class PluginBase : ResourceManager, IRouteRegister, IPluginStartup, IApplicationPartTypeProvider, ICompilationReferencesProvider
     {
+        private const string ControllerTypeNameSuffix = "Controller";
         public Assembly Assembly { get; set; }
+
         public abstract IEnumerable<RouteDescriptor> RegistRoute();
         public abstract IEnumerable<AdminMenu> AdminMenu();
         public abstract IEnumerable<PermissionDescriptor> RegistPermission();
@@ -28,12 +34,20 @@ namespace ZKEACMS
         {
 
         }
-        public static Dictionary<Type, string> pluginPathCache = new Dictionary<Type, string>();
+        public virtual void ConfigureMVC(IMvcBuilder mvcBuilder)
+        {
+            mvcBuilder.ConfigureApplicationPartManager(manguage => manguage.ApplicationParts.Add(this));
+        }
+        static Dictionary<Type, string> pluginPathCache = new Dictionary<Type, string>();
+        static Dictionary<Type, string> pluginNameCache = new Dictionary<Type, string>();
         public string CurrentPluginPath
         {
             get;
             set;
         }
+        public List<CompilationLibrary> Dependency { get; set; }
+        public IEnumerable<TypeInfo> Types => Assembly.DefinedTypes;
+        public override string Name => Assembly.GetName().Name;
 
         public static string GetPath<T>() where T : PluginBase
         {
@@ -44,6 +58,15 @@ namespace ZKEACMS
             }
             return string.Empty;
         }
+        public static string GetName<T>() where T : PluginBase
+        {
+            Type pluginType = typeof(T);
+            if (pluginNameCache.ContainsKey(pluginType))
+            {
+                return pluginNameCache[pluginType];
+            }
+            return string.Empty;
+        }
         public virtual void Setup(params object[] args)
         {
             var pluginType = this.GetType();
@@ -51,16 +74,29 @@ namespace ZKEACMS
             {
                 pluginPathCache.Add(pluginType, CurrentPluginPath);
             }
+            if (!pluginNameCache.ContainsKey(pluginType))
+            {
+                pluginNameCache.Add(pluginType, this.Name);
+            }
             var menus = this.AdminMenu();
             if (menus != null)
             {
-                AdminMenus.Menus.AddRange(menus);
+                foreach (var item in menus)
+                {
+                    item.PluginName = this.Name;
+                    AdminMenus.Menus.Add(item);
+                }
+                
             }
             this.SetupResource();
             var permissions = this.RegistPermission();
             if (permissions != null)
             {
-                PermissionKeys.KnownPermissions.AddRange(permissions);
+                foreach (var item in permissions)
+                {
+                    item.PluginName = this.Name;
+                    PermissionKeys.KnownPermissions.Add(item);
+                }                
             }
             var routes = this.RegistRoute();
             if (routes != null)
@@ -73,6 +109,7 @@ namespace ZKEACMS
                 WidgetTemplateService.KnownWidgets.AddRange(widgets);
                 foreach (var item in WidgetTemplateService.KnownWidgets)
                 {
+                    item.PluginName = this.Name;
                     string name = $"{item.AssemblyName},{item.ServiceTypeName}";
                     if (!WidgetBase.KnownWidgetService.ContainsKey(name))
                     {
@@ -89,18 +126,74 @@ namespace ZKEACMS
             {
                 foreach (var item in args)
                 {
-                    IServiceCollection serviceCollection = item as IServiceCollection;
-                    if (serviceCollection != null)
+                    if (item is IServiceCollection)
                     {
-                        ConfigureServices(serviceCollection);
-                        if (ActionDescriptorProvider.PluginControllers.ContainsKey(Assembly.FullName))
+                        IServiceCollection serviceCollection = item as IServiceCollection;
+                        if (serviceCollection != null)
                         {
-                            ActionDescriptorProvider.PluginControllers[Assembly.FullName].Each(c => serviceCollection.TryAddTransient(c.AsType()));
+                            ConfigureServices(serviceCollection);
+                            Assembly.DefinedTypes.Where(type => IsController(type)).Each(c => serviceCollection.TryAddTransient(c));
                         }
+                    }
+                    else if (item is IMvcBuilder)
+                    {
+                        ConfigureMVC(item as IMvcBuilder);
                     }
                 }
             }
 
+        }
+        public virtual bool IsController(TypeInfo typeInfo)
+        {
+            if (!typeInfo.IsClass)
+            {
+                return false;
+            }
+
+            if (typeInfo.IsAbstract)
+            {
+                return false;
+            }
+
+
+            if (!typeInfo.IsPublic)
+            {
+                return false;
+            }
+
+            if (typeInfo.ContainsGenericParameters)
+            {
+                return false;
+            }
+
+            if (typeInfo.IsDefined(typeof(NonControllerAttribute)))
+            {
+                return false;
+            }
+
+            if (!typeInfo.Name.EndsWith(ControllerTypeNameSuffix, StringComparison.OrdinalIgnoreCase) &&
+                !typeInfo.IsDefined(typeof(ControllerAttribute)))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public IEnumerable<string> GetReferencePaths()
+        {
+            if (Assembly.IsDynamic)
+            {
+                return Enumerable.Empty<string>();
+            }
+
+            if (Dependency.Count > 0)
+            {
+                return Dependency.SelectMany(library => library.ResolveReferencePaths(new DependencyAssemblyResolver(Path.GetDirectoryName(Assembly.Location))))
+                    .Concat(new[] { Assembly.Location });
+            }
+
+            return new[] { Assembly.Location };
         }
     }
 }

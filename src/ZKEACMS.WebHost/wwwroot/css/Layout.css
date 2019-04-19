@@ -56,9 +56,9 @@ zone {
     cursor: move;
 }
 
-    .AddCol > select {
-        color: black;
-    }
+.AddCol > select {
+    color: black;
+}
 
 .design {
 }
@@ -153,7 +153,7 @@ label.additional {
 .container-fluid.design .additional,
 .container.design .additional {
     position: relative;
-    transition:width 500ms;
+    transition: width 500ms;
 }
 
     .container-fluid.design .additional.zone,
@@ -381,7 +381,6 @@ label.additional {
     margin: 0 auto auto 0;
     z-index: 1;
     color: white;
-    line-height: 25px;
     transition: all 300ms;
     opacity: 0;
     z-index: 10;
@@ -389,8 +388,8 @@ label.additional {
 }
 
 .widget:hover .zoneToolbar {
-    margin-top: -20px;
     opacity: 1;
+    font-size: 18px;
 }
 
 .zoneToolbar:hover {
@@ -616,7 +615,7 @@ label.additional {
 
 
     .templates .widget-design {
-        cursor:move;
+        cursor: move;
         position: relative;
     }
 
@@ -718,4 +717,55 @@ li.ui-sortable-helper {
     .WeiWindow.StyleEditor .TitleBarRight {
         background-color: #212636;
         border-bottom: 1px solid #212636;
+    }
+
+.code {
+    position: relative;
+    margin: 0;
+}
+
+    .code::before {
+        display: block;
+        position: absolute;
+        content: attr(code);
+        padding: 2px 4px;
+        font-size: 90%;
+        color: #c7254e;
+        background-color: #f9f2f4;
+        border-radius: 4px;
+        right: 5px;
+        top: 5px;
+    }
+
+#mobile-frame .modal-dialog {
+    width: 372px;
+}
+
+#mobile-frame .modal-content {
+    background: none;
+    box-shadow: none;
+    border: none;
+}
+
+#mobile-frame .close {
+    color: #fff;
+    opacity: 1;
+}
+
+#mobile-frame .mobile {
+    background: url(../images/mobile-frame.png) no-repeat center center;
+    width: 342px;
+    height: 667px;
+    padding: 48px 6px;
+}
+    #mobile-frame .mobile.mini {
+        background: url(../images/mobile-frame-small.png) no-repeat center center;
+        width: 342px;
+        height: 500px;
+    }
+    #mobile-frame .mobile iframe {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ddd;
+        background:#fff;
     }

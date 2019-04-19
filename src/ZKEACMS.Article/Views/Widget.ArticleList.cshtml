@@ -1,4 +1,4 @@
-﻿@model ZKEACMS.Article.ViewModel.ArticleListWidgetViewModel
+@model ZKEACMS.Article.ViewModel.ArticleListWidgetViewModel
 @{
     if (!Model.Widget.DetailPageUrl.IsNullOrEmpty())
     {
@@ -13,13 +13,13 @@
             {
                 <li class="media">
                     <div class="media-left">
-                        <a href="@Url.PostUrl(Model.Widget.DetailPageUrl,item.ID.ToString())">
+                        <a target="_blank" href="@Url.PostUrl(Model.Widget.DetailPageUrl,item)">
                             <img class="media-object" src="@Url.ImageContent(item.ImageThumbUrl)" alt="@item.Title">
                         </a>
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading">
-                            <a href="@Url.PostUrl(Model.Widget.DetailPageUrl,item.ID.ToString())">
+                            <a target="_blank" href="@Url.PostUrl(Model.Widget.DetailPageUrl,item)">
                                 @item.Title
                             </a>
                         </h4>
@@ -30,7 +30,7 @@
         </ul>
         @if (Model.IsPageable)
         {
-            Html.Pagin(Model.Pagin);
+            await Html.Pagin(Model.Pagin);
         }
     }
 </div>

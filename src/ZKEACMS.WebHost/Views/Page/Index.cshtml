@@ -1,4 +1,4 @@
-﻿@using ZKEACMS.Common
+@using ZKEACMS.Common
 @using Easy.ViewPort.jsTree
 @{
     string pageId = ViewContext.HttpContext.Request.Query["PageID"];
@@ -15,17 +15,17 @@
 
     if (Authorizer.Authorize(PermissionKeys.ManagePage))
     {
-        pageTree.AddPlugin(Plugins.DragAndDrop).AddContextMenuItem(new ContextmenuItem { Label = "新建", Action = "Create", Icon = "glyphicon glyphicon-plus" })
-            .AddContextMenuItem(new ContextmenuItem { Label = "查看", Action = "View", Icon = "glyphicon glyphicon-new-window" })
-            .AddContextMenuItem(new ContextmenuItem { Label = "编辑", Action = "Design", Icon = "glyphicon glyphicon-pencil" })
-            .AddContextMenuItem(new ContextmenuItem { Label = "预览", Action = "PreView", Icon = "glyphicon glyphicon-search" })
-            .AddContextMenuItem(new ContextmenuItem { Label = "属性", Action = "Edit", Icon = "glyphicon glyphicon-edit", SeparatorAfter = true })
-            .AddContextMenuItem(new ContextmenuItem { Label = "发布", Action = "Publish", Icon = "glyphicon glyphicon-open" });
+        pageTree.AddPlugin(Plugins.DragAndDrop).AddContextMenuItem(new ContextmenuItem { Label = L("新建").Text, Action = "Create", Icon = "glyphicon glyphicon-plus" })
+            .AddContextMenuItem(new ContextmenuItem { Label = L("查看").Text, Action = "View", Icon = "glyphicon glyphicon-new-window" })
+            .AddContextMenuItem(new ContextmenuItem { Label = L("编辑").Text, Action = "Design", Icon = "glyphicon glyphicon-pencil" })
+            .AddContextMenuItem(new ContextmenuItem { Label = L("预览").Text, Action = "PreView", Icon = "glyphicon glyphicon-eye-open" })
+            .AddContextMenuItem(new ContextmenuItem { Label = L("属性").Text, Action = "Edit", Icon = "glyphicon glyphicon-record", SeparatorAfter = true })
+            .AddContextMenuItem(new ContextmenuItem { Label = L("发布").Text, Action = "Publish", Icon = "glyphicon glyphicon-open" });
     }
     else
     {
-        pageTree.AddContextMenuItem(new ContextmenuItem { Label = "预览", Action = "PreView", Icon = "glyphicon glyphicon-search" })
-            .AddContextMenuItem(new ContextmenuItem { Label = "查看", Action = "View", Icon = "glyphicon glyphicon-new-window" });
+        pageTree.AddContextMenuItem(new ContextmenuItem { Label = L("预览").Text, Action = "PreView", Icon = "glyphicon glyphicon-search" })
+            .AddContextMenuItem(new ContextmenuItem { Label = L("查看").Text, Action = "View", Icon = "glyphicon glyphicon-new-window" });
     }
 }
 <div>
@@ -33,7 +33,7 @@
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    页面
+                    @L("页面")
                 </div>
                 <div class="panel-body">
                     @pageTree
@@ -43,7 +43,7 @@
                     <div class="panel-footer">
                         <a href="@Url.Action("Create", new {ParentID = "#"})" class="btn btn-link btn-xs">
                             <i class="glyphicon glyphicon-plus"></i>
-                            添加页面
+                            @L("添加页面")
                         </a>
                         <i class="glyphicon glyphicon-question-sign" style="cursor:help" data-toggle="modal" data-target="#help"></i>
                     </div>
@@ -58,49 +58,49 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">说明</h4>
+                <h4 class="modal-title">@L("说明")</h4>
             </div>
             <div class="modal-body">
                 <ul>
                     <li>
-                        添加页面：添加顶级页面，即域名下的一级子页面。~/xxxxx
+                        @L("添加页面：添加顶级页面，即域名下的一级子页面。~/xxxxx")
                     </li>
                     <li>
-                        <span>右键菜单</span>
+                        <span>@L("右键菜单")</span>
                         <ul>
                             <li>
-                                添加：添加子页面
+                                @L("添加：添加子页面")
                             </li>
                             <li>
-                                属性：编辑选中页面的属性，像标题，SEO关键字等
+                                @L("属性：编辑选中页面的属性，像标题，SEO关键字等")
                             </li>
                             <li>
-                                预览：查看最新修改版本
+                                @L("预览：查看最新修改版本")
                             </li>
                             <li>
-                                查看：查看已发布版本
+                                @L("查看：查看已发布版本")
                             </li>
                             <li>
-                                发布：将页面发布到前端可查看
+                                @L("发布：将页面发布到前端可查看")
                             </li>
                             <li>
-                                编辑：进入页面的设计模式，编辑内容
+                                @L("编辑：进入页面的设计模式，编辑内容")
                             </li>
                             <li>
-                                布局：修改页面布局。<code>会影响所有使用该布局的页面</code>
+                                @L("布局：修改页面布局")
                             </li>
                         </ul>
                     </li>
                 </ul>
                 <hr />
                 <p>
-                    <strong>注：</strong>
-                    页面必须要发布才可以通过网址访问。对页面进行修改不会影响到已发布版本，直到下一次发布。
+                    <strong>@L("注：")</strong>
+                    @L("页面必须要发布才可以通过网址访问。对页面进行修改不会影响到已发布版本，直到下一次发布。")
                 </p>
             </div>
             <div class="modal-footer">
-                <a href="http://www.zkea.net/zkeacms/document/managepage" class="btn btn-primary" target="_blank">说明文档</a>
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <a href="http://www.zkea.net/zkeacms/document/managepage" class="btn btn-primary" target="_blank">@L("说明文档")</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">@L("关闭")</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -122,7 +122,7 @@
         }
         function View(node) {
             if (node.reference.attr("publishdate") == "null") {
-                Easy.ShowMessageBox("提示", "只有在页面发布之后才可查看！");
+                Easy.ShowMessageBox("@L("提示")", "@L("只有在页面发布之后才可查看！")");
 
             } else {
                 var id = node.reference.attr("id");
@@ -135,7 +135,7 @@
         }
         function Publish(node) {
             var id = node.reference.attr("id");
-            Easy.ShowMessageBox("提示", "确定要发布吗？", function () {
+            Easy.ShowMessageBox("@L("提示")", "@L("确定要发布吗？")", function () {
                 Easy.Block();
                 $.post('@Url.Action("Publish")', { id: id }, function () {
                     $(".jstree").jstree().refresh();
@@ -168,7 +168,7 @@
         }
         $(document).on("click", ".fullRowList .delete", function () {
             var id = $(this).data("widgetid");
-            Easy.ShowMessageBox("提示", "确定要删除该组件吗？", function () {
+            Easy.ShowMessageBox("@L("提示")", "@L("确定要删除该组件吗？")", function () {
                 $.post("@Url.Action("DeleteWidget", "Widget")", { ID: id }, function (data) {
                     if (data) {
                         $("#widget_" + id).remove();

@@ -1,4 +1,4 @@
-﻿@using ZKEACMS.Common
+@using ZKEACMS.Common
 @model ZKEACMS.Common.ViewModels.LayoutZonesViewModel
 @{
     Layout = null;
@@ -10,7 +10,7 @@
 {
     <div class="panel panel-danger">
         <div class="panel-heading">
-            <span class="badge">须要处理</span>
+            <span class="badge">@L("须要处理")</span>
         </div>
         <div class="panel-body">
             <ul id="noZoneWidgets" class="fullRowList">
@@ -29,13 +29,13 @@
         </div>
         <div class="panel-footer">
             <span class="description">
-                组件不能正确地显示在页面中，可能是因为您删除了原先的区域
+                @L("组件不能正确地显示在页面中，可能是因为您删除了原先的区域")
             </span>
         </div>
     </div>
 }
 <div class="panel  panel-default simplePreview">
-    <div class="panel-heading">布局概览</div>
+    <div class="panel-heading">@L("布局概览")</div>
 
     <div class="simpleDesign">
         @for (int i = 0; i < Model.LayoutHtml.Count; i++)
@@ -64,9 +64,9 @@
                             }
                         </ul>
                         <div class="panel-toolbar">
-                            <a class="btn btn-black btn-xs" title="添加内容" href="@Url.Action("SelectWidget", "WidgetTemplate", new { Model.PageID, ZoneID = item.HeadingCode, LayoutID = item.LayoutId, ReturnUrl = returnUrl})">
+                            <a class="btn btn-black btn-xs" title="@L("添加内容")" href="@Url.Action("SelectWidget", "WidgetTemplate", new { Model.PageID, ZoneID = item.HeadingCode, LayoutID = item.LayoutId, ReturnUrl = returnUrl})">
                                 <i class="glyphicon glyphicon-plus"></i>
-                                添加内容 | @item.ZoneName
+                                @L("添加内容") | @item.ZoneName
                             </a>
                         </div>
                     </div>
@@ -84,6 +84,6 @@
 </div>
 @if (Authorizer.Authorize(PermissionKeys.ManagePage))
 {
-    @Html.Partial("SortWidget.Script")
+    @await Html.PartialAsync("SortWidget.Script")
 }
 

@@ -1,4 +1,4 @@
-﻿/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
 using System;
@@ -12,11 +12,18 @@ using ZKEACMS.Article.Models;
 using Microsoft.Extensions.Options;
 using ZKEACMS.WidgetTemplate;
 using Easy.RepositoryPattern;
+using ZKEACMS.Route;
+using System.Collections.Concurrent;
 
 namespace ZKEACMS.Article
 {
     public class ArticlePlug : PluginBase
     {
+        public static ConcurrentDictionary<string, string[]> AllRelatedUrlCache { get; }
+        static ArticlePlug()
+        {
+            AllRelatedUrlCache = new ConcurrentDictionary<string, string[]>();
+        }
         public override IEnumerable<RouteDescriptor> RegistRoute()
         {
             return null;
@@ -117,7 +124,9 @@ namespace ZKEACMS.Article
         {
             serviceCollection.AddTransient<IArticleService, ArticleService>();
             serviceCollection.AddTransient<IArticleTypeService, ArticleTypeService>();
-            serviceCollection.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+            serviceCollection.AddTransient<IRouteDataProvider, ArticleRouteDataProvider>();
+            serviceCollection.AddTransient<IRouteDataProvider, ArticleTypeRouteDataProvider>();
+            serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             serviceCollection.Configure<ArticleListWidget>(option =>
             {

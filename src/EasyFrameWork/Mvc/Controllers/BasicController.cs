@@ -26,16 +26,7 @@ namespace Easy.Mvc.Controllers
         {
             Service = service;
         }
-        protected void UpLoadImage(IImage entity)
-        {
-            if (entity == null) return;
-            if (!string.IsNullOrEmpty(entity.ImageUrl) && string.IsNullOrEmpty(entity.ImageThumbUrl))
-            {
-                entity.ImageThumbUrl = entity.ImageUrl;
-            }
-            string filePath = Request.SaveImage();
-        }
-        
+
         public virtual IActionResult Index()
         {
             return View();
@@ -52,15 +43,30 @@ namespace Easy.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                UpLoadImage(entity as IImage);
-                Service.Add(entity);
+                var result = Service.Add(entity);
+                if (result.HasViolation)
+                {
+                    foreach (var item in result.RuleViolations)
+                    {
+                        ModelState.AddModelError(item.ParameterName, item.ErrorMessage);
+                    }
+                    return View(entity);
+                }
                 return RedirectToAction("Index");
             }
             return View(entity);
         }
         public virtual IActionResult Edit(TPrimarykey Id)
         {
+            if (Id == null)
+            {
+                return NotFound();
+            }
             TEntity entity = Service.Get(Id);
+            if (entity == null)
+            {
+                return NotFound();
+            }
             return View(entity);
         }
 
@@ -72,11 +78,18 @@ namespace Easy.Mvc.Controllers
                 Service.Remove(entity);
                 return RedirectToAction("Index");
             }
-            
+
             if (ModelState.IsValid)
             {
-                UpLoadImage(entity as IImage);
-                Service.Update(entity);
+                var result = Service.Update(entity);
+                if (result.HasViolation)
+                {
+                    foreach (var item in result.RuleViolations)
+                    {
+                        ModelState.AddModelError(item.ParameterName, item.ErrorMessage);
+                    }
+                    return View(entity);
+                }
                 return RedirectToAction("Index");
             }
             return View(entity);
@@ -87,9 +100,7 @@ namespace Easy.Mvc.Controllers
         {
             try
             {
-
                 Service.Remove(id);
-
                 return Json(new AjaxResult { Status = AjaxStatus.Normal });
             }
             catch (Exception ex)

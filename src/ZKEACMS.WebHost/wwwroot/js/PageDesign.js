@@ -84,7 +84,7 @@
         var styleTarget = $(this).closest(".widget").parent();
         styleTarget.toggleClass("custom-style-target");
         window.top.Easy.ShowUrlWindow({
-            url: '/js/StyleEditor/index.html',
+            url: '/admin/StyleEditor/Edit',
             width: 1024,
             title: "编辑样式",
             onLoad: function (box) {
@@ -118,4 +118,16 @@
     if ($(window).width() > 1600) {
         $(".templates").addClass("active");
     }
+
+    $(document).on("show.bs.modal", "#mobile-frame", function () {
+        if (window.innerHeight < 740) {
+            $(".mobile", this).addClass("mini");
+        } else {
+            $(".mobile", this).removeClass("mini");
+        }
+        $("iframe", this).attr("src", $(this).data("src"));
+    });
+    $(document).on("hidden.bs.modal", "#mobile-frame", function () {
+        $("iframe", this).html("").attr("src", "about:blank");
+    });
 });

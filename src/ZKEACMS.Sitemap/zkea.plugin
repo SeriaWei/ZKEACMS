@@ -1,6 +1,7 @@
-{
+﻿{
 	ID:"838E7001-B410-43F8-8F81-93C50207920E",
 	Name:"ZKEACMS.Sitemap",
 	FileName:"ZKEACMS.Sitemap.dll",
-	Enable:"true"
+	Enable:"true",
+	Description:"站点地图"
 }

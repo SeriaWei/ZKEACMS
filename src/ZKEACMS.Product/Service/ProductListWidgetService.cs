@@ -80,7 +80,8 @@ namespace ZKEACMS.Product.Service
             {
                 PageIndex = pageIndex,
                 PageSize = currentWidget.PageSize ?? 20,
-                OrderBy = "OrderIndex"
+                OrderBy = "OrderIndex",
+                ThenByDescending= "ID"
             };
 
             Expression<Func<ProductEntity, bool>> filter = null;
@@ -91,7 +92,7 @@ namespace ZKEACMS.Product.Service
             else
             {
                 var ids = _productCategoryService.Get(m => m.ID == currentWidget.ProductCategoryID || m.ParentID == currentWidget.ProductCategoryID).Select(m => m.ID).ToList();
-                filter = m => m.IsPublish && ids.Contains(m.ProductCategoryID ?? 0);
+                filter = m => m.IsPublish && ids.Contains(m.ProductCategoryID);
             }
             if (currentWidget.IsPageable)
             {

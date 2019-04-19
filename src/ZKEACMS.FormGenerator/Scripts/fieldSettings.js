@@ -1,5 +1,5 @@
 ﻿angular.module("fieldSetting", []).controller("setting", ['$scope', '$filter', function ($scope, $filter) {
-    $scope.templates = [        
+    $scope.templates = [
         {
             Name: "Label",
             DisplayName: "标题",
@@ -7,7 +7,9 @@
             Placeholder: "",
             IsRequired: false,
             Size: 4,
-            Column: "col-md-12"
+            Column: "col-md-12",
+            RegexPattern: "",
+            RegexMessage: ""
         },
         {
             Name: "SingleLine",
@@ -16,7 +18,9 @@
             Placeholder: "",
             IsRequired: false,
             Size: 4,
-            Column: "col-md-12"
+            Column: "col-md-12",
+            RegexPattern: "",
+            RegexMessage: ""
         },
         {
             Name: "Number",
@@ -25,7 +29,9 @@
             Placeholder: "",
             IsRequired: false,
             Size: 4,
-            Column: "col-md-12"
+            Column: "col-md-12",
+            RegexPattern: "",
+            RegexMessage: ""
             //AdditionalSettings: [{ DisplayText: "最大值", Name: "num-max", Value: "" }, { DisplayText: "最小值", Name: "mum-min", Value: "" }]
         },
         {
@@ -35,7 +41,9 @@
             Placeholder: "",
             IsRequired: false,
             Size: 4,
-            Column: "col-md-12"
+            Column: "col-md-12",
+            RegexPattern: "",
+            RegexMessage: ""
         },
         {
             Name: "Paragraph",
@@ -44,7 +52,9 @@
             Placeholder: "",
             IsRequired: false,
             Size: 4,
-            Column: "col-md-12"
+            Column: "col-md-12",
+            RegexPattern: "",
+            RegexMessage: ""
         },
         {
             Name: "Date",
@@ -52,7 +62,9 @@
             Description: "",
             IsRequired: false,
             Size: 4,
-            Column: "col-md-12"
+            Column: "col-md-12",
+            RegexPattern: "",
+            RegexMessage: ""
         },
         {
             Name: "Radio",
@@ -61,7 +73,9 @@
             IsRequired: false,
             Size: 4,
             Column: "col-md-12",
-            FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }]
+            FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }],
+            RegexPattern: "",
+            RegexMessage: ""
         },
         {
             Name: "Dropdown",
@@ -71,6 +85,8 @@
             Size: 4,
             Column: "col-md-12",
             FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }],
+            RegexPattern: "",
+            RegexMessage: ""
         },
         {
             Name: "Checkbox",
@@ -79,7 +95,9 @@
             IsRequired: false,
             Size: 4,
             Column: "col-md-12",
-            FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }]
+            FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }],
+            RegexPattern: "",
+            RegexMessage: ""
         },
         {
             Name: "Address",
@@ -87,7 +105,9 @@
             Description: "",
             IsRequired: false,
             Size: 4,
-            Column: "col-md-12"
+            Column: "col-md-12",
+            RegexPattern: "",
+            RegexMessage: ""
         }
     ];
 
@@ -218,14 +238,15 @@
             data: JSON.stringify({
                 ID: $scope.ID,
                 Title: $scope.Title,
+                NotificationReceiver: $scope.NotificationReceiver,
                 Description: $scope.Description,
                 FormFields: $scope.Fields
             }),
             contentType: 'application/json; charset=utf-8',
             async: true,
             success: function (data) {
-                if (data.Message) {
-                    $scope.Message = data.Message;
+                if (data.message) {
+                    $scope.Message = data.message;
                     $scope.$apply();
                 }
                 else {

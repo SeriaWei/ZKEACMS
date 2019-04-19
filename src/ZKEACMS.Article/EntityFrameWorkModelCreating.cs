@@ -1,4 +1,4 @@
-﻿using Easy.RepositoryPattern;
+using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

@@ -1,8 +1,8 @@
-﻿@model IEnumerable<MessageEntity>
+@model IEnumerable<MessageEntity>
 <div class="message-box">
     @if (Model == null || !Model.Any())
     {
-        <em>还没有留言……</em>
+        <em>@L("还没有留言……")</em>
     }
     else
     {

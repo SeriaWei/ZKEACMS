@@ -1,3 +1,6 @@
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
 using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,11 +37,15 @@ namespace Easy
         {
             if (type != null)
             {
+                if (typeof(Microsoft.AspNetCore.Mvc.ControllerBase).IsAssignableFrom(type))
+                {
+                    return null;
+                }
                 var metaData = HttpContextAccessor.HttpContext.RequestServices.GetService(MetaDataType.MakeGenericType(type)) as IViewMetaData;
                 if (metaData != null)
                 {
                     return new ViewConfigure(metaData);
-                }                
+                }
             }
             return null;
         }

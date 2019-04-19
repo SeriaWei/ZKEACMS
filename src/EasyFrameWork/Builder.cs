@@ -1,47 +1,59 @@
-using Easy.Mvc.Plugin;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.Extensions.Configuration;
-using Easy.Mvc.ValueProvider;
-using Easy.RepositoryPattern;
-using Easy.Modules.User.Service;
-using Easy.Modules.Role;
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+using Easy.Cache;
+using Easy.Encrypt;
+using Easy.Extend;
+using Easy.Logging;
+using Easy.MetaData;
 using Easy.Modules.DataDictionary;
 using Easy.Modules.MutiLanguage;
+using Easy.Modules.Role;
+using Easy.Modules.User.Models;
+using Easy.Modules.User.Service;
 using Easy.Mvc.Authorize;
-using Easy.Encrypt;
-using Microsoft.AspNetCore.Mvc.Controllers;
+using Easy.Mvc.Plugin;
+using Easy.Mvc.RazorPages;
+using Easy.Mvc.StateProviders;
+using Easy.Mvc.ValueProvider;
+using Easy.Net;
+using Easy.Notification;
+using Easy.Options;
+using Easy.RepositoryPattern;
+using Easy.RuleEngine;
+using Easy.RuleEngine.RuleProviders;
+using Easy.RuleEngine.Scripting;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using Easy.Logging;
-using Easy.Options;
-using Easy.Mvc.RazorPages;
-using Easy.Notification;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using System.Collections.Generic;
-using Easy.Modules.User.Models;
-using Easy.MetaData;
 
 namespace Easy
 {
     public static class Builder
     {
-        public static void UseEasyFrameWork(this IServiceCollection services, IConfigurationRoot configuration)
+        public static void UseEasyFrameWork(this IServiceCollection services, IConfiguration configuration)
         {
-            services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<RazorViewEngineOptions>, PluginRazorViewEngineOptionsSetup>());
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<RazorViewEngineOptions>, PluginRazorViewEngineOptionsSetup>());
 
-            services.Replace(ServiceDescriptor.Transient<IControllerActivator, Mvc.Controllers.ServiceBasedControllerActivator>());
-            services.TryAddEnumerable(ServiceDescriptor.Transient<IActionDescriptorProvider, ActionDescriptorProvider>());
+            //services.Replace(ServiceDescriptor.Transient<IControllerActivator, Mvc.Controllers.ServiceBasedControllerActivator>());
+            //services.TryAddEnumerable(ServiceDescriptor.Transient<IActionDescriptorProvider, ActionDescriptorProvider>());
             services.TryAddSingleton<IPluginLoader, Loader>();
 
 
-            services.TryAddTransient<IAuthorizer, DefaultAuthorizer>();
+            services.TryAddScoped<IAuthorizer, DefaultAuthorizer>();
 
             services.TryAddTransient<ICookie, Cookie>();
             services.TryAddTransient<IUserService, UserService>();
@@ -49,17 +61,35 @@ namespace Easy
             services.TryAddTransient<IUserRoleRelationService, UserRoleRelationService>();
             services.TryAddTransient<IPermissionService, PermissionService>();
             services.TryAddTransient<IDataDictionaryService, DataDictionaryService>();
-            services.TryAddTransient<ILanguageService, LanguageService>();
+            services.AddScoped<ILanguageService, LanguageService>();
             services.TryAddTransient<IEncryptService, EncryptService>();
-            services.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
+            services.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             services.AddTransient<IViewRenderService, ViewRenderService>();
             services.AddTransient<INotificationManager, NotificationManager>();
             services.AddTransient<INotifyService, EmailNotifyService>();
             services.AddTransient<INotifyService, RazorEmailNotifyService>();
             services.AddTransient<IPluginLoader, Loader>();
+            services.AddTransient<IRuleManager, RuleManager>();
+            services.AddTransient<IRuleProvider, CommonMethodsRuleProvider>();
+            services.AddTransient<IRuleProvider, ValueOfRuleProvider>();
+            services.AddTransient<IRuleProvider, DateRuleProvider>();
+            services.AddTransient<IRuleProvider, MoneyRuleProvider>();
+            services.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
+            services.AddTransient<WebClient>();
+
+            services.AddSingleton<ICacheProvider, DefaultCacheProvider>();
+            services.AddTransient<ILocalize, Localize>();
+
+            services.ConfigureCache<ScriptExpressionResult>();
+            services.ConfigureCache<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>>();
+
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
-            services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
+            //services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
+
+            services.AddScoped<IApplicationContextStateProvider, CurrentCustomerStateProvider>();
+            services.AddScoped<IApplicationContextStateProvider, CurrentUserStateProvider>();
+            services.AddScoped<IApplicationContextStateProvider, HostingEnvironmentStateProvider>();
 
             services.ConfigureMetaData<UserEntity, UserMetaData>();
             services.ConfigureMetaData<DataDictionaryEntity, DataDictionaryEntityMetaData>();
@@ -74,14 +104,14 @@ namespace Easy
 
             services.AddDataProtection();
 
-            services.AddDbContext<EasyDbContext>();
+            //services.AddDbContext<EasyDbContext>();
         }
 
         public static void ConfigureMetaData<TEntity, TMetaData>(this IServiceCollection service)
             where TMetaData : ViewMetaData<TEntity>
             where TEntity : class
         {
-            service.AddTransient<ViewMetaData<TEntity>, TMetaData>();
+            service.AddSingleton<ViewMetaData<TEntity>, TMetaData>();
         }
 
         public static IEnumerable<IPluginStartup> LoadAvailablePlugins(this IServiceCollection services)
@@ -95,9 +125,9 @@ namespace Easy
             builder.UseMiddleware<PluginStaticFileMiddleware>();
             return builder;
         }
-        public static void UseFileLog(this ILoggerFactory loggerFactory, IHostingEnvironment env)
+        public static void UseFileLog(this ILoggerFactory loggerFactory, IHostingEnvironment env, IHttpContextAccessor httpContextAccessor)
         {
-            loggerFactory.AddProvider(new FileLoggerProvider(env));
+            loggerFactory.AddProvider(new FileLoggerProvider(env, httpContextAccessor));
         }
     }
 }

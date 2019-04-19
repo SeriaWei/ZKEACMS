@@ -3,11 +3,10 @@
     Style.Reqiured("Customer").AtHead();
     Style.Reqiured("Easy").AtHead();
     var current = themeService.GetCurrentTheme();
-    List<AdminMenu> menu = new List<AdminMenu>();
-    userCenterLinksProvider.Each(p => menu.AddRange(p.GetLinks()));
+    IEnumerable<AdminMenu> menu = userCenterLinkService.GetLinks();
 }
 @inject IThemeService themeService
-@inject IEnumerable<IUserCenterLinksProvider> userCenterLinksProvider
+@inject IUserCenterLinkService userCenterLinkService
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->
@@ -44,7 +43,7 @@
                                 <span class="icon-bar"></span>
                             </button>
                             <a class="navbar-brand" href="/">
-                                首页
+                                @L("首页")
                             </a>
                         </div>
                         <div class="navbar-collapse collapse navbar-responsive-collapse">
@@ -52,13 +51,13 @@
                                 @foreach (var item in menu.OrderBy(m => m.Order))
                                 {
                                     <li>
-                                        <a target="_self" href="@Url.PathContent(item.Url)">@item.Title</a>
+                                        <a target="_self" href="@Url.PathContent(item.Url)">@L(item.Title)</a>
                                     </li>
                                 }
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
-                                    <a target="_self" href="@Url.Action("SignOut","Account")" title="安全退出">
+                                    <a target="_self" href="@Url.Action("SignOut","Account")" title="@L("安全退出")">
                                         <i class="glyphicon glyphicon-off"></i>
                                     </a>
                                 </li>

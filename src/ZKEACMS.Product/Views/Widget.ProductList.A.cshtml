@@ -1,0 +1,63 @@
+@using System.Text.RegularExpressions
+@model ZKEACMS.Product.ViewModel.ProductListWidgetViewModel
+
+<div class="productlist bordered">
+    @if (Model.Products != null)
+    {
+        <ul class="media-list">
+            @foreach (var item in Model.Products)
+            {
+                <li class="media">
+                    <div class="media-left">
+                        <a target="_blank" href="@Url.PostUrl(Model.DetailPageUrl, item)">
+                            <img class="media-object" src="@Url.ImageContent(item.ImageThumbUrl)" alt="@item.Title">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-heading">
+                            <a target="_blank" href="@Url.PostUrl(Model.DetailPageUrl, item)">
+                                @item.Title
+                            </a>
+                        </h3>
+                        <p class="small text-muted">
+                            <span class="author">
+                                <i class="glyphicon glyphicon-user"></i>
+                                @item.CreatebyName
+                            </span>
+                            <span class="text-muted publish-date">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                                @((item.PublishDate ?? DateTime.Now).ToString("f"))
+                            </span>
+                        </p>
+                        <p>
+                            @item.Description
+                        </p>
+                        @if (item.RebatePrice.HasValue || item.Price.HasValue)
+                        {
+                            <p class="price">
+                                @if (item.RebatePrice.HasValue)
+                                {
+                                    <del class="text-muted"><small><small>￥</small>@Html.Raw(Regex.Replace((item.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</small></del>
+                                    <strong><small>￥</small>@Html.Raw(Regex.Replace((item.RebatePrice ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</strong>
+                                }
+                                else
+                                {
+                                    <strong><small>￥</small>@Html.Raw(Regex.Replace((item.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</strong>
+                                }
+                            </p>
+                        }
+                        <br />
+                        <p>
+                            <a class="btn btn-flat" href="@Url.PostUrl(Model.DetailPageUrl, item)" target="_blank">@L("查看详细")</a>
+                        </p>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+@if (Model.IsPageable)
+{
+    await Html.Pagin(Model.Page);
+}

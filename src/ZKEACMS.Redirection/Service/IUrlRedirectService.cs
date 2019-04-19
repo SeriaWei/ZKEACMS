@@ -1,4 +1,4 @@
-﻿using Easy.RepositoryPattern;
+using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +9,6 @@ namespace ZKEACMS.Redirection.Service
 {
     public interface IUrlRedirectService : IService<UrlRedirect>
     {
+        IEnumerable<UrlRedirect> GetAll();
     }
 }

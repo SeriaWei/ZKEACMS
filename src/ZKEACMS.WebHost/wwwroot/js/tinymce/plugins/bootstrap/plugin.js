@@ -19,6 +19,11 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
         context: 'insert',
         menu: [
             {
+                text: "扁平", onclick: function () {
+                    insertButton("btn btn-flat");
+                }
+            },
+            {
                 text: "默认", onclick: function () {
                     insertButton("btn btn-default");
                 }

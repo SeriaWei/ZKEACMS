@@ -1,0 +1,33 @@
+@using ZKEACMS.Product
+@using Easy.ViewPort.jsTree
+@using ZKEACMS.Product.Models
+
+@model int?
+@{
+    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
+    Script.Reqiured("jsTree").AtFoot();
+    Style.Reqiured("jsTree").AtHead();
+    var categoryTree = Html.Tree<ProductCategory>().Source("GetProductCategoryTree", "ProductCategory", new { module = "admin" })
+    .On(Events.Loaded, "loadedProductCategory")
+    .On(Events.ActiveNode, "activedProductCategory");
+}
+<div class="input-group product-category-tree">
+    @Html.Hidden("", Model, descriptor.ToHtmlProperties())
+    @categoryTree
+</div>
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        function loadedProductCategory(p) {
+            var category = $("input[type=hidden]", ".product-category-tree").val();
+            if (!category || category == "0") {
+                category = $(".jstree-node:first a.jstree-anchor:first", p.target).attr("id");
+                $("input[type=hidden]", ".product-category-tree").val(category);
+            }
+            $(p.target).jstree('select_node', category);            
+        }
+        function activedProductCategory(node, selected) {
+            $("input[name=@(ViewData.TemplateInfo.GetFullHtmlFieldName(""))]", ".product-category-tree").val(selected.node.id)
+        }
+    </script>
+}

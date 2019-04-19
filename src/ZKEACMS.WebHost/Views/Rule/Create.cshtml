@@ -1,0 +1,24 @@
+@model ZKEACMS.Rule.Rule
+@{
+    Script.Reqiured("validate").AtFoot();
+    Style.Reqiured("rule").AtHead();
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @L("新建")
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.EditorForModel()
+            <div class="toolBar">
+                @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+                {
+                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Create" />
+                }
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
+            </div>
+        }
+    </div>
+</div>

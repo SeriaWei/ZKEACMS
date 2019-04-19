@@ -1,4 +1,7 @@
-﻿using Easy.Extend;
+/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+using Easy.Extend;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;

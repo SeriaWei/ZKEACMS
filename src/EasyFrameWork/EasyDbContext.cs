@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+using System.Collections.Generic;
 using Easy.Modules.DataDictionary;
 using Easy.Modules.MutiLanguage;
 using Easy.Modules.Role;
@@ -10,7 +13,7 @@ namespace Easy
 {
     public class EasyDbContext : DbContextBase
     {
-        public EasyDbContext(IEnumerable<IOnModelCreating> modelCreatings, IOnDatabaseConfiguring configuring) : base(modelCreatings, configuring)
+        public EasyDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
         {
         }
 

@@ -1,3 +1,6 @@
+/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -54,6 +57,10 @@ namespace Easy.Mvc.DataAnnotations
                             displayMetadata.ShowForDisplay = false;
                             displayMetadata.ShowForEdit = false;
                             displayMetadata.TemplateHint = "Ignore";
+                        }
+                        if (descriptor.IsHideSurroundingHtml)
+                        {
+                            displayMetadata.HideSurroundingHtml = true;
                         }
                     }
                 }

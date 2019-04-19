@@ -1,4 +1,7 @@
-﻿using System;
+/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Mail;
@@ -50,7 +53,7 @@ namespace Easy.Notification
             }
             if (email.Attachments != null)
             {
-                foreach (var item in email.Bcc)
+                foreach (var item in email.Attachments)
                 {
                     mailMessage.Attachments.Add(new Attachment(item));
                 }

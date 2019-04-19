@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ZKEACMS.Layout
 {
-    public class ViewDataLayoutsAttribute : ViewDataAttribute
+    public class ViewDataLayoutsAttribute : Easy.Mvc.Attribute.ViewDataAttribute
     {
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {

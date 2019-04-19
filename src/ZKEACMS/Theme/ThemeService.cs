@@ -9,22 +9,50 @@ using Easy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Concurrent;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Easy.Cache;
 
 namespace ZKEACMS.Theme
 {
-    public class ThemeService : ServiceBase<ThemeEntity>, IThemeService
+    public class ThemeService : ServiceBase<ThemeEntity, CMSDbContext>, IThemeService
     {
+        class FilePathMap
+        {
+            public string Source { get; set; }
+            public string FilePath { get; set; }
+        }
+
         private readonly ICookie _cookie;
         private const string PreViewCookieName = "PreViewTheme";
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly ConcurrentDictionary<string, object> _cache;
+        private readonly ConcurrentDictionary<string, object> _versionMap;
+        private const string CurrentThemeCacheKey = "CurrentThemeCacheKey";
+        private const string CurrentThemeVersionMapCacheKey = "CurrentThemeVersionMapCacheKey"; 
 
-
-
-        public ThemeService(ICookie cookie, IHttpContextAccessor httpContextAccessor, IApplicationContext applicationContext, CMSDbContext dbContext)
+        public ThemeService(ICookie cookie,
+            IHttpContextAccessor httpContextAccessor,
+            IHostingEnvironment hostingEnvironment,
+            IApplicationContext applicationContext,
+            ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
+            CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _cookie = cookie;
             _httpContextAccessor = httpContextAccessor;
+            _hostingEnvironment = hostingEnvironment;
+            _cache = cacheManager.GetOrAdd(CurrentThemeCacheKey, key => new ConcurrentDictionary<string, object>());
+            _versionMap = cacheManager.GetOrAdd(CurrentThemeVersionMapCacheKey, key => new ConcurrentDictionary<string, object>());
+        }
+
+        public override DbSet<ThemeEntity> CurrentDbSet => DbContext.Theme;
+
+        public override IQueryable<ThemeEntity> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
         }
 
         public void SetPreview(string id)
@@ -36,7 +64,16 @@ namespace ZKEACMS.Theme
         {
             _cookie.Delete(PreViewCookieName);
         }
-
+        public override ServiceResult<ThemeEntity> Add(ThemeEntity item)
+        {
+            _cache.Clear();
+            return base.Add(item);
+        }
+        public override ServiceResult<ThemeEntity> Update(ThemeEntity item)
+        {
+            _cache.Clear();
+            return base.Update(item);
+        }
         public ThemeEntity GetCurrentTheme()
         {
             var id = _cookie.GetValue<string>(PreViewCookieName);
@@ -47,9 +84,21 @@ namespace ZKEACMS.Theme
                 if (theme != null)
                 {
                     theme.IsPreView = true;
+                    theme.UrlDebugger = VersionSource(theme.UrlDebugger);
+                    theme.Url = VersionSource(theme.Url);
                 }
             }
-            return theme ?? Get(m => m.IsActived == true).FirstOrDefault();
+            if (theme == null)
+            {
+                theme = _cache.GetOrAdd(CurrentThemeCacheKey, key =>
+                {
+                    ThemeEntity entry = Get(m => m.IsActived == true).FirstOrDefault();
+                    entry.UrlDebugger = VersionSource(entry.UrlDebugger);
+                    entry.Url = VersionSource(entry.Url);
+                    return entry;
+                }) as ThemeEntity;
+            }
+            return theme;
         }
 
 
@@ -66,6 +115,32 @@ namespace ZKEACMS.Theme
                 UpdateRange(activeTheme.ToArray());
                 theme.IsActived = true;
                 Update(theme);
+            }
+        }
+
+        private string VersionSource(string source)
+        {
+            return _versionMap.GetOrAdd(source, factory =>
+            {
+                if ((factory.StartsWith("~/") || factory.StartsWith("/")) && factory.IndexOf("?") < 0)
+                {
+                    string relatePath = source.Replace("~/", "");
+                    string filePath = _hostingEnvironment.WebRootPath.CombinePath(relatePath);
+                    _hostingEnvironment.WebRootFileProvider.Watch(relatePath).RegisterChangeCallback(OnFileChange, new FilePathMap { Source = factory, FilePath = filePath });
+                    return factory + "?v=" + File.GetLastWriteTime(filePath).ToFileTime().ToString("x");
+                }
+                return factory;
+            }).ToString();
+        }
+        private void OnFileChange(object filePath)
+        {
+            if (filePath is FilePathMap map)
+            {
+                string newValue = map.Source + "?v=" + File.GetLastWriteTime(map.FilePath).ToFileTime().ToString("x");
+                if (_versionMap.TryGetValue(map.Source, out object oldValue))
+                {
+                    _versionMap.TryUpdate(map.Source, newValue, oldValue);
+                }
             }
         }
     }

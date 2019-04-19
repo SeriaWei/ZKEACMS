@@ -1,4 +1,4 @@
-﻿@model ZKEACMS.FormGenerator.Models.FormField
+@model ZKEACMS.FormGenerator.Models.FormField
 @{
     List<SelectListItem> items = new List<SelectListItem>();
     foreach (var item in Model.FieldOptions)
@@ -17,7 +17,7 @@
             }
         </label>
     }
-    @Html.DropDownList(Model.ID, items, "-- 请选择 --", Model.Attributes)
+    @Html.DropDownList(Model.ID, items, L("-- 请选择 --").Text, Model.Attributes)
     <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {

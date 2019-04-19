@@ -1,0 +1,32 @@
+@model ZKEACMS.Rule.Rule
+@{
+    Script.Reqiured("validate").AtFoot();
+    Style.Reqiured("rule").AtHead();
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @L("编辑")
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.EditorForModel()
+            <div class="toolBar">
+                @if (Authorizer.Authorize(PermissionKeys.ManageApplicationSetting))
+                {
+                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Update" />
+                    <input type="submit" value="@L("删除")" class="btn btn-danger delete" data-value="@ActionType.Delete" />
+                }
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
+            </div>
+        }
+    </div>
+</div>
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(".delete").click(function () {
+            return confirm("@L("确定要删除吗？")");
+        });
+    </script>
+}

@@ -1,0 +1,34 @@
+@using ZKEACMS.Widget
+@model IEnumerable<WidgetBasePart>
+@{ 
+    string returnUrl = Url.Action("Index", "Rule");
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @L("显示内容")
+    </div>
+    <div class="panel-body">
+        <ul id="rule-widgets" class="fullRowList">
+            @foreach (var widget in Model.OrderBy(m => m.Position))
+            {
+                <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
+                    @if (widget.LayoutID.IsNotNullAndWhiteSpace())
+                    {
+                        <span class="badge">@L("布局")</span>
+                    }
+                    @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+                    {
+                        <a href="@Url.Action("Edit", "Widget", new { widget.ID, ReturnUrl = returnUrl+"#rule-"+widget.RuleID})"><i class="glyphicon glyphicon-edit"></i></a>
+                        <a href="javascript:void(0)" class="delete" data-widgetid="@widget.ID"><i class="glyphicon glyphicon-trash"></i></a>
+                    }
+                    @widget.WidgetName
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="panel-footer">
+        <a class="btn btn-primary btn-sm" href="@Url.Action("SelectWidget", "WidgetTemplate", new { RuleID=ViewBag.RuleID, ReturnUrl = returnUrl+"#rule-"+ViewBag.RuleID})">
+            @L("添加内容")
+        </a>
+    </div>
+</div>

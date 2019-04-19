@@ -1,10 +1,11 @@
-﻿/*!
+/*!
  * http://www.zkea.net/
  * Copyright 2017 ZKEASOFT
  * http://www.zkea.net/licenses
  */
 using Easy.MetaData;
 using Easy.Models;
+using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.Shop.Models
 {
-    [Table("Order")]
+    [DataTable("Order")]
     public class Order : EditorEntity
     {
         [Key]
@@ -22,6 +23,7 @@ namespace ZKEACMS.Shop.Models
         public string UserId { get; set; }
         public string Contact { get; set; }
         public string PhoneNumber { get; set; }
+        [Column(TypeName = "decimal(18,4)")]
         public decimal Total { get; set; }
         public int OrderStatus { get; set; }
         public DateTime? PayTime { get; set; }
@@ -32,6 +34,7 @@ namespace ZKEACMS.Shop.Models
         public string PaymentGateway { get; set; }
         public string PaymentID { get; set; }
         public string RefundID { get; set; }
+        [Column(TypeName = "decimal(18,4)")]
         public decimal? Refund { get; set; }
         public string RefundReason { get; set; }
         public DateTime? RefundDate { get; set; }

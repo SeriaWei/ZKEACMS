@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2016 ZKEASOFT 
+ * http://www.zkea.net/licenses 
+ */
 using System;
 using Easy;
 using Microsoft.AspNetCore.Http;
@@ -8,18 +11,35 @@ using ZKEACMS.Article.ViewModel;
 using ZKEACMS.Widget;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Easy.Extend;
 
 namespace ZKEACMS.Article.Service
 {
     public class ArticleDetailWidgetService : WidgetService<ArticleDetailWidget>
     {
+        private const string ArticleDetailWidgetRelatedPageUrls = "ArticleDetailWidgetRelatedPageUrls";
         private readonly IArticleService _articleService;
         public ArticleDetailWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
             _articleService = articleService;
         }
-      
+        private void DismissRelatedPageUrls()
+        {
+            ArticlePlug.AllRelatedUrlCache.TryRemove(ArticleDetailWidgetRelatedPageUrls, out var urls);
+        }
+
+        public override void AddWidget(WidgetBase widget)
+        {
+            base.AddWidget(widget);
+            DismissRelatedPageUrls();
+        }
+
+        public override void DeleteWidget(string widgetId)
+        {
+            base.DeleteWidget(widgetId);
+            DismissRelatedPageUrls();
+        }
 
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
@@ -27,12 +47,16 @@ namespace ZKEACMS.Article.Service
             var viewModel = new ArticleDetailViewModel();
             if (articleId != 0)
             {
-                viewModel.Current = _articleService.Get(articleId);
+                viewModel.Current = actionContext.RouteData.GetArticle(articleId) ?? _articleService.Get(articleId);
                 if (viewModel.Current != null)
                 {
                     _articleService.IncreaseCount(viewModel.Current);
                     viewModel.Prev = _articleService.GetPrev(viewModel.Current);
                     viewModel.Next = _articleService.GetNext(viewModel.Current);
+                    if (viewModel.Current.Url.IsNotNullAndWhiteSpace() && actionContext.RouteData.GetArticleUrl().IsNullOrWhiteSpace())
+                    {
+                        actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{viewModel.Current.Url}.html", true);
+                    }
                 }
             }
             if (viewModel.Current == null && ApplicationContext.IsAuthenticated)
@@ -56,9 +80,18 @@ namespace ZKEACMS.Article.Service
                     layout.Page.Title = viewModel.Current.Title;
                 }
             }
-            
+
 
             return widget.ToWidgetViewModelPart(viewModel);
+        }
+
+        public string[] GetRelatedPageUrls()
+        {
+            return ArticlePlug.AllRelatedUrlCache.GetOrAdd(ArticleDetailWidgetRelatedPageUrls, fac =>
+            {
+                var pages = WidgetBasePartService.Get(w => Get().Select(m => m.ID).Contains(w.ID)).Select(m => m.PageID).ToArray();
+                return DbContext.Page.Where(p => pages.Contains(p.ID)).Select(m => m.Url.Replace("~/", "/")).Distinct().ToArray();
+            });
         }
     }
 }

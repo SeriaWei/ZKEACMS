@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Hosting
+@using Microsoft.AspNetCore.Hosting
 @model ZKEACMS.SectionWidget.Models.SectionGroup
 @inject IHostingEnvironment hostingEnvironment
 @{
@@ -10,8 +10,8 @@
     @using (Html.BeginForm("Save", "SectionGroup"))
     {
         <ul class="nav nav-tabs">
-            <li role="presentation"><a href="#info">基本信息</a></li>
-            <li role="presentation" class="active"><a href="#template">显示模板</a></li>
+            <li role="presentation"><a href="#info">@L("基本信息")</a></li>
+            <li role="presentation" class="active"><a href="#template">@L("显示模板")</a></li>
         </ul>
         <div class="panel panel-default  tab-content">
             <div id="info" class="panel-body tab-pane">
@@ -20,55 +20,55 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th><code>栅格列说明</code></th>
+                                <th><code>@L("栅格列说明")</code></th>
                                 <th>
-                                    超小屏幕
-                                    <small>手机 (&lt;768px)</small>
+                                    @L("超小屏幕")
+                                    <small>@L("手机 (<768px)")</small>
                                 </th>
                                 <th>
-                                    小屏幕
-                                    <small>平板 (≥768px)</small>
+                                    @L("小屏幕")
+                                    <small>@L("平板 (≥768px)")</small>
                                 </th>
                                 <th>
-                                    中等屏幕
-                                    <small>桌面显示器 (≥992px)</small>
+                                    @L("中等屏幕")
+                                    <small>@L("桌面显示器 (≥992px)")</small>
                                 </th>
                                 <th>
-                                    大屏幕
-                                    <small>大桌面显示器 (≥1200px)</small>
+                                    @L("大屏幕")
+                                    <small>@L("大桌面显示器 (≥1200px)")</small>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <th class="text-nowrap" scope="row">栅格系统行为</th>
-                                <td>总是水平排列</td>
-                                <td colspan="3">开始是堆叠在一起的，当大于这些阈值时将变为水平排列C</td>
+                                <th class="text-nowrap" scope="row">@L("栅格系统行为")</th>
+                                <td>@L("总是水平排列")</td>
+                                <td colspan="3">@L("开始是堆叠在一起的，当大于这些阈值时将变为水平排列C")</td>
                             </tr>
                             <tr>
-                                <th class="text-nowrap" scope="row">最大宽度</th>
-                                <td>None （自动）</td>
+                                <th class="text-nowrap" scope="row">@L("最大宽度")</th>
+                                <td>@L("None （自动）")</td>
                                 <td>750px</td>
                                 <td>970px</td>
                                 <td>1170px</td>
                             </tr>
                             <tr>
-                                <th class="text-nowrap" scope="row">类前缀</th>
+                                <th class="text-nowrap" scope="row">@L("类前缀")</th>
                                 <td><code>.col-xs-</code></td>
                                 <td><code>.col-sm-</code></td>
                                 <td><code>.col-md-</code></td>
                                 <td><code>.col-lg-</code></td>
                             </tr>
                             <tr>
-                                <th class="text-nowrap" scope="row">列数</th>
+                                <th class="text-nowrap" scope="row">@L("列数")</th>
                                 <td colspan="4">12</td>
                             </tr>
                             <tr>
-                                <th class="text-nowrap" scope="row">最大列宽</th>
-                                <td class="text-muted">自动</td>
-                                <td>~62px</td>
-                                <td>~81px</td>
-                                <td>~97px</td>
+                                <th class="text-nowrap" scope="row">@L("最大列宽")</th>
+                                <td class="text-muted">@L("自动")</td>
+                                <td>@L("~62px")</td>
+                                <td>@L("~81px")</td>
+                                <td>@L("~97px")</td>
                             </tr>
                         </tbody>
                     </table>
@@ -86,7 +86,7 @@
                         {
                             <label class="checkbox-inline text-primary">
                                 @Html.CheckBoxFor(m => m.IsLoadDefaultData)
-                                加载示例数据
+                                @L("加载示例数据")
                             </label>
                         }
                         <span id="PartialView-Badge" class="badge">
@@ -94,13 +94,13 @@
                         </span>
                         &nbsp;&nbsp;
                         <small class="text-muted">
-                            注：把模板包拖到列表区域进行上传
+                            @L("注：把模板包拖到列表区域进行上传")
                         </small>
-                        <a href="http://www.zkea.net/zkeacms/templates" target="_blank" class="pull-right">下载更多模板>></a>
+                        <a href="http://www.zkea.net/zkeacms/templates" target="_blank" class="pull-right">@L("下载更多模板>>")</a>
                     </div>
                 </div>
                 <div class="upload-process">
-                    <h1 id="message-info">松开鼠标进行上传...</h1>
+                    <h1 id="message-info">@L("松开鼠标进行上传...")</h1>
                     <div class="progress">
                         <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0;">
 

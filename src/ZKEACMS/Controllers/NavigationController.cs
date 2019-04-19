@@ -60,7 +60,7 @@ namespace ZKEACMS.Controllers
         {
             var navs = Service.Get().OrderBy(m => m.DisplayOrder);
             var node = new Tree<NavigationEntity>().Source(navs).ToNode(m => m.ID, m => m.Title, m => m.ParentId, "#");
-            Node root = new Node { id = "root", text = "µ¼º½", children = node, state = new State { opened = true }, a_attr = new { id = "root" } };
+            Node root = new Node { id = "root", text = "å¯¼èˆª", children = node, state = new State { opened = true }, a_attr = new { id = "root" } };
             return Json(root);
         }
 

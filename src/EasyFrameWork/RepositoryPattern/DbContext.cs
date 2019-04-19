@@ -1,3 +1,6 @@
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
@@ -7,29 +10,19 @@ namespace Easy.RepositoryPattern
 {
     public class DbContextBase : DbContext
     {
-        public DbContextBase(IEnumerable<IOnModelCreating> modelCreatings, IOnDatabaseConfiguring configuring)
+        public DbContextBase(DbContextOptions dbContextOptions) : base(dbContextOptions)
         {
-            Creatings = modelCreatings;
-            DatabaseConfiguring = configuring;
         }
-        public IEnumerable<IOnModelCreating> Creatings { get; set; }
-        public IOnDatabaseConfiguring DatabaseConfiguring { get; set; }
+        public IEnumerable<IOnModelCreating> ModelCreatings { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            if (Creatings != null)
+            if (ModelCreatings != null)
             {
-                foreach (var item in Creatings)
+                foreach (var item in ModelCreatings)
                 {
                     item.OnModelCreating(modelBuilder);
                 }
-            }
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (DatabaseConfiguring != null)
-            {
-                DatabaseConfiguring.OnConfiguring(optionsBuilder);
             }
         }
     }

@@ -3,13 +3,14 @@
  * http://www.zkea.net/licenses */
 
 using Easy.MetaData;
+using Easy.RepositoryPattern;
 using System.ComponentModel.DataAnnotations.Schema;
 using ZKEACMS.MetaData;
 using ZKEACMS.Widget;
 
 namespace ZKEACMS.Common.Models
 {
-    [Table("HtmlWidget")]
+    [DataTable("HtmlWidget")]
     public class HtmlWidget : BasicWidget
     {
         public string HTML { get; set; }

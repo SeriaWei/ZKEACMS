@@ -9,11 +9,12 @@ using System;
 
 namespace ZKEACMS.Common.Service
 {
-    public class CarouselItemService : ServiceBase<CarouselItemEntity>, ICarouselItemService
+    public class CarouselItemService : ServiceBase<CarouselItemEntity, CMSDbContext>, ICarouselItemService
     {
         public CarouselItemService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
+        public override DbSet<CarouselItemEntity> CurrentDbSet => DbContext.CarouselItem;
 
         public override ServiceResult<CarouselItemEntity> Add(CarouselItemEntity item)
         {
@@ -27,15 +28,18 @@ namespace ZKEACMS.Common.Service
         {
             if (item.ActionType == ActionType.Update)
             {
-               return base.Update(item);
+                return base.Update(item);
             }
             else if (item.ActionType == ActionType.Create)
             {
-               return base.Add(item);
+                return base.Add(item);
             }
             else if (item.ActionType == ActionType.Delete)
             {
-                Remove(item);
+                if (item.ID > 0)
+                {
+                    Remove(item);
+                }                
             }
             return new ServiceResult<CarouselItemEntity>();
         }

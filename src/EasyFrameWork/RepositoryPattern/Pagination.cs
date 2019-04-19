@@ -58,5 +58,7 @@ namespace Easy.RepositoryPattern
         public int RecordCount { get; set; }
         public string OrderBy { get; set; }
         public string OrderByDescending { get; set; }
+        public string ThenBy { get; set; }
+        public string ThenByDescending { get; set; }
     }
 }

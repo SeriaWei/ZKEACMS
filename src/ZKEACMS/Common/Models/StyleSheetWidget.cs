@@ -4,10 +4,11 @@ using Easy.MetaData;
 using ZKEACMS.MetaData;
 using ZKEACMS.Widget;
 using System.ComponentModel.DataAnnotations.Schema;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Common.Models
 {
-    [Table("StyleSheetWidget")]
+    [DataTable("StyleSheetWidget")]
     public class StyleSheetWidget : BasicWidget
     {
         public string StyleSheet { get; set; }
