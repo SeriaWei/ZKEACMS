@@ -65,6 +65,9 @@ tinymce.PluginManager.add('filebrowser', function (editor) {
         } else if (/.*(\.mp4)$/.test(lowerPath)) {
             result.ele = "video";
             result.attr = { "controls": "controls", "src": path, "title": name };
+        } else if (/.*(\.mp3|\.ogg|\.wav)$/.test(lowerPath)) {
+            result.ele = "audio";
+            result.attr = { "controls": "controls", "src": path, "title": name };
         } else {
             result.ele = "a";
             result.attr = { "href": path, "class": "btn btn-default", "download": name, title: name };
