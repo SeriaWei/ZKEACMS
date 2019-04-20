@@ -6,13 +6,20 @@
 tinymce.PluginManager.add('filebrowser', function (editor) {
     function showDialog() {
         tinymce.activeEditor.windowManager.open({
-            url: "/admin/Media/MultiSelect",
-            width: 1024,
-            height: 600,
             title: "媒体库",
+            body: {
+                type: "panel",
+                items: [
+                    {
+                        type: 'htmlpanel',
+                        html: '<iframe src="/admin/Media/MultiSelect" style="width: 1024px;height: 600px"></iframe>'
+                    }
+                ]
+            },
             resizable: true,
             buttons: [
                 {
+                    type:"custom",
                     text: "确定",
                     onclick: function (e) {
                         var frame = $(e.currentTarget).find("iframe")[0];
@@ -36,7 +43,8 @@ tinymce.PluginManager.add('filebrowser', function (editor) {
                     },
                     classes: "primary"
                 },
-                { text: "取消", onclick: "close" }
+                {
+                    type: "cancel",text: "取消", onclick: "close" }
             ]
         }).$el.find("iframe").on("load", function () {
             var doc = this.contentDocument || this.contentWindow.document;
@@ -80,16 +88,16 @@ tinymce.PluginManager.add('filebrowser', function (editor) {
     editor.addCommand("filebrowser", showDialog);
 
 
-    editor.addButton('filebrowser', {
+    editor.ui.registry.addButton('filebrowser', {
         icon: 'browse',
         tooltip: '媒体库',
-        onclick: showDialog
+        onAction: showDialog
     });
 
-    editor.addMenuItem('filebrowser', {
+    editor.ui.registry.addMenuItem('filebrowser', {
         icon: 'browse',
         text: '媒体库',
-        onclick: showDialog,
+        onAction: showDialog,
         context: 'insert',
         prependToContext: true
     });

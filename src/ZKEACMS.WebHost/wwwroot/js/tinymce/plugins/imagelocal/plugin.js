@@ -58,7 +58,7 @@ tinymce.PluginManager.add('imagelocal', function (editor) {
 
     }
 
-    editor.addMenuItem('insertimagelocal', {
+    editor.ui.registry.addMenuItem('insertimagelocal', {
         icon: 'upload',
         text: '迁移外链图',
         context: 'edit',

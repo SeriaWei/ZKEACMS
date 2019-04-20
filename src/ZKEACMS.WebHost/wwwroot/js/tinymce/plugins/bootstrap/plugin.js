@@ -13,7 +13,7 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
         editor.nodeChanged();
     }
 
-    editor.addMenuItem('insertbutton', {
+    editor.ui.registry.addMenuItem('insertbutton', {
         icon: '',
         text: '插入按钮',
         context: 'insert',
@@ -70,7 +70,7 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
         editor.nodeChanged();
     }
 
-    editor.addMenuItem('insertcolumns', {
+    editor.ui.registry.addMenuItem('insertcolumns', {
         icon: '',
         text: '插入列',
         context: 'insert',
@@ -138,7 +138,7 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
         editor.nodeChanged();
     }
 
-    editor.addMenuItem('insertAlert', {
+    editor.ui.registry.addMenuItem('insertAlert', {
         icon: '',
         text: '插入警告框',
         context: 'insert',
@@ -197,7 +197,7 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
         editor.nodeChanged();
     }
 
-    editor.addMenuItem('insertPanel', {
+    editor.ui.registry.addMenuItem('insertPanel', {
         icon: '',
         text: '插入面板',
         context: 'insert',

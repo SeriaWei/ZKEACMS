@@ -15,7 +15,6 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
         height: 500,
         relative_urls: false,
         language: "zh_CN",
-        skin: 'lightgray',
         table_default_attributes: {
             class:"table table-hover"
         },
