@@ -11,7 +11,7 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
             'imagetools textpattern help',
             "filebrowser bootstrap pasteImage imagelocal"
         ],
-        toolbar: 'formatselect | bold italic strikethrough forecolor backcolor | link image media | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent removeformat | bootstrap imagelocal filebrowser preview code',
+        toolbar: 'styleselect | bold italic strikethrough forecolor backcolor | link image media | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent removeformat | bootstrap imagelocal filebrowser preview code',
         height: 600,
         relative_urls: false,
         language: "zh_CN",
