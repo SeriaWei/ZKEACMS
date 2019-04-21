@@ -86,7 +86,6 @@ namespace ZKEACMS.Controllers
         public IActionResult Select(string ParentId, int? pageIndex)
         {
             ViewBag.PopUp = true;
-            ViewBag.ShowToolBar = false;
             return Index(ParentId, pageIndex);
         }
         public IActionResult MultiSelect(string ParentId, int? pageIndex)

@@ -5,63 +5,41 @@
  */
 tinymce.PluginManager.add('filebrowser', function (editor) {
     function showDialog() {
-        tinymce.activeEditor.windowManager.open({
+        window.top.Easy.ShowUrlWindow({
+            url: '/admin/Media/MultiSelect',
+            width: 1024,
+            height: 600,
             title: "媒体库",
-            body: {
-                type: "panel",
-                items: [
-                    {
-                        type: 'htmlpanel',
-                        html: '<iframe src="/admin/Media/MultiSelect" style="width: 1024px;height: 600px"></iframe>'
-                    }
-                ]
-            },
-            resizable: true,
-            buttons: [
-                {
-                    type:"custom",
-                    text: "确定",
-                    onclick: function (e) {
-                        var frame = $(e.currentTarget).find("iframe")[0];
-                        var doc = frame.contentDocument || frame.contentWindow.document;
-                        var selected = $(doc).find(".multi-select:not(.unchecked)");
-                        if (selected.length == 0) {
-                            tinymce.activeEditor.windowManager.alert("请先选择要使用的媒体资源！");
-                            return;
+            onLoad: function (box) {
+                window.top.$(this.document).find("#confirm").click(function () {
+                    $(".multi-select:not(.unchecked)", $(this).closest("body")).each(function () {
+                        var result = initResult({ src: $(this).data("result"), name: $(this).data("name") });
+                        if (result.ele) {
+                            editor.undoManager.transact(function () {
+                                editor.selection.setContent(editor.dom.createHTML(result.ele, result.attr, result.innerText));
+                            });
                         }
-                        selected.each(function () {
-                            var result = initResult({ src: $(this).data("result"), name: $(this).data("name") });
-                            if (result.ele) {
-                                editor.undoManager.transact(function () {
-                                    editor.selection.setContent(editor.dom.createHTML(result.ele, result.attr, result.innerText));
-                                });
-                            }
-                        });
-                        editor.focus();
-                        editor.nodeChanged();
-                        tinymce.activeEditor.windowManager.close();
-                    },
-                    classes: "primary"
-                },
-                {
-                    type: "cancel",text: "取消", onclick: "close" }
-            ]
-        }).$el.find("iframe").on("load", function () {
-            var doc = this.contentDocument || this.contentWindow.document;
-            $(doc).on("click", ".confirm", function () {
-                var result = initResult({ src: $(this).data("result"), name: $(this).data("name") });
-                if (result.ele) {
-                    editor.undoManager.transact(function () {
-                        editor.selection.setContent(editor.dom.createHTML(result.ele, result.attr, result.innerText));
                     });
                     editor.focus();
                     editor.nodeChanged();
-
-                }
-                tinymce.activeEditor.windowManager.close();
-            });
+                    box.close();
+                });
+                window.top.$(this.document).on("click", ".confirm", function () {
+                    var result = initResult({ src: $(this).data("result"), name: $(this).data("name") });
+                    if (result.ele) {
+                        editor.undoManager.transact(function () {
+                            editor.selection.setContent(editor.dom.createHTML(result.ele, result.attr, result.innerText));
+                        });
+                        editor.focus();
+                        editor.nodeChanged();
+                    }
+                    box.close();
+                });
+            }
         });
     }
+    
+
     function initResult(obj) {
         var path = obj.src;
         var name = obj.name;
@@ -85,7 +63,7 @@ tinymce.PluginManager.add('filebrowser', function (editor) {
     }
 
 
-    editor.addCommand("filebrowser", showDialog);
+    //editor.addCommand("filebrowser", showDialog);
 
 
     editor.ui.registry.addButton('filebrowser', {
@@ -94,11 +72,11 @@ tinymce.PluginManager.add('filebrowser', function (editor) {
         onAction: showDialog
     });
 
-    editor.ui.registry.addMenuItem('filebrowser', {
-        icon: 'browse',
-        text: '媒体库',
-        onAction: showDialog,
-        context: 'insert',
-        prependToContext: true
-    });
+    //editor.ui.registry.addMenuItem('filebrowser', {
+    //    icon: 'browse',
+    //    text: '媒体库',
+    //    onAction: showDialog,
+    //    contextMenu: 'insert'
+    //});
+
 });

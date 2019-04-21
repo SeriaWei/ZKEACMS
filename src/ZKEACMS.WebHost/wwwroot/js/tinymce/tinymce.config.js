@@ -7,11 +7,11 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
         plugins: [
             "advlist autolink lists link image charmap print preview anchor",
             "searchreplace visualblocks code fullscreen",
-            "insertdatetime media table contextmenu paste",
-            "filebrowser textcolor hr",
+            "insertdatetime media table paste",
+            "filebrowser hr",
             "bootstrap pasteImage codesample imagelocal"
         ],
-        toolbar: "insertfile undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image filebrowser | code",
+        toolbar: "insertfile undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent bootstrap | link image insertimagelocal filebrowser | code",
         height: 500,
         relative_urls: false,
         language: "zh_CN",
@@ -35,6 +35,6 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
             { text: 'C', value: 'c' },
             { text: 'C#', value: 'csharp' },
             { text: 'C++', value: 'cpp' }
-        ],
+        ]
     });
 });
