@@ -1,14 +1,14 @@
 ﻿/*!
  * http://www.zkea.net/
- * Copyright 2016 ZKEASOFT
+ * Copyright 2019 ZKEASOFT
  * http://www.zkea.net/licenses
  */
 tinymce.PluginManager.add('filebrowser', function (editor) {
     function showDialog() {
         window.top.Easy.ShowUrlWindow({
             url: '/admin/Media/MultiSelect',
-            width: 1024,
-            height: 600,
+            width: 800,
+            height: 500,
             title: "媒体库",
             onLoad: function (box) {
                 window.top.$(this.document).find("#confirm").click(function () {
