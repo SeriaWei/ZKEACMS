@@ -74,33 +74,54 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
                             title: "按钮",
                             items: [
                                 {
-                                    type: 'button',
-                                    name: 'btn btn-default',
-                                    text: '默认'
-                                }, {
-                                    type: 'button',
-                                    name: 'btn btn-flat',
-                                    text: '扁平'
-                                }, {
-                                    type: 'button',
-                                    name: 'btn btn-primary',
-                                    text: '主要'
-                                }, {
-                                    type: 'button',
-                                    name: 'btn btn-danger',
-                                    text: '危险'
-                                }, {
-                                    type: 'button',
-                                    name: 'btn btn-warning',
-                                    text: '警告'
-                                }, {
-                                    type: 'button',
-                                    name: 'btn btn-info',
-                                    text: '信息'
-                                }, {
-                                    type: 'button',
-                                    name: 'btn btn-success',
-                                    text: '成功'
+                                    type: "grid",
+                                    columns: 2,
+                                    items: [
+                                        {
+                                            type: 'button',
+                                            name: 'btn btn-default',
+                                            text: '默认'
+                                        }, {
+                                            type: 'button',
+                                            name: 'btn btn-flat',
+                                            text: '扁平'
+                                        }, {
+                                            type: 'button',
+                                            name: 'btn btn-primary',
+                                            text: '主要'
+                                        }, {
+                                            type: 'button',
+                                            name: 'btn btn-danger',
+                                            text: '危险'
+                                        }
+                                    ]
+                                },
+                                {
+                                    type: "htmlpanel",
+                                    html:"<hr/>"
+                                },
+                                {
+                                    type: "grid",
+                                    columns: 2,
+                                    items: [
+                                        {
+                                            type: 'button',
+                                            name: 'btn btn-warning',
+                                            text: '警告'
+                                        }, {
+                                            type: 'button',
+                                            name: 'btn btn-info',
+                                            text: '信息'
+                                        }, {
+                                            type: 'button',
+                                            name: 'btn btn-success',
+                                            text: '成功'
+                                        }, {
+                                            type: 'button',
+                                            name: 'btn btn-link',
+                                            text: '链接'
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -108,31 +129,58 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
                             title: "分列",
                             items: [
                                 {
-                                    type: 'button', text: "6 - 6", name: "6-6"
+                                    type: "grid", columns: 2,
+                                    items: [
+                                        {
+                                            type: 'button', text: "6 - 6", name: "6-6"
+                                        },
+                                        {
+                                            type: 'button', text: "7 - 5", name: "7-5"
+                                        },
+                                        {
+                                            type: 'button', text: "8 - 4", name: "8-4"
+                                        }
+                                    ]
                                 },
                                 {
-                                    type: 'button', text: "7 - 5", name: "7-5"
+                                    type: "htmlpanel",
+                                    html: "<hr/>"
                                 },
                                 {
-                                    type: 'button', text: "8 - 4", name: "8-4"
+                                    type: "grid", columns: 2,
+                                    items: [
+                                        {
+                                            type: 'button', text: "9 - 3", name: "9-3"
+                                        },
+                                        {
+                                            type: 'button', text: "5 - 7", name: "5-7"
+                                        },
+                                        {
+                                            type: 'button', text: "4 - 8", name: "4-8"
+                                        }
+                                    ]
                                 },
                                 {
-                                    type: 'button', text: "9 - 3", name: "9-3"
+                                    type: "htmlpanel",
+                                    html: "<hr/>"
                                 },
                                 {
-                                    type: 'button', text: "5 - 7", name: "5-7"
+                                    type: "grid", columns: 2,
+                                    items: [
+                                        {
+                                            type: 'button', text: "3 - 9", name: "3-9"
+                                        },
+                                        {
+                                            type: 'button', text: "4 - 4 - 4", name: "4-4-4"
+                                        },
+                                        {
+                                            type: 'button', text: "3 - 6 - 3", name: "3-6-3"
+                                        }
+                                    ]
                                 },
                                 {
-                                    type: 'button', text: "4 - 8", name: "4-8"
-                                },
-                                {
-                                    type: 'button', text: "3 - 9", name: "3-9"
-                                },
-                                {
-                                    type: 'button', text: "4 - 4 - 4", name: "4-4-4"
-                                },
-                                {
-                                    type: 'button', text: "3 - 6 - 3", name: "3-6-3"
+                                    type: "htmlpanel",
+                                    html: "<hr/>"
                                 },
                                 {
                                     type: 'button', text: "3 - 3 - 3 - 3", name: "3-3-3-3"
@@ -143,45 +191,73 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
                             title: "警告框",
                             items: [
                                 {
-                                    type: 'button', text: "默认", name: "alert alert-default"
+                                    type: "grid", columns: 2,
+                                    items: [
+                                        {
+                                            type: 'button', text: "默认", name: "alert alert-default"
+                                        },
+                                        {
+                                            type: 'button', text: "主要", name: "alert alert-primary"
+                                        },
+                                        {
+                                            type: 'button', text: "危险", name: "alert alert-danger"
+                                        }
+                                    ]
                                 },
                                 {
-                                    type: 'button', text: "主要", name: "alert alert-primary"
+                                    type: "htmlpanel",
+                                    html: "<hr/>"
                                 },
                                 {
-                                    type: 'button', text: "危险", name: "alert alert-danger"
-                                },
-                                {
-                                    type: 'button', text: "警告", name: "alert alert-warning"
-                                },
-                                {
-                                    type: 'button', text: "信息", name: "alert alert-info"
-                                },
-                                {
-                                    type: 'button', text: "成功", name: "alert alert-success"
-                                }
+                                    type: "grid", columns: 2,
+                                    items: [
+                                        {
+                                            type: 'button', text: "警告", name: "alert alert-warning"
+                                        },
+                                        {
+                                            type: 'button', text: "信息", name: "alert alert-info"
+                                        },
+                                        {
+                                            type: 'button', text: "成功", name: "alert alert-success"
+                                        }
+                                    ]
+                                }                                
                             ]
                         },
                         {
                             title: "面板",
                             items: [
                                 {
-                                    type: 'button', text: "默认", name: "panel panel-default"
+                                    type: "grid", columns: 2,
+                                    items: [
+                                        {
+                                            type: 'button', text: "默认", name: "panel panel-default"
+                                        },
+                                        {
+                                            type: 'button', text: "主要", name: "panel panel-primary"
+                                        },
+                                        {
+                                            type: 'button', text: "危险", name: "panel panel-danger"
+                                        }
+                                    ]
                                 },
                                 {
-                                    type: 'button', text: "主要", name: "panel panel-primary"
+                                    type: "htmlpanel",
+                                    html: "<hr/>"
                                 },
                                 {
-                                    type: 'button', text: "危险", name: "panel panel-danger"
-                                },
-                                {
-                                    type: 'button', text: "警告", name: "panel panel-warning"
-                                },
-                                {
-                                    type: 'button', text: "信息", name: "panel panel-info"
-                                },
-                                {
-                                    type: 'button', text: "成功", name: "panel panel-success"
+                                    type: "grid", columns: 2,
+                                    items: [
+                                        {
+                                            type: 'button', text: "警告", name: "panel panel-warning"
+                                        },
+                                        {
+                                            type: 'button', text: "信息", name: "panel panel-info"
+                                        },
+                                        {
+                                            type: 'button', text: "成功", name: "panel panel-success"
+                                        }
+                                    ]
                                 }
                             ]
                         }

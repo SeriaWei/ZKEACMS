@@ -5,14 +5,13 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
         selector: "textarea.html",
         verify_html: false,
         plugins: [
-            "advlist autolink lists link image charmap print preview anchor",
-            "searchreplace visualblocks code fullscreen",
-            "insertdatetime media table paste",
-            "filebrowser hr",
-            "bootstrap pasteImage codesample imagelocal"
+            'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+            'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+            'save table contextmenu directionality emoticons template paste textcolor',
+            "filebrowser bootstrap pasteImage imagelocal"
         ],
-        toolbar: "insertfile undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent bootstrap | link image insertimagelocal filebrowser | code",
-        height: 500,
+        toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media fullpage | forecolor backcolor emoticons | bootstrap imagelocal filebrowser preview code',
+        height: 600,
         relative_urls: false,
         language: "zh_CN",
         table_default_attributes: {

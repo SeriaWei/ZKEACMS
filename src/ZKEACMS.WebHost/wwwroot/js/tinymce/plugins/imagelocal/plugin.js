@@ -58,7 +58,7 @@ tinymce.PluginManager.add('imagelocal', function (editor) {
 
     }
 
-    editor.ui.registry.addButton('insertimagelocal', {
+    editor.ui.registry.addButton('imagelocal', {
         icon: 'upload',
         tooltip: '转存外链图',
         onAction: download
