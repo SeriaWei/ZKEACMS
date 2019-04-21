@@ -6,6 +6,10 @@
         </label>
     </div>
 </div>
+<div class="form-group" ng-if="fieldInfo.IsRequired">
+    <label class="control-label" for="requiredMessage">必填项提示信息</label>
+    <input type="text" class="form-control" name="requiredMessage" id="requiredMessage" ng-model="fieldInfo.RequiredMessage" />
+</div>
 <div class="form-group">
     <label class="control-label">
         选项

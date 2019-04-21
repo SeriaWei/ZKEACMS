@@ -58,11 +58,9 @@ tinymce.PluginManager.add('imagelocal', function (editor) {
 
     }
 
-    editor.addMenuItem('insertimagelocal', {
+    editor.ui.registry.addButton('imagelocal', {
         icon: 'upload',
-        text: '迁移外链图',
-        context: 'edit',
-        onclick: download,
-        prependToContext: false
+        tooltip: '转存外链图',
+        onAction: download
     });
 });

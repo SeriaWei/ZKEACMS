@@ -6,6 +6,7 @@
             Description: "",
             Placeholder: "",
             IsRequired: false,
+            RequiredMessage:"这是必填项",
             Size: 4,
             Column: "col-md-12",
             RegexPattern: "",
@@ -17,6 +18,7 @@
             Description: "",
             Placeholder: "",
             IsRequired: false,
+            RequiredMessage: "这是必填项",
             Size: 4,
             Column: "col-md-12",
             RegexPattern: "",
@@ -28,6 +30,7 @@
             Description: "",
             Placeholder: "",
             IsRequired: false,
+            RequiredMessage: "这是必填项",
             Size: 4,
             Column: "col-md-12",
             RegexPattern: "",
@@ -40,6 +43,7 @@
             Description: "",
             Placeholder: "",
             IsRequired: false,
+            RequiredMessage: "这是必填项",
             Size: 4,
             Column: "col-md-12",
             RegexPattern: "",
@@ -51,6 +55,7 @@
             Description: "",
             Placeholder: "",
             IsRequired: false,
+            RequiredMessage: "这是必填项",
             Size: 4,
             Column: "col-md-12",
             RegexPattern: "",
@@ -61,6 +66,7 @@
             DisplayName: "日期",
             Description: "",
             IsRequired: false,
+            RequiredMessage: "这是必填项",
             Size: 4,
             Column: "col-md-12",
             RegexPattern: "",
@@ -71,6 +77,7 @@
             DisplayName: "单项选择",
             Description: "",
             IsRequired: false,
+            RequiredMessage: "这是必填项",
             Size: 4,
             Column: "col-md-12",
             FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }],
@@ -82,6 +89,7 @@
             DisplayName: "下拉选项",
             Description: "",
             IsRequired: false,
+            RequiredMessage: "这是必填项",
             Size: 4,
             Column: "col-md-12",
             FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }],
@@ -93,6 +101,7 @@
             DisplayName: "多项选择",
             Description: "",
             IsRequired: false,
+            RequiredMessage: "这是必填项",
             Size: 4,
             Column: "col-md-12",
             FieldOptions: [{ DisplayText: "选项1" }, { DisplayText: "选项2" }],
@@ -104,6 +113,7 @@
             DisplayName: "省份地址",
             Description: "",
             IsRequired: false,
+            RequiredMessage: "这是必填项",
             Size: 4,
             Column: "col-md-12",
             RegexPattern: "",
@@ -185,7 +195,6 @@
     };
 
     $scope.drag = function (ev) {
-        ev.dataTransfer.setData("Field", ev.target.id);
         var index = 0;
         for (var i = 0; i < ev.currentTarget.parentNode.children.length; i++) {
             if (ev.currentTarget === ev.currentTarget.parentNode.children[i]) {
@@ -193,12 +202,12 @@
                 break;
             }
         }
-        ev.dataTransfer.setData("StartIndex", index);
+        ev.dataTransfer.setData("Text", ev.target.id + ";" + index);
     };
 
     $scope.drop = function (ev) {
         ev.preventDefault();
-        var data = ev.dataTransfer.getData("Field");
+        var data = ev.dataTransfer.getData("Text").split(";");
         var index = 0;
         for (var i = 0; i < ev.currentTarget.parentNode.children.length; i++) {
             if (ev.currentTarget === ev.currentTarget.parentNode.children[i]) {
@@ -207,14 +216,15 @@
             }
         }
         $scope.Fields[index].onDrop = false;
-        if (data) {
+        if (data[0]) {
+            var name = data[0];
             for (var i = 0; i < $scope.templates.length; i++) {
-                if (data == $scope.templates[i].Name) {
+                if (name == $scope.templates[i].Name) {
                     $scope.Fields.splice(index + 1, 0, angular.copy($scope.templates[i]));
                 }
             }
         } else {
-            var startIndex = parseInt(ev.dataTransfer.getData("StartIndex"));
+            var startIndex = parseInt(data[1]);
             $scope.Fields.splice(index, 0, $scope.Fields.splice(startIndex, 1)[0]);
         }
 
