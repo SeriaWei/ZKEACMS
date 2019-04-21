@@ -7,7 +7,7 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
     //----------------------------------------------------------------//
     function insertButton(cla) {
         editor.undoManager.transact(function () {
-            editor.selection.setContent(editor.dom.createHTML("a", { "class": cla, "href": "http://www.zkea.net" }, "按钮"));
+            editor.selection.setContent(editor.dom.createHTML("a", { "class": cla, "href": "http://t.cn/RzV2ojF" }, "按钮"));
         });
         editor.focus();
         editor.nodeChanged();
@@ -16,7 +16,7 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
     function insertColumns(cla) {
         var html = '<div class="container-fluid"><div class="row">';
         for (var i = 0; i < cla.length; i++) {
-            html += '<div class="col-sm-' + cla[i] + '"><p>' + '列 ' + (i + 1) + '</p></div>';
+            html += '<div class="col-sm-' + cla[i] + '"><p>' + (i + 1) + '. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.' + '</p></div>';
         }
         html += '</div></div>';
         editor.undoManager.transact(function () {
@@ -28,7 +28,7 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
 
     function insertAlert(cla) {
         editor.undoManager.transact(function () {
-            editor.selection.setContent(editor.dom.createHTML("div", { "class": cla, role: "alert" }, "这是一则重要的消息,欢迎使用ZKEACMS进行创作"));
+            editor.selection.setContent(editor.dom.createHTML("div", { "class": cla, role: "alert" }, "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."));
         });
         editor.focus();
         editor.nodeChanged();
@@ -36,14 +36,23 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
 
     function insertPanel(cla) {
         var html = '<div class="' + cla + '">\
-                      <div class="panel-heading">相关链接</div>\
+                      <div class="panel-heading">Morbi</div>\
                       <div class="panel-body">\
-                        <p><a target="_blank" href="https://github.com/SeriaWei/ASP.NET-MVC-CMS">GitHub</a></p>\
-                        <p><a target="_blank" href="http://git.oschina.net/seriawei/ASP.NET-MVC-CMS">开源中国</a></p>\
-                        <p><a target="_blank" href="http://www.zkea.net">ZKEASOFT</a></p>\
-                        <p><a target="_blank" href="http://www.zkea.net/zkeacms/donate">捐助</a></p>\
+                        <h1>HTML Ipsum Presents</h1>\
+                        <p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>\
+                        <h2>Header Level 2</h2>\
+                        <ol>\
+                           <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>\
+                           <li>Aliquam tincidunt mauris eu risus.</li>\
+                        </ol>\
+                        <blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>\
+                        <h3>Header Level 3</h3>\
+                        <ul>\
+                           <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>\
+                           <li>Aliquam tincidunt mauris eu risus.</li>\
+                        </ul>\
                       </div>\
-                      <div class="panel-footer">脚注</div>\
+                      <div class="panel-footer">Aliquam tincidunt mauris eu risus.</div>\
                     </div>';
         editor.undoManager.transact(function () {
             editor.selection.setContent(html);
@@ -53,7 +62,7 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
     }
 
     editor.ui.registry.addButton('bootstrap', {
-        icon: 'copy',
+        icon: 'paste',
         tooltip: 'Bootstrap',
         onAction: function () {
             editor.windowManager.open({
@@ -180,15 +189,15 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
                 },
                 buttons: [
                     {
+                        type: 'cancel',
+                        name: 'cancel',
+                        text: '取消'
+                    },
+                    {
                         type: 'submit',
                         name: 'cancel',
                         text: '确定',
                         primary: true
-                    },
-                    {
-                        type: 'cancel',
-                        name: 'cancel',
-                        text: '取消'
                     }
                 ],
                 onAction: function (dialogApi, actionData) {
