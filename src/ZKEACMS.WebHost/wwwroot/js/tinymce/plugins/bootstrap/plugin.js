@@ -62,8 +62,8 @@ tinymce.PluginManager.add('bootstrap', function (editor) {
     }
 
     editor.ui.registry.addButton('bootstrap', {
-        icon: 'paste',
-        tooltip: 'Bootstrap',
+        icon: 'template',
+        tooltip: '模板',
         onAction: function () {
             editor.windowManager.open({
                 title: "Bootstrap",
