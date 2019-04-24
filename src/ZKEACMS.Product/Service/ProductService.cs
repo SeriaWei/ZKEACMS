@@ -180,7 +180,19 @@ namespace ZKEACMS.Product.Service
 
         public ProductEntity GetByUrl(string url)
         {
-            return Get(m => m.Url == url).FirstOrDefault();
+            ProductEntity product= Get(m => m.Url == url).FirstOrDefault();
+            if (product != null)
+            {
+                product.ProductTags = _productCategoryTagService.Get(m => m.ProductCategoryId == product.ProductCategoryID);
+                var tags = _productTagService.Get(m => m.ProductId == product.ID);
+                foreach (var item in product.ProductTags)
+                {
+                    item.Selected = tags.Any(m => m.TagId == item.ID);
+                }
+                product.ProductImages = _productImageService.Get(m => m.ProductId == product.ID);
+            }
+
+            return product;
         }
 
         public void Publish(ProductEntity product)
