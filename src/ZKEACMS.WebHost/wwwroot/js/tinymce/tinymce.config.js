@@ -5,7 +5,7 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
         selector: "textarea.html",
         verify_html: false,
         plugins: [
-            'print preview fullpage searchreplace autolink directionality code visualblocks ',
+            'print preview searchreplace autolink directionality code visualblocks ',
             'visualchars fullscreen image link media template codesample table charmap hr pagebreak',
             'nonbreaking anchor toc insertdatetime advlist lists wordcount',
             'imagetools textpattern help',
