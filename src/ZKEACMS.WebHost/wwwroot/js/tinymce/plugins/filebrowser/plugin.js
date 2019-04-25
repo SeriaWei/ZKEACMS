@@ -7,9 +7,8 @@ tinymce.PluginManager.add('filebrowser', function (editor) {
     function showDialog() {
         window.top.Easy.ShowUrlWindow({
             url: '/admin/Media/MultiSelect',
-            width: 800,
-            height: 500,
             title: "媒体库",
+            zindex:10000,
             onLoad: function (box) {
                 window.top.$(this.document).find("#confirm").click(function () {
                     $(".multi-select:not(.unchecked)", $(this).closest("body")).each(function () {
