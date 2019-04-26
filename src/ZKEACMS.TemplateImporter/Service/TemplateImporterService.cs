@@ -74,6 +74,8 @@ namespace ZKEACMS.TemplateImporter.Service
                         dir.Create();
                         continue;
                     }
+                    if (themeName == null) return null;
+
                     string extractFilePath = Path.Combine(ThemeBasePath, entry.FullName);
                     if (entry.FullName.EndsWith(".css"))
                     {

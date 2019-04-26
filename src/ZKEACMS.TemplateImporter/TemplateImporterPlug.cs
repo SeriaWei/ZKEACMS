@@ -29,7 +29,15 @@ namespace ZKEACMS.TemplateImporter
 
         public override IEnumerable<AdminMenu> AdminMenu()
         {
-            return null;
+            yield return new AdminMenu
+            {
+                Group = "系统",
+                Title = "导入静态模板",
+                Icon = "glyphicon-fire",
+                PermissionKey = PermissionKeys.ImportStaticHtmlTemplate,
+                Url = "~/admin/TemplateImporter",
+                Order = 15
+            };
         }
 
         protected override void InitScript(Func<string, ResourceHelper> script)
@@ -39,13 +47,12 @@ namespace ZKEACMS.TemplateImporter
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
-            style("Standard").Include("~/Plugins/ZKEACMS.Standard/Content/Standard.css");
+
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
         {
-            yield return new PermissionDescriptor(PermissionKeys.ViewTemplateImporter, "Standard", "View Standard", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageTemplateImporter, "Standard", "Manage Standard", "");
+            yield return new PermissionDescriptor(PermissionKeys.ImportStaticHtmlTemplate, "设置", "导入静态模板", "");
         }
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
@@ -55,7 +62,6 @@ namespace ZKEACMS.TemplateImporter
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
             serviceCollection.AddTransient<ITemplateImporterService, TemplateImporterService>();
         }
     }

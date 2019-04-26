@@ -7,7 +7,6 @@ namespace ZKEACMS.TemplateImporter
 {
     public class PermissionKeys
     {
-        public const string ViewTemplateImporter = "TemplateImporter_View";
-        public const string ManageTemplateImporter = "TemplateImporter_Manage";
+        public const string ImportStaticHtmlTemplate = "TemplateImporter_Import";
     }
 }
