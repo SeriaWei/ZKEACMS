@@ -11,7 +11,7 @@ namespace ZKEACMS.TemplateImporter
     {
         public void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Models.TemplateImporter>();
+
         }
     }
 }

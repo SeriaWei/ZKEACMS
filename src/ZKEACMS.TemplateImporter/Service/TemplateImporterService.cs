@@ -10,6 +10,7 @@ using ZKEACMS.Theme;
 using System.IO;
 using System.IO.Compression;
 using Microsoft.AspNetCore.Hosting;
+using ZKEACMS.Layout;
 
 namespace ZKEACMS.TemplateImporter.Service
 {
@@ -27,8 +28,10 @@ namespace ZKEACMS.TemplateImporter.Service
         {
             string themeBasePath = Path.Combine(_hostingEnvironment.WebRootPath, ThemeFolder);
             string themeName = null;
-            List<string> css = new List<string>();
-            List<string> scripts = new List<string>();
+            List<PositionEntry> cssFiles = new List<PositionEntry>();
+            List<PositionEntry> scriptFiles = new List<PositionEntry>();
+            List<HtmlDocument> documents = new List<HtmlDocument>();
+            #region Decompression
             using (ZipArchive archive = ZipFile.OpenRead(zipFile))
             {
                 foreach (ZipArchiveEntry entry in archive.Entries)
@@ -40,48 +43,132 @@ namespace ZKEACMS.TemplateImporter.Service
                             themeName = entry.FullName.TrimEnd('/');
                         }
 
-                        DirectoryInfo themeDir = new DirectoryInfo(Path.Combine(themeBasePath, entry.FullName));
-                        if (!themeDir.Exists)
+                        DirectoryInfo dir = new DirectoryInfo(Path.Combine(themeBasePath, entry.FullName));
+                        if (dir.Exists)
                         {
-                            themeDir.Create();
+                            dir.Delete(true);
                         }
+                        dir.Create();
                         continue;
                     }
                     string extractFilePath = Path.Combine(themeBasePath, entry.FullName);
                     if (entry.FullName.EndsWith(".css"))
                     {
-                        css.Add(entry.FullName);
+                        cssFiles.Add(new PositionEntry
+                        {
+                            Entry = entry.FullName
+                        });
                     }
                     if (entry.FullName.EndsWith(".js"))
                     {
-                        scripts.Add(entry.FullName);
+                        scriptFiles.Add(new PositionEntry
+                        {
+                            Entry = entry.FullName
+                        });
                     }
-                    if (!entry.FullName.EndsWith(".html"))
+                    if (entry.FullName.EndsWith(".html"))
+                    {
+                        entry.Open();
+                        HtmlDocument doc = new HtmlDocument();
+                        doc.PageName = Path.GetFileName(entry.FullName).Replace(".html", string.Empty);
+                        doc.Load(entry.Open());
+                        documents.Add(doc);
+                    }
+                    else
                     {
                         entry.ExtractToFile(extractFilePath, true);
                     }
                 }
             }
-            using (FileStream themeFilestram = new FileStream(Path.Combine(themeBasePath, themeName, "theme.min.css"), FileMode.OpenOrCreate))
+            #endregion
+
+            #region Prepare Layout
+            LayoutEntity layoutEntity = new LayoutEntity();
+
+            #endregion
+
+            foreach (var document in documents)
+            {
+                #region Sort css and scripts
+                var links = document.DocumentNode.SelectNodes("//link");
+                for (int i = 0; i < links.Count; i++)
+                {
+                    string href = links[i].GetAttributeValue("href", string.Empty);
+
+                    if (href == string.Empty) continue;
+
+                    if (href.Contains("?"))
+                    {
+                        href = href.Split('?')[0];
+                    }
+                    if (!href.EndsWith(".css")) continue;
+
+                    foreach (var item in cssFiles)
+                    {
+                        if (item.Entry.EndsWith(href))
+                        {
+                            if (item.Position < i)
+                            {
+                                item.Position = i;
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                var scripts = document.DocumentNode.SelectNodes("//script");
+                for (int i = 0; i < scripts.Count; i++)
+                {
+                    string href = links[i].GetAttributeValue("src", string.Empty);
+
+                    if (href == string.Empty) continue;
+
+                    if (href.Contains("?"))
+                    {
+                        href = href.Split('?')[0];
+                    }
+                    if (!href.EndsWith(".js")) continue;
+
+                    foreach (var item in scriptFiles)
+                    {
+                        if (item.Entry.EndsWith(href))
+                        {
+                            if (item.Position < i)
+                            {
+                                item.Position = i;
+                            }
+                            break;
+                        }
+                    }
+                }
+                #endregion
+
+                #region Create Pages
+                #endregion
+            }
+
+            #region Write theme.css,theme.min.css
+            using (FileStream themeFilestram = new FileStream(Path.Combine(themeBasePath, themeName, "theme.min.css"), FileMode.Create))
             {
                 using (StreamWriter writer = new StreamWriter(themeFilestram))
                 {
-                    foreach (var item in css)
+                    foreach (var item in cssFiles.OrderBy(m => m.Position))
                     {
-                        writer.WriteLine("@import url(\"{0}\");", item);
+                        writer.WriteLine("@import url(\"{0}\");", item.Entry);
                     }
                 }
             }
-            using (FileStream themeFilestram = new FileStream(Path.Combine(themeBasePath, themeName, "theme.css"), FileMode.OpenOrCreate))
+            using (FileStream themeFilestram = new FileStream(Path.Combine(themeBasePath, themeName, "theme.css"), FileMode.Create))
             {
                 using (StreamWriter writer = new StreamWriter(themeFilestram))
                 {
-                    foreach (var item in css)
+                    foreach (var item in cssFiles.OrderBy(m => m.Position))
                     {
-                        writer.WriteLine("@import url(\"{0}\");", item);
+                        writer.WriteLine("@import url(\"{0}\");", item.Entry);
                     }
                 }
             }
+            #endregion
 
             ThemeEntity themeEntity = new ThemeEntity
             {

@@ -57,7 +57,6 @@ namespace ZKEACMS.TemplateImporter
         {
             serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
             serviceCollection.AddTransient<ITemplateImporterService, TemplateImporterService>();
-            serviceCollection.ConfigureMetaData<Models.TemplateImporter, Models.TemplateImporterMetaData>();
         }
 
         public override void ConfigureApplication(IApplicationBuilder app, IHostingEnvironment env)
