@@ -57,8 +57,15 @@ namespace ZKEACMS.TemplateImporter.Service
             #region Decompression
             using (ZipArchive archive = ZipFile.OpenRead(zipFile))
             {
+
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
+                    if (themeName.IsNotNullAndWhiteSpace() && !entry.FullName.StartsWith(themeName))
+                    {
+                        new DirectoryInfo(Path.Combine(ThemeBasePath, themeName)).Delete(true);
+                        throw new Exception("The package is not correct!");
+                    }
+
                     if (entry.Length == 0 && entry.Name == string.Empty && entry.FullName.EndsWith('/'))
                     {
                         if (themeName == null)

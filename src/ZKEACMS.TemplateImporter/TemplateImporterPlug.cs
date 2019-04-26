@@ -5,18 +5,11 @@
  */
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Easy.RepositoryPattern;
-using Easy;
-using ZKEACMS.WidgetTemplate;
 using ZKEACMS.TemplateImporter.Service;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
-using System.IO.Compression;
+using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS.TemplateImporter
 {
@@ -33,7 +26,7 @@ namespace ZKEACMS.TemplateImporter
             {
                 Group = "系统",
                 Title = "导入静态模板",
-                Icon = "glyphicon-fire",
+                Icon = "glyphicon-briefcase",
                 PermissionKey = PermissionKeys.ImportStaticHtmlTemplate,
                 Url = "~/admin/TemplateImporter",
                 Order = 15

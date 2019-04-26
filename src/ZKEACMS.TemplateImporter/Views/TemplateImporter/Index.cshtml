@@ -2,7 +2,7 @@
 <p>
     该功能用于将做好的静态页面模板（HTML）导入到系统中。系统将会自动创建对应的页面，主题和内容板块。
 </p>
-<h3>注意事项</h3>
+<h4>注意事项</h4>
 <ul>
     <li>导入并不能保证完全可用，可能会存在一些问题需要人工处理</li>
     <li>上传的包必需为<code>zip</code>格式</li>
@@ -12,10 +12,14 @@
     </li>
 
 </ul>
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Message
+    </div>
+}
 <form enctype="multipart/form-data" method="post">
-    <pre>
-        <input type="file" name="file" />
-</pre>
+    <pre><input type="file" name="file" /></pre>
     <input type="submit" value="开始导入" class="btn btn-primary" />
 </form>
 <div id="help" class="modal fade">

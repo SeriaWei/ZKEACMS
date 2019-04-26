@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Easy.Mvc.Controllers;
-using ZKEACMS.TemplateImporter.Service;
-using Easy.Mvc.Authorize;
-using ZKEACMS.TemplateImporter.Models;
-using System.IO;
+﻿using Easy.Mvc.Authorize;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using ZKEACMS.TemplateImporter.Service;
 
 namespace ZKEACMS.TemplateImporter.Controllers
 {
@@ -37,6 +33,11 @@ namespace ZKEACMS.TemplateImporter.Controllers
                 try
                 {
                     _templateImporterService.Import(filePath);
+                }
+                catch(Exception ex)
+                {
+                    ViewBag.Message = ex.Message;
+                    return View();
                 }
                 finally
                 {
