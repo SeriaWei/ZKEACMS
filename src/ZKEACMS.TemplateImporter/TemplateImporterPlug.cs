@@ -58,13 +58,5 @@ namespace ZKEACMS.TemplateImporter
             serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
             serviceCollection.AddTransient<ITemplateImporterService, TemplateImporterService>();
         }
-
-        public override void ConfigureApplication(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            string zipFile = Path.Combine(CurrentPluginPath, "Content", "vacayhome.zip");
-
-            app.ApplicationServices.GetService<ITemplateImporterService>().Import(zipFile);
-            base.ConfigureApplication(app, env);
-        }
     }
 }

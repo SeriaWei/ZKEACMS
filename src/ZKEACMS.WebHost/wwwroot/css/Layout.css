@@ -399,6 +399,7 @@ label.additional {
 .zoneToolbar .tools {
     padding: 0 10px;
     vertical-align: baseline;
+    line-height:1.5;
 }
 
     .zoneToolbar .tools .transfer-container {
