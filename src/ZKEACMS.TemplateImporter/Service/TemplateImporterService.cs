@@ -141,6 +141,7 @@ namespace ZKEACMS.TemplateImporter.Service
             }
             #endregion
 
+            #region Create Page
             foreach (var document in documents)
             {
                 var page = _pageService.GetByPath($"/{document.PageName}", true);
@@ -184,6 +185,7 @@ namespace ZKEACMS.TemplateImporter.Service
                 }
                 #endregion
 
+                #region Collect Style
                 var innerStyles = document.DocumentNode.SelectNodes("//style");
                 StringBuilder pageStyle = new StringBuilder();
                 if (innerStyles != null)
@@ -193,7 +195,7 @@ namespace ZKEACMS.TemplateImporter.Service
                         pageStyle.AppendLine(item.InnerText);
                     }
                 }
-
+                #endregion
                 #region url fix
                 var links = document.DocumentNode.SelectNodes("//a");
                 if (links != null)
@@ -294,7 +296,7 @@ namespace ZKEACMS.TemplateImporter.Service
                 }
                 _pageService.Publish(page);
             }
-
+            #endregion
             return CreateTheme(themeName, cssFiles);
         }
         private bool isOutSidePath(string path)
