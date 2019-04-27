@@ -54,6 +54,7 @@ namespace ZKEACMS.TemplateImporter.Service
             string themeName = null;
             List<PositionEntry> cssFiles = new List<PositionEntry>();
             List<HtmlDocument> documents = new List<HtmlDocument>();
+
             #region Decompression
             using (ZipArchive archive = ZipFile.OpenRead(zipFile))
             {
@@ -142,6 +143,7 @@ namespace ZKEACMS.TemplateImporter.Service
             #endregion
 
             #region Create Page
+            int index = 1;
             foreach (var document in documents)
             {
                 var page = _pageService.GetByPath($"/{document.PageName}", true);
@@ -161,9 +163,17 @@ namespace ZKEACMS.TemplateImporter.Service
                     PageName = title,
                     ParentId = "#",
                     LayoutId = layout.ID,
-                    Url = $"~/{document.PageName}",
+                    Url = $"~/{document.PageName}".ToLower(),
                     Status = (int)Easy.Constant.RecordStatus.Active
                 };
+                if(document.PageName.Equals("index", StringComparison.OrdinalIgnoreCase))
+                {
+                    page.DisplayOrder = 1;
+                }
+                else
+                {
+                    page.DisplayOrder = ++index;
+                }
                 _pageService.Add(page);
 
                 #region Collect Scripts
@@ -196,7 +206,8 @@ namespace ZKEACMS.TemplateImporter.Service
                     }
                 }
                 #endregion
-                #region url fix
+
+                #region Url fix
                 var links = document.DocumentNode.SelectNodes("//a");
                 if (links != null)
                 {
@@ -229,6 +240,7 @@ namespace ZKEACMS.TemplateImporter.Service
                     }
                 }
                 #endregion
+
                 if (pageStyle.Length > 0)
                 {
                     StyleSheetWidget scriptWidget = new StyleSheetWidget
@@ -367,7 +379,11 @@ namespace ZKEACMS.TemplateImporter.Service
                 }
             }
             #endregion
-
+            if(!File.Exists(Path.Combine(ThemeBasePath,themeName, "thumbnail.jpg"))&&
+                File.Exists(Path.Combine(ThemeBasePath, "Default", "thumbnail.jpg")))
+            {
+                File.Copy(Path.Combine(ThemeBasePath, "Default", "thumbnail.jpg"), Path.Combine(ThemeBasePath, themeName, "thumbnail.jpg"));
+            }
             ThemeEntity themeEntity = new ThemeEntity
             {
                 ID = themeName,
