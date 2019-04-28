@@ -30,7 +30,7 @@ namespace ZKEACMS.TemplateImporter.Service
         private readonly IWidgetActivator _widgetActivator;
         private static Regex jQueryFilter = new Regex(@"^jquery(\d+|\.|-|_)*(.min)?.js", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static Regex BootstrapFilter = new Regex(@"^bootstrap(\d+|\.|-|_)*(.min)?.js", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static Regex StyleUrl = new Regex(@"url\(['|""]?([A-Za-z0-9_|\.|/|-]*)['|""]?\)");
+        private static Regex StyleUrl = new Regex(@"url\(['|""]?([A-Za-z0-9_|\.|/|-]*)['|""]?\)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private const string ThemeFolder = "themes";
         public TemplateImporterService(IHostingEnvironment hostingEnvironment,
             IThemeService themeService,
