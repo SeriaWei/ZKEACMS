@@ -28,6 +28,7 @@ namespace ZKEACMS.TemplateImporter.Service
         private readonly ILayoutService _layoutService;
         private readonly IPageService _pageService;
         private readonly IWidgetActivator _widgetActivator;
+        private readonly IWdigetCreatorManager _widgetCreatorManager;
         private static Regex jQueryFilter = new Regex(@"^jquery(\d+|\.|-|_)*(.min)?.js", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static Regex BootstrapFilter = new Regex(@"^bootstrap(\d+|\.|-|_)*(.min)?.js", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static Regex StyleUrl = new Regex(@"url\(['|""]?([A-Za-z0-9_|\.|/|-]*)['|""]?\)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -37,7 +38,8 @@ namespace ZKEACMS.TemplateImporter.Service
             ILayoutService layoutService,
             ILayoutHtmlService layoutHtmlService,
             IPageService pageService,
-            IWidgetActivator widgetActivator)
+            IWidgetActivator widgetActivator,
+            IWdigetCreatorManager widgetCreatorManager)
         {
             _hostingEnvironment = hostingEnvironment;
             _themeService = themeService;
@@ -45,6 +47,7 @@ namespace ZKEACMS.TemplateImporter.Service
             _pageService = pageService;
             _widgetActivator = widgetActivator;
             ThemeBasePath = Path.Combine(_hostingEnvironment.WebRootPath, ThemeFolder);
+            _widgetCreatorManager = widgetCreatorManager;
         }
 
         public string ThemeBasePath { get; private set; }
@@ -166,7 +169,7 @@ namespace ZKEACMS.TemplateImporter.Service
                     Url = $"~/{document.PageName}".ToLower(),
                     Status = (int)Easy.Constant.RecordStatus.Active
                 };
-                if(document.PageName.Equals("index", StringComparison.OrdinalIgnoreCase))
+                if (document.PageName.Equals("index", StringComparison.OrdinalIgnoreCase))
                 {
                     page.DisplayOrder = 1;
                 }
@@ -243,21 +246,18 @@ namespace ZKEACMS.TemplateImporter.Service
 
                 if (pageStyle.Length > 0)
                 {
-                    StyleSheetWidget scriptWidget = new StyleSheetWidget
+                    string section = $"<style>{pageStyle.ToString().Trim()}</style>";
+                    section = StyleUrl.Replace(section, evaluator =>
                     {
-                        PageID = page.ID,
-                        WidgetName = "Style",
-                        Position = 0,
-                        ZoneID = "ZONE-0",
-                        AssemblyName = "ZKEACMS",
-                        PartialView = "Widget.StyleSheet",
-                        ServiceTypeName = "ZKEACMS.Common.Service.StyleSheetWidgetService",
-                        ViewModelTypeName = "ZKEACMS.Common.Models.StyleSheetWidget",
-                        StyleClass = "full",
-                        StyleSheet = pageStyle.ToString().Trim()
-                    };
-
-                    _widgetActivator.Create(scriptWidget).AddWidget(scriptWidget);
+                        return $"url({ConvertToThemePath(themeName, evaluator.Groups[1].Value)})";
+                    });
+                    var styleWidget = _widgetCreatorManager.Create(section, themeName);
+                    styleWidget.PageID = page.ID;
+                    styleWidget.WidgetName = "Style";
+                    styleWidget.Position = 0;
+                    styleWidget.ZoneID = "ZONE-0";
+                    styleWidget.StyleClass = "full";
+                    _widgetActivator.Create(styleWidget).AddWidget(styleWidget);
                 }
                 var sections = document.DocumentNode.SelectSingleNode("/html/body").ChildNodes;
                 for (int i = 0; i < sections.Count; i++)
@@ -267,43 +267,28 @@ namespace ZKEACMS.TemplateImporter.Service
                     {
                         var tNode = node.SelectSingleNode(".//h1|.//h2|.//h3|.//h4|.//h5|.//h6");
                         string widgetTitle = tNode?.InnerText;
-                        HtmlWidget widget = new HtmlWidget
-                        {
-                            PageID = page.ID,
-                            WidgetName = (widgetTitle ?? "Html").Trim(),
-                            Position = i,
-                            ZoneID = "ZONE-1",
-                            AssemblyName = "ZKEACMS",
-                            PartialView = "Widget.HTML",
-                            ServiceTypeName = "ZKEACMS.Common.Service.HtmlWidgetService",
-                            ViewModelTypeName = "ZKEACMS.Common.Models.HtmlWidget",
-                            StyleClass = "full",
-                            HTML = node.OuterHtml
-                        };
-                        widget.HTML = StyleUrl.Replace(widget.HTML, evaluator =>
+
+                        string section = StyleUrl.Replace(node.OuterHtml, evaluator =>
                         {
                             return $"url({ConvertToThemePath(themeName, evaluator.Groups[1].Value)})";
                         });
+                        var widget = _widgetCreatorManager.Create(section, themeName);
+                        widget.PageID = page.ID;
+                        widget.WidgetName = (widgetTitle ?? "Html Widget").Trim();
+                        widget.Position = i;
+                        widget.ZoneID = "ZONE-1";
+                        widget.StyleClass = "full";
                         _widgetActivator.Create(widget).AddWidget(widget);
                     }
-
                 }
                 if (pageScripts.Length > 0)
                 {
-                    ScriptWidget scriptWidget = new ScriptWidget
-                    {
-                        PageID = page.ID,
-                        WidgetName = "JavaScript",
-                        Position = document.DocumentNode.ChildNodes.Count,
-                        ZoneID = "ZONE-2",
-                        AssemblyName = "ZKEACMS",
-                        PartialView = "Widget.Script",
-                        ServiceTypeName = "ZKEACMS.Common.Service.ScriptWidgetService",
-                        ViewModelTypeName = "ZKEACMS.Common.Models.ScriptWidget",
-                        StyleClass = "full",
-                        Script = pageScripts.ToString()
-                    };
-
+                    var scriptWidget = _widgetCreatorManager.Create(pageScripts.ToString().Trim(), themeName);
+                    scriptWidget.PageID = page.ID;
+                    scriptWidget.WidgetName = "JavaScript";
+                    scriptWidget.Position = document.DocumentNode.ChildNodes.Count;
+                    scriptWidget.ZoneID = "ZONE-2";
+                    scriptWidget.StyleClass = "full";
                     _widgetActivator.Create(scriptWidget).AddWidget(scriptWidget);
                 }
                 _pageService.Publish(page);
@@ -379,7 +364,7 @@ namespace ZKEACMS.TemplateImporter.Service
                 }
             }
             #endregion
-            if(!File.Exists(Path.Combine(ThemeBasePath,themeName, "thumbnail.jpg"))&&
+            if (!File.Exists(Path.Combine(ThemeBasePath, themeName, "thumbnail.jpg")) &&
                 File.Exists(Path.Combine(ThemeBasePath, "Default", "thumbnail.jpg")))
             {
                 File.Copy(Path.Combine(ThemeBasePath, "Default", "thumbnail.jpg"), Path.Combine(ThemeBasePath, themeName, "thumbnail.jpg"));

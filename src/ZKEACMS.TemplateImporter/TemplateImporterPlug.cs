@@ -56,6 +56,9 @@ namespace ZKEACMS.TemplateImporter
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<ITemplateImporterService, TemplateImporterService>();
+            serviceCollection.AddTransient<IWdigetCreatorManager, WdigetCreatorManager>();
+            serviceCollection.AddTransient<IWidgetCreatorService, JavaScriptWidgetCreatorService>();
+            serviceCollection.AddTransient<IWidgetCreatorService, StyleSheetWidgetCreatorService>();
         }
     }
 }
