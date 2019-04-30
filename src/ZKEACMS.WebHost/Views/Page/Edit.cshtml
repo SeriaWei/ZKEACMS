@@ -98,6 +98,8 @@
             var parentUrl = url.data("url");
             if (!parentUrl) {
                 parentUrl = "~/";
+            }else{
+                parentUrl = parentUrl.toLowerCase();
             }
             var thisUrl = $(this).val().toLowerCase();
             var replaceValue = ["/", " ", "?", "`", "~", "!", "@@", "#", "$", "%", "^", "&", "*", "(", ")", "+", "[", "]", "{", "}", "\\", "|", ";", ":", "'", "\"", ",", ".", "<", ">"];
