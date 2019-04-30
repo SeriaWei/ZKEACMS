@@ -37,11 +37,11 @@ namespace ZKEACMS.Article.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageArticle)]
         public override IActionResult Create(ArticleEntity entity)
         {
-            var result = base.Create(entity);
-            if (entity.ActionType == ActionType.Publish)
+            if (entity.ActionType == ActionType.Publish && _authorizer.Authorize(PermissionKeys.PublishArticle))
             {
-                Service.Publish(entity.ID);
+                Service.Publish(entity);
             }
+            var result = base.Create(entity);
             return result;
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageArticle)]
@@ -55,7 +55,7 @@ namespace ZKEACMS.Article.Controllers
             var result = base.Edit(entity);
             if (entity.ActionType == ActionType.Publish && _authorizer.Authorize(PermissionKeys.PublishArticle))
             {
-                Service.Publish(entity.ID);
+                Service.Publish(entity);
             }
             if (Request.Query["ReturnUrl"].Count > 0)
             {

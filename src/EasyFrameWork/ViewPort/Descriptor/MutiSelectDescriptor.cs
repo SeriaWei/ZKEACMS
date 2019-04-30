@@ -19,7 +19,7 @@ namespace Easy.ViewPort.Descriptor
             : base(modelType, property)
         {
             this.TagType = HTMLEnumerate.HTMLTagTypes.MutiSelect;
-            this.TemplateName = "MutiSelect";
+            this.TemplateName = "MultiSelect";
         }
 
 
@@ -75,7 +75,7 @@ namespace Easy.ViewPort.Descriptor
             Type dataType = typeof(T);
             if (!dataType.GetTypeInfo().IsEnum)
             {
-                throw new Exception(dataType.FullName + ",≤ª «√∂æŸ¿‡–Õ°£");
+                throw new Exception(dataType.FullName + ",‰∏çÊòØÊûö‰∏æÁ±ªÂûã„ÄÇ");
             }
             string[] text = Enum.GetNames(dataType);
 

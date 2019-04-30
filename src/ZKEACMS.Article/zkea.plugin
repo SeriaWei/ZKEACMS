@@ -1,6 +1,7 @@
-{
+﻿{
 	ID:"034F2233-6BD2-410D-86ED-8CA5175E6F5C",
 	Name:"ZKEACMS.Article",
 	FileName:"ZKEACMS.Article.dll",
-	Enable:"true"
+	Enable:"true",
+	Description:"文章，新闻，资讯"
 }

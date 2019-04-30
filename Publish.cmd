@@ -9,7 +9,10 @@
 @echo Deploy
 @echo http://www.zkea.net/zkeacms/document/deploy/core
 @echo -----------------------------------------------------------------------------
-@echo Notice: Output folder(src/ZKEACMS.WebHost/bin/Release/PublishOutput) will be cleaned when publish start
+@echo RID details
+@echo https://docs.microsoft.com/en-us/dotnet/core/rid-catalog
+@echo -----------------------------------------------------------------------------
+@echo Notice: Application will publish to folder(src/ZKEACMS.WebHost/bin/Release/PublishOutput)
 WHERE /Q dotnet
 IF %ERRORLEVEL% NEQ 0 (
 @echo dotnet core sdk was not find, please install the latest sdk at first.
@@ -22,20 +25,9 @@ IF %ERRORLEVEL% NEQ 0 (
 @echo Installing publish tool, please wait.
 dotnet tool install -g ZKEACMS.Publisher
 )
-set /P i=Publish witch runtime?(y/n)
-if not "%i%"=="y" goto start
-@echo RID details
-@echo https://docs.microsoft.com/en-us/dotnet/core/rid-catalog
-set /P r=Input RID:
-:start
+@pause
 @echo Publishing, please wait...
 dotnet restore
 cd src/ZKEACMS.WebHost
-if not "%i%"=="y" (
-    publish-zkeacms
-)
-if "%i%"=="y" (
-    publish-zkeacms -r %r%
-)
-
+publish-zkeacms
 explorer %cd%\bin\Release\PublishOutput

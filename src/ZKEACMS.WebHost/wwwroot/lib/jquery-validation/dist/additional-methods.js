@@ -1,5 +1,5 @@
 /*!
- * jQuery Validation Plugin v1.18.0
+ * jQuery Validation Plugin v1.19.0
  *
  * https://jqueryvalidation.org/
  *
@@ -42,6 +42,38 @@
 	}, $.validator.format( "Please enter between {0} and {1} words." ) );
 
 }() );
+
+/**
+ * This is used in the United States to process payments, deposits,
+ * or transfers using the Automated Clearing House (ACH) or Fedwire
+ * systems. A very common use case would be to validate a form for
+ * an ACH bill payment.
+ */
+$.validator.addMethod( "abaRoutingNumber", function( value ) {
+	var checksum = 0;
+	var tokens = value.split( "" );
+	var length = tokens.length;
+
+	// Length Check
+	if ( length !== 9 ) {
+		return false;
+	}
+
+	// Calc the checksum
+	// https://en.wikipedia.org/wiki/ABA_routing_transit_number
+	for ( var i = 0; i < length; i += 3 ) {
+		checksum +=	parseInt( tokens[ i ], 10 )     * 3 +
+					parseInt( tokens[ i + 1 ], 10 ) * 7 +
+					parseInt( tokens[ i + 2 ], 10 );
+	}
+
+	// If not zero and divisible by 10 then valid
+	if ( checksum !== 0 && checksum % 10 === 0 ) {
+		return true;
+	}
+
+	return false;
+}, "Please enter a valid routing number." );
 
 // Accept a value from a file input based on a required mimetype
 $.validator.addMethod( "accept", function( value, element, param ) {
@@ -257,10 +289,140 @@ $.validator.addMethod( "cifES", function( value, element ) {
 }, "Please specify a valid CIF number." );
 
 /*
+ * Brazillian CNH number (Carteira Nacional de Habilitacao) is the License Driver number.
+ * CNH numbers have 11 digits in total: 9 numbers followed by 2 check numbers that are being used for validation.
+ */
+$.validator.addMethod( "cnhBR", function( value ) {
+
+  // Removing special characters from value
+  value = value.replace( /([~!@#$%^&*()_+=`{}\[\]\-|\\:;'<>,.\/? ])+/g, "" );
+
+  // Checking value to have 11 digits only
+  if ( value.length !== 11 ) {
+    return false;
+  }
+
+  var sum = 0, dsc = 0, firstChar,
+		firstCN, secondCN, i, j, v;
+
+  firstChar = value.charAt( 0 );
+
+  if ( new Array( 12 ).join( firstChar ) === value ) {
+    return false;
+  }
+
+  // Step 1 - using first Check Number:
+  for ( i = 0, j = 9, v = 0; i < 9; ++i, --j ) {
+    sum += +( value.charAt( i ) * j );
+  }
+
+  firstCN = sum % 11;
+  if ( firstCN >= 10 ) {
+    firstCN = 0;
+    dsc = 2;
+  }
+
+  sum = 0;
+  for ( i = 0, j = 1, v = 0; i < 9; ++i, ++j ) {
+    sum += +( value.charAt( i ) * j );
+  }
+
+  secondCN = sum % 11;
+  if ( secondCN >= 10 ) {
+    secondCN = 0;
+  } else {
+    secondCN = secondCN - dsc;
+  }
+
+  return ( String( firstCN ).concat( secondCN ) === value.substr( -2 ) );
+
+}, "Please specify a valid CNH number" );
+
+/*
+ * Brazillian value number (Cadastrado de Pessoas Juridica).
+ * value numbers have 14 digits in total: 12 numbers followed by 2 check numbers that are being used for validation.
+ */
+$.validator.addMethod( "cnpjBR", function( value, element ) {
+	"use strict";
+
+	if ( this.optional( element ) ) {
+		return true;
+	}
+
+	// Removing no number
+	value = value.replace( /[^\d]+/g, "" );
+
+	// Checking value to have 14 digits only
+	if ( value.length !== 14 ) {
+		return false;
+	}
+
+	// Elimina values invalidos conhecidos
+	if ( value === "00000000000000" ||
+		value === "11111111111111" ||
+		value === "22222222222222" ||
+		value === "33333333333333" ||
+		value === "44444444444444" ||
+		value === "55555555555555" ||
+		value === "66666666666666" ||
+		value === "77777777777777" ||
+		value === "88888888888888" ||
+		value === "99999999999999" ) {
+		return false;
+	}
+
+	// Valida DVs
+	var tamanho = ( value.length - 2 );
+	var numeros = value.substring( 0, tamanho );
+	var digitos = value.substring( tamanho );
+	var soma = 0;
+	var pos = tamanho - 7;
+
+	for ( var i = tamanho; i >= 1; i-- ) {
+		soma += numeros.charAt( tamanho - i ) * pos--;
+		if ( pos < 2 ) {
+			pos = 9;
+		}
+	}
+
+	var resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+
+	if ( resultado !== parseInt( digitos.charAt( 0 ), 10 ) ) {
+		return false;
+	}
+
+	tamanho = tamanho + 1;
+	numeros = value.substring( 0, tamanho );
+	soma = 0;
+	pos = tamanho - 7;
+
+	for ( var il = tamanho; il >= 1; il-- ) {
+		soma += numeros.charAt( tamanho - il ) * pos--;
+		if ( pos < 2 ) {
+			pos = 9;
+		}
+	}
+
+	resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+
+	if ( resultado !== parseInt( digitos.charAt( 1 ), 10 ) ) {
+		return false;
+	}
+
+	return true;
+
+}, "Please specify a CNPJ value number" );
+
+/*
  * Brazillian CPF number (Cadastrado de Pessoas Físicas) is the equivalent of a Brazilian tax registration number.
  * CPF numbers have 11 digits in total: 9 numbers followed by 2 check numbers that are being used for validation.
  */
-$.validator.addMethod( "cpfBR", function( value ) {
+$.validator.addMethod( "cpfBR", function( value, element ) {
+	"use strict";
+
+	if ( this.optional( element ) ) {
+		return true;
+	}
 
 	// Removing special characters from value
 	value = value.replace( /([~!@#$%^&*()_+=`{}\[\]\-|\\:;'<>,.\/? ])+/g, "" );
@@ -359,7 +521,7 @@ $.validator.addMethod( "creditcard", function( value, element ) {
 }, "Please enter a valid credit card number." );
 
 /* NOTICE: Modified version of Castle.Components.Validator.CreditCardValidator
- * Redistributed under the the Apache License 2.0 at http://www.apache.org/licenses/LICENSE-2.0
+ * Redistributed under the Apache License 2.0 at http://www.apache.org/licenses/LICENSE-2.0
  * Valid Types: mastercard, visa, amex, dinersclub, enroute, discover, jcb, unknown, all (overrides all other settings)
  */
 $.validator.addMethod( "creditcardtypes", function( value, element, param ) {
@@ -795,6 +957,11 @@ $.validator.addMethod( "maxsizetotal", function( value, element, param ) {
 
 $.validator.addMethod( "mobileNL", function( value, element ) {
 	return this.optional( element ) || /^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)6((\s|\s?\-\s?)?[0-9]){8}$/.test( value );
+}, "Please specify a valid mobile number" );
+
+$.validator.addMethod( "mobileRU", function( phone_number, element ) {
+	var ruPhone_number = phone_number.replace( /\(|\)|\s+|-/g, "" );
+	return this.optional( element ) || ruPhone_number.length > 9 && /^((\+7|7|8)+([0-9]){10})$/.test( ruPhone_number );
 }, "Please specify a valid mobile number" );
 
 /* For UK phone functions, do the following server side processing:

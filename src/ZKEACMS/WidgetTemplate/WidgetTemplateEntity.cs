@@ -23,7 +23,7 @@ namespace ZKEACMS.WidgetTemplate
         public virtual Type ViewModelType { get; set; }
         public string ViewModelTypeName { get { return ViewModelType.FullName; } }
         public int? Order { get; set; }
-
+        public string PluginName { get; set; }
         public string FormView { get; set; }
 
         public virtual WidgetBase ToWidget(IServiceProvider serviceProvider)

@@ -113,7 +113,9 @@ namespace ZKEACMS
         public const string RouteValue_Page = "p";
 
         public const string RouteVale_ArticleUrl = "ArticleUrl";
+        public const string RouteVale_Article = "Article-{0}";
         public const string RouteVale_ProductUrl = "ProductUrl";
+        public const string RouteVale_Product = "Product-{0}";
         public const string RouteVale_CategoryUrl = "CategoryUrl";
 
         public static string PathFormat(string routeKey)
@@ -143,6 +145,19 @@ namespace ZKEACMS
                     _version = $"ZKEACMS v{attr.InformationalVersion}";
                 }
                 return _version;
+            }
+        }
+        static string _versionInfo;
+        public static string VersionInfo
+        {
+            get
+            {
+                if (_versionInfo == null)
+                {
+                    var attr = typeof(Version).GetTypeInfo().Assembly.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
+                    _versionInfo = attr.InformationalVersion;
+                }
+                return _versionInfo;
             }
         }
         public static string Rank

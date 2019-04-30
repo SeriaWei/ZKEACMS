@@ -1,25 +1,29 @@
-﻿@model String
+@model String
 @{
-    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
     bool additional = false;
     bool video = false;
-    
-    descriptor.Classes.ForEach(m =>
+
+    if (descriptor != null)
     {
-        if (m.Contains("select"))
+        descriptor.Classes.ForEach(m =>
         {
-            additional = true;
-        }
-        if (m.Contains("select-video"))
-        {
-            video = true;
-        }
-    });
+            if (m.Contains("select"))
+            {
+                additional = true;
+            }
+            if (m.Contains("select-video"))
+            {
+                video = true;
+            }
+        });
+    }
+
 }
 @if (additional)
 {
     <div class="input-group">
-        @Html.TextBox("", Model, descriptor.ToHtmlProperties())
+        @Html.TextBox("", Model, descriptor?.ToHtmlProperties())
         @if (video)
         {
             <div class="input-group-addon">
@@ -33,5 +37,5 @@
 }
 else
 {
-    @Html.TextBox("", Model, descriptor.ToHtmlProperties())
+    @Html.TextBox("", Model, descriptor?.ToHtmlProperties())
 }

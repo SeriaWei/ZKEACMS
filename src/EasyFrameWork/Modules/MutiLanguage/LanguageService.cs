@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Easy.Modules.MutiLanguage
 {
-    public class LanguageService : ServiceBase<LanguageEntity>, ILanguageService
+    public class LanguageService : ServiceBase<LanguageEntity, EasyDbContext>, ILanguageService
     {
         private readonly ICacheManager<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>> _cacheManager;
         public LanguageService(IApplicationContext applicationContext,
@@ -22,7 +22,7 @@ namespace Easy.Modules.MutiLanguage
 
         public override DbSet<LanguageEntity> CurrentDbSet
         {
-            get { return (DbContext as EasyDbContext).Language; }
+            get { return DbContext.Language; }
         }
         public override IQueryable<LanguageEntity> Get()
         {
@@ -52,8 +52,7 @@ namespace Easy.Modules.MutiLanguage
             LanguageEntity languageEntity = null;
             if (primaryKey.Length == 2)
             {
-                ConcurrentDictionary<string, LanguageEntity> cultureLan;
-                if (GetAll().TryGetValue(primaryKey[0].ToString(), out cultureLan))
+                if (GetAll().TryGetValue(primaryKey[0].ToString(), out ConcurrentDictionary<string, LanguageEntity> cultureLan))
                 {
                     cultureLan.TryGetValue(primaryKey[1].ToString(), out languageEntity);
                 }
@@ -63,8 +62,7 @@ namespace Easy.Modules.MutiLanguage
 
         public IEnumerable<LanguageEntity> GetCultures(string lanKey)
         {
-            ConcurrentDictionary<string, LanguageEntity> cultureDic;
-            if (GetAll().TryGetValue(lanKey, out cultureDic))
+            if (GetAll().TryGetValue(lanKey, out ConcurrentDictionary<string, LanguageEntity> cultureDic))
             {
                 foreach (var item in cultureDic)
                 {
@@ -74,11 +72,9 @@ namespace Easy.Modules.MutiLanguage
         }
         public override ServiceResult<LanguageEntity> Update(LanguageEntity item)
         {
-            ConcurrentDictionary<string, LanguageEntity> cultureLan;
-            if (GetAll().TryGetValue(item.LanKey.ToString(), out cultureLan))
+            if (GetAll().TryGetValue(item.LanKey.ToString(), out ConcurrentDictionary<string, LanguageEntity> cultureLan))
             {
-                LanguageEntity oldItem;
-                if (cultureLan.TryGetValue(item.CultureName, out oldItem))
+                if (cultureLan.TryGetValue(item.CultureName, out LanguageEntity oldItem))
                 {
                     cultureLan.TryUpdate(item.CultureName, item, oldItem);
                     return base.Update(item);
@@ -100,8 +96,7 @@ namespace Easy.Modules.MutiLanguage
                 ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>> result = new ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>();
                 foreach (var item in Get())
                 {
-                    ConcurrentDictionary<string, LanguageEntity> cultureDic;
-                    if (!result.TryGetValue(item.LanKey, out cultureDic))
+                    if (!result.TryGetValue(item.LanKey, out ConcurrentDictionary<string, LanguageEntity> cultureDic))
                     {
                         cultureDic = new ConcurrentDictionary<string, LanguageEntity>();
                         cultureDic.TryAdd(item.CultureName, item);

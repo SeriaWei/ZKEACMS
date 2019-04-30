@@ -8,10 +8,11 @@ using Easy.Models;
 using Easy.Modules.User.Models;
 using Easy.Extend;
 using Microsoft.Extensions.DependencyInjection;
+using Easy.RepositoryPattern;
 
 namespace Easy.Modules.Role
 {
-    [Table("UserRoleRelation")]
+    [DataTable("UserRoleRelation")]
     public class UserRoleRelation : EditorEntity
     {
         [Key]

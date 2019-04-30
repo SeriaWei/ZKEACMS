@@ -1,4 +1,4 @@
-﻿@model ZKEACMS.FormGenerator.Models.Form
+@model ZKEACMS.FormGenerator.Models.Form
 @{
     Style.Reqiured("field-setting").AtHead();
     Script.Reqiured("angular").AtFoot();
@@ -72,7 +72,7 @@
                         <input class="form-control" type="text" id="DisplayName" name="DisplayName" ng-model="fieldInfo.DisplayName" maxlength="100" />
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="Description">@L("名称")</label>
+                        <label class="control-label" for="Description">@L("描述")</label>
                         <textarea name="Description" id="Description" class="form-control" rows="3" cols="10" maxlength="500" ng-model="fieldInfo.Description"></textarea>
                     </div>
                     <div class="form-group" ng-if="fieldInfo.AdditionalSettings" ng-repeat="setting in fieldInfo.AdditionalSettings">

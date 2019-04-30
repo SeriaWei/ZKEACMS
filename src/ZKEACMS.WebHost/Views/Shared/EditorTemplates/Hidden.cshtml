@@ -1,9 +1,9 @@
-﻿@model Object
+@model Object
 @{
-    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
     if(ViewData.ModelMetadata.IsComplexType)
     {
         return;
     }
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
 }
-@Html.Hidden("", Model, descriptor.ToHtmlProperties())
+@Html.Hidden("", Model, descriptor?.ToHtmlProperties())

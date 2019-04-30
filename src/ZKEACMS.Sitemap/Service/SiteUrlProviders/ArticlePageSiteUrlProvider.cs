@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
             List<string> excuted = new List<string>();
             foreach (var item in _sitemapDbContext.ArticleListWidget.ToList())
             {
-                if (!excuted.Contains(item.DetailPageUrl))
+                if (item.DetailPageUrl.IsNotNullAndWhiteSpace() && !excuted.Contains(item.DetailPageUrl))
                 {
                     var ids = _articleTypeService.Get(m => m.ID == item.ArticleTypeID || m.ParentID == item.ArticleTypeID).Select(m => m.ID).ToList();
                     var articles = _articleService.Get(m => m.IsPublish && ids.Contains(m.ArticleTypeID ?? 0));

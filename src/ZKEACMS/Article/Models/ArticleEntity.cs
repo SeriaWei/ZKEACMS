@@ -8,10 +8,11 @@ using ZKEACMS.ExtendField;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using ZKEACMS.Extend;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Article.Models
 {
-    [Table("Article")]
+    [DataTable("Article")]
     public class ArticleEntity : EditorEntity, IImage
     {
         [Key]
@@ -26,7 +27,7 @@ namespace ZKEACMS.Article.Models
         public string ImageUrl { get; set; }
         public int? ArticleTypeID { get; set; }
         public DateTime? PublishDate { get; set; }
-        public bool IsPublish { get; set; }        
+        public bool IsPublish { get; set; }
     }
     class ArticleEntityMeta : ViewMetaData<ArticleEntity>
     {

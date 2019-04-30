@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace ZKEACMS.FormGenerator.Service.Validator
             message = string.Empty;
             if (field.IsRequired && data.FieldValue.IsNullOrWhiteSpace() && data.OptionValue.IsNullOrWhiteSpace())
             {
-                message = _localize.Get("{0}是必填的").FormatWith(field.DisplayName);
+                message = field.RequiredMessage ?? _localize.Get("{0}是必填的").FormatWith(field.DisplayName);
                 return false;
             }
             return true;

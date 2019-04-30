@@ -5,10 +5,11 @@ using ZKEACMS;
 using ZKEACMS.MetaData;
 using ZKEACMS.Widget;
 using System.ComponentModel.DataAnnotations.Schema;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Common.Models
 {
-    [Table("VideoWidget")]
+    [DataTable("VideoWidget")]
     public class VideoWidget : BasicWidget
     {
         public int? Width { get; set; }

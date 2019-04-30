@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * http://www.zkea.net/
  * Copyright 2018 ZKEASOFT
  * 深圳市纸壳软件有限公司
@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using ZKEACMS.Route;
 using System.Linq;
+using ZKEACMS.Page;
 
 namespace ZKEACMS
 {
@@ -19,23 +20,24 @@ namespace ZKEACMS
     {
         public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
         {
-            var value = values[routeKey];
-            if (routeKey == "path" && value != null)
-            {
-                string path = "/" + value.ToString();
+            if (routeDirection == RouteDirection.UrlGeneration) return false;
 
+            const string start = "/";
+            string path = start;
+
+            path = $"{start}{values[routeKey]}";
+
+            if (path != start)
+            {
                 var routeDataProviders = httpContext.RequestServices.GetService<IEnumerable<IRouteDataProvider>>();
                 foreach (var item in routeDataProviders.OrderBy(m => m.Order))
                 {
                     path = item.ExtractVirtualPath(path, values);
                 }
-                if (path.IsNullOrWhiteSpace())
-                {
-                    path = "/";
-                }
-                values[routeKey] = path;
             }
-            return true;
+            values[routeKey] = path;
+            if (path == start) return true;
+            return httpContext.RequestServices.GetService<IPageService>().IsExists(path);
         }
     }
 }

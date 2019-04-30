@@ -4,10 +4,11 @@ using Easy.RepositoryPattern;
 using Easy;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionContentCallToActionService : ServiceBase<SectionContentCallToAction>, ISectionContentService
+    public class SectionContentCallToActionService : ServiceBase<SectionContentCallToAction, CMSDbContext>, ISectionContentService
     {
         public SectionContentCallToActionService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
@@ -16,7 +17,10 @@ namespace ZKEACMS.SectionWidget.Service
         {
             get { return SectionContentBase.Types.CallToAction; }
         }
-
+        public override IQueryable<SectionContentCallToAction> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
+        }
 
         public void AddContent(SectionContent content)
         {

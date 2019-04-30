@@ -10,10 +10,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel.DataAnnotations;
 using Easy;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.SectionWidget.Models
 {
-    [Table("SectionGroup")]
+    [DataTable("SectionGroup")]
     public class SectionGroup : EditorEntity
     {
         [Key]

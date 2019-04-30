@@ -1,6 +1,6 @@
-﻿@model string
+@model string
 @{
-    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
 }
-@Html.Hidden("", Model, descriptor.ToHtmlProperties())
+@Html.Hidden("", Model, descriptor?.ToHtmlProperties())
 <input type="file" name="file" class="form-control"/>

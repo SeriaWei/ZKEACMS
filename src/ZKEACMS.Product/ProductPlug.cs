@@ -1,4 +1,4 @@
-﻿/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using System;
 using System.Collections.Generic;
 using Easy.Mvc.Resource;
@@ -11,11 +11,17 @@ using Easy;
 using ZKEACMS.WidgetTemplate;
 using Easy.RepositoryPattern;
 using ZKEACMS.Route;
+using System.Collections.Concurrent;
 
 namespace ZKEACMS.Product
 {
     public class ProductPlug : PluginBase
     {
+        public static ConcurrentDictionary<string, string[]> AllRelatedUrlCache { get; }
+        static ProductPlug()
+        {
+            AllRelatedUrlCache = new ConcurrentDictionary<string, string[]>();
+        }
         public override IEnumerable<RouteDescriptor> RegistRoute()
         {
             return null;

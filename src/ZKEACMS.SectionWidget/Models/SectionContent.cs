@@ -4,6 +4,7 @@ using Easy.MetaData;
 using Easy.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.SectionWidget.Models
 {
@@ -117,7 +118,7 @@ namespace ZKEACMS.SectionWidget.Models
         [NotMapped]
         public override string SectionGroupId { get; set; }
     }
-    [Table("SectionContent")]
+    [DataTable("SectionContent")]
     public class SectionContentBasePart : SectionContent
     {
 

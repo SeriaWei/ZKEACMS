@@ -2,9 +2,16 @@
 cd /d %~dp0
 REM:If garbled when running, the following link can help to resolve:
 REM:http://www.zkea.net/zkeacms/document/issues
-@echo -----------------------------------------------------------------------------
-@echo ****** Welcome to use ZKEACMS ******
-@echo -----------------------------------------------------------------------------
+WHERE /Q sqlcmd
+IF %ERRORLEVEL% NEQ 0 (
+echo sqlcmd Utility is required, please install the tool before you run the command
+@pause
+start https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility
+exit
+)
+@echo *****************************************
+@echo ******** Welcome to use ZKEACMS *********
+@echo *****************************************
 @echo Documents
 @echo http://www.zkea.net/zkeacms/document
 @echo -----------------------------------------------------------------------------
@@ -12,7 +19,6 @@ REM:http://www.zkea.net/zkeacms/document/issues
 @echo If you want to upgrade your existing database, execute the scripts under "Update" folder
 @echo -----------------------------------------------------------------------------
 @echo Press Enter to use the default setting
-@echo -----------------------------------------------------------------------------
 @echo Working directory:%cd%
 set /P server=1.Sql Server address (local):
 if "%server%"=="" set server=(local)

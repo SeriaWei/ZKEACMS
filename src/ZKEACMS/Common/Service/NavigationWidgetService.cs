@@ -23,7 +23,7 @@ namespace ZKEACMS.Common.Service
         {
             _navigationService = navigationService;
         }
-        public override DbSet<NavigationWidget> CurrentDbSet => (DbContext as CMSDbContext).NavigationWidget;
+        public override DbSet<NavigationWidget> CurrentDbSet => DbContext.NavigationWidget;
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             var currentWidget = widget as NavigationWidget;
@@ -50,7 +50,7 @@ namespace ZKEACMS.Common.Service
                 foreach (var navigationEntity in navs)
                 {
                     if (navigationEntity.Url.IsNotNullAndWhiteSpace()
-                        && path.IndexOf((navigationEntity.Url ?? "").Replace("~/", "/"), StringComparison.OrdinalIgnoreCase) == 0
+                        && path.IndexOf((navigationEntity.Url ?? "").Replace("~/", "/").Replace(".html", string.Empty), StringComparison.OrdinalIgnoreCase) == 0
                         && length < navigationEntity.Url.Length)
                     {
                         current = navigationEntity;

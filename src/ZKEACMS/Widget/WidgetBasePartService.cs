@@ -1,4 +1,4 @@
-﻿/* http://www.zkea.net/ 
+/* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 using Easy;
@@ -21,7 +21,7 @@ using Microsoft.AspNetCore.Http;
 namespace ZKEACMS.Widget
 {
 
-    public class WidgetBasePartService : ServiceBase<WidgetBasePart>, IWidgetBasePartService
+    public class WidgetBasePartService : ServiceBase<WidgetBasePart, CMSDbContext>, IWidgetBasePartService
     {
         protected const string EncryptWidgetTemplate = "EncryptWidgetTemplate";
         private readonly IWidgetActivator _widgetActivator;
@@ -39,7 +39,7 @@ namespace ZKEACMS.Widget
             _pageWidgetCacheManage = pageWidgetCacheManage;
             IsNeedNotifyChange = true;
         }
-        public override DbSet<WidgetBasePart> CurrentDbSet => (DbContext as CMSDbContext).WidgetBasePart;
+        public override DbSet<WidgetBasePart> CurrentDbSet => DbContext.WidgetBasePart;
         public bool IsNeedNotifyChange { get; set; }
 
         private void TriggerChange(WidgetBase widget)
@@ -65,6 +65,11 @@ namespace ZKEACMS.Widget
 
         }
 
+        public override IQueryable<WidgetBasePart> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
+        }
+
         public IEnumerable<WidgetBase> GetByLayoutId(string layoutId)
         {
             return Get(m => m.LayoutID == layoutId);
@@ -76,13 +81,13 @@ namespace ZKEACMS.Widget
 
         public IEnumerable<WidgetBase> GetAllByPage(PageEntity page)
         {
-            Func<PageEntity, List<WidgetBase>> getPageWidgets = p =>
+            List<WidgetBase> getPageWidgets(PageEntity p)
             {
                 var result = GetByLayoutId(p.LayoutId);
                 List<WidgetBase> widgets = result.ToList();
                 widgets.AddRange(GetByPageId(p.ID));
                 return widgets.Select(widget => _widgetActivator.Create(widget)?.GetWidget(widget)).ToList();
-            };
+            }
             if (page.IsPublishedPage)
             {
                 return _pageWidgetCacheManage.GetOrAdd(page.ID, page.ReferencePageID, (key, region) => getPageWidgets(page));
@@ -91,11 +96,11 @@ namespace ZKEACMS.Widget
         }
         public IEnumerable<WidgetBase> GetAllByRule(int[] roleId, bool formCache = false)
         {
-            Func<int[], List<WidgetBase>> getWidgets = p =>
+            List<WidgetBase> getWidgets(int[] p)
             {
                 var result = Get(m => p.Contains(m.RuleID.Value));
                 return result.Select(widget => _widgetActivator.Create(widget)?.GetWidget(widget)).ToList();
-            };
+            }
             return getWidgets(roleId);
         }
 

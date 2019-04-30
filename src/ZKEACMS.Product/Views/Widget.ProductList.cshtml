@@ -1,4 +1,4 @@
-﻿@using System.Text.RegularExpressions
+@using System.Text.RegularExpressions
 @model ZKEACMS.Product.ViewModel.ProductListWidgetViewModel
 
 <div class="productlist">
@@ -46,7 +46,7 @@
 
     @if (Model.IsPageable)
     {
-        Html.Pagin(Model.Page);
+        await Html.Pagin(Model.Page);
     }
 </div>
 

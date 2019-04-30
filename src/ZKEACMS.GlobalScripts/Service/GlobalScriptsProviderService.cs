@@ -1,4 +1,4 @@
-﻿using Easy.RepositoryPattern;
+using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +35,14 @@ namespace ZKEACMS.GlobalScripts.Service
                 {
                     HtmlContentBuilder htmlContentBuilder = new HtmlContentBuilder();
                     htmlContentBuilder.AppendHtml(script.Script);
-                    applicationContext.FooterPart.Add(htmlContentBuilder);
+                    if (script.Location == (int)ScriptLocation.Header)
+                    {
+                        applicationContext.HeaderPart.Add(htmlContentBuilder);
+                    }
+                    else
+                    {
+                        applicationContext.FooterPart.Add(htmlContentBuilder);
+                    }
                 }
                 else
                 {
@@ -43,7 +50,14 @@ namespace ZKEACMS.GlobalScripts.Service
                     htmlContentBuilder.AppendHtml("<script type=\"text/javascript\">");
                     htmlContentBuilder.AppendHtml(script.Script);
                     htmlContentBuilder.AppendHtml("</script>");
-                    applicationContext.FooterPart.Add(htmlContentBuilder);
+                    if (script.Location == (int)ScriptLocation.Header)
+                    {
+                        applicationContext.HeaderPart.Add(htmlContentBuilder);
+                    }
+                    else
+                    {
+                        applicationContext.FooterPart.Add(htmlContentBuilder);
+                    }
                 }
             }
 

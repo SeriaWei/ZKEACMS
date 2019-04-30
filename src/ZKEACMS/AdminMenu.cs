@@ -1,4 +1,4 @@
-﻿/* http://www.zkea.net/ 
+/* http://www.zkea.net/ 
  * Copyright 2018 ZKEASOFT 
  * http://www.zkea.net/licenses */
 
@@ -16,6 +16,7 @@ namespace ZKEACMS
         public string PermissionKey { get; set; }
         public Func<bool> HasPermission { get; set; }
         public string Group { get; set; }
+        public string PluginName { get; set; }
         public IEnumerable<AdminMenu> Children { get; set; }
     }
     public static class AdminMenus
@@ -60,12 +61,19 @@ namespace ZKEACMS
                 Order = 2,
                 PermissionKey = PermissionKeys.ViewPage
             },
-
+            new AdminMenu
+            {
+                Title = "导航",
+                Icon = "glyphicon-retweet",
+                Url = "~/admin/Navigation",
+                Order = 3,
+                PermissionKey = PermissionKeys.ViewNavigation
+            },
             new AdminMenu
             {
                 Title = "基础内容",
                 Icon = "glyphicon-tree-deciduous",
-                Order = 3,
+                Order = 4,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu
@@ -78,18 +86,10 @@ namespace ZKEACMS
                     },
                     new AdminMenu
                     {
-                        Title = "导航",
-                        Icon = "glyphicon-retweet",
-                        Url = "~/admin/Navigation",
-                        Order = 2,
-                        PermissionKey = PermissionKeys.ViewNavigation
-                    },
-                    new AdminMenu
-                    {
                         Title = "焦点图",
                         Icon = "glyphicon-eye-open",
                         Url = "~/admin/Carousel",
-                        Order = 3,
+                        Order = 2,
                         PermissionKey = PermissionKeys.ViewCarousel
                     },
                     new AdminMenu
@@ -97,18 +97,18 @@ namespace ZKEACMS
                         Title = "媒体库",
                         Icon = "glyphicon-picture",
                         Url = "~/admin/Media",
-                        Order = 4,
+                        Order = 3,
                         PermissionKey = PermissionKeys.ViewMedia
+                    },
+                    new AdminMenu
+                    {
+                        Title = "主题",
+                        Icon = "glyphicon-blackboard",
+                        Url = "~/admin/Theme",
+                        Order = 4,
+                        PermissionKey = PermissionKeys.ViewTheme
                     }
                 }
-            },
-            new AdminMenu
-            {
-                Title = "主题",
-                Icon = "glyphicon-blackboard",
-                Url = "~/admin/Theme",
-                Order = 4,
-                PermissionKey = PermissionKeys.ViewTheme
             },
             new AdminMenu
             {
@@ -171,6 +171,14 @@ namespace ZKEACMS
                         Url = "~/admin/Language",
                         Order = 7,
                         PermissionKey = PermissionKeys.ManageLanguage
+                    },
+                    new AdminMenu
+                    {
+                        Title = "插件",
+                        Icon = "glyphicon-equalizer",
+                        Url = "~/admin/Plugin",
+                        Order = 99,
+                        PermissionKey = PermissionKeys.ViewPlugins
                     },
                     new AdminMenu
                     {

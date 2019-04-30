@@ -1,6 +1,7 @@
-﻿/* http://www.zkea.net/ 
+/* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace ZKEACMS.Product.Models
 {
-    [Table("ProductTag")]
+    [DataTable("ProductTag")]
     public class ProductTag
     {
         [Key]

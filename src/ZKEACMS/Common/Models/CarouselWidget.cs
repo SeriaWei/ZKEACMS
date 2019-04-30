@@ -11,10 +11,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.DependencyInjection;
 using Easy.Constant;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Common.Models
 {
-    [Table("CarouselWidget")]
+    [DataTable("CarouselWidget")]
     public class CarouselWidget : BasicWidget
     {
         public CarouselWidget()

@@ -10,7 +10,7 @@ using System;
 
 namespace ZKEACMS.Layout
 {
-    [Table("CMS_LayoutHtml")]
+    [DataTable("CMS_LayoutHtml")]
     public class LayoutHtml : EditorEntity
     {
         [Key]

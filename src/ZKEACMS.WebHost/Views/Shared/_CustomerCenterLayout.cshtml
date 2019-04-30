@@ -3,11 +3,10 @@
     Style.Reqiured("Customer").AtHead();
     Style.Reqiured("Easy").AtHead();
     var current = themeService.GetCurrentTheme();
-    List<AdminMenu> menu = new List<AdminMenu>();
-    userCenterLinksProvider.Each(p => menu.AddRange(p.GetLinks()));
+    IEnumerable<AdminMenu> menu = userCenterLinkService.GetLinks();
 }
 @inject IThemeService themeService
-@inject IEnumerable<IUserCenterLinksProvider> userCenterLinksProvider
+@inject IUserCenterLinkService userCenterLinkService
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->

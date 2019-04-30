@@ -55,9 +55,10 @@ namespace ZKEACMS.Controllers
         }
         public IActionResult Create()
         {
-            List<LanguageEntity> culture = new List<LanguageEntity>();
-
-            culture.Add(new LanguageEntity { CultureName = _cultureOption.Value.Code });
+            List<LanguageEntity> culture = new List<LanguageEntity>
+            {
+                new LanguageEntity { CultureName = _cultureOption.Value.Code }
+            };
 
             return View(culture);
         }
@@ -67,7 +68,7 @@ namespace ZKEACMS.Controllers
             if (_languageService.GetCultures(LanKey).Any())
             {
                 ViewBag.LanKey = LanKey;
-                ModelState.AddModelError("LanKey", _localize.Get("·­Òë¼üÒÑ´æÔÚ"));
+                ModelState.AddModelError("LanKey", _localize.Get("ç¿»è¯‘é”®å·²å­˜åœ¨"));
                 return View(language);
             }
             foreach (var item in language)

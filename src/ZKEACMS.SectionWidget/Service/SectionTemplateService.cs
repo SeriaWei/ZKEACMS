@@ -7,7 +7,7 @@ using System;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionTemplateService : ServiceBase<SectionTemplate>, ISectionTemplateService
+    public class SectionTemplateService : ServiceBase<SectionTemplate, CMSDbContext>, ISectionTemplateService
     {
         public SectionTemplateService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {

@@ -1,4 +1,4 @@
-﻿/* http://www.zkea.net/ 
+/* http://www.zkea.net/ 
  * Copyright 2018 ZKEASOFT 
  * http://www.zkea.net/licenses 
  */
@@ -21,14 +21,14 @@ using Microsoft.AspNetCore.Http;
 
 namespace ZKEACMS.Page
 {
-    public class PageService : ServiceBase<PageEntity>, IPageService
+    public class PageService : ServiceBase<PageEntity, CMSDbContext>, IPageService
     {
         private readonly IWidgetBasePartService _widgetService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWidgetActivator _widgetActivator;
         private readonly IZoneService _zoneService;
         private readonly ILayoutHtmlService _layoutHtmlService;
-
+        private Dictionary<string, IEnumerable<PageEntity>> _cachedPage;
         public PageService(IWidgetBasePartService widgetService,
             IApplicationContext applicationContext,
             IHttpContextAccessor httpContextAccessor,
@@ -43,13 +43,31 @@ namespace ZKEACMS.Page
             _widgetActivator = widgetActivator;
             _zoneService = zoneService;
             _layoutHtmlService = layoutHtmlService;
+            _cachedPage = new Dictionary<string, IEnumerable<PageEntity>>();
+        }
+
+        private string FormatPath(string path)
+        {
+            if (path != "/" && path.EndsWith("/"))
+            {
+                path = path.Substring(0, path.Length - 1);
+            }
+            if (path == "/")
+            {
+                path = "~/index";
+            }
+            else
+            {
+                path = $"~{path}";
+            }
+            return path;
         }
 
         public override DbSet<PageEntity> CurrentDbSet
         {
-            get { return (DbContext as CMSDbContext).Page; }
+            get { return DbContext.Page; }
         }
-        
+
         public override ServiceResult<PageEntity> Add(PageEntity item)
         {
             if (!item.IsPublishedPage && Count(m => m.Url == item.Url && m.IsPublishedPage == false) > 0)
@@ -298,22 +316,15 @@ namespace ZKEACMS.Page
         }
         public PageEntity GetByPath(string path, bool isPreView)
         {
-            if (path != "/" && path.EndsWith("/"))
+            string formatedPath = FormatPath(path);
+            if (_cachedPage.ContainsKey(formatedPath))
             {
-                path = path.Substring(0, path.Length - 1);
+                return _cachedPage[formatedPath].Where(m => m.Url == formatedPath && m.IsPublishedPage == !isPreView)
+                      .OrderByDescending(m => m.PublishDate)
+                      .FirstOrDefault();
             }
-            if (path == "/")
-            {
-                path = "~/index";
-            }
-            else
-            {
-                path = $"~{path}";
-            }
-
-
             return Get()
-                      .Where(m => m.Url == path && m.IsPublishedPage == !isPreView)
+                      .Where(m => m.Url == formatedPath && m.IsPublishedPage == !isPreView)
                       .OrderByDescending(m => m.PublishDate)
                       .FirstOrDefault();
         }
@@ -332,6 +343,17 @@ namespace ZKEACMS.Page
                 }
                 base.Update(pageEntity);
             }
+        }
+
+        public bool IsExists(string path)
+        {
+            string formatedPath = FormatPath(path);
+            var pages = Get(m => m.Url == formatedPath);
+            if (pages.Any() && !_cachedPage.ContainsKey(path))
+            {
+                _cachedPage.Add(formatedPath, pages);
+            }
+            return pages.Any();
         }
     }
 }

@@ -1023,6 +1023,9 @@
 			if(obj && obj.id) {
 				obj = obj.id;
 			}
+			if (obj instanceof jQuery && obj.length && obj[0].id) {
+				obj = obj[0].id;
+			}
 			var dom;
 			try {
 				if(this._model.data[obj]) {
@@ -1034,10 +1037,10 @@
 				else if(typeof obj === "string" && (dom = $('#' + obj.replace($.jstree.idregex,'\\$&'), this.element)).length && this._model.data[dom.closest('.jstree-node').attr('id')]) {
 					obj = this._model.data[dom.closest('.jstree-node').attr('id')];
 				}
-				else if((dom = $(obj, this.element)).length && this._model.data[dom.closest('.jstree-node').attr('id')]) {
+				else if((dom = this.element.find(obj)).length && this._model.data[dom.closest('.jstree-node').attr('id')]) {
 					obj = this._model.data[dom.closest('.jstree-node').attr('id')];
 				}
-				else if((dom = $(obj, this.element)).length && dom.hasClass('jstree')) {
+				else if((dom = this.element.find(obj)).length && dom.hasClass('jstree')) {
 					obj = this._model.data[$.jstree.root];
 				}
 				else {
@@ -2325,7 +2328,7 @@
 				this.element.empty().append(f);
 				//this.get_container_ul()[0].appendChild(f);
 			}
-			if(fe !== null) {
+			if(fe !== null && this.settings.core.restore_focus) {
 				tmp = this.get_node(fe, true);
 				if(tmp && tmp.length && tmp.children('.jstree-anchor')[0] !== document.activeElement) {
 					tmp.children('.jstree-anchor').focus();
@@ -4517,6 +4520,7 @@
 							s.replaceWith(a);
 							s.remove();
 							t = f ? t : $('<div></div>').append($.parseHTML(t)).html();
+							obj = this.get_node(obj);
 							this.set_text(obj, t);
 							nv = !!this.rename_node(obj, f ? $('<div></div>').text(v).text() : $('<div></div>').append($.parseHTML(v)).html());
 							if(!nv) {
