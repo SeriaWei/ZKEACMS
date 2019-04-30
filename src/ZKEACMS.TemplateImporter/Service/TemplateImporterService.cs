@@ -30,7 +30,7 @@ namespace ZKEACMS.TemplateImporter.Service
         private readonly IWidgetActivator _widgetActivator;
         private readonly IWdigetCreatorManager _widgetCreatorManager;
         private static Regex jQueryFilter = new Regex(@"^jquery(\d+|\.|-|_)*(.min)?.js", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static Regex BootstrapFilter = new Regex(@"^bootstrap(\d+|\.|-|_)*(.min)?.js", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex BootstrapFilter = new Regex(@"^bootstrap(\d+|\.|-|_)*(.min)?.[js|css]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static Regex StyleUrl = new Regex(@"url\(['|""]?([A-Za-z0-9_|\.|/|-]*)['|""]?\)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private const string ThemeFolder = "themes";
         public TemplateImporterService(IHostingEnvironment hostingEnvironment,
@@ -342,18 +342,25 @@ namespace ZKEACMS.TemplateImporter.Service
         }
         private ThemeEntity CreateTheme(string themeName, List<PositionEntry> cssFiles)
         {
+            const string themeCss = "theme.css";
+            const string themeCssMin = "theme.min.css";
+            const string thumbnail = "thumbnail.jpg";
             #region Write theme.css,theme.min.css
-            using (FileStream themeFilestram = new FileStream(Path.Combine(ThemeBasePath, themeName, "theme.min.css"), FileMode.Create))
+            using (FileStream themeFilestram = new FileStream(Path.Combine(ThemeBasePath, themeName, themeCssMin), FileMode.Create))
             {
                 using (StreamWriter writer = new StreamWriter(themeFilestram))
                 {
+                    if (cssFiles.All(css => !BootstrapFilter.IsMatch(css.Entry)))
+                    {
+                        writer.WriteLine("@import url(\"/lib/bootstrap/dist/css/bootstrap.min.css\");");
+                    }
                     foreach (var item in cssFiles.OrderBy(m => m.Position))
                     {
                         writer.WriteLine("@import url(\"{0}\");", item.Entry);
                     }
                 }
             }
-            using (FileStream themeFilestram = new FileStream(Path.Combine(ThemeBasePath, themeName, "theme.css"), FileMode.Create))
+            using (FileStream themeFilestram = new FileStream(Path.Combine(ThemeBasePath, themeName, themeCss), FileMode.Create))
             {
                 using (StreamWriter writer = new StreamWriter(themeFilestram))
                 {
@@ -364,10 +371,10 @@ namespace ZKEACMS.TemplateImporter.Service
                 }
             }
             #endregion
-            if (!File.Exists(Path.Combine(ThemeBasePath, themeName, "thumbnail.jpg")) &&
-                File.Exists(Path.Combine(ThemeBasePath, "Default", "thumbnail.jpg")))
+            if (!File.Exists(Path.Combine(ThemeBasePath, themeName, thumbnail)) &&
+                File.Exists(Path.Combine(ThemeBasePath, "Default", thumbnail)))
             {
-                File.Copy(Path.Combine(ThemeBasePath, "Default", "thumbnail.jpg"), Path.Combine(ThemeBasePath, themeName, "thumbnail.jpg"));
+                File.Copy(Path.Combine(ThemeBasePath, "Default", thumbnail), Path.Combine(ThemeBasePath, themeName, thumbnail));
             }
             ThemeEntity themeEntity = new ThemeEntity
             {
@@ -376,9 +383,9 @@ namespace ZKEACMS.TemplateImporter.Service
                 Description = "By TemplateImporter",
                 IsActived = false,
                 Status = (int)Easy.Constant.RecordStatus.Active,
-                Thumbnail = $"~/{ThemeFolder}/{themeName}/thumbnail.jpg",
-                Url = $"~/{ThemeFolder}/{themeName}/theme.min.css",
-                UrlDebugger = $"~/{ThemeFolder}/{themeName}/theme.css"
+                Thumbnail = $"~/{ThemeFolder}/{themeName}/{thumbnail}",
+                Url = $"~/{ThemeFolder}/{themeName}/{themeCssMin}",
+                UrlDebugger = $"~/{ThemeFolder}/{themeName}/{themeCss}"
             };
 
             var theme = _themeService.Get(themeEntity.ID);
