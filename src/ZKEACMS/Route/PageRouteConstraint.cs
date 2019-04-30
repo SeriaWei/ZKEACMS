@@ -35,7 +35,7 @@ namespace ZKEACMS
                     path = item.ExtractVirtualPath(path, values);
                 }
             }
-            values[routeKey] = path;
+            values[routeKey] = path.ToLower();
             if (path == start) return true;
             return httpContext.RequestServices.GetService<IPageService>().IsExists(path);
         }

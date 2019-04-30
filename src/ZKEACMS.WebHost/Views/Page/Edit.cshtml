@@ -99,7 +99,7 @@
             if (!parentUrl) {
                 parentUrl = "~/";
             }
-            var thisUrl = $(this).val();
+            var thisUrl = $(this).val().toLowerCase();
             var replaceValue = ["/", " ", "?", "`", "~", "!", "@@", "#", "$", "%", "^", "&", "*", "(", ")", "+", "[", "]", "{", "}", "\\", "|", ";", ":", "'", "\"", ",", ".", "<", ">"];
             for (var i = 0; i < replaceValue.length; i++) {
                 thisUrl = thisUrl.replaceAll(replaceValue[i], "-");
