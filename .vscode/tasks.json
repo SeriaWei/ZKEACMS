@@ -106,6 +106,16 @@
             "problemMatcher": "$msCompile"
         },
         {
+            "label": "build ZKEACMS.ZKEACMS.TemplateImporter",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/ZKEACMS.TemplateImporter/ZKEACMS.TemplateImporter.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
             "label": "build ZKEACMS.Updater",
             "command": "dotnet",
             "type": "process",
