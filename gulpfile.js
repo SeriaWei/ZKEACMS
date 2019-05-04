@@ -38,7 +38,7 @@ gulp.task('Auto-CompileTheme-MinifyJS', function (cb) {
             .pipe(minify({
                 ext: { src: '.js', min: '.min.js' },
                 noSource: true,
-                preserveComments:"some"
+                preserveComments: "some"
             }))
             .on("error", function (error) {
                 console.log(error.toString())
@@ -47,6 +47,18 @@ gulp.task('Auto-CompileTheme-MinifyJS', function (cb) {
             .pipe(gulp.dest(function (f) {
                 return f.base;
             }));
+    });
+    var cssWatch = gulp.watch(['src/**/*.css', '!src/**/*.min.css', '!src/ZKEACMS.WebHost/wwwroot/themes/*.min.css']);
+    cssWatch.on('change',function(path){
+        console.log(`Minify ${path}`);
+        gulp.src(path)
+        .pipe(cleanCSS({ inline: ['none'] }))
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        .pipe(gulp.dest(function (f) {
+            return f.base;
+        }));
     });
     cb();
 });

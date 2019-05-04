@@ -68,32 +68,30 @@
                 {
                     <a class="btn btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
                         <i class="glyphicon glyphicon-pencil"></i>
-                        <span>@L("编辑")</span>
+                        @L("编辑")
                     </a>
                     @if (Model.Page.PublishDate.HasValue)
                     {
                         <a class="btn btn-primary" href="@Url.Content(Model.Page.Url)">
                             <i class="glyphicon glyphicon-eye-open"></i>
-                            <span>@L("预览发布版本")</span>
+                            @L("预览发布版本")
                         </a>
                     }
                     <a class="btn btn-primary" href="@Url.Action("Index", "Page",new { PageId=Model.Page.ID })">
                         <i class="glyphicon glyphicon-th-list"></i>
-                        <span>@L("页面概览")</span>
+                        @L("页面概览")
                     </a>
                     <a class="btn btn-primary" href="@Url.Action("PublishPage", "Page", new { Model.Page.ID, ReturnUrl = Model.Page.Url})">
                         <i class="glyphicon glyphicon-open"></i>
-                        <span>@L("发布")</span>
+                        @L("发布")
                     </a>
                     if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
                     {
                         <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme")">
                             <i class="glyphicon glyphicon-transfer"></i>
-                            <span>
-                                @L("退出")
-                                @Model.CurrentTheme.Title
-                                @L("主题")
-                            </span>
+                            @L("退出")
+                            @Model.CurrentTheme.Title
+                            @L("主题")
                         </a>
                     }
                 }
@@ -101,30 +99,28 @@
                 {
                     <a class="btn btn-primary" href="@Url.Action("Design", "Page", new { Model.PreViewPage.ID})">
                         <i class="glyphicon glyphicon-pencil"></i>
-                        <span>@L("编辑")</span>
+                        @L("编辑")
                     </a>
                     <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new { ID = Model.PreViewPage.ID})">
                         <i class="glyphicon glyphicon-eye-open"></i>
-                        <span>@L("预览编辑版本")</span>
+                        @L("预览编辑版本")
                     </a>
                     if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
                     {
                         <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme")">
-                            <i class="glyphicon glyphicon-transfer"></i>
-                            <span>
-                                @L("退出")
-                                @Model.CurrentTheme.Title
-                                @L("主题")
-                            </span>
+                            <i class="glyphicon glyphicon-transfer"></i>                            
+                            @L("退出")
+                            @Model.CurrentTheme.Title
+                            @L("主题")
                         </a>
                     }
                     <a class="btn btn-primary" href="@Url.Action("Index", "Page",new { PageId = Model.PreViewPage.ID })">
                         <i class="glyphicon glyphicon-th-list"></i>
-                        <span>@L("页面概览")</span>
+                        @L("页面概览")
                     </a>
                     <a class="btn btn-primary" href="@Url.Action("Logout", "Account", new { returnurl = ViewContext.HttpContext.Request.Path.Value })">
                         <i class="glyphicon glyphicon-off"></i>
-                        <span>@L("退出")</span>
+                        @L("退出")
                     </a>
                 }
             </div>
