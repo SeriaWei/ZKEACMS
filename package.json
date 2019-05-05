@@ -1,8 +1,8 @@
 {
   "name": "zkeacms",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "use to compile theme, minify javascript and style sheets",
+  "main": "gulpfile.js",
   "dependencies": {},
   "devDependencies": {
     "gulp": "^4.0.1",
@@ -15,6 +15,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "ZKEASOFT",
+  "license": "GPL"
 }

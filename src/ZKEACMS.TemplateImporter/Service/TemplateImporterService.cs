@@ -32,7 +32,7 @@ namespace ZKEACMS.TemplateImporter.Service
         private static Regex jQueryFilter = new Regex(@"^jquery(\d+|\.|-|_)*(.min)?.js$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static Regex BootstrapFilter = new Regex(@"^bootstrap(\d+|\.|-|_)*(.min)?.(js)$|(css)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static Regex StyleUrl = new Regex(@"url\(['|""]?([A-Za-z0-9_|\.|/|-]*)['|""]?\)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-   
+
         private const string ThemeFolder = "themes";
         public TemplateImporterService(IHostingEnvironment hostingEnvironment,
             IThemeService themeService,
@@ -65,6 +65,10 @@ namespace ZKEACMS.TemplateImporter.Service
 
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
+                    if (entry.FullName.StartsWith("__MACOSX/"))
+                    {
+                        continue;
+                    }
                     if (themeName.IsNotNullAndWhiteSpace() && !entry.FullName.StartsWith(themeName))
                     {
                         new DirectoryInfo(Path.Combine(ThemeBasePath, themeName)).Delete(true);
@@ -98,7 +102,10 @@ namespace ZKEACMS.TemplateImporter.Service
                     }
                     if (entry.FullName.EndsWith(".html"))
                     {
-                        entry.Open();
+                        if (entry.FullName.IndexOf('/') != entry.FullName.LastIndexOf('/'))
+                        {
+                            continue;
+                        }
                         HtmlDocument doc = new HtmlDocument();
                         doc.PageName = Path.GetFileName(entry.FullName).Replace(".html", string.Empty);
                         doc.Load(entry.Open());
@@ -117,8 +124,11 @@ namespace ZKEACMS.TemplateImporter.Service
             #region Sort css 
             foreach (var document in documents)
             {
-
                 var links = document.DocumentNode.SelectNodes("//link");
+                if (links == null)
+                {
+                    continue;
+                }
                 for (int i = 0; i < links.Count; i++)
                 {
                     string href = links[i].GetAttributeValue("href", string.Empty);
