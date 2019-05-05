@@ -7,7 +7,7 @@ var minify = require('gulp-minify');
 
 
 function compileTheme(theme) {
-    gulp.src(theme)
+    gulp.src('src/ZKEACMS.WebHost/wwwroot/themes/' + theme + '/css/Theme.less')
         .pipe(sourcemaps.init())
         .pipe(less())
         .pipe(sourcemaps.write())
@@ -22,14 +22,16 @@ function compileTheme(theme) {
             return f.base;
         }));
 }
-
-gulp.task('Compile-Default-Theme', function (cb) {
-    compileTheme('src/ZKEACMS.WebHost/wwwroot/themes/Default/css/Theme.less')
+function themeFilter(theme) {
+    return 'src/ZKEACMS.WebHost/wwwroot/themes/' + theme + '/css/*.less';
+}
+gulp.task('compile-theme:default', function (cb) {
+    compileTheme('Default');
     cb();
 });
 
-gulp.task('Auto-CompileTheme-MinifyJS', function (cb) {
-    gulp.watch('src/ZKEACMS.WebHost/wwwroot/themes/Default/css/*.less', gulp.series('Compile-Default-Theme'));
+gulp.task('watch:theme-js-css', function (cb) {
+    gulp.watch(themeFilter('Default'), gulp.series('compile-theme:default'));
 
     var jsWatch = gulp.watch(['src/**/*.js', '!src/**/*.min.js']);
     jsWatch.on('change', function (path, stats) {
@@ -48,17 +50,17 @@ gulp.task('Auto-CompileTheme-MinifyJS', function (cb) {
                 return f.base;
             }));
     });
-    var cssWatch = gulp.watch(['src/**/*.css', '!src/**/*.min.css', '!src/ZKEACMS.WebHost/wwwroot/themes/*.min.css']);
-    cssWatch.on('change',function(path){
+    var cssWatch = gulp.watch(['src/**/*.css', '!src/**/*.min.css', '!src/ZKEACMS.WebHost/wwwroot/themes/**/*.css']);
+    cssWatch.on('change', function (path) {
         console.log(`Minify ${path}`);
         gulp.src(path)
-        .pipe(cleanCSS({ inline: ['none'] }))
-        .pipe(rename({
-            suffix: '.min'
-        }))
-        .pipe(gulp.dest(function (f) {
-            return f.base;
-        }));
+            .pipe(cleanCSS({ inline: ['none'] }))
+            .pipe(rename({
+                suffix: '.min'
+            }))
+            .pipe(gulp.dest(function (f) {
+                return f.base;
+            }));
     });
     cb();
 });
