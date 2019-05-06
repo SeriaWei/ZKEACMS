@@ -5,11 +5,15 @@ var cleanCSS = require('gulp-clean-css');
 var rename = require('gulp-rename');
 var minify = require('gulp-minify');
 
-
+function handleError(err) {
+    console.log(err.toString());
+    this.emit('end');
+}
 function compileTheme(theme) {
     gulp.src('src/ZKEACMS.WebHost/wwwroot/themes/' + theme + '/css/Theme.less')
         .pipe(sourcemaps.init())
         .pipe(less())
+        .on("error", handleError)
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(function (f) {
             return f.base;
@@ -42,10 +46,7 @@ gulp.task('watch:theme-js-css', function (cb) {
                 noSource: true,
                 preserveComments: "some"
             }))
-            .on("error", function (error) {
-                console.log(error.toString())
-                this.emit('end')
-            })
+            .on("error", handleError)
             .pipe(gulp.dest(function (f) {
                 return f.base;
             }));
