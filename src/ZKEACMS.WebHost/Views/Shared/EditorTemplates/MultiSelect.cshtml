@@ -1,0 +1,36 @@
+﻿@using Easy.ViewPort.Descriptor
+@model System.Collections.IEnumerable
+@{
+    Style.Reqiured("select2").AtHead();
+    Script.Reqiured("select2").AtFoot();
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor() as MutiSelectDescriptor;
+    SelectList selectOptions = null;
+    if (descriptor != null)
+    {
+        if (descriptor.SourceType == SourceType.ViewData)
+        {
+            selectOptions = new SelectList(ViewData[descriptor.SourceKey] as SelectList, "Value", "Text", Model);
+        }
+        else
+        {
+            selectOptions = new SelectList(descriptor.OptionItems, "Key", "Value", Model);
+        }
+    }
+    if (Model != null && selectOptions != null)
+    {
+        foreach(var option in selectOptions)
+        {
+            foreach (var item in Model)
+            {
+                if(item != null && option.Value == item.ToString())
+                {
+                    option.Selected = true;
+                    break;
+                }
+
+            }
+        }
+    }
+}
+
+@Html.ListBox("", selectOptions, descriptor?.ToHtmlProperties())

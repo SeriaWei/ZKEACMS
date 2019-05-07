@@ -361,5 +361,9 @@ $(function () {
         if (actionType.val() !== "Create") {
             actionType.val("Update");
         }
-    })
+    });
+
+    if ($.fn.select2) {
+        $("select[multiple='multiple']").select2();
+    }
 });

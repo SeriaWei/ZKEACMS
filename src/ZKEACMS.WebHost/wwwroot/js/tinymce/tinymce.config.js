@@ -5,17 +5,16 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
         selector: "textarea.html",
         verify_html: false,
         plugins: [
-            "advlist autolink lists link image charmap print preview anchor",
-            "searchreplace visualblocks code fullscreen",
-            "insertdatetime media table contextmenu paste",
-            "filebrowser textcolor hr",
-            "bootstrap pasteImage codesample imagelocal"
+            'print preview searchreplace autolink directionality code visualblocks ',
+            'visualchars fullscreen image link media template codesample table charmap hr pagebreak',
+            'nonbreaking anchor toc insertdatetime advlist lists wordcount',
+            'imagetools textpattern help',
+            "filebrowser bootstrap pasteImage imagelocal"
         ],
-        toolbar: "insertfile undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image filebrowser | code",
-        height: 500,
+        toolbar: 'styleselect | bold italic strikethrough forecolor backcolor | link image media | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent removeformat | bootstrap imagelocal filebrowser preview code',
+        height: 600,
         relative_urls: false,
         language: "zh_CN",
-        skin: 'lightgray',
         table_default_attributes: {
             class:"table table-hover"
         },
@@ -36,6 +35,6 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
             { text: 'C', value: 'c' },
             { text: 'C#', value: 'csharp' },
             { text: 'C++', value: 'cpp' }
-        ],
+        ]
     });
 });

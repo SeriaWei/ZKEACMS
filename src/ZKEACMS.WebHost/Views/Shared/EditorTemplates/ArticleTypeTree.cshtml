@@ -4,7 +4,7 @@
 
 @model int?
 @{
-    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
     Script.Reqiured("jsTree").AtFoot();
     Style.Reqiured("jsTree").AtHead();
     var categoryTree = Html.Tree<ArticleType>().Source("GetArticleTypeTree", "ArticleType", new { module = "admin" })
@@ -12,7 +12,7 @@
     .On(Events.ActiveNode, "activedArticleType");
 }
 <div class="input-group article-type-tree">
-    @Html.Hidden("", Model, descriptor.ToHtmlProperties())
+    @Html.Hidden("", Model, descriptor?.ToHtmlProperties())
     @categoryTree
 </div>
 @using (Script.AtFoot())

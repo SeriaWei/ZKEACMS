@@ -169,7 +169,12 @@ namespace ZKEACMS.Widget
             }
             return result;
         }
-
+        /// <summary>
+        /// Display the specified widget.
+        /// </summary>
+        /// <returns>The widget view model</returns>
+        /// <param name="widget">Widget.</param>
+        /// <param name="actionContext">Action context.</param>
         public virtual WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             return widget.ToWidgetViewModelPart();
@@ -178,6 +183,10 @@ namespace ZKEACMS.Widget
         #region PartDrive
         public virtual void AddWidget(WidgetBase widget)
         {
+            if (widget.PartialView.IsNullOrWhiteSpace())
+            {
+                throw new Exception("Widget.PartialView must be specified!");
+            }
             Add((T)widget);
         }
 
@@ -189,6 +198,10 @@ namespace ZKEACMS.Widget
 
         public virtual void UpdateWidget(WidgetBase widget)
         {
+            if (widget.PartialView.IsNullOrWhiteSpace())
+            {
+                throw new Exception("Widget.PartialView must be specified!");
+            }
             Update((T)widget);
         }
         #endregion

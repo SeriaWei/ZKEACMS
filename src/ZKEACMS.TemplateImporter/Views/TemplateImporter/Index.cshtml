@@ -1,0 +1,56 @@
+﻿@{
+    Script.Reqiured("validate").AtFoot();
+}
+<form enctype="multipart/form-data" method="post">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            @L("静态模板导入")
+        </div>
+        <div class="panel-body">
+            <p>
+                该功能用于将做好的静态页面模板（HTML）导入到系统中。系统将会自动创建对应的页面，主题和内容板块。
+            </p>
+            <h4>注意事项</h4>
+            <ul>
+                <li>导入并不能保证完全可用，可能会存在一些问题需要人工处理</li>
+                <li>上传的包必需为<code>zip</code>格式</li>
+                <li>
+                    压缩包的根目录<strong>有且仅能有一个文件夹</strong>，文件夹名将会作为主题名称和路径，所以请使用英文。
+                    <a href="#" data-toggle="modal" data-target="#help">查看示例</a>
+                </li>
+            </ul>
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.Message
+                </div>
+            }
+            <hr />
+            <label class="btn btn-primary" for="File">选择模板文件 <span class="badge">*.zip</span></label>
+            <div style="position:relative">
+                <span class="field-validation-valid" data-valmsg-for="File" data-valmsg-replace="true" style="position:absolute"></span>
+            </div>
+            <input style="visibility:collapse" data-val="true" data-val-required="请选择静态模板压缩包" id="File" name="File" type="file" />
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="开始导入" class="btn btn-danger" />
+        </div>
+    </div>
+</form>
+
+<div id="help" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@L("示例")</h4>
+            </div>
+            <div class="modal-body">
+                <img src="~/Plugins/ZKEACMS.TemplateImporter/Content/example.jpg" class="thumbnail" style="margin:0 auto" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">@L("关闭")</button>
+            </div>
+        </div>
+    </div>
+</div>

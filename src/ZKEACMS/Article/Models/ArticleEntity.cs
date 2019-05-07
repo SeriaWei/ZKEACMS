@@ -27,7 +27,7 @@ namespace ZKEACMS.Article.Models
         public string ImageUrl { get; set; }
         public int? ArticleTypeID { get; set; }
         public DateTime? PublishDate { get; set; }
-        public bool IsPublish { get; set; }        
+        public bool IsPublish { get; set; }
     }
     class ArticleEntityMeta : ViewMetaData<ArticleEntity>
     {
