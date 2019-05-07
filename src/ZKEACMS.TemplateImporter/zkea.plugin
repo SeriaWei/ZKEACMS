@@ -2,5 +2,6 @@
 	ID:"ABF652DC-905F-4B73-9D46-9E8D35D9CDE5",
 	Name:"ZKEACMS.TemplateImporter",
 	FileName:"ZKEACMS.TemplateImporter.dll",
-	Enable:"true"
+	Enable:"true",
+	Description:"静态模板导入"
 }
