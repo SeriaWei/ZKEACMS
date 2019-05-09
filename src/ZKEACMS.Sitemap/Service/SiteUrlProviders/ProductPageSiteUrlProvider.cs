@@ -22,7 +22,7 @@ namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
         }
         public IEnumerable<SiteUrl> Get()
         {
-            List<string> excuted = new List<string>();
+            HashSet<string> excuted = new HashSet<string>();
             foreach (var item in _sitemapDbContext.ProductListWidget.ToList())
             {
                 if (item.DetailPageUrl.IsNotNullAndWhiteSpace() && !excuted.Contains(item.DetailPageUrl))
