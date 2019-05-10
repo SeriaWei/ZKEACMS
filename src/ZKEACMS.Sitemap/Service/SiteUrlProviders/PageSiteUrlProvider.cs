@@ -25,7 +25,7 @@ namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
         }
         public IEnumerable<SiteUrl> Get()
         {
-            List<string> distinct = new List<string>();
+            HashSet<string> distinct = new HashSet<string>();
             var widgetIds = _sitemapDbContext.ArticleDetailWidget.ToList().Select(m => m.ID).ToArray();
             widgetIds = widgetIds.Concat(_sitemapDbContext.ProductDetailWidget.ToList().Select(m => m.ID)).ToArray();
             var pageIds = _widgetBasePartService.Get(m => widgetIds.Contains(m.ID)).Select(m => m.PageID);
