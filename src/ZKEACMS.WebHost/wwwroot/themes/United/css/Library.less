@@ -1,0 +1,60 @@
+﻿/*!
+ * http://www.zkea.net/
+ * Copyright 2016 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+
+@color-main:#dd4814;
+@color-main-light:#f55219;
+@color-main-actived:#bf4013;
+
+@color-text:#444;
+@color-text-description:#9e9e9e;
+
+@color-border:#ddd;
+@color-disabled:#b4b4b4;
+@color-background:#eeeeee;
+
+@color-danger:#d9534f;
+@color-warning:#f0ad4e;
+@color-info:#31B0D5;
+@color-success:#337AB7;
+
+@fontFamaily:Tahoma, Geneva, '\5fae\8f6f\96c5\9ed1', '\5B8B\4F53';
+@font-size-small:13px;
+@font-size-normal:15px;
+@font-size-large:18px;
+
+@padding-base:10px;
+@margin-base:15px;
+
+@border-thin:1px;
+@border-deep:2px;
+@border-heavy:5px;
+
+@screen-xs: 480px;
+@screen-sm: 768px;
+@screen-md: 976px;
+@screen-tablet: 1024px;
+
+@screen-xs-max: (@screen-xs - 1);
+@screen-sm-max: (@screen-sm - 1);
+@screen-md-max: (@screen-md - 1);
+
+@screen-xs-min: @screen-xs;
+@screen-sm-min: @screen-sm;
+@screen-md-min: @screen-md;
+
+.transition(@style){
+    -moz-transition: @style;
+    -o-transition: @style;
+    -webkit-transition: @style;
+    transition: @style;
+}
+.background-image(@startColor,@endColor){
+  background-image: -webkit-linear-gradient(top, @startColor 0%, @endColor 100%);
+  background-image: -o-linear-gradient(top, @startColor 0%, @endColor 100%);
+  background-image: linear-gradient(to bottom, @startColor 0%, @endColor 100%);
+  background-repeat: repeat-x;
+  background-color: @startColor;
+}
