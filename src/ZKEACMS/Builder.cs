@@ -21,11 +21,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyModel;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -61,13 +63,17 @@ namespace ZKEACMS
     {
         public static void UseZKEACMS(this IServiceCollection services, IConfiguration configuration)
         {
-
             IMvcBuilder mvcBuilder = services.AddMvc(option =>
              {
                  option.ModelBinderProviders.Insert(0, new WidgetTypeModelBinderProvider());
                  option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
                  //option.EnableEndpointRouting = false;
              })
+            .AddRazorOptions(opt =>
+            {
+                opt.ViewLocationExpanders.Clear();
+                opt.ViewLocationExpanders.Add(new ThemeViewLocationExpander());
+            })
             .AddControllersAsServices()
             .AddJsonOptions(option => { option.SerializerSettings.DateFormatString = "yyyy-MM-dd"; })
             .SetCompatibilityVersion(CompatibilityVersion.Latest);
@@ -215,6 +221,14 @@ namespace ZKEACMS
                 {
                     option.LoginPath = new PathString("/Account/Signin");
                 });
+
+            //services.AddScoped<IViewLocationExpander, ThemeViewLocationExpander>();
+
+            //mvcBuilder.AddRazorOptions(opt =>
+            //{
+            //    opt.ViewLocationExpanders.Clear();
+            //    opt.ViewLocationExpanders.Add(new ThemeViewLocationExpander());
+            //});
         }
 
         public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
