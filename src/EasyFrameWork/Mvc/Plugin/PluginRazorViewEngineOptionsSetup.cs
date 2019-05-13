@@ -22,6 +22,7 @@ namespace Easy.Mvc.Plugin
                     options.FileProviders.Add(new DeveloperViewFileProvider(hostingEnvironment));
                 }
                 options.AllowRecompilingViewsOnFileChange = true;
+                options.ViewLocationFormats.Clear();
                 loader.GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>
                 {
                     var directory = new DirectoryInfo(m.RelativePath);
@@ -39,6 +40,8 @@ namespace Easy.Mvc.Plugin
                     }
                 });
                 options.ViewLocationFormats.Add("/Views/{0}" + RazorViewEngine.ViewExtension);
+                options.ViewLocationFormats.Add("/Views/{1}/{0}.cshtml");
+                options.ViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
             })
         {
 
