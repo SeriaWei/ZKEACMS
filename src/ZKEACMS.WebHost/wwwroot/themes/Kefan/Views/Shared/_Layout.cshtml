@@ -41,6 +41,10 @@
     {
         @item
     }
+	@if (!Model.Style.IsNullOrEmpty())
+    {
+        <link href="@Url.Content(Model.Style)" rel="stylesheet" />
+    }
     @if (Model.CurrentTheme != null)
     {
         if (hostingEnvironment.IsDevelopment())
@@ -52,10 +56,7 @@
             <link type="text/css" async rel="stylesheet" href="@Url.Content(Model.CurrentTheme.Url)" />
         }
     }
-	@if (!Model.Style.IsNullOrEmpty())
-    {
-        <link href="@Url.Content(Model.Style)" rel="stylesheet" />
-    }
+	
     @if (!Model.Page.Style.IsNullOrEmpty())
     {
         <link href="@Url.Content(Model.Page.Style)" rel="stylesheet" />
