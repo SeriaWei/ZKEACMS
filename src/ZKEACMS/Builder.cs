@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Session;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -56,6 +57,7 @@ using ZKEACMS.Theme;
 using ZKEACMS.Widget;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.Zone;
+using ZKEACMS.Validate;
 
 namespace ZKEACMS
 {
@@ -63,6 +65,17 @@ namespace ZKEACMS
     {
         public static void UseZKEACMS(this IServiceCollection services, IConfiguration configuration)
         {
+            //添加session
+            services.AddDistributedMemoryCache();
+            services.AddSession(opt =>
+            {
+                opt.IdleTimeout = TimeSpan.FromMinutes(20);
+                //opt.Cookie.Expiration = TimeSpan.FromMinutes(30);
+                //opt.Cookie.MaxAge 
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.IsEssential = true;
+            });
+
             IMvcBuilder mvcBuilder = services.AddMvc(option =>
              {
                  option.ModelBinderProviders.Insert(0, new WidgetTypeModelBinderProvider());
@@ -131,6 +144,7 @@ namespace ZKEACMS
             services.ConfigureCache<IEnumerable<ZoneEntity>>();
             services.ConfigureCache<IEnumerable<LayoutHtml>>();
             services.ConfigureCache<ConcurrentDictionary<string, object>>();
+            services.ConfigureCache<string>();
 
             services.ConfigureMetaData<ArticleEntity, ArticleEntityMeta>();
             services.ConfigureMetaData<ArticleType, ArtycleTypeMetaData>();
@@ -160,6 +174,8 @@ namespace ZKEACMS
             services.ConfigureMetaData<Rule.RuleItem, Rule.RuleItemMetaData>();
             services.ConfigureMetaData<SmtpSetting, SmtpSettingMetaData>();
             services.ConfigureMetaData<Robots, RobotsMetaData>();
+
+            services.AddScoped<IValidateService, DefaultValidateService>();
 
             services.Configure<NavigationWidget>(option =>
             {
@@ -221,14 +237,6 @@ namespace ZKEACMS
                 {
                     option.LoginPath = new PathString("/Account/Signin");
                 });
-
-            //services.AddScoped<IViewLocationExpander, ThemeViewLocationExpander>();
-
-            //mvcBuilder.AddRazorOptions(opt =>
-            //{
-            //    opt.ViewLocationExpanders.Clear();
-            //    opt.ViewLocationExpanders.Add(new ThemeViewLocationExpander());
-            //});
         }
 
         public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
@@ -242,6 +250,7 @@ namespace ZKEACMS
             ServiceLocator.Setup(httpContextAccessor);
             applicationBuilder.ConfigureResource();
             applicationBuilder.ConfigurePlugin(hostingEnvironment);
+            applicationBuilder.UseSession();
             applicationBuilder.UseMvc(routes =>
             {
                 applicationBuilder.ApplicationServices.GetService<IRouteProvider>().GetRoutes().OrderByDescending(route => route.Priority).Each(route =>

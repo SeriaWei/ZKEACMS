@@ -110,6 +110,8 @@ namespace ZKEACMS.FormGenerator
             serviceCollection.AddTransient<IFormDataValidator, RequiredFormDataValidator>();
             serviceCollection.AddTransient<IFormDataValidator, MaxLengthFormDataValidator>();
             serviceCollection.AddTransient<IFormDataValidator, RegexPatternValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, PhoneFormDataValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, ValidCodeFormDataValidator>();
 
             serviceCollection.TryAddTransient<IFormService, FormService>();
             serviceCollection.TryAddTransient<IFormDataService, FormDataService>();
