@@ -4,7 +4,6 @@
  * 深圳市纸壳软件有限公司
  * http://www.zkea.net/licenses
  */
-
 using Easy;
 using Easy.Mvc.Resource;
 using Microsoft.AspNetCore.Builder;
