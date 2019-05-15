@@ -2,11 +2,11 @@ FROM microsoft/dotnet:2.2.100-sdk AS builder
 WORKDIR /build
 # Copy all files
 COPY . ./
+ENV PATH="${PATH}:/root/.dotnet/tools"
 RUN dotnet restore
 RUN dotnet tool install -g ZKEACMS.Publisher
 # Release ZKEACMS.WebHost
 WORKDIR /build/src/ZKEACMS.WebHost
-ENV PATH "$PATH:/root/.dotnet/tools"
 RUN publish-zkeacms
 
 # Copy Database
