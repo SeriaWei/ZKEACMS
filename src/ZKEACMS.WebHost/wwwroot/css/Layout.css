@@ -399,6 +399,7 @@ label.additional {
 .zoneToolbar .tools {
     padding: 0 10px;
     vertical-align: baseline;
+    line-height:1.5;
 }
 
     .zoneToolbar .tools .transfer-container {
@@ -524,9 +525,57 @@ label.additional {
 
 #toolBar {
     border-radius: 0;
+    top:0;
+    margin:0;
 }
 
-
+#toolBar .navbar-brand {
+    float: left !important;
+    height: 50px !important;
+    padding: 15px 15px !important;
+    font-size: 18px !important;
+    line-height: 20px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    background: none !important;
+}
+#toolBar .glyphicon{
+    color: inherit;
+}
+#toolBar .btn .caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px solid #000;
+    border-right: 4px solid transparent;
+    border-bottom: 0 dotted;
+    border-left: 4px solid transparent;
+    content: "";
+    background: none;
+    padding: 0;
+}
+#toolBar .btn .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    border: 0;
+}
+#toolBar .navbar-nav{
+    float: left;
+}
+#toolBar .navbar-nav > li{
+    width: auto;
+}
+#toolBar .navbar-nav > li a{
+    font-size: 14px;
+    padding: 13px;
+}
 .AddCol.ui-draggable-dragging > select {
     display: none;
 }
@@ -600,6 +649,8 @@ label.additional {
         padding: 8px 4px;
         border-top-left-radius: 5px;
         border-bottom-left-radius: 5px;
+        font-weight: bold;
+        font-size: 14px;
     }
 
     .templates img.template {

@@ -31,7 +31,7 @@ namespace ZKEACMS.Theme
         private readonly ConcurrentDictionary<string, object> _cache;
         private readonly ConcurrentDictionary<string, object> _versionMap;
         private const string CurrentThemeCacheKey = "CurrentThemeCacheKey";
-        private const string CurrentThemeVersionMapCacheKey = "CurrentThemeVersionMapCacheKey"; 
+        private const string CurrentThemeVersionMapCacheKey = "CurrentThemeVersionMapCacheKey";
 
         public ThemeService(ICookie cookie,
             IHttpContextAccessor httpContextAccessor,
@@ -106,16 +106,13 @@ namespace ZKEACMS.Theme
         {
             if (id.IsNullOrEmpty()) return;
 
+            var activeTheme = Get(m => m.IsActived);
+            activeTheme.Each(m => m.IsActived = false);
+            UpdateRange(activeTheme.ToArray());
             var theme = Get(id);
-            if (theme != null)
-            {
-                var otherTheme = new ThemeEntity { IsActived = false };
-                var activeTheme = Get(m => m.IsActived);
-                activeTheme.Each(m => m.IsActived = false);
-                UpdateRange(activeTheme.ToArray());
-                theme.IsActived = true;
-                Update(theme);
-            }
+            theme.IsActived = true;
+            Update(theme);
+
         }
 
         private string VersionSource(string source)
