@@ -5,7 +5,6 @@
     //string value = Html.Raw(Model).ToString();
     //value = System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(value);
     string name = ViewData.TemplateInfo.GetFullHtmlFieldName("");
-
     var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
 
     if (descriptor != null && !descriptor.Properties.ContainsKey("rows"))
@@ -24,16 +23,21 @@
 @using (Script.AtFoot())
 {
     <script type="text/javascript">
-        var content = document.getElementById('@name');
-        var editor = CodeMirror.fromTextArea(content, {
+        var editor = CodeMirror.fromTextArea(document.getElementById('@name'), {
             lineNumbers: true,
             mode: "htmlmixed",
             theme: 'monokai',
             lineWrapping: true,
             autofocus: true,
             tabSize: 2,
-            extraKeys: { "Ctrl-Space": "autocomplete" },
+            extraKeys: { "Ctrl-J": "autocomplete" },
             autoCloseTags: true
+        });
+
+        editor.on("keypress", () => {
+            //编译器内容更改事件
+            editor.closeHint();
+            editor.showHint();
         });
     </script>
 }
