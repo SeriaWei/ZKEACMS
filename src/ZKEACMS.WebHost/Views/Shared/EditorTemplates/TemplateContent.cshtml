@@ -1,0 +1,39 @@
+﻿@model string
+@{
+    Style.Reqiured("codemirror").AtHead();
+    Script.Reqiured("codemirror").AtFoot();
+    //string value = Html.Raw(Model).ToString();
+    //value = System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(value);
+    string name = ViewData.TemplateInfo.GetFullHtmlFieldName("");
+
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
+
+    if (descriptor != null && !descriptor.Properties.ContainsKey("rows"))
+    {
+        descriptor.Properties.Add("rows", "5");
+    }
+}
+<style type="text/css">
+    .CodeMirror {
+        width: 100%;
+        height: 100%;
+        font-size: 18px;
+    }
+</style>
+@Html.TextArea("", Model, descriptor?.ToHtmlProperties())
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        var content = document.getElementById('@name');
+        var editor = CodeMirror.fromTextArea(content, {
+            lineNumbers: true,
+            mode: "htmlmixed",
+            theme: 'monokai',
+            lineWrapping: true,
+            autofocus: true,
+            tabSize: 2,
+            extraKeys: { "Ctrl-Space": "autocomplete" },
+            autoCloseTags: true
+        });
+    </script>
+}

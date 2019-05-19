@@ -143,6 +143,8 @@ namespace ZKEACMS
             services.ConfigureCache<IEnumerable<WidgetBase>>();
             services.ConfigureCache<IEnumerable<ZoneEntity>>();
             services.ConfigureCache<IEnumerable<LayoutHtml>>();
+            services.ConfigureCache<IEnumerable<ThemeEntity>>();
+            services.ConfigureCache<List<TemplateFile>>();
             services.ConfigureCache<ConcurrentDictionary<string, object>>();
             services.ConfigureCache<string>();
 
@@ -174,8 +176,11 @@ namespace ZKEACMS
             services.ConfigureMetaData<Rule.RuleItem, Rule.RuleItemMetaData>();
             services.ConfigureMetaData<SmtpSetting, SmtpSettingMetaData>();
             services.ConfigureMetaData<Robots, RobotsMetaData>();
+            services.ConfigureMetaData<TemplateFile, TemplateFileMetaData>();
 
             services.AddScoped<IValidateService, DefaultValidateService>();
+
+            services.AddScoped<ITemplateService, TemplateService>();
 
             services.Configure<NavigationWidget>(option =>
             {
