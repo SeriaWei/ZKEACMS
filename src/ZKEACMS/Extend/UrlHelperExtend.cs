@@ -139,5 +139,12 @@ namespace ZKEACMS
             }
             return $"{helper.ActionContext.RouteData.GetPath()}";
         }
+
+        public static string[] ToArray(this IUrlHelper url , string path)
+        {
+            string p = url.PathContent(path);
+            if (p == "/") return null;
+            return p.Split('/');
+        }
     }
 }

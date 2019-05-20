@@ -13,6 +13,7 @@ using System.Collections.Concurrent;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Easy.Cache;
+using Easy.Constant;
 
 namespace ZKEACMS.Theme
 {
@@ -33,11 +34,14 @@ namespace ZKEACMS.Theme
         private const string CurrentThemeCacheKey = "CurrentThemeCacheKey";
         private const string CurrentThemeVersionMapCacheKey = "CurrentThemeVersionMapCacheKey";
 
+        private readonly ICacheManager<IEnumerable<ThemeEntity>> _cacheMgr;
+        private const string AllThemeCacheKey = "AllThemeCacheKey";
         public ThemeService(ICookie cookie,
             IHttpContextAccessor httpContextAccessor,
             IHostingEnvironment hostingEnvironment,
             IApplicationContext applicationContext,
             ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
+            ICacheManager<IEnumerable<ThemeEntity>> cacheMgr,
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
@@ -46,6 +50,7 @@ namespace ZKEACMS.Theme
             _hostingEnvironment = hostingEnvironment;
             _cache = cacheManager.GetOrAdd(CurrentThemeCacheKey, key => new ConcurrentDictionary<string, object>());
             _versionMap = cacheManager.GetOrAdd(CurrentThemeVersionMapCacheKey, key => new ConcurrentDictionary<string, object>());
+            _cacheMgr = cacheMgr;
         }
 
         public override DbSet<ThemeEntity> CurrentDbSet => DbContext.Theme;
@@ -101,6 +106,11 @@ namespace ZKEACMS.Theme
             return theme;
         }
 
+        public IEnumerable<ThemeEntity> GetAllThemes()
+        {
+            int status = (int)RecordStatus.Active;
+            return _cacheMgr.GetOrAdd(AllThemeCacheKey, (key) => Get(m => m.Status == status));
+        }
 
         public void ChangeTheme(string id)
         {

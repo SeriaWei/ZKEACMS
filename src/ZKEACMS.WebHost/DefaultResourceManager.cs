@@ -35,6 +35,7 @@ namespace ZKEACMS.WebHost
 
             script("validate")
                 .Include($"{LibraryPath}/jquery-validation/dist/jquery.validate.js", $"{LibraryPath}/jquery-validation/dist/jquery.validate.min.js")
+                .Include($"{LibraryPath}/jquery-validation/dist/additional-methods.js", $"{LibraryPath}/jquery-validation/dist/additional-methods.min.js")
                 .Include($"{LibraryPath}/jquery-validation-unobtrusive/src/jquery.validate.unobtrusive.js");
 
             script("jsTree")
@@ -74,7 +75,7 @@ namespace ZKEACMS.WebHost
                 .Include($"{LibraryPath}/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js");
 
             script("pjax")
-                .Include($"{LibraryPath}/jquery-pjax/jquery.pjax.js");            
+                .Include($"{LibraryPath}/jquery-pjax/jquery.pjax.js");
 
             script("angular")
                 .Include($"{LibraryPath}/angular/angular.js", $"{LibraryPath}/angular/angular.min.js");
@@ -84,6 +85,16 @@ namespace ZKEACMS.WebHost
 
             script("image-viewer")
                 .Include($"{ScriptPath}/cimageviewer.min.js");
+
+            script("codemirror").Include($"{LibraryPath}/codemirror/lib/codemirror.js")
+                .Include($"{LibraryPath}/codemirror/addon/edit/closetag.js")
+                .Include($"{LibraryPath}/codemirror/mode/xml/xml.js")
+                .Include($"{LibraryPath}/codemirror/mode/javascript/javascript.js")
+                .Include($"{LibraryPath}/codemirror/mode/css/css.js")
+                .Include($"{LibraryPath}/codemirror/mode/htmlmixed/htmlmixed.js")
+                .Include($"{LibraryPath}/codemirror/addon/hint/show-hint.js")
+                .Include($"{LibraryPath}/codemirror/addon/hint/xml-hint.js")
+                .Include($"{LibraryPath}/codemirror/addon/hint/html-hint.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
@@ -135,6 +146,10 @@ namespace ZKEACMS.WebHost
 
             style("rule")
                 .Include($"{StylePath}/rule.css", $"{StylePath}/rule.min.css");
+
+            style("codemirror").Include($"{LibraryPath}/codemirror/lib/codemirror.css")
+                .Include($"{LibraryPath}/codemirror/theme/monokai.css")
+                .Include($"{LibraryPath}/codemirror/addon/hint/show-hint.css");
         }
     }
 }

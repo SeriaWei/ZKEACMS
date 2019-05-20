@@ -28,7 +28,10 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.IsSystem).AsHidden();
             ViewConfig(m => m.ServiceTypeName).AsHidden().Required();
             ViewConfig(m => m.ViewModelTypeName).AsHidden().Required();
-            ViewConfig(m => m.PartialView).AsHidden().Required();
+            //update by roc 
+            //后台可以修改 PartialView 字段 ,前端可以替换任意 视图页面
+            ViewConfig(m => m.PartialView).AsTextBox().Required();
+            //ViewConfig(m => m.PartialView).AsHidden().Required();
             ViewConfig(m => m.LayoutID).AsHidden();
             ViewConfig(m => m.PageID).AsHidden();
             ViewConfig(m => m.RuleID).AsHidden();

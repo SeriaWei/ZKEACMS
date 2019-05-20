@@ -31,6 +31,7 @@ if "%dbPassword%"=="" set dbPassword=sa
 
 @echo Please wait...
 @echo Creating DataBase %dataBase%
+set dbname='%dataBase%'
 sqlcmd -S %server% -d master -U %dbUserId% -P %dbPassword% -b -i "CreateDataBase.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
 
