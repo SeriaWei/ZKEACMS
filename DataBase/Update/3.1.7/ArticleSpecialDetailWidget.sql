@@ -1,4 +1,4 @@
-CREATE TABLE [dbo].[ArticleSpecialDetailWidget](
+О╩©CREATE TABLE [dbo].[ArticleSpecialDetailWidget](
 	[ID] [nvarchar](100) NOT NULL,
 	[ArticleId] [int] NULL,
 	[ArticleName] [nvarchar](100) NULL,
@@ -9,6 +9,6 @@ CREATE TABLE [dbo].[ArticleSpecialDetailWidget](
 ) ON [PRIMARY]
 
 
-UPDATE dbo.Language SET LanValue='ндубID' WHERE LanKey='ArticleSpecialDetailWidget@ArticleId'
+UPDATE dbo.Language SET LanValue='Ф√┤Г╚═ID' WHERE LanKey='ArticleSpecialDetailWidget@ArticleId'
 
-UPDATE dbo.Language SET LanValue='ндубс╒ндцШ' WHERE LanKey='ArticleSpecialDetailWidget@ArticleName'
+UPDATE dbo.Language SET LanValue='Ф√┤Г╚═Х▀╠Ф√┤Е░█' WHERE LanKey='ArticleSpecialDetailWidget@ArticleName'
