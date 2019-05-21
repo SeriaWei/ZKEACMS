@@ -8,8 +8,7 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Models
 {
-    [DataTable("ArticleSpecialDetailWidget")]
-    public class ArticleSpecialDetailWidget : BasicWidget
+    public class ArticleSpecialDetailWidget : SimpleWidgetBase
     {
         /// <summary>
         ///  对应Article的ID字段

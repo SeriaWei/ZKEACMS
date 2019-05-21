@@ -71,14 +71,6 @@ namespace ZKEACMS
             },
             new AdminMenu
             {
-                Title = "模板",
-                Icon = "glyphicon-list-alt",
-                Url = "~/admin/Template",
-                Order = 4,
-                PermissionKey = PermissionKeys.ViewTemplate
-            },
-            new AdminMenu
-            {
                 Title = "基础内容",
                 Icon = "glyphicon-tree-deciduous",
                 Order = 5,
@@ -115,6 +107,14 @@ namespace ZKEACMS
                         Url = "~/admin/Theme",
                         Order = 4,
                         PermissionKey = PermissionKeys.ViewTheme
+                    },
+                    new AdminMenu
+                    {
+                        Title = "模板",
+                        Icon = "glyphicon-list-alt",
+                        Url = "~/admin/Template",
+                        Order = 4,
+                        PermissionKey = PermissionKeys.ViewTemplate
                     }
                 }
             },
