@@ -12,12 +12,6 @@
         descriptor.Properties.Add("rows", "5");
     }
 }
-<style type="text/css">
-    .CodeMirror {
-        width: 100%;
-        height: 100%;
-    }
-</style>
 @Html.TextArea("", Model, descriptor?.ToHtmlProperties())
 @using (Script.AtFoot())
 {
