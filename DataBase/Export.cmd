@@ -9,8 +9,7 @@ REM:https://github.com/microsoft/mssql-scripter/blob/dev/doc/usage_guide.md
 @echo Documents
 @echo http://www.zkea.net/zkeacms/document
 @echo -----------------------------------------------------------------------------
-@echo Will generate Schema and data script for ZKEACMS database
-@echo Save to ./script.sql
+@echo Will generate all data scripts for ZKEACMS database
 @echo -----------------------------------------------------------------------------
 @echo Press Enter to use the default setting
 @echo Working directory:%cd%
@@ -23,5 +22,14 @@ if "%dbUserId%"=="" set dbUserId=sa
 set /P dbPassword=4.Password (sa):
 if "%dbPassword%"=="" set dbPassword=sa
 
-@echo Schema and data
+@echo Generate Schema
+cd Tables
+call ExportSchema.cmd %server% %dataBase% %dbUserId% %dbPassword%
+cd ..
+@echo Generate Data
+cd InitialData
+call ExportData.cmd %server% %dataBase% %dbUserId% %dbPassword%
+call AppendGo.cmd
+cd ..
+@echo Combine to script.sql
 mssql-scripter -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% --target-server-version 2008 --schema-and-data --exclude-headers > ./script.sql
