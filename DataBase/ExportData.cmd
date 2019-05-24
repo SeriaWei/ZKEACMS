@@ -23,5 +23,6 @@ set /P dbPassword=4.Password (sa):
 if "%dbPassword%"=="" set dbPassword=sa
 
 @echo Data
-mssql-scripter -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% --target-server-version 2008 --exclude-use-database --exclude-headers --file-per-object --data-only --include-objects dbo. --file-path ./InitialData
-
+cd InitialData
+call ExportData.cmd %server% %dataBase% %dbUserId% %dbPassword%
+call AppendGo.cmd

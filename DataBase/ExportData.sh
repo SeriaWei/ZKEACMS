@@ -1,1 +1,4 @@
+#!/bin/sh
 mssql-scripter -S localhost -d ZKEACMS_Core -U sa -P sa --target-server-version 2008 --exclude-use-database --exclude-headers --file-per-object --data-only --include-objects dbo. --file-path ./InitialData
+cd InitialData
+dotnet AppendGo.dll
