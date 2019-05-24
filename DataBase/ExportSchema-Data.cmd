@@ -24,4 +24,4 @@ set /P dbPassword=4.Password (sa):
 if "%dbPassword%"=="" set dbPassword=sa
 
 @echo Schema and data
-mssql-scripter -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% --target-server-version 2008 --schema-and-data > ./script.sql
+mssql-scripter -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% --target-server-version 2008 --schema-and-data --exclude-headers > ./script.sql

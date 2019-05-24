@@ -23,8 +23,5 @@ set /P dbPassword=4.Password (sa):
 if "%dbPassword%"=="" set dbPassword=sa
 
 @echo Tables
-mssql-scripter -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% --target-server-version 2008 --exclude-use-database --file-per-object --include-objects dbo. --file-path ./Tables
-
-@echo Data
-mssql-scripter -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% --target-server-version 2008 --exclude-use-database --file-per-object --data-only --include-objects dbo. --file-path ./InitialData
+mssql-scripter -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% --target-server-version 2008 --exclude-use-database --exclude-headers --file-per-object --include-objects dbo. --file-path ./Tables
 
