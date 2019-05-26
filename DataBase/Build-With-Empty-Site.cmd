@@ -22,8 +22,8 @@ exit
 @echo Working directory:%cd%
 set /P server=1.Sql Server address (local):
 if "%server%"=="" set server=(local)
-set /P dataBase=2.Database name (ZKEACMS_Core):
-if "%dataBase%"=="" set dataBase=ZKEACMS_Core
+set /P dataBase=2.Database name (ZKEACMS):
+if "%dataBase%"=="" set dataBase=ZKEACMS
 set /P dbUserId=3.User name (sa):
 if "%dbUserId%"=="" set dbUserId=sa
 set /P dbPassword=4.Password (sa):
@@ -31,7 +31,6 @@ if "%dbPassword%"=="" set dbPassword=sa
 
 @echo Please wait...
 @echo Creating DataBase %dataBase%
-set dbname='%dataBase%'
 sqlcmd -S %server% -d master -U %dbUserId% -P %dbPassword% -b -i "CreateDataBase.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
 

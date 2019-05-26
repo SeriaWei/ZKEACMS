@@ -8,4 +8,4 @@
 @pause
 
 
-Export2SQLCE.exe "Data Source=(local);Initial Catalog=ZKEACMS_Core;Integrated Security=True" ZKEACMS.sqlite.sql sqlite
+Export2SQLCE.exe "Data Source=(local);Initial Catalog=ZKEACMS;Integrated Security=True" ZKEACMS.sqlite.sql sqlite

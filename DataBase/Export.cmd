@@ -15,8 +15,8 @@ REM:https://github.com/microsoft/mssql-scripter/blob/dev/doc/usage_guide.md
 @echo Working directory:%cd%
 set /P server=1.Sql Server address (local):
 if "%server%"=="" set server=(local)
-set /P dataBase=2.Database name (ZKEACMS_Core):
-if "%dataBase%"=="" set dataBase=ZKEACMS_Core
+set /P dataBase=2.Database name (ZKEACMS):
+if "%dataBase%"=="" set dataBase=ZKEACMS
 set /P dbUserId=3.User name (sa):
 if "%dbUserId%"=="" set dbUserId=sa
 set /P dbPassword=4.Password (sa):
