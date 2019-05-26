@@ -12,7 +12,7 @@
                 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
                     <div class="thumbnail @(item.IsActived ? "active" : "")">
                         <a href="@Url.Action("PreView", "Theme", new {id = item.ID})">
-                            <img src="@Url.Content(item.Thumbnail ?? ThemeEntity.DefaultThumbnail)" alt="@item.Title"/>
+                            <img src="@Url.Content(item.Thumbnail ?? ThemeEntity.DefaultThumbnail)" alt="@item.Title" />
                         </a>
                         @if (Authorizer.Authorize(PermissionKeys.ManageTheme))
                         {
@@ -34,7 +34,7 @@
                 </div>
             }
         </div>
-        <hr/>
+        <hr />
         <ul class="text-muted">
             <li>
                 @L("点击主题“缩略图”可进行进行预览，在预览页面右上角点击“退出主题预览”可回到该页面")
@@ -45,15 +45,21 @@
             <li>
                 @L("若主题有更新，重复安装即可更新")
             </li>
+            <li>
+                <span style="color:red;">友情提示: 切换主题时,会先删除大部分数据,然后导入主题自带数据,操作不可逆,请先线下备份数据库</span><br />
+                <span>删除主题数据的脚本位置: /wwwroot/themes/主题名称/sql/uninstall/*.sql</span><br />
+                <span>导入主题数据的脚本位置: /wwwroot/themes/主题名称/sql/install/*.sql</span><br />
+                <span>文件夹下脚本顺序很重要,切莫调整顺序</span>
+            </li>
         </ul>
     </div>
     @if (Authorizer.Authorize(PermissionKeys.ManageTheme))
     {
         <div class="panel-footer clearfix">
-            <input type="button" value="@L("安装主题")" class="btn btn-primary select-theme"/>
+            <input type="button" value="@L("安装主题")" class="btn btn-primary select-theme" />
             <a target="_blank" class="btn btn-danger" href="http://www.zkea.net/zkeacms/theme">@L("下载更多主题")</a>
             <div class="hide">
-                <input id="file" type="file" name="file"/>
+                <input id="file" type="file" name="file" />
             </div>
         </div>
     }
