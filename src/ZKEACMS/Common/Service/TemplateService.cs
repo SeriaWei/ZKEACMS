@@ -39,7 +39,7 @@ namespace ZKEACMS.Common.Service
                 foreach (var item in themes)
                 {
                     string path = _env.MapWebRootPath(_themeName, item.ID);
-                    if (ExistDirectory(path))
+                    if (ExtFile.ExistDirectory(path))
                     {
                         list.Add(item.ID);
                     }
@@ -52,7 +52,7 @@ namespace ZKEACMS.Common.Service
         {
             List<TemplateFile> templateFiles = _cacheMgr.GetOrAdd(_templateFilesCacheKey, key => GetTemplateFiles());
             var file = templateFiles.FirstOrDefault(m => m.Id == id);
-            file.Content = ReadFile(file.Path);
+            file.Content = ExtFile.ReadFile(file.Path);
             return file;
         }
 
@@ -87,10 +87,10 @@ namespace ZKEACMS.Common.Service
                     {
                         //model.Path = _env.MapWebRootPath(_themeName, model.ThemeName, _viewName, model.Name);
                         //model.RelativePath = GetRelativePath(model.Path, _env.WebRootPath.Length);
-                        DeleteFile(old.Path);
+                        ExtFile.DeleteFile(old.Path);
                     }
                 }
-                WriteFile(model.Path, model.Content);
+                ExtFile.WriteFile(model.Path, model.Content);
                 _cacheMgr.Remove(_templateFilesCacheKey);
                 return string.Empty;
             }
@@ -100,7 +100,7 @@ namespace ZKEACMS.Common.Service
         public void Delete(int id)
         {
             var model = Get(id);
-            DeleteFile(model.Path);
+            ExtFile.DeleteFile(model.Path);
             _cacheMgr.Remove(_templateFilesCacheKey);
         }
 
@@ -139,9 +139,9 @@ namespace ZKEACMS.Common.Service
             {
                 List<string> temFiles = new List<string>();
                 string path = _env.MapWebRootPath(_themeName, item, _viewName);
-                var fs = GetFiles(path, _cshtml);
+                var fs = ExtFile.GetFiles(path, _cshtml);
                 if (fs != null && fs.Length > 0) temFiles.AddRange(fs);
-                var fs2 = GetFiles(path, _fluid);
+                var fs2 = ExtFile.GetFiles(path, _fluid);
                 if (fs2 != null && fs2.Length > 0) temFiles.AddRange(fs2);
                 dic.Add(item, temFiles);
             }
@@ -172,41 +172,6 @@ namespace ZKEACMS.Common.Service
             string p = path.Substring(len);
             p = p.Replace("\\", "/");
             return "~" + p;
-        }
-
-        private bool ExistDirectory(string path)
-        {
-            return Directory.Exists(path);
-        }
-
-        private string[] GetFiles(string path, string searchPattern)
-        {
-            if (!ExistDirectory(path)) return null;
-            return Directory.GetFiles(path, searchPattern, SearchOption.AllDirectories);
-        }
-
-        private bool ExistFile(string path)
-        {
-            return File.Exists(path);
-        }
-
-        private string ReadFile(string path)
-        {
-            if (!ExistFile(path)) return string.Empty;
-
-            return File.ReadAllText(path, Encoding.UTF8);
-        }
-
-        private void WriteFile(string path, string content)
-        {
-            string dire = Path.GetDirectoryName(path);
-            if (!ExistDirectory(dire)) Directory.CreateDirectory(dire);
-            File.WriteAllText(path, content, Encoding.UTF8);
-        }
-
-        private void DeleteFile(string path)
-        {
-            File.Delete(path);
         }
     }
 }

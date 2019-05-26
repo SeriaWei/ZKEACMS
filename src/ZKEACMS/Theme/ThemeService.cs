@@ -143,7 +143,7 @@ namespace ZKEACMS.Theme
         {
             string folder = type == 1 ? "uninstall" : "install";
             string path = _hostingEnvironment.MapWebRootPath(_themeName, themeName, _sqlName, folder);
-            var files = GetFiles(path, _sql);
+            var files = ExtFile.GetFiles(path, _sql);
             if (files != null && files.Length > 0)
             {
                 BeginTransaction(() =>
@@ -152,7 +152,7 @@ namespace ZKEACMS.Theme
                     {
                         try
                         {
-                            string sqlText = ReadFile(item);
+                            string sqlText = ExtFile.ReadFile(item);
                             if (sqlText.IsNullOrWhiteSpace()) continue;
                             string sql = sqlText.Replace("{", "{{").Replace("}", "}}");//很重要，处理sql语句中出现的 {} 问题
                             DbContext.Database.ExecuteSqlCommand(new RawSqlString(sql));
@@ -165,29 +165,6 @@ namespace ZKEACMS.Theme
                     }
                 });
             }
-        }
-
-        private string[] GetFiles(string path, string searchPattern)
-        {
-            if (!ExistDirectory(path)) return null;
-            return Directory.GetFiles(path, searchPattern, SearchOption.AllDirectories);
-        }
-
-        private bool ExistDirectory(string path)
-        {
-            return Directory.Exists(path);
-        }
-
-        private bool ExistFile(string path)
-        {
-            return File.Exists(path);
-        }
-
-        private string ReadFile(string path)
-        {
-            if (!ExistFile(path)) return string.Empty;
-
-            return File.ReadAllText(path, Encoding.UTF8);
         }
 
         private string VersionSource(string source)
