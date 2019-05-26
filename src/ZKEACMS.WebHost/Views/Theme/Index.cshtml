@@ -67,7 +67,7 @@
                 $(this).closest(".thumbnail").addClass("active");
                 Easy.MessageTip.Show("@L("切换主题中...")");
                 $.post("@Url.Action("ChangeTheme")", { id: $(this).val() }, function (data) {
-                    Easy.MessageTip.Show("@L("切换主题成功！")");
+                    Easy.MessageTip.Show(data.message);
                 });
             });
             $(document).on("click", ".select-theme", function () {

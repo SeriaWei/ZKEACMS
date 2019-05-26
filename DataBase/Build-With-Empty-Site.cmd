@@ -69,6 +69,11 @@ if %ERRORLEVEL% NEQ 0 goto errors
 @echo ArticleDetailWidget
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.ArticleDetailWidget.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors
+
+@echo ArticleSpecialDetailWidget
+sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.ArticleSpecialDetailWidget.Table.sql"
+if %ERRORLEVEL% NEQ 0 goto errors
+
 @echo ArticleListWidget
 sqlcmd -x -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% -b -i "Tables\dbo.ArticleListWidget.Table.sql"
 if %ERRORLEVEL% NEQ 0 goto errors

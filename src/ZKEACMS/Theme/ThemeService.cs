@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Easy.Cache;
 using Easy.Constant;
+using ZKEACMS;
+using System.Text;
+using Microsoft.Extensions.Logging;
 
 namespace ZKEACMS.Theme
 {
@@ -34,9 +37,15 @@ namespace ZKEACMS.Theme
         private const string CurrentThemeCacheKey = "CurrentThemeCacheKey";
         private const string CurrentThemeVersionMapCacheKey = "CurrentThemeVersionMapCacheKey";
 
+        private readonly string _themeName = "themes";
+        private readonly string _sqlName = "sql";
+        private readonly string _sql = "*.sql";
+
+        private readonly ILogger<ThemeService> _logger;
         private readonly ICacheManager<IEnumerable<ThemeEntity>> _cacheMgr;
         private const string AllThemeCacheKey = "AllThemeCacheKey";
         public ThemeService(ICookie cookie,
+            ILogger<ThemeService> logger,
             IHttpContextAccessor httpContextAccessor,
             IHostingEnvironment hostingEnvironment,
             IApplicationContext applicationContext,
@@ -51,6 +60,7 @@ namespace ZKEACMS.Theme
             _cache = cacheManager.GetOrAdd(CurrentThemeCacheKey, key => new ConcurrentDictionary<string, object>());
             _versionMap = cacheManager.GetOrAdd(CurrentThemeVersionMapCacheKey, key => new ConcurrentDictionary<string, object>());
             _cacheMgr = cacheMgr;
+            _logger = logger;
         }
 
         public override DbSet<ThemeEntity> CurrentDbSet => DbContext.Theme;
@@ -116,13 +126,68 @@ namespace ZKEACMS.Theme
         {
             if (id.IsNullOrEmpty()) return;
 
+            //update by roc
+            var theme = Get(id);
+            ExecuteSql(theme.ID, 1);
+            ExecuteSql(theme.ID, 2);
+
             var activeTheme = Get(m => m.IsActived);
             activeTheme.Each(m => m.IsActived = false);
             UpdateRange(activeTheme.ToArray());
-            var theme = Get(id);
+
             theme.IsActived = true;
             Update(theme);
+        }
 
+        private void ExecuteSql(string themeName, int type)
+        {
+            string folder = type == 1 ? "uninstall" : "install";
+            string path = _hostingEnvironment.MapWebRootPath(_themeName, themeName, _sqlName, folder);
+            var files = GetFiles(path, _sql);
+            if (files != null && files.Length > 0)
+            {
+                BeginTransaction(() =>
+                {
+                    foreach (var item in files)
+                    {
+                        try
+                        {
+                            string sqlText = ReadFile(item);
+                            if (sqlText.IsNullOrWhiteSpace()) continue;
+                            string sql = sqlText.Replace("{", "{{").Replace("}", "}}");//很重要，处理sql语句中出现的 {} 问题
+                            DbContext.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                        }
+                        catch (Exception e)
+                        {
+                            _logger.LogError(item);
+                            throw e;
+                        }
+                    }
+                });
+            }
+        }
+
+        private string[] GetFiles(string path, string searchPattern)
+        {
+            if (!ExistDirectory(path)) return null;
+            return Directory.GetFiles(path, searchPattern, SearchOption.AllDirectories);
+        }
+
+        private bool ExistDirectory(string path)
+        {
+            return Directory.Exists(path);
+        }
+
+        private bool ExistFile(string path)
+        {
+            return File.Exists(path);
+        }
+
+        private string ReadFile(string path)
+        {
+            if (!ExistFile(path)) return string.Empty;
+
+            return File.ReadAllText(path, Encoding.UTF8);
         }
 
         private string VersionSource(string source)
