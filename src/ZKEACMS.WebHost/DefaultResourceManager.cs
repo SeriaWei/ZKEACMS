@@ -88,13 +88,13 @@ namespace ZKEACMS.WebHost
 
             script("codemirror").Include($"{LibraryPath}/codemirror/lib/codemirror.js")
                 .Include($"{LibraryPath}/codemirror/addon/edit/closetag.js")
+                .Include($"{LibraryPath}/codemirror/addon/hint/show-hint.js")
+                .Include($"{LibraryPath}/codemirror/addon/hint/xml-hint.js")
+                .Include($"{LibraryPath}/codemirror/addon/hint/html-hint.js")
                 .Include($"{LibraryPath}/codemirror/mode/xml/xml.js")
                 .Include($"{LibraryPath}/codemirror/mode/javascript/javascript.js")
                 .Include($"{LibraryPath}/codemirror/mode/css/css.js")
-                .Include($"{LibraryPath}/codemirror/mode/htmlmixed/htmlmixed.js")
-                .Include($"{LibraryPath}/codemirror/addon/hint/show-hint.js")
-                .Include($"{LibraryPath}/codemirror/addon/hint/xml-hint.js")
-                .Include($"{LibraryPath}/codemirror/addon/hint/html-hint.js");
+                .Include($"{LibraryPath}/codemirror/mode/htmlmixed/htmlmixed.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)

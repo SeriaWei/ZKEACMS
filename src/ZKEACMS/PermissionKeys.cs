@@ -60,7 +60,7 @@ namespace ZKEACMS
             new PermissionDescriptor { Module="基础内容",Title="查看焦点图",Key=ViewCarousel,Description="查看焦点图" },
             new PermissionDescriptor { Module="基础内容",Title="管理焦点图",Key=ManageCarousel,Description="管理焦点图" },
 
-            new PermissionDescriptor { Module="页面布局",Title="管理模板",Key=ViewTemplate,Description="查看模板" },
+            new PermissionDescriptor { Module="页面布局",Title="查看模板",Key=ViewTemplate,Description="查看模板" },
             new PermissionDescriptor { Module="页面布局",Title="管理模板",Key=ManageTemplate,Description="管理模板" },
 
             new PermissionDescriptor { Module="主题",Title="查看主题",Key=ViewTheme,Description="查看主题" },

@@ -11,7 +11,7 @@ using Easy.Extend;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleSpecialDetailWidgetService : WidgetService<ArticleSpecialDetailWidget>
+    public class ArticleSpecialDetailWidgetService : SimpleWidgetService<ArticleSpecialDetailWidget>
     {
         private readonly IArticleService _articleService;
         public ArticleSpecialDetailWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext, CMSDbContext dbContext)
@@ -23,7 +23,7 @@ namespace ZKEACMS.Article.Service
         public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             var viewModel = new ArticleDetailViewModel();
-            var articleWidget = GetSingle(m => m.ID == widget.ID);
+            var articleWidget = widget as ArticleSpecialDetailWidget;
             ArticleEntity article = null;
             int articleId = articleWidget.ArticleId ?? 0;
             if (articleId > 0)
