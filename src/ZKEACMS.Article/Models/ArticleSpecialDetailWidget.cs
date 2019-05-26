@@ -8,8 +8,7 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Article.Models
 {
-    [DataTable("ArticleSpecialDetailWidget")]
-    public class ArticleSpecialDetailWidget : BasicWidget
+    public class ArticleSpecialDetailWidget : SimpleWidgetBase
     {
         /// <summary>
         ///  对应Article的ID字段
@@ -28,8 +27,8 @@ namespace ZKEACMS.Article.Models
         {
             base.ViewConfigure();
 
-            ViewConfig(m=>m.ArticleId).AsTextBox().RegularExpression(RegularExpression.Integer, "请输入数字");
-            ViewConfig(m => m.ArticleName).AsTextBox();
+            ViewConfig(m => m.ArticleId).AsTextBox().Required().RegularExpression(RegularExpression.Integer);
+            ViewConfig(m => m.ArticleName).AsHidden();
         }
     }
 }

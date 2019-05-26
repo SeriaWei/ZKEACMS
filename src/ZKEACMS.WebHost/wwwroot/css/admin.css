@@ -721,3 +721,7 @@ a.pack-theme {
         max-width: 180px;
     }
 }
+.CodeMirror {
+    width: 100%;
+    height: 100%;
+}
