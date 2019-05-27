@@ -45,12 +45,12 @@
             <li>
                 @L("若主题有更新，重复安装即可更新")
             </li>
-            <li>
+            @*<li>
                 <span style="color:red;">友情提示: 切换主题时,会先删除大部分数据,然后导入主题自带数据,操作不可逆,请先线下备份数据库</span><br />
                 <span>删除主题数据的脚本位置: /wwwroot/themes/主题名称/sql/uninstall/*.sql</span><br />
                 <span>导入主题数据的脚本位置: /wwwroot/themes/主题名称/sql/install/*.sql</span><br />
                 <span>文件夹下脚本顺序很重要,切莫调整顺序</span>
-            </li>
+            </li>*@
         </ul>
     </div>
     @if (Authorizer.Authorize(PermissionKeys.ManageTheme))

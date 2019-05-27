@@ -17,6 +17,7 @@ using Easy.Constant;
 using ZKEACMS;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using System.Data;
 
 namespace ZKEACMS.Theme
 {
@@ -124,14 +125,18 @@ namespace ZKEACMS.Theme
 
         public void ChangeTheme(string id)
         {
-            if (id.IsNullOrEmpty()) return;
+            ThemeEntity currentTheme = GetCurrentTheme();
+            if (id.IsNullOrEmpty() || currentTheme.ID == id)
+            {
+                return;
+            }
 
             //update by roc
             var theme = Get(id);
-            ExecuteSql(theme.ID, 1);
-            ExecuteSql(theme.ID, 2);
+            ExecuteSql(currentTheme.ID, 1);//uninstall current theme
+            ExecuteSql(theme.ID, 2); //install target theme
 
-            var activeTheme = Get(m => m.IsActived);
+            var activeTheme = Get(m => m.ID != id && m.IsActived);
             activeTheme.Each(m => m.IsActived = false);
             UpdateRange(activeTheme.ToArray());
 
@@ -152,10 +157,13 @@ namespace ZKEACMS.Theme
                     {
                         try
                         {
-                            string sqlText = ExtFile.ReadFile(item);
-                            if (sqlText.IsNullOrWhiteSpace()) continue;
-                            string sql = sqlText.Replace("{", "{{").Replace("}", "}}");//很重要，处理sql语句中出现的 {} 问题
-                            DbContext.Database.ExecuteSqlCommand(new RawSqlString(sql));
+                            foreach (var sql in ReadSql(item))
+                            {
+                                if (sql.IsNullOrWhiteSpace()) continue;
+
+                                DbContext.Database.ExecuteSqlCommand(new RawSqlString(sql.Replace("{", "{{").Replace("}", "}}")));
+                            }
+                            
                         }
                         catch (Exception e)
                         {
@@ -166,7 +174,37 @@ namespace ZKEACMS.Theme
                 });
             }
         }
-
+        private IEnumerable<string> ReadSql(string scriptFile)
+        {
+            FileInfo file = new FileInfo(scriptFile);
+            StringBuilder stringBuilder = new StringBuilder();
+            using (FileStream fileStream = file.OpenRead())
+            {
+                using (StreamReader reader = new StreamReader(fileStream, Encoding.Unicode))
+                {
+                    string line = null;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (line.Equals("GO", StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (stringBuilder.Length > 0)
+                            {
+                                yield return stringBuilder.ToString().Trim();
+                            }
+                            stringBuilder.Clear();
+                        }
+                        else
+                        {
+                            stringBuilder.AppendLine(line);
+                        }
+                    }
+                }
+            }
+            if (stringBuilder.Length > 0)
+            {
+                yield return stringBuilder.ToString().Trim();
+            }
+        }
         private string VersionSource(string source)
         {
             return _versionMap.GetOrAdd(source, factory =>
