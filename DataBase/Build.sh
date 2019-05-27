@@ -1,7 +1,7 @@
 #!/bin/sh
 
 server='localhost'
-dataBase='ZKEACMS_Core'
+dataBase='ZKEACMS'
 dbUserId='sa'
 dbPassword='sa'
 

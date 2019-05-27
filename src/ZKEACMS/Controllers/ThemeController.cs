@@ -48,8 +48,18 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTheme)]
         public JsonResult ChangeTheme(string id)
         {
-            Service.ChangeTheme(id);
-            return Json(true);
+            var result = new AjaxResult(AjaxStatus.Normal, "切换主题中...");
+            try
+            {
+                Service.ChangeTheme(id);
+                result.Message = "切换主题成功!";
+            }
+            catch (Exception e)
+            {
+                result.Status = AjaxStatus.Error;
+                result.Message = string.Format("切换主题失败-[{0}]", e.Message);
+            }
+            return Json(result);
         }
 
         public IActionResult ThemePackage(string id)

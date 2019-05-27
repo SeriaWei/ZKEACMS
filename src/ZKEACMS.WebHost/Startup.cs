@@ -38,10 +38,10 @@ namespace ZKEACMS.WebHost
             }
             else
             {
-                loggerFactory.UseFileLog(env, app.ApplicationServices.GetService<IHttpContextAccessor>());
                 app.UseExceptionHandler("/Error");
                 app.UseStatusCodePagesWithReExecute("/Error/Code/{0}");
             }
+            loggerFactory.UseFileLog(env, app.ApplicationServices.GetService<IHttpContextAccessor>());
             app.UseZKEACMS(env, httpContextAccessor);
         }
     }
