@@ -18,6 +18,8 @@ using ZKEACMS;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using System.Data;
+using ZKEACMS.Setting;
+using System.Data.Common;
 
 namespace ZKEACMS.Theme
 {
@@ -33,6 +35,7 @@ namespace ZKEACMS.Theme
         private const string PreViewCookieName = "PreViewTheme";
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IApplicationSettingService _applicationSettingService;
         private readonly ConcurrentDictionary<string, object> _cache;
         private readonly ConcurrentDictionary<string, object> _versionMap;
         private const string CurrentThemeCacheKey = "CurrentThemeCacheKey";
@@ -50,6 +53,7 @@ namespace ZKEACMS.Theme
             IHttpContextAccessor httpContextAccessor,
             IHostingEnvironment hostingEnvironment,
             IApplicationContext applicationContext,
+            IApplicationSettingService applicationSettingService,
             ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
             ICacheManager<IEnumerable<ThemeEntity>> cacheMgr,
             CMSDbContext dbContext)
@@ -58,6 +62,7 @@ namespace ZKEACMS.Theme
             _cookie = cookie;
             _httpContextAccessor = httpContextAccessor;
             _hostingEnvironment = hostingEnvironment;
+            _applicationSettingService = applicationSettingService;
             _cache = cacheManager.GetOrAdd(CurrentThemeCacheKey, key => new ConcurrentDictionary<string, object>());
             _versionMap = cacheManager.GetOrAdd(CurrentThemeVersionMapCacheKey, key => new ConcurrentDictionary<string, object>());
             _cacheMgr = cacheMgr;
@@ -133,8 +138,33 @@ namespace ZKEACMS.Theme
 
             //update by roc
             var theme = Get(id);
-            ExecuteSql(currentTheme.ID, 1);//uninstall current theme
-            ExecuteSql(theme.ID, 2); //install target theme
+            const string executeScriptWhenChange = "false";//Disable as default
+            if (_applicationSettingService.Get(SettingKeys.ExecuteScriptWhenChangeTheme, executeScriptWhenChange) != executeScriptWhenChange)
+            {
+                var connection = DbContext.Database.GetDbConnection();
+                if (connection.State != ConnectionState.Open)
+                    connection.Open();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        ExecuteSql(currentTheme.ID, 1, connection, transaction);//uninstall current theme
+                        ExecuteSql(theme.ID, 2, connection, transaction); //install target theme
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        _logger.LogError(ex.Message);
+                        throw ex;
+                    }
+                }
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
 
             var activeTheme = Get(m => m.ID != id && m.IsActived);
             activeTheme.Each(m => m.IsActived = false);
@@ -144,34 +174,27 @@ namespace ZKEACMS.Theme
             Update(theme);
         }
 
-        private void ExecuteSql(string themeName, int type)
+        private void ExecuteSql(string themeName, int type, DbConnection dbConnection, DbTransaction dbTransaction)
         {
             string folder = type == 1 ? "uninstall" : "install";
             string path = _hostingEnvironment.MapWebRootPath(_themeName, themeName, _sqlName, folder);
             var files = ExtFile.GetFiles(path, _sql);
             if (files != null && files.Length > 0)
             {
-                BeginTransaction(() =>
+                foreach (var item in files)
                 {
-                    foreach (var item in files)
+                    foreach (var sql in ReadSql(item))
                     {
-                        try
+                        if (sql.IsNullOrWhiteSpace()) continue;
+                        using (var command = dbConnection.CreateCommand())
                         {
-                            foreach (var sql in ReadSql(item))
-                            {
-                                if (sql.IsNullOrWhiteSpace()) continue;
-
-                                DbContext.Database.ExecuteSqlCommand(new RawSqlString(sql.Replace("{", "{{").Replace("}", "}}")));
-                            }
-                            
-                        }
-                        catch (Exception e)
-                        {
-                            _logger.LogError(item);
-                            throw e;
+                            command.Transaction = dbTransaction;
+                            command.CommandTimeout = 0;
+                            command.CommandText = sql;
+                            command.ExecuteNonQuery();
                         }
                     }
-                });
+                }
             }
         }
         private IEnumerable<string> ReadSql(string scriptFile)
