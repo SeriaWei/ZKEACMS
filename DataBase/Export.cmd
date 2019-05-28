@@ -22,6 +22,10 @@ if "%dbUserId%"=="" set dbUserId=sa
 set /P dbPassword=4.Password (sa):
 if "%dbPassword%"=="" set dbPassword=sa
 
+@echo Generate mysql dump.sql
+cd MySql
+mssql2mysql -s %dataBase% -c "Server=%server%;Database=%dataBase%;User Id=%dbUserId%;Password=%dbPassword%;MultipleActiveResultSets=true;"
+cd ..
 @echo Generate Schema
 cd Tables
 call ExportSchema.cmd %server% %dataBase% %dbUserId% %dbPassword%
@@ -33,3 +37,4 @@ call AppendGo.cmd
 cd ..
 @echo Combine to script.sql
 mssql-scripter -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% --target-server-version 2008 --schema-and-data --exclude-headers > ./script.sql
+
