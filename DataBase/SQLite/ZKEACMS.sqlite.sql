@@ -1,4 +1,4 @@
--- Script Date: 2019/5/25 星期六 23:59  - ErikEJ.SqlCeScripting version 3.5.2.56
+-- Script Date: 2019/5/29 星期三 15:35  - ErikEJ.SqlCeScripting version 3.5.2.56
 SELECT 1;
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
@@ -111,13 +111,13 @@ CREATE TABLE [Roles] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Roles__3214EC27EC9256CC] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Roles__3214EC27EF3C39E7] PRIMARY KEY ([ID])
 );
 CREATE TABLE [UserRoleRelation] (
   [ID] INTEGER NOT NULL
 , [RoleID] int NULL
 , [UserID] nvarchar(50) NULL
-, CONSTRAINT [PK__UserRole__3214EC27AA1659EC] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__UserRole__3214EC2720A5D461] PRIMARY KEY ([ID])
 , FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 , FOREIGN KEY ([UserID]) REFERENCES [Users] ([UserID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
