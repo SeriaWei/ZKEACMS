@@ -24,7 +24,7 @@ if "%dbPassword%"=="" set dbPassword=sa
 
 @echo Generate SQLite
 cd SQLite
-Export2SQLCE.exe "Server=%server%;Database=%dataBase%;User Id=%dbUserId%;Password=%dbPassword%;" %dataBase%.sqlite.sql sqlite
+Export2SQLCE.exe "Server=%server%;Database=%dataBase%;User Id=%dbUserId%;Password=%dbPassword%;" ZKEACMS.sqlite.sql sqlite
 cd ..
 
 @echo Generate mysql dump.sql
