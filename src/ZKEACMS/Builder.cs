@@ -140,6 +140,8 @@ namespace ZKEACMS
 
             services.AddTransient<IStorage, WebStorage>();
 
+            services.ConfigureStateProvider<StateProvider.OuterChainPictureStateProvider>();
+
             services.ConfigureCache<IEnumerable<WidgetBase>>();
             services.ConfigureCache<IEnumerable<ZoneEntity>>();
             services.ConfigureCache<IEnumerable<LayoutHtml>>();

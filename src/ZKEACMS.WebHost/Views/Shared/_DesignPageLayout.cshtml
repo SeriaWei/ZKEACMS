@@ -22,7 +22,10 @@
     <meta http-equiv="cache-control" content="no-store">
     <meta http-equiv="expires" content="-1">
     <meta http-equiv="pragma" content="no-cache" />
-    <meta name="referrer" content="same-origin"/>
+    @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
+    {
+        <meta name="referrer" content="same-origin" />
+    }
     <title>[@L("设计")]@Model.Page.Title</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />

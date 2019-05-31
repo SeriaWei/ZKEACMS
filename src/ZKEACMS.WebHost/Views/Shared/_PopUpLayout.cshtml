@@ -10,7 +10,10 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <meta name="referrer" content="same-origin"/>
+    @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
+    {
+        <meta name="referrer" content="same-origin" />
+    }
     <title>@ViewBag.Title</title>
     @StyleAtHead()
     @ScriptAtHead()

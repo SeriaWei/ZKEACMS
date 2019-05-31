@@ -87,9 +87,9 @@ namespace Easy
             services.AddSingleton<IAuthorizationHandler, RolePolicyRequirementHandler>();
             //services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
 
-            services.AddScoped<IApplicationContextStateProvider, CurrentCustomerStateProvider>();
-            services.AddScoped<IApplicationContextStateProvider, CurrentUserStateProvider>();
-            services.AddScoped<IApplicationContextStateProvider, HostingEnvironmentStateProvider>();
+            services.ConfigureStateProvider<CurrentCustomerStateProvider>();
+            services.ConfigureStateProvider<CurrentUserStateProvider>();
+            services.ConfigureStateProvider<HostingEnvironmentStateProvider>();
 
             services.ConfigureMetaData<UserEntity, UserMetaData>();
             services.ConfigureMetaData<DataDictionaryEntity, DataDictionaryEntityMetaData>();

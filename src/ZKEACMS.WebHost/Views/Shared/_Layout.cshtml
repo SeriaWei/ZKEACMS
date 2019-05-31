@@ -35,7 +35,10 @@
     <meta name="author" content="ZKEASOFT" />
     <meta name="about" content="@ZKEACMS.Version.CurrentVersion" />
     <meta name="website" content="http://www.zkea.net" />
-    <meta name="referrer" content="same-origin"/>
+    @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
+    {
+        <meta name="referrer" content="same-origin" />
+    }
 
     <link href="@Url.PathContent(Model.Page.Favicon)" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />

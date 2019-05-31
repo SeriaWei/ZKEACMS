@@ -1,4 +1,4 @@
-@using Microsoft.AspNetCore.Hosting
+﻿@using Microsoft.AspNetCore.Hosting
 @{
     var theme = themeService.GetCurrentTheme();
 }
@@ -18,7 +18,10 @@
     <title>@ViewBag.Title</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
-    <meta name="referrer" content="same-origin"/>
+    @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
+    {
+        <meta name="referrer" content="same-origin" />
+    }
     @if (theme != null)
     {
         if (hostingEnvironment.IsDevelopment())
