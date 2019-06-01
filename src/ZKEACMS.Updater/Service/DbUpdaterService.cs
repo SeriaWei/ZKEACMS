@@ -7,6 +7,7 @@
 using Easy.Mvc.Plugin;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System;
 using System.IO;
@@ -17,8 +18,8 @@ namespace ZKEACMS.Updater.Service
     public class DbUpdaterService : IDbUpdaterService
     {
         private readonly DatabaseOption _databaseOption;
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public DbUpdaterService(DatabaseOption databaseOption, IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public DbUpdaterService(DatabaseOption databaseOption, IWebHostEnvironment hostingEnvironment)
         {
             _databaseOption = databaseOption;
             _hostingEnvironment = hostingEnvironment;

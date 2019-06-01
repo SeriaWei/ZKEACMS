@@ -12,9 +12,9 @@ namespace Easy.Logging
 {
     public class FileLoggerProvider : ILoggerProvider
     {
-        private readonly IHostingEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public FileLoggerProvider(IHostingEnvironment environment, IHttpContextAccessor httpContextAccessor)
+        public FileLoggerProvider(IWebHostEnvironment environment, IHttpContextAccessor httpContextAccessor)
         {
             _environment = environment;
             _httpContextAccessor = httpContextAccessor;

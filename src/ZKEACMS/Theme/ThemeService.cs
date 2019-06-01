@@ -34,7 +34,7 @@ namespace ZKEACMS.Theme
         private readonly ICookie _cookie;
         private const string PreViewCookieName = "PreViewTheme";
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IApplicationSettingService _applicationSettingService;
         private readonly ConcurrentDictionary<string, object> _cache;
         private readonly ConcurrentDictionary<string, object> _versionMap;
@@ -51,7 +51,7 @@ namespace ZKEACMS.Theme
         public ThemeService(ICookie cookie,
             ILogger<ThemeService> logger,
             IHttpContextAccessor httpContextAccessor,
-            IHostingEnvironment hostingEnvironment,
+            IWebHostEnvironment hostingEnvironment,
             IApplicationContext applicationContext,
             IApplicationSettingService applicationSettingService,
             ICacheManager<ConcurrentDictionary<string, object>> cacheManager,

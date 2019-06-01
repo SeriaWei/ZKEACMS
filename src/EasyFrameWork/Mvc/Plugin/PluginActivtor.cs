@@ -23,7 +23,7 @@ namespace Easy.Mvc.Plugin
             }
             return serviceCollection;
         }
-        public static IApplicationBuilder ConfigurePlugin(this IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment)
+        public static IApplicationBuilder ConfigurePlugin(this IApplicationBuilder applicationBuilder, IWebHostEnvironment hostingEnvironment)
         {
             foreach (var item in applicationBuilder.ApplicationServices.GetPlugins())
             {

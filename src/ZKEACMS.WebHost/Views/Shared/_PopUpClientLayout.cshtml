@@ -1,9 +1,10 @@
 @using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Hosting
 @{
     var theme = themeService.GetCurrentTheme();
 }
 @inject IThemeService themeService
-@inject IHostingEnvironment hostingEnvironment
+@inject IWebHostEnvironment hostingEnvironment
 <!DOCTYPE html>
 
 <html style="height:100%">

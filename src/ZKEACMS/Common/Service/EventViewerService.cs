@@ -12,9 +12,9 @@ namespace ZKEACMS.Common.Service
 {
     public class EventViewerService : IEventViewerService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private const string LoggerFoler = "Logs";
-        public EventViewerService(IHostingEnvironment hostingEnvironment)
+        public EventViewerService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

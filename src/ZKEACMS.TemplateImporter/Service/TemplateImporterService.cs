@@ -23,7 +23,7 @@ namespace ZKEACMS.TemplateImporter.Service
 {
     public class TemplateImporterService : ITemplateImporterService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IThemeService _themeService;
         private readonly ILayoutService _layoutService;
         private readonly IPageService _pageService;
@@ -34,7 +34,7 @@ namespace ZKEACMS.TemplateImporter.Service
         private static Regex StyleUrl = new Regex(@"url\(['|""]?([A-Za-z0-9_|\.|/|-]*)['|""]?\)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private const string ThemeFolder = "themes";
-        public TemplateImporterService(IHostingEnvironment hostingEnvironment,
+        public TemplateImporterService(IWebHostEnvironment hostingEnvironment,
             IThemeService themeService,
             ILayoutService layoutService,
             ILayoutHtmlService layoutHtmlService,

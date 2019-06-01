@@ -30,7 +30,7 @@ namespace ZKEACMS
         public abstract IEnumerable<PermissionDescriptor> RegistPermission();
         public abstract IEnumerable<WidgetTemplateEntity> WidgetServiceTypes();
         public abstract void ConfigureServices(IServiceCollection serviceCollection);
-        public virtual void ConfigureApplication(IApplicationBuilder app, IHostingEnvironment env)
+        public virtual void ConfigureApplication(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
         }

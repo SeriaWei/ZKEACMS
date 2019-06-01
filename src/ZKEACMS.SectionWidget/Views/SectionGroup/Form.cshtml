@@ -1,6 +1,7 @@
 @using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Hosting
 @model ZKEACMS.SectionWidget.Models.SectionGroup
-@inject IHostingEnvironment hostingEnvironment
+@inject IWebHostEnvironment hostingEnvironment
 @{
     Layout = Layouts.PopUp;
     Style.Reqiured("SectionAdmin").AtHead();

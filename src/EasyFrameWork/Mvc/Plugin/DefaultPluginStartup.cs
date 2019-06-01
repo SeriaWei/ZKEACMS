@@ -16,10 +16,10 @@ namespace Easy.Mvc.Plugin
     {
         public Assembly Assembly { get; set; }
         public string CurrentPluginPath { get; set; }
-        public IHostingEnvironment HostingEnvironment { get; set; }
+        public IWebHostEnvironment HostingEnvironment { get; set; }
         public List<CompilationLibrary> Dependency { get; set; }
 
-        public virtual void ConfigureApplication(IApplicationBuilder app, IHostingEnvironment env)
+        public virtual void ConfigureApplication(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
         }

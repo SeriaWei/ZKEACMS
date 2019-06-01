@@ -9,6 +9,7 @@ using Easy.Mvc.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System;
 using ZKEACMS.PackageManger;
 using ZKEACMS.Theme;
@@ -18,10 +19,10 @@ namespace ZKEACMS.Controllers
     [DefaultAuthorize(Policy = PermissionKeys.ViewTheme)]
     public class ThemeController : BasicController<ThemeEntity, string, IThemeService>
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IPackageInstallerProvider _packageInstallerProvider;
 
-        public ThemeController(IThemeService service, IHostingEnvironment hostingEnvironment,
+        public ThemeController(IThemeService service, IWebHostEnvironment hostingEnvironment,
             IPackageInstallerProvider packageInstallerProvider)
             : base(service)
         {

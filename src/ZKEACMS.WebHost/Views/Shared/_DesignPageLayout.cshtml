@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Hosting
 @model LayoutEntity
 @{
     if (Model == null)
@@ -6,7 +7,7 @@
         return;
     }
 }
-@inject IHostingEnvironment hostingEnvironment
+@inject IWebHostEnvironment hostingEnvironment
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->

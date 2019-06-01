@@ -19,9 +19,9 @@ namespace Easy.Logging
         public const string Split = "----------------------------------------------------------------";
         public const string FileTemplate = "{0}.log";
         public const string DateNameTemplate = "yyyy-MM-dd";
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public FileLogger(IHostingEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
+        public FileLogger(IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
         {
             _hostingEnvironment = hostingEnvironment;
             _httpContextAccessor = httpContextAccessor;

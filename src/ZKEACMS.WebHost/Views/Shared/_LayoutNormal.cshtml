@@ -1,9 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Hosting
 @{
     var theme = themeService.GetCurrentTheme();
 }
 @inject IThemeService themeService
-@inject IHostingEnvironment hostingEnvironment
+@inject IWebHostEnvironment hostingEnvironment
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->

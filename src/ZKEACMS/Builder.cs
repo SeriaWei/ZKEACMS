@@ -20,20 +20,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Session;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.DependencyModel;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using ZKEACMS.Account;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Common.Models;
@@ -54,10 +48,11 @@ using ZKEACMS.Route;
 using ZKEACMS.Setting;
 using ZKEACMS.SMTP;
 using ZKEACMS.Theme;
+using ZKEACMS.Validate;
 using ZKEACMS.Widget;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.Zone;
-using ZKEACMS.Validate;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 
 namespace ZKEACMS
 {
@@ -76,11 +71,10 @@ namespace ZKEACMS
                 opt.Cookie.IsEssential = true;
             });
 
-            IMvcBuilder mvcBuilder = services.AddMvc(option =>
+            IMvcBuilder mvcBuilder = services.AddControllersWithViews(option =>
              {
                  option.ModelBinderProviders.Insert(0, new WidgetTypeModelBinderProvider());
                  option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
-                 //option.EnableEndpointRouting = false;
              })
             .AddRazorOptions(opt =>
             {
@@ -88,8 +82,11 @@ namespace ZKEACMS
                 opt.ViewLocationExpanders.Add(new ThemeViewLocationExpander());
             })
             .AddControllersAsServices()
-            .AddJsonOptions(option => { option.SerializerSettings.DateFormatString = "yyyy-MM-dd"; })
+            .AddNewtonsoftJson()
+            .AddRazorRuntimeCompilation()
             .SetCompatibilityVersion(CompatibilityVersion.Latest);
+
+            services.AddRazorPages();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -246,7 +243,7 @@ namespace ZKEACMS
                 });
         }
 
-        public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
+        public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
         {
             applicationBuilder.UseAuthentication();
             if (hostingEnvironment.IsDevelopment())
@@ -258,13 +255,22 @@ namespace ZKEACMS
             applicationBuilder.ConfigureResource();
             applicationBuilder.ConfigurePlugin(hostingEnvironment);
             applicationBuilder.UseSession();
-            applicationBuilder.UseMvc(routes =>
+            applicationBuilder.UseRouting();
+            applicationBuilder.UseEndpoints(endpoints =>
             {
                 applicationBuilder.ApplicationServices.GetService<IRouteProvider>().GetRoutes().OrderByDescending(route => route.Priority).Each(route =>
                 {
-                    routes.MapRoute(route.RouteName, route.Template, route.Defaults, route.Constraints, route.DataTokens);
+                    endpoints.MapControllerRoute(
+                   name: route.RouteName,
+                   pattern: route.Template,
+                   defaults: route.Defaults,
+                   constraints: route.Constraints,
+                   dataTokens: route.DataTokens);
                 });
+
+                endpoints.MapRazorPages();
             });
+
             foreach (IStartTask task in applicationBuilder.ApplicationServices.GetServices<IStartTask>())
             {
                 task.Excute();

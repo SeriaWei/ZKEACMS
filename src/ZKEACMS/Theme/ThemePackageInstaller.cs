@@ -16,7 +16,7 @@ namespace ZKEACMS.Theme
         private const string ThemePath = "~/themes";
         private readonly IThemeService _themeService;
 
-        public ThemePackageInstaller(IHostingEnvironment hostingEnvironment, IThemeService themeService) : base(hostingEnvironment)
+        public ThemePackageInstaller(IWebHostEnvironment hostingEnvironment, IThemeService themeService) : base(hostingEnvironment)
         {
             _themeService = themeService;
         }
