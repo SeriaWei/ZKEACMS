@@ -86,7 +86,7 @@ namespace ZKEACMS
             .SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             services.AddRazorPages();
-
+            services.AddHealthChecks();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.TryAddScoped<IApplicationContextAccessor, ApplicationContextAccessor>();
