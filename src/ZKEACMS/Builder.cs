@@ -229,7 +229,7 @@ namespace ZKEACMS
                 PermissionKeys.Configure(options);
                 KnownRequirements.Configure(options);
             });
-
+            
             services.AddAuthentication(DefaultAuthorizeAttribute.DefaultAuthenticationScheme)
                 .AddCookie(DefaultAuthorizeAttribute.DefaultAuthenticationScheme, o =>
                 {
@@ -244,7 +244,6 @@ namespace ZKEACMS
 
         public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
         {
-            applicationBuilder.UseAuthentication();
             if (hostingEnvironment.IsDevelopment())
             {
                 applicationBuilder.UsePluginStaticFile();
@@ -255,16 +254,24 @@ namespace ZKEACMS
             applicationBuilder.ConfigurePlugin(hostingEnvironment);
             applicationBuilder.UseSession();
             applicationBuilder.UseRouting();
+
+            applicationBuilder.UseAuthentication();
+            applicationBuilder.UseAuthorization();
+
             applicationBuilder.UseEndpoints(endpoints =>
             {
                 applicationBuilder.ApplicationServices.GetService<IRouteProvider>().GetRoutes().OrderByDescending(route => route.Priority).Each(route =>
                 {
+                    if (route.RequiredAuthorization)
+                    {
+                        endpoints.MapHealthChecks(route.Template);
+                    }
                     endpoints.MapControllerRoute(
-                   name: route.RouteName,
-                   pattern: route.Template,
-                   defaults: route.Defaults,
-                   constraints: route.Constraints,
-                   dataTokens: route.DataTokens);
+                        name: route.RouteName,
+                        pattern: route.Template,
+                        defaults: route.Defaults,
+                        constraints: route.Constraints,
+                        dataTokens: route.DataTokens);
                 });
 
                 endpoints.MapRazorPages();
