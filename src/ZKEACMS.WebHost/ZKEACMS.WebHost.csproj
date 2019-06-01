@@ -17,8 +17,8 @@
     <TieredCompilation>true</TieredCompilation>
     <ServerGarbageCollection>false</ServerGarbageCollection>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
   </PropertyGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />

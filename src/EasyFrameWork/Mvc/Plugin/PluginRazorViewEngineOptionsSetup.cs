@@ -18,11 +18,6 @@ namespace Easy.Mvc.Plugin
         public PluginRazorViewEngineOptionsSetup(IWebHostEnvironment hostingEnvironment, IPluginLoader loader) :
             base(options =>
             {
-                if (hostingEnvironment.IsDevelopment())
-                {
-                    //options.FileProviders.Add(new DeveloperViewFileProvider(hostingEnvironment));
-                }
-                //options.AllowRecompilingViewsOnFileChange = true;
                 options.ViewLocationFormats.Clear();
                 loader.GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>
                 {
