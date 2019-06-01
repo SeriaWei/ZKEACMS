@@ -17,6 +17,7 @@
     <TieredCompilation>true</TieredCompilation>
     <ServerGarbageCollection>false</ServerGarbageCollection>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
     <PreserveCompilationReferences>true</PreserveCompilationReferences>
   </PropertyGroup>
   <ItemGroup>
