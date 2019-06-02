@@ -245,7 +245,7 @@ namespace ZKEACMS
             {
                 return null;
             }
-            string[] viewAssemblySuffixes = new string[] { ".PrecompiledViews", ".Views" };
+            string[] viewAssemblySuffixes = new string[] { ".Views", ".PrecompiledViews" };
             for (var i = 0; i < viewAssemblySuffixes.Length; i++)
             {
                 var fileName = $"{assembly.GetName().Name}{viewAssemblySuffixes[i]}.dll";
