@@ -12,6 +12,8 @@
     <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS.Core</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>CMS.Redirection</PackageTags>
+    <RazorCompileOnBuild>true</RazorCompileOnBuild>
+    <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <PreserveCompilationReferences>true</PreserveCompilationReferences>
   </PropertyGroup>

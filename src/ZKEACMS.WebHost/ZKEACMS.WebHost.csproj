@@ -17,6 +17,8 @@
     <TieredCompilation>true</TieredCompilation>
     <ServerGarbageCollection>false</ServerGarbageCollection>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <RazorCompileOnBuild>true</RazorCompileOnBuild>
+    <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <PreserveCompilationReferences>true</PreserveCompilationReferences>
   </PropertyGroup>
