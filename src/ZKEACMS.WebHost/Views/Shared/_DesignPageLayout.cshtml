@@ -7,7 +7,6 @@
         return;
     }
 }
-@inject IWebHostEnvironment hostingEnvironment
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->
@@ -34,7 +33,7 @@
     @ScriptAtHead()
     @if (Model.CurrentTheme != null)
     {
-        if (hostingEnvironment.IsDevelopment())
+        if (ApplicationContext.HostingEnvironment.IsDevelopment())
         {
             <link type="text/css" rel="stylesheet" href="@Url.Content(Model.CurrentTheme.UrlDebugger)" />
         }

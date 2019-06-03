@@ -4,7 +4,6 @@
     var theme = themeService.GetCurrentTheme();
 }
 @inject IThemeService themeService
-@inject IWebHostEnvironment hostingEnvironment
 <!DOCTYPE html>
 
 <html style="height:100%">
@@ -17,7 +16,7 @@
     <title>@ViewBag.Title</title>
     @if (theme != null)
     {
-        if (hostingEnvironment.IsDevelopment())
+        if (ApplicationContext.HostingEnvironment.IsDevelopment())
         {
             <link type="text/css" async rel="stylesheet" href="@Url.Content(theme.UrlDebugger)" />
         }

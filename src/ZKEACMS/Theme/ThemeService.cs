@@ -159,11 +159,15 @@ namespace ZKEACMS.Theme
                         _logger.LogError(ex.Message);
                         throw ex;
                     }
+                    finally
+                    {
+                        if (connection.State == ConnectionState.Open)
+                        {
+                            connection.Close();
+                        }
+                    }
                 }
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                }
+
             }
 
             var activeTheme = Get(m => m.ID != id && m.IsActived);

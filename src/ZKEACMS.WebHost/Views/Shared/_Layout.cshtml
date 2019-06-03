@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Hosting
-@inject IWebHostEnvironment hostingEnvironment
 @model LayoutEntity
 @{
     if (Model == null)
@@ -51,7 +50,7 @@
     }
     @if (Model.CurrentTheme != null)
     {
-        if (hostingEnvironment.IsDevelopment())
+        if (ApplicationContext.HostingEnvironment.IsDevelopment())
         {
             <link type="text/css" async rel="stylesheet" href="@Url.Content(Model.CurrentTheme.UrlDebugger)" />
         }

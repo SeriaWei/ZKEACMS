@@ -1,7 +1,6 @@
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Hosting
 @model IEnumerable<ThemeEntity>
-@inject IWebHostEnvironment hostingEnvironment
 <div class="panel panel-default">
     <div class="panel-heading">
         @L("主题")
@@ -21,7 +20,7 @@
                                 <label>
                                     <input type="radio" name="theme" @(item.IsActived ? "checked" : "") value="@item.ID"> @item.Title
                                 </label>
-                                @if (hostingEnvironment.IsDevelopment())
+                                @if (ApplicationContext.HostingEnvironment.IsDevelopment())
                                 {
                                     <div class="pull-right">
                                         <a class="download pack-theme" href="@Url.Action("ThemePackage", new {id = item.ID})" title="@L("打包")">

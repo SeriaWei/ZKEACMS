@@ -4,7 +4,6 @@
     var theme = themeService.GetCurrentTheme();
 }
 @inject IThemeService themeService
-@inject IWebHostEnvironment hostingEnvironment
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->
@@ -25,7 +24,7 @@
     }
     @if (theme != null)
     {
-        if (hostingEnvironment.IsDevelopment())
+        if (ApplicationContext.HostingEnvironment.IsDevelopment())
         {
             <link type="text/css" async rel="stylesheet" href="@Url.Content(theme.UrlDebugger)" />
         }
