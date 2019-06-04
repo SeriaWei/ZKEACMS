@@ -1,9 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Hosting
 @{
-    var theme = themeService.GetCurrentTheme();
+    Style.Reqiured("bootStrap").AtHead();
 }
-@inject IThemeService themeService
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->
@@ -21,17 +20,6 @@
     @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
     {
         <meta name="referrer" content="same-origin" />
-    }
-    @if (theme != null)
-    {
-        if (ApplicationContext.HostingEnvironment.IsDevelopment())
-        {
-            <link type="text/css" async rel="stylesheet" href="@Url.Content(theme.UrlDebugger)" />
-        }
-        else
-        {
-            <link type="text/css" async rel="stylesheet" href="@Url.Content(theme.Url)" />
-        }
     }
     @StyleAtHead()
     @ScriptAtHead()

@@ -32,82 +32,71 @@
 </head>
 <body class="front">
     <form id="LayoutInfo" asp-controller="Layout" asp-action="SaveLayout" method="post">
-        <nav id="toolBar" class="navbar navbar-inverse navbar-fixed-top">
+        <nav id="toolBar">
             <div class="container">
-                <div class="row">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand"><span class="badge">@L("布局设计")</span></a>
-                    </div>
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <div class="navbar-form navbar-left">
-                            <label class="AddContainer btn btn-default" data-container="container-fluid" title="@L("点击拖动到主屏幕")">
-                                <span class="badge">1</span>
-                                <i class="glyphicon glyphicon-unchecked"></i>
-                                @L("容器")
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <span class="badge">@L("布局设计")</span>
+                        <label class="AddContainer zk-btn zk-btn-default" data-container="container-fluid" title="@L("点击拖动到主屏幕")">
+                            <span class="badge">1</span>
+                            <i class="glyphicon glyphicon-unchecked"></i>
+                            @L("容器")
+                        </label>
+                        <label class="AddRow zk-btn zk-btn-primary" data-container="container-fluid" title="@L("点击拖动到容器")">
+                            <span class="badge">2</span>
+                            <i class="glyphicon glyphicon-align-justify"></i>
+                            @L("行")
+                        </label>
+                        <div class="zk-btn-group">
+                            <label id="add-col-handle" class="AddCol zk-btn zk-btn-success" data-col="col-md-" data-val="6" title="@L("点击拖动到行")">
+                                <span class="badge">3</span>
+                                <i class="glyphicon glyphicon-tasks"></i>
+                                @L("列宽") <span class="col-size-info">@L("6/12")</span>
                             </label>
-                            <label class="AddRow btn btn-primary" data-container="container-fluid" title="@L("点击拖动到容器")">
-                                <span class="badge">2</span>
-                                <i class="glyphicon glyphicon-align-justify"></i>
-                                @L("行")
-                            </label>
-                            <div class="btn-group">
-                                <label id="add-col-handle" class="AddCol btn btn-success" data-col="col-md-" data-val="6" title="@L("点击拖动到行")">
-                                    <span class="badge">3</span>
-                                    <i class="glyphicon glyphicon-tasks"></i>
-                                    @L("列宽") <span class="col-size-info">@L("6/12")</span>
-                                </label>
-                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu col-size">
-                                    <li><a href="javascript:void(0)" data-val="1">@L("1/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="2">@L("2/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="3">@L("3/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="4">@L("4/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="5">@L("5/12")</a></li>
-                                    <li class="active"><a href="javascript:void(0)" data-val="6">@L("6/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="7">@L("7/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="8">@L("8/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="9">@L("9/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="10">@L("10/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="11">@L("11/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="12">@L("12/12")</a></li>
-                                </ul>
-                            </div>
-                            <span class="badge" data-toggle="modal" data-target="#question" style="cursor:help">?</span>
-
-
-
+                            <button type="button" class="zk-btn zk-btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="zk-dropdown-menu col-size">
+                                <li><a href="javascript:void(0)" data-val="1">@L("1/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="2">@L("2/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="3">@L("3/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="4">@L("4/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="5">@L("5/12")</a></li>
+                                <li class="active"><a href="javascript:void(0)" data-val="6">@L("6/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="7">@L("7/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="8">@L("8/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="9">@L("9/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="10">@L("10/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="11">@L("11/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="12">@L("12/12")</a></li>
+                            </ul>
                         </div>
-                        <div class="navbar-form navbar-right">
-                            <div class="btn-group">
-                                <a class="btn btn-primary cancel">
+                        <span class="badge" data-toggle="modal" data-target="#question" style="cursor:help">?</span>
+                    </div>
+                    
+                        <div class="pull-right">
+                            <div class="zk-btn-group">
+                                <a class="zk-btn zk-btn-primary cancel">
                                     <i class="glyphicon glyphicon-arrow-left"></i>
                                     @L("取消")
                                 </a>
                                 @if (Model.Page != null)
                                 {
-                                    <a class="btn btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
+                                    <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
                                         <i class="glyphicon glyphicon-pencil"></i>
                                         @L("编辑页面")
                                     </a>
                                 }
-                                <a href="@Url.Action("LayoutWidget", "Layout", new { LayoutID = Model.ID })" class="btn btn-primary">
+                                <a href="@Url.Action("LayoutWidget", "Layout", new { LayoutID = Model.ID })" class="zk-btn zk-btn-primary">
                                     <i class="glyphicon glyphicon-th-list"></i>
                                     @L("内容")
                                 </a>
-                                <a href="@Url.Action("Edit", "Layout", new {Model.ID})" class="btn btn-primary">
+                                <a href="@Url.Action("Edit", "Layout", new {Model.ID})" class="zk-btn zk-btn-primary">
                                     <i class="glyphicon glyphicon-edit"></i>
                                     @L("属性")
                                 </a>
-                                <a class="btn btn-primary" id="save">
+                                <a class="zk-btn zk-btn-primary" id="save">
                                     <i class="glyphicon glyphicon-floppy-disk"></i>
                                     @L("保存")
                                 </a>
@@ -120,7 +109,7 @@
                                 <input type="hidden" name="Page.ID" value="@Model.Page.ID" />
                             }
                         </div>
-                    </div>
+                   
                 </div>
             </div>
         </nav>
@@ -210,7 +199,7 @@
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">@L("关闭")</button>
+                    <button type="button" class="zk-btn zk-btn-default" data-dismiss="modal">@L("关闭")</button>
                 </div>
             </div>
         </div>

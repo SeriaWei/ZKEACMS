@@ -63,7 +63,7 @@
 <body class="front">
     @if (ViewContext.HttpContext.User.Identity.IsAuthenticated && (ApplicationContext as CMSApplicationContext).PageMode != ZKEACMS.Filter.PageViewMode.ViewOnly)
     {
-        <div class="preview-toolbar hover-text hidden-xs" style="position:fixed; z-index:1000;left:5px;top:5px;">
+        <div class="preview-toolbar hover-text hidden-xs" style="position:fixed; z-index:10000;left:5px;top:5px;">
             <div class="btn-group">
                 <a class="btn btn-primary sort-handle">
                     <i class="glyphicon glyphicon-move"></i>

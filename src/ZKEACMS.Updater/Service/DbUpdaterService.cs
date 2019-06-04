@@ -34,12 +34,13 @@ namespace ZKEACMS.Updater.Service
         {
             using CurrentDbContext dbContext = new CurrentDbContext(_databaseOption);
             DbConnection dbConnection = dbContext.Database.GetDbConnection();
+            DbTransaction dbTransaction = null;
 
-            DbTransaction dbTransaction = dbConnection.BeginTransaction();
             string[] scriptFiles = GetScriptFiles();
             if (scriptFiles.Length > 0 && dbConnection.State != ConnectionState.Open)
             {
                 dbConnection.Open();
+                dbTransaction = dbConnection.BeginTransaction();
             }
             try
             {

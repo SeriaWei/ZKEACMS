@@ -3,6 +3,8 @@
  * Copyright 2019 ZKEASOFT
  * http://www.zkea.net/licenses
  */
+@import "./glyphicon/css/glyphicon.css";
+
 .zk-btn {
   display: inline-block;
   margin-bottom: 0;
@@ -628,7 +630,30 @@ input[type="button"].zk-btn-block {
 .zk-btn-group-vertical > .zk-btn-group:after {
   clear: both;
 }
+.zk-btn.add-widget {
+    background-image: -webkit-linear-gradient(top,#404040 0,#000 100%);
+    background-image: -o-linear-gradient(top,#404040 0,#000 100%);
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#404040),to(#000));
+    background-image: linear-gradient(to bottom,#404040 0,#000 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff404040', endColorstr='#ff000000', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    background-repeat: repeat-x;
+    border-color: #000;
+    color: #fff;
+}
+    .zk-btn.add-widget:hover,
+    .zk-btn.add-widget:focus {
+        color: #e6e6e6;
+        background-color: #000;
+        background-position: 0 -15px;
+    }
 
+    .zk-btn.add-widget:active,
+    .zk-btn.add-widget.active {
+        color: #b2b2b2;
+        background-color: #000;
+        border-color: #000;
+    }
 /*------------Dropdown------------*/
 .zk-dropup,
 .zk-dropdown {
@@ -762,6 +787,273 @@ input[type="button"].zk-btn-block {
     left: 0;
   }
 }
+.caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px dashed;
+    border-top: 4px solid\9;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+/*Badge*/
+.badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: #777777;
+    border-radius: 10px;
+}
+
+    .badge:empty {
+        display: none;
+    }
+
+.btn .badge {
+    position: relative;
+    top: -1px;
+}
+
+.btn-xs .badge,
+.btn-group-xs > .btn .badge {
+    top: 0;
+    padding: 1px 5px;
+}
+
+a.badge:hover,
+a.badge:focus {
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+}
+/*Modal*/
+.modal-open {
+    overflow: hidden;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+}
+
+    .modal.fade .modal-dialog {
+        -webkit-transform: translate(0, -25%);
+        -ms-transform: translate(0, -25%);
+        -o-transform: translate(0, -25%);
+        transform: translate(0, -25%);
+        -webkit-transition: -webkit-transform 0.3s ease-out;
+        -o-transition: -o-transform 0.3s ease-out;
+        transition: transform 0.3s ease-out;
+    }
+
+    .modal.in .modal-dialog {
+        -webkit-transform: translate(0, 0);
+        -ms-transform: translate(0, 0);
+        -o-transform: translate(0, 0);
+        transform: translate(0, 0);
+    }
+
+.modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.modal-dialog {
+    position: relative;
+    width: auto;
+    margin: 10px;
+}
+
+.modal-content {
+    position: relative;
+    background-color: #ffffff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #999999;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    outline: 0;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: #000000;
+}
+
+    .modal-backdrop.fade {
+        filter: alpha(opacity=0);
+        opacity: 0;
+    }
+
+    .modal-backdrop.in {
+        filter: alpha(opacity=50);
+        opacity: 0.5;
+    }
+
+.modal-header {
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+    .modal-header .close {
+        margin-top: -2px;
+    }
+
+.modal-title {
+    margin: 0;
+    line-height: 1.42857143;
+}
+
+.modal-body {
+    position: relative;
+    padding: 15px;
+}
+
+.modal-footer {
+    padding: 15px;
+    text-align: right;
+    border-top: 1px solid #e5e5e5;
+}
+
+    .modal-footer .btn + .btn {
+        margin-bottom: 0;
+        margin-left: 5px;
+    }
+
+    .modal-footer .btn-group .btn + .btn {
+        margin-left: -1px;
+    }
+
+    .modal-footer .btn-block + .btn-block {
+        margin-left: 0;
+    }
+
+.modal-scrollbar-measure {
+    position: absolute;
+    top: -9999px;
+    width: 50px;
+    height: 50px;
+    overflow: scroll;
+}
+
+@media (min-width: 768px) {
+    .modal-dialog {
+        width: 600px;
+        margin: 30px auto;
+    }
+
+    .modal-content {
+        -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-sm {
+        width: 300px;
+    }
+}
+
+@media (min-width: 992px) {
+    .modal-lg {
+        width: 900px;
+    }
+}
+
+.clearfix:before,
+.clearfix:after,
+.modal-header:before,
+.modal-header:after,
+.modal-footer:before,
+.modal-footer:after {
+    display: table;
+    content: " ";
+}
+
+.clearfix:after,
+.modal-header:after,
+.modal-footer:after {
+    clear: both;
+}
+.close {
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    color: #000000;
+    text-shadow: 0 1px 0 #ffffff;
+    filter: alpha(opacity=20);
+    opacity: 0.2;
+}
+
+    .close:hover,
+    .close:focus {
+        color: #000000;
+        text-decoration: none;
+        cursor: pointer;
+        filter: alpha(opacity=50);
+        opacity: 0.5;
+    }
+
+button.close {
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: " ";
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.pull-left {
+    float: left !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.affix {
+    position: fixed;
+}
 
 zone {
     display: block;
@@ -793,12 +1085,6 @@ zone {
 
 .input-group {
     margin: 2px 0;
-}
-
-.navbar-fixed-top,
-.navbar-fixed-bottom,
-.navbar.navbar-inverse.navbar-fixed-top {
-    z-index: 10;
 }
 
 .iconLeft {
@@ -1284,19 +1570,45 @@ label.additional {
 
 #toolBar {
     border-radius: 0;
-    top:0;
-    margin:0;
+    top: 0;
+    margin: 0;
+    z-index: 10;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    background: #212121;
+    border-bottom: 1px solid #000;
+    color: #fff;
+    padding: 5px 0;
 }
-
-#toolBar .navbar-brand {
-    float: left !important;
-    height: 50px !important;
-    padding: 15px 15px !important;
-    font-size: 18px !important;
-    line-height: 20px !important;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    background: none !important;
+    #toolBar .container {
+        padding-right: 0;
+        padding-left: 0;
+        margin-right: auto;
+        margin-left: auto;
+    }
+@media (min-width: 768px) {
+    #toolBar .container {
+        width: 750px;
+    }
+}
+@media (min-width: 992px) {
+    #toolBar .container {
+        width: 970px;
+    }
+}
+@media (min-width: 1200px) {
+    #toolBar .container {
+        width: 1170px;
+    }
+}
+#toolBar .display-border {
+    padding: 6px 15px;
+    display: inline-block;
+    margin: 0;
+    font-weight: normal;
+    cursor:pointer;
 }
 #toolBar .glyphicon{
     color: inherit;
@@ -1315,7 +1627,7 @@ label.additional {
     background: none;
     padding: 0;
 }
-#toolBar .btn .sr-only {
+#toolBar .sr-only {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -1325,16 +1637,10 @@ label.additional {
     clip: rect(0 0 0 0);
     border: 0;
 }
-#toolBar .navbar-nav{
-    float: left;
+#toolBar a{
+    text-decoration:none;
 }
-#toolBar .navbar-nav > li{
-    width: auto;
-}
-#toolBar .navbar-nav > li a{
-    font-size: 14px;
-    padding: 13px;
-}
+
 .AddCol.ui-draggable-dragging > select {
     display: none;
 }
@@ -1567,6 +1873,7 @@ li.ui-sortable-helper {
     width: 342px;
     height: 667px;
     padding: 48px 6px;
+    box-sizing: border-box;
 }
     #mobile-frame .mobile.mini {
         background: url(../images/mobile-frame-small.png) no-repeat center center;

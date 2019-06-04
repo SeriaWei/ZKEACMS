@@ -262,10 +262,6 @@ namespace ZKEACMS
             {
                 applicationBuilder.ApplicationServices.GetService<IRouteProvider>().GetRoutes().OrderByDescending(route => route.Priority).Each(route =>
                 {
-                    if (route.RequiredAuthorization)
-                    {
-                        endpoints.MapHealthChecks(route.Template);
-                    }
                     endpoints.MapControllerRoute(
                         name: route.RouteName,
                         pattern: route.Template,

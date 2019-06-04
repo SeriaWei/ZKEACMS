@@ -1,11 +1,10 @@
 ﻿@using ZKEACMS.Account
 @{
+    Style.Reqiured("bootStrap").AtHead();
     Style.Reqiured("Customer").AtHead();
     Style.Reqiured("Easy").AtHead();
-    var current = themeService.GetCurrentTheme();
     IEnumerable<AdminMenu> menu = userCenterLinkService.GetLinks();
 }
-@inject IThemeService themeService
 @inject IUserCenterLinkService userCenterLinkService
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
@@ -20,7 +19,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>@ViewBag.Title</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <link type="text/css" async rel="stylesheet" href="@Url.Content(current.Url)" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
     @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
     {

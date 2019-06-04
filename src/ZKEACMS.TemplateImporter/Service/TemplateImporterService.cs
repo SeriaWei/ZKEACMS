@@ -126,7 +126,7 @@ namespace ZKEACMS.TemplateImporter.Service
                 }
                 string title = document.PageName;
                 var titleNode = document.DocumentNode.SelectSingleNode("/html/head/title");
-                if (titleNode != null)
+                if (titleNode != null && titleNode.InnerText.IsNotNullAndWhiteSpace())
                 {
                     title = titleNode.InnerText.Trim();
                 }
@@ -147,8 +147,11 @@ namespace ZKEACMS.TemplateImporter.Service
                 {
                     page.DisplayOrder = ++index;
                 }
-                _pageService.Add(page);
-
+                var addPageResult = _pageService.Add(page);
+                if (addPageResult.HasViolation)
+                {
+                    throw new Exception(addPageResult.ErrorMessage);
+                }
                 #region Collect css
                 var cssLinks = document.DocumentNode.SelectNodes("//link[@rel='stylesheet']");
                 if (cssLinks != null)
