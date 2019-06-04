@@ -34,13 +34,13 @@ namespace ZKEACMS.Updater.Service
         {
             using CurrentDbContext dbContext = new CurrentDbContext(_databaseOption);
             DbConnection dbConnection = dbContext.Database.GetDbConnection();
-            if (dbConnection.State != ConnectionState.Open)
-            {
-                dbConnection.Open();
-            }
 
             DbTransaction dbTransaction = dbConnection.BeginTransaction();
             string[] scriptFiles = GetScriptFiles();
+            if (scriptFiles.Length > 0 && dbConnection.State != ConnectionState.Open)
+            {
+                dbConnection.Open();
+            }
             try
             {
                 foreach (var item in scriptFiles)
@@ -67,7 +67,7 @@ namespace ZKEACMS.Updater.Service
                     dbConnection.Close();
                 }
             }
-            
+
             foreach (var item in scriptFiles)
             {
                 try
