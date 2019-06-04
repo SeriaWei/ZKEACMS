@@ -836,11 +836,11 @@ a.badge:focus {
     cursor: pointer;
 }
 /*Modal*/
-.modal-open {
+.zk-modal-open {
     overflow: hidden;
 }
 
-.modal {
+.zk-modal {
     position: fixed;
     top: 0;
     right: 0;
@@ -853,7 +853,7 @@ a.badge:focus {
     outline: 0;
 }
 
-    .modal.fade .modal-dialog {
+    .zk-modal.fade .zk-modal-dialog {
         -webkit-transform: translate(0, -25%);
         -ms-transform: translate(0, -25%);
         -o-transform: translate(0, -25%);
@@ -863,25 +863,25 @@ a.badge:focus {
         transition: transform 0.3s ease-out;
     }
 
-    .modal.in .modal-dialog {
+    .zk-modal.in .zk-modal-dialog {
         -webkit-transform: translate(0, 0);
         -ms-transform: translate(0, 0);
         -o-transform: translate(0, 0);
         transform: translate(0, 0);
     }
 
-.modal-open .modal {
+.zk-modal-open .zk-modal {
     overflow-x: hidden;
     overflow-y: auto;
 }
 
-.modal-dialog {
+.zk-modal-dialog {
     position: relative;
     width: auto;
     margin: 10px;
 }
 
-.modal-content {
+.zk-modal-content {
     position: relative;
     background-color: #ffffff;
     -webkit-background-clip: padding-box;
@@ -894,7 +894,7 @@ a.badge:focus {
     outline: 0;
 }
 
-.modal-backdrop {
+.zk-modal-backdrop {
     position: fixed;
     top: 0;
     right: 0;
@@ -904,55 +904,55 @@ a.badge:focus {
     background-color: #000000;
 }
 
-    .modal-backdrop.fade {
+    .zk-modal-backdrop.fade {
         filter: alpha(opacity=0);
         opacity: 0;
     }
 
-    .modal-backdrop.in {
+    .zk-modal-backdrop.in {
         filter: alpha(opacity=50);
         opacity: 0.5;
     }
 
-.modal-header {
+.zk-modal-header {
     padding: 15px;
     border-bottom: 1px solid #e5e5e5;
 }
 
-    .modal-header .close {
+    .zk-modal-header .close {
         margin-top: -2px;
     }
 
-.modal-title {
+.zk-modal-title {
     margin: 0;
     line-height: 1.42857143;
 }
 
-.modal-body {
+.zk-modal-body {
     position: relative;
     padding: 15px;
 }
 
-.modal-footer {
+.zk-modal-footer {
     padding: 15px;
     text-align: right;
     border-top: 1px solid #e5e5e5;
 }
 
-    .modal-footer .btn + .btn {
+    .zk-modal-footer .btn + .btn {
         margin-bottom: 0;
         margin-left: 5px;
     }
 
-    .modal-footer .btn-group .btn + .btn {
+    .zk-modal-footer .btn-group .btn + .btn {
         margin-left: -1px;
     }
 
-    .modal-footer .btn-block + .btn-block {
+    .zk-modal-footer .btn-block + .btn-block {
         margin-left: 0;
     }
 
-.modal-scrollbar-measure {
+.zk-modal-scrollbar-measure {
     position: absolute;
     top: -9999px;
     width: 50px;
@@ -961,42 +961,59 @@ a.badge:focus {
 }
 
 @media (min-width: 768px) {
-    .modal-dialog {
+    .zk-modal-dialog {
         width: 600px;
         margin: 30px auto;
     }
 
-    .modal-content {
+    .zk-modal-content {
         -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     }
 
-    .modal-sm {
+    .zk-modal-sm {
         width: 300px;
     }
 }
 
 @media (min-width: 992px) {
-    .modal-lg {
+    .zk-modal-lg {
         width: 900px;
     }
 }
 
 .clearfix:before,
 .clearfix:after,
-.modal-header:before,
-.modal-header:after,
-.modal-footer:before,
-.modal-footer:after {
+.zk-modal-header:before,
+.zk-modal-header:after,
+.zk-modal-footer:before,
+.zk-modal-footer:after {
     display: table;
     content: " ";
 }
 
 .clearfix:after,
-.modal-header:after,
-.modal-footer:after {
+.zk-modal-header:after,
+.zk-modal-footer:after {
     clear: both;
 }
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: #000;
+}
+    .modal-backdrop.fade {
+        filter: alpha(opacity=0);
+        opacity: 0;
+    }
+    .modal-backdrop.in {
+        filter: alpha(opacity=50);
+        opacity: .5;
+    }
 .close {
     float: right;
     font-size: 21px;
@@ -1853,11 +1870,11 @@ li.ui-sortable-helper {
         top: 5px;
     }
 
-#mobile-frame .modal-dialog {
+#mobile-frame .zk-modal-dialog {
     width: 372px;
 }
 
-#mobile-frame .modal-content {
+#mobile-frame .zk-modal-content {
     background: none;
     box-shadow: none;
     border: none;
