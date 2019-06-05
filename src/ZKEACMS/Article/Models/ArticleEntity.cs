@@ -47,7 +47,7 @@ namespace ZKEACMS.Article.Models
                 .ShowInGrid();
 
             ViewConfig(m => m.ArticleContent).AsTextArea().AddClass(StringKeys.HtmlEditorClass);
-            ViewConfig(m => m.PublishDate).AsTextBox().FormatAsDateTime();
+            ViewConfig(m => m.PublishDate).AsTextBox().Hide();
             ViewConfig(m => m.IsPublish).AsTextBox().Hide().ShowInGrid();
         }
     }
