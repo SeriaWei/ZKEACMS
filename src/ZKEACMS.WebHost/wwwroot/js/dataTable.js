@@ -118,9 +118,9 @@
                             }
                         }
                         if (columnSetting.dataType == "DateTime") {
-                            searchInput.find(".form-control").datepicker({
-                                language: "zh-CN",
-                                format: "yyyy/mm/dd" //columnSetting.format
+                            searchInput.find(".form-control").datetimepicker({
+                                locale:'zh-cn',
+                                format: "YYYY/MM/DD HH:mm:ss" //columnSetting.format
                             });
                         }
                         searchInput.appendTo($(column.footer()));

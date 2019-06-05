@@ -71,8 +71,8 @@ namespace ZKEACMS.WebHost
                 .Include($"{ScriptPath}/dataTable.js", $"{ScriptPath}/dataTable.min.js");
 
             script("datepicker")
-                .Include($"{LibraryPath}/bootstrap-datepicker/dist/js/bootstrap-datepicker.js", $"{LibraryPath}/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js")
-                .Include($"{LibraryPath}/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js");
+                .Include($"{LibraryPath}/bootstrap-datepicker/moment-with-locales.min.js")
+                .Include($"{LibraryPath}/bootstrap-datepicker/bootstrap-datetimepicker.min.js");
 
             script("pjax")
                 .Include($"{LibraryPath}/jquery-pjax/jquery.pjax.js");
@@ -139,7 +139,7 @@ namespace ZKEACMS.WebHost
                 .Include($"{LibraryPath}/datatables/media/css/dataTables.bootstrap.css", $"{LibraryPath}/datatables/media/css/dataTables.bootstrap.min.css");
 
             style("datepicker")
-                .Include($"{LibraryPath}/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css", $"{LibraryPath}/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css");
+                .Include($"{LibraryPath}/bootstrap-datepicker/bootstrap-datetimepicker.min.css");
 
             style("select2")
                 .Include($"{LibraryPath}/select2/dist/css/select2.css", $"{LibraryPath}/select2/dist/css/select2.min.css");

@@ -110,10 +110,10 @@ $(function () {
 
 
 
-    if ($.fn.datepicker) {
+    if ($.fn.datetimepicker) {
         $(".Date").each(function () {
             if (!$(this).prop("readonly") && !$(this).prop("disabled")) {
-                $(this).datepicker({ language: "zh-CN", format: $(this).attr("JsDateFormat") });
+                $(this).datetimepicker({ locale: "zh-CN", format: $(this).attr("JsDateFormat") });
             }
         });
     }
@@ -332,8 +332,8 @@ $(function () {
                 $(this).attr("id", id.replace(/\_(\d+)\_/, "_" + index + "_"));
             }
 
-            if ($(this).hasClass("Date") && !$(this).prop("readonly") && !$(this).prop("disabled")) {
-                $(this).datepicker({ language: "zh-CN", format: $(this).attr("JsDateFormat") });
+            if ($(this).hasClass("Date") && !$(this).prop("readonly") && !$(this).prop("disabled") && $.fn.datetimepicker) {
+                $(this).datetimepicker({ locale: "zh-CN", format: $(this).attr("JsDateFormat") });
             }
         });
 
