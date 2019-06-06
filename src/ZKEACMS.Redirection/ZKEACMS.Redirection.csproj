@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>ZKEACMS.Redirection</AssemblyName>
     <PackageId>ZKEACMS.Redirection</PackageId>
     <OutputTypeEx>library</OutputTypeEx>
@@ -12,7 +12,9 @@
     <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS.Core</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>CMS.Redirection</PackageTags>
-    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+    <RazorCompileOnBuild>true</RazorCompileOnBuild>
+    <RazorCompileOnPublish>true</RazorCompileOnPublish>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Scripts\_references.js">
@@ -20,7 +22,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
 </Project>

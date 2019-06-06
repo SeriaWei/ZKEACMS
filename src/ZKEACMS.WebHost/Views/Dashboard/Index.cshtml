@@ -4,6 +4,6 @@
 <div>
   @foreach (DashboardPart part in Model.Parts.OrderBy(m=>m.Order))
   {
-    @Html.Partial(part.ViewName, part.ViewModel)
+    @await Html.PartialAsync(part.ViewName, part.ViewModel)
   }
 </div>

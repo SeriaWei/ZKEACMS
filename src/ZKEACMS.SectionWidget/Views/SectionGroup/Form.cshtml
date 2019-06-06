@@ -1,12 +1,12 @@
 @using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Hosting
 @model ZKEACMS.SectionWidget.Models.SectionGroup
-@inject IHostingEnvironment hostingEnvironment
 @{
     Layout = Layouts.PopUp;
     Style.Reqiured("SectionAdmin").AtHead();
     Script.Reqiured("validate").AtFoot();
 }
-<div class="group-form @(hostingEnvironment.IsDevelopment()?"developer":"")">
+<div class="group-form @(ApplicationContext.HostingEnvironment.IsDevelopment()?"developer":"")">
     @using (Html.BeginForm("Save", "SectionGroup"))
     {
         <ul class="nav nav-tabs">

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>ZKEACMS.FormGenerator</AssemblyName>
     <PackageId>ZKEACMS.FormGenerator</PackageId>
     <OutputTypeEx>library</OutputTypeEx>
@@ -12,22 +12,16 @@
     <PackageTags>CMS.Section</PackageTags>
     <Description>Session plugin for ZKEACMS</Description>
     <Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
-    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
-    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <RazorCompileOnBuild>true</RazorCompileOnBuild>
+    <RazorCompileOnPublish>true</RazorCompileOnPublish>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Scripts\_references.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\FormData\" />
-  </ItemGroup>
-
 </Project>

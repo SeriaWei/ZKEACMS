@@ -20,7 +20,7 @@ namespace Easy.ViewPort.Descriptor
         public TextBoxDescriptor FormatAsDate()
         {
             FormatDate("yyyy/MM/dd");
-            FormatDateForJavaScript("yyyy/mm/dd");
+            FormatDateForJavaScript("YYYY/MM/DD");
             this.AddClass("Date");
             return this;
         }
@@ -28,7 +28,7 @@ namespace Easy.ViewPort.Descriptor
         public TextBoxDescriptor FormatAsDateTime()
         {
             FormatDate("yyyy/MM/dd hh:mm");
-            FormatDateForJavaScript("yyyy/mm/dd hh:mm");
+            FormatDateForJavaScript("YYYY/MM/DD HH:mm:ss");
             return this;
         }
         public TextBoxDescriptor FormatDate(string format)

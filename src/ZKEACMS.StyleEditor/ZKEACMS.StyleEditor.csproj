@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>ZKEACMS.StyleEditor</AssemblyName>
     <PackageId>ZKEACMS.StyleEditor</PackageId>
     <OutputTypeEx>library</OutputTypeEx>
@@ -12,12 +12,11 @@
     <PackageTags>CMS.StyleEditor</PackageTags>
     <Description>Session plugin for ZKEACMS</Description>
     <Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
-    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
-  </PropertyGroup> 
-  
-
+    <RazorCompileOnBuild>true</RazorCompileOnBuild>
+    <RazorCompileOnPublish>true</RazorCompileOnPublish>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
 

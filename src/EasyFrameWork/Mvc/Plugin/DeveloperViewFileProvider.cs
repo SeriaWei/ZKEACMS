@@ -14,7 +14,7 @@ namespace Easy.Mvc.Plugin
     public class DeveloperViewFileProvider : IFileProvider
     {
         public const string ProjectRootPath = "/Porject.RootPath/";
-        public DeveloperViewFileProvider(IHostingEnvironment hostingEnvironment)
+        public DeveloperViewFileProvider(IWebHostEnvironment hostingEnvironment)
         {
             HostingEnvironment = hostingEnvironment;
         }
@@ -22,7 +22,7 @@ namespace Easy.Mvc.Plugin
         {
             return null;
         }
-        public IHostingEnvironment HostingEnvironment { get; }
+        public IWebHostEnvironment HostingEnvironment { get; }
 
         public IFileInfo GetFileInfo(string subpath)
         {

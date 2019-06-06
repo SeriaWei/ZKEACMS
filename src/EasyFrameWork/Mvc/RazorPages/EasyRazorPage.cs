@@ -82,7 +82,7 @@ namespace Easy.Mvc.RazorPages
         {
             var builder = new HtmlContentBuilder();
             IUrlHelper urlHelper = Context.RequestServices.GetService<IUrlHelperFactory>().GetUrlHelper(ViewContext);
-            IHostingEnvironment hostingEnvironment = Context.RequestServices.GetService<IHostingEnvironment>();
+            IWebHostEnvironment hostingEnvironment = Context.RequestServices.GetService<IWebHostEnvironment>();
             IOptions<CDNOption> options = Context.RequestServices.GetService<IOptions<CDNOption>>();
             switch (type)
             {
