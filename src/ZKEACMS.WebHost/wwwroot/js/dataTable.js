@@ -120,7 +120,7 @@
                         if (columnSetting.dataType == "DateTime") {
                             searchInput.find(".form-control").datetimepicker({
                                 locale:'zh-cn',
-                                format: "YYYY/MM/DD HH:mm:ss" //columnSetting.format
+                                format: "YYYY/MM/DD" //columnSetting.format
                             });
                         }
                         searchInput.appendTo($(column.footer()));
