@@ -14,8 +14,7 @@
     <PackageTags>CMS.Redirection</PackageTags>
     <RazorCompileOnBuild>true</RazorCompileOnBuild>
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
-    <PreserveCompilationContext>true</PreserveCompilationContext>
-    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Scripts\_references.js">

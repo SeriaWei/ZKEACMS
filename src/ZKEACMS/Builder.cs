@@ -81,8 +81,10 @@ namespace ZKEACMS
                 opt.ViewLocationExpanders.Add(new ThemeViewLocationExpander());
             })
             .AddControllersAsServices()
-            .AddNewtonsoftJson()
-            .AddRazorRuntimeCompilation()
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.DateFormatString = "yyyy/MM/dd H:mm";
+            })
             .SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             services.AddRazorPages();
@@ -229,7 +231,7 @@ namespace ZKEACMS
                 PermissionKeys.Configure(options);
                 KnownRequirements.Configure(options);
             });
-            
+
             services.AddAuthentication(DefaultAuthorizeAttribute.DefaultAuthenticationScheme)
                 .AddCookie(DefaultAuthorizeAttribute.DefaultAuthenticationScheme, o =>
                 {

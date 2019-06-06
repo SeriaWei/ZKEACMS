@@ -118,9 +118,10 @@
                             }
                         }
                         if (columnSetting.dataType == "DateTime") {
+                            debugger
                             searchInput.find(".form-control").datetimepicker({
-                                locale:'zh-cn',
-                                format: "YYYY/MM/DD" //columnSetting.format
+                                locale: 'zh-cn',
+                                format: columnSetting.format //columnSetting.format
                             });
                         }
                         searchInput.appendTo($(column.footer()));
