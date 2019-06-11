@@ -1,8 +1,10 @@
 ﻿@{
-    Script.Reqiured("jQueryUi").AtFoot();
     Style.Reqiured("Layout").AtHead();
     Style.Reqiured("bootStrap").AtHead();
+    Style.Reqiured("codemirror").AtHead();
+    Script.Reqiured("jQueryUi").AtFoot();
     Script.Reqiured("admin").AtFoot();
+    Script.Reqiured("codemirror").AtFoot();
     Model.ContainerClass = Model.ContainerClass ?? "container";
 }
 @model LayoutEntity
@@ -72,44 +74,45 @@
                                 <li><a href="javascript:void(0)" data-val="12">@L("12/12")</a></li>
                             </ul>
                         </div>
+                        <a class="zk-btn zk-btn-primary" id="show-source-code" data-toggle="modal" data-target="#modal-layout-code">@L("源码")</a>
                         <span class="badge" data-toggle="modal" data-target="#question" style="cursor:help">?</span>
                     </div>
-                    
-                        <div class="pull-right">
-                            <div class="zk-btn-group">
-                                <a class="zk-btn zk-btn-primary cancel">
-                                    <i class="glyphicon glyphicon-arrow-left"></i>
-                                    @L("取消")
-                                </a>
-                                @if (Model.Page != null)
-                                {
-                                    <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
-                                        <i class="glyphicon glyphicon-pencil"></i>
-                                        @L("编辑页面")
-                                    </a>
-                                }
-                                <a href="@Url.Action("LayoutWidget", "Layout", new { LayoutID = Model.ID })" class="zk-btn zk-btn-primary">
-                                    <i class="glyphicon glyphicon-th-list"></i>
-                                    @L("内容")
-                                </a>
-                                <a href="@Url.Action("Edit", "Layout", new {Model.ID})" class="zk-btn zk-btn-primary">
-                                    <i class="glyphicon glyphicon-edit"></i>
-                                    @L("属性")
-                                </a>
-                                <a class="zk-btn zk-btn-primary" id="save">
-                                    <i class="glyphicon glyphicon-floppy-disk"></i>
-                                    @L("保存")
-                                </a>
-                                @await Html.PartialAsync("Partial.Menu", Model)
-                            </div>
-                            <input type="hidden" id="ContainerClass" name="ContainerClass" value="@(Model.ContainerClass)" />
-                            <input type="hidden" id="LayoutId" name="ID" value="@Model.ID" />
+
+                    <div class="pull-right">
+                        <div class="zk-btn-group">
+                            <a class="zk-btn zk-btn-primary cancel">
+                                <i class="glyphicon glyphicon-arrow-left"></i>
+                                @L("取消")
+                            </a>
                             @if (Model.Page != null)
                             {
-                                <input type="hidden" name="Page.ID" value="@Model.Page.ID" />
+                                <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                    @L("编辑页面")
+                                </a>
                             }
+                            <a href="@Url.Action("LayoutWidget", "Layout", new { LayoutID = Model.ID })" class="zk-btn zk-btn-primary">
+                                <i class="glyphicon glyphicon-th-list"></i>
+                                @L("内容")
+                            </a>
+                            <a href="@Url.Action("Edit", "Layout", new {Model.ID})" class="zk-btn zk-btn-primary">
+                                <i class="glyphicon glyphicon-edit"></i>
+                                @L("属性")
+                            </a>
+                            <a class="zk-btn zk-btn-primary" id="save">
+                                <i class="glyphicon glyphicon-floppy-disk"></i>
+                                @L("保存")
+                            </a>
+                            @await Html.PartialAsync("Partial.Menu", Model)
                         </div>
-                   
+                        <input type="hidden" id="ContainerClass" name="ContainerClass" value="@(Model.ContainerClass)" />
+                        <input type="hidden" id="LayoutId" name="ID" value="@Model.ID" />
+                        @if (Model.Page != null)
+                        {
+                            <input type="hidden" name="Page.ID" value="@Model.Page.ID" />
+                        }
+                    </div>
+
                 </div>
             </div>
         </nav>
@@ -124,14 +127,14 @@
         <link href="@Url.Content(Model.Style)" rel="stylesheet" />
 
     }
-    <div class="modal fade" id="question" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
+    <div class="zk-modal fade" id="question" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="zk-modal-dialog" role="document">
+            <div class="zk-modal-content">
+                <div class="zk-modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">@L("布局设计说明")</h4>
+                    <h4 class="zk-modal-title" id="myModalLabel">@L("布局设计说明")</h4>
                 </div>
-                <div class="modal-body">
+                <div class="zk-modal-body">
                     <h3>
                         @L("居中 / 拉伸")
                     </h3>
@@ -198,8 +201,25 @@
                         </li>
                     </ul>
                 </div>
-                <div class="modal-footer">
+                <div class="zk-modal-footer">
                     <button type="button" class="zk-btn zk-btn-default" data-dismiss="modal">@L("关闭")</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="zk-modal fade" id="modal-layout-code" tabindex="-1" role="dialog" style="display:block;">
+        <div class="zk-modal-dialog" style="width:1200px" role="document">
+            <div class="zk-modal-content">
+                <div class="zk-modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="zk-modal-title">@L("布局设计说明")</h4>
+                </div>
+                <div class="zk-modal-body">
+                    <textarea id="layout-code" rows="10" cols="10"></textarea>
+                </div>
+                <div class="zk-modal-footer">
+                    <button type="button" class="zk-btn zk-btn-default" data-dismiss="zk-modal">@L("确定")</button>
                 </div>
             </div>
         </div>
