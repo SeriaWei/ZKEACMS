@@ -181,20 +181,20 @@
 
         $("zone").each(function (i) {
             $("input", this).each(function () {
-                $(this).attr("name", "zones[" + i + "]." + $(this).attr("name")).addClass("hide");               
+                $(this).attr("name", "zones[" + i + "]." + $(this).attr("name")).addClass("hide");
             }).appendTo(form);
         });
 
         var copyContainer = $('<div id="containers"/>').append(container.html());
 
         $("div", copyContainer)
-                    .removeClass("ui-droppable")
-                    .removeClass("ui-sortable")
-                    .removeClass("ui-sortable-handle")
-                    .removeClass("active")
-                    .removeClass("design")
-                    .removeClass("custom-style-target")
-                    .not(".custom-style").removeAttr("style");
+            .removeClass("ui-droppable")
+            .removeClass("ui-sortable")
+            .removeClass("ui-sortable-handle")
+            .removeClass("active")
+            .removeClass("design")
+            .removeClass("custom-style-target")
+            .not(".custom-style").removeAttr("style");
 
         $(".tools", copyContainer).remove();
 
@@ -254,15 +254,15 @@
             .replace(new RegExp('><zone>', 'g'), ">\n<zone>\n")
             .replace(new RegExp('></zone', 'g'), ">\n</zone")
             .replace(new RegExp('><input', 'g'), ">\n<input");
-        editor.getDoc().setValue(html);
-        var totalLines = editor.lineCount();
-        editor.autoFormatRange({ line: 0, ch: 0 }, { line: totalLines });
+        editor.setValue(html);
         setTimeout(function () {
             editor.refresh();
-        }, 300);
+            var totalLines = editor.lineCount();
+            editor.autoFormatRange({ line: 0, ch: 0 }, { line: totalLines });
+        }, 500);
     });
     $(document).on("click", "#save-layout-code", function () {
-        var doc = editor.getDoc().getValue();
+        var doc = editor.getValue();
         container.html(doc);
         $("input[name=LayoutId]", container).val($("#LayoutId").val());
         initContainer();
