@@ -94,7 +94,8 @@ namespace ZKEACMS.WebHost
                 .Include($"{LibraryPath}/codemirror/mode/xml/xml.js")
                 .Include($"{LibraryPath}/codemirror/mode/javascript/javascript.js")
                 .Include($"{LibraryPath}/codemirror/mode/css/css.js")
-                .Include($"{LibraryPath}/codemirror/mode/htmlmixed/htmlmixed.js");
+                .Include($"{LibraryPath}/codemirror/mode/htmlmixed/htmlmixed.js")
+                .Include($"{LibraryPath}/codemirror/addon/format/autoformat.js", $"{LibraryPath}/codemirror/addon/format/autoformat.min.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)

@@ -31,6 +31,11 @@
     <title>[@L("设计")]@Model.LayoutName</title>
     @StyleAtHead()
     @ScriptAtHead()
+    <style type="text/css">
+        .CodeMirror-hints{
+            z-index:1060;
+        }
+    </style>
 </head>
 <body class="front">
     <form id="LayoutInfo" asp-controller="Layout" asp-action="SaveLayout" method="post">
@@ -39,25 +44,24 @@
                 <div class="clearfix">
                     <div class="pull-left">
                         <span class="badge">@L("布局设计")</span>
-                        <label class="AddContainer zk-btn zk-btn-default" data-container="container-fluid" title="@L("点击拖动到主屏幕")">
-                            <span class="badge">1</span>
+                        <label class="AddContainer zk-btn zk-btn-primary" data-container="container-fluid" title="@L("点击拖动到主屏幕")" style="cursor:move">
                             <i class="glyphicon glyphicon-unchecked"></i>
                             @L("容器")
+                            <span class="glyphicon glyphicon-move"></span>
                         </label>
-                        <label class="AddRow zk-btn zk-btn-primary" data-container="container-fluid" title="@L("点击拖动到容器")">
-                            <span class="badge">2</span>
+                        <label class="AddRow zk-btn zk-btn-primary" data-container="container-fluid" title="@L("点击拖动到容器")" style="cursor:move">
                             <i class="glyphicon glyphicon-align-justify"></i>
                             @L("行")
+                            <span class="glyphicon glyphicon-move"></span>
                         </label>
                         <div class="zk-btn-group">
-                            <label id="add-col-handle" class="AddCol zk-btn zk-btn-success" data-col="col-md-" data-val="6" title="@L("点击拖动到行")">
-                                <span class="badge">3</span>
+                            <label id="add-col-handle" class="AddCol zk-btn zk-btn-primary" data-col="col-md-" data-val="6" title="@L("点击拖动到行")" style="cursor:move">
                                 <i class="glyphicon glyphicon-tasks"></i>
                                 @L("列宽") <span class="col-size-info">@L("6/12")</span>
+                                <span class="glyphicon glyphicon-move"></span>
                             </label>
-                            <button type="button" class="zk-btn zk-btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" class="zk-btn zk-btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <ul class="zk-dropdown-menu col-size">
                                 <li><a href="javascript:void(0)" data-val="1">@L("1/12")</a></li>
@@ -74,7 +78,9 @@
                                 <li><a href="javascript:void(0)" data-val="12">@L("12/12")</a></li>
                             </ul>
                         </div>
-                        <a class="zk-btn zk-btn-primary" id="show-source-code" data-toggle="modal" data-target="#modal-layout-code">@L("源码")</a>
+                        <a class="zk-btn zk-btn-primary" id="show-source-code" data-toggle="modal" data-target="#modal-layout-code" title="@L("代码")">
+                            <i class="glyphicon glyphicon-pencil"></i>
+                        </a>
                         <span class="badge" data-toggle="modal" data-target="#question" style="cursor:help">?</span>
                     </div>
 
@@ -208,18 +214,19 @@
         </div>
     </div>
 
-    <div class="zk-modal fade" id="modal-layout-code" tabindex="-1" role="dialog" style="display:block;">
+    <div class="zk-modal fade" id="modal-layout-code" tabindex="-1" role="dialog"  data-keyboard="false" style="display:block;">
         <div class="zk-modal-dialog" style="width:1200px" role="document">
             <div class="zk-modal-content">
                 <div class="zk-modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="zk-modal-title">@L("布局设计说明")</h4>
+                    <h4 class="zk-modal-title">@L("布局代码")</h4>
                 </div>
                 <div class="zk-modal-body">
                     <textarea id="layout-code" rows="10" cols="10"></textarea>
                 </div>
                 <div class="zk-modal-footer">
-                    <button type="button" class="zk-btn zk-btn-default" data-dismiss="zk-modal">@L("确定")</button>
+                    <button type="button" class="zk-btn zk-btn-default" data-dismiss="modal">@L("关闭")</button>
+                    <button type="button" class="zk-btn zk-btn-primary" id="save-layout-code" data-dismiss="modal">@L("确定")</button>
                 </div>
             </div>
         </div>

@@ -86,25 +86,28 @@
             row.sortable(colSortOption);
         }
     };
+    function initContainer() {
+        $("#containers").sortable({
+            placeholder: "design",
+            axis: 'y',
+            tolerance: "pointer",
+            start: function (event, ui) {
+                if (ui.helper.hasClass("container")) {
+                    ui.placeholder.addClass("container");
+                    ui.helper.css("left", ui.placeholder.offset().left);
+                }
+                else {
+                    ui.placeholder.addClass("container-fluid");
+                }
+            },
+            handle: ".glyphicon-sort"
+        });
 
-    $("#containers").sortable({
-        placeholder: "design",
-        axis: 'y',
-        tolerance: "pointer",
-        start: function (event, ui) {
-            if (ui.helper.hasClass("container")) {
-                ui.placeholder.addClass("container");
-                ui.helper.css("left", ui.placeholder.offset().left);
-            }
-            else {
-                ui.placeholder.addClass("container-fluid");
-            }
-        },
-        handle: ".glyphicon-sort"
-    });
+        $("#containers>div").sortable(rowSortOption).append(containerTools).addClass("design main custom-style");
+        $(".additional.row").sortable(colSortOption).append(rowTools).children(".additional").append(colTools);
+    }
+    initContainer();
 
-    $("#containers>div").sortable(rowSortOption).append(containerTools).addClass("design main custom-style");
-    $(".additional.row").sortable(colSortOption).append(rowTools).children(".additional").append(colTools);
     $("body").droppable({
         greedy: true,
         accept: ".AddContainer",
@@ -226,6 +229,12 @@
         return false;
     });
     $(document).on("click", "#show-source-code", function () {
+        $('input[name="ZoneName"]').each(function () {
+            if (!$.trim($(this).val())) {
+                $(this).val("未命名");
+            }
+            $(this).attr("value", $(this).val());
+        });
         var copyContainer = $('<div id="containers"/>').append(container.html());
 
         $("div", copyContainer)
@@ -252,51 +261,12 @@
             editor.refresh();
         }, 300);
     });
+    $(document).on("click", "#save-layout-code", function () {
+        var doc = editor.getDoc().getValue();
+        container.html(doc);
+        $("input[name=LayoutId]", container).val($("#LayoutId").val());
+        initContainer();
 
-    CodeMirror.defineExtension("autoFormatRange", function (from, to) {
-        var cm = this;
-        var outer = cm.getMode(), text = cm.getRange(from, to).split("\n");
-        var state = CodeMirror.copyState(outer, cm.getTokenAt(from).state);
-        var tabSize = cm.getOption("tabSize");
-
-        var out = "", lines = 0, atSol = from.ch == 0;
-        function newline() {
-            out += "\n";
-            atSol = true;
-            ++lines;
-        }
-
-        for (var i = 0; i < text.length; ++i) {
-            var stream = new CodeMirror.StringStream(text[i], tabSize);
-            while (!stream.eol()) {
-                var inner = CodeMirror.innerMode(outer, state);
-                var style = outer.token(stream, state), cur = stream.current();
-                stream.start = stream.pos;
-                if (!atSol || /\S/.test(cur)) {
-                    out += cur;
-                    atSol = false;
-                }
-                if (!atSol && inner.mode.newlineAfterToken &&
-                    inner.mode.newlineAfterToken(style, cur, stream.string.slice(stream.pos) || text[i + 1] || "", inner.state))
-                    newline();
-            }
-            if (!stream.pos && outer.blankLine) outer.blankLine(state);
-            if (!atSol) newline();
-        }
-
-        cm.operation(function () {
-            cm.replaceRange(out, from, to);
-            for (var cur = from.line + 1, end = from.line + lines; cur <= end; ++cur)
-                cm.indentLine(cur, "smart");
-        });
-    });
-    CodeMirror.defineExtension("autoIndentRange", function (from, to) {
-        var cmInstance = this;
-        this.operation(function () {
-            for (var i = from.line; i <= to.line; i++) {
-                cmInstance.indentLine(i, "smart");
-            }
-        });
     });
     var editor = CodeMirror.fromTextArea(document.getElementById('layout-code'), {
         lineNumbers: true,
