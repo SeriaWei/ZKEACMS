@@ -12,7 +12,6 @@
     <PackageTags>ZKEACMS.WebHost</PackageTags>
     <Description>Package Description</Description>
     <Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
-    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
     <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
     <TieredCompilation>true</TieredCompilation>
     <ServerGarbageCollection>false</ServerGarbageCollection>
@@ -26,5 +25,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.0.0-preview6.19307.2" />
     <ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <MvcRazorFilesToCompile Include="Views\**\*.cshtml;EmailTemplates\**\*.cshtml" Exclude="wwwroot\themes\**\*.cshtml;" />
   </ItemGroup>
 </Project>
