@@ -12,6 +12,8 @@ using ZKEACMS.Widget;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Easy.Extend;
+using System.Collections.Concurrent;
+using Easy.Cache;
 
 namespace ZKEACMS.Article.Service
 {
@@ -19,14 +21,20 @@ namespace ZKEACMS.Article.Service
     {
         private const string ArticleDetailWidgetRelatedPageUrls = "ArticleDetailWidgetRelatedPageUrls";
         private readonly IArticleService _articleService;
-        public ArticleDetailWidgetService(IWidgetBasePartService widgetService, IArticleService articleService, IApplicationContext applicationContext, CMSDbContext dbContext)
+        private readonly ConcurrentDictionary<string, object> _allRelatedUrlCache;
+        public ArticleDetailWidgetService(IWidgetBasePartService widgetService,
+            IArticleService articleService,
+            IApplicationContext applicationContext,
+            ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
+            CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
         {
             _articleService = articleService;
+            _allRelatedUrlCache = cacheManager.GetOrAdd(ArticleDetailWidgetRelatedPageUrls, new ConcurrentDictionary<string, object>());
         }
         private void DismissRelatedPageUrls()
         {
-            ArticlePlug.AllRelatedUrlCache.TryRemove(ArticleDetailWidgetRelatedPageUrls, out var urls);
+            _allRelatedUrlCache.TryRemove(ArticleDetailWidgetRelatedPageUrls, out var urls);
         }
 
         public override void AddWidget(WidgetBase widget)
@@ -87,11 +95,11 @@ namespace ZKEACMS.Article.Service
 
         public string[] GetRelatedPageUrls()
         {
-            return ArticlePlug.AllRelatedUrlCache.GetOrAdd(ArticleDetailWidgetRelatedPageUrls, fac =>
+            return _allRelatedUrlCache.GetOrAdd(ArticleDetailWidgetRelatedPageUrls, fac =>
             {
                 var pages = WidgetBasePartService.Get(w => Get().Select(m => m.ID).Contains(w.ID)).Select(m => m.PageID).ToArray();
                 return DbContext.Page.Where(p => pages.Contains(p.ID)).Select(m => m.Url.Replace("~/", "/")).Distinct().ToArray();
-            });
+            }) as string[];
         }
     }
 }
