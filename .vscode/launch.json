@@ -8,6 +8,7 @@
             "name": ".NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
+            "preLaunchTask": "build",
             "program": "${workspaceFolder}/src/ZKEACMS.WebHost/bin/Debug/netcoreapp3.0/ZKEACMS.WebHost.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/ZKEACMS.WebHost",
