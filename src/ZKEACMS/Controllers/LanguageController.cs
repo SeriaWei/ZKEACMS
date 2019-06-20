@@ -49,7 +49,7 @@ namespace ZKEACMS.Controllers
         {
             foreach (var item in language)
             {
-                _languageService.Update(item);
+                _languageService.AddOrUpdate(item);
             }
             return RedirectToAction("Index");
         }

@@ -7,5 +7,6 @@ namespace Easy.Modules.MutiLanguage
     public interface ILanguageService : IService<LanguageEntity>
     {
         IEnumerable<LanguageEntity> GetCultures(string lanKey);
+        ServiceResult<LanguageEntity> AddOrUpdate(LanguageEntity entity);
     }
 }
