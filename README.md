@@ -18,7 +18,7 @@ Try it on our demo site, the demo site is Enterprise Edition:
 
 http://build.zkeasoft.com/
 
-## Notice
+## Culture
 Change the culture code to `en-US` to use english in `appsettings.json`
 
 通过修改`appsettings.json`来将语言切换为英文：
