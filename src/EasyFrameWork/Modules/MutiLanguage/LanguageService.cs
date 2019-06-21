@@ -114,5 +114,19 @@ namespace Easy.Modules.MutiLanguage
                 return result;
             });
         }
+
+        public ServiceResult<LanguageEntity> AddOrUpdate(LanguageEntity entity)
+        {
+            LanguageEntity translate = Get(entity.LanKey, entity.CultureName);
+            if (translate == null)
+            {
+                return Add(entity);
+            }
+            else
+            {
+                translate.LanValue = entity.LanValue;
+                return Update(translate);
+            }
+        }
     }
 }

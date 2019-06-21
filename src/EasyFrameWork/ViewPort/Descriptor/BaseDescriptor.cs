@@ -184,20 +184,23 @@ namespace Easy.ViewPort.Descriptor
                     else
                     {
                         StringBuilder lanValueBuilder = new StringBuilder();
-                        if (lanValue.EndsWith("ID") || lanValue.EndsWith("Id"))
+                        if (lanValue.Length > 2 && (lanValue.EndsWith("ID") || lanValue.EndsWith("Id")))
                         {
                             lanValue = lanValue.Substring(0, lanValue.Length - 2);
                         }
-                        for (int i = 0; i < lanValue.Length; i++)
+                        if (lanValue.Length > 2)
                         {
-                            char charLan = lanValue[i];
-                            if (i > 0 && char.IsUpper(charLan))
+                            for (int i = 0; i < lanValue.Length; i++)
                             {
-                                lanValueBuilder.Append(' ');
+                                char charLan = lanValue[i];
+                                if (i > 0 && char.IsUpper(charLan))
+                                {
+                                    lanValueBuilder.Append(' ');
+                                }
+                                lanValueBuilder.Append(charLan);
                             }
-                            lanValueBuilder.Append(charLan);
+                            lanValue = lanValueBuilder.ToString();
                         }
-                        lanValue = lanValueBuilder.ToString();
                     }
                     lanType = "EntityProperty";
                     module = key.Split('@')[0];
