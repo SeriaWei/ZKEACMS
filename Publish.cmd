@@ -23,8 +23,9 @@ exit
 WHERE /Q publish-zkeacms
 IF %ERRORLEVEL% NEQ 0 (
 @echo Installing publish tool, please wait.
-dotnet tool install --global ZKEACMS.Publisher --version 1.5.6-preview3.0
-)
+dotnet tool install --g ZKEACMS.Publisher
+) else dotnet tool update -g ZKEACMS.Publisher
+
 @pause
 @echo Publishing, please wait...
 dotnet restore
