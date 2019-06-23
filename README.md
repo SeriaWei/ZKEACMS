@@ -55,10 +55,10 @@ docker run -d -p 5000:80 zkeasoft/zkeacms
 * Microsoft Visual Studio 2017 15.9+ / Visual Studio Code
 
 ## 设计页面 / Page Design
-![简单演示](http://ww4.sinaimg.cn/mw690/005zTNGqgw1f5e6o2kejlg30dw08an3g.gif)
+![简单演示](https://user-images.githubusercontent.com/6006218/59973922-176ced80-95d8-11e9-9ff8-be71ae1a0787.gif)
 
 ## 添加内容 / Add Content
-![简单演示](http://ww3.sinaimg.cn/mw690/005zTNGqgw1f4wcc6gjqqg30dw08g4jr.gif)
+![简单演示](https://user-images.githubusercontent.com/6006218/59973935-33708f00-95d8-11e9-851b-3724defc7d1b.gif)
 
 ## 移动友好 / Responsive Design
 ZKEACMS is featuring a modern responsive design that automatically adapts to different screen sizes and devices. From the PC, laptop, TV, tablet to the phone page will automatically adapt to adapt.
