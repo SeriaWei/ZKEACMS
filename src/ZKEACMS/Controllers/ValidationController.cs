@@ -23,11 +23,5 @@ namespace ZKEACMS.Controllers
         {
             return Json(_validateService.ValidateCode(code));
         }
-
-        public ActionResult GetCode()
-        {
-            string code= _validateService.GetCode();
-            return Content(code);
-        }
     }
 }

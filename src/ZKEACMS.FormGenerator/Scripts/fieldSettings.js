@@ -136,7 +136,7 @@
             DisplayName: "验证码",
             Description: "",
             Placeholder: "",
-            IsRequired: false,
+            IsRequired: true,
             RequiredMessage: "这是必填项",
             Size: 4,
             Column: "col-md-12",
