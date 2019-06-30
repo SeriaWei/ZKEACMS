@@ -135,9 +135,10 @@ namespace ZKEACMS.Filter
                             partDriver.Dispose();
                         }
                     });
+
                 var ruleWorkContext = new RuleWorkContext
                 {
-                    Url = filterContext.HttpContext.Request.Path.Value,
+                    Url = (filterContext.Controller as Controller).Url.Content(page.Url),
                     QueryString = filterContext.HttpContext.Request.QueryString.ToString(),
                     UserAgent = filterContext.HttpContext.Request.Headers["User-Agent"]
                 };
