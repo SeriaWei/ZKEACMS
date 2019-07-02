@@ -36,12 +36,12 @@ $ ./src/ZKEACMS.WebHost/publish-zkeacms
 ```
 ## Publish width runtime
 ```
-./src/ZKEACMS.WebHost/publish-zkeacms -r win-x64
+$ ./src/ZKEACMS.WebHost/publish-zkeacms -r win-x64
 ```
 ## Run on Docker
 https://hub.docker.com/r/zkeasoft/zkeacms
 ```
-docker run -d -p 5000:80 zkeasoft/zkeacms
+$ docker run -d -p 5000:80 zkeasoft/zkeacms
 ```
 
 ## Development
