@@ -45,7 +45,7 @@ $ docker run -d -p 5000:80 zkeasoft/zkeacms
 ```
 
 ## Development
-* [.Net Core SDK 3.0](https://aka.ms/dotnet-download)
+* [.Net Core SDK 3.0](https://dot.net/get-core3)
 * Microsoft Sql Server 2012+ / MySql 5.6+ / SQLite 3
 * Microsoft Visual Studio 2017 15.9+ / Visual Studio Code
 
