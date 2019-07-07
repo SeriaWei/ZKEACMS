@@ -1,101 +1,89 @@
 ﻿# ZKEACMS Build With Asp.Net Core 2.2
-## 简介 / Summary
-ZKEACMS is a visual design, online edit content management system
 
-纸壳CMS是一个可视化设计，在线编辑的内容管理系统，使用它可以快速创建一个美观、性能优异的响应式网站。
+ZKEACMS is a visual design, edit online and **WYSIWYG** Content Management System.
 
-页面基本思想
+**Basic mind**
 
 [http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)
-## 演示 / Demo
-Try it on our demo site, the demo site is Enterprise Edition:
 
-在我们的测试站点进行体验，测试站是企业版：
+## Demo Site
+Try it on our demo site:
 
 [http://demo.zkea.net](http://demo.zkea.net)
 
-**多租户演示 / Multi-tenant demo**
+**Multi-tenant demo**
 
 http://build.zkeasoft.com/
 
 ## Culture
 Change the culture code to `en-US` to use english in `appsettings.json`
 
-通过修改`appsettings.json`来将语言切换为英文：
-
 ```
 "Culture": {
   "Code": "en-US"
 }
 ```
-## 发布 / Publish
+## Publish / Release
 
-Use `Publish.cmd / Publish.sh` to release the project or use the command line below:
+Use `Publish.cmd` or `Publish.sh` to publish the project.
+You can also use the command line below to publish:
 
-使用 `Publish.cmd / Publish.sh`，或者使用下列命令进行发布：
 ```
-dotnet tool install -g ZKEACMS.Publisher
+$ dotnet tool install -g ZKEACMS.Publisher
 ```
 ```
-./src/ZKEACMS.WebHost/publish-zkeacms
+$ ./src/ZKEACMS.WebHost/publish-zkeacms
 ```
-## 包含运行时发布 / Publish width runtime
+## Publish width runtime
 ```
-./src/ZKEACMS.WebHost/publish-zkeacms -r win-x64
+$ ./src/ZKEACMS.WebHost/publish-zkeacms -r win-x64
 ```
 ## Run on Docker
 https://hub.docker.com/r/zkeasoft/zkeacms
 ```
-docker run -d -p 5000:80 zkeasoft/zkeacms
+$ docker run -d -p 5000:80 zkeasoft/zkeacms
 ```
 
-## 开发环境 / Development
+## Development
 * [.Net Core SDK 2.2](https://aka.ms/dotnet-download)
 * Microsoft Sql Server 2012+ / MySql 5.6+ / SQLite 3
 * Microsoft Visual Studio 2017 15.9+ / Visual Studio Code
 
-## 设计页面 / Page Design
-![简单演示](https://user-images.githubusercontent.com/6006218/59973922-176ced80-95d8-11e9-9ff8-be71ae1a0787.gif)
+## Page Design
+![Page Design](https://user-images.githubusercontent.com/6006218/59973922-176ced80-95d8-11e9-9ff8-be71ae1a0787.gif)
 
-## 添加内容 / Add Content
-![简单演示](https://user-images.githubusercontent.com/6006218/59973935-33708f00-95d8-11e9-851b-3724defc7d1b.gif)
+## Add Content To Page
+![Add Content](https://user-images.githubusercontent.com/6006218/59973935-33708f00-95d8-11e9-851b-3724defc7d1b.gif)
 
-## 移动友好 / Responsive Design
+## Responsive Design
 ZKEACMS is featuring a modern responsive design that automatically adapts to different screen sizes and devices. From the PC, laptop, TV, tablet to the phone page will automatically adapt to adapt.
 
-纸壳CMS采用了现代的响应式设计，可以自动适配不同大小的屏幕和设备。从PC，笔记本，电视，平板到手机页面都会自动响应适应。
-
-## 布局设计 / Design Layout
-![布局设计](https://cloud.githubusercontent.com/assets/6006218/23800807/b4298c0a-05e8-11e7-834f-fef335e64a94.jpg)
+## Layout Design
+![Layout Design](https://cloud.githubusercontent.com/assets/6006218/23800807/b4298c0a-05e8-11e7-834f-fef335e64a94.jpg)
 
 Layout is used to make a page of the zone, the user can drag the "row", "column" to design layout. The layout uses the Bootstrap3 Grid system.
 
-布局，用于对页面做区域划分，用户使用拖拉“行”，“列”的方式进行布局的设计。布局采用的是Bootstrap3的Grid系统。
 
-
-## 组件 / Widgets
-![选择组件](https://cloud.githubusercontent.com/assets/6006218/23800984/5c243978-05e9-11e7-8804-6a82e92b519b.png)
+## Widgets
+![Widgets](https://cloud.githubusercontent.com/assets/6006218/23800984/5c243978-05e9-11e7-8804-6a82e92b519b.png)
 
 A widget is a `HTML Components`. Add different widget to build your page. Multiple widgets can be added to the same zone, and can be sorted by drag and drop. 
 
-组件，就是于丰富网站内容的小部件。你可以添加各式各样的组件来满足你网站的需求。同一组件区域可以添加多个组件并且可以对其进行拖拉排序。
+## Theme
 
-## 主题 / Theme
+Using LESS to create a theme, by modifying the variables, you can easily create a theme. 
 
-Using LESS to create a theme, by modifying the variables, you can easily create a theme.
+The theme is base on Boorstrap.
 
-纸壳CMS的主题使用了LESS，通过修改变量，就可以轻松的创建主题。
+![Theme](https://cloud.githubusercontent.com/assets/6006218/23801129/f5be52ee-05e9-11e7-8a7e-6465a4cb3c9f.jpg)
 
-![主题](https://cloud.githubusercontent.com/assets/6006218/23801129/f5be52ee-05e9-11e7-8a7e-6465a4cb3c9f.jpg)
-
-## 视频演示 / Videos
+## Videos
 [http://www.zkea.net/zkeacms/videos](http://www.zkea.net/zkeacms/videos)
 
-**企业版演示 / Enterprise Edition**
+**Enterprise Edition**
 
 The following videos can help you to know the Enterprise Edition:
 
-下面这些演示视频有助于您了解企业版：
 - https://v.vuevideo.net/share/post/5481323210292563522 
 - https://v.vuevideo.net/share/post/-639458500689997299
 - https://v.vuevideo.net/share/post/7761412908248591201 
@@ -103,7 +91,7 @@ The following videos can help you to know the Enterprise Edition:
 - https://v.vuevideo.net/share/post/779279774519648270 
 
 
-## 官方网站 / Official Website
+## Official Website
 [http://www.zkea.net](http://www.zkea.net/zkeacms/zkeacmscore)
 
 
