@@ -26,7 +26,7 @@ namespace Easy.Cache
                    }));
              });
         }
-        public string Key(string key)
+        public virtual string Key(string key)
         {
             string host = _httpContextAccessor.HttpContext.Request.Host.Value.ToLowerInvariant();
             if (host.StartsWith("www."))
