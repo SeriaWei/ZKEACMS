@@ -41,7 +41,7 @@ namespace ZKEACMS.Article.Service
                     return page.Url;
                 }
             }
-            return "~/View-Article";
+            return "~/article-detail";
         }
 
         public override ServiceResult<ArticleListWidget> Add(ArticleListWidget item)
