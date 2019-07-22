@@ -1,34 +1,35 @@
 @echo off
 cd /d %~dp0
-REM:请根据您的个人实际情况修改以下信息：
-REM:如果您运行该批处理时出现乱码或者执行不成功，请参考
+REM:If garbled when running, the following link can help to resolve:
 REM:http://www.zkea.net/zkeacms/document/issues
-@echo -----------------------------------------------------------------------------
-@echo ****** 欢迎使用 ZKEACMS Core ******
-@echo -----------------------------------------------------------------------------
-@echo ZKEACMS的相关文档请参阅
+WHERE /Q sqlcmd
+IF %ERRORLEVEL% NEQ 0 (
+echo sqlcmd Utility is required, please install the tool before you run the command
+@pause
+start https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility
+exit
+)
+@echo *****************************************
+@echo ******** Welcome to use ZKEACMS *********
+@echo *****************************************
+@echo Documents
 @echo http://www.zkea.net/zkeacms/document
 @echo -----------------------------------------------------------------------------
-@echo 运行该命令将帮助您初始化 ZKEACMS 的数据库
-@echo 如果您想要升级您的数据库，请执行 Update 目录下的脚本
+@echo Will create the ZKEACMS database
+@echo If you want to upgrade your existing database, execute the scripts under "Update" folder
 @echo -----------------------------------------------------------------------------
-@echo 在开始之前，我们需要收集一些您的数据库服务器的配置信息
-@echo 如果打算使用默认值，请直接按回车，共4步
-@echo -----------------------------------------------------------------------------
-@echo 当前工作目录 %cd%
-set /P server=1.输入服务器地址，默认(local):
+@echo Press Enter to use the default setting
+@echo Working directory:%cd%
+set /P server=1.Sql Server address (local):
 if "%server%"=="" set server=(local)
-set /P dataBase=2.输入数据库名称，默认(ZKEACMS_Core):
-if "%dataBase%"=="" set dataBase=ZKEACMS_Core
-set /P dbUserId=3.输入数据库用户名，默认(sa):
+set /P dataBase=2.Database name (ZKEACMS):
+if "%dataBase%"=="" set dataBase=ZKEACMS
+set /P dbUserId=3.User name (sa):
 if "%dbUserId%"=="" set dbUserId=sa
-set /P dbPassword=4.输入数据库密码，默认(sa):
+set /P dbPassword=4.Password (sa):
 if "%dbPassword%"=="" set dbPassword=sa
-set dbPath=%cd%\App_Data
-if not exist "%dbPath%" (
-mkdir "%dbPath%"
-)
-@echo 创建数据库可能要花一点时间，请稍后...
+
+@echo Please wait...
 @echo Creating DataBase %dataBase%
 sqlcmd -S %server% -d master -U %dbUserId% -P %dbPassword% -b -i "CreateDataBase.sql"
 if %ERRORLEVEL% NEQ 0 goto errors

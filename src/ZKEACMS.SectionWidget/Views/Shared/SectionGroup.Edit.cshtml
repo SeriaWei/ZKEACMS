@@ -1,4 +1,4 @@
-﻿@model SectionGroup
+@model SectionGroup
 @inject ISectionTemplateService _sectionTemplateService
 @{ 
     var template = _sectionTemplateService.Get(Model.PartialView);
@@ -6,8 +6,8 @@
 <div class="panel panel-default section-group" data-id="@Model.ID" data-col="@Model.PercentWidth">
     <div class="panel-heading">
         <i class="sort-handle glyphicon glyphicon-resize-vertical"></i>
-        <a href="@Url.Action("Edit", "SectionGroup", new {Id= Model.ID })" class="dialog text-primary" data-width="1000" data-height="600" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>
-        <a href="@Url.Action("Delete", "SectionGroup", new {Id= Model.ID })" class="ajax delete text-danger" title="删除"><i class="glyphicon glyphicon-remove"></i></a>
+        <a href="@Url.Action("Edit", "SectionGroup", new {Id= Model.ID })" class="dialog text-primary" data-width="1000" data-height="600" title="@L("编辑")"><i class="glyphicon glyphicon-edit"></i></a>
+        <a href="@Url.Action("Delete", "SectionGroup", new {Id= Model.ID })" class="ajax delete text-danger" title="@L("删除")"><i class="glyphicon glyphicon-remove"></i></a>
         <i class="glyphicon glyphicon-option-vertical"></i>
         <span class="label label-info">@Model.GroupName</span>
         <span class="label label-danger">@template.Title</span>
@@ -25,35 +25,35 @@
            data-width="800"
            data-height="310">
             <i class="glyphicon glyphicon-text-height"></i>
-            添加标题
+            @L("添加标题")
         </a>
         <a href="@Url.Action("Create", "SectionContentParagraph", new {sectionGroupId = Model.ID, sectionWidgetId = Model.SectionWidgetId})"
            class="btn btn-link btn-xs dialog"
            data-width="800"
            data-height="475">
             <i class="glyphicon glyphicon-align-left"></i>
-            添加段落
+            @L("添加段落")
         </a>
         <a href="@Url.Action("Create", "SectionContentCallToAction", new {sectionGroupId = Model.ID, sectionWidgetId = Model.SectionWidgetId})"
            class="btn btn-link btn-xs dialog"
            data-width="800"
            data-height="220">
             <i class="glyphicon glyphicon-link"></i>
-            添加链接
+            @L("添加链接")
         </a>
         <a href="@Url.Action("Create", "SectionContentImage", new {sectionGroupId = Model.ID, sectionWidgetId = Model.SectionWidgetId})"
            class="btn btn-link btn-xs dialog"
            data-width="800"
            data-height="520">
             <i class="glyphicon glyphicon-picture"></i>
-            添加图片
+            @L("添加图片")
         </a>
         <a href="@Url.Action("Create", "SectionContentVideo", new {sectionGroupId = Model.ID, sectionWidgetId = Model.SectionWidgetId})"
            class="btn btn-link btn-xs dialog"
            data-width="800"
            data-height="600">
             <i class="glyphicon glyphicon-hd-video"></i>
-            添加视频
+            @L("添加视频")
         </a>
     </div>
 </div>

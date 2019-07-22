@@ -1,12 +1,13 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.MetaData;
 using Easy.Models;
+using Easy.RepositoryPattern;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Setting
 {
-    [Table("ApplicationSetting")]
+    [DataTable("ApplicationSetting")]
     public class ApplicationSetting : EditorEntity
     {
         [Key]

@@ -1,4 +1,4 @@
-﻿using Easy.RepositoryPattern;
+using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ using Easy.Notification;
 
 namespace ZKEACMS.FormGenerator.Service
 {
-    public class FormDataService : ServiceBase<FormData>, IFormDataService
+    public class FormDataService : ServiceBase<FormData, CMSDbContext>, IFormDataService
     {
         private readonly IFormService _formService;
         private readonly IFormDataItemService _formDataItemService;
@@ -129,8 +129,7 @@ namespace ZKEACMS.FormGenerator.Service
                     }
                     foreach (var validator in _formDataValidators)
                     {
-                        string message;
-                        if (!validator.Validate(field, dataitem, out message))
+                        if (!validator.Validate(field, dataitem, out string message))
                         {
                             result.RuleViolations.Add(new RuleViolation(field.DisplayName, message));
                             return result;

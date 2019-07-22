@@ -1,4 +1,4 @@
-﻿//https://github.com/dotnetcore/Alipay.AopSdk.Core/blob/master/Alipay.AopSdk.AspnetCore/AlipayService.cs
+//https://github.com/dotnetcore/Alipay.AopSdk.Core/blob/master/Alipay.AopSdk.AspnetCore/AlipayService.cs
 using Alipay.AopSdk.AspnetCore;
 using Alipay.AopSdk.Core;
 using Alipay.AopSdk.Core.Util;

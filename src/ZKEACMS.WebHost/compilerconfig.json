@@ -1,9 +1,14 @@
 ﻿[
   {
     "outputFile": "wwwroot/Themes/Default/css/Theme.css",
-    "inputFile": "wwwroot/Themes/Default/css/Theme.less",
-    "options": {
-      "sourceMap": true
-    }
+    "inputFile": "wwwroot/Themes/Default/css/Theme.less"
+  },
+  {
+    "outputFile": "wwwroot/_references.es5.js",
+    "inputFile": "wwwroot/_references.js"
+  },
+  {
+    "outputFile": "wwwroot/themes/Kefan/css/Theme.css",
+    "inputFile": "wwwroot/themes/Kefan/css/Theme.less"
   }
 ]

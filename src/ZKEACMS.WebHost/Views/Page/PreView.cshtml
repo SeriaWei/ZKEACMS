@@ -28,13 +28,13 @@
                                         @widgetPart.Widget.Title
                                     </div>
                                     <div class="panel-body">
-                                        @Html.DisPlayWidget(widgetPart)
+                                        @await Html.DisPlayWidget(widgetPart)
                                     </div>
                                 </div>
                             }
                             else
                             {
-                                @Html.DisPlayWidget(widgetPart)
+                                @await Html.DisPlayWidget(widgetPart)
                             }
                         </div>
                     </div>
@@ -46,5 +46,23 @@
     else
     {
         @Html.Raw(item.Html)
+    }
+}
+@if (ApplicationContext.As<CMSApplicationContext>().PageMode == ZKEACMS.Filter.PageViewMode.ViewOnly)
+{
+    Script.Reqiured("smooth-scrollbar").AtFoot();
+    using (Script.AtFoot())
+    {
+        <script type="text/javascript">
+            $(function () {
+                var body = document.querySelector("body");
+                body.style.height = window.innerHeight + "px";
+                window.Scrollbar.init(body);
+                $(document).on("click", "a", function () {
+                    var href = $(this).attr("href") || "";
+                    return href.indexOf("#") == 0 || href == "javascript:" || href == "javascript:void(0)"
+                });
+            });
+        </script>
     }
 }

@@ -20,6 +20,9 @@ namespace ZKEACMS
         public const string PopUp = "~/Views/Shared/_PopUpLayout.cshtml";
         public const string ClientPopUp = "~/Views/Shared/_PopUpClientLayout.cshtml";
         public const string CustomerCenter = "~/Views/Shared/_CustomerCenterLayout.cshtml";
+
+        public const string Theme = "~/wwwroot/themes/{0}/Views/_Layout.cshtml";
+        public const string Theme2 = "~/wwwroot/themes/{0}/Views/Shared/_Layout.cshtml";
     }
 
     public class ViewDataKeys
@@ -113,7 +116,9 @@ namespace ZKEACMS
         public const string RouteValue_Page = "p";
 
         public const string RouteVale_ArticleUrl = "ArticleUrl";
+        public const string RouteVale_Article = "Article-{0}";
         public const string RouteVale_ProductUrl = "ProductUrl";
+        public const string RouteVale_Product = "Product-{0}";
         public const string RouteVale_CategoryUrl = "CategoryUrl";
 
         public static string PathFormat(string routeKey)
@@ -145,9 +150,22 @@ namespace ZKEACMS
                 return _version;
             }
         }
+        static string _versionInfo;
+        public static string VersionInfo
+        {
+            get
+            {
+                if (_versionInfo == null)
+                {
+                    var attr = typeof(Version).GetTypeInfo().Assembly.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
+                    _versionInfo = attr.InformationalVersion;
+                }
+                return _versionInfo;
+            }
+        }
         public static string Rank
         {
-            get { return "Basic"; }
+            get { return "Community"; }
         }
     }
 }

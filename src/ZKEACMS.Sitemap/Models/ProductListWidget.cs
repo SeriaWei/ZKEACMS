@@ -2,12 +2,13 @@
  * Copyright 2017 ZKEASOFT 
  * http://www.zkea.net/licenses 
  */
+using Easy.RepositoryPattern;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZKEACMS.Sitemap.Models
 {
-    [Table("ProductListWidget")]
+    [DataTable("ProductListWidget")]
     public class ProductListWidget
     {
         [Key]

@@ -1,4 +1,4 @@
-﻿/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
 using System;

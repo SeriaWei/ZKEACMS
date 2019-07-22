@@ -23,34 +23,40 @@ namespace Easy.ViewPort.Descriptor
             this.TemplateName = "DropDownList";
         }
 
-
         public IDictionary<string, string> OptionItems
         {
             get
             {
+                ILocalize localize = ServiceLocator.GetService<ILocalize>();
                 if (_souceFunc != null)
                 {
-                    _data = _souceFunc.Invoke();
+                    Dictionary<string, string> data = new Dictionary<string, string>();
+                    foreach (var item in _souceFunc.Invoke())
+                    {
+                        if (!data.ContainsKey(item.Key))
+                        {
+                            data.Add(item.Key, localize.Get(item.Value));
+                        }
+                    }
+                    return data;
                 }
                 if (this.SourceType == SourceType.Dictionary)
                 {
                     IDataDictionaryService dicService = ServiceLocator.GetService<IDataDictionaryService>();
-                    if (dicService != null)
+                    Dictionary<string, string> data = new Dictionary<string, string>();
+                    var dicts = dicService.Get(m => m.DicName == this.SourceKey);
+                    foreach (DataDictionaryEntity item in dicts)
                     {
-                        _data = new Dictionary<string, string>();
-
-                        var dicts = dicService.Get(m => m.DicName == this.SourceKey);
-                        foreach (DataDictionaryEntity item in dicts)
+                        if (!data.ContainsKey(item.DicValue))
                         {
-                            if (!this._data.ContainsKey(item.DicValue))
-                            {
-                                this._data.Add(item.DicValue, item.Title);
-                            }                            
+                            data.Add(item.DicValue, localize.Get(item.Title));
                         }
                     }
+                    return data;
 
                 }
-                return _data ?? (_data = new Dictionary<string, string>());
+                return _data ?? new Dictionary<string, string>();
+
             }
         }
         public SourceType SourceType { get; set; }
@@ -67,7 +73,15 @@ namespace Easy.ViewPort.Descriptor
 
         public DropDownListDescriptor DataSource(IDictionary<string, string> Data)
         {
-            this._data = Data;
+            this._data = new Dictionary<string, string>();
+            ILocalize localize = ServiceLocator.GetService<ILocalize>();
+            foreach (var item in Data)
+            {
+                if (!_data.ContainsKey(item.Key))
+                {
+                    _data.Add(item.Key, localize.Get(item.Value));
+                }
+            }
             return this;
         }
 
@@ -83,10 +97,10 @@ namespace Easy.ViewPort.Descriptor
                 throw new Exception(dataType.FullName + ",不是枚举类型。");
             }
             string[] text = Enum.GetNames(dataType);
-
+            ILocalize localize = ServiceLocator.GetService<ILocalize>();
             for (int i = 0; i < text.Length; i++)
             {
-                this._data.Add(Enum.Format(dataType, Enum.Parse(dataType, text[i], true), "d"), text[i]);
+                this._data.Add(Enum.Format(dataType, Enum.Parse(dataType, text[i], true), "d"), localize.Get(text[i]));
             }
             return this;
         }

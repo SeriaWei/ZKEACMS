@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Easy.Modules.Role.Permission>
+@model IEnumerable<Easy.Modules.Role.Permission>
 
 @{
     var AllPermission = PermissionKeys.KnownPermissions.Where(m => m.IsAvailable == null || m.IsAvailable());
@@ -15,7 +15,7 @@
             <div class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        @item.Key
+                        @L(item.Key)
                     </div>
                     <div class="panel-body">
                         @foreach (var p in item)
@@ -27,7 +27,7 @@
                                     @Html.Hidden("PermissionSet[{0}].Title".FormatWith(index), p.Title)
                                     @Html.Hidden("PermissionSet[{0}].Key".FormatWith(index), p.Key)
                                     @Html.Hidden("PermissionSet[{0}].Module".FormatWith(index), p.Module)
-                                    @p.Title
+                                    @L(p.Title)
                                 </label>
                             </span>
                             index++;

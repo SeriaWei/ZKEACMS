@@ -1,4 +1,4 @@
-﻿@using ZKEACMS.Redirection.Models
+@using ZKEACMS.Redirection.Models
 @model UrlRedirect
 @{
     Style.Reqiured("dataTable").AtHead();
@@ -11,7 +11,7 @@
 @if (Authorizer.Authorize(ZKEACMS.Redirection.PermissionKeys.ManageUrlRedirect))
 {
     <div id="toolBar">
-        <a href="@Url.Action("Create")" class="btn btn-primary btn-sm">新建</a>
+        <a href="@Url.Action("Create")" class="btn btn-primary btn-sm">@L("新建")</a>
     </div>
 }
 <grid delete-able="Authorizer.Authorize(ZKEACMS.Redirection.PermissionKeys.ManageUrlRedirect)" edit-able="Authorizer.Authorize(ZKEACMS.Redirection.PermissionKeys.ManageUrlRedirect)"></grid>

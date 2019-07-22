@@ -1,4 +1,4 @@
-﻿/* http://www.zkea.net/ 
+/* http://www.zkea.net/ 
  * Copyright 2018 ZKEASOFT 
  * http://www.zkea.net/licenses */
 using System;
@@ -14,6 +14,35 @@ namespace Easy.Cache
             _cacheManager = cacheManager;
         }
 
+        public bool Add(string key, T value)
+        {
+            return _cacheManager.Add(key, value);
+        }
+
+        public bool Add(string key, T value, string region)
+        {
+            return _cacheManager.Add(key, value, region);
+        }
+
+        public bool Exists(string key)
+        {
+            return _cacheManager.Exists(key);
+        }
+
+        public bool Exists(string key, string region)
+        {
+            return _cacheManager.Exists(key, region);
+        }
+
+        public T Get(string key)
+        {
+            return _cacheManager.Get(key);
+        }
+
+        public T Get(string key, string region)
+        {
+            return _cacheManager.Get(key, region);
+        }
         public T GetOrAdd(string key, string region, Func<string, string, T> valueFactory)
         {
             return _cacheManager.GetOrAdd(key, region, valueFactory);
@@ -47,5 +76,6 @@ namespace Easy.Cache
         {
             _cacheManager.Clear();
         }
+
     }
 }

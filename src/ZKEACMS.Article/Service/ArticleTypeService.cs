@@ -10,14 +10,15 @@ using System.Linq;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleTypeService : ServiceBase<ArticleType>, IArticleTypeService
+    public class ArticleTypeService : ServiceBase<ArticleType, CMSDbContext>, IArticleTypeService
     {
-        private IArticleService _articleService;
-
-        public ArticleTypeService(IApplicationContext applicationContext, IArticleService articleService, CMSDbContext dbContext)
+        private readonly IArticleService _articleService;
+        private readonly ILocalize _localize;
+        public ArticleTypeService(IApplicationContext applicationContext, IArticleService articleService, ILocalize localize, CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _articleService = articleService;
+            _localize = localize;
         }     
 
         public override ServiceResult<ArticleType> Add(ArticleType item)
@@ -28,7 +29,7 @@ namespace ZKEACMS.Article.Service
                 if (GetByUrl(item.Url) != null)
                 {
                     var result = new ServiceResult<ArticleType>();
-                    result.RuleViolations.Add(new RuleViolation("Url", "UrlÒÑ´æÔÚ"));
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Urlå·²å­˜åœ¨")));
                     return result;
                 }
             }
@@ -41,7 +42,7 @@ namespace ZKEACMS.Article.Service
                 if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
                 {
                     var result = new ServiceResult<ArticleType>();
-                    result.RuleViolations.Add(new RuleViolation("Url", "UrlÒÑ´æÔÚ"));
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Urlå·²å­˜åœ¨")));
                     return result;
                 }
             }

@@ -7,24 +7,16 @@ using System;
 
 namespace ZKEACMS
 {
-    public class PermissionDescriptor
+    public class PermissionDescriptor : Easy.Modules.Role.PermissionDescriptor
     {
-        public PermissionDescriptor()
+        public PermissionDescriptor() : base() { }
+
+        public PermissionDescriptor(string key, string module, string title, string description)
+            : base(key, module, title, description)
         {
 
         }
-        public PermissionDescriptor(string key,string module,string title,string description)
-        {
-            Key = key;
-            Module = module;
-            Title = title;
-            Description = description;
-        }
-        public string Key { get; set; }
-        public string Module { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public bool? Checked { get; set; }
         public Func<bool> IsAvailable { get; set; }
+        public string PluginName { get; set; }
     }
 }

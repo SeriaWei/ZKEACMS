@@ -26,6 +26,10 @@ namespace ZKEACMS.Controllers
         }
         public override IActionResult Index()
         {
+            if (TempData.ContainsKey("RuleId"))
+            {
+                ViewBag.RuleID = "rule-" + TempData["RuleId"];
+            }
             return View(Service.Get().ToList());
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
@@ -36,7 +40,12 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Create(Rule.Rule entity)
         {
-            return base.Create(entity);
+            var result = base.Create(entity);
+            if (entity.RuleID > 0)
+            {
+                TempData.Add("RuleId", entity.RuleID);
+            }
+            return result;
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Edit(int Id)
@@ -46,6 +55,7 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Edit(Rule.Rule entity)
         {
+            TempData.Add("RuleId", entity.RuleID);
             return base.Edit(entity);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]

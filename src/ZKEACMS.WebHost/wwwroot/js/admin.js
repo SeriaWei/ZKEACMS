@@ -7,11 +7,22 @@
 $(function () {
 
     $(".accordion-group>a").click(function () {
-        if ($(this).nextAll(".accordion-inner").hasClass("active")) {
-            return false;
+        var className = 'active';
+        var a = $(this);
+        var div_inner = a.nextAll(".accordion-inner");
+        if (a.hasClass(className)) {
+            a.removeClass(className);
+            div_inner.hide(200);
         }
-        $(this).parents("ul").find(".accordion-inner.active").removeClass("active").hide(200);
-        $(this).nextAll(".accordion-inner").addClass("active").show(200);
+        else {
+            a.addClass(className);
+            div_inner.show(200);
+        }
+        //if ($(this).nextAll(".accordion-inner").hasClass("active")) {
+        //    return false;
+        //}
+        //$(this).parents("ul").find(".accordion-inner.active").removeClass("active").hide(200);
+        //$(this).nextAll(".accordion-inner").addClass("active").show(200);
         return false;
     });
 
@@ -280,10 +291,18 @@ $(function () {
             }
         }
 
-        mainMenu.slimscroll({ height: $(window).height() - 170 });
-        var scroll = mainMenu.scrollTop() + $(".menu-item.active", mainMenu).offset().top - mainMenu.offset().top - (mainMenu.height() / 2);
+        var scroll = $(".menu-item.active", mainMenu).offset().top - mainMenu.offset().top;
+        var leftMenu = document.querySelector('#left-menu');
+        function setHeight() {
+            leftMenu.style.height = (window.innerHeight - 133) + "px";
+        }
+        setHeight();
+        var scrollBar = window.Scrollbar.init(leftMenu);
+        $(window).on("resize", function () {
+            Easy.Processor(setHeight, 500);
+        });
         if (scroll > 0) {
-            mainMenu.scrollTop(scroll);
+            scrollBar.scrollTop = scroll/2;
         }
     }
 
@@ -333,6 +352,13 @@ $(function () {
         var form = $(this).closest("form");
         var allValid = true;
         $("input,select,textarea", $(this).parent()).each(function () {
+            if ($(this).hasClass("required") && !$(this).val()) {
+                if ($(this).is("select")) {
+                    $(this).val($("option:last", this).val());
+                } else {
+                    $(this).val("None");
+                }
+            }
             if (allValid) {
                 allValid = form.validate().element("#" + $(this).attr("id"));
             }
@@ -346,5 +372,9 @@ $(function () {
         if (actionType.val() !== "Create") {
             actionType.val("Update");
         }
-    })
+    });
+
+    if ($.fn.select2) {
+        $("select[multiple='multiple']").select2();
+    }
 });

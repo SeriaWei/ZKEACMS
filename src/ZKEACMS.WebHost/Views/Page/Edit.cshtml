@@ -1,4 +1,4 @@
-﻿@model PageEntity
+@model PageEntity
 @{
     Script.Reqiured("validate").AtFoot();
     List<PageEntity> oldVersions = (ViewBag.OldVersions as IEnumerable<PageEntity>).ToList();
@@ -6,7 +6,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <div>页面</div>
+        @L("页面")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -15,18 +15,18 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                 {
-                    <input type="submit" value="保存" class="btn btn-primary" data-value="@ActionType.Update" />
-                    <input type="submit" value="设计" class="btn btn-success" data-value="@ActionType.Design" />
-                    <input type="submit" value="发布" class="btn btn-info publish" data-value="@((int)ActionType.Publish)" />
-                    <input type="submit" value="删除" class="btn btn-danger delete" data-value="@ActionType.Delete" />
+                    <input type="submit" value="@L("保存")" class="btn btn-primary" data-value="@ActionType.Update" />
+                    <input type="submit" value="@L("设计")" class="btn btn-success" data-value="@ActionType.Design" />
+                    <input type="submit" value="@L("发布")" class="btn btn-info publish" data-value="@((int)ActionType.Publish)" />
+                    <input type="submit" value="@L("删除")" class="btn btn-danger delete" data-value="@ActionType.Delete" />
                 }
-                <input type="button" class="btn btn-default cancel" value="取消" />
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
             </div>
         }
     </div>
 </div>
 <div id="versions" class="form-group">
-    <label class="col-sm-2 control-label">历史版本</label>
+    <label class="col-sm-2 control-label">@L("历史版本")</label>
     <div class="col-sm-10">
         @if (oldVersions != null)
         {
@@ -35,12 +35,12 @@
                 <thead>
                     <tr>
                         <th width="55" style="text-align:center;">
-                            版本
+                            @L("版本")
                         </th>
-                        <th width="100">操作</th>
-                        <th>发布日期</th>
-                        <th>描述</th>
-                        <th>发布人</th>
+                        <th width="100">@L("操作")</th>
+                        <th>@L("发布日期")</th>
+                        <th>@L("描述")</th>
+                        <th>@L("发布人")</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,18 +51,18 @@
                             <td style="text-align:center;">
                                 @if (isCurrent)
                                 {
-                                    <span class="badge">当前</span>
+                                    <span class="badge">@L("当前")</span>
                                 }
                                 else {
                                     @(++index)
                                 }
                             </td>
                             <td>
-                                <a href="@Url.Action("ViewPage", new {ID = pageVersion.ID})" class="glyphicon glyphicon-eye-open" title="查看" target="_blank"></a>
+                                <a href="@Url.Action("ViewPage", new {ID = pageVersion.ID})" class="glyphicon glyphicon-eye-open" title="@L("查看")" target="_blank"></a>
                                 @if (!isCurrent)
                                 {
-                                    <a href="javascript:void(0)" class="glyphicon glyphicon-share-alt revert" title="撤回到该版本" data-id="@pageVersion.ID"></a>
-                                    <a href="javascript:void(0)" class="glyphicon glyphicon-remove remove" title="删除该版本" data-id="@pageVersion.ID"></a>
+                                    <a href="javascript:void(0)" class="glyphicon glyphicon-share-alt revert" title="@L("撤回到该版本")" data-id="@pageVersion.ID"></a>
+                                    <a href="javascript:void(0)" class="glyphicon glyphicon-remove remove" title="@L("删除该版本")" data-id="@pageVersion.ID"></a>
                                 }
                             </td>
                             <td>
@@ -86,7 +86,7 @@
 {
     <script type="text/javascript">
         $(".delete").click(function () {
-            return confirm("删除页面会删除对应的子页面，确定要删除吗？");
+            return confirm("@L("删除页面会删除对应的子页面，确定要删除吗？")");
         });
         $(function () {
             var url = $("#Url");
@@ -98,8 +98,10 @@
             var parentUrl = url.data("url");
             if (!parentUrl) {
                 parentUrl = "~/";
+            }else{
+                parentUrl = parentUrl.toLowerCase();
             }
-            var thisUrl = $(this).val();
+            var thisUrl = $(this).val().toLowerCase();
             var replaceValue = ["/", " ", "?", "`", "~", "!", "@@", "#", "$", "%", "^", "&", "*", "(", ")", "+", "[", "]", "{", "}", "\\", "|", ";", ":", "'", "\"", ",", ".", "<", ">"];
             for (var i = 0; i < replaceValue.length; i++) {
                 thisUrl = thisUrl.replaceAll(replaceValue[i], "-");
@@ -111,24 +113,24 @@
         var retainLatest = true;
         $(document).on("click", ".revert", function () {
             var id = $(this).data("id");
-            Easy.ShowMessageBox("提示", '确定要撤回到该版本吗？<br/><div class="checkbox"><label><input class="retain-latest" type="checkbox" checked> 保留当前的修改</label></div>', function () {
+            Easy.ShowMessageBox("@L("提示")", '@L("确定要撤回到该版本吗？")<br/><div class="checkbox"><label><input class="retain-latest" type="checkbox" checked> @L("保留当前的修改")</label></div>', function () {
                 $.post("@Url.Action("Revert")", { ID: id, RetainLatest: retainLatest }, function (data) {
                     if (data.status == 1) {
                         window.location.reload();
                     } else {
-                        Easy.ShowMessageBox("提示", data.message);
+                        Easy.ShowMessageBox("@L("保留当前的修改")", data.message);
                     }
                 }, "json");
             }, true);
         });
         $(document).on("click", ".remove", function () {
             var id = $(this).data("id");
-            Easy.ShowMessageBox("提示", "确定要删除该版本吗？", function () {
+            Easy.ShowMessageBox("@L("提示")", "@L("确定要删除该版本吗？")", function () {
                 $.post("@Url.Action("DeleteVersion")", { ID: id }, function (data) {
                     if (data.status == 1) {
                         $("#v_" + id).remove();
                     } else {
-                        Easy.ShowMessageBox("提示", data.message);
+                        Easy.ShowMessageBox("@L("提示")", data.message);
                     }
                 }, "json");
             }, true);

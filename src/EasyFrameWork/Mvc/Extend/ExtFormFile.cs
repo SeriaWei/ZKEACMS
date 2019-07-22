@@ -1,3 +1,6 @@
+/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Easy.Extend;

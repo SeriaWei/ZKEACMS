@@ -1,7 +1,7 @@
 /*!
  * http://www.zkea.net/
  * Copyright 2017 ZKEASOFT
- * ÉîÛÚÊÐÖ½¿ÇÈí¼þÓÐÏÞ¹«Ë¾
+ * æ·±åœ³å¸‚çº¸å£³è½¯ä»¶æœ‰é™å…¬å¸
  * http://www.zkea.net/licenses
  */
 
@@ -28,7 +28,10 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.IsSystem).AsHidden();
             ViewConfig(m => m.ServiceTypeName).AsHidden().Required();
             ViewConfig(m => m.ViewModelTypeName).AsHidden().Required();
-            ViewConfig(m => m.PartialView).AsHidden().Required();
+            //update by roc 
+            //åŽå°å¯ä»¥ä¿®æ”¹ PartialView å­—æ®µ ,å‰ç«¯å¯ä»¥æ›¿æ¢ä»»æ„ è§†å›¾é¡µé¢
+            ViewConfig(m => m.PartialView).AsTextBox().Required();
+            //ViewConfig(m => m.PartialView).AsHidden().Required();
             ViewConfig(m => m.LayoutID).AsHidden();
             ViewConfig(m => m.PageID).AsHidden();
             ViewConfig(m => m.RuleID).AsHidden();
@@ -42,7 +45,7 @@ namespace ZKEACMS.MetaData
 
             ViewConfig(m => m.WidgetName).AsTextBox().Order(NextOrder()).Required();
             ViewConfig(m => m.Title).AsTextBox().Order(NextOrder());
-            ViewConfig(m => m.Position).AsTextBox().Order(NextOrder()).RegularExpression(RegularExpression.Integer,"ÇëÊäÈëÊý×Ö").Required();
+            ViewConfig(m => m.Position).AsTextBox().Order(NextOrder()).RegularExpression(RegularExpression.Integer,"è¯·è¾“å…¥æ•°å­—").Required();
             ViewConfig(m => m.ZoneID).AsDropDownList().Order(NextOrder()).DataSource(ViewDataKeys.Zones, SourceType.ViewData).Required();            
             ViewConfig(m => m.IsTemplate).AsCheckBox().Order(NextOrder());
             ViewConfig(m => m.Thumbnail).AsTextBox().Order(NextOrder()).MediaSelector();

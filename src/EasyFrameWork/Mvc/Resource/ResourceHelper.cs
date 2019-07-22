@@ -6,40 +6,56 @@ namespace Easy.Mvc.Resource
 {
     public class ResourceHelper
     {
-        Dictionary<string, ResourceCollection> _source;
-        ResourceType _resourceType;
-        private string _name;
+        public static Dictionary<string, ResourceCollection> ScriptSource { get; private set; }
+        public static Dictionary<string, ResourceCollection> StyleSource { get; private set; }
+
+        static ResourceHelper()
+        {
+            ScriptSource = new Dictionary<string, ResourceCollection>();
+            StyleSource = new Dictionary<string, ResourceCollection>();
+        }
+
+        private readonly ResourceCollection _source;
+        private readonly ResourceType _resourceType;
         public ResourceHelper(string name, ResourceType resourceType)
         {
             switch (resourceType)
             {
-                case ResourceType.Script: _source = ResourceManager.ScriptSource; break;
-                case ResourceType.Style: _source = ResourceManager.StyleSource; break;
+                case ResourceType.Script:
+                    {
+                        ScriptSource.Add(name, new ResourceCollection { Name = name });
+                        _source = ScriptSource[name];
+                        break;
+                    }
+                case ResourceType.Style:
+                    {
+                        StyleSource.Add(name, new ResourceCollection { Name = name });
+                        _source = StyleSource[name];
+                        break;
+                    }
             }
-            _source.Add(name, new ResourceCollection { Name = name });
-            _name = name;
             _resourceType = resourceType;
         }
         public ResourceHelper Include(string source)
         {
-            _source[_name].Add(new ResourceEntity { SourceType = _resourceType, DebugSource = source, ReleaseSource = source });
+            _source.Add(new ResourceEntity { SourceType = _resourceType, DebugSource = source, ReleaseSource = source });
             return this;
         }
         public ResourceHelper Include(string debuger, string release)
         {
-            _source[_name].Add(new ResourceEntity { SourceType = _resourceType, DebugSource = debuger, ReleaseSource = release });
+            _source.Add(new ResourceEntity { SourceType = _resourceType, DebugSource = debuger, ReleaseSource = release });
             return this;
         }
         public ResourceHelper RequiredAtHead()
         {
-            _source[_name].Required = true;
-            _source[_name].Position = ResourcePosition.Head;
+            _source.Required = true;
+            _source.Position = ResourcePosition.Head;
             return this;
         }
         public ResourceHelper RequiredAtFoot()
         {
-            _source[_name].Required = true;
-            _source[_name].Position = ResourcePosition.Foot;
+            _source.Required = true;
+            _source.Position = ResourcePosition.Foot;
             return this;
         }
     }

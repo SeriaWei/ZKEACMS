@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,13 @@ namespace ZKEACMS.Redirection
     {
         public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
         {
-            string path = $"~/{(values["path"] ?? "").ToString().TrimEnd('/')}";
+            if (routeDirection == RouteDirection.UrlGeneration) return false;
+
+            string path = $"~/{values[routeKey]}";
+            if (path.Length > 2 && path.EndsWith('/'))
+            {
+                path = path.TrimEnd('/');
+            }
             if (path.IndexOf(".html", StringComparison.OrdinalIgnoreCase) < 0 && CustomRegex.PostIdRegex.IsMatch(path))
             {
                 return true;

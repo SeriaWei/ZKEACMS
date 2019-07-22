@@ -17,6 +17,10 @@ img {
     height: 100%;
 }
 
+    #wrap .navbar-fixed-top {
+        z-index: 1;
+    }
+
 .tab-content.panel {
     border-top-color: #fff;
     border-top-left-radius: 0;
@@ -716,4 +720,8 @@ a.pack-theme {
     .template-list .thumb-item {
         max-width: 180px;
     }
+}
+.CodeMirror {
+    width: 100%;
+    height: 100%;
 }

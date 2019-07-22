@@ -1,0 +1,14 @@
+﻿@model ZKEACMS.Common.Models.TemplateFile
+@{
+    Style.Reqiured("dataTable").AtHead();
+    Script.Reqiured("dataTable").AtFoot();
+}
+
+@if (Authorizer.Authorize(PermissionKeys.ManageTemplate))
+{
+    <div id="toolBar">
+        <a href="@Url.Action("Edit")" class="btn btn-primary btn-sm">@L("新建")</a>
+    </div>
+}
+<grid delete-able="Authorizer.Authorize(PermissionKeys.ManageTemplate)" edit-able="Authorizer.Authorize(PermissionKeys.ManageTemplate)"></grid>
+

@@ -1,0 +1,37 @@
+@model ZKEACMS.SiteSearch.Models.SiteSearchWidget
+<div class="site-search">
+    <div class="row">
+        <div class="col-xs-8 col-md-10">
+            <input class="form-control site-search-query" type="text" placeholder="@L("输入关键字搜索")">
+        </div>
+        <div class="col-xs-4 col-md-2">
+            <a href="javascript:void(0)" class="btn btn-primary btn-large btn-submit" style="display:block">
+                @L("搜 索")
+            </a>
+        </div>
+    </div>
+</div>
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            function search(value) {
+                window.open("@Model.SearchEngine.FormatWith($"site:{ViewContext.HttpContext.Request.Host}")" + " " + $.trim(value), "_blank");
+            }
+            $(document).on("click", ".site-search .btn-submit", function () {
+                var value = $(this).closest(".site-search").find(".site-search-query").val();
+                if ($.trim(value)) {
+                    search($.trim(value));
+                }
+            }).on("keyup", ".site-search .site-search-query", function (e) {
+                if (e.keyCode == 13) {
+                    var value = $(this).val();
+                    if ($.trim(value)) {
+                        search($.trim(value));
+                    }
+                }
+            });
+        });
+    </script>
+}

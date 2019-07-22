@@ -1,7 +1,7 @@
-﻿@model String
+@model String
 @{
     var page = ViewBag.Page as PageEntity;
-    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
     IList<LayoutEntity> layouts = null;
     if (page.ID.IsNullOrWhiteSpace())
     {
@@ -21,7 +21,7 @@
 @inject ILayoutService layoutService
 
 <div class="input-group clearfix">
-    @Html.Hidden("", Model, descriptor.ToHtmlProperties())
+    @Html.Hidden("", Model, descriptor?.ToHtmlProperties())
     @foreach (var layout in layouts)
     {
         <div class="layout-item pull-left @(layout.ID==Model?"active":"")" data-id="@layout.ID">

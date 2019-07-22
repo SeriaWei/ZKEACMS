@@ -1,4 +1,4 @@
-﻿@using System.Text.RegularExpressions
+@using System.Text.RegularExpressions
 @model ZKEACMS.Product.Models.ProductEntity
 @{
     Style.Reqiured("product-ecommerce").AtHead();
@@ -38,11 +38,11 @@
                             </ul>
                         </div>
                         <div class="col-sm-6">
-                            <h1>@Model.Title</h1>
+                            <h2>@Model.Title</h2>
                             @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProduct) && Model.ID > 0)
                             {
                                 <p>
-                                    <a href="@Url.Action("Edit", "Product", new { id = Model.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">编辑</a>
+                                    <a href="@Url.Action("Edit", "Product", new { id = Model.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">@L("编辑")</a>
                                 </p>
                             }
                             @if (Model.Description.IsNotNullAndWhiteSpace())
@@ -122,15 +122,23 @@
                             }
                             @if (Model.Price.HasValue || Model.RebatePrice.HasValue)
                             {
-                                <p class="quantity-set">
-                                    <label>数量</label>
-                                    <a href="javascript:" class="quantity-minus glyphicon glyphicon-minus-sign"></a>
+                                <div class="quantity-set">
+                                    <a href="javascript:" class="quantity-minus">
+                                        <svg viewBox="0 0 16 2">
+                                            <path d="M0 0h16v2H0z"></path>
+                                        </svg>
+                                    </a>
                                     <span class="quantity">1</span>
-                                    <a href="javascript:" class="quantity-plus glyphicon glyphicon-plus-sign"></a>
-                                </p>
+                                    <a href="javascript:" class="quantity-plus">
+                                        <svg viewBox="0 0 16 16">
+                                            <path d="M0 7h16v2H0z"></path>
+                                            <path d="M7 0h2v16H7z"></path>
+                                        </svg>
+                                    </a>
+                                </div>
                                 <p>
                                     <a class="btn btn-flat btn-lg add-to-basket" href="javascript:" data-productid="@Model.ID" data-quantity="1">
-                                        <i class="glyphicon glyphicon-shopping-cart"></i> 加入购物车
+                                        <i class="glyphicon glyphicon-shopping-cart"></i> @L("加入购物车")
                                     </a>
                                 </p>
                             }

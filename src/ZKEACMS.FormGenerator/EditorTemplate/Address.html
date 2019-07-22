@@ -6,6 +6,10 @@
         </label>
     </div>
 </div>
+<div class="form-group" ng-if="fieldInfo.IsRequired">
+    <label class="control-label" for="requiredMessage">必填项提示信息</label>
+    <input type="text" class="form-control" name="requiredMessage" id="requiredMessage" ng-model="fieldInfo.RequiredMessage" />
+</div>
 <div class="form-group">
     <label class="control-label">输入框长度</label>
     <div>
@@ -17,3 +21,5 @@
         </div>
     </div>
 </div>
+<input type="hidden" class="form-control" name="regexPattern" id="regexPattern" ng-model="fieldInfo.RegexPattern" />
+<input type="hidden" class="form-control" name="regexMessage" id="regexMessage" ng-model="fieldInfo.RegexMessage" />

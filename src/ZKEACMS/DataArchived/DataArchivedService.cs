@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace ZKEACMS.DataArchived
 {
-    public class DataArchivedService : ServiceBase<DataArchived>, IDataArchivedService
+    public class DataArchivedService : ServiceBase<DataArchived, CMSDbContext>, IDataArchivedService
     {
         private const string ArchiveLock = "ArchiveLock";
 
@@ -18,10 +18,20 @@ namespace ZKEACMS.DataArchived
         {
         }
 
-        public override DbSet<DataArchived> CurrentDbSet => (DbContext as CMSDbContext).DataArchived;
+        public override DbSet<DataArchived> CurrentDbSet => DbContext.DataArchived;
 
         public JsonConverter[] JsonConverters { get; set; }
 
+        public override IQueryable<DataArchived> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
+        }
+
+        public override DataArchived Get(params object[] primaryKey)
+        {
+            string key = primaryKey[0].ToString();
+            return Get().FirstOrDefault(m => m.ID == key);
+        }
 
         public override ServiceResult<DataArchived> Add(DataArchived item)
         {
@@ -45,6 +55,17 @@ namespace ZKEACMS.DataArchived
             {
                 result = fun();
                 Add(new DataArchived { ID = key, Data = Serialize(result) });
+            }
+            return result;
+        }
+
+        public T Get<T>(string key) where T : class
+        {
+            var archived = Get(key);
+            T result = null;
+            if (archived != null && archived.Data.IsNotNullAndWhiteSpace())
+            {
+                result = Deserialize<T>(archived.Data);
             }
             return result;
         }
@@ -77,5 +98,6 @@ namespace ZKEACMS.DataArchived
                 Update(archived);
             }
         }
+
     }
 }

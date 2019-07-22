@@ -8,10 +8,11 @@ using Easy.Modules.Role;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Principal;
+using Easy.RepositoryPattern;
 
 namespace Easy.Modules.User.Models
 {
-    [Table("Users")]
+    [DataTable("Users")]
     public class UserEntity : HumanBase, IUser, IIdentity
     {
         [Key]

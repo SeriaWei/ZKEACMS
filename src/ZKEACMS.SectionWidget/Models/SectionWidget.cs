@@ -5,10 +5,11 @@ using Easy.MetaData;
 using ZKEACMS.Widget;
 using ZKEACMS.MetaData;
 using System.ComponentModel.DataAnnotations.Schema;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.SectionWidget.Models
 {
-    [Table("SectionWidget")]
+    [DataTable("SectionWidget")]
     public class SectionWidget : BasicWidget
     {
         public string SectionTitle { get; set; }
@@ -23,6 +24,7 @@ namespace ZKEACMS.SectionWidget.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
+            ViewConfig(m => m.PartialView).AsHidden();
             ViewConfig(m => m.SectionTitle).AsHidden();
             ViewConfig(m => m.Template).AsHidden().Ignore();
         }

@@ -8,80 +8,108 @@ using Microsoft.Extensions.DependencyInjection;
 using Easy.Extend;
 using Microsoft.AspNetCore.Authentication;
 using Easy.Mvc.Authorize;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using Easy.Mvc.StateProviders;
+using System.Linq;
 
 namespace Easy.Mvc
 {
     public class ApplicationContext : IApplicationContext
     {
-        public ApplicationContext(IHttpContextAccessor httpContextAccessor, IHostingEnvironment hostingEnvironment)
+        private readonly ConcurrentDictionary<string, Func<object>> _stateResolvers;
+        private static ConcurrentDictionary<string, Type> ContextStateProviders;
+        static ApplicationContext()
         {
-            HttpContextAccessor = httpContextAccessor;
-            HostingEnvironment = hostingEnvironment;
+            ContextStateProviders = new ConcurrentDictionary<string, Type>();
         }
-        public IHttpContextAccessor HttpContextAccessor { get; set; }
-        IUser _currentUser;
+        public ApplicationContext(IHttpContextAccessor httpContextAccessor)
+        {
+            _stateResolvers = new ConcurrentDictionary<string, Func<object>>();
+            HttpContextAccessor = httpContextAccessor;
+        }
+        public IHttpContextAccessor HttpContextAccessor
+        {
+            get;
+        }
         public IUser CurrentUser
         {
             get
             {
-                if (_currentUser != null)
-                {
-                    return _currentUser;
-                }
-                var httpContext = HttpContextAccessor.HttpContext;
-                if (httpContext != null && httpContext.User.Identity.IsAuthenticated && httpContext.User.Identity.Name.IsNotNullAndWhiteSpace())
-                {
-                    using (var userService = httpContext.RequestServices.GetService<IUserService>())
-                    {
-                        _currentUser = userService.Get(httpContext.User.Identity.Name);
-                        return _currentUser;
-                    }
-
-                }
-                return null;
+                return Get<IUser>(nameof(CurrentUser));
             }
         }
-        IUser _currentCustomer;
         public IUser CurrentCustomer
         {
             get
             {
-                if (_currentCustomer != null)
-                {
-                    return _currentCustomer;
-                }
-                var httpContext = HttpContextAccessor.HttpContext;
-                if (httpContext != null)
-                {
-                    try
-                    {
-                        var authenticate = httpContext.AuthenticateAsync(CustomerAuthorizeAttribute.CustomerAuthenticationScheme);
-                        authenticate.Wait();
-                        if (authenticate.Result.Succeeded)
-                        {
-                            using (var userService = httpContext.RequestServices.GetService<IUserService>())
-                            {
-                                _currentCustomer = userService.Get(authenticate.Result.Principal.Identity.Name);
-                                return _currentCustomer;
-                            }
-                        }
-
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-                }
-                return null;
+                return Get<IUser>(nameof(CurrentCustomer));
             }
         }
         public IHostingEnvironment HostingEnvironment
         {
-            get;
+            get { return Get<IHostingEnvironment>(nameof(HostingEnvironment)); }
         }
         public bool IsAuthenticated
         {
             get { return HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated; }
+        }
+        public T As<T>() where T : class, IApplicationContext
+        {
+            return this as T;
+        }
+        Func<object> FindResolverForState<T>(string name)
+        {
+            IApplicationContextStateProvider matchedProvider = null;
+            if (!ContextStateProviders.ContainsKey(name))
+            {
+                var allProviders = HttpContextAccessor.HttpContext.RequestServices.GetServices<IApplicationContextStateProvider>();
+                foreach (var item in allProviders)
+                {
+                    if (item.Name == name)
+                    {
+                        matchedProvider = item;
+                    }
+                    ContextStateProviders.AddOrUpdate(item.Name, key => { return item.GetType(); }, (key, old) => { return item.GetType(); });
+                }
+            }
+            if (matchedProvider == null && !ContextStateProviders.ContainsKey(name))
+            {
+                throw new Exception($"Cannot find IApplicationContextStateProvider for name {name}. Please regist at first, ServiceCollection.ConfigureStateProvider<{name}>()");
+            }
+            if (matchedProvider == null)
+            {
+                matchedProvider = HttpContextAccessor.HttpContext.RequestServices.GetService(ContextStateProviders[name]) as IApplicationContextStateProvider;
+            }
+            var resolver = matchedProvider.Get<T>();
+
+            if (resolver == null)
+            {
+                return () => default(T);
+            }
+
+            return () => resolver(this);
+        }
+        public T Get<T>(string name)
+        {
+            var provider = _stateResolvers.GetOrAdd(name, key => FindResolverForState<T>(key));
+            if (provider != null)
+            {
+                return (T)provider();
+            }
+            return default(T);
+        }
+
+        public void Set(string name, object value)
+        {
+            if (_stateResolvers.ContainsKey(name))
+            {
+                _stateResolvers[name] = () => value;
+            }
+            else
+            {
+                _stateResolvers.TryAdd(name, () => value);
+            }
         }
     }
 }

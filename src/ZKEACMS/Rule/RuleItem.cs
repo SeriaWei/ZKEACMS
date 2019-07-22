@@ -1,4 +1,7 @@
-﻿using Easy.Constant;
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+using Easy.Constant;
 using Easy.MetaData;
 using Easy.Models;
 using System;

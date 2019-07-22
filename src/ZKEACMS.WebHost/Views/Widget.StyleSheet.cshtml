@@ -1,4 +1,4 @@
-﻿@model ZKEACMS.Common.Models.StyleSheetWidget
+@model ZKEACMS.Common.Models.StyleSheetWidget
 @if (Model.StyleSheet.IsNullOrEmpty())
 {
     return;
@@ -12,4 +12,8 @@ else
     <style>
         @Html.Raw(Model.StyleSheet)
     </style>
+}
+@if (ApplicationContext.As<CMSApplicationContext>().IsDesignMode)
+{
+    <pre class="code" code="CSS">@Model.StyleSheet</pre>
 }

@@ -1,4 +1,7 @@
-﻿using System;
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,7 +28,22 @@ namespace ZKEACMS.PackageManger
         }
         public virtual string MapPath(string path)
         {
-            return Path.Combine(HostingEnvironment.WebRootPath, path.Replace("~/", "").ToFilePath());
+            if (HostingEnvironment.IsProduction())
+            {
+                return Path.Combine(HostingEnvironment.WebRootPath, path.Replace("~/", "").ToFilePath());
+            }
+            else
+            {
+                string[] pathArry = path.Replace("~/", "").Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+                if (pathArry.Length > 0 && pathArry[0] == Easy.Mvc.Plugin.Loader.PluginFolder)
+                {
+                    return Path.Combine(new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent.FullName, Path.Combine(pathArry.Skip(1).ToArray()));
+                }
+                else
+                {
+                    return Path.Combine(HostingEnvironment.WebRootPath, path.Replace("~/", "").ToFilePath());
+                }
+            }
         }
         public virtual object Install(Package package)
         {

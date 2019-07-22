@@ -1,8 +1,8 @@
-﻿@model String
+@model String
 @{
-    var descriptor = ViewData.ModelMetadata.AdditionalValues["ViewPortDescriptor"] as Easy.ViewPort.Descriptor.BaseDescriptor;
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
 }
-@Html.TextBox("", Model, descriptor.ToHtmlProperties())
+@Html.TextBox("", Model, descriptor?.ToHtmlProperties())
 @using (Script.AtFoot())
 {
     <script type="text/javascript">

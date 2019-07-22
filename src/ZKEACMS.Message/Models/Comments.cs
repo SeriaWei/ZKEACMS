@@ -1,15 +1,18 @@
-﻿using Easy.MetaData;
+/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+
+using Easy.MetaData;
 using Easy.Models;
-using System;
-using System.Collections.Generic;
+using Easy.RepositoryPattern;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ZKEACMS.Message.Models
 {
-    [Table("Comments")]
+    [DataTable("Comments")]
     public class Comments : EditorEntity
     {
         [Key]

@@ -26,7 +26,7 @@ namespace ZKEACMS.Common.Service
             _carouselItemService = carouselItemService;
         }
 
-        public override DbSet<CarouselWidget> CurrentDbSet => (DbContext as CMSDbContext).CarouselWidget;
+        public override DbSet<CarouselWidget> CurrentDbSet => DbContext.CarouselWidget;
 
         public override WidgetBase GetWidget(WidgetBase widget)
         {
@@ -51,6 +51,7 @@ namespace ZKEACMS.Common.Service
                         _carouselItemService.Add(new CarouselItemEntity
                         {
                             CarouselID = m.CarouselID,
+                            Title = m.Title,
                             CarouselWidgetID = item.ID,
                             TargetLink = m.TargetLink,
                             ImageUrl = m.ImageUrl,

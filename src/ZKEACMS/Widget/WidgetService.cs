@@ -14,10 +14,12 @@ using System.Linq.Expressions;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Widget
 {
-    public abstract class WidgetService<T> : ServiceBase<T>, IWidgetPartDriver where T : WidgetBase
+    public abstract class WidgetService<T> : ServiceBase<T, CMSDbContext>, IWidgetPartDriver 
+        where T : WidgetBase
     {
         public WidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext, CMSDbContext dbContext)
             : base(applicationContext, dbContext)
@@ -30,6 +32,10 @@ namespace ZKEACMS.Widget
         {
             get { return WidgetBasePartService.IsNeedNotifyChange; }
             set { WidgetBasePartService.IsNeedNotifyChange = value; }
+        }
+        public override IQueryable<T> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
         }
         public override ServiceResult<T> Add(T item)
         {
@@ -163,7 +169,12 @@ namespace ZKEACMS.Widget
             }
             return result;
         }
-
+        /// <summary>
+        /// Display the specified widget.
+        /// </summary>
+        /// <returns>The widget view model</returns>
+        /// <param name="widget">Widget.</param>
+        /// <param name="actionContext">Action context.</param>
         public virtual WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
         {
             return widget.ToWidgetViewModelPart();
@@ -172,6 +183,10 @@ namespace ZKEACMS.Widget
         #region PartDrive
         public virtual void AddWidget(WidgetBase widget)
         {
+            if (widget.PartialView.IsNullOrWhiteSpace())
+            {
+                throw new Exception("Widget.PartialView must be specified!");
+            }
             Add((T)widget);
         }
 
@@ -183,6 +198,10 @@ namespace ZKEACMS.Widget
 
         public virtual void UpdateWidget(WidgetBase widget)
         {
+            if (widget.PartialView.IsNullOrWhiteSpace())
+            {
+                throw new Exception("Widget.PartialView must be specified!");
+            }
             Update((T)widget);
         }
         #endregion
@@ -211,7 +230,7 @@ namespace ZKEACMS.Widget
             var widget = new WidgetPackageInstaller(ApplicationContext.HostingEnvironment).Install(pack);
             if (widget != null)
             {
-                (widget as WidgetBase).Description = "°²×°";
+                (widget as WidgetBase).Description = "å®‰è£…";
                 AddWidget(widget as WidgetBase);
             }
 

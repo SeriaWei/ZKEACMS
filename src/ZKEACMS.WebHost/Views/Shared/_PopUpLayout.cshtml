@@ -1,4 +1,4 @@
-﻿@{
+@{
     Layout = null;
     Script.Reqiured("admin").AtFoot();
     Style.Reqiured("bootStrap").AtHead();
@@ -10,6 +10,10 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
+    {
+        <meta name="referrer" content="same-origin" />
+    }
     <title>@ViewBag.Title</title>
     @StyleAtHead()
     @ScriptAtHead()
@@ -21,7 +25,7 @@
         {
             <div class="popUpToolBar">
                 <input id="confirm" type="button" value="确认" class="btn btn-primary btn-sm" />
-                <input type="button" value="取消" class="btn btn-default btn-sm" />
+                <input type="button" value="@L("取消")" class="btn btn-default btn-sm" />
             </div>
         }
     </div>

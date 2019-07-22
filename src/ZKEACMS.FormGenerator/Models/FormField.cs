@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,8 +32,11 @@ namespace ZKEACMS.FormGenerator.Models
         public string Description { get; set; }
         public string Placeholder { get; set; }
         public bool IsRequired { get; set; }
+        public string RequiredMessage { get; set; }
         public int? Size { get; set; }
         public string Column { get; set; }
+        public string RegexPattern { get; set; }
+        public string RegexMessage { get; set; }
         Dictionary<string, object> attirbutes;
         [JsonIgnore]
         public Dictionary<string, object> Attributes
@@ -47,11 +50,16 @@ namespace ZKEACMS.FormGenerator.Models
                     attirbutes.Add("data-val", "true");
                     if (IsRequired)
                     {
-                        attirbutes.Add("data-val-required", DisplayName + "不能为空");
+                        attirbutes.Add("data-val-required", RequiredMessage ?? "The field is required");
                     }
                     if (Placeholder.IsNotNullAndWhiteSpace())
                     {
                         attirbutes.Add("placeholder", Placeholder);
+                    }
+                    if (RegexPattern.IsNotNullAndWhiteSpace())
+                    {
+                        Attributes.Add("data-val-regex", RegexMessage ?? "Invalid value");
+                        Attributes.Add("data-val-regex-pattern", RegexPattern);
                     }
                 }
                 return attirbutes;

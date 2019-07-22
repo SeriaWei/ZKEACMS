@@ -1,4 +1,4 @@
-﻿/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
 using System;
@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using ZKEACMS.WidgetTemplate;
 using Easy.RepositoryPattern;
 using ZKEACMS.Route;
+using System.Collections.Concurrent;
 
 namespace ZKEACMS.Article
 {
@@ -88,6 +89,17 @@ namespace ZKEACMS.Article
                 Thumbnail = "~/Plugins/ZKEACMS.Article/Content/Image/Widget.ArticleDetail.png",
                 Order = 2
             };
+
+            //add by roc
+            yield return new WidgetTemplateEntity<ArticleSpecialDetailWidgetService>
+            {
+                Title = "特别文章内容",
+                GroupName = groupName,
+                PartialView = "Widget.ArticleDetail",
+                Thumbnail = "~/Plugins/ZKEACMS.Article/Content/Image/Widget.ArticleDetail.png",
+                Order = 2
+            };
+
             yield return new WidgetTemplateEntity<ArticleTopWidgetService>
             {
                 Title = "置顶文章",
@@ -142,6 +154,9 @@ namespace ZKEACMS.Article
             serviceCollection.ConfigureMetaData<ArticleSummaryWidget, ArticleSummaryWidgetMetaData>();
             serviceCollection.ConfigureMetaData<ArticleTopWidget, ArticleTopWidgetMetaData>();
             serviceCollection.ConfigureMetaData<ArticleTypeWidget, ArticleTypeWidgetMetaData>();
+
+            //add by roc
+            serviceCollection.ConfigureMetaData<ArticleSpecialDetailWidget, ArticleSpecialDetailWidgetMetaData>();
         }
     }
 }

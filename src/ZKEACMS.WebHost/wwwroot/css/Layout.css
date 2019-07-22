@@ -56,9 +56,9 @@ zone {
     cursor: move;
 }
 
-    .AddCol > select {
-        color: black;
-    }
+.AddCol > select {
+    color: black;
+}
 
 .design {
 }
@@ -153,7 +153,7 @@ label.additional {
 .container-fluid.design .additional,
 .container.design .additional {
     position: relative;
-    transition:width 500ms;
+    transition: width 500ms;
 }
 
     .container-fluid.design .additional.zone,
@@ -381,7 +381,6 @@ label.additional {
     margin: 0 auto auto 0;
     z-index: 1;
     color: white;
-    line-height: 25px;
     transition: all 300ms;
     opacity: 0;
     z-index: 10;
@@ -390,6 +389,7 @@ label.additional {
 
 .widget:hover .zoneToolbar {
     opacity: 1;
+    font-size: 18px;
 }
 
 .zoneToolbar:hover {
@@ -399,6 +399,7 @@ label.additional {
 .zoneToolbar .tools {
     padding: 0 10px;
     vertical-align: baseline;
+    line-height:1.5;
 }
 
     .zoneToolbar .tools .transfer-container {
@@ -524,9 +525,57 @@ label.additional {
 
 #toolBar {
     border-radius: 0;
+    top:0;
+    margin:0;
 }
 
-
+#toolBar .navbar-brand {
+    float: left !important;
+    height: 50px !important;
+    padding: 15px 15px !important;
+    font-size: 18px !important;
+    line-height: 20px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    background: none !important;
+}
+#toolBar .glyphicon{
+    color: inherit;
+}
+#toolBar .btn .caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px solid #fff;
+    border-right: 4px solid transparent;
+    border-bottom: 0 dotted;
+    border-left: 4px solid transparent;
+    content: "";
+    background: none;
+    padding: 0;
+}
+#toolBar .btn .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    border: 0;
+}
+#toolBar .navbar-nav{
+    float: left;
+}
+#toolBar .navbar-nav > li{
+    width: auto;
+}
+#toolBar .navbar-nav > li a{
+    font-size: 14px;
+    padding: 13px;
+}
 .AddCol.ui-draggable-dragging > select {
     display: none;
 }
@@ -600,6 +649,8 @@ label.additional {
         padding: 8px 4px;
         border-top-left-radius: 5px;
         border-bottom-left-radius: 5px;
+        font-weight: bold;
+        font-size: 14px;
     }
 
     .templates img.template {
@@ -615,7 +666,7 @@ label.additional {
 
 
     .templates .widget-design {
-        cursor:move;
+        cursor: move;
         position: relative;
     }
 
@@ -717,4 +768,55 @@ li.ui-sortable-helper {
     .WeiWindow.StyleEditor .TitleBarRight {
         background-color: #212636;
         border-bottom: 1px solid #212636;
+    }
+
+.code {
+    position: relative;
+    margin: 0;
+}
+
+    .code::before {
+        display: block;
+        position: absolute;
+        content: attr(code);
+        padding: 2px 4px;
+        font-size: 90%;
+        color: #c7254e;
+        background-color: #f9f2f4;
+        border-radius: 4px;
+        right: 5px;
+        top: 5px;
+    }
+
+#mobile-frame .modal-dialog {
+    width: 372px;
+}
+
+#mobile-frame .modal-content {
+    background: none;
+    box-shadow: none;
+    border: none;
+}
+
+#mobile-frame .close {
+    color: #fff;
+    opacity: 1;
+}
+
+#mobile-frame .mobile {
+    background: url(../images/mobile-frame.png) no-repeat center center;
+    width: 342px;
+    height: 667px;
+    padding: 48px 6px;
+}
+    #mobile-frame .mobile.mini {
+        background: url(../images/mobile-frame-small.png) no-repeat center center;
+        width: 342px;
+        height: 500px;
+    }
+    #mobile-frame .mobile iframe {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ddd;
+        background:#fff;
     }

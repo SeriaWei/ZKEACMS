@@ -1,4 +1,4 @@
-﻿/* http://www.zkea.net/ 
+/* http://www.zkea.net/ 
  * Copyright 2017 ZKEASOFT 
  * http://www.zkea.net/licenses 
  *
@@ -29,7 +29,8 @@ namespace ZKEACMS.StyleEditor
         protected override void InitScript(Func<string, ResourceHelper> script)
         {
             script("style-editor")
-                .Include("~/Plugins/ZKEACMS.StyleEditor/Scripts/jscolor.js", "~/Plugins/ZKEACMS.StyleEditor/Scripts/jscolor.min.js")
+                .Include("~/Plugins/ZKEACMS.StyleEditor/Scripts/bgrins-spectrum/spectrum.js", "~/Plugins/ZKEACMS.StyleEditor/Scripts/bgrins-spectrum/spectrum.min.js")
+                .Include("~/Plugins/ZKEACMS.StyleEditor/Scripts/bgrins-spectrum/i18n/jquery.spectrum-zh-cn.js")
                 .Include("~/Plugins/ZKEACMS.StyleEditor/Scripts/jquery-ui.custom.js", "~/Plugins/ZKEACMS.StyleEditor/Scripts/jquery-ui.custom.min.js")
                 .Include("~/Plugins/ZKEACMS.StyleEditor/Scripts/editor.js", "~/Plugins/ZKEACMS.StyleEditor/Scripts/editor.min.js")
                 .Include("~/Plugins/ZKEACMS.StyleEditor/Scripts/values.js", "~/Plugins/ZKEACMS.StyleEditor/Scripts/values.min.js");
@@ -38,6 +39,7 @@ namespace ZKEACMS.StyleEditor
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
             style("style-editor")
+                .Include("~/Plugins/ZKEACMS.StyleEditor/Scripts/bgrins-spectrum/spectrum.css", "~/Plugins/ZKEACMS.StyleEditor/Scripts/bgrins-spectrum/spectrum.min.css")
                 .Include("~/Plugins/ZKEACMS.StyleEditor/Content/main.css", "~/Plugins/ZKEACMS.StyleEditor/Content/main.min.css")
                 .Include("~/Plugins/ZKEACMS.StyleEditor/Content/jquery-ui.css", "~/Plugins/ZKEACMS.StyleEditor/Content/jquery-ui.min.css");
         }

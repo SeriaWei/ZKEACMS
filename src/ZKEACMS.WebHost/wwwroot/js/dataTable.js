@@ -78,7 +78,7 @@
             "language": {
                 "lengthMenu": "每页 _MENU_ 条记录",
                 "zeroRecords": "没有找到记录",
-                "info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
+                "info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 , 总共 _TOTAL_ 条记录 )",
                 "infoEmpty": "无记录",
                 "infoFiltered": "(从 _MAX_ 条记录过滤)",
                 "paginate": {
@@ -148,7 +148,7 @@
                     }
 
                 }
-            }           
+            }
         }).on("click", ".range-search .input-group-addon", function () {
             $(this).closest(".range-search").find("input.max").toggleClass("show");
         }).on("click", ".reset-search", function () {
@@ -158,8 +158,12 @@
         }).on("click", ".glyphicon.glyphicon-remove", function () {
             var link = $(this);
             Easy.ShowMessageBox("提示", "确认删除该数据吗？", function () {
-                $.post(link.attr("href"), function () {
-                    link.closest("table.dataTable").DataTable().draw();
+                $.post(link.attr("href"), function (data) {
+                    if (data.message) {
+                        Easy.ShowMessageBox("提示", data.message);
+                    } else {
+                        link.closest("table.dataTable").DataTable().draw();
+                    }                    
                 });
             }, true);
             return false;

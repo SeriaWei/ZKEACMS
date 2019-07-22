@@ -1,10 +1,10 @@
-﻿@model Easy.Modules.User.Models.UserEntity
+@model Easy.Modules.User.Models.UserEntity
 @{
     Script.Reqiured("validate").AtFoot();
 }
 <div class="panel panel-default">
     <div class="panel-heading">
-        编辑
+        @L("编辑")
     </div>
     <div class="panel-body">
         @if (ViewBag.Errormessage != null)
@@ -18,9 +18,9 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManageUser))
                 {
-                    <input type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Create" />
+                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Create" />
                 }
-                <input type="button" class="btn btn-default cancel" value="取消" />
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
             </div>
         </form>
     </div>

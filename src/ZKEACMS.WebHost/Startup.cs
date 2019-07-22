@@ -1,10 +1,9 @@
-﻿/*!
+/*!
  * http://www.zkea.net/
  * Copyright 2017 ZKEASOFT
  * 深圳市纸壳软件有限公司
  * http://www.zkea.net/licenses
  */
-
 using Easy;
 using Easy.Mvc.Resource;
 using Microsoft.AspNetCore.Builder;
@@ -13,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ZKEACMS.DbConnectionPool;
 
 namespace ZKEACMS.WebHost
 {
@@ -27,24 +27,21 @@ namespace ZKEACMS.WebHost
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureResource<DefaultResourceManager>();
-            services.AddSingleton<SimpleDbConnectionPool.IDatabaseConfiguring, EntityFrameWorkConfigure>();
             services.UseZKEACMS(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IHttpContextAccessor httpContextAccessor)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                loggerFactory.UseFileLog(env, app.ApplicationServices.GetService<IHttpContextAccessor>());
                 app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithReExecute("/Error/Code/{0}");
             }
+            loggerFactory.UseFileLog(env, app.ApplicationServices.GetService<IHttpContextAccessor>());
             app.UseZKEACMS(env, httpContextAccessor);
         }
     }

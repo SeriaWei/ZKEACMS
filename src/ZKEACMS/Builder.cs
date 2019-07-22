@@ -14,24 +14,33 @@ using Easy.Mvc.Plugin;
 using Easy.Mvc.Resource;
 using Easy.RepositoryPattern;
 using Easy.StartTask;
+using Easy.Storage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Session;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.DependencyModel;
+using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using ZKEACMS.Account;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Common.Models;
 using ZKEACMS.Common.Service;
 using ZKEACMS.Dashboard;
 using ZKEACMS.DataArchived;
+using ZKEACMS.DbConnectionPool;
 using ZKEACMS.ExtendField;
 using ZKEACMS.Layout;
 using ZKEACMS.Media;
@@ -48,6 +57,7 @@ using ZKEACMS.Theme;
 using ZKEACMS.Widget;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.Zone;
+using ZKEACMS.Validate;
 
 namespace ZKEACMS
 {
@@ -55,11 +65,27 @@ namespace ZKEACMS
     {
         public static void UseZKEACMS(this IServiceCollection services, IConfiguration configuration)
         {
-
-            services.AddMvc(option =>
+            //添加session
+            services.AddDistributedMemoryCache();
+            services.AddSession(opt =>
             {
-                option.ModelBinderProviders.Insert(0, new WidgetTypeModelBinderProvider());
-                option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
+                opt.IdleTimeout = TimeSpan.FromMinutes(20);
+                //opt.Cookie.Expiration = TimeSpan.FromMinutes(30);
+                //opt.Cookie.MaxAge 
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.IsEssential = true;
+            });
+
+            IMvcBuilder mvcBuilder = services.AddMvc(option =>
+             {
+                 option.ModelBinderProviders.Insert(0, new WidgetTypeModelBinderProvider());
+                 option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
+                 //option.EnableEndpointRouting = false;
+             })
+            .AddRazorOptions(opt =>
+            {
+                opt.ViewLocationExpanders.Clear();
+                opt.ViewLocationExpanders.Add(new ThemeViewLocationExpander());
             })
             .AddControllersAsServices()
             .AddJsonOptions(option => { option.SerializerSettings.DateFormatString = "yyyy-MM-dd"; })
@@ -77,7 +103,7 @@ namespace ZKEACMS
             services.AddTransient<IRouteDataProvider, HtmlRouteDataProvider>();
 
             services.TryAddSingleton<IAdminMenuProvider, AdminMenuProvider>();
-            services.TryAddTransient<IWidgetActivator, DefaultWidgetActivator>();
+            services.TryAddScoped<IWidgetActivator, DefaultWidgetActivator>();
             services.TryAddTransient<ICarouselItemService, CarouselItemService>();
             services.TryAddTransient<ICarouselService, CarouselService>();
             services.TryAddTransient<INavigationService, NavigationService>();
@@ -90,15 +116,16 @@ namespace ZKEACMS
             services.TryAddTransient<IExtendFieldService, ExtendFieldService>();
             services.TryAddTransient<INotifyService, NotifyService>();
             services.AddTransient<IUserCenterLinksProvider, UserCenterLinksProvider>();
-            services.TryAddTransient<ILayoutService, LayoutService>();
-            services.TryAddTransient<ILayoutHtmlService, LayoutHtmlService>();
+            services.AddTransient<IUserCenterLinkService, UserCenterLinkService>();
+            services.TryAddScoped<ILayoutService, LayoutService>();
+            services.TryAddScoped<ILayoutHtmlService, LayoutHtmlService>();
             services.TryAddTransient<IMediaService, MediaService>();
-            services.TryAddTransient<IPageService, PageService>();
-            services.TryAddTransient<IApplicationSettingService, ApplicationSettingService>();
-            services.TryAddTransient<IThemeService, ThemeService>();
+            services.TryAddScoped<IPageService, PageService>();
+            services.TryAddScoped<IApplicationSettingService, ApplicationSettingService>();
+            services.TryAddScoped<IThemeService, ThemeService>();
             services.TryAddTransient<IWidgetTemplateService, WidgetTemplateService>();
-            services.TryAddTransient<IWidgetBasePartService, WidgetBasePartService>();
-            services.TryAddTransient<IZoneService, ZoneService>();
+            services.TryAddScoped<IWidgetBasePartService, WidgetBasePartService>();
+            services.TryAddScoped<IZoneService, ZoneService>();
             services.TryAddTransient<Rule.IRuleService, Rule.RuleService>();
 
             services.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
@@ -111,9 +138,17 @@ namespace ZKEACMS
             services.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             services.AddTransient<IEventViewerService, EventViewerService>();
 
+            services.AddTransient<IStorage, WebStorage>();
+
+            services.ConfigureStateProvider<StateProvider.OuterChainPictureStateProvider>();
+
             services.ConfigureCache<IEnumerable<WidgetBase>>();
             services.ConfigureCache<IEnumerable<ZoneEntity>>();
             services.ConfigureCache<IEnumerable<LayoutHtml>>();
+            services.ConfigureCache<IEnumerable<ThemeEntity>>();
+            services.ConfigureCache<List<TemplateFile>>();
+            services.ConfigureCache<ConcurrentDictionary<string, object>>();
+            services.ConfigureCache<string>();
 
             services.ConfigureMetaData<ArticleEntity, ArticleEntityMeta>();
             services.ConfigureMetaData<ArticleType, ArtycleTypeMetaData>();
@@ -143,6 +178,11 @@ namespace ZKEACMS
             services.ConfigureMetaData<Rule.RuleItem, Rule.RuleItemMetaData>();
             services.ConfigureMetaData<SmtpSetting, SmtpSettingMetaData>();
             services.ConfigureMetaData<Robots, RobotsMetaData>();
+            services.ConfigureMetaData<TemplateFile, TemplateFileMetaData>();
+
+            services.AddScoped<IValidateService, DefaultValidateService>();
+
+            services.AddScoped<ITemplateService, TemplateService>();
 
             services.Configure<NavigationWidget>(option =>
             {
@@ -156,33 +196,29 @@ namespace ZKEACMS
                 option.DataSourceLink = "~/admin/Carousel";
             });
             #region 数据库配置
-            services.AddSingleton<SimpleDbConnectionPool>();
+            services.AddSingleton<IDatabaseConfiguring, EntityFrameWorkConfigure>();
+            services.AddSingleton<IDbConnectionPool, SimpleDbConnectionPool>();
             //池的配置：
             //MaximumRetained规定池的容量（常态最大保有数量）。
             //MaximumRetained为0时，相当于不使用DbConnection池，
             //但因为在Request期间Connection是保持打开的，所以对许多场合还是有性能改善的。
-            services.AddSingleton(new SimpleDbConnectionPool.Options() { MaximumRetained = 128 });
+            services.AddSingleton(new DbConnectionPool.Options() { MaximumRetained = 128 });
             //提供在Request期间租、还DbConnection的支持
-            services.AddScoped<SimpleDbConnectionPool.TransientObjectHolder>();
-            services.AddScoped<DbContextOptions<CMSDbContext>>(sp =>
-            {
-                //租一个DbConnection（将在Request完成后还回，因为其Lifetime为Scoped类型）
-                SimpleDbConnectionPool.TransientObjectHolder holder = sp.GetService<SimpleDbConnectionPool.TransientObjectHolder>();
-                SimpleDbConnectionPool.IDatabaseConfiguring configure = sp.GetService<SimpleDbConnectionPool.IDatabaseConfiguring>();
-                DbContextOptionsBuilder<CMSDbContext> optBuilder = new DbContextOptionsBuilder<CMSDbContext>();
-                configure.OnConfiguring(optBuilder, holder.Object);
-                return optBuilder.Options;
-            });
-            services.AddDbContext<CMSDbContext>(ServiceLifetime.Scoped);
+            services.AddScoped<IConnectionHolder, TransientConnectionHolder>();
+            services.AddDbContextOptions<CMSDbContext>();
+            services.AddDbContext<CMSDbContext>();
             services.AddScoped<EasyDbContext>((provider) => provider.GetService<CMSDbContext>());
-            services.AddSingleton(configuration.GetSection("Database").Get<DatabaseOption>());
+            DatabaseOption databaseOption = configuration.GetSection("Database").Get<DatabaseOption>();
+            //DataTableAttribute.IsLowerCaseTableNames = databaseOption.DbType == DbTypes.MySql;
+            services.AddSingleton(databaseOption);
             #endregion
 
             services.UseEasyFrameWork(configuration);
             foreach (IPluginStartup item in services.LoadAvailablePlugins())
             {
-                item.Setup(services);
+                item.Setup(new object[] { services, mvcBuilder });
             }
+
             foreach (KeyValuePair<string, Type> item in WidgetBase.KnownWidgetService)
             {
                 services.TryAddTransient(item.Value);
@@ -221,6 +257,7 @@ namespace ZKEACMS
             ServiceLocator.Setup(httpContextAccessor);
             applicationBuilder.ConfigureResource();
             applicationBuilder.ConfigurePlugin(hostingEnvironment);
+            applicationBuilder.UseSession();
             applicationBuilder.UseMvc(routes =>
             {
                 applicationBuilder.ApplicationServices.GetService<IRouteProvider>().GetRoutes().OrderByDescending(route => route.Priority).Each(route =>
@@ -232,6 +269,7 @@ namespace ZKEACMS
             {
                 task.Excute();
             }
+            System.IO.Directory.SetCurrentDirectory(hostingEnvironment.ContentRootPath);
             Console.WriteLine("Welcome to use ZKEACMS");
         }
     }

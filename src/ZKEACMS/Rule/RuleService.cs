@@ -1,4 +1,7 @@
-﻿using Easy;
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+using Easy;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,7 +16,7 @@ using Easy.RuleEngine;
 
 namespace ZKEACMS.Rule
 {
-    public class RuleService : ServiceBase<Rule>, IRuleService
+    public class RuleService : ServiceBase<Rule, CMSDbContext>, IRuleService
     {
         private readonly IWidgetBasePartService _widgetBasePartService;
         private readonly IWidgetActivator _widgetActivator;

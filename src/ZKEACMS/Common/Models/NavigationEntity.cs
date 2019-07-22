@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using Easy.MetaData;
 using Easy.Models;
+using Easy.RepositoryPattern;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +9,7 @@ using ZKEACMS.Extend;
 
 namespace ZKEACMS.Common.Models
 {
-    [Table("Navigation")]
+    [DataTable("Navigation")]
     public class NavigationEntity : EditorEntity
     {
         [Key]

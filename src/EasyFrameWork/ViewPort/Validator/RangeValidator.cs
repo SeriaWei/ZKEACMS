@@ -1,5 +1,6 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
 using System;
+using Easy.Extend;
 
 namespace Easy.ViewPort.Validator
 {
@@ -7,9 +8,9 @@ namespace Easy.ViewPort.Validator
     {
         public RangeValidator(double min, double max)
         {
-            this.BaseErrorMessage = "{0}" + string.Format("的值范围应在{0}-{1}之间", min, max);
             this.Min = min;
             this.Max = max;
+            BaseErrorMessage = "{{0}}的值范围应在{0}-{1}之间".FormatWith(Min, Max);
         }
         public double Min { get; set; }
         public double Max { get; set; }

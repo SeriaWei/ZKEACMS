@@ -1,4 +1,4 @@
-﻿@using ZKEACMS.Product.Models
+@using ZKEACMS.Product.Models
 @using Easy.ViewPort.jsTree
 @{
     Script.Reqiured("jQueryUi").AtFoot();
@@ -12,7 +12,7 @@
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    产品类别
+                    @L("产品类别")
                 </div>
                 <div class="panel-body">
                     @categoryTree
@@ -22,11 +22,11 @@
         <div class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    产品
+                    @L("产品")
                 </div>
                 <div>
                     <ul id="products" class="fullRowList">
-                        <li class="text-muted">选择类别，进行手动排序</li>
+                        <li class="text-muted">@L("选择类别，进行手动排序")</li>
                     </ul>
                 </div>
             </div>

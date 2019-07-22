@@ -1,4 +1,10 @@
-﻿using Easy;
+/*!
+ * http://www.zkea.net/
+ * Copyright 2018 ZKEASOFT
+ * http://www.zkea.net/licenses
+ */
+
+using Easy;
 using Microsoft.AspNetCore.Mvc;
 using ZKEACMS.Message.Models;
 using ZKEACMS.Widget;

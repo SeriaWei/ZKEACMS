@@ -1,4 +1,4 @@
-﻿@model ZKEACMS.FormGenerator.Models.FormField
+@model ZKEACMS.FormGenerator.Models.FormField
 @{
     List<SelectListItem> items = new List<SelectListItem>();
     string province = null;
@@ -22,7 +22,7 @@
         }
 
     }
-    Model.Attributes.Add("data-province", province ?? "-- 选择省 --");
+    Model.Attributes.TryAdd("data-province", province ?? L("-- 选择省 --").Text);
 }
 <div class="form-group size-@Model.Size">
     @if (Model.DisplayName.IsNotNullAndWhiteSpace())
@@ -40,10 +40,10 @@
             @Html.DropDownList(Model.ID + "[0]", items, Model.Attributes)
         </div>
         <div class="col-md-4">
-            @Html.DropDownList(Model.ID + "[1]", items, new Dictionary<string, object> { { "class", "form-control" }, { "data-city", city ?? "-- 选择市 --" } })
+            @Html.DropDownList(Model.ID + "[1]", items, new Dictionary<string, object> { { "class", "form-control" }, { "data-city", city ?? L("-- 选择市 --").Text } })
         </div>
         <div class="col-md-4">
-            @Html.DropDownList(Model.ID + "[2]", items, new Dictionary<string, object> { { "class", "form-control" }, { "data-district", district ?? "-- 选择区 --" } })
+            @Html.DropDownList(Model.ID + "[2]", items, new Dictionary<string, object> { { "class", "form-control" }, { "data-district", district ?? L("-- 选择区 --").Text } })
         </div>
     </div>
 
@@ -53,7 +53,7 @@
         <dl>
             <dd>
                 @Model.Description
-            </dd>            
+            </dd>
         </dl>
     }
 </div>

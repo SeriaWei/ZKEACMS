@@ -1,10 +1,10 @@
-﻿@model ZKEACMS.Article.Models.ArticleType
+@model ZKEACMS.Article.Models.ArticleType
 @{
     Script.Reqiured("validate").AtFoot();
 }
 <div class="panel panel-default">
     <div class="panel-heading">
-        <div>文章类别</div>
+        @L("文章类别")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -13,10 +13,10 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticleType))
                 {
-                    <input type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Update" />
-                    <input type="submit" class="btn btn-danger delete" value="删除" data-value="@ActionType.Delete" />
+                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Update" />
+                    <input type="submit" class="btn btn-danger delete" value="@L("删除")" data-value="@ActionType.Delete" />
                 }
-                <input type="button" class="btn btn-default cancel" value="取消" />
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
             </div>
         }
 
@@ -26,7 +26,7 @@
 {
     <script type="text/javascript">
         $(".delete").click(function () {
-            return confirm("删除类别会删除对应的子类别和文章，确定要删除吗？");
+            return confirm("@L("删除类别会删除对应的子类别和文章，确定要删除吗？")");
         });
     </script>
 }

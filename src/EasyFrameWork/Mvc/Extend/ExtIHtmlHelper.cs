@@ -1,4 +1,7 @@
-﻿using Easy.ViewPort.jsTree;
+/* http://www.zkea.net/ 
+ * Copyright 2018 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+using Easy.ViewPort.jsTree;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;

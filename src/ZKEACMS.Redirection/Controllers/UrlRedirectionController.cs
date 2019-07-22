@@ -15,24 +15,27 @@ using ZKEACMS.Product.Service;
 using ZKEACMS.Redirection.Models;
 using ZKEACMS.Redirection.Service;
 using ZKEACMS.Extend;
+using Easy;
 
 namespace ZKEACMS.Redirection.Controllers
 {
     public class UrlRedirectionController : BasicController<UrlRedirect, int, IUrlRedirectService>
     {
-        public UrlRedirectionController(IUrlRedirectService service) : base(service)
+        private readonly ILocalize _localize;
+        public UrlRedirectionController(IUrlRedirectService service,ILocalize localize) : base(service)
         {
+            _localize = localize;
         }
         private bool Valid(UrlRedirect redirect)
         {
             if (Url.Content(redirect.InComingUrl) == Url.Content(redirect.DestinationURL))
             {
-                ModelState.AddModelError("InComingUrl", "·ÃÎÊµØÖ·ºÍÌø×ªµØÖ·²»ÄÜÒ»Ñù");
+                ModelState.AddModelError("InComingUrl", _localize.Get("è®¿é—®åœ°å€å’Œè·³è½¬åœ°å€ä¸èƒ½ä¸€æ ·"));
                 return false;
             }
             if (Service.Count(m => m.InComingUrl == redirect.InComingUrl && m.ID != redirect.ID) > 0)
             {
-                ModelState.AddModelError("InComingUrl", "·ÃÎÊµØÖ·ÒÑ¾­´æÔÚ£¬²»¿ÉÖØ¸´Ìí¼Ó");
+                ModelState.AddModelError("InComingUrl", _localize.Get("è®¿é—®åœ°å€å·²ç»å­˜åœ¨ï¼Œä¸å¯é‡å¤æ·»åŠ "));
                 return false;
             }
             return true;

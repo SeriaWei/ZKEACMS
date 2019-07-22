@@ -1,4 +1,7 @@
-﻿using Easy.Mvc.Route;
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+using Easy.Mvc.Route;
 using System;
 using System.Collections.Generic;
 using System.Linq;

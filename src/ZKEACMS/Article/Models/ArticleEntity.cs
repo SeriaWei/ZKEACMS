@@ -8,10 +8,11 @@ using ZKEACMS.ExtendField;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using ZKEACMS.Extend;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Article.Models
 {
-    [Table("Article")]
+    [DataTable("Article")]
     public class ArticleEntity : EditorEntity, IImage
     {
         [Key]
@@ -26,15 +27,15 @@ namespace ZKEACMS.Article.Models
         public string ImageUrl { get; set; }
         public int? ArticleTypeID { get; set; }
         public DateTime? PublishDate { get; set; }
-        public bool IsPublish { get; set; }        
+        public bool IsPublish { get; set; }
     }
     class ArticleEntityMeta : ViewMetaData<ArticleEntity>
     {
         protected override void ViewConfigure()
         {
-            ViewConfig(m => m.ID).AsHidden();
-            ViewConfig(m => m.Title).AsTextBox().Required().Order(1).ShowInGrid().Search(Easy.LINQ.Query.Operators.Contains);
-            ViewConfig(m => m.Url).AsTextBox().Order(2).MaxLength(100).UrlPart();
+            ViewConfig(m => m.ID).AsHidden().ShowInGrid().Order(1);
+            ViewConfig(m => m.Title).AsTextBox().Required().Order(2).ShowInGrid().Search(Easy.LINQ.Query.Operators.Contains);
+            ViewConfig(m => m.Url).AsTextBox().Order(3).MaxLength(100).UrlPart();
             ViewConfig(m => m.Status).AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary);
             ViewConfig(m => m.ImageThumbUrl).AsTextBox().MediaSelector();
             ViewConfig(m => m.ImageUrl).AsTextBox().MediaSelector();

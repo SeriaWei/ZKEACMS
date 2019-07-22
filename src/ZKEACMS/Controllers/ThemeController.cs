@@ -48,14 +48,28 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTheme)]
         public JsonResult ChangeTheme(string id)
         {
-            Service.ChangeTheme(id);
-            return Json(true);
+            var result = new AjaxResult(AjaxStatus.Normal, "切换主题中...");
+            try
+            {
+                Service.ChangeTheme(id);
+                result.Message = "切换主题成功!";
+            }
+            catch (Exception e)
+            {
+                result.Status = AjaxStatus.Error;
+                result.Message = string.Format("切换主题失败-[{0}]", e.Message);
+            }
+            return Json(result);
         }
 
-        public FileResult ThemePackage(string id)
+        public IActionResult ThemePackage(string id)
         {
-            var package = _packageInstallerProvider.CreateInstaller("ThemePackageInstaller").Pack(id) as ThemePackage;
-            return File(package.ToFilePackage(), "Application/zip", package.Theme.Title + ".theme");
+            if (_hostingEnvironment.IsDevelopment())
+            {
+                var package = _packageInstallerProvider.CreateInstaller("ThemePackageInstaller").Pack(id) as ThemePackage;
+                return File(package.ToFilePackage(), "Application/zip", package.Theme.Title + ".theme");
+            }
+            return NotFound();
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTheme)]
         public JsonResult UploadTheme()

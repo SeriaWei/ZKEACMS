@@ -1,4 +1,4 @@
-﻿@model ZKEACMS.Article.Models.ArticleEntity
+@model ZKEACMS.Article.Models.ArticleEntity
 @{
     Script.Reqiured("validate").AtFoot();
     Script.Reqiured("tinymce").AtFoot();
@@ -6,7 +6,17 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        修改
+        @L("修改")
+        <span class="badge pull-right">
+            @if (!Model.IsPublish)
+            {
+                @L("未发布")
+            }
+            else
+            {
+                @L("已发布")
+            }
+        </span>
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -15,13 +25,13 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticle))
                 {
-                    <input type="submit" class="btn btn-primary" value="保存" data-value="@ActionType.Update" />
+                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Update" />
                 }
-                @if(Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.PublishArticle))
-                { 
-                    <input type="submit" class="btn btn-info publish" value="发布" data-value="@ActionType.Publish" />
-                }                
-                <input type="button" class="btn btn-default cancel" value="取消" />
+                @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.PublishArticle))
+                {
+                    <input type="submit" class="btn btn-info publish" value="@L("发布")" data-value="@ActionType.Publish" />
+                }
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
             </div>
         }
     </div>

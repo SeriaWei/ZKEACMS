@@ -1,4 +1,4 @@
-﻿/* http://www.zkea.net/ 
+/* http://www.zkea.net/ 
  * Copyright 2017 ZKEASOFT 
  * http://www.zkea.net/licenses 
  *
@@ -54,7 +54,7 @@ namespace ZKEACMS.FormGenerator
                     }
                 },
                 Icon = "glyphicon-list-alt",
-                Order = 10
+                Order = 12
             };
         }
 
@@ -109,6 +109,9 @@ namespace ZKEACMS.FormGenerator
             serviceCollection.AddTransient<IFormDataValidator, NumberFormDataValidator>();
             serviceCollection.AddTransient<IFormDataValidator, RequiredFormDataValidator>();
             serviceCollection.AddTransient<IFormDataValidator, MaxLengthFormDataValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, RegexPatternValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, PhoneFormDataValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, ValidCodeFormDataValidator>();
 
             serviceCollection.TryAddTransient<IFormService, FormService>();
             serviceCollection.TryAddTransient<IFormDataService, FormDataService>();

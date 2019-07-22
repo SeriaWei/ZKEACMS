@@ -33,7 +33,7 @@ namespace ZKEACMS.Product.Service
             _productCategoryService = productCategoryService;
             _pageService = pageService;
         }
-       
+
         private string GetDetailPageUrl()
         {
             var baseDetail = WidgetBasePartService.Get(m => m.ServiceTypeName == "ZKEACMS.Product.Service.ProductDetailWidgetService").FirstOrDefault();
@@ -80,7 +80,8 @@ namespace ZKEACMS.Product.Service
             {
                 PageIndex = pageIndex,
                 PageSize = currentWidget.PageSize ?? 20,
-                OrderBy = "OrderIndex"
+                OrderBy = "OrderIndex",
+                ThenByDescending = "ID"
             };
 
             Expression<Func<ProductEntity, bool>> filter = null;
@@ -91,7 +92,7 @@ namespace ZKEACMS.Product.Service
             else
             {
                 var ids = _productCategoryService.Get(m => m.ID == currentWidget.ProductCategoryID || m.ParentID == currentWidget.ProductCategoryID).Select(m => m.ID).ToList();
-                filter = m => m.IsPublish && ids.Contains(m.ProductCategoryID ?? 0);
+                filter = m => m.IsPublish && ids.Contains(m.ProductCategoryID);
             }
             if (currentWidget.IsPageable)
             {
@@ -109,7 +110,8 @@ namespace ZKEACMS.Product.Service
                 if (layout != null && layout.Page != null)
                 {
                     var page = layout.Page;
-                    page.Title = (page.Title ?? "") + " - " + currentCategory.Title;
+                    //page.Title = (page.Title ?? "") + " - " + currentCategory.Title;
+                    page.Title = page.Title.IsNullOrWhiteSpace() ? currentCategory.Title : $"{page.Title} - {currentCategory.Title}";
                 }
             }
 

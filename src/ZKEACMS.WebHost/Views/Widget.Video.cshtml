@@ -1,4 +1,4 @@
-﻿@using System.Text.RegularExpressions
+@using System.Text.RegularExpressions
 @model ZKEACMS.Common.Models.VideoWidget
 
 <div class="widget-video">
@@ -7,8 +7,8 @@
         <video controls="controls"
                name="media"
                src="@Url.Content(Model.Url)"
-               style="width:@(Model.Width.HasValue?Model.Width+"px":"auto");height:@(Model.Height.HasValue?Model.Height+"px":"auto")">
-            您的浏览器不支持播放该视频
+               style="@(Model.Width.HasValue? "width:" + Model.Width + "px;" : string.Empty)@(Model.Height.HasValue?"height:" + Model.Height + "px;" : string.Empty)">
+            @L("您的浏览器不支持播放该视频")
         </video>
     }
     else if (Model.Code.IsNotNullAndWhiteSpace())

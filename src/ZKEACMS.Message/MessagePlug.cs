@@ -1,19 +1,19 @@
-﻿/* 
+/* 
  * http://www.zkea.net/ 
  * Copyright 2017 ZKEASOFT 
  * http://www.zkea.net/licenses 
  */
 
+using Easy;
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
+using Easy.RepositoryPattern;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using ZKEACMS.Message.Service;
-using Easy;
 using ZKEACMS.Message.Models;
+using ZKEACMS.Message.Service;
 using ZKEACMS.WidgetTemplate;
-using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Message
 {

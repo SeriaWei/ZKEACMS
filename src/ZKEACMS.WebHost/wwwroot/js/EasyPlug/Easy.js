@@ -110,7 +110,7 @@ Easy.Cookie = (function () {
     function DeleteCookie(c_name) {
         if (GetCookie(c_name)) {
             document.cookie = c_name + "=" +
-            "; expires=Thu, 01-Jan-70 00:00:01 GMT";
+                "; expires=Thu, 01-Jan-70 00:00:01 GMT";
         }
     }
     return { SetCookie: SetCookie, GetCookie: GetCookie, DeleteCookie: DeleteCookie }
@@ -195,12 +195,12 @@ Easy.ShowMessageBox = function (title, msg, fnOk, ShowCancel, zindex) {
     /// <param name="ShowCancel" type="Boolean">是否显示取消按钮</param>
     /// <param name="zindex" type="Int">z方向的层次</param>
     var box = $("<div class='MessageBox BoxShadow'>" +
-            "<div class='MBContent'>" +
-                "<div id='MessageBoxTitle' class='MBTitle'></div>" +
-                "<div id='MessageBoxMsg' class='MBMSgText'></div>" +
-                "<div class='MBFoot'>" +
-                    "<div id='MessageBoxActions' class='MBActions'></div>" +
-                    "<div style='clear: both'></div></div></div></div>");
+        "<div class='MBContent'>" +
+        "<div id='MessageBoxTitle' class='MBTitle'></div>" +
+        "<div id='MessageBoxMsg' class='MBMSgText'></div>" +
+        "<div class='MBFoot'>" +
+        "<div id='MessageBoxActions' class='MBActions'></div>" +
+        "<div style='clear: both'></div></div></div></div>");
     box.find("#MessageBoxMsg").html(msg);
     box.find("#MessageBoxTitle").html(title);
 
@@ -268,13 +268,17 @@ Easy.MessageTip = (function () {
 Easy.ShowUrlWindow = function (op) {
     /// <summary>打开窗口 Op = { url: "", title: "", width: 800, height: 600, callBack: function () { },isDialog:false ,zindex:0}</summary>
     var boxWindow = $("<div class='WeiWindow BoxShadow'><div class='TitleBar'><div class='Left TitleBarLeft'></div><div class='Mid TitleBarMid'></div>" +
-            "<div class='Right TitleBarRight'><div class='CloseWindow'></div></div></div><div class='Content'><div class='Left ContentLeft'></div><div class='Mid ContentMid'>" +
-            "<iframe src='' width='100%' height='100%' frameborder='0'></iframe></div><div class='Right ContentRight'></div></div><div class='Botoom'>" +
-            "<div class='Left BottomLeft'></div><div class='Mid BottomMid'></div><div class='Right BottomRight'></div></div></div>");
-    var deOp = { url: "", title: "", width: 800, height: 500, callBack: function () { }, isDialog: true, animate: false, onLoad: function () { } };
+        "<div class='Right TitleBarRight'><div class='CloseWindow'></div></div></div><div class='Content'><div class='Left ContentLeft'></div><div class='Mid ContentMid'>" +
+        "<iframe src='' width='100%' height='100%' frameborder='0'></iframe></div><div class='Right ContentRight'></div></div><div class='Botoom'>" +
+        "<div class='Left BottomLeft'></div><div class='Mid BottomMid'></div><div class='Right BottomRight'></div></div></div>");
+    var deOp = { url: "", title: "", callBack: function () { }, isDialog: true, animate: false, onLoad: function () { } };
     deOp = $.extend(deOp, op);
     if (deOp.isDialog) {
-        Easy.OpacityBackGround.Show(++Easy.MaxZindex);
+        if (op.zindex) {
+            Easy.OpacityBackGround.Show(op.zindex - 1);
+        } else {
+            Easy.OpacityBackGround.Show(++Easy.MaxZindex);
+        }
     }
     boxWindow.appendTo("body");
     boxWindow.find(".Mid.TitleBarMid").DragElement(boxWindow, boxWindow.find(".CloseWindow"), boxWindow.find(".Right.ContentRight"), boxWindow.find(".Right.BottomRight"), boxWindow.find(".Mid.BottomMid"));
@@ -295,15 +299,26 @@ Easy.ShowUrlWindow = function (op) {
         boxWindow.find(".CloseWindow").click();
     }
     boxWindow.center = function () {
-        boxWindow.animate({ left: (Easy.WindowSize().width - deOp.width) / 2, top: (Easy.WindowSize().height - deOp.height) / 2 }, { speed: 200 });
+        boxWindow.animate({ left: (Easy.WindowSize().width - boxWindow.outerWidth()) / 2, top: (Easy.WindowSize().height - boxWindow.outerHeight()) / 2 }, { speed: 200 });
     }
     $(window).resize(function () {
         Easy.Processor(boxWindow.center, 300);
     });
-    boxWindow.width(deOp.width);
-    boxWindow.height(deOp.height);
-    boxWindow.css("left", (Easy.WindowSize().width - deOp.width) / 2);
-    boxWindow.css("top", (Easy.WindowSize().height - deOp.height) / 2);
+    var windowSize = Easy.WindowSize();
+    if (deOp.width && (deOp.width < windowSize.width)) {
+        boxWindow.width(deOp.width);
+    }
+    else {
+        boxWindow.width(windowSize.width * 0.8);
+    }
+    if (deOp.height && (deOp.height < windowSize.height)) {
+        boxWindow.height(deOp.height);
+    }
+    else {
+        boxWindow.height(windowSize.height * 0.8);
+    }
+    boxWindow.css("left", (windowSize.width - boxWindow.outerWidth()) / 2);
+    boxWindow.css("top", (windowSize.height - boxWindow.outerHeight()) / 2);
     boxWindow.find(".Mid.TitleBarMid").html(deOp.title);
 
     var reSet = true;
@@ -353,17 +368,14 @@ jQuery.fn.extend({
         var MouseY = 0;
         var Qthis = this;
         if (!(targetEle instanceof jQuery)) {
-            if (Qthis.css("position") != "absolute" && Qthis.css("position") != "fixed" && Qthis.css("position") != "relative")
+            if (Qthis.css("position") != "absolute" && Qthis.css("position") != "fixed" && Qthis.css("position") != "relative") {
                 Qthis.css("position", "relative");
-            Qthis.css("left", Qthis.offset().left);
-            Qthis.css("top", Qthis.offset().top);
+            }
         }
         else {
             if (targetEle.css("position") != "absolute" && targetEle.css("position") != "fixed" && targetEle.css("position") != "relative") {
                 targetEle.css("position", "relative");
             }
-            targetEle.css("left", targetEle.offset().left);
-            targetEle.css("top", targetEle.offset().top);
         }
         Qthis.css("cursor", "move");
         Qthis.bind("mousedown", { ac: "move" }, EleMouseDown);
@@ -584,8 +596,7 @@ jQuery.fn.extend({
                     JqThis.scrollLeft(JqThis.scrollLeft() + offset);
                 else JqThis.scrollLeft(JqThis.scrollLeft() - offset);
             }
-            if (JqThis.scrollLeft() >= maxleft)
-            { Pac = 2; }
+            if (JqThis.scrollLeft() >= maxleft) { Pac = 2; }
             if (JqThis.scrollLeft() == 0)
                 Pac = 1;
         }
@@ -714,7 +725,7 @@ $.fn.size = function () {
 }
 $.ajaxSetup({
     beforeSend: function (xhr) {
-        xhr.busyTimer = setTimeout(function() {
+        xhr.busyTimer = setTimeout(function () {
             Easy.Block();
         }, 3000);
     },

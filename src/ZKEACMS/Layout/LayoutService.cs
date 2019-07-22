@@ -12,22 +12,26 @@ using ZKEACMS.Zone;
 using Easy;
 using ZKEACMS.Layout;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Concurrent;
+using Easy.Cache;
 
 namespace ZKEACMS.Layout
 {
-    public class LayoutService : ServiceBase<LayoutEntity>, ILayoutService
+    public class LayoutService : ServiceBase<LayoutEntity, CMSDbContext>, ILayoutService
     {
         private readonly IZoneService _zoneService;
         private readonly ILayoutHtmlService _layoutHtmlService;
         private readonly IWidgetActivator _widgetActivator;
         private readonly IWidgetBasePartService _widgetService;
-
+        private readonly ConcurrentDictionary<string, object> _cache;
+        private const string LayoutCacheKey = "LayoutCacheKey";
         public LayoutService(IDataArchivedService dataArchivedService,
             IZoneService zoneService,
             IWidgetBasePartService widgetService,
             IApplicationContext applicationContext,
             ILayoutHtmlService layoutHtmlService,
             IWidgetActivator widgetActivator,
+            ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
@@ -35,15 +39,11 @@ namespace ZKEACMS.Layout
             _widgetService = widgetService;
             _layoutHtmlService = layoutHtmlService;
             _widgetActivator = widgetActivator;
+            _cache = cacheManager.GetOrAdd("LayoutCacheKey", key => new ConcurrentDictionary<string, object>());
         }
 
-        public override DbSet<LayoutEntity> CurrentDbSet => (DbContext as CMSDbContext).Layout;
-        
+        public override DbSet<LayoutEntity> CurrentDbSet => DbContext.Layout;
 
-        private string GenerateKey(object id)
-        {
-            return "Layout:" + id;
-        }
         public override IQueryable<LayoutEntity> Get()
         {
             return CurrentDbSet.AsNoTracking();
@@ -153,12 +153,12 @@ namespace ZKEACMS.Layout
         }
         public override ServiceResult<LayoutEntity> Update(LayoutEntity item)
         {
-            MarkChanged(item.ID);
+            MarkChanged(item);
             return base.Update(item);
         }
         public override ServiceResult<LayoutEntity> UpdateRange(params LayoutEntity[] items)
         {
-            items.Each(m => MarkChanged(m.ID));
+            items.Each(MarkChanged);
             return base.UpdateRange(items);
         }
 
@@ -178,7 +178,20 @@ namespace ZKEACMS.Layout
         }
         public LayoutEntity GetByPage(PageEntity page)
         {
-            LayoutEntity entity = new LayoutEntity { ID = page.LayoutId };
+            LayoutEntity baseLayout = _cache.GetOrAdd(page.LayoutId, key =>
+            {
+                LayoutEntity entry = base.Get(key);
+                DbContext.Attach(entry).State = EntityState.Detached;
+                return entry;
+            }) as LayoutEntity;
+            LayoutEntity entity = new LayoutEntity
+            {
+                ID = baseLayout.ID,
+                Style = baseLayout.Style,
+                Script = baseLayout.Script,
+                LayoutName = baseLayout.LayoutName,
+                ContainerClass = baseLayout.ContainerClass
+            };
             IEnumerable<ZoneEntity> zones = _zoneService.GetByPage(page);
             entity.Zones = new ZoneCollection();
             zones.Each(entity.Zones.Add);
@@ -229,6 +242,14 @@ namespace ZKEACMS.Layout
         public void MarkChanged(string ID)
         {
 
+        }
+        private void MarkChanged(LayoutEntity item)
+        {
+            object old;
+            if (_cache.TryGetValue(item.ID, out old))
+            {
+                _cache.TryUpdate(item.ID, item, old);
+            }
         }
     }
 }

@@ -3,10 +3,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Easy.MetaData;
 using Easy.Models;
+using Easy.RepositoryPattern;
 
 namespace Easy.Modules.Role
 {
-    [Table("Permission")]
+    [DataTable("Permission")]
     public class Permission : EditorEntity
     {
         public string PermissionKey { get; set; }        

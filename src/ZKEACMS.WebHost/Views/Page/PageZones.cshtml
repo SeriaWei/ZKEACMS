@@ -1,4 +1,4 @@
-﻿@using ZKEACMS.Common.ViewModels
+@using ZKEACMS.Common.ViewModels
 @model LayoutZonesViewModel
 @{
     Layout = null;
@@ -10,7 +10,7 @@
 {
     <div class="panel panel-danger">
         <div class="panel-heading">
-            <span class="badge">须要处理</span>
+            <span class="badge">@L("须要处理")</span>
         </div>
         <div class="panel-body">
             <ul id="noZoneWidgets" class="fullRowList">
@@ -34,7 +34,7 @@
         </div>
         <div class="panel-footer">
             <span class="description">
-                组件不能正确地显示在页面中，可能是因为您切换了布局或删除了原先的区域
+                @L("组件不能正确地显示在页面中，可能是因为您切换了布局或删除了原先的区域")
             </span>
         </div>
     </div>
@@ -42,7 +42,7 @@
 
 <div class="panel  panel-default">
     <div class="panel-heading">
-        <span class="badge">概览</span>
+        <span class="badge">@L("概览")</span>
         @Model.Page.Title
     </div>
     <div class="simplePreview">
@@ -65,11 +65,11 @@
                                     <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID" data-position="@(widget.LayoutID.IsNotNullAndWhiteSpace()||widget.RuleID.HasValue?widget.Position:0)">
                                         @if (widget.LayoutID.IsNotNullAndWhiteSpace())
                                         {
-                                            <span class="label label-info">布局</span>
+                                            <span class="label label-info">@L("布局")</span>
                                         }
                                         @if (widget.RuleID.HasValue)
                                         {
-                                            <span class="badge">全局</span>
+                                            <span class="badge">@L("全局")</span>
                                         }
                                         @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                                         {
@@ -83,14 +83,14 @@
                             <div class="panel-toolbar">
                                 @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                                 {
-                                    <a class="btn btn-black btn-xs" title="添加内容" href="@Url.Action("SelectWidget", "WidgetTemplate", new { Model.PageID, ZoneID = item.HeadingCode, ReturnUrl = returnUrl})">
+                                    <a class="btn btn-black btn-xs" title="@L("添加内容")" href="@Url.Action("SelectWidget", "WidgetTemplate", new { Model.PageID, ZoneID = item.HeadingCode, ReturnUrl = returnUrl})">
                                         <i class="glyphicon glyphicon-plus"></i>
-                                        添加内容 | @item.ZoneName
+                                        @L("添加内容") | @item.ZoneName
                                     </a>
                                 }
                                 else
                                 {
-                                    <a class="label label-info" title="区域名称" href="#">
+                                    <a class="label label-info" title="@L("区域名称")" href="#">
                                         @item.ZoneName
                                     </a>
                                 }
@@ -114,12 +114,12 @@
             {
                 <a class="btn btn-primary" href="@Url.Action("Design", new {ID = Model.PageID})">
                     <i class="glyphicon glyphicon-pencil"></i>
-                    编辑
+                    @L("编辑")
                 </a>
             }
             <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID})">
                 <i class="glyphicon glyphicon-eye-open"></i>
-                预览编辑版本
+                @L("预览编辑版本")
             </a>
             @if (Model.Page.PublishDate.HasValue)
             {
@@ -127,28 +127,28 @@
                    href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID, preview = false})"
                    target="_blank">
                     <i class="glyphicon glyphicon-eye-open"></i>
-                    预览发布版本
+                    @L("预览发布版本")
                 </a>
             }
             @if (Authorizer.Authorize(PermissionKeys.ManagePage))
             {
                 <a class="btn btn-primary" href="@Url.Action("Edit", new {ID = Model.PageID})">
                     <i class="glyphicon glyphicon-record"></i>
-                    属性/历史记录
+                    @L("属性/历史记录")
                 </a>
             }
             @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
             {
                 <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new { ID = Model.LayoutID, Model.PageID})">
                     <i class="glyphicon glyphicon-th"></i>
-                    布局
+                    @L("布局")
                 </a>
             }
             @if (Authorizer.Authorize(PermissionKeys.ManagePage))
             {
                 <a class="btn btn-primary publish-page" data-id="@Model.PageID" href="javascript:void(0)">
                     <i class="glyphicon glyphicon-open"></i>
-                    发布
+                    @L("发布")
                 </a>
             }
 
@@ -158,5 +158,5 @@
 
 @if (Authorizer.Authorize(PermissionKeys.ManagePage))
 {
-    @Html.Partial("SortWidget.Script")
+    @await Html.PartialAsync("SortWidget.Script")
 }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using System;
 using Microsoft.Net.Http.Headers;
+using ZKEACMS.Theme;
 
 namespace ZKEACMS.Filter
 {
@@ -32,7 +33,7 @@ namespace ZKEACMS.Filter
             }
         }
 
-        public override string GetLayout()
+        public override string GetLayout(ActionExecutedContext filterContext, ThemeEntity theme)
         {
             return "~/Views/Shared/_DesignPageLayout.cshtml";
         }

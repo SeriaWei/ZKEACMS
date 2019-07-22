@@ -1,4 +1,4 @@
-﻿@using ZKEACMS.Common
+@using ZKEACMS.Common
 @model IEnumerable<LayoutEntity>
 @{
     Script.Reqiured("jQueryUi").AtFoot();
@@ -8,7 +8,7 @@
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    布局组件
+                    @L("布局组件")
                 </div>
                 <div class="panel-body">
                     <ul id="layouts" class="fullRowList">
@@ -21,7 +21,7 @@
                                 @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
                                 {
                                     <div class="pull-right">
-                                        <a href="@Url.Action("Design", new {item.ID})" title="设计">
+                                        <a href="@Url.Action("Design", new {item.ID})" title="@L("设计")">
                                             <i class="glyphicon glyphicon-edit"></i>
                                         </a>
                                     </div>
@@ -55,7 +55,7 @@
 
         $(document).on("click", ".fullRowList .delete", function () {
             var id = $(this).data("widgetid");
-            if (confirm("确定要删除该组件吗？")) {
+            if (confirm("@L("确定要删除该组件吗？")")) {
                 $.post("@Url.Action("DeleteWidget", "Widget")", { ID: id }, function (data) {
                     if (data) {
                         $("#widget_" + id).remove();

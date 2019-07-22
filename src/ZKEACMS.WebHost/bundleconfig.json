@@ -172,5 +172,17 @@
     "inputFiles": [
       "wwwroot/js/tinymce/plugins/imagelocal/plugin.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/css/rule.min.css",
+    "inputFiles": [
+      "wwwroot/css/rule.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery-validation/dist/additional-methods.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery-validation/dist/additional-methods.js"
+    ]
   }
 ]

@@ -7,7 +7,7 @@ namespace Easy.Constant
         /// <summary>
         /// 邮件
         /// </summary>
-        public const string Email = @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*";
+        public const string Email = @"^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
         /// <summary>
         /// 网址
         /// </summary>
@@ -28,6 +28,10 @@ namespace Easy.Constant
         /// 固定电话
         /// </summary>
         public const string ChinesePhone = @"\d{3}-\d{8}|\d{4}-\d{7}";
+        /// <summary>
+        /// 手机号
+        /// </summary>
+        public const string ChineseMobile = @"^1[34578]\d{9}$";
         /// <summary>
         /// 邮政编码
         /// </summary>
