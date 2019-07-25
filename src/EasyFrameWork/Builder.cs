@@ -33,6 +33,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
@@ -103,8 +104,6 @@ namespace Easy
             services.Configure<CultureOption>(configuration.GetSection("Culture"));
 
             services.AddDataProtection();
-
-            //services.AddDbContext<EasyDbContext>();
         }
 
         public static void ConfigureMetaData<TEntity, TMetaData>(this IServiceCollection service)
@@ -125,7 +124,7 @@ namespace Easy
             builder.UseMiddleware<PluginStaticFileMiddleware>();
             return builder;
         }
-        public static void UseFileLog(this ILoggerFactory loggerFactory, IHostingEnvironment env, IHttpContextAccessor httpContextAccessor)
+        public static void UseFileLog(this ILoggerFactory loggerFactory, IWebHostEnvironment env, IHttpContextAccessor httpContextAccessor)
         {
             loggerFactory.AddProvider(new FileLoggerProvider(env, httpContextAccessor));
         }

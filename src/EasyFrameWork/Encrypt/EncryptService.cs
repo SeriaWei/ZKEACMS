@@ -17,7 +17,7 @@ namespace Easy.Encrypt
         private readonly string _folder;
         private readonly string _privateKeyFileName;
         private readonly string _publicKeyFileName;
-        public EncryptService(IHostingEnvironment hostingEnvironment)
+        public EncryptService(IWebHostEnvironment hostingEnvironment)
         {
             _folder = System.IO.Path.Combine(hostingEnvironment.ContentRootPath, Path);
             _privateKeyFileName = System.IO.Path.Combine(_folder, PrivateKeyFile);

@@ -17,7 +17,7 @@ read -p "Press enter to continue"
 
 if ! [ -x "$(command -v publish-zkeacms)" ]; then
   echo 'Installing publish tool, please wait.'
-  dotnet tool install -g ZKEACMS.Publisher
+  dotnet tool install --global ZKEACMS.Publisher --version 1.5.6-preview3.0
 fi
 dotnet restore
 cd src/ZKEACMS.WebHost

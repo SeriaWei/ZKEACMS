@@ -26,7 +26,8 @@ namespace ZKEACMS
                 RouteName = "admin",
                 Template = "admin/{controller=Dashboard}/{action=index}/{id?}",
                 Defaults=new { module = "admin" },
-                Priority = 10
+                Priority = 10,
+                RequiredAuthorization = true
              },
              new RouteDescriptor
              {
@@ -47,7 +48,8 @@ namespace ZKEACMS
                 RouteName = "AccountAdmin",
                 Template = "Account/{action}",
                 Defaults = new { controller = "Account", action = "Index"},
-                Priority = 11
+                Priority = 11,
+                RequiredAuthorization = true
              }
         };
     }

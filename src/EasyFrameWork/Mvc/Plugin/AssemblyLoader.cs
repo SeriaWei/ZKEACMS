@@ -74,11 +74,17 @@ namespace Easy.Mvc.Plugin
                 .CompileLibraries.Where(de => de.Name != currentName && !DependencyContext.Default.CompileLibraries.Any(m => m.Name == de.Name))
                 .ToList();
 
+            Dictionary<string, Assembly> loadedAssembly = AppDomain.CurrentDomain.GetAssemblies().ToDictionary(m => m.GetName().Name);
+
             dependencyCompilationLibrary.Each(libaray =>
             {
                 foreach (var item in libaray.ResolveReferencePaths(new DependencyAssemblyResolver(Path.GetDirectoryName(assembly.Location))))
                 {
-                    DependencyAssemblies.Add(AssemblyLoadContext.Default.LoadFromAssemblyPath(item));
+                    string assemblyName = AssemblyName.GetAssemblyName(item).Name;
+                    if (!loadedAssembly.ContainsKey(assemblyName))
+                    {
+                        DependencyAssemblies.Add(AssemblyLoadContext.Default.LoadFromAssemblyPath(item));
+                    }
                 }
             });
 

@@ -16,14 +16,14 @@ namespace ZKEACMS.Common.Service
     public class TemplateService : ITemplateService
     {
         private readonly IThemeService _theme;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly string _themeName = "themes";
         private readonly string _viewName = "Views";
         private readonly string _cshtml = "*.cshtml";
         private readonly string _fluid = "*.fluid";
         private readonly string _templateFilesCacheKey = "TemplateFilesCacheKey";
         private readonly ICacheManager<List<TemplateFile>> _cacheMgr;
-        public TemplateService(IHostingEnvironment hostingEnvironment, IThemeService themeService, ICacheManager<List<TemplateFile>> cacheManager)
+        public TemplateService(IWebHostEnvironment hostingEnvironment, IThemeService themeService, ICacheManager<List<TemplateFile>> cacheManager)
         {
             _env = hostingEnvironment;
             _theme = themeService;

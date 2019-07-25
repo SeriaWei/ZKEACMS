@@ -26,7 +26,6 @@ IF %ERRORLEVEL% NEQ 0 (
 dotnet tool install --g ZKEACMS.Publisher
 ) else dotnet tool update -g ZKEACMS.Publisher
 
-@pause
 @echo Publishing, please wait...
 dotnet restore
 cd src/ZKEACMS.WebHost

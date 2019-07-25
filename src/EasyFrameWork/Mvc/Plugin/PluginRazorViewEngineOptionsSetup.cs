@@ -6,6 +6,7 @@ using Easy.Extend;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.CodeAnalysis;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System.IO;
 using System.Linq;
@@ -14,14 +15,9 @@ namespace Easy.Mvc.Plugin
 {
     public class PluginRazorViewEngineOptionsSetup : ConfigureOptions<RazorViewEngineOptions>
     {
-        public PluginRazorViewEngineOptionsSetup(IHostingEnvironment hostingEnvironment, IPluginLoader loader) :
+        public PluginRazorViewEngineOptionsSetup(IWebHostEnvironment hostingEnvironment, IPluginLoader loader) :
             base(options =>
             {
-                if (hostingEnvironment.IsDevelopment())
-                {
-                    options.FileProviders.Add(new DeveloperViewFileProvider(hostingEnvironment));
-                }
-                options.AllowRecompilingViewsOnFileChange = true;
                 options.ViewLocationFormats.Clear();
                 loader.GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>
                 {

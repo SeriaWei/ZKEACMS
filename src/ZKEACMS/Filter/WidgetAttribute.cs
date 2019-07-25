@@ -77,7 +77,7 @@ namespace ZKEACMS.Filter
                 string path = string.Format(Layouts.Theme, name);
                 string path2 = string.Format(Layouts.Theme2, name);
 
-                var env = filterContext.HttpContext.RequestServices.GetService<IHostingEnvironment>();
+                var env = filterContext.HttpContext.RequestServices.GetService<IWebHostEnvironment>();
                 var controller = filterContext.Controller as Controller;
 
                 if (File.Exists(env.MapPath(controller.Url.ToArray(path)))) return path;
@@ -135,9 +135,10 @@ namespace ZKEACMS.Filter
                             partDriver.Dispose();
                         }
                     });
+
                 var ruleWorkContext = new RuleWorkContext
                 {
-                    Url = filterContext.HttpContext.Request.Path.Value,
+                    Url = (filterContext.Controller as Controller).Url.Content(page.Url),
                     QueryString = filterContext.HttpContext.Request.QueryString.ToString(),
                     UserAgent = filterContext.HttpContext.Request.Headers["User-Agent"]
                 };

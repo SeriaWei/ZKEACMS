@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>ZKEACMS.WebHost</AssemblyName>
     <PackageId>ZKEACMS.WebHost</PackageId>    
     <Copyright>深圳市纸壳软件科技有限公司 纸壳CMS</Copyright>
@@ -12,19 +12,21 @@
     <PackageTags>ZKEACMS.WebHost</PackageTags>
     <Description>Package Description</Description>
     <Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
-    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
     <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
     <TieredCompilation>true</TieredCompilation>
     <ServerGarbageCollection>false</ServerGarbageCollection>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <RazorCompileOnBuild>true</RazorCompileOnBuild>
+    <RazorCompileOnPublish>true</RazorCompileOnPublish>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
   </PropertyGroup>
-  
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.0.0-preview6.19307.2" />
     <ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <MvcRazorFilesToCompile Include="Views\**\*.cshtml;EmailTemplates\**\*.cshtml" Exclude="wwwroot\themes\**\*.cshtml;" />
   </ItemGroup>
 </Project>

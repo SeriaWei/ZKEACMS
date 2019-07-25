@@ -63,8 +63,7 @@ namespace ZKEACMS.Article.Service
             {
                 GetChildren(item.ID).Each(m =>
                 {
-                    _articleService.Remove(n => n.ArticleTypeID == m.ID);
-                    Remove(m.ID);
+                    Remove(m);
                 });
                 _articleService.Remove(n => n.ArticleTypeID == item.ID);
             }
