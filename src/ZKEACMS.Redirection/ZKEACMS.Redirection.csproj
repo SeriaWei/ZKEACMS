@@ -1,9 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <AssemblyName>ZKEACMS.Redirection</AssemblyName>
     <PackageId>ZKEACMS.Redirection</PackageId>
-    <OutputTypeEx>library</OutputTypeEx>
     <Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
     <Description>Url redirection plugin for zkeacms</Description>
     <Copyright>深圳市纸壳软件科技有限公司 纸壳CMS</Copyright>
@@ -12,15 +12,8 @@
     <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS.Core</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>CMS.Redirection</PackageTags>
-    <RazorCompileOnBuild>true</RazorCompileOnBuild>
-    <RazorCompileOnPublish>true</RazorCompileOnPublish>
-    <OutputType>Library</OutputType>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Include="Scripts\_references.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>

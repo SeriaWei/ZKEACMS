@@ -1,9 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <AssemblyName>ZKEACMS.Message</AssemblyName>
-    <PackageId>ZKEACMS.Message</PackageId>    
-    <OutputTypeEx>library</OutputTypeEx>
+    <PackageId>ZKEACMS.Message</PackageId>
     <Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>
     <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
@@ -12,18 +12,10 @@
     <PackageTags>CMS.Message</PackageTags>
     <Description>Message plugin for ZKEACMS</Description>
     <Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
-    <RazorCompileOnBuild>true</RazorCompileOnBuild>
-    <RazorCompileOnPublish>true</RazorCompileOnPublish>
-    <OutputType>Library</OutputType>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Include="Scripts\_references.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
-
 </Project>

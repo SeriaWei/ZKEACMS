@@ -1,9 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <AssemblyName>ZKEACMS.Article</AssemblyName>
     <PackageId>ZKEACMS.Article</PackageId>
-    <OutputTypeEx>library</OutputTypeEx>
     <Copyright>深圳市纸壳软件科技有限公司 纸壳CMS</Copyright>
     <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
@@ -12,12 +12,9 @@
     <PackageTags>CMS.Article</PackageTags>
     <Description>Article plugin for ZKEACMS</Description>
     <Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
-    <RazorCompileOnBuild>true</RazorCompileOnBuild>
-    <RazorCompileOnPublish>true</RazorCompileOnPublish>
-    <OutputType>Library</OutputType>
   </PropertyGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
-
 </Project>
