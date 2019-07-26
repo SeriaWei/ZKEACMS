@@ -32,54 +32,67 @@ namespace ZKEACMS.Updater.Service
 
         public void UpdateDatabase()
         {
-            using CurrentDbContext dbContext = new CurrentDbContext(_databaseOption);
-            DbConnection dbConnection = dbContext.Database.GetDbConnection();
-            DbTransaction dbTransaction = null;
 
             string[] scriptFiles = GetScriptFiles();
-            if (scriptFiles.Length > 0 && dbConnection.State != ConnectionState.Open)
+            if (scriptFiles.Length > 0)
             {
-                dbConnection.Open();
-                dbTransaction = dbConnection.BeginTransaction();
-            }
-            try
-            {
-                foreach (var item in scriptFiles)
+                using CurrentDbContext dbContext = new CurrentDbContext(_databaseOption);
+                DbConnection dbConnection = dbContext.Database.GetDbConnection();
+                if (dbConnection.State != ConnectionState.Open)
                 {
-                    Console.WriteLine("Executing: ({0})", item);
-                    foreach (var sql in ReadSql(item))
+                    dbConnection.Open();
+                }
+
+                using (DbTransaction dbTransaction = dbConnection.BeginTransaction())
+                {
+                    try
                     {
-                        if (sql.IsNullOrWhiteSpace()) continue;
-                        using (var command = dbConnection.CreateCommand())
+                        foreach (var item in scriptFiles)
                         {
-                            command.Transaction = dbTransaction;
-                            command.CommandTimeout = 0;
-                            command.CommandText = sql;
-                            command.ExecuteNonQuery();
+                            Console.WriteLine("Executing: ({0})", item);
+                            foreach (var sql in ReadSql(item))
+                            {
+                                if (sql.IsNullOrWhiteSpace()) continue;
+                                using (var command = dbConnection.CreateCommand())
+                                {
+                                    command.Transaction = dbTransaction;
+                                    command.CommandTimeout = 0;
+                                    command.CommandText = sql;
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+
+                        }
+                        dbTransaction.Commit();
+
+                        foreach (var item in scriptFiles)
+                        {
+                            try
+                            {
+                                File.Delete(item);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Query executed successfully, but failed to delete the script!");
+                                Console.WriteLine(ex.Message);
+                            }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        dbTransaction.Rollback();
+                    }
+                    finally
+                    {
+                        if (dbConnection.State == ConnectionState.Open)
+                        {
+                            dbConnection.Close();
+                        }
+                    }
+                }
+            }
 
-                }
-            }
-            finally
-            {
-                if (dbConnection.State == ConnectionState.Open)
-                {
-                    dbConnection.Close();
-                }
-            }
-
-            foreach (var item in scriptFiles)
-            {
-                try
-                {
-                    File.Delete(item);
-                }
-                catch
-                {
-                    Console.WriteLine("Query executed successfully, but failed to delete the script! Please delete it to prevent execution again.");
-                }
-            }
         }
         private IEnumerable<string> ReadSql(string scriptFile)
         {
