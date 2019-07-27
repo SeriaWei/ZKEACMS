@@ -7,6 +7,7 @@ using Easy.ViewPort.jsTree;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -15,6 +16,8 @@ using ZKEACMS.Common.Models;
 using ZKEACMS.Common.Service;
 using ZKEACMS.Common.ViewModels;
 using ZKEACMS.Theme;
+using ZKEACMS.Widget;
+using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS.Controllers
 {
@@ -23,37 +26,24 @@ namespace ZKEACMS.Controllers
     {
         private readonly ITemplateService _tempService;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public TemplateController(ITemplateService templateService, IWebHostEnvironment webHostEnvironment)
+        private readonly IWidgetTemplateService _widgetTemplateService;
+        public TemplateController(ITemplateService templateService, IWebHostEnvironment webHostEnvironment,
+            IWidgetTemplateService widgetTemplateService)
         {
             _tempService = templateService;
             _webHostEnvironment = webHostEnvironment;
+            _widgetTemplateService = widgetTemplateService;
         }
 
         [DefaultAuthorize(Policy = PermissionKeys.ViewTemplate)]
         public IActionResult Index()
         {
-            return View();
+            return View(_widgetTemplateService.Get());
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageTemplate)]
-        public async Task<IActionResult> Create(string template)
+        public IActionResult Create(string template)
         {
-            var model = _tempService.GetDefaultTemplateFile();
-            model.RelativePath += template;
-            model.Name = template;
-            using (ZipArchive archive = ZipFile.OpenRead(Path.Combine(_webHostEnvironment.ContentRootPath, "Templates.zip")))
-            {
-                foreach (ZipArchiveEntry entry in archive.Entries)
-                {
-                    if (entry.Name == template)
-                    {
-                        using (StreamReader reader = new StreamReader(entry.Open()))
-                        {
-                            model.Content = await reader.ReadToEndAsync();
-                        }
-                        break;
-                    }
-                }
-            }
+            var model = _tempService.GetDefaultTemplateFile(template);
             return View(model);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTemplate)]
@@ -80,7 +70,7 @@ namespace ZKEACMS.Controllers
             }
             else
             {
-                model = _tempService.GetDefaultTemplateFile();
+                model = _tempService.GetDefaultTemplateFile(null);
             }
             return View(model);
         }
@@ -111,7 +101,7 @@ namespace ZKEACMS.Controllers
                 if (query.Columns.Length > 2) fileName = query.Columns[2].Search.Value;
             }
             var list = _tempService.GetTemplateFiles(p, themeName, fileName);
-            return Json(new TableData(list, p.RecordCount, query.Draw));
+            return Json(new TableData(list, list.Count, query.Draw));
         }
 
         [HttpPost]
