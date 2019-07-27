@@ -10,7 +10,7 @@ namespace ZKEACMS.Common.Service
     {
         List<string> GetThemeNames();
         TemplateFile Get(int id);
-        TemplateFile GetDefaultTemplateFile();
+        TemplateFile GetDefaultTemplateFile(string temaplateName);
         List<TemplateFile> GetTemplateFiles(Pagination p, string theme = "", string fileName = "");
         string CreateOrUpdate(TemplateFile model);
         void Delete(int id);
