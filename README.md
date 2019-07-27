@@ -1,6 +1,6 @@
 ﻿# ZKEACMS Build With Asp.Net Core 3.0
 
-ZKEACMS is a visual design, edit online and **WYSIWYG** Content Management System.
+ZKEACMS is a visual design, **WYSIWYG** Content Management System.
 
 **Basic mind**
 
@@ -47,7 +47,7 @@ $ docker run -d -p 5000:80 zkeasoft/zkeacms
 ## Development
 * [.Net Core SDK 3.0](https://dot.net/get-core3)
 * Microsoft Sql Server 2012+ / MySql 5.6+ / SQLite 3
-* Microsoft Visual Studio 2017 15.9+ / Visual Studio Code
+* Microsoft Visual Studio 2019 / Visual Studio Code
 
 ## Page Design
 ![Page Design](https://user-images.githubusercontent.com/6006218/59973922-176ced80-95d8-11e9-9ff8-be71ae1a0787.gif)
