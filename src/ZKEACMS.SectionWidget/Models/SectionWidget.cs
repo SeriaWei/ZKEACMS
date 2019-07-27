@@ -27,6 +27,7 @@ namespace ZKEACMS.SectionWidget.Models
             ViewConfig(m => m.PartialView).AsHidden();
             ViewConfig(m => m.SectionTitle).AsHidden();
             ViewConfig(m => m.Template).AsHidden().Ignore();
+            ViewConfig(m => m.Groups).AsHidden().Ignore();
         }
     }
 }

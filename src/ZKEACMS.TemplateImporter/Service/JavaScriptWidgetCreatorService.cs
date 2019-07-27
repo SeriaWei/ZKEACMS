@@ -17,6 +17,7 @@ namespace ZKEACMS.TemplateImporter.Service
                     PartialView = "Widget.Script",
                     ServiceTypeName = "ZKEACMS.Common.Service.ScriptWidgetService",
                     ViewModelTypeName = "ZKEACMS.Common.Models.ScriptWidget",
+                    StyleClass = "full",
                     Script = section
                 };
             }

@@ -17,6 +17,7 @@ namespace ZKEACMS.TemplateImporter.Service
                     PartialView = "Widget.StyleSheet",
                     ServiceTypeName = "ZKEACMS.Common.Service.StyleSheetWidgetService",
                     ViewModelTypeName = "ZKEACMS.Common.Models.StyleSheetWidget",
+                    StyleClass = "full",
                     StyleSheet = section
                 };
             }
