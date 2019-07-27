@@ -52,6 +52,11 @@ namespace ZKEACMS
         }
         static Dictionary<Type, string> pluginPathCache = new Dictionary<Type, string>();
         static Dictionary<Type, string> pluginNameCache = new Dictionary<Type, string>();
+        public static HashSet<string> ActiveWidgetTemplates
+        {
+            get;
+            set;
+        }
         public string CurrentPluginPath
         {
             get;
@@ -210,6 +215,18 @@ namespace ZKEACMS
         #region Viewfeature
         public virtual void PopulateFeature(IEnumerable<ApplicationPart> parts, ViewsFeature feature)
         {
+            if (ActiveWidgetTemplates == null)
+            {
+                ActiveWidgetTemplates = new HashSet<string>();
+                foreach (var item in feature.ViewDescriptors)
+                {
+                    string name = Path.GetFileName(item.RelativePath);
+                    if (name.StartsWith("Widget.") && !ActiveWidgetTemplates.Contains(name))
+                    {
+                        ActiveWidgetTemplates.Add(name);
+                    }
+                }
+            }
             var knownIdentifiers = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var attributes = GetViewAttributesLegacy(Assembly);
             foreach (var item in attributes)
@@ -217,6 +234,12 @@ namespace ZKEACMS
                 var descriptor = new CompiledViewDescriptor(item);
                 if (knownIdentifiers.Add(descriptor.RelativePath))
                 {
+                    string name = Path.GetFileName(descriptor.RelativePath);
+                    if (name.StartsWith("Widget.") && !ActiveWidgetTemplates.Contains(name))
+                    {
+                        ActiveWidgetTemplates.Add(name);
+                    }
+
                     feature.ViewDescriptors.Add(descriptor);
                 }
             }

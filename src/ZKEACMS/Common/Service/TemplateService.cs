@@ -100,8 +100,11 @@ namespace ZKEACMS.Common.Service
         public void Delete(int id)
         {
             var model = Get(id);
-            ExtFile.DeleteFile(model.Path);
-            _cacheMgr.Remove(_templateFilesCacheKey);
+            if (model.Name != "_ViewImports.cshtml")
+            {
+                ExtFile.DeleteFile(model.Path);
+                _cacheMgr.Remove(_templateFilesCacheKey);
+            }
         }
 
         public List<TemplateFile> GetTemplateFiles(Pagination p, string theme = "", string fileName = "")

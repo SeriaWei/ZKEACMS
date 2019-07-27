@@ -7,7 +7,22 @@
 @if (Authorizer.Authorize(PermissionKeys.ManageTemplate))
 {
     <div id="toolBar">
-        <a href="@Url.Action("Edit")" class="btn btn-primary btn-sm">@L("新建")</a>
+        <div class="btn-group">
+            <a href="@Url.Action("Create")" class="btn btn-primary btn-sm">@L("新建")</a>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    @foreach (var item in PluginBase.ActiveWidgetTemplates.Where(m => m != "Widget.Error.cshtml"))
+                    {
+                        <li><a href="@Url.Action("Create","Template",new { template = item })">@item</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+
     </div>
 }
 <grid delete-able="Authorizer.Authorize(PermissionKeys.ManageTemplate)" edit-able="Authorizer.Authorize(PermissionKeys.ManageTemplate)"></grid>

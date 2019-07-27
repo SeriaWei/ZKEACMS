@@ -4,9 +4,13 @@ using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
 using Easy.RepositoryPattern;
 using Easy.ViewPort.jsTree;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Threading.Tasks;
 using ZKEACMS.Common.Models;
 using ZKEACMS.Common.Service;
 using ZKEACMS.Common.ViewModels;
@@ -18,11 +22,11 @@ namespace ZKEACMS.Controllers
     public class TemplateController : Controller
     {
         private readonly ITemplateService _tempService;
-        private readonly IThemeService _themeService;
-        public TemplateController(ITemplateService templateService, IThemeService themeService)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public TemplateController(ITemplateService templateService, IWebHostEnvironment webHostEnvironment)
         {
             _tempService = templateService;
-            _themeService = themeService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [DefaultAuthorize(Policy = PermissionKeys.ViewTemplate)]
@@ -30,19 +34,41 @@ namespace ZKEACMS.Controllers
         {
             return View();
         }
-
-        public IActionResult Create()
+        [DefaultAuthorize(Policy = PermissionKeys.ManageTemplate)]
+        public async Task<IActionResult> Create(string template)
         {
-            var theme = _themeService.GetCurrentTheme();
-            var model = new TemplateFile()
+            var model = _tempService.GetDefaultTemplateFile();
+            model.RelativePath += template;
+            model.Name = template;
+            using (ZipArchive archive = ZipFile.OpenRead(Path.Combine(_webHostEnvironment.ContentRootPath, "Templates.zip")))
             {
-                ThemeName = theme?.ID,
-                LastUpdateTime = DateTime.Now
-            };
-
-            return View("Edit", model);
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    if (entry.Name == template)
+                    {
+                        using (StreamReader reader = new StreamReader(entry.Open()))
+                        {
+                            model.Content = await reader.ReadToEndAsync();
+                        }
+                        break;
+                    }
+                }
+            }
+            return View(model);
         }
-
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTemplate)]
+        public IActionResult Create(TemplateFile model)
+        {
+            if (ModelState.IsValid)
+            {
+                string msg = _tempService.CreateOrUpdate(model);
+                if (string.IsNullOrEmpty(msg))
+                    return RedirectToAction("Index");
+                else
+                    ModelState.AddModelError("Name", msg);
+            }
+            return View(model);
+        }
         [DefaultAuthorize(Policy = PermissionKeys.ManageTemplate)]
         public IActionResult Edit(int? id)
         {
