@@ -1,2 +1,2 @@
 echo Starting...
-ASPNETCORE_ENVIRONMENT="Development" ASPNETCORE_URLS="http://localhost:5000" dotnet bin/Debug/netcoreapp2.2/ZKEACMS.WebHost.dll
+ASPNETCORE_ENVIRONMENT="Development" ASPNETCORE_URLS="http://localhost:5000" dotnet bin/Debug/netcoreapp3.0/ZKEACMS.WebHost.dll

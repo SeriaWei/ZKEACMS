@@ -2,6 +2,7 @@
  * Copyright 2018 ZKEASOFT 
  * http://www.zkea.net/licenses */
 using Easy.Mvc.Plugin;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -21,10 +22,10 @@ namespace Easy.Mvc.RazorPages
     {
         private readonly IRazorViewEngine _viewEngine;
         private readonly ITempDataProvider _tempDataProvider;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ViewRenderService(IRazorViewEngine viewEngine, ITempDataProvider tempDataProvider, IHostingEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
+        public ViewRenderService(IRazorViewEngine viewEngine, ITempDataProvider tempDataProvider, IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
         {
             _viewEngine = viewEngine;
             _tempDataProvider = tempDataProvider;

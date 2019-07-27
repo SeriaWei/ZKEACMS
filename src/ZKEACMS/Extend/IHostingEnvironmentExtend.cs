@@ -4,14 +4,14 @@ using System;
 
 namespace ZKEACMS
 {
-    public static class IHostingEnvironmentExtend
+    public static class IWebHostEnvironmentExtend
     {
-        public static string MapPath(this IHostingEnvironment env, string path)
+        public static string MapPath(this IWebHostEnvironment env, string path)
         {
             return Path.Combine(env.ContentRootPath, path);
         }
 
-        public static string MapPath(this IHostingEnvironment env, params string[] paths)
+        public static string MapPath(this IWebHostEnvironment env, params string[] paths)
         {
             string path = env.ContentRootPath;
             if (paths != null && paths.Length > 0)
@@ -24,12 +24,12 @@ namespace ZKEACMS
             return path;
         }
 
-        public static string MapWebRootPath(this IHostingEnvironment env, string path)
+        public static string MapWebRootPath(this IWebHostEnvironment env, string path)
         {
             return Path.Combine(env.WebRootPath, path);
         }
 
-        public static string MapWebRootPath(this IHostingEnvironment env, params string[] paths)
+        public static string MapWebRootPath(this IWebHostEnvironment env, params string[] paths)
         {
             string path = env.WebRootPath;
             if (paths != null && paths.Length > 0)

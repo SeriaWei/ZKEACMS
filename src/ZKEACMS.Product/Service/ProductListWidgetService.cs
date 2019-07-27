@@ -45,7 +45,7 @@ namespace ZKEACMS.Product.Service
                     return page.Url;
                 }
             }
-            return "~/View-Product";
+            return "~/product-detail";
         }
         public override ServiceResult<ProductListWidget> Add(ProductListWidget item)
         {
@@ -53,7 +53,7 @@ namespace ZKEACMS.Product.Service
             {
                 item.PageSize = 12;
             }
-            item.IsPageable = true;
+            
             if (item.DetailPageUrl.IsNullOrWhiteSpace())
             {
                 item.DetailPageUrl = GetDetailPageUrl();

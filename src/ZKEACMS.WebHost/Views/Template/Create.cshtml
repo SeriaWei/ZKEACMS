@@ -1,0 +1,47 @@
+﻿@model ZKEACMS.Common.Models.TemplateFile
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @L("新建")
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.EditorForModel()
+            <div class="toolBar">
+                @if (Authorizer.Authorize(PermissionKeys.ManageTemplate))
+                {
+                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Update" />
+                }
+                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
+            </div>
+        }
+    </div>
+</div>
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            var relatePath = $('#RelativePath');
+            var path = relatePath.val();
+            if (path.indexOf(".cshtml") > 0) {
+                var ps = path.split('/');
+                ps.pop();
+                path = ps.join('/') + "/";
+            }
+            relatePath.data("base", path);
+            $('#Name').keyup(function () {
+                var input = $(this);
+                var value = $.trim(input.val());
+                setRelativePath(value);
+            });
+
+        });
+
+        function setRelativePath(name) {
+            var input_path = $('#RelativePath');
+            input_path.val(input_path.data("base") + name);
+        }
+    </script>
+}

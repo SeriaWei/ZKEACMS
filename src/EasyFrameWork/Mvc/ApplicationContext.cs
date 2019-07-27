@@ -46,9 +46,9 @@ namespace Easy.Mvc
                 return Get<IUser>(nameof(CurrentCustomer));
             }
         }
-        public IHostingEnvironment HostingEnvironment
+        public IWebHostEnvironment HostingEnvironment
         {
-            get { return Get<IHostingEnvironment>(nameof(HostingEnvironment)); }
+            get { return Get<IWebHostEnvironment>(nameof(HostingEnvironment)); }
         }
         public bool IsAuthenticated
         {

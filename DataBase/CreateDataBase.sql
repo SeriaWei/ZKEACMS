@@ -1,6 +1,4 @@
-﻿DROP DATABASE IF EXISTS [$(dataBase)]
-GO
-CREATE DATABASE [$(dataBase)]
+﻿CREATE DATABASE [$(dataBase)]
 GO
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
 begin

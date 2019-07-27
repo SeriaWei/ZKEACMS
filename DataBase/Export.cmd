@@ -31,15 +31,6 @@ cd ..
 cd MySql
 mssql2mysql -s %dataBase% -c "Server=%server%;Database=%dataBase%;User Id=%dbUserId%;Password=%dbPassword%;MultipleActiveResultSets=true;"
 cd ..
-@echo Generate Schema
-cd Tables
-call ExportSchema.cmd %server% %dataBase% %dbUserId% %dbPassword%
-cd ..
-@echo Generate Data
-cd InitialData
-call ExportData.cmd %server% %dataBase% %dbUserId% %dbPassword%
-call AppendGo.cmd
-cd ..
 @echo Combine to script.sql
-mssql-scripter -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% --target-server-version 2008 --schema-and-data --exclude-headers > ./script.sql
+mssql-scripter -S %server% -d %dataBase% -U %dbUserId% -P %dbPassword% --exclude-use-database --target-server-version 2008 --schema-and-data --exclude-headers > ./script.sql
 

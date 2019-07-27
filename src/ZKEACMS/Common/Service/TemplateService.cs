@@ -10,35 +10,36 @@ using ZKEACMS.Common.Models;
 using Microsoft.AspNetCore.Hosting;
 using Easy.RepositoryPattern;
 using Easy.Cache;
+using System.IO.Compression;
 
 namespace ZKEACMS.Common.Service
 {
     public class TemplateService : ITemplateService
     {
-        private readonly IThemeService _theme;
-        private readonly IHostingEnvironment _env;
+        private readonly IThemeService _themeService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly string _themeName = "themes";
         private readonly string _viewName = "Views";
         private readonly string _cshtml = "*.cshtml";
         private readonly string _fluid = "*.fluid";
         private readonly string _templateFilesCacheKey = "TemplateFilesCacheKey";
         private readonly ICacheManager<List<TemplateFile>> _cacheMgr;
-        public TemplateService(IHostingEnvironment hostingEnvironment, IThemeService themeService, ICacheManager<List<TemplateFile>> cacheManager)
+        public TemplateService(IWebHostEnvironment hostingEnvironment, IThemeService themeService, ICacheManager<List<TemplateFile>> cacheManager)
         {
-            _env = hostingEnvironment;
-            _theme = themeService;
+            _webHostEnvironment = hostingEnvironment;
+            _themeService = themeService;
             _cacheMgr = cacheManager;
         }
 
         public List<string> GetThemeNames()
         {
             List<string> list = new List<string>();
-            var themes = _theme.GetAllThemes();
+            var themes = _themeService.GetAllThemes();
             if (themes != null && themes.Count() > 0)
             {
                 foreach (var item in themes)
                 {
-                    string path = _env.MapWebRootPath(_themeName, item.ID);
+                    string path = _webHostEnvironment.MapWebRootPath(_themeName, item.ID);
                     if (ExtFile.ExistDirectory(path))
                     {
                         list.Add(item.ID);
@@ -56,9 +57,9 @@ namespace ZKEACMS.Common.Service
             return file;
         }
 
-        public TemplateFile GetDefaultTemplateFile()
+        public TemplateFile GetDefaultTemplateFile(string templateName)
         {
-            var theme = _theme.GetCurrentTheme();
+            var theme = _themeService.GetCurrentTheme();
             string themeName = theme?.ID;
             string[] paths = new string[] { "~", _themeName, themeName, _viewName, "" };
             TemplateFile model = new TemplateFile()
@@ -67,6 +68,25 @@ namespace ZKEACMS.Common.Service
                 RelativePath = string.Join("/", paths),
                 LastUpdateTime = DateTime.Now
             };
+            if (templateName.IsNotNullAndWhiteSpace())
+            {
+                model.RelativePath += templateName;
+                model.Name = templateName;
+                using (ZipArchive archive = ZipFile.OpenRead(Path.Combine(_webHostEnvironment.ContentRootPath, "Templates.zip")))
+                {
+                    foreach (ZipArchiveEntry entry in archive.Entries)
+                    {
+                        if (entry.Name == templateName)
+                        {
+                            using (StreamReader reader = new StreamReader(entry.Open()))
+                            {
+                                model.Content = reader.ReadToEnd();
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
             return model;
         }
 
@@ -79,7 +99,7 @@ namespace ZKEACMS.Common.Service
             if (name.EndsWith(_cshtml.Substring(1)) || name.EndsWith(_fluid.Substring(1)))
             {
                 relativePath = relativePath.TrimStart('~');
-                model.Path = _env.MapWebRootPath(relativePath.Split('/'));
+                model.Path = _webHostEnvironment.MapWebRootPath(relativePath.Split('/'));
                 if (model.Id > 0)
                 {
                     var old = Get(model.Id);
@@ -100,8 +120,11 @@ namespace ZKEACMS.Common.Service
         public void Delete(int id)
         {
             var model = Get(id);
-            ExtFile.DeleteFile(model.Path);
-            _cacheMgr.Remove(_templateFilesCacheKey);
+            if (model.Name != "_ViewImports.cshtml")
+            {
+                ExtFile.DeleteFile(model.Path);
+                _cacheMgr.Remove(_templateFilesCacheKey);
+            }
         }
 
         public List<TemplateFile> GetTemplateFiles(Pagination p, string theme = "", string fileName = "")
@@ -138,7 +161,7 @@ namespace ZKEACMS.Common.Service
             foreach (var item in themes)
             {
                 List<string> temFiles = new List<string>();
-                string path = _env.MapWebRootPath(_themeName, item, _viewName);
+                string path = _webHostEnvironment.MapWebRootPath(_themeName, item, _viewName);
                 var fs = ExtFile.GetFiles(path, _cshtml);
                 if (fs != null && fs.Length > 0) temFiles.AddRange(fs);
                 var fs2 = ExtFile.GetFiles(path, _fluid);
@@ -146,7 +169,7 @@ namespace ZKEACMS.Common.Service
                 dic.Add(item, temFiles);
             }
 
-            int index = _env.WebRootPath.Length;
+            int index = _webHostEnvironment.WebRootPath.Length;
             int id = 0;
             foreach (var d in dic)
             {

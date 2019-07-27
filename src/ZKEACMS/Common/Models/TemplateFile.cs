@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Common.Models
 {
@@ -58,7 +59,7 @@ namespace ZKEACMS.Common.Models
             ViewConfig(m => m.Name).AsTextBox().ShowInGrid().Order(10);
             ViewConfig(m => m.Path).AsHidden();
             ViewConfig(m => m.RelativePath).AsTextBox().ReadOnly().ShowInGrid().Order(20).Search(Easy.LINQ.Query.Operators.None);
-            ViewConfig(m => m.Content).AsTextArea().SetTemplate("TemplateContent").ShowInGrid(false).Order(30);
+            ViewConfig(m => m.Content).AsTextArea().AsCodeEditor().ShowInGrid(false).Order(30);
             ViewConfig(m => m.LastUpdateTime).AsTextBox().FormatDate("yyyy-MM-dd").ShowInGrid().ReadOnly().Order(100).Search(Easy.LINQ.Query.Operators.None);
         }
     }

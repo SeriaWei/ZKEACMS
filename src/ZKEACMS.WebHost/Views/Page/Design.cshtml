@@ -36,7 +36,7 @@
                 <input type="hidden" class="zoneId" value="@zoneId" />
                 <div class="zoneName">
                     <a title="添加内容"
-                       class="add-widget btn btn-black btn-sm"
+                       class="zk-btn zk-btn-sm add-widget"
                        href="@Url.Action("SelectWidget", "WidgetTemplate", new {pageId = Model.Page.ID, ZoneId = zoneId})">
                         <i class="glyphicon glyphicon-plus"></i>
                         @L("添加内容") | @Model.Zones.First(m => m.HeadingCode == zoneId).ZoneName
@@ -44,7 +44,7 @@
                     </a>
                     @if (ViewBag.CanPasteWidget == true)
                     {
-                        <a class="paste-widget btn btn-danger btn-sm" title="@L("粘贴复制的内容到该区域")"
+                        <a class="paste-widget zk-btn zk-btn-danger zk-btn-sm" title="@L("粘贴复制的内容到该区域")"
                            href="@Url.Action("Paste", "Widget", new { PageID = Model.Page.ID, ZoneID = zoneId })">
                             <i class="glyphicon glyphicon-paste"></i>
                             @L("粘贴")

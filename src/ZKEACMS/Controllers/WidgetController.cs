@@ -261,7 +261,7 @@ namespace ZKEACMS.Controllers
         {
             var dataDictionaryService = HttpContext.RequestServices.GetService<IDataDictionaryService>();
             var dataDictionary = dataDictionaryService.Get(ID);
-            var installer = new DataDictionaryPackageInstaller(HttpContext.RequestServices.GetService<IHostingEnvironment>(), dataDictionaryService);
+            var installer = new DataDictionaryPackageInstaller(HttpContext.RequestServices.GetService<IWebHostEnvironment>(), dataDictionaryService);
             if (filePath != null && filePath.Any())
             {
                 installer.OnPacking = () =>

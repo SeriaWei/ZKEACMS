@@ -4,13 +4,20 @@ using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
 using Easy.RepositoryPattern;
 using Easy.ViewPort.jsTree;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Threading.Tasks;
 using ZKEACMS.Common.Models;
 using ZKEACMS.Common.Service;
 using ZKEACMS.Common.ViewModels;
 using ZKEACMS.Theme;
+using ZKEACMS.Widget;
+using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS.Controllers
 {
@@ -18,31 +25,40 @@ namespace ZKEACMS.Controllers
     public class TemplateController : Controller
     {
         private readonly ITemplateService _tempService;
-        private readonly IThemeService _themeService;
-        public TemplateController(ITemplateService templateService, IThemeService themeService)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IWidgetTemplateService _widgetTemplateService;
+        public TemplateController(ITemplateService templateService, IWebHostEnvironment webHostEnvironment,
+            IWidgetTemplateService widgetTemplateService)
         {
             _tempService = templateService;
-            _themeService = themeService;
+            _webHostEnvironment = webHostEnvironment;
+            _widgetTemplateService = widgetTemplateService;
         }
 
         [DefaultAuthorize(Policy = PermissionKeys.ViewTemplate)]
         public IActionResult Index()
         {
-            return View();
+            return View(_widgetTemplateService.Get());
         }
-
-        public IActionResult Create()
+        [DefaultAuthorize(Policy = PermissionKeys.ManageTemplate)]
+        public IActionResult Create(string template)
         {
-            var theme = _themeService.GetCurrentTheme();
-            var model = new TemplateFile()
-            {
-                ThemeName = theme?.ID,
-                LastUpdateTime = DateTime.Now
-            };
-
-            return View("Edit", model);
+            var model = _tempService.GetDefaultTemplateFile(template);
+            return View(model);
         }
-
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTemplate)]
+        public IActionResult Create(TemplateFile model)
+        {
+            if (ModelState.IsValid)
+            {
+                string msg = _tempService.CreateOrUpdate(model);
+                if (string.IsNullOrEmpty(msg))
+                    return RedirectToAction("Index");
+                else
+                    ModelState.AddModelError("Name", msg);
+            }
+            return View(model);
+        }
         [DefaultAuthorize(Policy = PermissionKeys.ManageTemplate)]
         public IActionResult Edit(int? id)
         {
@@ -54,7 +70,7 @@ namespace ZKEACMS.Controllers
             }
             else
             {
-                model = _tempService.GetDefaultTemplateFile();
+                model = _tempService.GetDefaultTemplateFile(null);
             }
             return View(model);
         }
@@ -85,7 +101,7 @@ namespace ZKEACMS.Controllers
                 if (query.Columns.Length > 2) fileName = query.Columns[2].Search.Value;
             }
             var list = _tempService.GetTemplateFiles(p, themeName, fileName);
-            return Json(new TableData(list, p.RecordCount, query.Draw));
+            return Json(new TableData(list, list.Count, query.Draw));
         }
 
         [HttpPost]

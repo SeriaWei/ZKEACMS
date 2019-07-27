@@ -23,29 +23,25 @@
 {
     <script type="text/javascript">
         $(function () {
+            var relatePath = $('#RelativePath');
+            var path = relatePath.val();
+            if (path.indexOf(".cshtml") > 0) {
+                var ps = path.split('/');
+                ps.pop();
+                path = ps.join('/') + "/";
+            }
+            relatePath.data("base", path);
             $('#Name').keyup(function () {
                 var input = $(this);
                 var value = $.trim(input.val());
                 setRelativePath(value);
             });
 
-            init();
         });
 
         function setRelativePath(name) {
             var input_path = $('#RelativePath');
-            var path_value = $.trim(input_path.val());
-            var ps = path_value.split('/');
-            ps[ps.length - 1] = name;
-            input_path.val(ps.join('/'));
-        }
-
-        function init() {
-            var input_path = $('#RelativePath');
-            var id = '@Model.Id';
-            if (parseInt(id, 10) < 1) {
-                input_path.removeAttr('readonly');
-            }
+            input_path.val(input_path.data("base") + name);
         }
     </script>
 }

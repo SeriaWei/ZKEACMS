@@ -7,9 +7,7 @@
         @foreach (SectionGroup group in Model.Groups.OrderBy(m => m.Order))
             {
             <div class="@(group.PercentWidth.IsNullOrWhiteSpace()?"col-xs-12":group.PercentWidth)">
-
-                @Html.Partial(group.PartialView, group)
-
+                @await Html.PartialAsync(group.PartialView, group)
             </div>
         }
     </div>

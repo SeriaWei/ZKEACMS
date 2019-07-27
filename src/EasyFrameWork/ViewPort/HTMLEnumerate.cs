@@ -14,7 +14,8 @@ namespace Easy.ViewPort
             Hidden = 6,
             CheckBox = 7,
             MutiLineTextBox = 8,
-            ListEditor=9
+            ListEditor = 9,
+            Object = 10
         }
     }
 }

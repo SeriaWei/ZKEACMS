@@ -11,6 +11,9 @@ namespace Easy.ViewPort.Descriptor
         {
             this.TagType = HTMLEnumerate.HTMLTagTypes.Hidden;
             this.TemplateName = "Hidden";
+            this.IsShowForDisplay = false;
+            this.IsShowForEdit = false;
+            this.IsShowInGrid = false;
         }
         
     }

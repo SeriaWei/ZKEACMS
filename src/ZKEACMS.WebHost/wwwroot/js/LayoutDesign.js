@@ -86,25 +86,28 @@
             row.sortable(colSortOption);
         }
     };
+    function initContainer() {
+        $("#containers").sortable({
+            placeholder: "design",
+            axis: 'y',
+            tolerance: "pointer",
+            start: function (event, ui) {
+                if (ui.helper.hasClass("container")) {
+                    ui.placeholder.addClass("container");
+                    ui.helper.css("left", ui.placeholder.offset().left);
+                }
+                else {
+                    ui.placeholder.addClass("container-fluid");
+                }
+            },
+            handle: ".glyphicon-sort"
+        });
 
-    $("#containers").sortable({
-        placeholder: "design",
-        axis: 'y',
-        tolerance: "pointer",
-        start: function (event, ui) {
-            if (ui.helper.hasClass("container")) {
-                ui.placeholder.addClass("container");
-                ui.helper.css("left", ui.placeholder.offset().left);
-            }
-            else {
-                ui.placeholder.addClass("container-fluid");
-            }
-        },
-        handle: ".glyphicon-sort"
-    });
+        $("#containers>div").sortable(rowSortOption).append(containerTools).addClass("design main custom-style");
+        $(".additional.row").sortable(colSortOption).append(rowTools).children(".additional").append(colTools);
+    }
+    initContainer();
 
-    $("#containers>div").sortable(rowSortOption).append(containerTools).addClass("design main custom-style");
-    $(".additional.row").sortable(colSortOption).append(rowTools).children(".additional").append(colTools);
     $("body").droppable({
         greedy: true,
         accept: ".AddContainer",
@@ -178,20 +181,20 @@
 
         $("zone").each(function (i) {
             $("input", this).each(function () {
-                $(this).attr("name", "zones[" + i + "]." + $(this).attr("name")).addClass("hide");               
+                $(this).attr("name", "zones[" + i + "]." + $(this).attr("name")).addClass("hide");
             }).appendTo(form);
         });
 
         var copyContainer = $('<div id="containers"/>').append(container.html());
 
         $("div", copyContainer)
-                    .removeClass("ui-droppable")
-                    .removeClass("ui-sortable")
-                    .removeClass("ui-sortable-handle")
-                    .removeClass("active")
-                    .removeClass("design")
-                    .removeClass("custom-style-target")
-                    .not(".custom-style").removeAttr("style");
+            .removeClass("ui-droppable")
+            .removeClass("ui-sortable")
+            .removeClass("ui-sortable-handle")
+            .removeClass("active")
+            .removeClass("design")
+            .removeClass("custom-style-target")
+            .not(".custom-style").removeAttr("style");
 
         $(".tools", copyContainer).remove();
 
@@ -225,4 +228,56 @@
         form.submit();
         return false;
     });
+    $(document).on("click", "#show-source-code", function () {
+        $('input[name="ZoneName"]').each(function () {
+            if (!$.trim($(this).val())) {
+                $(this).val("未命名");
+            }
+            $(this).attr("value", $(this).val());
+        });
+        var copyContainer = $('<div id="containers"/>').append(container.html());
+
+        $("div", copyContainer)
+            .removeClass("ui-droppable")
+            .removeClass("ui-sortable")
+            .removeClass("ui-sortable-handle")
+            .removeClass("active")
+            .removeClass("design")
+            .removeClass("custom-style-target")
+            .not(".custom-style").removeAttr("style");
+
+        $(".tools", copyContainer).remove();
+
+        var html = copyContainer.html()
+            .replace(new RegExp('><div', 'g'), ">\n<div")
+            .replace(new RegExp('></div', 'g'), ">\n</div")
+            .replace(new RegExp('><zone>', 'g'), ">\n<zone>\n")
+            .replace(new RegExp('></zone', 'g'), ">\n</zone")
+            .replace(new RegExp('><input', 'g'), ">\n<input");
+        editor.setValue(html);
+        setTimeout(function () {
+            editor.refresh();
+            var totalLines = editor.lineCount();
+            editor.autoFormatRange({ line: 0, ch: 0 }, { line: totalLines });
+        }, 500);
+    });
+    $(document).on("click", "#save-layout-code", function () {
+        var doc = editor.getValue();
+        container.html(doc);
+        $("input[name=LayoutId]", container).val($("#LayoutId").val());
+        initContainer();
+
+    });
+    var editor = CodeMirror.fromTextArea(document.getElementById('layout-code'), {
+        lineNumbers: true,
+        mode: "htmlmixed",
+        theme: 'monokai',
+        lineWrapping: true,
+        autofocus: true,
+        tabSize: 2,
+        extraKeys: { "Ctrl-J": "autocomplete" },
+        autoCloseTags: true
+    });
+    $(".CodeMirror").height($(window).height() - 220);
+    $("#modal-layout-code").css("display", "");
 });
