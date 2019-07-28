@@ -51,11 +51,17 @@ namespace ZKEACMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                string msg = _tempService.CreateOrUpdate(model);
-                if (string.IsNullOrEmpty(msg))
-                    return RedirectToAction("Index");
+                var result = _tempService.CreateOrUpdate(model);
+                if (result.HasViolation)
+                {
+                    ModelState.AddModelError("Name", result.ErrorMessage);
+                    return View(model);
+                }
                 else
-                    ModelState.AddModelError("Name", msg);
+                {
+                    return RedirectToAction("Edit", new { id = result.Result.Id });
+                }
+
             }
             return View(model);
         }
@@ -80,11 +86,17 @@ namespace ZKEACMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                string msg = _tempService.CreateOrUpdate(model);
-                if (string.IsNullOrEmpty(msg))
-                    return RedirectToAction("Index");
+                var result = _tempService.CreateOrUpdate(model);
+                if (result.HasViolation)
+                {
+                    ModelState.AddModelError("Name", result.ErrorMessage);
+                    return View(model);
+                }
                 else
-                    ModelState.AddModelError("Name", msg);
+                {
+                    return RedirectToAction("Edit", new { id = result.Result.Id });
+                }
+
             }
             return View(model);
         }

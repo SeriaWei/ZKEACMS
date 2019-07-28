@@ -21,7 +21,6 @@ namespace ZKEACMS.Common.Service
         private readonly string _themeName = "themes";
         private readonly string _viewName = "Views";
         private readonly string _cshtml = "*.cshtml";
-        private readonly string _fluid = "*.fluid";
         private readonly string _templateFilesCacheKey = "TemplateFilesCacheKey";
         private readonly ICacheManager<List<TemplateFile>> _cacheMgr;
         public TemplateService(IWebHostEnvironment hostingEnvironment, IThemeService themeService, ICacheManager<List<TemplateFile>> cacheManager)
@@ -30,7 +29,6 @@ namespace ZKEACMS.Common.Service
             _themeService = themeService;
             _cacheMgr = cacheManager;
         }
-
         public List<string> GetThemeNames()
         {
             List<string> list = new List<string>();
@@ -51,7 +49,7 @@ namespace ZKEACMS.Common.Service
 
         public TemplateFile Get(int id)
         {
-            List<TemplateFile> templateFiles = _cacheMgr.GetOrAdd(_templateFilesCacheKey, key => GetTemplateFiles());
+            List<TemplateFile> templateFiles = GetTemplateFiles();
             var file = templateFiles.FirstOrDefault(m => m.Id == id);
             file.Content = ExtFile.ReadFile(file.Path);
             return file;
@@ -90,13 +88,12 @@ namespace ZKEACMS.Common.Service
             return model;
         }
 
-        public string CreateOrUpdate(TemplateFile model)
+        public ServiceResult<TemplateFile> CreateOrUpdate(TemplateFile model)
         {
             string name = model.Name;
             string relativePath = model.RelativePath;
-            if (relativePath.IsNullOrWhiteSpace()) return "文件相对路径错误";
-
-            if (name.EndsWith(_cshtml.Substring(1)) || name.EndsWith(_fluid.Substring(1)))
+            ServiceResult<TemplateFile> result = new ServiceResult<TemplateFile>();
+            if (name.EndsWith(_cshtml.Substring(1)))
             {
                 relativePath = relativePath.TrimStart('~');
                 model.Path = _webHostEnvironment.MapWebRootPath(relativePath.Split('/'));
@@ -105,16 +102,18 @@ namespace ZKEACMS.Common.Service
                     var old = Get(model.Id);
                     if (!old.Name.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase))
                     {
-                        //model.Path = _env.MapWebRootPath(_themeName, model.ThemeName, _viewName, model.Name);
-                        //model.RelativePath = GetRelativePath(model.Path, _env.WebRootPath.Length);
                         ExtFile.DeleteFile(old.Path);
                     }
                 }
                 ExtFile.WriteFile(model.Path, model.Content);
                 _cacheMgr.Remove(_templateFilesCacheKey);
-                return string.Empty;
+                result.Result = GetTemplateFiles().First(m => m.Name == name);
             }
-            return "文件名称格式错误";
+            else
+            {
+                result.RuleViolations.Add(new RuleViolation("Name", "文件名称格式错误"));
+            }
+            return result;
         }
 
         public void Delete(int id)
@@ -129,7 +128,7 @@ namespace ZKEACMS.Common.Service
 
         public List<TemplateFile> GetTemplateFiles(Pagination p, string theme = "", string fileName = "")
         {
-            List<TemplateFile> templateFiles = _cacheMgr.GetOrAdd(_templateFilesCacheKey, key => GetTemplateFiles());
+            List<TemplateFile> templateFiles = GetTemplateFiles();
             var files = templateFiles.ToArray().ToList();
             if (theme.IsNotNullAndWhiteSpace())
             {
@@ -146,48 +145,41 @@ namespace ZKEACMS.Common.Service
 
         private List<TemplateFile> GetTemplateFiles()
         {
-            var templateFiles = new List<TemplateFile>();
-            List<string> themes = GetThemeNames();
-            //if (theme.IsNullOrWhiteSpace())
-            //{
-            //    themes = GetThemeNames();
-            //}
-            //else
-            //{
-            //    themes = new List<string>() { theme };
-            //}
-
-            Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
-            foreach (var item in themes)
+            return _cacheMgr.GetOrAdd(_templateFilesCacheKey, key =>
             {
-                List<string> temFiles = new List<string>();
-                string path = _webHostEnvironment.MapWebRootPath(_themeName, item, _viewName);
-                var fs = ExtFile.GetFiles(path, _cshtml);
-                if (fs != null && fs.Length > 0) temFiles.AddRange(fs);
-                var fs2 = ExtFile.GetFiles(path, _fluid);
-                if (fs2 != null && fs2.Length > 0) temFiles.AddRange(fs2);
-                dic.Add(item, temFiles);
-            }
+                var templateFiles = new List<TemplateFile>();
+                List<string> themes = GetThemeNames();
 
-            int index = _webHostEnvironment.WebRootPath.Length;
-            int id = 0;
-            foreach (var d in dic)
-            {
-                foreach (var item in d.Value)
+                Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
+                foreach (var item in themes)
                 {
-                    TemplateFile file = new TemplateFile()
-                    {
-                        Id = ++id,
-                        ThemeName = d.Key,
-                        Name = Path.GetFileName(item),
-                        Path = item,
-                        RelativePath = GetRelativePath(item, index),
-                        LastUpdateTime = File.GetLastWriteTime(item)
-                    };
-                    templateFiles.Add(file);
+                    List<string> temFiles = new List<string>();
+                    string path = _webHostEnvironment.MapWebRootPath(_themeName, item, _viewName);
+                    var fs = ExtFile.GetFiles(path, _cshtml);
+                    if (fs != null && fs.Length > 0) temFiles.AddRange(fs);
+                    dic.Add(item, temFiles);
                 }
-            }
-            return templateFiles;
+
+                int index = _webHostEnvironment.WebRootPath.Length;
+                int id = 0;
+                foreach (var d in dic)
+                {
+                    foreach (var item in d.Value)
+                    {
+                        TemplateFile file = new TemplateFile()
+                        {
+                            Id = ++id,
+                            ThemeName = d.Key,
+                            Name = Path.GetFileName(item),
+                            Path = item,
+                            RelativePath = GetRelativePath(item, index),
+                            LastUpdateTime = File.GetLastWriteTime(item)
+                        };
+                        templateFiles.Add(file);
+                    }
+                }
+                return templateFiles;
+            });
         }
 
         private string GetRelativePath(string path, int len)
