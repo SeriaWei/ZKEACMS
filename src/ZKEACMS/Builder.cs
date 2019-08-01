@@ -166,6 +166,7 @@ namespace ZKEACMS
             services.ConfigureMetaData<LayoutEntity, LayoutEntityMetaData>();
             services.ConfigureMetaData<MediaEntity, MediaEntityMetaData>();
             services.ConfigureMetaData<PageEntity, PageMetaData>();
+            services.ConfigureMetaData<PageAsset, PageAssetMetaData>();
             services.ConfigureMetaData<ProductEntity, ProductMetaData>();
             services.ConfigureMetaData<ProductCategory, ProductCategoryMetaData>();
             services.ConfigureMetaData<ProductImage, ProductImageMetaData>();
