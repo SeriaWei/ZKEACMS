@@ -66,39 +66,45 @@ namespace ZKEACMS.Page
         }
         private void InitAssets(PageEntity page)
         {
-            if (page.Style.IsNotNullAndWhiteSpace())
+            if (page != null)
             {
-                if (page.Style.StartsWith("["))
+                if (page.Style.IsNotNullAndWhiteSpace())
                 {
-                    foreach (var item in JsonConvert.DeserializeObject<string[]>(page.Style))
+                    if (page.Style.StartsWith("["))
                     {
-                        page.Styles.Add(new PageAsset { Url = item });
+                        foreach (var item in JsonConvert.DeserializeObject<string[]>(page.Style))
+                        {
+                            page.Styles.Add(new PageAsset { Url = item });
+                        }
+                    }
+                    else
+                    {
+                        page.Styles.Add(new PageAsset { Url = page.Style });
                     }
                 }
-                else
+                if (page.Script.IsNotNullAndWhiteSpace())
                 {
-                    page.Styles.Add(new PageAsset { Url = page.Style });
-                }
-            }
-            if (page.Script.IsNotNullAndWhiteSpace())
-            {
-                if (page.Script.StartsWith("["))
-                {
-                    foreach (var item in JsonConvert.DeserializeObject<string[]>(page.Script))
+                    if (page.Script.StartsWith("["))
                     {
-                        page.Scripts.Add(new PageAsset { Url = item });
+                        foreach (var item in JsonConvert.DeserializeObject<string[]>(page.Script))
+                        {
+                            page.Scripts.Add(new PageAsset { Url = item });
+                        }
+                    }
+                    else
+                    {
+                        page.Scripts.Add(new PageAsset { Url = page.Script });
                     }
                 }
-                else
-                {
-                    page.Scripts.Add(new PageAsset { Url = page.Script });
-                }
-            }
+            }            
         }
         private void SerializeAssets(PageEntity page)
         {
-            page.Style = JsonConvert.SerializeObject(page.Styles.RemoveDeletedItems().Select(m => m.Url));
-            page.Script = JsonConvert.SerializeObject(page.Scripts.RemoveDeletedItems().Select(m => m.Url));
+            if (page != null)
+            {
+                page.Style = JsonConvert.SerializeObject(page.Styles.RemoveDeletedItems().Select(m => m.Url));
+                page.Script = JsonConvert.SerializeObject(page.Scripts.RemoveDeletedItems().Select(m => m.Url));
+            }
         }
 
         public override DbSet<PageEntity> CurrentDbSet
