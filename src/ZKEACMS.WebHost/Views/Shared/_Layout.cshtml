@@ -112,7 +112,7 @@
                     if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
                     {
                         <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme")">
-                            <i class="glyphicon glyphicon-transfer"></i>                            
+                            <i class="glyphicon glyphicon-transfer"></i>
                             @L("退出")
                             @Model.CurrentTheme.Title
                             @L("主题")
@@ -148,18 +148,18 @@
     {
         <link href="@Url.Content(Model.Style)" rel="stylesheet" />
     }
-    @if (!Model.Page.Style.IsNullOrEmpty())
+    @foreach (var style in Model.Page.Styles)
     {
-        <link href="@Url.Content(Model.Page.Style)" rel="stylesheet" />
+        <link href="@Url.Content(style.Url)" rel="stylesheet" />
     }
     @if (!Model.Script.IsNullOrEmpty())
     {
         <script type="text/javascript" src="@Url.Content(Model.Script)"></script>
     }
-    @if (!Model.Page.Script.IsNullOrEmpty())
+    @foreach(var script in Model.Page.Scripts)
     {
-        <script type="text/javascript" src="@Url.Content(Model.Page.Script)"></script>
-    }    
+        <script type="text/javascript" src="@Url.Content(script.Url)"></script>
+    }
     @foreach (var item in appContext.FooterPart)
     {
         @item

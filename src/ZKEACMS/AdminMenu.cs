@@ -110,10 +110,10 @@ namespace ZKEACMS
                     },
                     new AdminMenu
                     {
-                        Title = "模板",
+                        Title = "主题模板",
                         Icon = "glyphicon-list-alt",
                         Url = "~/admin/Template",
-                        Order = 4,
+                        Order = 5,
                         PermissionKey = PermissionKeys.ViewTemplate
                     }
                 }

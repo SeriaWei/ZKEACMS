@@ -93,7 +93,7 @@ namespace ZKEACMS.Article
             //add by roc
             yield return new WidgetTemplateEntity<ArticleSpecialDetailWidgetService>
             {
-                Title = "特别文章内容",
+                Title = "特定文章内容",
                 GroupName = groupName,
                 PartialView = "Widget.ArticleDetail",
                 Thumbnail = "~/Plugins/ZKEACMS.Article/Content/Image/Widget.ArticleDetail.png",
