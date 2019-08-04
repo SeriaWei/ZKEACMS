@@ -9,7 +9,17 @@ namespace PackWidgetTemplate
         static void Main(string[] args)
         {
             DirectoryInfo current = new DirectoryInfo(System.IO.Directory.GetCurrentDirectory());
-            DirectoryInfo root = current.Parent.Parent.Parent.Parent.Parent;
+            DirectoryInfo root = current;
+            while (true)
+            {
+                root = root.Parent;
+                if (root.Name == "tools")
+                {
+                    root = root.Parent;
+                    break;
+                }
+            }
+
             FileInfo[] files = root.GetFiles("Widget.*.cshtml", SearchOption.AllDirectories);
 
             using (FileStream zipToOpen = new FileStream(Path.Combine(root.FullName, "src", "ZKEACMS.WebHost", "Templates.zip"), FileMode.Create))

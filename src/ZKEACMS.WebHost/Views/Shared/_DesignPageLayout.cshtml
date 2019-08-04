@@ -6,6 +6,7 @@
     {
         return;
     }
+    CMSApplicationContext appContext = ApplicationContext as CMSApplicationContext;
 }
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
@@ -22,7 +23,7 @@
     <meta http-equiv="cache-control" content="no-store">
     <meta http-equiv="expires" content="-1">
     <meta http-equiv="pragma" content="no-cache" />
-    @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
+    @if (appContext.OuterChainPicture)
     {
         <meta name="referrer" content="same-origin" />
     }
@@ -31,6 +32,10 @@
     <meta name="viewport" content="width=device-width" />
     @StyleAtHead()
     @ScriptAtHead()
+    @foreach (var item in appContext.HeaderPart)
+    {
+        @item
+    }
     @if (Model.CurrentTheme != null)
     {
         if (ApplicationContext.HostingEnvironment.IsDevelopment())
@@ -136,17 +141,21 @@
     {
         <link href="@Url.Content(Model.Style)" rel="stylesheet" />
     }
-    @if (!Model.Page.Style.IsNullOrEmpty())
+    @foreach (var style in Model.Page.Styles)
     {
-        <link href="@Url.Content(Model.Page.Style)" rel="stylesheet" />
+        <link href="@Url.Content(style.Url)" rel="stylesheet" />
     }
     @if (!Model.Script.IsNullOrEmpty())
     {
         <script type="text/javascript" src="@Url.Content(Model.Script)"></script>
     }
-    @if (!Model.Page.Script.IsNullOrEmpty())
+    @foreach (var script in Model.Page.Scripts)
     {
-        <script type="text/javascript" src="@Url.Content(Model.Page.Script)"></script>
+        <script type="text/javascript" src="@Url.Content(script.Url)"></script>
+    }
+    @foreach (var item in appContext.FooterPart)
+    {
+        @item
     }
 </body>
 </html>
