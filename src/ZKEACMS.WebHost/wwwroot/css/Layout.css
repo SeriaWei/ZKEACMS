@@ -1157,6 +1157,7 @@ zone {
     border: 1px dotted #ec971f;
     margin: 1px;
     min-height: 135px;
+    position:relative;
 }
 
 .design .zone .form-control {
