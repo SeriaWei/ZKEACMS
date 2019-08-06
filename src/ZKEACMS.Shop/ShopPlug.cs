@@ -29,22 +29,22 @@ namespace ZKEACMS.Shop
             yield return new RouteDescriptor
             {
                 RouteName = "Basket",
-                Template = "Basket/{action}",
-                Defaults = new { controller = "Basket", action = "Add" },
+                Template = "basket/{action}",
+                Defaults = new { controller = "basket", action = "add" },
                 Priority = 11
             };
             yield return new RouteDescriptor
             {
                 RouteName = "AliPay",
-                Template = "AliPay/{action}/{orderId?}",
-                Defaults = new { controller = "AliPay", action = "Pay" },
+                Template = "alipay/{action}/{orderId?}",
+                Defaults = new { controller = "alipay", action = "pay" },
                 Priority = 11
             };
             yield return new RouteDescriptor
             {
                 RouteName = "CustomOrder",
-                Template = "MyOrder/{action}/{Id?}",
-                Defaults = new { controller = "CustomOrder", action = "Index" },
+                Template = "myorder/{action}/{Id?}",
+                Defaults = new { controller = "customorder", action = "index" },
                 Priority = 11
             };
         }
@@ -62,7 +62,7 @@ namespace ZKEACMS.Shop
                     {
                         Title = "订单",
                         Icon = "glyphicon-shopping-cart",
-                        Url="~/admin/Order",
+                        Url="~/admin/order",
                         Order = 1,
                         PermissionKey = PermissionKeys.ManageOrder
                     },
@@ -70,7 +70,7 @@ namespace ZKEACMS.Shop
                     {
                         Title = "支付宝集成设置",
                         Icon = "glyphicon-credit-card",
-                        Url="~/admin/AliPaySetting/Config",
+                        Url="~/admin/alipaysetting/config",
                         Order = 1,
                         PermissionKey = PermissionKeys.PaymentConfigManage
                     }

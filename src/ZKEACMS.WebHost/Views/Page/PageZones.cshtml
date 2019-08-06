@@ -112,19 +112,19 @@
         <div class="btn-group">
             @if (Authorizer.Authorize(PermissionKeys.ManagePage))
             {
-                <a class="btn btn-primary" href="@Url.Action("Design", new {ID = Model.PageID})">
+                <a class="btn btn-primary" href="@Url.Action("design", new {ID = Model.PageID})">
                     <i class="glyphicon glyphicon-pencil"></i>
                     @L("编辑")
                 </a>
             }
-            <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID})">
+            <a class="btn btn-primary" href="@Url.Action("redirectview", "page", new { ID = Model.PageID})">
                 <i class="glyphicon glyphicon-eye-open"></i>
                 @L("预览编辑版本")
             </a>
             @if (Model.Page.PublishDate.HasValue)
             {
                 <a class="btn btn-primary"
-                   href="@Url.Action("RedirectView", "Page", new { ID = Model.PageID, preview = false})"
+                   href="@Url.Action("redirectview", "page", new { ID = Model.PageID, preview = false})"
                    target="_blank">
                     <i class="glyphicon glyphicon-eye-open"></i>
                     @L("预览发布版本")
@@ -132,14 +132,14 @@
             }
             @if (Authorizer.Authorize(PermissionKeys.ManagePage))
             {
-                <a class="btn btn-primary" href="@Url.Action("Edit", new {ID = Model.PageID})">
+                <a class="btn btn-primary" href="@Url.Action("edit", new {ID = Model.PageID})">
                     <i class="glyphicon glyphicon-record"></i>
                     @L("属性/历史记录")
                 </a>
             }
             @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
             {
-                <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new { ID = Model.LayoutID, Model.PageID})">
+                <a class="btn btn-primary" href="@Url.Action("design", "layout", new { ID = Model.LayoutID, Model.PageID})">
                     <i class="glyphicon glyphicon-th"></i>
                     @L("布局")
                 </a>
