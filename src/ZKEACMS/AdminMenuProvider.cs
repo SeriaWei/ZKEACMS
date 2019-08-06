@@ -33,7 +33,11 @@ namespace ZKEACMS
                         var group = menuResult.FirstOrDefault(m => m.Title == item.Group);
                         if (group != null && group.Children != null)
                         {
-                            group.Children = group.Children.Concat(new AdminMenu[] { item });
+                            if (!group.Children.Any(m => m.Url == item.Url))
+                            {
+                                group.Children = group.Children.Concat(new AdminMenu[] { item });
+                            }
+                            item.Group = null;
                             menuResult.RemoveAt(i);
                             i--;
                         }
