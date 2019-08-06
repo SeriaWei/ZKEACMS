@@ -4,7 +4,7 @@ WORKDIR /build
 COPY . ./
 RUN dotnet restore
 ENV PATH="${PATH}:/root/.dotnet/tools"
-RUN dotnet tool install --global ZKEACMS.Publisher --version 1.5.6-preview3.0
+RUN dotnet tool install --global ZKEACMS.Publisher
 # Release ZKEACMS.WebHost
 WORKDIR /build/src/ZKEACMS.WebHost
 RUN publish-zkeacms
