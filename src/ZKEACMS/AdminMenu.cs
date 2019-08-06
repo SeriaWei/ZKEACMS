@@ -199,5 +199,6 @@ namespace ZKEACMS
                 }
             }
         };
+        public static List<IEnumerable<AdminMenu>> PluginMenu { get; } = new List<IEnumerable<AdminMenu>>();
     }
 }
