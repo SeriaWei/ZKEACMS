@@ -4,12 +4,9 @@
  * http://www.zkea.net/licenses
  */
 
-using System.Data.Common;
-using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using System.Data.Common;
 using ZKEACMS.DbConnectionPool;
 using ZKEACMS.Options;
 
@@ -61,8 +58,7 @@ namespace ZKEACMS
                         break;
                     }
             }
-
-            optionsBuilder.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
+            
             optionsBuilder.UseLoggerFactory(_loggerFactory);
         }
     }
