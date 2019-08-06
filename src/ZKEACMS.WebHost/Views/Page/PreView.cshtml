@@ -5,7 +5,7 @@
         return;
     }
     Layout = Model.Layout;
-    if(ApplicationContext.As<CMSApplicationContext>().PageMode == ZKEACMS.Filter.PageViewMode.PreView)
+    if (Authorizer.Authorize(PermissionKeys.ManagePage) && ApplicationContext.As<CMSApplicationContext>().PageMode != ZKEACMS.Filter.PageViewMode.ViewOnly)
     {
         Style.Reqiured("Layout").AtHead();
     }

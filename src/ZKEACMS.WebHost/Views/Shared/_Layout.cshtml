@@ -61,7 +61,7 @@
     }
 </head>
 <body class="front">
-    @if (ViewContext.HttpContext.User.Identity.IsAuthenticated && (ApplicationContext as CMSApplicationContext).PageMode != ZKEACMS.Filter.PageViewMode.ViewOnly)
+    @if (Authorizer.Authorize(PermissionKeys.ManagePage) && (ApplicationContext as CMSApplicationContext).PageMode != ZKEACMS.Filter.PageViewMode.ViewOnly)
     {
         <div class="preview-toolbar hover-text hidden-xs" style="position:fixed; z-index:10000;left:5px;top:5px;">
             <div class="zk-btn-group">
