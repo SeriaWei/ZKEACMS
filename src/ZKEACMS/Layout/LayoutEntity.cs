@@ -62,6 +62,13 @@ namespace ZKEACMS.Layout
             ViewConfig(m => m.Style).AsTextBox().FileSelector();
             ViewConfig(m => m.ImageThumbUrl).AsHidden();
             ViewConfig(m => m.ImageUrl).AsHidden();
+            ViewConfig(m => m.Zones).AsHidden().Ignore();
+            ViewConfig(m => m.ZoneWidgets).AsHidden().Ignore();
+            ViewConfig(m => m.Html).AsHidden().Ignore();
+            ViewConfig(m => m.Page).AsHidden().Ignore();
+            ViewConfig(m => m.PreViewPage).AsHidden().Ignore();
+            ViewConfig(m => m.CurrentTheme).AsHidden().Ignore();
+            ViewConfig(m => m.Templates).AsHidden().Ignore();
         }
     }
 

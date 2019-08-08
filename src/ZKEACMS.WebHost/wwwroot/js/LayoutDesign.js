@@ -34,7 +34,7 @@
         zoneParent.append(zone);
         return zoneParent;
     }
-    $(document).on("click", ".dropdown-menu.col-size a", function () {
+    $(document).on("click", "#toolBar .col-size a", function () {
         $("#add-col-handle").attr("data-val", $(this).data("val")).find(".col-size-info").text($(this).text());
         $(this).parent().parent().find(".active").removeClass("active");
         $(this).parent().addClass("active");
