@@ -37,7 +37,7 @@ namespace ZKEACMS.Redirection
             {
                 Group = "系统",
                 Title = "URL重定向",
-                Url = "~/Admin/UrlRedirection",
+                Url = "~/admin/urlredirection",
                 Icon = "glyphicon-random",
                 Order = 12,
                 PermissionKey = PermissionKeys.ViewUrlRedirect

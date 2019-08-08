@@ -15,7 +15,7 @@ namespace ZKEACMS.Shop
                 PluginName = PluginBase.GetName<ShopPlug>(),
                 Order = 1,
                 Title = "我的订单",
-                Url = "~/MyOrder"
+                Url = "~/myorder"
             };
         }
     }

@@ -56,7 +56,6 @@ namespace Easy.Mvc.Route
         public object Defaults { get; set; }
         public object Constraints { get; set; }
         public object DataTokens { get; set; }
-        public bool RequiredAuthorization { get; set; }
     }
 
 

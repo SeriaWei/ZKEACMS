@@ -32,7 +32,7 @@ namespace ZKEACMS.GlobalScripts
                 Title = "访客统计代码",
                 Icon = "glyphicon-fire",
                 PermissionKey = PermissionKeys.ManageStatisticsScript,
-                Url = "~/admin/StatisticsScript/Config",
+                Url = "~/admin/statisticsscript/config",
                 Order = 13
             };
             yield return new AdminMenu
@@ -41,7 +41,7 @@ namespace ZKEACMS.GlobalScripts
                 Title = "在线客服代码",
                 Icon = "glyphicon-comment",
                 PermissionKey = PermissionKeys.ManageLiveChatScript,
-                Url = "~/admin/LiveChatScript/Config",
+                Url = "~/admin/livechatscript/config",
                 Order = 14
             };
         }

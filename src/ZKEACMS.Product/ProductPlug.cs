@@ -34,28 +34,28 @@ namespace ZKEACMS.Product
                     new AdminMenu
                     {
                         Title = "产品列表",
-                        Url = "~/admin/Product",
+                        Url = "~/admin/product",
                         Icon = "glyphicon-align-justify",
                         PermissionKey = PermissionKeys.ViewProduct
                     },
                     new AdminMenu
                     {
                         Title = "产品排序",
-                        Url = "~/admin/Product/Sort",
+                        Url = "~/admin/product/sort",
                         Icon = "glyphicon-sort",
                         PermissionKey = PermissionKeys.ViewProduct
                     },
                     new AdminMenu
                     {
                         Title = "产品类别",
-                        Url = "~/admin/ProductCategory",
+                        Url = "~/admin/productcategory",
                         Icon = "glyphicon-th-list",
                         PermissionKey = PermissionKeys.ViewProductCategory
                     },
                     new AdminMenu
                     {
                         Title = "产品标签",
-                        Url = "~/admin/ProductCategoryTag",
+                        Url = "~/admin/productcategorytag",
                         Icon = "glyphicon-tag",
                         PermissionKey = PermissionKeys.ViewProductCategoryTag
                     }
@@ -137,12 +137,12 @@ namespace ZKEACMS.Product
             serviceCollection.Configure<ProductListWidget>(option =>
             {
                 option.DataSourceLinkTitle = "产品列表";
-                option.DataSourceLink = "~/admin/Product";
+                option.DataSourceLink = "~/admin/product";
             });
             serviceCollection.Configure<ProductCategoryWidget>(option =>
             {
                 option.DataSourceLinkTitle = "产品类别";
-                option.DataSourceLink = "~/admin/ProductCategory";
+                option.DataSourceLink = "~/admin/productcategory";
             });
 
             serviceCollection.ConfigureMetaData<ProductCategoryWidget, ProductCategoryWidgetMedata>();
