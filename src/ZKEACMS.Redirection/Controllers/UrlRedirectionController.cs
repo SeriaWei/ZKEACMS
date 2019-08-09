@@ -94,7 +94,7 @@ namespace ZKEACMS.Redirection.Controllers
         {
             if (path.IsNotNullAndWhiteSpace() && path.IndexOf(".html", StringComparison.OrdinalIgnoreCase) < 0 && CustomRegex.PostIdRegex.IsMatch(path))
             {
-                return RedirectPermanent($"~/{(path ?? "")}.html");
+                return RedirectPermanent($"~/{(path ?? "").Trim()}.html");
             }
             path = $"~/{(path ?? "").TrimEnd('/')}";
             var redirec = Service.GetAll().Where(m => m.InComingUrl == path).FirstOrDefault();
