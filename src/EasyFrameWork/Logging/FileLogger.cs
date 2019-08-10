@@ -37,6 +37,7 @@ namespace Easy.Logging
                 writer.WriteLine(string.Format(TitleTemplate, DateTime.Now.ToString("G")) + msg);
                 if (_httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.Request != null)
                 {
+                    writer.WriteLine("Method:{0}", _httpContextAccessor.HttpContext.Request.Method);
                     if (_httpContextAccessor.HttpContext.Request.Headers != null)
                     {
                         writer.WriteLine("Headers:");
