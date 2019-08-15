@@ -18,7 +18,7 @@ namespace ZKEACMS.Route
         {
             if (path.EndsWith(htmlExt, StringComparison.OrdinalIgnoreCase))
             {
-                path = path.Substring(0, path.LastIndexOf(htmlExt));
+                path = path.Substring(0, path.LastIndexOf(htmlExt, StringComparison.OrdinalIgnoreCase));
             }
             return path;
         }
