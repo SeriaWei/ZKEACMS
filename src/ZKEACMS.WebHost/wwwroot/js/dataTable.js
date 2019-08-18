@@ -5,6 +5,15 @@
         }
         return val;
     }
+
+    $(".seach-terms .form-control").each(function () {
+        $(this).removeAttr("readonly").removeAttr("disabled");
+        if ($(this).is("select")) {
+            if ($("option:first", this).val()) {
+                $(this).prepend("<option selected></option>");
+            }
+        }
+    });
     $('.dataTable').each(function () {
         var columns = [];
         var order = [];
@@ -161,5 +170,4 @@
     $(document).on("click", ".seach-terms .btn.search", function () {
         $(this).closest(".grid-component").find(".dataTable").DataTable().draw();
     });
-    $(".seach-terms .form-control").removeAttr("readonly").removeAttr("disabled");
 });
