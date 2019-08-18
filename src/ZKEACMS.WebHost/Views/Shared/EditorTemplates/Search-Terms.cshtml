@@ -1,0 +1,60 @@
+﻿@{
+    Style.Reqiured("datepicker").AtHead();
+    Script.Reqiured("datepicker").AtHead();
+    var metaData = ViewData.ModelMetadata;
+}
+@model Object
+<div class="seach-terms form-inline clearfix">
+    @foreach (var item in metaData.Properties.OrderBy(m => m.Order))
+    {
+        var descriptor = item.GetViewDescriptor();
+        if (descriptor != null && descriptor.IsShowInGrid && descriptor.SearchOperator != Easy.LINQ.Query.Operators.None)
+        {
+            <div class="form-group">
+                @Html.Label(item.PropertyName, item.DisplayName)
+                <div class="form-control-group">
+                    @if (descriptor is Easy.ViewPort.Descriptor.DropDownListDescriptor)
+                    {
+                        @Html.Editor(item.PropertyName, "DropDownList")
+                    }
+                    else
+                    {
+                        if (!descriptor.Classes.Contains("form-control"))
+                        {
+                            descriptor.Classes.Add("form-control");
+                        }
+                        Type modelType = descriptor.DataType;
+                        if (modelType == typeof(DateTime))
+                        {
+                            @Html.Editor(item.PropertyName, "DateTime")
+                            <span>-</span>
+                            @Html.Editor(item.PropertyName, "DateTime")
+                        }
+                        else if (modelType == typeof(bool))
+                        {
+                            @Html.Editor(item.PropertyName, "CheckBox")
+                        }
+                        else if (modelType == typeof(decimal))
+                        {
+                            @Html.Editor(item.PropertyName, "Decimal")
+                        }
+                        else if (modelType == typeof(Int32))
+                        {
+                            @Html.Editor(item.PropertyName, "Int32")
+                        }
+                        else
+                        {
+                            @Html.Editor(item.PropertyName,"String")
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
+    <div class="form-group">
+        <label>&nbsp;</label>
+        <div class="form-control-group">
+            <a class="btn btn-primary search">@L("搜索")</a>
+        </div>
+    </div>
+</div>

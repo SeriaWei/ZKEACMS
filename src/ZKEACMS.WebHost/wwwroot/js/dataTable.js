@@ -55,7 +55,8 @@
                 "orderable": orderAble
             });
         });
-        $(this).DataTable({
+        var dataTable = $(this);
+        dataTable.DataTable({
             "autoWidth": false,
             "processing": true,
             "serverSide": true,
@@ -63,6 +64,8 @@
             "ajax": {
                 "url": $(this).data("source"),
                 "data": function (data, setting) {
+                    var inputs = dataTable.closest(".grid-component").find(".seach-terms").find(".form-control");
+                    debugger
                     for (var i = 0; i < data.columns.length; i++) {
                         $("tr.search>th:eq(" + i + ")", $("#" + setting.sTableId)).find(".form-control").each(function () {
                             data.columns[i].search[$(this).attr("name")] = $(this).val();
@@ -88,6 +91,7 @@
                 "search": "关键字:"
             },
             initComplete: function () {
+                return;
                 this.api().columns().every(function () {
                     var column = this;
                     if (!column.settings()[0].columnSettings) {
@@ -118,7 +122,6 @@
                             }
                         }
                         if (columnSetting.dataType == "DateTime") {
-                            debugger
                             searchInput.find(".form-control").datetimepicker({
                                 locale: 'zh-cn',
                                 format: columnSetting.format //columnSetting.format
@@ -169,5 +172,8 @@
             }, true);
             return false;
         });
+    });
+    $(document).on("click", ".seach-terms .btn.search", function () {
+        $(this).closest(".grid-component").find(".dataTable").DataTable().draw();
     });
 });

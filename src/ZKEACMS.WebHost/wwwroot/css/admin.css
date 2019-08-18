@@ -726,3 +726,20 @@ a.pack-theme {
     width: 100%;
     height: 100%;
 }
+
+.seach-terms .form-group {
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+@media (min-width: 768px) {
+    .seach-terms.form-inline .form-group {
+        display: block;
+        float: left;
+    }
+}
+.seach-terms .form-control {
+    max-width: 160px;
+}
+.seach-terms .form-control.required {
+    background-color: #fff;
+}
