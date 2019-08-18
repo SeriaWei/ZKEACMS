@@ -67,5 +67,15 @@ namespace ZKEACMS
         {
             await html.RenderPartialAsync("Partial_RegularPagination", pagin);
         }
+        public static IHtmlContent SearchTerms(this IHtmlHelper html, bool createAble)
+        {
+            return html.SearchTerms(createAble, "Create");
+        }
+        public static IHtmlContent SearchTerms(this IHtmlHelper html, bool createAble, string createAction)
+        {
+            html.ViewBag.CreateAble = createAble;
+            html.ViewBag.CreateAction = createAction;
+            return html.Editor(string.Empty, "Search-Terms");
+        }
     }
 }

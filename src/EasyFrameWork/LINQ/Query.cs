@@ -136,7 +136,7 @@ namespace Easy.LINQ
                             {
                                 var maxValue = Convert.ChangeType(item.ValueMax, realType);
                                 Expression<Func<object>> maxValueLamda = () => maxValue;
-                                maxExp = Expression.LessThanOrEqual(Expression.Property(parameter, item.Name), Expression.Convert(maxValueLamda, property.PropertyType));
+                                maxExp = Expression.LessThanOrEqual(Expression.Property(parameter, item.Name), Expression.Convert(maxValueLamda.Body, property.PropertyType));
                             }
 
                             if (minExp != null && maxExp != null)

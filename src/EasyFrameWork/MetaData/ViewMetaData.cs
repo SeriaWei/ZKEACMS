@@ -33,7 +33,7 @@ namespace Easy.MetaData
                         break;
 
                     case TypeCode.Char:
-                        ViewConfig(item.Name).AsTextBox().MaxLength(1).RegularExpression(RegularExpression.Letters).Search(LINQ.Query.Operators.Contains);
+                        ViewConfig(item.Name).AsTextBox().MaxLength(1).RegularExpression(RegularExpression.Letters);
                         break;
 
                     case TypeCode.DateTime:
@@ -44,7 +44,7 @@ namespace Easy.MetaData
                     case TypeCode.UInt16:
                     case TypeCode.UInt32:
                     case TypeCode.UInt64:
-                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.PositiveIntegersAndZero).Search(LINQ.Query.Operators.Range);
+                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.PositiveIntegersAndZero);
                         break;
 
                     case TypeCode.SByte:
@@ -62,7 +62,7 @@ namespace Easy.MetaData
                         
                     case TypeCode.Empty:
                     case TypeCode.String:
-                        ViewConfig(item.Name).AsTextBox().MaxLength(200).Search(LINQ.Query.Operators.Contains);
+                        ViewConfig(item.Name).AsTextBox().MaxLength(200);
                         break;
                         
                     case TypeCode.Object:

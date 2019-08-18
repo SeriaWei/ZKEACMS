@@ -2,59 +2,80 @@
     Style.Reqiured("datepicker").AtHead();
     Script.Reqiured("datepicker").AtHead();
     var metaData = ViewData.ModelMetadata;
+    string id = Guid.NewGuid().ToString("N");
 }
 @model Object
-<div class="seach-terms form-inline clearfix">
-    @foreach (var item in metaData.Properties.OrderBy(m => m.Order))
-    {
-        var descriptor = item.GetViewDescriptor();
-        if (descriptor != null && descriptor.IsShowInGrid && descriptor.SearchOperator != Easy.LINQ.Query.Operators.None)
-        {
-            <div class="form-group">
-                @Html.Label(item.PropertyName, item.DisplayName)
-                <div class="form-control-group">
-                    @if (descriptor is Easy.ViewPort.Descriptor.DropDownListDescriptor)
+<div class="seach-terms form-inline">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a data-toggle="collapse" href="#@id" class="badge" aria-expanded="true" aria-controls="@id">
+                @L("搜索条件")
+            </a>
+        </div>
+        <div class="collapse in" id="@id">
+            <div class="panel-body">
+                <div class="clearfix">
+                    @foreach (var item in metaData.Properties.OrderBy(m => m.Order))
                     {
-                        @Html.Editor(item.PropertyName, "DropDownList")
-                    }
-                    else
-                    {
-                        if (!descriptor.Classes.Contains("form-control"))
+                        var descriptor = item.GetViewDescriptor();
+                        if (descriptor != null && descriptor.SearchOperator != Easy.LINQ.Query.Operators.None)
                         {
-                            descriptor.Classes.Add("form-control");
-                        }
-                        Type modelType = descriptor.DataType;
-                        if (modelType == typeof(DateTime))
-                        {
-                            @Html.Editor(item.PropertyName, "DateTime")
-                            <span>-</span>
-                            @Html.Editor(item.PropertyName, "DateTime")
-                        }
-                        else if (modelType == typeof(bool))
-                        {
-                            @Html.Editor(item.PropertyName, "CheckBox")
-                        }
-                        else if (modelType == typeof(decimal))
-                        {
-                            @Html.Editor(item.PropertyName, "Decimal")
-                        }
-                        else if (modelType == typeof(Int32))
-                        {
-                            @Html.Editor(item.PropertyName, "Int32")
-                        }
-                        else
-                        {
-                            @Html.Editor(item.PropertyName,"String")
+                            <div class="form-group">
+                                @Html.Label(item.PropertyName, item.DisplayName)
+                                <div class="form-control-group">
+                                    @if (descriptor is Easy.ViewPort.Descriptor.DropDownListDescriptor)
+                                    {
+                                        @Html.Editor(item.PropertyName, "DropDownList")
+                                    }
+                                    else
+                                    {
+                                        if (!descriptor.Classes.Contains("form-control"))
+                                        {
+                                            descriptor.Classes.Add("form-control");
+                                        }
+                                        Type modelType = descriptor.DataType;
+                                        if (modelType == typeof(DateTime))
+                                        {
+                                            @Html.Editor(item.PropertyName, "DateTime")
+                                            <span>-</span>
+                                            @Html.Editor(item.PropertyName, "DateTime")
+                                        }
+                                        else if (modelType == typeof(bool))
+                                        {
+                                            <select class="form-control" data-opeartor="1" data-val="true" id="@item.PropertyName" name="@item.PropertyName" style="">
+                                                <option value="">@L("--- 请选择 ---")</option>
+                                                <option value="true">@L("是")</option>
+                                                <option value="false">@L("否")</option>
+                                            </select>
+                                        }
+                                        else if (modelType == typeof(decimal))
+                                        {
+                                            @Html.Editor(item.PropertyName, "Decimal")
+                                        }
+                                        else if (modelType == typeof(Int32))
+                                        {
+                                            @Html.Editor(item.PropertyName, "Int32")
+                                        }
+                                        else
+                                        {
+                                            @Html.Editor(item.PropertyName, "String")
+                                        }
+                                    }
+                                </div>
+                            </div>
                         }
                     }
                 </div>
             </div>
-        }
-    }
-    <div class="form-group">
-        <label>&nbsp;</label>
-        <div class="form-control-group">
-            <a class="btn btn-primary search">@L("搜索")</a>
+            <div class="panel-footer">
+                <div>
+                    <a class="btn btn-primary btn-sm search">@L("搜索")</a>
+                    @if (ViewBag.CreateAble != null && ViewBag.CreateAble != false)
+                    {
+                        <a class="btn btn-primary btn-sm" href="@Url.Action(ViewBag.CreateAction as string)">@L("新建")</a>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </div>

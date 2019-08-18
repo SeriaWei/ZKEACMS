@@ -31,17 +31,32 @@ namespace Easy.ViewPort.Descriptor
             this.OrderIndex = 100;
             this.IsShowForEdit = true;
             this.IsShowForDisplay = true;
-            SearchOperator = Query.Operators.Equal;
+            SearchOperator = Query.Operators.None;
         }
         #region Private
+        protected void SetSearch()
+        {
+            if (this.DataType == typeof(string))
+            {
+                this.SearchOperator = Query.Operators.Contains;
+            }
+            else if (this.DataType == typeof(DateTime))
+            {
+                this.SearchOperator = Query.Operators.Range;
+            }
+            else
+            {
+                this.SearchOperator = Query.Operators.Equal;
+            }
 
+        }
+        #endregion
+
+        #region 公共属性
         /// <summary>
         /// 数据类型
         /// </summary>
         public Type ModelType { get; private set; }
-        #endregion
-
-        #region 公共属性
         /// <summary>
         /// 标签类型
         /// </summary>
@@ -155,6 +170,7 @@ namespace Easy.ViewPort.Descriptor
                     result.Add(m.Key, m.Value);
                 }
             });
+            result.Add("data-opeartor", (int)SearchOperator);
             return result;
         }
 
@@ -349,12 +365,18 @@ namespace Easy.ViewPort.Descriptor
         public T ShowInGrid(bool show = true)
         {
             this.IsShowInGrid = show;
+            if (this.IsShowInGrid)
+            {
+                SetSearch();
+            }
+
             return this as T;
         }
         public T ShowInGrid(string template)
         {
             this.IsShowInGrid = true;
             this.GridColumnTemplate = template;
+            SetSearch();
             return this as T;
         }
         public T Search(Query.Operators searchOperator)
