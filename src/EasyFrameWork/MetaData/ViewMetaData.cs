@@ -37,7 +37,7 @@ namespace Easy.MetaData
                         break;
 
                     case TypeCode.DateTime:
-                        ViewConfig(item.Name).AsTextBox().FormatAsDate().Search(LINQ.Query.Operators.Range);
+                        ViewConfig(item.Name).AsTextBox().FormatAsDate();
                         break;
                         
                     case TypeCode.Byte:
@@ -51,13 +51,13 @@ namespace Easy.MetaData
                     case TypeCode.Int16:
                     case TypeCode.Int32:
                     case TypeCode.Int64:
-                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.Integer).Search(LINQ.Query.Operators.Range);
+                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.Integer);
                         break;
 
                     case TypeCode.Single:
                     case TypeCode.Double:
                     case TypeCode.Decimal:
-                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.Float).Search(LINQ.Query.Operators.Range);
+                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.Float);
                         break;
                         
                     case TypeCode.Empty:
@@ -75,11 +75,11 @@ namespace Easy.MetaData
             if (typeof(EditorEntity).IsAssignableFrom(TargetType))
             {
                 ViewConfig("CreateBy").AsHidden();
-                ViewConfig("CreatebyName").AsTextBox().Hide().ShowInGrid();
+                ViewConfig("CreatebyName").AsTextBox().Hide().ShowInGrid().Search(LINQ.Query.Operators.None);
                 ViewConfig("CreateDate").AsTextBox().Hide().FormatAsDateTime().ShowInGrid().Search(LINQ.Query.Operators.Range);
 
                 ViewConfig("LastUpdateBy").AsHidden();
-                ViewConfig("LastUpdateByName").AsTextBox().Hide().ShowInGrid();
+                ViewConfig("LastUpdateByName").AsTextBox().Hide().ShowInGrid().Search(LINQ.Query.Operators.None);
                 ViewConfig("LastUpdateDate").AsTextBox().Hide().FormatAsDateTime().ShowInGrid().Search(LINQ.Query.Operators.Range);
                 ViewConfig("ActionType").AsHidden().AddClass("ActionType");
                 ViewConfig("Title").AsTextBox().Order(1).ShowInGrid().Search(LINQ.Query.Operators.Contains).MaxLength(200);
