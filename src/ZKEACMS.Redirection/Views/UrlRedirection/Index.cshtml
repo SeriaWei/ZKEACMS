@@ -11,5 +11,9 @@
 
 <div class="grid-component">
     @Html.SearchTerms(Authorizer.Authorize(ZKEACMS.Redirection.PermissionKeys.ManageUrlRedirect))
-    <grid delete-able="Authorizer.Authorize(ZKEACMS.Redirection.PermissionKeys.ManageUrlRedirect)" edit-able="Authorizer.Authorize(ZKEACMS.Redirection.PermissionKeys.ManageUrlRedirect)"></grid>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid delete-able="Authorizer.Authorize(ZKEACMS.Redirection.PermissionKeys.ManageUrlRedirect)" edit-able="Authorizer.Authorize(ZKEACMS.Redirection.PermissionKeys.ManageUrlRedirect)"></grid>
+        </div>
+    </div>    
 </div>

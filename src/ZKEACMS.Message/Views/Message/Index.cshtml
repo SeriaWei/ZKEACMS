@@ -9,5 +9,9 @@
 }
 <div class="grid-component">
     @Html.SearchTerms(Authorizer.Authorize(ZKEACMS.Message.PermissionKeys.ManageMessage))
-    <grid delete-able="Authorizer.Authorize(ZKEACMS.Message.PermissionKeys.ManageMessage)" edit-able="Authorizer.Authorize(ZKEACMS.Message.PermissionKeys.ManageMessage)"></grid>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid delete-able="Authorizer.Authorize(ZKEACMS.Message.PermissionKeys.ManageMessage)" edit-able="Authorizer.Authorize(ZKEACMS.Message.PermissionKeys.ManageMessage)"></grid>
+        </div>
+    </div>    
 </div>

@@ -24,9 +24,13 @@
     </div>
 }
 <div class="grid-component">
-    <grid model-type="typeof(ZKEACMS.Common.Models.TemplateFile)"
-          delete-able="Authorizer.Authorize(PermissionKeys.ManageTemplate)"
-          edit-able="Authorizer.Authorize(PermissionKeys.ManageTemplate)"></grid>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid model-type="typeof(ZKEACMS.Common.Models.TemplateFile)"
+                  delete-able="Authorizer.Authorize(PermissionKeys.ManageTemplate)"
+                  edit-able="Authorizer.Authorize(PermissionKeys.ManageTemplate)"></grid>
+        </div>
+    </div>
 </div>
 
 

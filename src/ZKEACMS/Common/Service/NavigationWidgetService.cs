@@ -31,6 +31,7 @@ namespace ZKEACMS.Common.Service
                 .Where(m => m.Status == (int)RecordStatus.Active).OrderBy(m => m.DisplayOrder).ToList();
 
             string path = null;
+            IUrlHelper urlHelper = null;
             if (ApplicationContext.As<CMSApplicationContext>().IsDesignMode)
             {
                 var layout = actionContext.HttpContext.GetLayout();
@@ -41,16 +42,31 @@ namespace ZKEACMS.Common.Service
             }
             else if (actionContext is ActionExecutedContext)
             {
-                path = (actionContext as ActionExecutedContext).RouteData.GetPath();
+                path = (actionContext as ActionExecutedContext).HttpContext.Request.Path.Value.Replace(".html", string.Empty);
+                urlHelper = ((actionContext as ActionExecutedContext).Controller as Controller).Url;
             }
+            if (urlHelper == null && (actionContext is ActionExecutedContext))
+            {
+                urlHelper = ((actionContext as ActionExecutedContext).Controller as Controller).Url;
+            }
+
             if (path != null)
             {
                 NavigationEntity current = null;
                 int length = 0;
                 foreach (var navigationEntity in navs)
                 {
+                    navigationEntity.Url = (navigationEntity.Url ?? "~/").Replace(".html", string.Empty);
+                    if (urlHelper != null)
+                    {
+                        navigationEntity.Url = urlHelper.Content(navigationEntity.Url);
+                    }
+                    else
+                    {
+                        navigationEntity.Url = navigationEntity.Url.Replace("~/", "/");
+                    }
                     if (navigationEntity.Url.IsNotNullAndWhiteSpace()
-                        && path.IndexOf((navigationEntity.Url ?? "").Replace("~/", "/").Replace(".html", string.Empty), StringComparison.OrdinalIgnoreCase) == 0
+                        && path.IndexOf(navigationEntity.Url, StringComparison.OrdinalIgnoreCase) == 0
                         && length < navigationEntity.Url.Length)
                     {
                         current = navigationEntity;

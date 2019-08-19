@@ -10,5 +10,9 @@
 
 <div class="grid-component">
     @Html.SearchTerms(Authorizer.Authorize(PermissionKeys.ManageCarousel))
-    <grid edit-able="Authorizer.Authorize(PermissionKeys.ManageCarousel)" delete-able="Authorizer.Authorize(PermissionKeys.ManageCarousel)"></grid>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid edit-able="Authorizer.Authorize(PermissionKeys.ManageCarousel)" delete-able="Authorizer.Authorize(PermissionKeys.ManageCarousel)"></grid>
+        </div>
+    </div>    
 </div>
