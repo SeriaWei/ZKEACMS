@@ -16,10 +16,11 @@
     @if (video.Url.IsNotNullAndWhiteSpace())
     {
         <video controls="controls"
+               autoplay="autoplay"
                name="media"
                src="@Url.Content(video.Url)"
                style="width:@(video.Width.HasValue?video.Width+"px":"auto");height:@(video.Height.HasValue?video.Height+"px":"auto")">
-            您的浏览器不支持播放该视频
+            Your brower does not support playing video.
         </video>
     }
     else if (video.Code.IsNotNullAndWhiteSpace())

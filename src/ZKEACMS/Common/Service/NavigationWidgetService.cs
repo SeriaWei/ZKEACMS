@@ -56,21 +56,19 @@ namespace ZKEACMS.Common.Service
                 int length = 0;
                 foreach (var navigationEntity in navs)
                 {
-                    navigationEntity.Url = (navigationEntity.Url ?? "~/").Replace(".html", string.Empty);
+                    string url = (navigationEntity.Url ?? "~/").Replace(".html", string.Empty);
                     if (urlHelper != null)
                     {
-                        navigationEntity.Url = urlHelper.Content(navigationEntity.Url);
+                        url = urlHelper.Content(url);
                     }
                     else
                     {
-                        navigationEntity.Url = navigationEntity.Url.Replace("~/", "/");
+                        url = url.Replace("~/", "/");
                     }
-                    if (navigationEntity.Url.IsNotNullAndWhiteSpace()
-                        && path.IndexOf(navigationEntity.Url, StringComparison.OrdinalIgnoreCase) == 0
-                        && length < navigationEntity.Url.Length)
+                    if (path.IndexOf(url, StringComparison.OrdinalIgnoreCase) == 0 && length < url.Length)
                     {
                         current = navigationEntity;
-                        length = navigationEntity.Url.Length;
+                        length = url.Length;
                     }
                 }
                 if (current != null)
