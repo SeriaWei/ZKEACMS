@@ -23,6 +23,9 @@
         $(".Date").each(function () {
             if (!$(this).prop("readonly") && !$(this).prop("disabled")) {
                 $(this).datetimepicker({ locale: "zh-CN", format: $(this).attr("JsDateFormat") });
+                $(this).closest(".input-group").find(".glyphicon-calendar").click(function () {
+                    $(this).closest(".input-group").find("input").focus();
+                });
             }
         });
     }

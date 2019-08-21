@@ -6,6 +6,9 @@ using ZKEACMS.Widget;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Easy.Mvc.Extend;
+using System;
 
 namespace ZKEACMS
 {
@@ -76,6 +79,44 @@ namespace ZKEACMS
             html.ViewBag.CreateAble = createAble;
             html.ViewBag.CreateAction = createAction;
             return html.Editor(string.Empty, "Search-Terms");
+        }
+
+        public static IHtmlContent SearchItem(this IHtmlHelper html, ModelMetadata item)
+        {
+            var descriptor = item.GetViewDescriptor();
+            if (descriptor is Easy.ViewPort.Descriptor.DropDownListDescriptor)
+            {
+                return html.Editor(item.PropertyName, "DropDownList");
+            }
+            else
+            {
+                if (!descriptor.Classes.Contains("form-control"))
+                {
+                    descriptor.Classes.Add("form-control");
+                }
+                Type modelType = descriptor.DataType;
+
+                if (modelType == typeof(DateTime))
+                {
+                    return html.Editor(item.PropertyName, "DateTime");
+                }
+                else if (modelType == typeof(bool))
+                {
+                    return html.Editor(item.PropertyName, "DropdownBoolen");
+                }
+                else if (modelType == typeof(decimal))
+                {
+                    return html.Editor(item.PropertyName, "Decimal");
+                }
+                else if (modelType == typeof(Int32))
+                {
+                    return html.Editor(item.PropertyName, "Int32");
+                }
+                else
+                {
+                    return html.Editor(item.PropertyName, "String");
+                }
+            }
         }
     }
 }
