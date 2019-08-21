@@ -40,7 +40,12 @@
                     <a class="btn btn-primary btn-sm search">@L("搜索")</a>
                     @if (ViewBag.CreateAble != null && ViewBag.CreateAble != false)
                     {
-                        <a class="btn btn-primary btn-sm" href="@Url.Action(ViewBag.CreateAction as string)">@L("新建")</a>
+                        string action = ViewBag.CreateAction as string;
+                        if (action.IndexOf("/") < 0)
+                        {
+                            action = Url.Action(action);
+                        }
+                        <a class="btn btn-primary btn-sm" href="@action">@L("新建")</a>
                     }
                 </div>
             </div>
