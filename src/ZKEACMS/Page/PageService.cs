@@ -96,7 +96,7 @@ namespace ZKEACMS.Page
                         page.Scripts.Add(new PageAsset { Url = page.Script });
                     }
                 }
-            }            
+            }
         }
         private void SerializeAssets(PageEntity page)
         {
@@ -371,7 +371,7 @@ namespace ZKEACMS.Page
             string formatedPath = FormatPath(path);
             if (_cachedPage.ContainsKey(formatedPath))
             {
-                return _cachedPage[formatedPath].Where(m => m.Url == formatedPath && m.IsPublishedPage == !isPreView)
+                return _cachedPage[formatedPath].Where(m => m.Url.Equals(formatedPath, StringComparison.OrdinalIgnoreCase) && m.IsPublishedPage == !isPreView)
                       .OrderByDescending(m => m.PublishDate)
                       .FirstOrDefault();
             }
