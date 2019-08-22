@@ -18,6 +18,8 @@ using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Zone;
 using ZKEACMS.Layout;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Page
 {
@@ -62,10 +64,59 @@ namespace ZKEACMS.Page
             }
             return path;
         }
+        private void InitAssets(PageEntity page)
+        {
+            if (page != null)
+            {
+                if (page.Style.IsNotNullAndWhiteSpace())
+                {
+                    if (page.Style.StartsWith("["))
+                    {
+                        foreach (var item in JsonConvert.DeserializeObject<string[]>(page.Style))
+                        {
+                            page.Styles.Add(new PageAsset { Url = item });
+                        }
+                    }
+                    else
+                    {
+                        page.Styles.Add(new PageAsset { Url = page.Style });
+                    }
+                }
+                if (page.Script.IsNotNullAndWhiteSpace())
+                {
+                    if (page.Script.StartsWith("["))
+                    {
+                        foreach (var item in JsonConvert.DeserializeObject<string[]>(page.Script))
+                        {
+                            page.Scripts.Add(new PageAsset { Url = item });
+                        }
+                    }
+                    else
+                    {
+                        page.Scripts.Add(new PageAsset { Url = page.Script });
+                    }
+                }
+            }
+        }
+        private void SerializeAssets(PageEntity page)
+        {
+            if (page != null)
+            {
+                page.Style = JsonConvert.SerializeObject(page.Styles.RemoveDeletedItems().Select(m => m.Url));
+                page.Script = JsonConvert.SerializeObject(page.Scripts.RemoveDeletedItems().Select(m => m.Url));
+            }
+        }
 
         public override DbSet<PageEntity> CurrentDbSet
         {
             get { return DbContext.Page; }
+        }
+
+        public override PageEntity Get(params object[] primaryKey)
+        {
+            PageEntity page = base.Get(primaryKey);
+            InitAssets(page);
+            return page;
         }
 
         public override ServiceResult<PageEntity> Add(PageEntity item)
@@ -89,6 +140,7 @@ namespace ZKEACMS.Page
                 throw new PageExistException(item);
             }
             item.IsPublish = false;
+            SerializeAssets(item);
             return base.Update(item);
         }
 
@@ -319,14 +371,16 @@ namespace ZKEACMS.Page
             string formatedPath = FormatPath(path);
             if (_cachedPage.ContainsKey(formatedPath))
             {
-                return _cachedPage[formatedPath].Where(m => m.Url == formatedPath && m.IsPublishedPage == !isPreView)
+                return _cachedPage[formatedPath].Where(m => m.Url.Equals(formatedPath, StringComparison.OrdinalIgnoreCase) && m.IsPublishedPage == !isPreView)
                       .OrderByDescending(m => m.PublishDate)
                       .FirstOrDefault();
             }
-            return Get()
+            PageEntity page = Get()
                       .Where(m => m.Url == formatedPath && m.IsPublishedPage == !isPreView)
                       .OrderByDescending(m => m.PublishDate)
                       .FirstOrDefault();
+            InitAssets(page);
+            return page;
         }
 
         public void MarkChanged(string pageId)

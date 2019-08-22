@@ -1,15 +1,17 @@
 @{
     Style.Reqiured("dataTable").AtHead();
-    Script.Reqiured("dataTable").AtFoot();    
-	
-	Script.Reqiured("datepicker").AtFoot();
+    Script.Reqiured("dataTable").AtFoot();
+
+    Script.Reqiured("datepicker").AtFoot();
     Style.Reqiured("datepicker").AtHead();
 }
 @model ApplicationSetting
-@if (Authorizer.Authorize(PermissionKeys.ManageApplicationSetting))
-{
-    <div id="toolBar">
-        <a href="@Url.Action("Create")" class="btn btn-primary btn-sm">@L("新建")</a>
+
+<div class="grid-component">
+    @Html.SearchTerms(Authorizer.Authorize(PermissionKeys.ManageApplicationSetting))
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid edit-able="Authorizer.Authorize(PermissionKeys.ManageApplicationSetting)" delete-able="Authorizer.Authorize(PermissionKeys.ManageApplicationSetting)"></grid>
+        </div>
     </div>
-}
-<grid edit-able="Authorizer.Authorize(PermissionKeys.ManageApplicationSetting)" delete-able="Authorizer.Authorize(PermissionKeys.ManageApplicationSetting)"></grid>
+</div>

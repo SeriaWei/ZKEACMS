@@ -20,17 +20,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.DependencyModel;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using ZKEACMS.Account;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Common.Models;
@@ -51,6 +48,7 @@ using ZKEACMS.Route;
 using ZKEACMS.Setting;
 using ZKEACMS.SMTP;
 using ZKEACMS.Theme;
+using ZKEACMS.Validate;
 using ZKEACMS.Widget;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.Zone;
@@ -61,18 +59,39 @@ namespace ZKEACMS
     {
         public static void UseZKEACMS(this IServiceCollection services, IConfiguration configuration)
         {
+            //添加session
+            services.AddDistributedMemoryCache();
+            services.AddSession(opt =>
+            {
+                opt.IdleTimeout = TimeSpan.FromMinutes(20);
+                //opt.Cookie.Expiration = TimeSpan.FromMinutes(30);
+                //opt.Cookie.MaxAge 
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.IsEssential = true;
+            });
 
-            IMvcBuilder mvcBuilder = services.AddMvc(option =>
+            IMvcBuilder mvcBuilder = services.AddControllersWithViews(option =>
              {
                  option.ModelBinderProviders.Insert(0, new WidgetTypeModelBinderProvider());
                  option.ModelMetadataDetailsProviders.Add(new DataAnnotationsMetadataProvider());
-                 //option.EnableEndpointRouting = false;
              })
+            .AddRazorOptions(opt =>
+            {
+                opt.ViewLocationExpanders.Clear();
+                opt.ViewLocationExpanders.Add(new ThemeViewLocationExpander());
+            })
             .AddControllersAsServices()
-            .AddJsonOptions(option => { option.SerializerSettings.DateFormatString = "yyyy-MM-dd"; })
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.DateFormatString = "yyyy/MM/dd H:mm";
+            })
             .SetCompatibilityVersion(CompatibilityVersion.Latest);
 
+            services.AddRazorPages();
+            services.AddHealthChecks();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddRouting(option => option.LowercaseUrls = true);
 
             services.TryAddScoped<IApplicationContextAccessor, ApplicationContextAccessor>();
             services.TryAddScoped<IApplicationContext, CMSApplicationContext>();
@@ -121,10 +140,15 @@ namespace ZKEACMS
 
             services.AddTransient<IStorage, WebStorage>();
 
+            services.ConfigureStateProvider<StateProvider.OuterChainPictureStateProvider>();
+
             services.ConfigureCache<IEnumerable<WidgetBase>>();
             services.ConfigureCache<IEnumerable<ZoneEntity>>();
             services.ConfigureCache<IEnumerable<LayoutHtml>>();
+            services.ConfigureCache<IEnumerable<ThemeEntity>>();
+            services.ConfigureCache<List<TemplateFile>>();
             services.ConfigureCache<ConcurrentDictionary<string, object>>();
+            services.ConfigureCache<string>();
 
             services.ConfigureMetaData<ArticleEntity, ArticleEntityMeta>();
             services.ConfigureMetaData<ArticleType, ArtycleTypeMetaData>();
@@ -144,6 +168,7 @@ namespace ZKEACMS
             services.ConfigureMetaData<LayoutEntity, LayoutEntityMetaData>();
             services.ConfigureMetaData<MediaEntity, MediaEntityMetaData>();
             services.ConfigureMetaData<PageEntity, PageMetaData>();
+            services.ConfigureMetaData<PageAsset, PageAssetMetaData>();
             services.ConfigureMetaData<ProductEntity, ProductMetaData>();
             services.ConfigureMetaData<ProductCategory, ProductCategoryMetaData>();
             services.ConfigureMetaData<ProductImage, ProductImageMetaData>();
@@ -154,6 +179,11 @@ namespace ZKEACMS
             services.ConfigureMetaData<Rule.RuleItem, Rule.RuleItemMetaData>();
             services.ConfigureMetaData<SmtpSetting, SmtpSettingMetaData>();
             services.ConfigureMetaData<Robots, RobotsMetaData>();
+            services.ConfigureMetaData<TemplateFile, TemplateFileMetaData>();
+
+            services.AddScoped<IValidateService, DefaultValidateService>();
+
+            services.AddScoped<ITemplateService, TemplateService>();
 
             services.Configure<NavigationWidget>(option =>
             {
@@ -208,18 +238,18 @@ namespace ZKEACMS
             services.AddAuthentication(DefaultAuthorizeAttribute.DefaultAuthenticationScheme)
                 .AddCookie(DefaultAuthorizeAttribute.DefaultAuthenticationScheme, o =>
                 {
-                    o.LoginPath = new PathString("/Account/Login");
-                    o.AccessDeniedPath = new PathString("/Error/Forbidden");
+                    o.LoginPath = new PathString("/account/login");
+                    o.AccessDeniedPath = new PathString("/error/forbidden");
                 })
                 .AddCookie(CustomerAuthorizeAttribute.CustomerAuthenticationScheme, option =>
                 {
-                    option.LoginPath = new PathString("/Account/Signin");
+                    option.LoginPath = new PathString("/account/signin");
+                    option.AccessDeniedPath = new PathString("/error/forbidden");
                 });
         }
 
-        public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
+        public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
         {
-            applicationBuilder.UseAuthentication();
             if (hostingEnvironment.IsDevelopment())
             {
                 applicationBuilder.UsePluginStaticFile();
@@ -228,13 +258,27 @@ namespace ZKEACMS
             ServiceLocator.Setup(httpContextAccessor);
             applicationBuilder.ConfigureResource();
             applicationBuilder.ConfigurePlugin(hostingEnvironment);
-            applicationBuilder.UseMvc(routes =>
+            applicationBuilder.UseSession();
+            applicationBuilder.UseRouting();
+
+            applicationBuilder.UseAuthentication();
+            applicationBuilder.UseAuthorization();
+
+            applicationBuilder.UseEndpoints(endpoints =>
             {
                 applicationBuilder.ApplicationServices.GetService<IRouteProvider>().GetRoutes().OrderByDescending(route => route.Priority).Each(route =>
                 {
-                    routes.MapRoute(route.RouteName, route.Template, route.Defaults, route.Constraints, route.DataTokens);
+                    endpoints.MapControllerRoute(
+                        name: route.RouteName,
+                        pattern: route.Template,
+                        defaults: route.Defaults,
+                        constraints: route.Constraints,
+                        dataTokens: route.DataTokens);
                 });
+                
+                endpoints.MapRazorPages();
             });
+
             foreach (IStartTask task in applicationBuilder.ApplicationServices.GetServices<IStartTask>())
             {
                 task.Excute();

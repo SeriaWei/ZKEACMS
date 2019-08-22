@@ -74,13 +74,13 @@ namespace ZKEACMS.DbConnectionPool
                 case DbTypes.Sqlite:
                     {
                         SqliteConnection result = new SqliteConnection(DatabaseOption.ConnectionString);
-                        //result.Open();
-                        //using (SqliteCommand cmd = result.CreateCommand())
-                        //{
-                        //    cmd.CommandText = "pragma journal_mode=wal;";
-                        //    cmd.CommandText += "pragma read_uncommitted=1;";
-                        //    cmd.ExecuteNonQuery();
-                        //}
+                        result.Open();
+                        using (SqliteCommand cmd = result.CreateCommand())
+                        {
+                            cmd.CommandText = "pragma journal_mode=wal;";
+                            cmd.CommandText += "pragma read_uncommitted=1;";
+                            cmd.ExecuteNonQuery();
+                        }
                         return result;
                     }
                 case DbTypes.MySql:

@@ -424,6 +424,11 @@
         setValidationValues(options, "extension", options.params.extensions);
     });
 
+    //add by roc
+    adapters.add('phonecn', function (options) {
+        setValidationValues(options, 'phonecn', true);
+    });
+
     $(function () {
         $jQval.unobtrusive.parse(document);
     });

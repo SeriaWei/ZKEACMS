@@ -35,6 +35,8 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
             { text: 'C', value: 'c' },
             { text: 'C#', value: 'csharp' },
             { text: 'C++', value: 'cpp' }
-        ]
+        ],
+        extended_valid_elements:"style,link[href|rel]",
+        custom_elements:"style,link,~link"
     });
 });

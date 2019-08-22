@@ -1,12 +1,12 @@
-FROM microsoft/dotnet:2.2.100-sdk AS builder
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS builder
 WORKDIR /build
 # Copy all files
 COPY . ./
 RUN dotnet restore
-RUN dotnet tool install -g ZKEACMS.Publisher
+ENV PATH="${PATH}:/root/.dotnet/tools"
+RUN dotnet tool install --global ZKEACMS.Publisher
 # Release ZKEACMS.WebHost
 WORKDIR /build/src/ZKEACMS.WebHost
-ENV PATH "$PATH:/root/.dotnet/tools"
 RUN publish-zkeacms
 
 # Copy Database
@@ -15,7 +15,7 @@ RUN cp -f /build/DataBase/SQLite/Database.sqlite /build/src/ZKEACMS.WebHost/bin/
 RUN cp -f /build/DataBase/SQLite/appsettings.json /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/appsettings.json
 
 # Build runtime image
-FROM microsoft/dotnet:2.2.0-aspnetcore-runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0
 WORKDIR /zkeacms
 COPY --from=builder /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput .
 EXPOSE 80

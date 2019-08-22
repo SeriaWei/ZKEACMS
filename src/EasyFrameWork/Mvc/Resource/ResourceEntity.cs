@@ -16,6 +16,7 @@ using Easy.Options;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using Microsoft.Extensions.Primitives;
+using Microsoft.Extensions.Hosting;
 
 namespace Easy.Mvc.Resource
 {
@@ -73,7 +74,7 @@ namespace Easy.Mvc.Resource
             }
         }
 
-        public IHtmlContent ToSource(IUrlHelper urlHelper, IHostingEnvironment hostingEnvironment, IOptions<CDNOption> options)
+        public IHtmlContent ToSource(IUrlHelper urlHelper, IWebHostEnvironment hostingEnvironment, IOptions<CDNOption> options)
         {
             if (Source != null)
             {
@@ -105,7 +106,7 @@ namespace Easy.Mvc.Resource
             return new HtmlString(source);
         }
 
-        private string VersionSource(IHostingEnvironment hostingEnvironment, string source)
+        private string VersionSource(IWebHostEnvironment hostingEnvironment, string source)
         {
             return VersionMap.GetOrAdd(source, factory =>
             {

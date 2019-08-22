@@ -15,6 +15,11 @@ namespace ZKEACMS.Page
     [DataTable("CMS_Page")]
     public class PageEntity : EditorEntity
     {
+        public PageEntity()
+        {
+            Styles = new List<PageAsset>();
+            Scripts = new List<PageAsset>();
+        }
         [Key]
         public string ID { get; set; }
         public string ReferencePageID { get; set; }
@@ -50,6 +55,10 @@ namespace ZKEACMS.Page
         public bool IsPublish { get; set; }
         [NotMapped]
         public string Favicon { get; set; }
+        [NotMapped]
+        public List<PageAsset> Styles { get; set; }
+        [NotMapped]
+        public List<PageAsset> Scripts { get; set; }
     }
     class PageMetaData : ViewMetaData<PageEntity>
     {
@@ -61,8 +70,10 @@ namespace ZKEACMS.Page
             ViewConfig(m => m.Url).AsHidden();
             //ViewConfig(m => m.LayoutId).AsDropDownList().DataSource(ViewDataKeys.Layouts, SourceType.ViewData);
             ViewConfig(m => m.LayoutId).AsTextBox().SetTemplate("LayoutChooser");
-            ViewConfig(m => m.Script).AsTextBox().AddClass(StringKeys.SelectMediaClass).AddProperty("data-url", Urls.SelectMedia);
-            ViewConfig(m => m.Style).AsTextBox().AddClass(StringKeys.SelectMediaClass).AddProperty("data-url", Urls.SelectMedia);
+            ViewConfig(m => m.Script).AsHidden();
+            ViewConfig(m => m.Style).AsHidden();
+            ViewConfig(m => m.Scripts).AsListEditor();
+            ViewConfig(m => m.Styles).AsListEditor();
             
             ViewConfig(m => m.ParentId).AsHidden();
             ViewConfig(m => m.ID).AsHidden();

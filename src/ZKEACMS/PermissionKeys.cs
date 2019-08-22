@@ -44,6 +44,9 @@ namespace ZKEACMS
 
         public const string ViewPlugins = "Plugin_View";
 
+        public const string ViewTemplate = "Template_View";
+        public const string ManageTemplate = "Template_Manage";
+
         public static List<PermissionDescriptor> KnownPermissions = new List<PermissionDescriptor>
         {
             new PermissionDescriptor { Module="页面布局",Title="查看页面",Key=ViewPage,Description="查看页面" },
@@ -56,6 +59,10 @@ namespace ZKEACMS
             new PermissionDescriptor { Module="基础内容",Title="管理媒体库",Key=ManageMedia,Description="管理媒体库" },
             new PermissionDescriptor { Module="基础内容",Title="查看焦点图",Key=ViewCarousel,Description="查看焦点图" },
             new PermissionDescriptor { Module="基础内容",Title="管理焦点图",Key=ManageCarousel,Description="管理焦点图" },
+
+            new PermissionDescriptor { Module="页面布局",Title="查看模板",Key=ViewTemplate,Description="查看模板" },
+            new PermissionDescriptor { Module="页面布局",Title="管理模板",Key=ManageTemplate,Description="管理模板" },
+
             new PermissionDescriptor { Module="主题",Title="查看主题",Key=ViewTheme,Description="查看主题" },
             new PermissionDescriptor { Module="主题",Title="管理主题",Key=ManageTheme,Description="管理主题" },
             new PermissionDescriptor { Module="安全",Title="查看用户",Key=ViewUser,Description="查看用户" },

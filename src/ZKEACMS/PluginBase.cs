@@ -13,16 +13,26 @@ using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ZKEACMS.WidgetTemplate;
+using ZKEACMS.Route;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Mvc.Razor.Compilation;
+using Microsoft.AspNetCore.Razor.Hosting;
+using Microsoft.Extensions.Primitives;
 
 namespace ZKEACMS
 {
-    public abstract class PluginBase : ResourceManager, IRouteRegister, IPluginStartup, IApplicationPartTypeProvider, ICompilationReferencesProvider
+    public abstract class PluginBase : ResourceManager,
+        IRouteRegister,
+        IPluginStartup,
+        IApplicationPartTypeProvider,
+        ICompilationReferencesProvider,
+        IApplicationFeatureProvider<ViewsFeature>
     {
         private const string ControllerTypeNameSuffix = "Controller";
+
         public Assembly Assembly { get; set; }
 
         public abstract IEnumerable<RouteDescriptor> RegistRoute();
@@ -30,16 +40,25 @@ namespace ZKEACMS
         public abstract IEnumerable<PermissionDescriptor> RegistPermission();
         public abstract IEnumerable<WidgetTemplateEntity> WidgetServiceTypes();
         public abstract void ConfigureServices(IServiceCollection serviceCollection);
-        public virtual void ConfigureApplication(IApplicationBuilder app, IHostingEnvironment env)
+        public virtual void ConfigureApplication(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
         }
         public virtual void ConfigureMVC(IMvcBuilder mvcBuilder)
         {
-            mvcBuilder.ConfigureApplicationPartManager(manguage => manguage.ApplicationParts.Add(this));
+            mvcBuilder.ConfigureApplicationPartManager(manguage =>
+            {
+                manguage.FeatureProviders.Add(this);
+                manguage.ApplicationParts.Add(this);
+            });
         }
         static Dictionary<Type, string> pluginPathCache = new Dictionary<Type, string>();
         static Dictionary<Type, string> pluginNameCache = new Dictionary<Type, string>();
+        public static HashSet<string> ActiveWidgetTemplates
+        {
+            get;
+            set;
+        }
         public string CurrentPluginPath
         {
             get;
@@ -81,12 +100,12 @@ namespace ZKEACMS
             var menus = this.AdminMenu();
             if (menus != null)
             {
-                foreach (var item in menus)
-                {
-                    item.PluginName = this.Name;
-                    AdminMenus.Menus.Add(item);
-                }
-                
+                //foreach (var item in menus)
+                //{
+                //    item.PluginName = this.Name;
+                //    AdminMenus.Menus.Add(item);
+                //}
+                AdminMenus.PluginMenu.Add(menus);
             }
             this.SetupResource();
             var permissions = this.RegistPermission();
@@ -96,7 +115,7 @@ namespace ZKEACMS
                 {
                     item.PluginName = this.Name;
                     PermissionKeys.KnownPermissions.Add(item);
-                }                
+                }
             }
             var routes = this.RegistRoute();
             if (routes != null)
@@ -179,7 +198,6 @@ namespace ZKEACMS
 
             return true;
         }
-
         public IEnumerable<string> GetReferencePaths()
         {
             if (Assembly.IsDynamic)
@@ -195,5 +213,76 @@ namespace ZKEACMS
 
             return new[] { Assembly.Location };
         }
+        #region Viewfeature
+        public virtual void PopulateFeature(IEnumerable<ApplicationPart> parts, ViewsFeature feature)
+        {
+            if (ActiveWidgetTemplates == null)
+            {
+                ActiveWidgetTemplates = new HashSet<string>();
+                foreach (var item in feature.ViewDescriptors)
+                {
+                    string name = Path.GetFileName(item.RelativePath);
+                    if (name.StartsWith("Widget.") && !ActiveWidgetTemplates.Contains(name))
+                    {
+                        ActiveWidgetTemplates.Add(name);
+                    }
+                }
+            }
+            var knownIdentifiers = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var attributes = GetViewAttributesLegacy(Assembly);
+            foreach (var item in attributes)
+            {
+                var descriptor = new CompiledViewDescriptor(item);
+                if (knownIdentifiers.Add(descriptor.RelativePath))
+                {
+                    string name = Path.GetFileName(descriptor.RelativePath);
+                    if (name.StartsWith("Widget.") && !ActiveWidgetTemplates.Contains(name))
+                    {
+                        ActiveWidgetTemplates.Add(name);
+                    }
+
+                    feature.ViewDescriptors.Add(descriptor);
+                }
+            }
+        }
+
+
+        protected virtual IEnumerable<RazorCompiledItem> GetViewAttributesLegacy(Assembly assembly)
+        {
+            if (assembly == null)
+            {
+                throw new ArgumentNullException(nameof(assembly));
+            }
+
+            var featureAssembly = GetViewAssembly(assembly);
+            if (featureAssembly != null)
+            {
+                return new RazorCompiledItemLoader().LoadItems(featureAssembly);
+            }
+
+            return Enumerable.Empty<RazorCompiledItem>();
+        }
+
+        protected virtual Assembly GetViewAssembly(Assembly assembly)
+        {
+            if (assembly.IsDynamic || string.IsNullOrEmpty(assembly.Location))
+            {
+                return null;
+            }
+            string[] viewAssemblySuffixes = new string[] { ".Views", ".PrecompiledViews" };
+            for (var i = 0; i < viewAssemblySuffixes.Length; i++)
+            {
+                var fileName = $"{assembly.GetName().Name}{viewAssemblySuffixes[i]}.dll";
+                var filePath = Path.Combine(Path.GetDirectoryName(assembly.Location), fileName);
+
+                if (File.Exists(filePath))
+                {
+                    return Assembly.LoadFile(filePath);
+                }
+            }
+
+            return null;
+        }
+        #endregion
     }
 }

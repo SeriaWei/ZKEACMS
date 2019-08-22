@@ -7,11 +7,22 @@
 $(function () {
 
     $(".accordion-group>a").click(function () {
-        if ($(this).nextAll(".accordion-inner").hasClass("active")) {
-            return false;
+        var className = 'active';
+        var a = $(this);
+        var div_inner = a.nextAll(".accordion-inner");
+        if (a.hasClass(className)) {
+            a.removeClass(className);
+            div_inner.hide(200);
         }
-        $(this).parents("ul").find(".accordion-inner.active").removeClass("active").hide(200);
-        $(this).nextAll(".accordion-inner").addClass("active").show(200);
+        else {
+            a.addClass(className);
+            div_inner.show(200);
+        }
+        //if ($(this).nextAll(".accordion-inner").hasClass("active")) {
+        //    return false;
+        //}
+        //$(this).parents("ul").find(".accordion-inner.active").removeClass("active").hide(200);
+        //$(this).nextAll(".accordion-inner").addClass("active").show(200);
         return false;
     });
 
@@ -99,10 +110,13 @@ $(function () {
 
 
 
-    if ($.fn.datepicker) {
+    if ($.fn.datetimepicker) {
         $(".Date").each(function () {
             if (!$(this).prop("readonly") && !$(this).prop("disabled")) {
-                $(this).datepicker({ language: "zh-CN", format: $(this).attr("JsDateFormat") });
+                $(this).datetimepicker({ locale: "zh-CN", format: $(this).attr("JsDateFormat") });
+                $(this).closest(".input-group").find(".glyphicon-calendar").click(function () {
+                    $(this).closest(".input-group").find("input").focus();
+                });
             }
         });
     }
@@ -289,7 +303,7 @@ $(function () {
         var scrollBar = window.Scrollbar.init(leftMenu);
         $(window).on("resize", function () {
             Easy.Processor(setHeight, 500);
-        })
+        });
         if (scroll > 0) {
             scrollBar.scrollTop = scroll/2;
         }
@@ -321,8 +335,8 @@ $(function () {
                 $(this).attr("id", id.replace(/\_(\d+)\_/, "_" + index + "_"));
             }
 
-            if ($(this).hasClass("Date") && !$(this).prop("readonly") && !$(this).prop("disabled")) {
-                $(this).datepicker({ language: "zh-CN", format: $(this).attr("JsDateFormat") });
+            if ($(this).hasClass("Date") && !$(this).prop("readonly") && !$(this).prop("disabled") && $.fn.datetimepicker) {
+                $(this).datetimepicker({ locale: "zh-CN", format: $(this).attr("JsDateFormat") });
             }
         });
 

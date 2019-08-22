@@ -63,7 +63,7 @@ namespace ZKEACMS.Setting
         public string Get(string settingKey, string defaultValue)
         {
             var setting = Get(settingKey);
-            if (setting == null || setting.Value.IsNullOrWhiteSpace())
+            if (setting == null || setting.Value == null)
             {
                 if (setting == null && defaultValue.IsNotNullAndWhiteSpace())
                 {

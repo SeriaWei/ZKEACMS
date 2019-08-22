@@ -1,18 +1,22 @@
 @using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Hosting
 @{
     var theme = themeService.GetCurrentTheme();
 }
 @inject IThemeService themeService
-@inject IHostingEnvironment hostingEnvironment
 <!DOCTYPE html>
 
 <html style="height:100%">
 <head>
     <meta name="viewport" content="width=device-width" />
+    @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
+    {
+        <meta name="referrer" content="same-origin" />
+    }
     <title>@ViewBag.Title</title>
     @if (theme != null)
     {
-        if (hostingEnvironment.IsDevelopment())
+        if (ApplicationContext.HostingEnvironment.IsDevelopment())
         {
             <link type="text/css" async rel="stylesheet" href="@Url.Content(theme.UrlDebugger)" />
         }

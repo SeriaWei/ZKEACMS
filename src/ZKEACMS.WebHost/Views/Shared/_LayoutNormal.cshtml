@@ -1,9 +1,8 @@
-@using Microsoft.AspNetCore.Hosting
+﻿@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Hosting
 @{
-    var theme = themeService.GetCurrentTheme();
+    Style.Reqiured("bootStrap").AtHead();
 }
-@inject IThemeService themeService
-@inject IHostingEnvironment hostingEnvironment
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->
@@ -18,16 +17,9 @@
     <title>@ViewBag.Title</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
-    @if (theme != null)
+    @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
     {
-        if (hostingEnvironment.IsDevelopment())
-        {
-            <link type="text/css" async rel="stylesheet" href="@Url.Content(theme.UrlDebugger)" />
-        }
-        else
-        {
-            <link type="text/css" async rel="stylesheet" href="@Url.Content(theme.Url)" />
-        }
+        <meta name="referrer" content="same-origin" />
     }
     @StyleAtHead()
     @ScriptAtHead()

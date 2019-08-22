@@ -8,17 +8,18 @@ using System.Linq;
 using System.Text;
 using Easy.Extend;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 namespace ZKEACMS.PackageManger
 {
     public class FilePackageInstaller : IPackageInstaller
     {
-        public FilePackageInstaller(IHostingEnvironment hostingEnvironment)
+        public FilePackageInstaller(IWebHostEnvironment hostingEnvironment)
         {
             HostingEnvironment = hostingEnvironment;
         }
-        public IHostingEnvironment HostingEnvironment;
+        public IWebHostEnvironment HostingEnvironment;
         public virtual string PackageInstaller
         {
             get

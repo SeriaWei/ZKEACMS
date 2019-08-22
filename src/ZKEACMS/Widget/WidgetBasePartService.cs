@@ -162,6 +162,7 @@ namespace ZKEACMS.Widget
             widgetBase.IsTemplate = false;
             widgetBase.IsSystem = false;
             widgetBase.Thumbnail = null;
+            widgetBase.RuleID = null;
 
             var widgetPart = service.Display(widgetBase, actionContext);
             service.AddWidget(widgetBase);

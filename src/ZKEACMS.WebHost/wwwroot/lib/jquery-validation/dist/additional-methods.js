@@ -41,6 +41,12 @@
 		return this.optional( element ) || valueStripped.match( regex ).length >= params[ 0 ] && valueStripped.match( regex ).length <= params[ 1 ];
 	}, $.validator.format( "Please enter between {0} and {1} words." ) );
 
+    //add by roc
+    $.validator.addMethod('phonecn', function (value, element, params) {
+        var reg1 = /\d{3}-\d{8}|\d{4}-\d{7}/;
+        var reg2 = /^1[34578]\d{9}$/;
+        return this.optional(element) || reg1.test(value) || reg2.test(value);
+    }, "Please enter the correct telephone number.")
 }() );
 
 /**

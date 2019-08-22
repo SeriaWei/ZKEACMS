@@ -15,11 +15,13 @@
 <div class="pop-video">
     @if (video.Url.IsNotNullAndWhiteSpace())
     {
-        <video controls="controls"
+        <video id="video-player" controls="controls"
+               autoplay="autoplay"
+               playsinline
                name="media"
                src="@Url.Content(video.Url)"
                style="width:@(video.Width.HasValue?video.Width+"px":"auto");height:@(video.Height.HasValue?video.Height+"px":"auto")">
-            您的浏览器不支持播放该视频
+            Your brower does not support playing video.
         </video>
     }
     else if (video.Code.IsNotNullAndWhiteSpace())
@@ -33,3 +35,11 @@
         @Html.Raw(video.Code)
     }
 </div>
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            document.getElementById("video-player").play();
+        });
+    </script>
+}

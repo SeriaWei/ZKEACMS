@@ -1,8 +1,10 @@
-@{
-    Script.Reqiured("jQueryUi").AtFoot();
+﻿@{
     Style.Reqiured("Layout").AtHead();
     Style.Reqiured("bootStrap").AtHead();
+    Style.Reqiured("codemirror").AtHead();
+    Script.Reqiured("jQueryUi").AtFoot();
     Script.Reqiured("admin").AtFoot();
+    Script.Reqiured("codemirror").AtFoot();
     Model.ContainerClass = Model.ContainerClass ?? "container";
 }
 @model LayoutEntity
@@ -21,102 +23,102 @@
     <meta http-equiv="cache-control" content="no-store">
     <meta http-equiv="expires" content="0">
     <meta http-equiv="pragma" content="no-cache" />
+    @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
+    {
+        <meta name="referrer" content="same-origin" />
+    }
 
     <title>[@L("设计")]@Model.LayoutName</title>
     @StyleAtHead()
     @ScriptAtHead()
+    <style type="text/css">
+        .CodeMirror-hints{
+            z-index:1060;
+        }
+    </style>
 </head>
 <body class="front">
     <form id="LayoutInfo" asp-controller="Layout" asp-action="SaveLayout" method="post">
-        <nav id="toolBar" class="navbar navbar-inverse navbar-fixed-top">
+        <nav id="toolBar">
             <div class="container">
-                <div class="row">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand"><span class="badge">@L("布局设计")</span></a>
-                    </div>
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <div class="navbar-form navbar-left">
-                            <label class="AddContainer btn btn-default" data-container="container-fluid" title="@L("点击拖动到主屏幕")">
-                                <span class="badge">1</span>
-                                <i class="glyphicon glyphicon-unchecked"></i>
-                                @L("容器")
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <span class="badge">@L("布局设计")</span>
+                        <label class="AddContainer zk-btn zk-btn-primary" data-container="container-fluid" title="@L("点击拖动到主屏幕")" style="cursor:move">
+                            <i class="glyphicon glyphicon-unchecked"></i>
+                            @L("容器")
+                            <span class="glyphicon glyphicon-move"></span>
+                        </label>
+                        <label class="AddRow zk-btn zk-btn-primary" data-container="container-fluid" title="@L("点击拖动到容器")" style="cursor:move">
+                            <i class="glyphicon glyphicon-align-justify"></i>
+                            @L("行")
+                            <span class="glyphicon glyphicon-move"></span>
+                        </label>
+                        <div class="zk-btn-group">
+                            <label id="add-col-handle" class="AddCol zk-btn zk-btn-primary" data-col="col-md-" data-val="6" title="@L("点击拖动到行")" style="cursor:move">
+                                <i class="glyphicon glyphicon-tasks"></i>
+                                @L("列宽") <span class="col-size-info">@L("6/12")</span>
+                                <span class="glyphicon glyphicon-move"></span>
                             </label>
-                            <label class="AddRow btn btn-primary" data-container="container-fluid" title="@L("点击拖动到容器")">
-                                <span class="badge">2</span>
-                                <i class="glyphicon glyphicon-align-justify"></i>
-                                @L("行")
-                            </label>
-                            <div class="btn-group">
-                                <label id="add-col-handle" class="AddCol btn btn-success" data-col="col-md-" data-val="6" title="@L("点击拖动到行")">
-                                    <span class="badge">3</span>
-                                    <i class="glyphicon glyphicon-tasks"></i>
-                                    @L("列宽") <span class="col-size-info">@L("6/12")</span>
-                                </label>
-                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu col-size">
-                                    <li><a href="javascript:void(0)" data-val="1">@L("1/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="2">@L("2/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="3">@L("3/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="4">@L("4/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="5">@L("5/12")</a></li>
-                                    <li class="active"><a href="javascript:void(0)" data-val="6">@L("6/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="7">@L("7/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="8">@L("8/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="9">@L("9/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="10">@L("10/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="11">@L("11/12")</a></li>
-                                    <li><a href="javascript:void(0)" data-val="12">@L("12/12")</a></li>
-                                </ul>
-                            </div>
-                            <span class="badge" data-toggle="modal" data-target="#question" style="cursor:help">?</span>
-
-
-
+                            <button type="button" class="zk-btn zk-btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="zk-dropdown-menu col-size">
+                                <li><a href="javascript:void(0)" data-val="1">@L("1/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="2">@L("2/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="3">@L("3/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="4">@L("4/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="5">@L("5/12")</a></li>
+                                <li class="active"><a href="javascript:void(0)" data-val="6">@L("6/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="7">@L("7/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="8">@L("8/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="9">@L("9/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="10">@L("10/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="11">@L("11/12")</a></li>
+                                <li><a href="javascript:void(0)" data-val="12">@L("12/12")</a></li>
+                            </ul>
                         </div>
-                        <div class="navbar-form navbar-right">
-                            <div class="btn-group">
-                                <a class="btn btn-primary cancel">
-                                    <i class="glyphicon glyphicon-arrow-left"></i>
-                                    @L("取消")
-                                </a>
-                                @if (Model.Page != null)
-                                {
-                                    <a class="btn btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
-                                        <i class="glyphicon glyphicon-pencil"></i>
-                                        @L("编辑页面")
-                                    </a>
-                                }
-                                <a href="@Url.Action("LayoutWidget", "Layout", new { LayoutID = Model.ID })" class="btn btn-primary">
-                                    <i class="glyphicon glyphicon-th-list"></i>
-                                    @L("内容")
-                                </a>
-                                <a href="@Url.Action("Edit", "Layout", new {Model.ID})" class="btn btn-primary">
-                                    <i class="glyphicon glyphicon-edit"></i>
-                                    @L("属性")
-                                </a>
-                                <a class="btn btn-primary" id="save">
-                                    <i class="glyphicon glyphicon-floppy-disk"></i>
-                                    @L("保存")
-                                </a>
-                                @await Html.PartialAsync("Partial.Menu", Model)
-                            </div>
-                            <input type="hidden" id="ContainerClass" name="ContainerClass" value="@(Model.ContainerClass)" />
-                            <input type="hidden" id="LayoutId" name="ID" value="@Model.ID" />
+                        <a class="zk-btn zk-btn-primary" id="show-source-code" data-toggle="modal" data-target="#modal-layout-code" title="@L("代码")">
+                            <i class="glyphicon glyphicon-pencil"></i>
+                        </a>
+                        <span class="badge" data-toggle="modal" data-target="#question" style="cursor:help">?</span>
+                    </div>
+
+                    <div class="pull-right">
+                        <div class="zk-btn-group">
+                            <a class="zk-btn zk-btn-primary cancel">
+                                <i class="glyphicon glyphicon-arrow-left"></i>
+                                @L("取消")
+                            </a>
                             @if (Model.Page != null)
                             {
-                                <input type="hidden" name="Page.ID" value="@Model.Page.ID" />
+                                <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                    @L("编辑页面")
+                                </a>
                             }
+                            <a href="@Url.Action("LayoutWidget", "Layout", new { LayoutID = Model.ID })" class="zk-btn zk-btn-primary">
+                                <i class="glyphicon glyphicon-th-list"></i>
+                                @L("内容")
+                            </a>
+                            <a href="@Url.Action("Edit", "Layout", new {Model.ID})" class="zk-btn zk-btn-primary">
+                                <i class="glyphicon glyphicon-edit"></i>
+                                @L("属性")
+                            </a>
+                            <a class="zk-btn zk-btn-primary" id="save">
+                                <i class="glyphicon glyphicon-floppy-disk"></i>
+                                @L("保存")
+                            </a>
+                            @await Html.PartialAsync("Partial.Menu", Model)
                         </div>
+                        <input type="hidden" id="ContainerClass" name="ContainerClass" value="@(Model.ContainerClass)" />
+                        <input type="hidden" id="LayoutId" name="ID" value="@Model.ID" />
+                        @if (Model.Page != null)
+                        {
+                            <input type="hidden" name="Page.ID" value="@Model.Page.ID" />
+                        }
                     </div>
+
                 </div>
             </div>
         </nav>
@@ -131,14 +133,14 @@
         <link href="@Url.Content(Model.Style)" rel="stylesheet" />
 
     }
-    <div class="modal fade" id="question" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
+    <div class="zk-modal fade" id="question" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="zk-modal-dialog" role="document">
+            <div class="zk-modal-content">
+                <div class="zk-modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">@L("布局设计说明")</h4>
+                    <h4 class="zk-modal-title" id="myModalLabel">@L("布局设计说明")</h4>
                 </div>
-                <div class="modal-body">
+                <div class="zk-modal-body">
                     <h3>
                         @L("居中 / 拉伸")
                     </h3>
@@ -205,8 +207,26 @@
                         </li>
                     </ul>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">@L("关闭")</button>
+                <div class="zk-modal-footer">
+                    <button type="button" class="zk-btn zk-btn-default" data-dismiss="modal">@L("关闭")</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="zk-modal fade" id="modal-layout-code" tabindex="-1" role="dialog"  data-keyboard="false" style="display:block;">
+        <div class="zk-modal-dialog" style="width:1200px" role="document">
+            <div class="zk-modal-content">
+                <div class="zk-modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="zk-modal-title">@L("布局代码")</h4>
+                </div>
+                <div class="zk-modal-body">
+                    <textarea id="layout-code" rows="10" cols="10"></textarea>
+                </div>
+                <div class="zk-modal-footer">
+                    <button type="button" class="zk-btn zk-btn-default" data-dismiss="modal">@L("关闭")</button>
+                    <button type="button" class="zk-btn zk-btn-primary" id="save-layout-code" data-dismiss="modal">@L("确定")</button>
                 </div>
             </div>
         </div>

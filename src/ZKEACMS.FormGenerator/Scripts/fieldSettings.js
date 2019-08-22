@@ -50,6 +50,18 @@
             RegexMessage: ""
         },
         {
+            Name: "Phone",
+            DisplayName: "电话",
+            Description: "",
+            Placeholder: "",
+            IsRequired: false,
+            RequiredMessage: "这是必填项",
+            Size: 4,
+            Column: "col-md-12",
+            RegexPattern: "",
+            RegexMessage: ""
+        },
+        {
             Name: "Paragraph",
             DisplayName: "多行输入",
             Description: "",
@@ -113,6 +125,18 @@
             DisplayName: "省份地址",
             Description: "",
             IsRequired: false,
+            RequiredMessage: "这是必填项",
+            Size: 4,
+            Column: "col-md-12",
+            RegexPattern: "",
+            RegexMessage: ""
+        },
+        {
+            Name: "ValidCode",
+            DisplayName: "验证码",
+            Description: "",
+            Placeholder: "",
+            IsRequired: true,
             RequiredMessage: "这是必填项",
             Size: 4,
             Column: "col-md-12",

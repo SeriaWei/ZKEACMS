@@ -17,7 +17,7 @@ namespace Easy.Mvc.Extend
     {
         public static string MapPath(this HttpRequest request, string path)
         {
-            var environment = request.HttpContext.RequestServices.GetService<IHostingEnvironment>();
+            var environment = request.HttpContext.RequestServices.GetService<IWebHostEnvironment>();
             path = path.Replace("~/", "").Trim('/').Trim('\\');
             return Path.Combine(environment.WebRootPath, path.ToFilePath());
         }

@@ -178,5 +178,17 @@
     "inputFiles": [
       "wwwroot/css/rule.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery-validation/dist/additional-methods.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery-validation/dist/additional-methods.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/codemirror/addon/format/autoformat.min.js",
+    "inputFiles": [
+      "wwwroot/lib/codemirror/addon/format/autoformat.js"
+    ]
   }
 ]

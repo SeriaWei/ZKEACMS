@@ -28,7 +28,7 @@ namespace ZKEACMS.Article.Service
             _articleTypeService = articleTypeService;
             _articleService = articleService;
             _pageService = pageService;
-        } 
+        }
 
         private string GetDetailPageUrl()
         {
@@ -41,7 +41,7 @@ namespace ZKEACMS.Article.Service
                     return page.Url;
                 }
             }
-            return "~/View-Article";
+            return "~/article-detail";
         }
 
         public override ServiceResult<ArticleListWidget> Add(ArticleListWidget item)
@@ -112,7 +112,8 @@ namespace ZKEACMS.Article.Service
                 if (layout != null && layout.Page != null)
                 {
                     var page = layout.Page;
-                    page.Title = (page.Title ?? "") + " - " + currentArticleType.Title;
+                    //page.Title = (page.Title ?? "") + " - " + currentArticleType.Title;
+                    page.Title = page.Title.IsNullOrWhiteSpace() ? currentArticleType.Title : $"{page.Title} - {currentArticleType.Title}";
                 }
             }
 

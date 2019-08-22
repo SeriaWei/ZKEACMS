@@ -28,7 +28,7 @@ namespace ZKEACMS.TemplateImporter
                 Title = "导入静态模板",
                 Icon = "glyphicon-briefcase",
                 PermissionKey = PermissionKeys.ImportStaticHtmlTemplate,
-                Url = "~/admin/TemplateImporter",
+                Url = "~/admin/templateimporter",
                 Order = 15
             };
         }

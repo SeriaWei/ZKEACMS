@@ -7,4 +7,11 @@
     Style.Reqiured("datepicker").AtHead();
 
 }
-<grid delete-able="Authorizer.Authorize(ZKEACMS.Message.PermissionKeys.ManageMessage)" edit-able="Authorizer.Authorize(ZKEACMS.Message.PermissionKeys.ManageComments)"></grid>
+<div class="grid-component">
+    @Html.SearchTerms(false)
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid delete-able="Authorizer.Authorize(ZKEACMS.Message.PermissionKeys.ManageMessage)" edit-able="Authorizer.Authorize(ZKEACMS.Message.PermissionKeys.ManageComments)"></grid>
+        </div>
+    </div>
+</div>

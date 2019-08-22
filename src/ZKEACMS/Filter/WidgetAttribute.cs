@@ -18,6 +18,9 @@ using ZKEACMS.Rule;
 using ZKEACMS.Setting;
 using ZKEACMS.Theme;
 using ZKEACMS.Widget;
+using ZKEACMS;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ZKEACMS.Filter
 {
@@ -51,7 +54,7 @@ namespace ZKEACMS.Filter
             }
 
         }
-        private bool IsPreView(ActionExecutedContext filterContext)
+        private bool IsPreView(FilterContext filterContext)
         {
             bool isPreView = false;
             if (filterContext.HttpContext.User.Identity.IsAuthenticated)
@@ -62,9 +65,26 @@ namespace ZKEACMS.Filter
             }
             return isPreView;
         }
-        public virtual string GetLayout()
+        public virtual string GetLayout(ActionExecutedContext filterContext, ThemeEntity theme)
         {
-            return "~/Views/Shared/_Layout.cshtml";
+            string name = string.Empty;
+            if (theme != null)
+            {
+                name = theme.ID;
+            }
+            if (name.IsNotNullAndWhiteSpace())
+            {
+                string path = string.Format(Layouts.Theme, name);
+                string path2 = string.Format(Layouts.Theme2, name);
+
+                var env = filterContext.HttpContext.RequestServices.GetService<IWebHostEnvironment>();
+                var controller = filterContext.Controller as Controller;
+
+                if (File.Exists(env.MapPath(controller.Url.ToArray(path)))) return path;
+                if (File.Exists(env.MapPath(controller.Url.ToArray(path2)))) return path2;
+            }
+            return Layouts.Default;
+            //return "~/Views/Shared/_Layout.cshtml";
         }
         public virtual PageViewMode GetPageViewMode()
         {
@@ -115,9 +135,10 @@ namespace ZKEACMS.Filter
                             partDriver.Dispose();
                         }
                     });
+
                 var ruleWorkContext = new RuleWorkContext
                 {
-                    Url = filterContext.HttpContext.Request.Path.Value,
+                    Url = (filterContext.Controller as Controller).Url.Content(page.Url),
                     QueryString = filterContext.HttpContext.Request.QueryString.ToString(),
                     UserAgent = filterContext.HttpContext.Request.Headers["User-Agent"]
                 };
@@ -152,7 +173,7 @@ namespace ZKEACMS.Filter
                 var viewResult = (filterContext.Result as ViewResult);
                 if (viewResult != null)
                 {
-                    layout.Layout = GetLayout();
+                    layout.Layout = GetLayout(filterContext, layout.CurrentTheme);
                     if (GetPageViewMode() == PageViewMode.Design)
                     {
                         layout.Templates = widgetService.Get(m => m.IsTemplate == true);
@@ -192,8 +213,14 @@ namespace ZKEACMS.Filter
             var applicationContext = filterContext.HttpContext.RequestServices.GetService<IApplicationContextAccessor>();
             if (applicationContext != null)
             {
-                applicationContext.Current.PageMode = GetPageViewMode();
-                //applicationContext.RequestUrl = new Uri(filterContext.HttpContext.Request.Path.ToUriComponent());
+                if (IsPreView(filterContext))
+                {
+                    applicationContext.Current.PageMode = PageViewMode.PreView;
+                }
+                else
+                {
+                    applicationContext.Current.PageMode = GetPageViewMode();
+                }
             }
             var _onPageExecutings = filterContext.HttpContext.RequestServices.GetServices<IOnPageExecuting>();
             if (_onPageExecutings != null)

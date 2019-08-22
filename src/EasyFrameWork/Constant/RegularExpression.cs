@@ -29,6 +29,10 @@ namespace Easy.Constant
         /// </summary>
         public const string ChinesePhone = @"\d{3}-\d{8}|\d{4}-\d{7}";
         /// <summary>
+        /// 手机号
+        /// </summary>
+        public const string ChineseMobile = @"^1[34578]\d{9}$";
+        /// <summary>
         /// 邮政编码
         /// </summary>
         public const string ZipCode = @"[0-9]\d{5}(?!\d)";

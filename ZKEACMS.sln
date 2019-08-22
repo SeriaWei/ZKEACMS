@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{43CF214F-8C1A-4433-824E-CBD46BA7223E}"
 EndProject
@@ -43,6 +43,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKEACMS.SiteSearch", "src\ZKEACMS.SiteSearch\ZKEACMS.SiteSearch.csproj", "{0D9C2D48-0032-45D4-90D8-87BFFFE25DD0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKEACMS.TemplateImporter", "src\ZKEACMS.TemplateImporter\ZKEACMS.TemplateImporter.csproj", "{33689EEA-4A2F-4E27-A814-6302266F0A3D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{0B4542D1-4A9B-4C97-A067-D35E924DA9BD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PackWidgetTemplate", "tools\PackWidgetTemplate\PackWidgetTemplate.csproj", "{E52C0F0E-78E2-40DA-B73E-49D5EAA00215}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -122,6 +126,10 @@ Global
 		{33689EEA-4A2F-4E27-A814-6302266F0A3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33689EEA-4A2F-4E27-A814-6302266F0A3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33689EEA-4A2F-4E27-A814-6302266F0A3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E52C0F0E-78E2-40DA-B73E-49D5EAA00215}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E52C0F0E-78E2-40DA-B73E-49D5EAA00215}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E52C0F0E-78E2-40DA-B73E-49D5EAA00215}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E52C0F0E-78E2-40DA-B73E-49D5EAA00215}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -145,6 +153,7 @@ Global
 		{27B62B5E-6F83-4660-A75F-2CF0496F4661} = {81AA2238-D340-4199-B3B9-76AB9792B3E7}
 		{0D9C2D48-0032-45D4-90D8-87BFFFE25DD0} = {81AA2238-D340-4199-B3B9-76AB9792B3E7}
 		{33689EEA-4A2F-4E27-A814-6302266F0A3D} = {81AA2238-D340-4199-B3B9-76AB9792B3E7}
+		{E52C0F0E-78E2-40DA-B73E-49D5EAA00215} = {0B4542D1-4A9B-4C97-A067-D35E924DA9BD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ABBB3E10-D2E8-438B-B5BB-AB4E824BCB6A}

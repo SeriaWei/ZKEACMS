@@ -41,14 +41,14 @@ namespace ZKEACMS.FormGenerator
                     new AdminMenu
                     {
                         Title="表单",
-                        Url="~/Admin/Form",
+                        Url="~/admin/form",
                         Icon="glyphicon-list-alt",
                         PermissionKey=PermissionKeys.ViewForm
                     },
                     new AdminMenu
                     {
                         Title="表单数据",
-                        Url="~/Admin/FormData",
+                        Url="~/admin/formdata",
                         Icon="glyphicon-record",
                         PermissionKey=PermissionKeys.ViewFormData
                     }
@@ -110,6 +110,8 @@ namespace ZKEACMS.FormGenerator
             serviceCollection.AddTransient<IFormDataValidator, RequiredFormDataValidator>();
             serviceCollection.AddTransient<IFormDataValidator, MaxLengthFormDataValidator>();
             serviceCollection.AddTransient<IFormDataValidator, RegexPatternValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, PhoneFormDataValidator>();
+            serviceCollection.AddTransient<IFormDataValidator, ValidCodeFormDataValidator>();
 
             serviceCollection.TryAddTransient<IFormService, FormService>();
             serviceCollection.TryAddTransient<IFormDataService, FormDataService>();
@@ -122,7 +124,7 @@ namespace ZKEACMS.FormGenerator
             serviceCollection.Configure<FormWidget>(option =>
             {
                 option.DataSourceLinkTitle = "表单";
-                option.DataSourceLink = "~/admin/Form";
+                option.DataSourceLink = "~/admin/form";
             });            
         }
     }

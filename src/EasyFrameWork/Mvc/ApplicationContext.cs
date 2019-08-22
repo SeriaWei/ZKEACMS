@@ -18,7 +18,11 @@ namespace Easy.Mvc
     public class ApplicationContext : IApplicationContext
     {
         private readonly ConcurrentDictionary<string, Func<object>> _stateResolvers;
-        private IEnumerable<IApplicationContextStateProvider> _applicationContextStateProviders;
+        private static ConcurrentDictionary<string, Type> ContextStateProviders;
+        static ApplicationContext()
+        {
+            ContextStateProviders = new ConcurrentDictionary<string, Type>();
+        }
         public ApplicationContext(IHttpContextAccessor httpContextAccessor)
         {
             _stateResolvers = new ConcurrentDictionary<string, Func<object>>();
@@ -42,9 +46,9 @@ namespace Easy.Mvc
                 return Get<IUser>(nameof(CurrentCustomer));
             }
         }
-        public IHostingEnvironment HostingEnvironment
+        public IWebHostEnvironment HostingEnvironment
         {
-            get { return Get<IHostingEnvironment>(nameof(HostingEnvironment)); }
+            get { return Get<IWebHostEnvironment>(nameof(HostingEnvironment)); }
         }
         public bool IsAuthenticated
         {
@@ -56,11 +60,28 @@ namespace Easy.Mvc
         }
         Func<object> FindResolverForState<T>(string name)
         {
-            if (_applicationContextStateProviders == null)
+            IApplicationContextStateProvider matchedProvider = null;
+            if (!ContextStateProviders.ContainsKey(name))
             {
-                _applicationContextStateProviders = HttpContextAccessor.HttpContext.RequestServices.GetServices<IApplicationContextStateProvider>();
+                var allProviders = HttpContextAccessor.HttpContext.RequestServices.GetServices<IApplicationContextStateProvider>();
+                foreach (var item in allProviders)
+                {
+                    if (item.Name == name)
+                    {
+                        matchedProvider = item;
+                    }
+                    ContextStateProviders.AddOrUpdate(item.Name, key => { return item.GetType(); }, (key, old) => { return item.GetType(); });
+                }
             }
-            var resolver = _applicationContextStateProviders.FirstOrDefault(m => m.Name == name).Get<T>();
+            if (matchedProvider == null && !ContextStateProviders.ContainsKey(name))
+            {
+                throw new Exception($"Cannot find IApplicationContextStateProvider for name {name}. Please regist at first, ServiceCollection.ConfigureStateProvider<{name}>()");
+            }
+            if (matchedProvider == null)
+            {
+                matchedProvider = HttpContextAccessor.HttpContext.RequestServices.GetService(ContextStateProviders[name]) as IApplicationContextStateProvider;
+            }
+            var resolver = matchedProvider.Get<T>();
 
             if (resolver == null)
             {

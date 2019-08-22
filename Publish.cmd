@@ -20,13 +20,13 @@ IF %ERRORLEVEL% NEQ 0 (
 start https://www.microsoft.com/net/download/windows
 exit
 )
+@echo Publishing, please wait...
 WHERE /Q publish-zkeacms
 IF %ERRORLEVEL% NEQ 0 (
 @echo Installing publish tool, please wait.
 dotnet tool install -g ZKEACMS.Publisher
-)
-@pause
-@echo Publishing, please wait...
+) else dotnet tool update -g ZKEACMS.Publisher
+
 dotnet restore
 cd src/ZKEACMS.WebHost
 publish-zkeacms

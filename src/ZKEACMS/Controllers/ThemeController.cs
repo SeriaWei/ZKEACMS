@@ -9,6 +9,7 @@ using Easy.Mvc.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System;
 using ZKEACMS.PackageManger;
 using ZKEACMS.Theme;
@@ -18,10 +19,10 @@ namespace ZKEACMS.Controllers
     [DefaultAuthorize(Policy = PermissionKeys.ViewTheme)]
     public class ThemeController : BasicController<ThemeEntity, string, IThemeService>
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IPackageInstallerProvider _packageInstallerProvider;
 
-        public ThemeController(IThemeService service, IHostingEnvironment hostingEnvironment,
+        public ThemeController(IThemeService service, IWebHostEnvironment hostingEnvironment,
             IPackageInstallerProvider packageInstallerProvider)
             : base(service)
         {
@@ -48,8 +49,18 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTheme)]
         public JsonResult ChangeTheme(string id)
         {
-            Service.ChangeTheme(id);
-            return Json(true);
+            var result = new AjaxResult(AjaxStatus.Normal, "切换主题中...");
+            try
+            {
+                Service.ChangeTheme(id);
+                result.Message = "切换主题成功!";
+            }
+            catch (Exception e)
+            {
+                result.Status = AjaxStatus.Error;
+                result.Message = string.Format("切换主题失败-[{0}]", e.Message);
+            }
+            return Json(result);
         }
 
         public IActionResult ThemePackage(string id)

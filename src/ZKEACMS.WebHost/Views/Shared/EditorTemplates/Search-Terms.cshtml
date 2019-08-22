@@ -1,0 +1,58 @@
+﻿@{
+    Style.Reqiured("datepicker").AtHead();
+    Script.Reqiured("datepicker").AtHead();
+    var metaData = ViewData.ModelMetadata;
+    string id = Guid.NewGuid().ToString("N");
+}
+@model Object
+<div class="seach-terms form-inline">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a data-toggle="collapse" href="#@id" class="badge" aria-expanded="true" aria-controls="@id">
+                @L("搜索条件")
+            </a>
+        </div>
+        <div class="collapse in" id="@id">
+            <div class="panel-body">
+                <div class="clearfix">
+                    @foreach (var item in metaData.Properties.OrderBy(m => m.Order))
+                    {
+                        var descriptor = item.GetViewDescriptor();
+                        if (descriptor != null && descriptor.SearchOperator != Easy.LINQ.Query.Operators.None)
+                        {
+                            <div class="form-group">
+                                @Html.Label(item.PropertyName, item.DisplayName)
+                                <div class="form-control-group">
+                                    @Html.SearchItem(item)
+                                    @if (descriptor.SearchOperator == Easy.LINQ.Query.Operators.Range)
+                                    {
+                                        <span>-</span>
+                                        @Html.SearchItem(item)
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div>
+                    <a class="btn btn-primary btn-sm search">@L("搜索")</a>
+                    @if (ViewBag.CreateAble != null && ViewBag.CreateAble != false)
+                    {
+                        string action = ViewBag.CreateAction as string;
+                        if (action.IndexOf("/") < 0)
+                        {
+                            action = Url.Action(action);
+                        }
+                        <a class="btn btn-primary btn-sm" href="@action">@L("新建")</a>
+                    }
+                    @if (ViewBag.SearchToolbar != null)
+                    {
+                        @Html.Raw(ViewBag.SearchToolbar)
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

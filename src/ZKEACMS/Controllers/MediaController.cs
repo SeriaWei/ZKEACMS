@@ -140,7 +140,8 @@ namespace ZKEACMS.Controllers
                     Status = Request.Form.Files[0].Length == size ? (int)RecordStatus.Active : (int)RecordStatus.InActive
                 };
                 string extension = Path.GetExtension(fileName).ToLower();
-                entity.Url = await _storage.SaveFileAsync(Request.Form.Files[0].OpenReadStream(), $"{Guid.NewGuid().ToString("N")}{extension}");
+                string fileId = new Easy.IDGenerator().CreateStringId();
+                entity.Url = await _storage.SaveFileAsync(Request.Form.Files[0].OpenReadStream(), $"{fileId}{extension}");
                 if (entity.Url.IsNotNullAndWhiteSpace())
                 {
                     Service.Add(entity);

@@ -57,28 +57,16 @@ namespace ZKEACMS.Product.Service
             return Get(m => m.Url == url).FirstOrDefault();
         }
 
-        private IEnumerable<ProductCategory> LoadChildren(ProductCategory category)
-        {
-            List<ProductCategory> result = new List<ProductCategory>();
-            var children = Get(m => m.ParentID == category.ID);
-            result.AddRange(children);
-            foreach (var item in children)
-            {
-                result.AddRange(LoadChildren(item));
-            }
-            return result;
-        }
         public override void Remove(ProductCategory item)
         {
             BeginTransaction(() =>
             {
                 _productService.Remove(n => n.ProductCategoryID == item.ID);
                 _productCategoryTagService.Remove(m => m.ProductCategoryId == item.ID);
-                var childred = LoadChildren(item);
-                var ids = childred.Select(m => m.ID).ToArray();
-                _productService.Remove(n => ids.Contains(n.ProductCategoryID));
-                _productCategoryTagService.Remove(n => ids.Contains(n.ProductCategoryId));
-                RemoveRange(childred.ToArray());
+                foreach (var item in Get(m => m.ParentID == item.ID))
+                {
+                    Remove(item);
+                }
                 base.Remove(item);
             });
         }

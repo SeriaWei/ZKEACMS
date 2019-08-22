@@ -8,10 +8,12 @@
     Style.Reqiured("datepicker").AtHead();
 
 }
-@if (Authorizer.Authorize(ZKEACMS.Redirection.PermissionKeys.ManageUrlRedirect))
-{
-    <div id="toolBar">
-        <a href="@Url.Action("Create")" class="btn btn-primary btn-sm">@L("新建")</a>
-    </div>
-}
-<grid delete-able="Authorizer.Authorize(ZKEACMS.Redirection.PermissionKeys.ManageUrlRedirect)" edit-able="Authorizer.Authorize(ZKEACMS.Redirection.PermissionKeys.ManageUrlRedirect)"></grid>
+
+<div class="grid-component">
+    @Html.SearchTerms(Authorizer.Authorize(ZKEACMS.Redirection.PermissionKeys.ManageUrlRedirect))
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid delete-able="Authorizer.Authorize(ZKEACMS.Redirection.PermissionKeys.ManageUrlRedirect)" edit-able="Authorizer.Authorize(ZKEACMS.Redirection.PermissionKeys.ManageUrlRedirect)"></grid>
+        </div>
+    </div>    
+</div>

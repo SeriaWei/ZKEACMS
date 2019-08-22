@@ -1,16 +1,18 @@
 @using Easy.Modules.User.Models
 @model UserEntity
-@{ 
+@{
     Style.Reqiured("dataTable").AtHead();
-    Script.Reqiured("dataTable").AtFoot();    
-	
-	Script.Reqiured("datepicker").AtFoot();
+    Script.Reqiured("dataTable").AtFoot();
+
+    Script.Reqiured("datepicker").AtFoot();
     Style.Reqiured("datepicker").AtHead();
 }
-@if (Authorizer.Authorize(PermissionKeys.ManageUser))
-{
-    <div id="toolBar">
-        <a href="@Url.Action("Create")" class="btn btn-primary btn-sm">@L("新建")</a>
-    </div>
-}
-<grid delete-able="Authorizer.Authorize(PermissionKeys.ManageUser)" edit-able="Authorizer.Authorize(PermissionKeys.ManageUser)"></grid>
+
+<div class="grid-component">
+    @Html.SearchTerms(Authorizer.Authorize(PermissionKeys.ManageUser))
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid delete-able="Authorizer.Authorize(PermissionKeys.ManageUser)" edit-able="Authorizer.Authorize(PermissionKeys.ManageUser)"></grid>
+        </div>
+    </div>    
+</div>

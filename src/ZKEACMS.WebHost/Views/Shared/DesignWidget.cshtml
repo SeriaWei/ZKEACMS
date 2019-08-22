@@ -125,10 +125,12 @@
                     <span>@L("确定删除?")</span>
                 </a>
                 <span class="text-muted">|</span>
-                <span>@Model.Widget.WidgetName</span>
-
+                <small>
+                    @(Model.Widget.WidgetName) {@(Model.Widget.PartialView)}
+                </small>
             </div>
         </div>
+        
         @if (Model.Widget.Title.IsNotNullAndWhiteSpace())
         {
             <div class="panel panel-default">

@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Hosting
-@inject IHostingEnvironment hostingEnvironment
+@using Microsoft.Extensions.Hosting
 @model LayoutEntity
 @{
     if (Model == null)
@@ -35,6 +35,10 @@
     <meta name="author" content="ZKEASOFT" />
     <meta name="about" content="@ZKEACMS.Version.CurrentVersion" />
     <meta name="website" content="http://www.zkea.net" />
+    @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
+    {
+        <meta name="referrer" content="same-origin" />
+    }
 
     <link href="@Url.PathContent(Model.Page.Favicon)" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
@@ -46,7 +50,7 @@
     }
     @if (Model.CurrentTheme != null)
     {
-        if (hostingEnvironment.IsDevelopment())
+        if (ApplicationContext.HostingEnvironment.IsDevelopment())
         {
             <link type="text/css" async rel="stylesheet" href="@Url.Content(Model.CurrentTheme.UrlDebugger)" />
         }
@@ -57,37 +61,37 @@
     }
 </head>
 <body class="front">
-    @if (ViewContext.HttpContext.User.Identity.IsAuthenticated && (ApplicationContext as CMSApplicationContext).PageMode != ZKEACMS.Filter.PageViewMode.ViewOnly)
+    @if (Authorizer.Authorize(PermissionKeys.ManagePage) && (ApplicationContext as CMSApplicationContext).PageMode != ZKEACMS.Filter.PageViewMode.ViewOnly)
     {
-        <div class="preview-toolbar hover-text hidden-xs" style="position:fixed; z-index:1000;left:5px;top:5px;">
-            <div class="btn-group">
-                <a class="btn btn-primary sort-handle">
+        <div class="preview-toolbar hover-text hidden-xs" style="position:fixed; z-index:10000;left:5px;top:5px;">
+            <div class="zk-btn-group">
+                <a class="zk-btn zk-btn-primary sort-handle">
                     <i class="glyphicon glyphicon-move"></i>
                 </a>
                 @if (!Model.Page.IsPublishedPage)
                 {
-                    <a class="btn btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
+                    <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
                         <i class="glyphicon glyphicon-pencil"></i>
                         @L("编辑")
                     </a>
                     @if (Model.Page.PublishDate.HasValue)
                     {
-                        <a class="btn btn-primary" href="@Url.Content(Model.Page.Url)">
+                        <a class="zk-btn zk-btn-primary" href="@Url.Content(Model.Page.Url)">
                             <i class="glyphicon glyphicon-eye-open"></i>
                             @L("预览发布版本")
                         </a>
                     }
-                    <a class="btn btn-primary" href="@Url.Action("Index", "Page",new { PageId=Model.Page.ID })">
+                    <a class="zk-btn zk-btn-primary" href="@Url.Action("Index", "Page",new { PageId=Model.Page.ID })">
                         <i class="glyphicon glyphicon-th-list"></i>
                         @L("页面概览")
                     </a>
-                    <a class="btn btn-primary" href="@Url.Action("PublishPage", "Page", new { Model.Page.ID, ReturnUrl = Model.Page.Url})">
+                    <a class="zk-btn zk-btn-primary" href="@Url.Action("PublishPage", "Page", new { Model.Page.ID, ReturnUrl = Model.Page.Url})">
                         <i class="glyphicon glyphicon-open"></i>
                         @L("发布")
                     </a>
                     if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
                     {
-                        <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme")">
+                        <a class="zk-btn zk-btn-primary" href="@Url.Action("CancelPreView", "Theme")">
                             <i class="glyphicon glyphicon-transfer"></i>
                             @L("退出")
                             @Model.CurrentTheme.Title
@@ -97,28 +101,28 @@
                 }
                 else if (Model.PreViewPage != null)
                 {
-                    <a class="btn btn-primary" href="@Url.Action("Design", "Page", new { Model.PreViewPage.ID})">
+                    <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Page", new { Model.PreViewPage.ID})">
                         <i class="glyphicon glyphicon-pencil"></i>
                         @L("编辑")
                     </a>
-                    <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new { ID = Model.PreViewPage.ID})">
+                    <a class="zk-btn zk-btn-primary" href="@Url.Action("RedirectView", "Page", new { ID = Model.PreViewPage.ID})">
                         <i class="glyphicon glyphicon-eye-open"></i>
                         @L("预览编辑版本")
                     </a>
                     if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
                     {
-                        <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme")">
-                            <i class="glyphicon glyphicon-transfer"></i>                            
+                        <a class="zk-btn zk-btn-primary" href="@Url.Action("CancelPreView", "Theme")">
+                            <i class="glyphicon glyphicon-transfer"></i>
                             @L("退出")
                             @Model.CurrentTheme.Title
                             @L("主题")
                         </a>
                     }
-                    <a class="btn btn-primary" href="@Url.Action("Index", "Page",new { PageId = Model.PreViewPage.ID })">
+                    <a class="zk-btn zk-btn-primary" href="@Url.Action("Index", "Page",new { PageId = Model.PreViewPage.ID })">
                         <i class="glyphicon glyphicon-th-list"></i>
                         @L("页面概览")
                     </a>
-                    <a class="btn btn-primary" href="@Url.Action("Logout", "Account", new { returnurl = ViewContext.HttpContext.Request.Path.Value })">
+                    <a class="zk-btn zk-btn-primary" href="@Url.Action("Logout", "Account", new { returnurl = ViewContext.HttpContext.Request.Path.Value })">
                         <i class="glyphicon glyphicon-off"></i>
                         @L("退出")
                     </a>
@@ -144,18 +148,18 @@
     {
         <link href="@Url.Content(Model.Style)" rel="stylesheet" />
     }
-    @if (!Model.Page.Style.IsNullOrEmpty())
+    @foreach (var style in Model.Page.Styles)
     {
-        <link href="@Url.Content(Model.Page.Style)" rel="stylesheet" />
+        <link href="@Url.Content(style.Url)" rel="stylesheet" />
     }
     @if (!Model.Script.IsNullOrEmpty())
     {
         <script type="text/javascript" src="@Url.Content(Model.Script)"></script>
     }
-    @if (!Model.Page.Script.IsNullOrEmpty())
+    @foreach(var script in Model.Page.Scripts)
     {
-        <script type="text/javascript" src="@Url.Content(Model.Page.Script)"></script>
-    }    
+        <script type="text/javascript" src="@Url.Content(script.Url)"></script>
+    }
     @foreach (var item in appContext.FooterPart)
     {
         @item

@@ -23,9 +23,9 @@ namespace Easy.Mvc.Plugin
         private readonly RequestDelegate _next;
         private readonly IContentTypeProvider _contentTypeProvider;
         private readonly IPluginLoader _pluginLoader;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public PluginStaticFileMiddleware(RequestDelegate next, IHostingEnvironment hostingEnv, IOptions<StaticFileOptions> options, IPluginLoader pluginLoader)
+        public PluginStaticFileMiddleware(RequestDelegate next, IWebHostEnvironment hostingEnv, IOptions<StaticFileOptions> options, IPluginLoader pluginLoader)
         {
             _next = next;
             _contentTypeProvider = options.Value.ContentTypeProvider ?? new FileExtensionContentTypeProvider();
@@ -43,7 +43,7 @@ namespace Easy.Mvc.Plugin
                     var file = new PhysicalFileInfo(new FileInfo(filePath));
                     context.Response.ContentLength = file.Length;
                     context.Response.StatusCode = 200;
-                    var sendFileFeature = context.Features.Get<IHttpSendFileFeature>();
+                    var sendFileFeature = context.Features.Get<IHttpResponseBodyFeature>();
                     if (sendFileFeature != null)
                     {
                         return sendFileFeature.SendFileAsync(filePath, 0, file.Length, CancellationToken.None);

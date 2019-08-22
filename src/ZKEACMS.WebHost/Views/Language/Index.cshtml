@@ -6,10 +6,12 @@
     Style.Reqiured("datepicker").AtHead();
 }
 @model Easy.Modules.MutiLanguage.LanguageEntity
-@if (Authorizer.Authorize(PermissionKeys.ManageLanguage))
-{
-    <div id="toolBar">
-        <a class="btn btn-primary btn-sm" href="@Url.Action("Create")">@L("新建")</a>
+
+<div class="grid-component">
+    @Html.SearchTerms(Authorizer.Authorize(PermissionKeys.ManageLanguage))
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid edit-able="Authorizer.Authorize(PermissionKeys.ManageLanguage)" order-asc="LanKey" delete-able="false"></grid>
+        </div>
     </div>
-}
-<grid edit-able="Authorizer.Authorize(PermissionKeys.ManageLanguage)" order-asc="LanKey" delete-able="false"></grid>
+</div>

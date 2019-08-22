@@ -13,6 +13,13 @@ using System.Collections.Concurrent;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Easy.Cache;
+using Easy.Constant;
+using ZKEACMS;
+using System.Text;
+using Microsoft.Extensions.Logging;
+using System.Data;
+using ZKEACMS.Setting;
+using System.Data.Common;
 
 namespace ZKEACMS.Theme
 {
@@ -27,25 +34,39 @@ namespace ZKEACMS.Theme
         private readonly ICookie _cookie;
         private const string PreViewCookieName = "PreViewTheme";
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly IApplicationSettingService _applicationSettingService;
         private readonly ConcurrentDictionary<string, object> _cache;
         private readonly ConcurrentDictionary<string, object> _versionMap;
         private const string CurrentThemeCacheKey = "CurrentThemeCacheKey";
         private const string CurrentThemeVersionMapCacheKey = "CurrentThemeVersionMapCacheKey";
 
+        private readonly string _themeName = "themes";
+        private readonly string _sqlName = "sql";
+        private readonly string _sql = "*.sql";
+
+        private readonly ILogger<ThemeService> _logger;
+        private readonly ICacheManager<IEnumerable<ThemeEntity>> _cacheMgr;
+        private const string AllThemeCacheKey = "AllThemeCacheKey";
         public ThemeService(ICookie cookie,
+            ILogger<ThemeService> logger,
             IHttpContextAccessor httpContextAccessor,
-            IHostingEnvironment hostingEnvironment,
+            IWebHostEnvironment hostingEnvironment,
             IApplicationContext applicationContext,
+            IApplicationSettingService applicationSettingService,
             ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
+            ICacheManager<IEnumerable<ThemeEntity>> cacheMgr,
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _cookie = cookie;
             _httpContextAccessor = httpContextAccessor;
             _hostingEnvironment = hostingEnvironment;
+            _applicationSettingService = applicationSettingService;
             _cache = cacheManager.GetOrAdd(CurrentThemeCacheKey, key => new ConcurrentDictionary<string, object>());
             _versionMap = cacheManager.GetOrAdd(CurrentThemeVersionMapCacheKey, key => new ConcurrentDictionary<string, object>());
+            _cacheMgr = cacheMgr;
+            _logger = logger;
         }
 
         public override DbSet<ThemeEntity> CurrentDbSet => DbContext.Theme;
@@ -101,20 +122,116 @@ namespace ZKEACMS.Theme
             return theme;
         }
 
+        public IEnumerable<ThemeEntity> GetAllThemes()
+        {
+            int status = (int)RecordStatus.Active;
+            return _cacheMgr.GetOrAdd(AllThemeCacheKey, (key) => Get(m => m.Status == status));
+        }
 
         public void ChangeTheme(string id)
         {
-            if (id.IsNullOrEmpty()) return;
+            ThemeEntity currentTheme = GetCurrentTheme();
+            if (id.IsNullOrEmpty() || currentTheme.ID == id)
+            {
+                return;
+            }
 
-            var activeTheme = Get(m => m.IsActived);
+            //update by roc
+            var theme = Get(id);
+            const string executeScriptWhenChange = "false";//Disable as default
+            if (_applicationSettingService.Get(SettingKeys.ExecuteScriptWhenChangeTheme, executeScriptWhenChange) != executeScriptWhenChange)
+            {
+                var connection = DbContext.Database.GetDbConnection();
+                if (connection.State != ConnectionState.Open)
+                    connection.Open();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        ExecuteSql(currentTheme.ID, 1, connection, transaction);//uninstall current theme
+                        ExecuteSql(theme.ID, 2, connection, transaction); //install target theme
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        _logger.LogError(ex.Message);
+                        throw ex;
+                    }
+                    finally
+                    {
+                        if (connection.State == ConnectionState.Open)
+                        {
+                            connection.Close();
+                        }
+                    }
+                }
+
+            }
+
+            var activeTheme = Get(m => m.ID != id && m.IsActived);
             activeTheme.Each(m => m.IsActived = false);
             UpdateRange(activeTheme.ToArray());
-            var theme = Get(id);
+
             theme.IsActived = true;
             Update(theme);
-
         }
 
+        private void ExecuteSql(string themeName, int type, DbConnection dbConnection, DbTransaction dbTransaction)
+        {
+            string folder = type == 1 ? "uninstall" : "install";
+            string path = _hostingEnvironment.MapWebRootPath(_themeName, themeName, _sqlName, folder);
+            var files = ExtFile.GetFiles(path, _sql);
+            if (files != null && files.Length > 0)
+            {
+                foreach (var item in files)
+                {
+                    foreach (var sql in ReadSql(item))
+                    {
+                        if (sql.IsNullOrWhiteSpace()) continue;
+                        using (var command = dbConnection.CreateCommand())
+                        {
+                            command.Transaction = dbTransaction;
+                            command.CommandTimeout = 0;
+                            command.CommandText = sql;
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+        }
+        private IEnumerable<string> ReadSql(string scriptFile)
+        {
+            FileInfo file = new FileInfo(scriptFile);
+            StringBuilder stringBuilder = new StringBuilder();
+            using (FileStream fileStream = file.OpenRead())
+            {
+                using (StreamReader reader = new StreamReader(fileStream, Encoding.Unicode))
+                {
+                    string line = null;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (line.Equals("GO", StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (stringBuilder.Length > 0)
+                            {
+                                yield return stringBuilder.ToString().Trim();
+                            }
+                            stringBuilder.Clear();
+                        }
+                        else
+                        {
+                            stringBuilder.AppendLine(line);
+                        }
+                    }
+                }
+            }
+            if (stringBuilder.Length > 0)
+            {
+                yield return stringBuilder.ToString().Trim();
+            }
+        }
         private string VersionSource(string source)
         {
             return _versionMap.GetOrAdd(source, factory =>

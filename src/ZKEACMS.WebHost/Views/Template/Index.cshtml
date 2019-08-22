@@ -1,0 +1,36 @@
+﻿@model List<ZKEACMS.WidgetTemplate.WidgetTemplateEntity>
+@{
+    Style.Reqiured("dataTable").AtHead();
+    Script.Reqiured("dataTable").AtFoot();
+}
+
+@if (Authorizer.Authorize(PermissionKeys.ManageTemplate))
+{
+    <div id="toolBar">
+        <div class="btn-group">
+            <a href="@Url.Action("Create")" class="btn btn-primary btn-sm">@L("新建")</a>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" style="max-height:400px;overflow:auto;">
+                    @foreach (var item in Model)
+                    {
+                        <li><a href="@Url.Action("Create","Template",new { template = $"{item.PartialView}.cshtml" })">@item.Title</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+<div class="grid-component">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid model-type="typeof(ZKEACMS.Common.Models.TemplateFile)"
+                  delete-able="Authorizer.Authorize(PermissionKeys.ManageTemplate)"
+                  edit-able="Authorizer.Authorize(PermissionKeys.ManageTemplate)"></grid>
+        </div>
+    </div>
+</div>
+
+

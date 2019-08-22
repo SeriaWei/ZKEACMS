@@ -5,6 +5,7 @@
 using Easy.Extend;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,17 +20,17 @@ namespace Easy.Mvc.Plugin
         public const string PluginFolder = "Plugins";
         private const string PluginInfoFile = "zkea.plugin";
 #if DEBUG
-        private string[] AltDevelopmentPath = new[] { "bin", "Debug", "netcoreapp2.2" };
+        private string[] AltDevelopmentPath = new[] { "bin", "Debug", "netcoreapp3.0" };
 #else
-        private string[] AltDevelopmentPath = new[] { "bin", "Release", "netcoreapp2.2" };
+        private string[] AltDevelopmentPath = new[] { "bin", "Release", "netcoreapp3.0" };
 #endif
         private static List<AssemblyLoader> Loaders = new List<AssemblyLoader>();
         private static Dictionary<string, Assembly> LoadedAssemblies = new Dictionary<string, Assembly>();
-        public Loader(IHostingEnvironment hostEnvironment)
+        public Loader(IWebHostEnvironment hostEnvironment)
         {
             HostingEnvironment = hostEnvironment;
         }
-        public IHostingEnvironment HostingEnvironment { get; set; }
+        public IWebHostEnvironment HostingEnvironment { get; set; }
         public IEnumerable<IPluginStartup> LoadEnablePlugins(IServiceCollection serviceCollection)
         {
             var start = DateTime.Now;

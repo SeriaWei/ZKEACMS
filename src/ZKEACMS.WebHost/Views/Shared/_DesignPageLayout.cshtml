@@ -1,12 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Hosting
 @model LayoutEntity
 @{
     if (Model == null)
     {
         return;
     }
+    CMSApplicationContext appContext = ApplicationContext as CMSApplicationContext;
 }
-@inject IHostingEnvironment hostingEnvironment
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->
@@ -22,16 +23,22 @@
     <meta http-equiv="cache-control" content="no-store">
     <meta http-equiv="expires" content="-1">
     <meta http-equiv="pragma" content="no-cache" />
-
-    <meta charset="utf-8" />
+    @if (appContext.OuterChainPicture)
+    {
+        <meta name="referrer" content="same-origin" />
+    }
     <title>[@L("设计")]@Model.Page.Title</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
     @StyleAtHead()
     @ScriptAtHead()
+    @foreach (var item in appContext.HeaderPart)
+    {
+        @item
+    }
     @if (Model.CurrentTheme != null)
     {
-        if (hostingEnvironment.IsDevelopment())
+        if (ApplicationContext.HostingEnvironment.IsDevelopment())
         {
             <link type="text/css" rel="stylesheet" href="@Url.Content(Model.CurrentTheme.UrlDebugger)" />
         }
@@ -42,89 +49,66 @@
     }
 </head>
 <body class="front">
-    <nav id="toolBar" class="navbar navbar-inverse navbar-fixed-top">
+    <nav id="toolBar">
         <div class="container">
-            <div class="row">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand"><span class="badge">@L("页面设计")</span></a>
+            <div class="clearfix">
+                <div class="pull-left">
+                    <span class="badge">@L("页面设计")</span>
+                    <label class="display-border">
+                        <input class="helper" data-class="design-border" type="checkbox" autocomplete="off" checked />
+                        <span>
+                            @L("边框(显示空区域)")
+                        </span>
+                    </label>
                 </div>
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a>
-                                <label class="checkbox-inline">
-                                    <input class="helper" data-class="design-border" type="checkbox" autocomplete="off" checked />
-                                    <span>
-                                        @L("边框(显示空区域)")
-                                    </span>
-                                </label>
-                            </a>
-                        </li>
-                        <li>
-                            <a>
-                                <label class="checkbox-inline">
-                                    <input class="helper" data-class="hideToolBar" type="checkbox" autocomplete="off" checked />
-                                    <span>
-                                        @L("工具栏")
-                                    </span>
-                                </label>
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="navbar-form navbar-right">
-                        <div class="btn-group">
-                            <a class="btn btn-primary" href="@Url.Action("RedirectView", "Page", new {Model.Page.ID})">
-                                <i class="glyphicon glyphicon-eye-open"></i>
-                                @L("预览")
-                            </a>
-                            <button class="btn btn-primary mobile-preview" data-toggle="modal" data-target="#mobile-frame">
-                                <i class="glyphicon glyphicon-phone"></i>
-                            </button>
-                            <a class="btn btn-primary" href="@Url.Action("Index", "Page", new {PageID = Model.Page.ID})">
-                                <i class="glyphicon glyphicon-th-list"></i>
-                                @L("概览")
-                            </a>
-                            <a class="btn btn-primary" href="@Url.Action("Design", "Layout", new {Model.ID, PageID = Model.Page.ID})">
-                                <i class="glyphicon glyphicon-th"></i>
-                                @L("编辑布局")
-                            </a>
-                            <a class="btn btn-primary" href="@Url.Action("Edit", "Page", new { Model.Page.ID})">
-                                <i class="glyphicon glyphicon-record"></i>
-                                @L("属性/历史记录")
-                            </a>
-                            <a class="btn btn-primary" href="@Url.Action("SelectWidget", "WidgetTemplate", new { pageId = Model.Page.ID})">
-                                <i class="glyphicon glyphicon-plus"></i>
-                                @L("添加内容")
-                            </a>
-                            <a href="javascript:void(0)" class="upload-template btn btn-primary">
-                                <i class="glyphicon glyphicon-copy"></i>
-                                @L("安装板块")
-                            </a>
-                            <a class="btn btn-primary" href="@Url.Action("PublishPage", "Page", new {Model.Page.ID, ReturnUrl = Model.Page.Url})">
-                                <i class="glyphicon glyphicon-open"></i>
-                                @L("发布")
-                            </a>
+                <div class="pull-right">
+                    <div class="zk-btn-group">
+                        <a class="zk-btn zk-btn-primary" href="@Url.Action("RedirectView", "Page", new {Model.Page.ID})">
+                            <i class="glyphicon glyphicon-eye-open"></i>
+                            @L("预览")
+                        </a>
+                        <button class="zk-btn zk-btn-primary mobile-preview" data-toggle="modal" data-target="#mobile-frame">
+                            <i class="glyphicon glyphicon-phone"></i>
+                        </button>
+                        <a class="zk-btn zk-btn-primary" href="@Url.Action("Index", "Page", new {PageID = Model.Page.ID})">
+                            <i class="glyphicon glyphicon-th-list"></i>
+                            @L("概览")
+                        </a>
+                        <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Layout", new {Model.ID, PageID = Model.Page.ID})">
+                            <i class="glyphicon glyphicon-th"></i>
+                            @L("编辑布局")
+                        </a>
+                        <a class="zk-btn zk-btn-primary" href="@Url.Action("Edit", "Page", new { Model.Page.ID})">
+                            <i class="glyphicon glyphicon-record"></i>
+                            @L("属性/历史记录")
+                        </a>
+                        <a class="zk-btn zk-btn-primary" href="@Url.Action("SelectWidget", "WidgetTemplate", new { pageId = Model.Page.ID})">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            @L("添加内容")
+                        </a>
+                        <a href="javascript:void(0)" class="upload-template zk-btn zk-btn-primary">
+                            <i class="glyphicon glyphicon-copy"></i>
+                            @L("安装板块")
+                        </a>
+                        <a class="zk-btn zk-btn-primary" href="@Url.Action("PublishPage", "Page", new {Model.Page.ID, ReturnUrl = Model.Page.Url})">
+                            <i class="glyphicon glyphicon-open"></i>
+                            @L("发布")
+                        </a>
 
-                            @if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
-                            {
-                                <a class="btn btn-primary" href="@Url.Action("CancelPreView", "Theme")">
-                                    <i class="glyphicon glyphicon-transfer"></i>
-                                    @L("退出")
-                                    @Model.CurrentTheme.Title
-                                    @L("主题")
-                                </a>
-                            }
-                            @await Html.PartialAsync("Partial.Menu", Model)
-                        </div>
-
+                        @if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
+                        {
+                            <a class="zk-btn zk-btn-primary" href="@Url.Action("CancelPreView", "Theme")">
+                                <i class="glyphicon glyphicon-transfer"></i>
+                                @L("退出")
+                                @Model.CurrentTheme.Title
+                                @L("主题")
+                            </a>
+                        }
+                        @await Html.PartialAsync("Partial.Menu", Model)
                     </div>
+
                 </div>
+
             </div>
 
             <form id="template-form" action="@Url.Action("InstallWidgetTemplate", "Widget")" enctype="multipart/form-data" method="post">
@@ -136,11 +120,11 @@
     <div id="containers" class="pagePreview design-border">
         @RenderBody()
     </div>
-    
-    <div class="modal fade" id="mobile-frame" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-src="@Url.Action("ViewPage","Page",new { Model.Page.ID })">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">                
-                <div class="modal-body">
+
+    <div class="zk-modal fade" id="mobile-frame" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-src="@Url.Action("ViewPage","Page",new { Model.Page.ID })">
+        <div class="zk-modal-dialog" role="document">
+            <div class="zk-modal-content">
+                <div class="zk-modal-body">
                     <div class="close-button clearfix">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
@@ -157,17 +141,21 @@
     {
         <link href="@Url.Content(Model.Style)" rel="stylesheet" />
     }
-    @if (!Model.Page.Style.IsNullOrEmpty())
+    @foreach (var style in Model.Page.Styles)
     {
-        <link href="@Url.Content(Model.Page.Style)" rel="stylesheet" />
+        <link href="@Url.Content(style.Url)" rel="stylesheet" />
     }
     @if (!Model.Script.IsNullOrEmpty())
     {
         <script type="text/javascript" src="@Url.Content(Model.Script)"></script>
     }
-    @if (!Model.Page.Script.IsNullOrEmpty())
+    @foreach (var script in Model.Page.Scripts)
     {
-        <script type="text/javascript" src="@Url.Content(Model.Page.Script)"></script>
+        <script type="text/javascript" src="@Url.Content(script.Url)"></script>
+    }
+    @foreach (var item in appContext.FooterPart)
+    {
+        @item
     }
 </body>
 </html>
