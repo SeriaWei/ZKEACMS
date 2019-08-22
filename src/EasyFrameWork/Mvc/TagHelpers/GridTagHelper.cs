@@ -22,7 +22,7 @@ namespace Easy.Mvc.TagHelpers
 {
     public class GridTagHelper : TagHelperBase
     {
-        private const string DefaultClass = "dataTable table table-striped table-bordered";
+        private const string DefaultClass = "dataTable table table-striped table-bordered table-hover";
         private const string DefaultSourceAction = "GetList";
         public const string DefaultEditAction = "Edit";
         public const string DefaultDeleteAction = "Delete";
