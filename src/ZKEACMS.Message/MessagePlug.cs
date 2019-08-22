@@ -42,7 +42,7 @@ namespace ZKEACMS.Message
                     new AdminMenu
                     {
                         Title = "留言",
-                        Url = "~/Admin/Message",
+                        Url = "~/admin/message",
                         Order = 1,
                         Icon = "glyphicon-volume-up",
                         PermissionKey = PermissionKeys.ViewMessage
@@ -50,7 +50,7 @@ namespace ZKEACMS.Message
                     new AdminMenu
                     {
                         Title = "评论",
-                        Url = "~/Admin/Comments",
+                        Url = "~/admin/comments",
                         Order = 2,
                         Icon = "glyphicon-comment",
                         PermissionKey = PermissionKeys.ViewComments
@@ -58,7 +58,7 @@ namespace ZKEACMS.Message
                     new AdminMenu
                     {
                         Title = "配置通知邮箱",
-                        Url = "~/Admin/MessageNotification/Config",
+                        Url = "~/admin/messagenotification/config",
                         Order = 3,
                         Icon = "glyphicon-flag",
                         PermissionKey = PermissionKeys.ManageMessageNotification
@@ -124,12 +124,12 @@ namespace ZKEACMS.Message
             serviceCollection.Configure<MessageBoxWidget>(option =>
             {
                 option.DataSourceLinkTitle = "留言";
-                option.DataSourceLink = "~/admin/Message";
+                option.DataSourceLink = "~/admin/message";
             });
             serviceCollection.Configure<CommentsWidget>(option =>
             {
                 option.DataSourceLinkTitle = "评论";
-                option.DataSourceLink = "~/admin/Comments";
+                option.DataSourceLink = "~/admin/comments";
             });
             
         }

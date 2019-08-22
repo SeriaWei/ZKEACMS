@@ -40,14 +40,14 @@ namespace ZKEACMS
                     new AdminMenu
                     {
                         Title = "布局列表",
-                        Url = "~/admin/Layout",
+                        Url = "~/admin/layout",
                         Icon = "glyphicon-align-justify",
                         PermissionKey = PermissionKeys.ViewLayout
                     },
                     new AdminMenu
                     {
                         Title = "布局内容",
-                        Url = "~/admin/Layout/LayoutWidget",
+                        Url = "~/admin/layout/layoutwidget",
                         Icon = "glyphicon-th-list",
                         PermissionKey = PermissionKeys.ViewLayout
                     }
@@ -57,7 +57,7 @@ namespace ZKEACMS
             {
                 Title = "页面",
                 Icon = "glyphicon-eye-open",
-                Url = "~/admin/Page",
+                Url = "~/admin/page",
                 Order = 2,
                 PermissionKey = PermissionKeys.ViewPage
             },
@@ -65,7 +65,7 @@ namespace ZKEACMS
             {
                 Title = "导航",
                 Icon = "glyphicon-retweet",
-                Url = "~/admin/Navigation",
+                Url = "~/admin/navigation",
                 Order = 3,
                 PermissionKey = PermissionKeys.ViewNavigation
             },
@@ -80,7 +80,7 @@ namespace ZKEACMS
                     {
                         Title = "条件规则",
                         Icon = "glyphicon-cloud",
-                        Url = "~/admin/Rule",
+                        Url = "~/admin/rule",
                         Order = 1,
                         PermissionKey = PermissionKeys.ViewPage
                     },
@@ -88,7 +88,7 @@ namespace ZKEACMS
                     {
                         Title = "焦点图",
                         Icon = "glyphicon-eye-open",
-                        Url = "~/admin/Carousel",
+                        Url = "~/admin/carousel",
                         Order = 2,
                         PermissionKey = PermissionKeys.ViewCarousel
                     },
@@ -96,7 +96,7 @@ namespace ZKEACMS
                     {
                         Title = "媒体库",
                         Icon = "glyphicon-picture",
-                        Url = "~/admin/Media",
+                        Url = "~/admin/media",
                         Order = 3,
                         PermissionKey = PermissionKeys.ViewMedia
                     },
@@ -104,7 +104,7 @@ namespace ZKEACMS
                     {
                         Title = "主题",
                         Icon = "glyphicon-blackboard",
-                        Url = "~/admin/Theme",
+                        Url = "~/admin/theme",
                         Order = 4,
                         PermissionKey = PermissionKeys.ViewTheme
                     },
@@ -112,7 +112,7 @@ namespace ZKEACMS
                     {
                         Title = "主题模板",
                         Icon = "glyphicon-list-alt",
-                        Url = "~/admin/Template",
+                        Url = "~/admin/template",
                         Order = 5,
                         PermissionKey = PermissionKeys.ViewTemplate
                     }
@@ -129,7 +129,7 @@ namespace ZKEACMS
                     {
                         Title = "用户",
                         Icon = "glyphicon-user",
-                        Url = "~/admin/User",
+                        Url = "~/admin/user",
                         Order = 1,
                         PermissionKey = PermissionKeys.ViewUser
                     },
@@ -137,14 +137,14 @@ namespace ZKEACMS
                     {
                         Title = "修改密码",
                         Icon = "glyphicon-lock",
-                        Url = "~/admin/User/PassWord",
+                        Url = "~/admin/user/password",
                         Order = 2
                     },
                     new AdminMenu
                     {
                         Title = "角色",
                         Icon = "glyphicon-eye-open",
-                        Url = "~/admin/Roles",
+                        Url = "~/admin/roles",
                         Order = 3,
                         PermissionKey = PermissionKeys.ViewRole
                     },
@@ -152,7 +152,7 @@ namespace ZKEACMS
                     {
                         Title = "错误日志",
                         Icon = "glyphicon-exclamation-sign",
-                        Url = "~/admin/EventViewer",
+                        Url = "~/admin/eventviewer",
                         Order = 4,
                         PermissionKey = PermissionKeys.ManageEventViewer
                     },
@@ -160,7 +160,7 @@ namespace ZKEACMS
                     {
                         Title = "邮件设置",
                         Icon = "glyphicon-envelope",
-                        Url = "~/admin/SmtpSetting/Config",
+                        Url = "~/admin/smtpsetting/config",
                         Order = 5,
                         PermissionKey = PermissionKeys.SMTPSetting
                     },
@@ -168,7 +168,7 @@ namespace ZKEACMS
                     {
                         Title = "Robots.txt",
                         Icon = "glyphicon-magnet",
-                        Url = "~/admin/RobotsSetting/Config",
+                        Url = "~/admin/robotssetting/config",
                         Order = 6,
                         PermissionKey = PermissionKeys.RobotsSetting
                     },
@@ -176,7 +176,7 @@ namespace ZKEACMS
                     {
                         Title = "翻译",
                         Icon = "glyphicon-cog",
-                        Url = "~/admin/Language",
+                        Url = "~/admin/language",
                         Order = 7,
                         PermissionKey = PermissionKeys.ManageLanguage
                     },
@@ -184,7 +184,7 @@ namespace ZKEACMS
                     {
                         Title = "插件",
                         Icon = "glyphicon-equalizer",
-                        Url = "~/admin/Plugin",
+                        Url = "~/admin/plugin",
                         Order = 99,
                         PermissionKey = PermissionKeys.ViewPlugins
                     },
@@ -192,12 +192,13 @@ namespace ZKEACMS
                     {
                         Title = "其它设置",
                         Icon = "glyphicon-cog",
-                        Url = "~/admin/ApplicationSetting",
+                        Url = "~/admin/applicationsetting",
                         Order = 100,
                         PermissionKey = PermissionKeys.ViewApplicationSetting
                     }
                 }
             }
         };
+        public static List<IEnumerable<AdminMenu>> PluginMenu { get; } = new List<IEnumerable<AdminMenu>>();
     }
 }

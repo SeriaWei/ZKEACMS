@@ -99,6 +99,10 @@ namespace ZKEACMS.Controllers
             {
                 layout = Service.Get(ID);
             }
+            if (layout == null)
+            {
+                return NotFound();
+            }
             return View(layout ?? new LayoutEntity());
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageLayout)]

@@ -651,6 +651,8 @@ a.badge:hover {
 
 .dataTable {
     background-color: #fff;
+    border-left: 0;
+    border-right: 0;
 }
 
     .dataTable thead,
@@ -697,11 +699,20 @@ table.table-bordered.dataTable > thead > tr > th, table.table-bordered.dataTable
     white-space: nowrap;
 }
 
+div.dataTables_wrapper > .row > .col-sm-12 {
+    padding: 0;
+}
+
 div.dataTables_wrapper div.dataTables_processing {
     text-indent: -5000px;
     background: #fff url('../js/EasyPlug/Css/Images/loader.gif') center center no-repeat;
     width: 50px;
     margin-left: -25px;
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+    margin:4px 0 0;
+    float:right;
 }
 
 .tag-selector .panel:last-child {
@@ -725,4 +736,28 @@ a.pack-theme {
 .CodeMirror {
     width: 100%;
     height: 100%;
+}
+
+.seach-terms .form-group {
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+    .seach-terms.form-inline .form-group {
+        display: block;
+        float: left;
+    }
+}
+
+.seach-terms .form-control {
+    max-width: 160px;
+}
+
+    .seach-terms .form-control.required {
+        background-color: #fff;
+    }
+
+.dataTable tfoot .search {
+    display: none;
 }

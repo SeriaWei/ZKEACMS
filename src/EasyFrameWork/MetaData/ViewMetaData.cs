@@ -33,36 +33,36 @@ namespace Easy.MetaData
                         break;
 
                     case TypeCode.Char:
-                        ViewConfig(item.Name).AsTextBox().MaxLength(1).RegularExpression(RegularExpression.Letters).Search(LINQ.Query.Operators.Contains);
+                        ViewConfig(item.Name).AsTextBox().MaxLength(1).RegularExpression(RegularExpression.Letters);
                         break;
 
                     case TypeCode.DateTime:
-                        ViewConfig(item.Name).AsTextBox().FormatAsDate().Search(LINQ.Query.Operators.Range);
+                        ViewConfig(item.Name).AsTextBox().FormatAsDate();
                         break;
                         
                     case TypeCode.Byte:
                     case TypeCode.UInt16:
                     case TypeCode.UInt32:
                     case TypeCode.UInt64:
-                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.PositiveIntegersAndZero).Search(LINQ.Query.Operators.Range);
+                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.PositiveIntegersAndZero);
                         break;
 
                     case TypeCode.SByte:
                     case TypeCode.Int16:
                     case TypeCode.Int32:
                     case TypeCode.Int64:
-                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.Integer).Search(LINQ.Query.Operators.Range);
+                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.Integer);
                         break;
 
                     case TypeCode.Single:
                     case TypeCode.Double:
                     case TypeCode.Decimal:
-                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.Float).Search(LINQ.Query.Operators.Range);
+                        ViewConfig(item.Name).AsTextBox().RegularExpression(RegularExpression.Float);
                         break;
                         
                     case TypeCode.Empty:
                     case TypeCode.String:
-                        ViewConfig(item.Name).AsTextBox().MaxLength(200).Search(LINQ.Query.Operators.Contains);
+                        ViewConfig(item.Name).AsTextBox().MaxLength(200);
                         break;
                         
                     case TypeCode.Object:
@@ -75,11 +75,11 @@ namespace Easy.MetaData
             if (typeof(EditorEntity).IsAssignableFrom(TargetType))
             {
                 ViewConfig("CreateBy").AsHidden();
-                ViewConfig("CreatebyName").AsTextBox().Hide().ShowInGrid();
+                ViewConfig("CreatebyName").AsTextBox().Hide().ShowInGrid().Search(LINQ.Query.Operators.None);
                 ViewConfig("CreateDate").AsTextBox().Hide().FormatAsDateTime().ShowInGrid().Search(LINQ.Query.Operators.Range);
 
                 ViewConfig("LastUpdateBy").AsHidden();
-                ViewConfig("LastUpdateByName").AsTextBox().Hide().ShowInGrid();
+                ViewConfig("LastUpdateByName").AsTextBox().Hide().ShowInGrid().Search(LINQ.Query.Operators.None);
                 ViewConfig("LastUpdateDate").AsTextBox().Hide().FormatAsDateTime().ShowInGrid().Search(LINQ.Query.Operators.Range);
                 ViewConfig("ActionType").AsHidden().AddClass("ActionType");
                 ViewConfig("Title").AsTextBox().Order(1).ShowInGrid().Search(LINQ.Query.Operators.Contains).MaxLength(200);

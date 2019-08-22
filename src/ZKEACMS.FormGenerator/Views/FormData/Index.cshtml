@@ -8,4 +8,11 @@
     Style.Reqiured("datepicker").AtHead();
 
 }
-<grid edit-template="@("<a href=\"{0}\" class=\"glyphicon glyphicon-eye-open\"></a>")" delete-able="Authorizer.Authorize(ZKEACMS.FormGenerator.PermissionKeys.ManageFormData)"></grid>
+<div class="grid-component">
+    @Html.SearchTerms(false)
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid edit-template="@("<a href=\"{0}\" class=\"glyphicon glyphicon-eye-open\"></a>")" delete-able="Authorizer.Authorize(ZKEACMS.FormGenerator.PermissionKeys.ManageFormData)"></grid>
+        </div>
+    </div>    
+</div>

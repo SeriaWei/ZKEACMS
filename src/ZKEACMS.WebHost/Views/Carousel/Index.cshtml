@@ -1,16 +1,18 @@
 @using ZKEACMS.Common.Models
 @model CarouselEntity
-@{ 
+@{
     Style.Reqiured("dataTable").AtHead();
-    Script.Reqiured("dataTable").AtFoot();    
-	
-	Script.Reqiured("datepicker").AtFoot();
+    Script.Reqiured("dataTable").AtFoot();
+
+    Script.Reqiured("datepicker").AtFoot();
     Style.Reqiured("datepicker").AtHead();
 }
-@if (Authorizer.Authorize(PermissionKeys.ManageCarousel))
-{
-    <div id="toolBar">
-        <a href="@Url.Action("Create")" class="btn btn-primary btn-sm btn">@L("新建")</a>
-    </div>
-}
-<grid edit-able="Authorizer.Authorize(PermissionKeys.ManageCarousel)" delete-able="Authorizer.Authorize(PermissionKeys.ManageCarousel)"></grid>
+
+<div class="grid-component">
+    @Html.SearchTerms(Authorizer.Authorize(PermissionKeys.ManageCarousel))
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid edit-able="Authorizer.Authorize(PermissionKeys.ManageCarousel)" delete-able="Authorizer.Authorize(PermissionKeys.ManageCarousel)"></grid>
+        </div>
+    </div>    
+</div>

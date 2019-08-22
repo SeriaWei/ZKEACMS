@@ -5,6 +5,15 @@
         }
         return val;
     }
+
+    $(".seach-terms .form-control").each(function () {
+        $(this).removeAttr("readonly").removeAttr("disabled");
+        if ($(this).is("select")) {
+            if ($("option:first", this).val()) {
+                $(this).prepend("<option selected></option>");
+            }
+        }
+    });
     $('.dataTable').each(function () {
         var columns = [];
         var order = [];
@@ -55,7 +64,8 @@
                 "orderable": orderAble
             });
         });
-        $(this).DataTable({
+        var dataTable = $(this);
+        dataTable.DataTable({
             "autoWidth": false,
             "processing": true,
             "serverSide": true,
@@ -63,11 +73,41 @@
             "ajax": {
                 "url": $(this).data("source"),
                 "data": function (data, setting) {
-                    for (var i = 0; i < data.columns.length; i++) {
-                        $("tr.search>th:eq(" + i + ")", $("#" + setting.sTableId)).find(".form-control").each(function () {
-                            data.columns[i].search[$(this).attr("name")] = $(this).val();
-                            data.columns[i].search["opeartor"] = $(this).data("opeartor");
-                        });
+                    var inputs = dataTable.closest(".grid-component").find(".seach-terms").find(".form-control");
+                    for (var i = 0; i < inputs.length; i++) {
+                        var input = $(inputs[i]);
+                        var name = input.attr("name").toLowerCase();
+                        var exist = false;
+                        for (var j = 0; j < data.columns.length; j++) {
+                            if (data.columns[j].data.toLowerCase() == name) {
+                                data.columns[j].search['value'] = input.val();
+                                data.columns[j].search["opeartor"] = input.data("opeartor");
+                                if (input.data("opeartor") == 9) {
+                                    if (!data.columns[j].search['index']) {
+                                        data.columns[j].search['valueMin'] = input.val();
+                                    } else {
+                                        data.columns[j].search['valueMax'] = input.val();
+                                    }
+                                    data.columns[j].search['index'] = 1;
+                                }
+                                exist = true;
+                                break;
+                            }
+                        }
+                        if (!exist) {
+                            var item = {
+                                data: name,
+                                name: name,
+                                orderable: false,
+                                search: { value: input.val(), regex: false, opeartor: input.data("opeartor") },
+                                searchable: true
+                            }
+                            if (item.search.opeartor == 9) {
+                                item.search['valueMin'] = input.val();
+                                item.search['index'] = 1;
+                            }
+                            data.columns.push(item);
+                        }
                     }
                     return data;
                 },
@@ -86,49 +126,6 @@
                     "next": "下一页"
                 },
                 "search": "关键字:"
-            },
-            initComplete: function () {
-                this.api().columns().every(function () {
-                    var column = this;
-                    if (!column.settings()[0].columnSettings) {
-                        return;
-                    }
-                    var columnSetting = column.settings()[0].columnSettings[column[0][0]];
-                    if (columnSetting.searchOpeartor != "None") {
-                        var option = columnSetting.option;
-                        var searchInput = null;
-                        if (option) {
-                            searchInput = $('<select class="form-control" name="value"></select>');
-                            searchInput.data("opeartor", columnSetting.searchOpeartor).data("data-type", columnSetting.dataType);
-                            searchInput.append("<option value=\"\">-- 请选择 --</option>")
-                            for (var i = 0; i < option.length; i++) {
-                                searchInput.append("<option value=\"" + option[i].value + "\">" + option[i].name + "</option>")
-                            }
-
-                        } else {
-                            if (columnSetting.searchOpeartor == "Range") {
-                                searchInput = $('<div class="range-search"><div class="input-group"><input name="valueMin" class="form-control min" type="text" placeholder="大于"><div class="input-group-addon">-</div></div><input name="valueMax" class="form-control max" type="text" placeholder="小于"></div>');
-                                $(".min", searchInput).data("opeartor", columnSetting.searchOpeartor).data("data-type", columnSetting.dataType);
-                                $(".max", searchInput).data("opeartor", columnSetting.searchOpeartor).data("data-type", columnSetting.dataType);
-
-                            } else {
-                                searchInput = $('<input class="form-control" type="text" name="value" placeholder="输入搜索..."/>');
-                                searchInput.data("opeartor", columnSetting.searchOpeartor)
-                                searchInput.data("data-type", columnSetting.dataType);
-                            }
-                        }
-                        if (columnSetting.dataType == "DateTime") {
-                            debugger
-                            searchInput.find(".form-control").datetimepicker({
-                                locale: 'zh-cn',
-                                format: columnSetting.format //columnSetting.format
-                            });
-                        }
-                        searchInput.appendTo($(column.footer()));
-                    } else {
-                        $('<a href="javascript:void(0)" class="reset-search glyphicon glyphicon-repeat"></a>').appendTo($(column.footer()));
-                    }
-                });
             }
         }).on("keyup change", function (e) {
             if ($(e.target).closest("tr.search").length > 0) {
@@ -164,10 +161,13 @@
                         Easy.ShowMessageBox("提示", data.message);
                     } else {
                         link.closest("table.dataTable").DataTable().draw();
-                    }                    
+                    }
                 });
             }, true);
             return false;
         });
+    });
+    $(document).on("click", ".seach-terms .btn.search", function () {
+        $(this).closest(".grid-component").find(".dataTable").DataTable().draw();
     });
 });

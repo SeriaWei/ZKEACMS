@@ -17,39 +17,37 @@ namespace ZKEACMS
              {
                 RouteName = "pageRoute",
                 Template = "{*path}",
-                Defaults = new { controller = "Page", action = "Main" },
+                Defaults = new { controller = "page", action = "main" },
                 Constraints = new { path = new PageRouteConstraint() },
                 Priority = -1
              },
              new RouteDescriptor
              {
                 RouteName = "admin",
-                Template = "admin/{controller=Dashboard}/{action=index}/{id?}",
+                Template = "admin/{controller=dashboard}/{action=index}/{id?}",
                 Defaults=new { module = "admin" },
-                Priority = 10,
-                RequiredAuthorization = true
+                Priority = 10
              },
              new RouteDescriptor
              {
                 RouteName = "Validation",
                 Template = "validation/{action}",
-                Defaults = new { controller = "Validation" },
+                Defaults = new { controller = "validation" },
                 Priority = 11
              },
              new RouteDescriptor
              {
                 RouteName = "error",
                 Template = "error/{action}/{code?}",
-                Defaults = new { controller = "Error", action = "index" },
+                Defaults = new { controller = "error", action = "index" },
                 Priority = 11
              },
              new RouteDescriptor
              {
                 RouteName = "AccountAdmin",
-                Template = "Account/{action}",
-                Defaults = new { controller = "Account", action = "Index"},
-                Priority = 11,
-                RequiredAuthorization = true
+                Template = "account/{action}",
+                Defaults = new { controller = "account", action = "index"},
+                Priority = 11
              }
         };
     }

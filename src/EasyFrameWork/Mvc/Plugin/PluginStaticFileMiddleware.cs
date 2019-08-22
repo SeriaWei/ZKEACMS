@@ -43,7 +43,7 @@ namespace Easy.Mvc.Plugin
                     var file = new PhysicalFileInfo(new FileInfo(filePath));
                     context.Response.ContentLength = file.Length;
                     context.Response.StatusCode = 200;
-                    var sendFileFeature = context.Features.Get<IHttpSendFileFeature>();
+                    var sendFileFeature = context.Features.Get<IHttpResponseBodyFeature>();
                     if (sendFileFeature != null)
                     {
                         return sendFileFeature.SendFileAsync(filePath, 0, file.Length, CancellationToken.None);

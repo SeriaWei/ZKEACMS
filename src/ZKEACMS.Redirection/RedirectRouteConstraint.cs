@@ -24,7 +24,11 @@ namespace ZKEACMS.Redirection
             {
                 return true;
             }
-            var redirect = httpContext.RequestServices.GetService<IUrlRedirectService>().GetAll().Count(m => m.Status == (int)Easy.Constant.RecordStatus.Active && m.InComingUrl == path && m.InComingUrl != m.DestinationURL);
+            var redirect = httpContext.RequestServices.GetService<IUrlRedirectService>().GetAll()
+                .Count(m => m.Status == (int)Easy.Constant.RecordStatus.Active &&
+                m.InComingUrl.Equals(path, StringComparison.OrdinalIgnoreCase) &&
+                !m.InComingUrl.Equals(m.DestinationURL, StringComparison.OrdinalIgnoreCase));
+
             return redirect > 0;
         }
     }

@@ -14,18 +14,31 @@ namespace ZKEACMS
     {
         public IEnumerable<AdminMenu> GetAdminMenus()
         {
-            if (AdminMenus.Menus.Any(m => m.Group.IsNotNullAndWhiteSpace()))
+            List<AdminMenu> menuResult = new List<AdminMenu>();
+            foreach (var item in AdminMenus.Menus)
             {
-                for (int i = 0; i < AdminMenus.Menus.Count; i++)
+                menuResult.Add(item);
+            }
+            foreach (var item in AdminMenus.PluginMenu)
+            {
+                menuResult.AddRange(item);
+            }
+            if (menuResult.Any(m => m.Group.IsNotNullAndWhiteSpace()))
+            {
+                for (int i = 0; i < menuResult.Count; i++)
                 {
-                    AdminMenu item = AdminMenus.Menus[i];
+                    AdminMenu item = menuResult[i];
                     if (item.Group.IsNotNullAndWhiteSpace())
                     {
-                        var group = AdminMenus.Menus.FirstOrDefault(m => m.Title == item.Group);
+                        var group = menuResult.FirstOrDefault(m => m.Title == item.Group);
                         if (group != null && group.Children != null)
                         {
-                            group.Children = group.Children.Concat(new AdminMenu[] { item });
-                            AdminMenus.Menus.RemoveAt(i);
+                            if (!group.Children.Any(m => m.Url == item.Url))
+                            {
+                                group.Children = group.Children.Concat(new AdminMenu[] { item });
+                            }
+                            item.Group = null;
+                            menuResult.RemoveAt(i);
                             i--;
                         }
                         else
@@ -35,7 +48,7 @@ namespace ZKEACMS
                     }
                 }
             }
-            foreach (var item in AdminMenus.Menus)
+            foreach (var item in menuResult)
             {
                 yield return item;
             }

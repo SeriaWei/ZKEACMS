@@ -31,6 +31,7 @@ namespace ZKEACMS.Common.Service
                 .Where(m => m.Status == (int)RecordStatus.Active).OrderBy(m => m.DisplayOrder).ToList();
 
             string path = null;
+            IUrlHelper urlHelper = null;
             if (ApplicationContext.As<CMSApplicationContext>().IsDesignMode)
             {
                 var layout = actionContext.HttpContext.GetLayout();
@@ -41,20 +42,33 @@ namespace ZKEACMS.Common.Service
             }
             else if (actionContext is ActionExecutedContext)
             {
-                path = (actionContext as ActionExecutedContext).RouteData.GetPath();
+                path = (actionContext as ActionExecutedContext).HttpContext.Request.Path.Value.Replace(".html", string.Empty);
+                urlHelper = ((actionContext as ActionExecutedContext).Controller as Controller).Url;
             }
+            if (urlHelper == null && (actionContext is ActionExecutedContext))
+            {
+                urlHelper = ((actionContext as ActionExecutedContext).Controller as Controller).Url;
+            }
+
             if (path != null)
             {
                 NavigationEntity current = null;
                 int length = 0;
                 foreach (var navigationEntity in navs)
                 {
-                    if (navigationEntity.Url.IsNotNullAndWhiteSpace()
-                        && path.IndexOf((navigationEntity.Url ?? "").Replace("~/", "/").Replace(".html", string.Empty), StringComparison.OrdinalIgnoreCase) == 0
-                        && length < navigationEntity.Url.Length)
+                    string url = (navigationEntity.Url ?? "~/").Replace(".html", string.Empty);
+                    if (urlHelper != null)
+                    {
+                        url = urlHelper.Content(url);
+                    }
+                    else
+                    {
+                        url = url.Replace("~/", "/");
+                    }
+                    if (path.IndexOf(url, StringComparison.OrdinalIgnoreCase) == 0 && length < url.Length)
                     {
                         current = navigationEntity;
-                        length = navigationEntity.Url.Length;
+                        length = url.Length;
                     }
                 }
                 if (current != null)

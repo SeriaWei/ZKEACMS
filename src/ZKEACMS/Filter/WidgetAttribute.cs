@@ -54,7 +54,7 @@ namespace ZKEACMS.Filter
             }
 
         }
-        private bool IsPreView(ActionExecutedContext filterContext)
+        private bool IsPreView(FilterContext filterContext)
         {
             bool isPreView = false;
             if (filterContext.HttpContext.User.Identity.IsAuthenticated)
@@ -213,8 +213,14 @@ namespace ZKEACMS.Filter
             var applicationContext = filterContext.HttpContext.RequestServices.GetService<IApplicationContextAccessor>();
             if (applicationContext != null)
             {
-                applicationContext.Current.PageMode = GetPageViewMode();
-                //applicationContext.RequestUrl = new Uri(filterContext.HttpContext.Request.Path.ToUriComponent());
+                if (IsPreView(filterContext))
+                {
+                    applicationContext.Current.PageMode = PageViewMode.PreView;
+                }
+                else
+                {
+                    applicationContext.Current.PageMode = GetPageViewMode();
+                }
             }
             var _onPageExecutings = filterContext.HttpContext.RequestServices.GetServices<IOnPageExecuting>();
             if (_onPageExecutings != null)

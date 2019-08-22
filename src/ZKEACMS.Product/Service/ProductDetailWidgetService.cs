@@ -57,9 +57,10 @@ namespace ZKEACMS.Product.Service
             }
             if (product == null && ApplicationContext.IsAuthenticated)
             {
-                foreach (var item in _productService.Get().AsQueryable().OrderByDescending(m => m.ID).Take(1))
+                product = _productService.Get().OrderByDescending(m => m.ID).FirstOrDefault();
+                if (product != null)
                 {
-                    product = _productService.Get(item.ID);
+                    product = _productService.Get(product.ID);
                 }
             }
             if (product == null)

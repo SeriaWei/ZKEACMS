@@ -29,6 +29,7 @@ namespace ZKEACMS.Redirection.Models
             ViewConfig(m => m.Title).AsTextBox().Order(0).Required().MaxLength(200).ShowInGrid().Search(Query.Operators.Contains);
             ViewConfig(m => m.InComingUrl).AsTextBox().Order(1).Required().MaxLength(500).PageSelector().ShowInGrid().Search(Query.Operators.Contains);
             ViewConfig(m => m.DestinationURL).AsTextBox().Order(2).Required().MaxLength(500).PageSelector().ShowInGrid().Search(Query.Operators.Contains);
+            ViewConfig(m => m.Description).AsTextArea().Search(Query.Operators.Contains);
         }
     }
 }

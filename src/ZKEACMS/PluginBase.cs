@@ -13,6 +13,7 @@ using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ZKEACMS.WidgetTemplate;
+using ZKEACMS.Route;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyModel;
@@ -31,6 +32,7 @@ namespace ZKEACMS
         IApplicationFeatureProvider<ViewsFeature>
     {
         private const string ControllerTypeNameSuffix = "Controller";
+
         public Assembly Assembly { get; set; }
 
         public abstract IEnumerable<RouteDescriptor> RegistRoute();
@@ -98,12 +100,12 @@ namespace ZKEACMS
             var menus = this.AdminMenu();
             if (menus != null)
             {
-                foreach (var item in menus)
-                {
-                    item.PluginName = this.Name;
-                    AdminMenus.Menus.Add(item);
-                }
-
+                //foreach (var item in menus)
+                //{
+                //    item.PluginName = this.Name;
+                //    AdminMenus.Menus.Add(item);
+                //}
+                AdminMenus.PluginMenu.Add(menus);
             }
             this.SetupResource();
             var permissions = this.RegistPermission();
@@ -196,7 +198,6 @@ namespace ZKEACMS
 
             return true;
         }
-
         public IEnumerable<string> GetReferencePaths()
         {
             if (Assembly.IsDynamic)
