@@ -4,7 +4,7 @@ If you still use .net core 2.2, click [here](https://github.com/SeriaWei/ZKEACMS
 
 ZKEACMS is a visual design, **WYSIWYG** Content Management System.
 
-**Basic mind**
+**Create Page**
 
 [http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)
 
