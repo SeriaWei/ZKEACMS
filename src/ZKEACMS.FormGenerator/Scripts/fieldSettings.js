@@ -272,8 +272,16 @@
             data: JSON.stringify({
                 ID: $scope.ID,
                 Title: $scope.Title,
-                NotificationReceiver: $scope.NotificationReceiver,
                 Description: $scope.Description,
+                Description: $scope.Description,
+                Status: $scope.Status,
+                CreateBy: $scope.CreateBy,
+                CreatebyName: $scope.CreatebyName,
+                CreateDate: $scope.CreateDate,
+                LastUpdateBy: $scope.LastUpdateBy,
+                LastUpdateByName: $scope.LastUpdateByName,
+                LastUpdateDate: $scope.LastUpdateDate,
+                NotificationReceiver: $scope.NotificationReceiver,
                 FormFields: $scope.Fields
             }),
             contentType: 'application/json; charset=utf-8',
