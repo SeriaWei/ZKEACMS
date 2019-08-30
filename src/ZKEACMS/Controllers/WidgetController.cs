@@ -179,19 +179,27 @@ namespace ZKEACMS.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult AppendWidget(WidgetBase widget)
+        public IActionResult AppendWidget(WidgetBase widget)
         {
+            if (widget == null || widget.PageID.IsNullOrWhiteSpace())
+            {
+                return NotFound();
+            }
             //set design environment
             HttpContext.RequestServices.GetService<IApplicationContextAccessor>().Current.PageMode = Filter.PageViewMode.Design;
             var page = HttpContext.RequestServices.GetService<IPageService>().Get(widget.PageID);
-            var layout = HttpContext.RequestServices.GetService<Layout.ILayoutService>().Get(page.LayoutId);
-            layout.Page = page;
-            ControllerContext.HttpContext.TrySetLayout(layout);
+            WidgetViewModelPart widgetPart = null;
+            if (page != null)
+            {
+                var layout = HttpContext.RequestServices.GetService<Layout.ILayoutService>().Get(page.LayoutId);
+                layout.Page = page;
+                ControllerContext.HttpContext.TrySetLayout(layout);
 
-            var widgetPart = _widgetService.ApplyTemplate(widget, ControllerContext);
+                widgetPart = _widgetService.ApplyTemplate(widget, ControllerContext);
+            }
             if (widgetPart == null)
             {
-                widgetPart = new HtmlWidget { PartialView = "Widget.HTML", HTML = "<h1 class='text-danger'><hr/>操作失败，找不到数据源，刷新页面后该消息会消失。<hr/></h1>" }.ToWidgetViewModelPart();
+                widgetPart = new HtmlWidget { PartialView = "Widget.HTML", HTML = "<h1 class='text-danger'><hr/>Error<hr/></h1>" }.ToWidgetViewModelPart();
             }
             return PartialView("AppendWidget", new DesignWidgetViewModel(widgetPart, widget.PageID));
         }
@@ -307,7 +315,7 @@ namespace ZKEACMS.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult Paste(WidgetBase widget)
+        public IActionResult Paste(WidgetBase widget)
         {
             widget.ID = _cookie.GetValue<string>(Const.CopyWidgetCookie);
             return AppendWidget(widget);
