@@ -1,8 +1,10 @@
 @model ZKEACMS.FormGenerator.Models.FormField
 @{
     string maxLength = "50";
+    Model.Attributes["class"] = Model.Attributes["class"] + "Date";
     Model.Attributes.TryAdd("data-val-length", L("{0}的长度应小于{1}").Text.FormatWith(Model.DisplayName, maxLength));
     Model.Attributes.TryAdd("data-val-length-max", maxLength);
+    Model.Attributes.TryAdd("JsDateFormat", "YYYY/MM/DD");
 }
 <div class="form-group size-@Model.Size">
     @if (Model.DisplayName.IsNotNullAndWhiteSpace())
@@ -15,7 +17,7 @@
             }
         </label>
     }
-    <div class="input-group date size-@Model.Size" data-provide="datepicker" data-date-format="yyyy/mm/dd" data-date-language="zh-CN" data-date-today-highlight="true">
+    <div class="input-group">
         @Html.TextBox(Model.ID, Model.Value, Model.Attributes)
         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
     </div>

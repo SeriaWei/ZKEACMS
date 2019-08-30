@@ -1,0 +1,12 @@
+﻿@using Easy.ViewPort.Descriptor
+@model bool
+@{
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
+    SelectList list = new SelectList(new List<SelectListItem>
+    {
+        new SelectListItem(),
+        new SelectListItem(L("是").Text,"true"),
+        new SelectListItem(L("否").Text,"false")
+    },"Value","Text");
+}
+@Html.DropDownList("", list, descriptor?.ToHtmlProperties())

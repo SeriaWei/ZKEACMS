@@ -23,43 +23,11 @@
                             <div class="form-group">
                                 @Html.Label(item.PropertyName, item.DisplayName)
                                 <div class="form-control-group">
-                                    @if (descriptor is Easy.ViewPort.Descriptor.DropDownListDescriptor)
+                                    @Html.SearchItem(item)
+                                    @if (descriptor.SearchOperator == Easy.LINQ.Query.Operators.Range)
                                     {
-                                        @Html.Editor(item.PropertyName, "DropDownList")
-                                    }
-                                    else
-                                    {
-                                        if (!descriptor.Classes.Contains("form-control"))
-                                        {
-                                            descriptor.Classes.Add("form-control");
-                                        }
-                                        Type modelType = descriptor.DataType;
-                                        if (modelType == typeof(DateTime))
-                                        {
-                                            @Html.Editor(item.PropertyName, "DateTime")
-                                            <span>-</span>
-                                            @Html.Editor(item.PropertyName, "DateTime")
-                                        }
-                                        else if (modelType == typeof(bool))
-                                        {
-                                            <select class="form-control" data-opeartor="1" data-val="true" id="@item.PropertyName" name="@item.PropertyName" style="">
-                                                <option value=""></option>
-                                                <option value="true">@L("是")</option>
-                                                <option value="false">@L("否")</option>
-                                            </select>
-                                        }
-                                        else if (modelType == typeof(decimal))
-                                        {
-                                            @Html.Editor(item.PropertyName, "Decimal")
-                                        }
-                                        else if (modelType == typeof(Int32))
-                                        {
-                                            @Html.Editor(item.PropertyName, "Int32")
-                                        }
-                                        else
-                                        {
-                                            @Html.Editor(item.PropertyName, "String")
-                                        }
+                                        <span>-</span>
+                                        @Html.SearchItem(item)
                                     }
                                 </div>
                             </div>
@@ -72,7 +40,16 @@
                     <a class="btn btn-primary btn-sm search">@L("搜索")</a>
                     @if (ViewBag.CreateAble != null && ViewBag.CreateAble != false)
                     {
-                        <a class="btn btn-primary btn-sm" href="@Url.Action(ViewBag.CreateAction as string)">@L("新建")</a>
+                        string action = ViewBag.CreateAction as string;
+                        if (action.IndexOf("/") < 0)
+                        {
+                            action = Url.Action(action);
+                        }
+                        <a class="btn btn-primary btn-sm" href="@action">@L("新建")</a>
+                    }
+                    @if (ViewBag.SearchToolbar != null)
+                    {
+                        @Html.Raw(ViewBag.SearchToolbar)
                     }
                 </div>
             </div>

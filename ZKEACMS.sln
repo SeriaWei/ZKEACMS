@@ -46,7 +46,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKEACMS.TemplateImporter", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{0B4542D1-4A9B-4C97-A067-D35E924DA9BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PackWidgetTemplate", "tools\PackWidgetTemplate\PackWidgetTemplate.csproj", "{E52C0F0E-78E2-40DA-B73E-49D5EAA00215}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PackWidgetTemplate", "tools\PackWidgetTemplate\PackWidgetTemplate.csproj", "{E52C0F0E-78E2-40DA-B73E-49D5EAA00215}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
