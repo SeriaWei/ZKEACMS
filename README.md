@@ -8,6 +8,10 @@ ZKEACMS is a visual design, **WYSIWYG** Content Management System.
 
 [http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)
 
+**Get Started**
+
+[http://www.zkea.net/zkeacms/videos/view/zkeacms-quick-start.html](http://www.zkea.net/zkeacms/videos/view/zkeacms-quick-start.html)
+
 ## Demo Site
 Try it on our demo site:
 
