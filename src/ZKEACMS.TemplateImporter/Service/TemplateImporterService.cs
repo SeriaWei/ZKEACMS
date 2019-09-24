@@ -187,27 +187,30 @@ namespace ZKEACMS.TemplateImporter.Service
                 #endregion
 
                 #region Collect Scripts
-                var scripts = document.DocumentNode.SelectNodes("//script");
                 StringBuilder pageScripts = new StringBuilder();
-                foreach (var item in scripts)
+                var scripts = document.DocumentNode.SelectNodes("//script");
+                if (scripts != null)
                 {
-                    string path = item.GetAttributeValue("src", string.Empty);
-                    if (path.IsNotNullAndWhiteSpace() && !isOutSidePath(path))
+                    foreach (var item in scripts)
                     {
-                        item.SetAttributeValue("src", ConvertToThemePath(themeName, path));
+                        string path = item.GetAttributeValue("src", string.Empty);
+                        if (path.IsNotNullAndWhiteSpace() && !isOutSidePath(path))
+                        {
+                            item.SetAttributeValue("src", ConvertToThemePath(themeName, path));
+                        }
+                        string fileName = Path.GetFileName(path);
+                        if (!jQueryFilter.IsMatch(fileName) && !BootstrapFilter.IsMatch(fileName))
+                        {
+                            pageScripts.AppendLine(item.OuterHtml.Trim());
+                        }
+                        item.Remove();
                     }
-                    string fileName = Path.GetFileName(path);
-                    if (!jQueryFilter.IsMatch(fileName) && !BootstrapFilter.IsMatch(fileName))
-                    {
-                        pageScripts.AppendLine(item.OuterHtml.Trim());
-                    }
-                    item.Remove();
                 }
                 #endregion
 
                 #region Collect Style
-                var innerStyles = document.DocumentNode.SelectNodes("//style");
                 StringBuilder pageStyle = new StringBuilder();
+                var innerStyles = document.DocumentNode.SelectNodes("//style");
                 if (innerStyles != null)
                 {
                     foreach (var item in innerStyles)

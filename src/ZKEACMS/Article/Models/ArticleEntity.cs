@@ -35,7 +35,7 @@ namespace ZKEACMS.Article.Models
         {
             ViewConfig(m => m.ID).AsHidden().ShowInGrid().Order(1);
             ViewConfig(m => m.Title).AsTextBox().Required().Order(2).ShowInGrid().Search(Easy.LINQ.Query.Operators.Contains);
-            ViewConfig(m => m.Url).AsTextBox().Order(3).MaxLength(100).UrlPart();
+            ViewConfig(m => m.Url).AsTextBox().Order(3).MaxLength(100).UrlPart().Required();
             ViewConfig(m => m.Status).AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary);
             ViewConfig(m => m.ImageThumbUrl).AsTextBox().MediaSelector();
             ViewConfig(m => m.ImageUrl).AsTextBox().MediaSelector();

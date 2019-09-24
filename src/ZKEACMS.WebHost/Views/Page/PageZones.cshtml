@@ -19,7 +19,7 @@
                     <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
                         @if (widget.LayoutID.IsNotNullAndWhiteSpace())
                         {
-                            <span class="badge">布局</span>
+                            <span class="badge">@L("布局")</span>
                         }
                         @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                         {
@@ -65,11 +65,11 @@
                                     <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID" data-position="@(widget.LayoutID.IsNotNullAndWhiteSpace()||widget.RuleID.HasValue?widget.Position:0)">
                                         @if (widget.LayoutID.IsNotNullAndWhiteSpace())
                                         {
-                                            <span class="label label-info">@L("布局")</span>
+                                            <a class="badge" href="@Url.Action("LayoutWidget","Layout",new{ LayoutId = widget.LayoutID })">@L("布局")</a>
                                         }
                                         @if (widget.RuleID.HasValue)
                                         {
-                                            <span class="badge">@L("全局")</span>
+                                            <a class="badge" href="@Url.Action("Edit","Rule",new { ID = widget.RuleID })">@L("条件规则")</a>
                                         }
                                         @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                                         {

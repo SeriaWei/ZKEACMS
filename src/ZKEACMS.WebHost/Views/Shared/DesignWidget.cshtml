@@ -23,11 +23,11 @@
             <div class="tools">
                 @if (Model.Widget.LayoutID.IsNotNullAndWhiteSpace())
                 {
-                    <span class="badge">@L("布局")</span>
+                    <a class="badge" href="@Url.Action("LayoutWidget","Layout",new{ LayoutId = Model.Widget.LayoutID })">@L("布局")</a>
                 }
                 @if (Model.Widget.RuleID.HasValue)
                 {
-                    <span class="badge">@L("全局")</span>
+                    <a class="badge" href="@Url.Action("Edit","Rule",new { ID = Model.Widget.RuleID })">@L("条件规则")</a>
                 }
                 <i class="glyphicon glyphicon-move sort-handle" title="@L("拖动")">
                     <span>@L("拖动")</span>
