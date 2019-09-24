@@ -1,12 +1,16 @@
 ﻿# ZKEACMS Build With Asp.Net Core 3.0
 
-If you still use .net core 2.2, click [here](https://github.com/SeriaWei/ZKEACMS/tree/runtime-2.2).
+If you're still using .net core 2.2, click [here](https://github.com/SeriaWei/ZKEACMS/tree/runtime-2.2).
 
 ZKEACMS is a visual design, **WYSIWYG** Content Management System.
 
 **Create Page**
 
 [http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)
+
+**Get Started**
+
+[http://www.zkea.net/zkeacms/videos/view/zkeacms-quick-start.html](http://www.zkea.net/zkeacms/videos/view/zkeacms-quick-start.html)
 
 ## Demo Site
 Try it on our demo site:

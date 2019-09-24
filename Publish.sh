@@ -19,7 +19,9 @@ if ! [ -x "$(command -v publish-zkeacms)" ]; then
   echo 'Installing publish tool, please wait.'
   dotnet tool install --global ZKEACMS.Publisher
 fi
+
 dotnet restore
+
 cd src/ZKEACMS.WebHost
 export PATH="$PATH:/root/.dotnet/tools"
 publish-zkeacms
