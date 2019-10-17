@@ -86,7 +86,7 @@ namespace Easy
             services.ConfigureCache<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>>();
 
             services.AddScoped<IAuthorizationHandler, RolePolicyRequirementHandler>();
-            //services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
+            services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
 
             services.ConfigureStateProvider<CurrentCustomerStateProvider>();
             services.ConfigureStateProvider<CurrentUserStateProvider>();
