@@ -105,9 +105,11 @@ The following videos can help you to know the Enterprise Edition:
 ![关注微信](http://www.zkea.net/UpLoad/Images/20160318/263801921375bdf2.jpg)
 
 ## QQ群
-纸壳CMS群1（493586356）满 [点击加群](https://jq.qq.com/?_wv=1027&k=5SlfPaT)
+纸壳CMS 群1（493586356） [点击加群](https://jq.qq.com/?_wv=1027&k=5SlfPaT)
 
-纸壳CMS群2（869382969）[点击加群](https://jq.qq.com/?_wv=1027&k=5A7a3Zt)
+纸壳CMS 群2（869382969）[点击加群](https://jq.qq.com/?_wv=1027&k=5A7a3Zt)
+
+纸壳CMS 群3（805495289）[点击加群](https://jq.qq.com/?_wv=1027&k=5eprFzB)
 
 ## License
 For commercial, keep your source code private/proprietary by purchasing a [Commercial License/Enterprise Edition](https://github.com/SeriaWei/ZKEACMS.Core/wiki/Purchase-commercial-license).
