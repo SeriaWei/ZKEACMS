@@ -51,14 +51,14 @@ namespace ZKEACMS.Controllers
         }
         public JsonResult GetNavTree()
         {
-            var navs = Service.Get().OrderBy(m => m.DisplayOrder);
+            var navs = Service.Get().OrderBy(m => m.DisplayOrder).ToList();
             var node = new Tree<NavigationEntity>().Source(navs).ToNode(m => m.ID, m => m.Title, m => m.ParentId, "#");
             return Json(node);
         }
 
         public JsonResult GetSelectNavTree()
         {
-            var navs = Service.Get().OrderBy(m => m.DisplayOrder);
+            var navs = Service.Get().OrderBy(m => m.DisplayOrder).ToList();
             var node = new Tree<NavigationEntity>().Source(navs).ToNode(m => m.ID, m => m.Title, m => m.ParentId, "#");
             Node root = new Node { id = "root", text = "导航", children = node, state = new State { opened = true }, a_attr = new { id = "root" } };
             return Json(root);
