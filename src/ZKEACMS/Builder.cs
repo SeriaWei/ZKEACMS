@@ -210,7 +210,7 @@ namespace ZKEACMS
             services.AddDbContext<CMSDbContext>();
             services.AddScoped<EasyDbContext>((provider) => provider.GetService<CMSDbContext>());
             DatabaseOption databaseOption = configuration.GetSection("Database").Get<DatabaseOption>();
-            //DataTableAttribute.IsLowerCaseTableNames = databaseOption.DbType == DbTypes.MySql;
+            DataTableAttribute.IsLowerCaseTableNames = databaseOption.IsLowerCaseTableNames;
             services.AddSingleton(databaseOption);
             #endregion
 
