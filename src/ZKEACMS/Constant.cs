@@ -108,6 +108,7 @@ namespace ZKEACMS
         public const string SelectPageClass = "select select-page";
         public const string StyleEditor = "select custom-style-target";
         public const string HtmlEditorClass = "html";
+        public const string DynamicHtmlEditorClass = "dy-editor";
         public const string UrlPart = "url-part";
 
         public const string RouteValue_Path = "path";

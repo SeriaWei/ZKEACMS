@@ -180,6 +180,8 @@ namespace ZKEACMS
             services.ConfigureMetaData<SmtpSetting, SmtpSettingMetaData>();
             services.ConfigureMetaData<Robots, RobotsMetaData>();
             services.ConfigureMetaData<TemplateFile, TemplateFileMetaData>();
+            services.ConfigureMetaData<TabWidget, TabWidgetMetaData>();
+            services.ConfigureMetaData<TabItem, TabItemMetaData>();
 
             services.AddScoped<IValidateService, DefaultValidateService>();
 

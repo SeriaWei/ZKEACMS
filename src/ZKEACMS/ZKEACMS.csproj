@@ -3,7 +3,7 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>ZKEACMS</AssemblyName>
     <PackageId>ZKEACMS</PackageId>
-    <Version>3.2.0</Version>
+    <Version>3.2.1</Version>
     <Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>
     <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
@@ -11,8 +11,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>CMS</PackageTags>
     <Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
-    <AssemblyVersion>3.2.0.0</AssemblyVersion>
-    <FileVersion>3.2.0.0</FileVersion>
+    <AssemblyVersion>3.2.1.0</AssemblyVersion>
+    <FileVersion>3.2.1.0</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>

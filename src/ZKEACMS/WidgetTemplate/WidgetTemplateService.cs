@@ -78,6 +78,14 @@ namespace ZKEACMS.WidgetTemplate
                 PartialView = "Widget.StyleSheet",
                 Thumbnail = "~/images/Widget.StyleSheet.png",
                 Order = 8
+            },
+            new WidgetTemplateEntity<TabWidgetService>
+            {
+                Title = "标签页",
+                GroupName = "1.通用",
+                PartialView = "Widget.Tab",
+                Thumbnail = "~/images/Widget.Tab.png",
+                Order = 9
             }
         };
 

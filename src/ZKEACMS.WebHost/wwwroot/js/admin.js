@@ -346,11 +346,10 @@ $(function () {
         });
         template.find(".ActionType").val($(this).data("value"));
         $(this).siblings(".items").append(template);
-
+        $(".dy-editor:visible", template).trigger("init-editor");
         var form = $(this).closest("form");
         form.removeData("validator").removeData("unobtrusiveValidation");
         $.validator.unobtrusive.parse(form[0]);
-
     }).on("click", ".input-group-collection .delete", function () {
         var form = $(this).closest("form");
         var allValid = true;
@@ -380,4 +379,5 @@ $(function () {
     if ($.fn.select2) {
         $("select[multiple='multiple']").select2();
     }
+    $(".dy-editor:visible").trigger("init-editor");
 });
