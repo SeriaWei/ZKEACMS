@@ -1445,7 +1445,7 @@ label.additional {
     color: white;
     transition: all 400ms;
     opacity: 0;
-    z-index: 10;
+    z-index: 10000;
     border-radius: 3px;
     font-size: 18px;
 }
@@ -1455,7 +1455,7 @@ label.additional {
 }
 
 .zoneToolbar:hover {
-    z-index: 12;
+    z-index: 10001;
 }
 
 .zoneToolbar .tools {
