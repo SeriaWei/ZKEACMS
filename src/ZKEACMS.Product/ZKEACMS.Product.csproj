@@ -15,6 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ZKEACMS.Article\ZKEACMS.Article.csproj" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
 </Project>

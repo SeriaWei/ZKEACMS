@@ -34,9 +34,10 @@ namespace Easy.Mvc.Plugin
         public IEnumerable<IPluginStartup> LoadEnablePlugins(IServiceCollection serviceCollection)
         {
             var start = DateTime.Now;
-            Loaders.AddRange(GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Select(m =>
+            List<PluginInfo> availablePlugins = GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).ToList();
+            Loaders.AddRange(availablePlugins.Select(m =>
             {
-                var loader = new AssemblyLoader();
+                var loader = new AssemblyLoader(availablePlugins);
                 loader.CurrentPath = m.RelativePath;
                 var assemblyPath = Path.Combine(m.RelativePath, (HostingEnvironment.IsDevelopment() ? Path.Combine(AltDevelopmentPath) : string.Empty), m.FileName);
 
