@@ -1448,6 +1448,7 @@ label.additional {
     z-index: 10000;
     border-radius: 3px;
     font-size: 18px;
+    margin-top: -30px;
 }
 
 .widget:hover .zoneToolbar {
