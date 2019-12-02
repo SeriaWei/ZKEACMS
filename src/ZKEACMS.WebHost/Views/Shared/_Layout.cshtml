@@ -39,9 +39,11 @@
     {
         <meta name="referrer" content="same-origin" />
     }
-
+    @if (ApplicationContext.As<CMSApplicationContext>().EnableResponsiveDesign)
+    {
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
+    }
     <link href="@Url.PathContent(Model.Page.Favicon)" rel="shortcut icon" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
     @StyleAtHead()
     @ScriptAtHead()
     @foreach (var item in appContext.HeaderPart)
@@ -156,7 +158,7 @@
     {
         <script type="text/javascript" src="@Url.Content(Model.Script)"></script>
     }
-    @foreach(var script in Model.Page.Scripts)
+    @foreach (var script in Model.Page.Scripts)
     {
         <script type="text/javascript" src="@Url.Content(script.Url)"></script>
     }

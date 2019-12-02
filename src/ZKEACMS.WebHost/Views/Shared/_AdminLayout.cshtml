@@ -14,10 +14,13 @@
     <meta charset="utf-8" />
     <title>@(ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank)</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width" />
     @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
     {
         <meta name="referrer" content="same-origin" />
+    }
+    @if (ApplicationContext.As<CMSApplicationContext>().EnableResponsiveDesign)
+    {
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
     }
     @StyleAtHead()
     @ScriptAtHead()
