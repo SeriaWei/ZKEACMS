@@ -67,29 +67,7 @@ namespace ZKEACMS.Filter
         }
         public virtual string GetLayout(ActionExecutedContext filterContext, ThemeEntity theme)
         {
-            string name = string.Empty;
-            if (theme != null)
-            {
-                name = theme.ID;
-            }
-            if (name.IsNotNullAndWhiteSpace())
-            {
-                var env = filterContext.HttpContext.RequestServices.GetService<IWebHostEnvironment>();
-                var controller = filterContext.Controller as Controller;
-
-                string themeLayout = string.Format(Layouts.ThemeLayout, name);
-                if (File.Exists(env.MapPath(controller.Url.ToArray(themeLayout))))
-                {
-                    return themeLayout;
-                }
-                string themeSharedLayout = string.Format(Layouts.ThemeSharedLayout, name);
-                if (File.Exists(env.MapPath(controller.Url.ToArray(themeSharedLayout))))
-                {
-                    return themeSharedLayout;
-                }
-            }
             return Layouts.Default;
-            //return "~/Views/Shared/_Layout.cshtml";
         }
         public virtual PageViewMode GetPageViewMode()
         {
