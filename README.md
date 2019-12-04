@@ -1,4 +1,4 @@
-﻿# ZKEACMS Build With Asp.Net Core 3.0
+﻿# ZKEACMS Build With Asp.Net Core 3.1
 
 ZKEACMS is a visual design, **WYSIWYG** Content Management System.
 

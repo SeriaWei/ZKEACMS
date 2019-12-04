@@ -36,7 +36,7 @@ namespace ZKEACMS.Setting
 
         public override ServiceResult<ApplicationSetting> Add(ApplicationSetting item)
         {
-            if (Count(m => m.SettingKey == item.SettingKey) == 0)
+            if (base.Get(item.SettingKey) == null)
             {
                 _settingCache.TryAdd(item.SettingKey, item);
                 return base.Add(item);
