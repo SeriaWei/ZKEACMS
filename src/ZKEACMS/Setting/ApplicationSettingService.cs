@@ -36,14 +36,18 @@ namespace ZKEACMS.Setting
 
         public override ServiceResult<ApplicationSetting> Add(ApplicationSetting item)
         {
-            if (base.Get(item.SettingKey) == null)
+            lock (ApplicationSetting)
             {
-                _settingCache.TryAdd(item.SettingKey, item);
-                return base.Add(item);
+                if (base.Get(item.SettingKey) == null)
+                {
+                    _settingCache.TryAdd(item.SettingKey, item);
+                    return base.Add(item);
+                }
+                var result = new ServiceResult<ApplicationSetting>();
+                result.RuleViolations.Add(new RuleViolation("SettingKey", "已经存在该键值"));
+                return result;
             }
-            var result = new ServiceResult<ApplicationSetting>();
-            result.RuleViolations.Add(new RuleViolation("SettingKey", "已经存在该键值"));
-            return result;
+
         }
         public override ApplicationSetting Get(params object[] primaryKey)
         {

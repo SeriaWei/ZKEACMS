@@ -1594,7 +1594,7 @@ label.additional {
     border-radius: 0;
     top: 0;
     margin: 0;
-    z-index: 10;
+    z-index: 10001;
     position: fixed;
     left: 0;
     top: 0;
@@ -1683,7 +1683,7 @@ label.additional {
     right: 0;
     top: 0;
     height: 100%;
-    z-index: 10;
+    z-index: 10002;
     transition: all 0.5s ease-in-out;
     box-shadow: 0 0 5px rgba(0, 0, 0,0.2);
 }
