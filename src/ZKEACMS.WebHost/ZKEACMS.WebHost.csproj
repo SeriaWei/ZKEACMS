@@ -29,9 +29,6 @@
   <ItemGroup>
     <MvcRazorFilesToCompile Include="Views\**\*.cshtml;EmailTemplates\**\*.cshtml" Exclude="wwwroot\themes\**\*.cshtml;" />
   </ItemGroup>
-  <ItemGroup>
-    <MvcRazorFilesToCompile Remove="Views\Widget.Tab.cshtml" />
-  </ItemGroup>
   
   <ItemGroup>
     <Content Include="Templates.zip" CopyToPublishDirectory="Always" />
