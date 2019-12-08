@@ -18,4 +18,8 @@
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <MvcRazorFilesToCompile Include="Views\**\*.cshtml;EmailTemplates\**\*.cshtml" />
+  </ItemGroup>
 </Project>
