@@ -46,7 +46,15 @@ namespace Easy.Mvc.RazorPages
             {
                 actualViewPath = actualViewPath.Replace(pluginPath, DeveloperViewFileProvider.ProjectRootPath);
             }
-
+            else if (_hostingEnvironment.IsProduction() && actualViewPath.StartsWith(pluginPath))
+            {
+                string filePath = actualViewPath.Replace("~/", string.Empty);
+                var fileInfo = _hostingEnvironment.ContentRootFileProvider.GetFileInfo(filePath);
+                if (!fileInfo.Exists)
+                {
+                    actualViewPath = actualViewPath.Replace(pluginPath, "~/");
+                }
+            }
             ViewEngineResult viewResult = _viewEngine.GetView(null, actualViewPath, true);
 
             if (!viewResult.Success)

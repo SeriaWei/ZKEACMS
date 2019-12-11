@@ -19,7 +19,4 @@
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
   
-  <ItemGroup>
-    <MvcRazorFilesToCompile Include="Views\**\*.cshtml;EmailTemplates\**\*.cshtml" />
-  </ItemGroup>
 </Project>
