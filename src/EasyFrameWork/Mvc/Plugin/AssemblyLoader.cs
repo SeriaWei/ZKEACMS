@@ -31,7 +31,7 @@ namespace Easy.Mvc.Plugin
         public Assembly CurrentAssembly { get; private set; }
         public List<PluginInfo> PluginInfos { get; set; }
         public List<Assembly> DependencyAssemblies { get; private set; }
-        private TypeInfo PluginTypeInfo = typeof(IPluginStartup).GetTypeInfo();
+        private readonly TypeInfo PluginTypeInfo = typeof(IPluginStartup).GetTypeInfo();
         public IEnumerable<Assembly> LoadPlugin(string path)
         {
             if (CurrentAssembly == null)
@@ -114,11 +114,13 @@ namespace Easy.Mvc.Plugin
 
                 if (PluginTypeInfo.IsAssignableFrom(typeInfo))
                 {
-                    plugin = new PluginDescriptor();
-                    plugin.PluginType = typeInfo.AsType();
-                    plugin.Assembly = assembly;
-                    plugin.Dependency = dependencyCompilationLibrary;
-                    plugin.CurrentPluginPath = CurrentPath;
+                    plugin = new PluginDescriptor
+                    {
+                        PluginType = typeInfo.AsType(),
+                        Assembly = assembly,
+                        Dependency = dependencyCompilationLibrary,
+                        CurrentPluginPath = CurrentPath
+                    };
                 }
             }
 
