@@ -15,12 +15,12 @@ namespace ZKEACMS.Notification
     public class NotifyService : INotifyService
     {
         private readonly INotificationManager _notificationManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHostOptionProvider _hostOptionProvider;
         private readonly IDataProtectionProvider _dataProtectionProvider;
-        public NotifyService(INotificationManager notificationManager, IHttpContextAccessor httpContextAccessor, IDataProtectionProvider dataProtectionProvider)
+        public NotifyService(INotificationManager notificationManager, IHostOptionProvider hostOptionProvider, IDataProtectionProvider dataProtectionProvider)
         {
             _notificationManager = notificationManager;
-            _httpContextAccessor = httpContextAccessor;
+            _hostOptionProvider = hostOptionProvider;
             _dataProtectionProvider = dataProtectionProvider;
         }
         public void ResetPassword(UserEntity user)
@@ -32,7 +32,7 @@ namespace ZKEACMS.Notification
                 To = new string[] { user.Email },
                 Model = new ResetPasswordViewModel
                 {
-                    Link = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/Account/Reset?token={user.ResetToken}&pt={dataProtector.Protect(user.ResetToken)}"
+                    Link = $"{_hostOptionProvider.GetOrigin()}/Account/Reset?token={user.ResetToken}&pt={dataProtector.Protect(user.ResetToken)}"
                 },
                 TemplatePath = "~/EmailTemplates/ResetPassword.cshtml"
             });
