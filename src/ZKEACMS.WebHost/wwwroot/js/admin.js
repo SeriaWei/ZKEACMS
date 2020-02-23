@@ -5,7 +5,6 @@
  */
 
 $(function () {
-
     $(".accordion-group>a").click(function () {
         var className = 'active';
         var a = $(this);
@@ -305,7 +304,7 @@ $(function () {
             Easy.Processor(setHeight, 500);
         });
         if (scroll > 0) {
-            scrollBar.scrollTop = scroll/2;
+            scrollBar.scrollTop = scroll / 2;
         }
     }
 
@@ -320,7 +319,14 @@ $(function () {
 
     $(document).on("click", ".input-group-collection .add", function () {
         var index = $(this).siblings(".items").children(".item").size();
-        var template = $($(this).siblings(".Template").html());
+        var tpl = $(this).siblings(".Template");
+        var template = $(tpl.html());
+        var namePrefix = tpl.children().data("name");
+        var deep = 0;
+        namePrefix.replace(/\[(\d+)\]/g, function (a) {
+            deep++;
+            return a;
+        });
         $("input,select,textarea", template).attr("data-val", true).each(function () {
             if ($(this).attr("editable")) {
                 $(this).prop("disabled", false);
@@ -328,11 +334,21 @@ $(function () {
             }
             var name = $(this).attr("name");
             if (name) {
-                $(this).attr("name", name.replace(/\[(\d+)\]/, "[" + index + "]"));
+                var cuDeep = 0;
+                $(this).attr("name", name.replace(/\[(\d+)\]/g, function (a) {
+                    cuDeep++;
+                    var idx = cuDeep == deep ? "[" + index + "]" : a;
+                    return idx;
+                }));
             }
             var id = $(this).attr("id");
             if (id) {
-                $(this).attr("id", id.replace(/\_(\d+)\_/, "_" + index + "_"));
+                var cuDeep = 0;
+                $(this).attr("id", id.replace(/\_(\d+)\_/g, function (a) {
+                    cuDeep++;
+                    var idx = cuDeep == deep ? "_" + index + "_" : a;
+                    return idx;
+                }));
             }
 
             if ($(this).hasClass("Date") && !$(this).prop("readonly") && !$(this).prop("disabled") && $.fn.datetimepicker) {
@@ -342,7 +358,12 @@ $(function () {
 
         $(".field-validation-error,.field-validation-valid", template).each(function () {
             var msgFor = $(this).attr("data-valmsg-for");
-            $(this).attr("data-valmsg-for", msgFor.replace(/\[(\d+)\]/, "[" + index + "]"))
+            var cuDeep = 0;
+            $(this).attr("data-valmsg-for", msgFor.replace(/\[(\d+)\]/g, function (a) {
+                cuDeep++;
+                var idx = cuDeep == deep ? "[" + index + "]" : a;
+                return idx;
+            }))
         });
         template.find(".ActionType").val($(this).data("value"));
         $(this).siblings(".items").append(template);

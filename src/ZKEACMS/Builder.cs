@@ -126,6 +126,7 @@ namespace ZKEACMS
             services.TryAddTransient<IWidgetTemplateService, WidgetTemplateService>();
             services.TryAddScoped<IWidgetBasePartService, WidgetBasePartService>();
             services.TryAddScoped<IZoneService, ZoneService>();
+            services.TryAddScoped<IHostOptionProvider, HostOptionProvider>();
             services.TryAddTransient<Rule.IRuleService, Rule.RuleService>();
 
             services.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
@@ -216,6 +217,7 @@ namespace ZKEACMS
             DataTableAttribute.IsLowerCaseTableNames = databaseOption.IsLowerCaseTableNames;
             services.AddSingleton(databaseOption);
             #endregion
+            services.Configure<HostOption>(configuration.GetSection("Host"));
 
             services.UseEasyFrameWork(configuration);
             foreach (IPluginStartup item in services.LoadAvailablePlugins())

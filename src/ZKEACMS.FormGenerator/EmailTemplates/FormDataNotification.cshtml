@@ -1,10 +1,10 @@
-@using ZKEACMS.FormGenerator.Models
+﻿@using ZKEACMS.FormGenerator.Models
 @using ZKEACMS.FormGenerator
 @model FormData
 @{ 
-    var host = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}";
-    string link = $"{host}/admin/FormData/Edit/{Model.ID}";
+    string link = $"{hostOptionProvider.GetOrigin()}/admin/FormData/Edit/{Model.ID}";
 }
+@inject ZKEACMS.IHostOptionProvider hostOptionProvider
 <!DOCTYPE html>
 <html>
 <head>

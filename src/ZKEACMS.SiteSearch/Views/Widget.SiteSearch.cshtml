@@ -1,4 +1,5 @@
 @model ZKEACMS.SiteSearch.Models.SiteSearchWidget
+@inject ZKEACMS.IHostOptionProvider hostOptionProvider
 <div class="site-search">
     <div class="row">
         <div class="col-xs-8 col-md-10">
@@ -17,7 +18,7 @@
     <script type="text/javascript">
         $(function () {
             function search(value) {
-                window.open("@Model.SearchEngine.FormatWith($"site:{ViewContext.HttpContext.Request.Host}")" + " " + $.trim(value), "_blank");
+                window.open("@Model.SearchEngine.FormatWith($"site:{hostOptionProvider.GetDomain()}")" + " " + $.trim(value), "_blank");
             }
             $(document).on("click", ".site-search .btn-submit", function () {
                 var value = $(this).closest(".site-search").find(".site-search-query").val();

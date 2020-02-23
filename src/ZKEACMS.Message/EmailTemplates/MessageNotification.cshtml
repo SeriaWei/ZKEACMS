@@ -1,9 +1,9 @@
-@using ZKEACMS.Message.Models
+﻿@using ZKEACMS.Message.Models
 @model MessageEntity
 @{
-    var host = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}";
-    string link = $"{host}/admin/Message/Edit/{Model.ID}";
+    string link = $"{hostOptionProvider.GetOrigin()}/admin/Comments/Edit/{Model.ID}";
 }
+@inject ZKEACMS.IHostOptionProvider hostOptionProvider
 <!DOCTYPE html>
 <html>
 <head>
