@@ -107,7 +107,7 @@
                                 if (children.Any(m => Authorizer.Authorize(m.PermissionKey) && (m.HasPermission == null || m.HasPermission())))
                                 {
                                     <li class="accordion-group">
-                                        <a class="b_9FDDF6 group-item" href="#">
+                                        <a class="b_9FDDF6 group-item" href="#" data-order="@menu.Order">
                                             <i class="glyphicon @menu.Icon"></i>
                                             @L(menu.Title)
                                             <i class="glyphicon group"></i>
@@ -115,7 +115,7 @@
                                         <div class="accordion-inner">
                                             @foreach (AdminMenu child in children.Where(m => Authorizer.Authorize(m.PermissionKey) && (m.HasPermission == null || m.HasPermission())).OrderBy(m => m.Order))
                                             {
-                                                <a id="menu@((child.Url ?? child.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(child.Url ?? "~/")">
+                                                <a id="menu@((child.Url ?? child.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(child.Url ?? "~/")" data-order="@child.Order">
                                                     <i class="glyphicon @child.Icon"></i>
                                                     @L(child.Title)
                                                 </a>
@@ -127,7 +127,7 @@
                             else
                             {
                                 <li>
-                                    <a id="menu@((menu.Url ?? menu.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(menu.Url ?? "~/")">
+                                    <a id="menu@((menu.Url ?? menu.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(menu.Url ?? "~/")" data-order="@menu.Order">
                                         <i class="glyphicon @menu.Icon"></i>
                                         @L(menu.Title)
                                     </a>
