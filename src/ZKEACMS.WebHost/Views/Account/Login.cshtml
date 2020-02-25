@@ -1,3 +1,4 @@
+@model ZKEACMS.Common.ViewModels.AdminSignViewModel
 @{
     ViewBag.Title = ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank;
     Layout = Layouts.NormalDefault;
@@ -10,43 +11,47 @@
 {
     @Html.AntiForgeryToken()
     <div class="login-panel">
-        <div class="login-panel-heading">
-            <a href="~/" target="_blank">
-                <img class="logo" src="~/images/logo_zkea.png" alt="ZKEACMS" />
-            </a>
-        </div>
-        <div class="login-panel-body">
-            <h3 class="version text-center">@ZKEACMS.Version.CurrentVersion <small>@ZKEACMS.Version.Rank</small></h3>
-            <p>@L("请输入您的用户信息以登录系统")</p>
-            <div class="form-input">
-                <h4>@L("用户名")</h4>
-                <input type="text" id="userName" name="userName" class="form-control" data-val="true" data-val-required="@L("请输入用户名")" />
-                <span class="field-validation-valid " data-valmsg-for="userName" data-valmsg-replace="true"></span>
-            </div>
-            <div class="form-input">
-                <h4>@L("密码")</h4>
-                <input type="password" id="password" name="password" class="form-control" data-val="true" data-val-required="@L("请输入密码")" />
-                <span class="field-validation-valid" data-valmsg-for="password" data-valmsg-replace="true"></span>
-            </div>
-            @if (ViewBag.Errormessage != null)
-            {
-                <div class="text-center alert alert-danger">
-                    @ViewBag.Errormessage
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-5 col-sm-12 login-panel-form">
+                    <div class="login-panel-heading">
+                        <h2>
+                            SIGN IN
+                        </h2>
+                    </div>
+                    <div class="login-panel-body">
+                        <p>@L("请输入您的用户信息以登录系统")</p>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.UserID)
+                            @Html.EditorFor(m => m.UserID)
+                            @Html.ValidationMessageFor(m => m.UserID)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PassWord)
+                            @Html.EditorFor(m => m.PassWord)
+                            @Html.ValidationMessageFor(m => m.PassWord)
+                        </div>
+                        <div>
+                            <input type="submit" class="btn btn-danger btn-login" value="@L("登录")" />
+                        </div>
+                        <hr />
+                        <div class="login-panel-footer">
+                            <p>
+                                @*/*授权以后，可以修改Copyright，但是请保留Powered by*/*@
+                                Copyright (c) 2016 - @DateTime.Now.Year <a href="http://www.zkea.net" target="_blank" title="深圳市纸壳软件科技有限公司">ZKEASOFT</a>, all rights reserved.
+                                <a href="http://www.zkea.net/licenses" target="_blank">License</a>
+                            </p>
+
+                        </div>
+                    </div>
                 </div>
-            }
-            <div>
-                <input type="submit" class="btn btn-danger btn-login" value="@L("登录")" />
+                <div class="col-md-7 visible-md visible-lg login-panel-info">
+                    <a href="~/" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                    <h1 class="app-name">ZKEACMS <small>v@(ZKEACMS.Version.VersionInfo)</small></h1>
+                    <p class="company-name">@ZKEACMS.Version.Rank</p>
+                    <p class="power-by">Powered by <a href="http://www.zkea.net/zkeacms/zkeacmscore" target="_blank">ZKEACMS</a></p>
+                </div>
             </div>
-        </div>
-        <div class="login-panel-footer">
-            <p>
-                <a href="http://www.zkea.net/licenses" target="_blank">@L("许可协议")</a>
-            </p>
-            <p>
-                @*/*授权以后，可以修改Copyright，但是请保留Powered by*/*@
-                Copyright (c) 2016-@DateTime.Now.Year <br /><a href="http://www.zkea.net" target="_blank" title="@L("深圳市纸壳软件科技有限公司")">@L("ZKEASOFT")</a>. @L("All Rights Reserved") <br />
-                Powered by <a href="http://www.zkea.net/zkeacms/zkeacmscore" target="_blank">@L("ZKEACMS")</a>
-            </p>
         </div>
     </div>
 }

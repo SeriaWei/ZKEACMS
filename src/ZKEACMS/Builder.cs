@@ -32,6 +32,7 @@ using ZKEACMS.Account;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Common.Models;
 using ZKEACMS.Common.Service;
+using ZKEACMS.Common.ViewModels;
 using ZKEACMS.Dashboard;
 using ZKEACMS.DataArchived;
 using ZKEACMS.DbConnectionPool;
@@ -152,6 +153,7 @@ namespace ZKEACMS
             services.ConfigureCache<ConcurrentDictionary<string, object>>();
             services.ConfigureCache<string>();
 
+            services.ConfigureMetaData<AdminSignViewModel, AdminSignViewModelMetaData>();
             services.ConfigureMetaData<ArticleEntity, ArticleEntityMeta>();
             services.ConfigureMetaData<ArticleType, ArtycleTypeMetaData>();
             services.ConfigureMetaData<BreadcrumbWidget, BreadcrumbWidgetMetaData>();
@@ -280,7 +282,7 @@ namespace ZKEACMS
                         constraints: route.Constraints,
                         dataTokens: route.DataTokens);
                 });
-                
+
                 endpoints.MapRazorPages();
             });
 
