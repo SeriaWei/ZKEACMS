@@ -36,6 +36,7 @@ using ZKEACMS.Common.ViewModels;
 using ZKEACMS.Dashboard;
 using ZKEACMS.DataArchived;
 using ZKEACMS.DbConnectionPool;
+using ZKEACMS.Event;
 using ZKEACMS.ExtendField;
 using ZKEACMS.Layout;
 using ZKEACMS.Media;
@@ -139,6 +140,7 @@ namespace ZKEACMS
             services.AddTransient<IPackageInstaller, DataDictionaryPackageInstaller>();
             services.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             services.AddTransient<IEventViewerService, EventViewerService>();
+            services.AddTransient<IEventManager, EventManager>();
 
             services.AddTransient<IStorage, WebStorage>();
 

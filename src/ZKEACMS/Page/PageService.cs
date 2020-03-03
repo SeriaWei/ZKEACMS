@@ -20,6 +20,7 @@ using ZKEACMS.Layout;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using ZKEACMS.Extend;
+using ZKEACMS.Event;
 
 namespace ZKEACMS.Page
 {
@@ -30,6 +31,7 @@ namespace ZKEACMS.Page
         private readonly IWidgetActivator _widgetActivator;
         private readonly IZoneService _zoneService;
         private readonly ILayoutHtmlService _layoutHtmlService;
+        private readonly IEventManager _eventManager;
         private Dictionary<string, IEnumerable<PageEntity>> _cachedPage;
         public PageService(IWidgetBasePartService widgetService,
             IApplicationContext applicationContext,
@@ -37,7 +39,8 @@ namespace ZKEACMS.Page
             IWidgetActivator widgetActivator,
             IZoneService zoneService,
             ILayoutHtmlService layoutHtmlService,
-            CMSDbContext dbContext)
+            CMSDbContext dbContext,
+            IEventManager eventManager)
             : base(applicationContext, dbContext)
         {
             _widgetService = widgetService;
@@ -45,6 +48,7 @@ namespace ZKEACMS.Page
             _widgetActivator = widgetActivator;
             _zoneService = zoneService;
             _layoutHtmlService = layoutHtmlService;
+            _eventManager = eventManager;
             _cachedPage = new Dictionary<string, IEnumerable<PageEntity>>();
         }
 
@@ -146,6 +150,7 @@ namespace ZKEACMS.Page
 
         public void Publish(PageEntity item)
         {
+            _eventManager.Trigger(Events.OnPagePublishing, item);
             string pageId = item.ID;
             BeginTransaction(() =>
             {
@@ -196,6 +201,7 @@ namespace ZKEACMS.Page
             _widgetService.RemoveCache(pageId);
             _zoneService.RemoveCache(pageId);
             _layoutHtmlService.RemoveCache(pageId);
+            _eventManager.Trigger(Events.OnPagePublished, item);
         }
         public void Revert(string ID, bool RetainLatest)
         {

@@ -68,8 +68,8 @@ namespace ZKEACMS.GlobalScripts
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IOnPageExecuted, LiveChatScriptProvider>();
-            serviceCollection.AddTransient<IOnPageExecuted, StatisticsScriptProvider>();
+            serviceCollection.RegistEvent<LiveChatScriptProvider>(Events.OnPageExecuted);
+            serviceCollection.RegistEvent<StatisticsScriptProvider>(Events.OnPageExecuted);
             serviceCollection.ConfigureMetaData<Models.LiveChatScript, Models.LiveChatScriptMetaData>();
             serviceCollection.ConfigureMetaData<Models.StatisticsScript, Models.StatisticsScriptMetaData>();
         }

@@ -15,7 +15,7 @@ using Easy.Extend;
 
 namespace ZKEACMS.GlobalScripts.Service
 {
-    public abstract class GlobalScriptsProviderService<T> : IOnPageExecuted where T : GlobalScript, new()
+    public abstract class GlobalScriptsProviderService<T> : IEventHandler where T : GlobalScript, new()
     {
         private readonly IApplicationContextAccessor _applicationContextAccessor;
         private readonly IApplicationSettingService _applicationSettingService;
@@ -24,7 +24,7 @@ namespace ZKEACMS.GlobalScripts.Service
             _applicationContextAccessor = applicationContextAccessor;
             _applicationSettingService = applicationSettingService;
         }
-        public virtual void OnExecuted(PageEntity currentPage, HttpContext context)
+        public virtual void Handle(object entity, EventArg e)
         {
             CMSApplicationContext applicationContext = _applicationContextAccessor.Current;
             var script = _applicationSettingService.Get<T>();
