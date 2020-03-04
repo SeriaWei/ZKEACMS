@@ -110,7 +110,7 @@ $(function () {
 
 
     if ($.fn.datetimepicker) {
-        $(".Date").each(function () {
+        $(".Date:not(input[type=hidden])").each(function () {
             if (!$(this).prop("readonly") && !$(this).prop("disabled")) {
                 $(this).datetimepicker({ locale: "zh-CN", format: $(this).attr("JsDateFormat") });
                 $(this).closest(".input-group").find(".glyphicon-calendar").click(function () {
