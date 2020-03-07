@@ -152,14 +152,15 @@ namespace Easy.ViewPort.Descriptor
         public virtual Dictionary<string, object> ToHtmlProperties()
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
-
-            if (!Classes.Contains("form-control"))
+            const string formControl = "form-control";
+            const string required = "required";
+            if (!Classes.Contains(formControl))
             {
-                Classes.Add("form-control");
-                if (IsRequired)
-                {
-                    Classes.Add("required");
-                }
+                Classes.Add(formControl);
+            }
+            if (IsRequired && !Classes.Contains(required))
+            {
+                Classes.Add(required);
             }
             result.Add("class", string.Join(" ", Classes));
             result.Add("style", string.Join(";", Styles.ToList(m => string.Format("{0}:{1}", m.Key, m.Value))));

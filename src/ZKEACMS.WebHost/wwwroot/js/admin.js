@@ -59,6 +59,9 @@ $(function () {
         });
     }).on("click", ".form-group select#ZoneID", function () {
         var obj = $(this);
+        if (obj.val() == "ZONE-X") {
+            return;
+        }
         var url = "/admin/Layout/SelectZone?layoutId=" + $(".hide #LayoutID").val() + "&pageId=" + $(".hide #PageID").val() + "&zoneId=" + obj.val();
         window.top.Easy.ShowUrlWindow({
             url: url,
@@ -106,8 +109,11 @@ $(function () {
         Easy.Block();
     });
     $(".form-group select#ZoneID,.form-group select.select").on("mousedown", false);
-
-
+    $(".form-group select#ZoneID").each(function () {
+        if ($(this).val() == "ZONE-X") {
+            $(this).closest(".form-group").hide();
+        }
+    });
 
     if ($.fn.datetimepicker) {
         $(".Date:not(input[type=hidden])").each(function () {

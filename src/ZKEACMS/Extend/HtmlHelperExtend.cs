@@ -108,7 +108,7 @@ namespace ZKEACMS
                 {
                     return html.Editor(item.PropertyName, "Decimal");
                 }
-                else if (modelType == typeof(Int32))
+                else if (modelType == typeof(int))
                 {
                     return html.Editor(item.PropertyName, "Int32");
                 }
