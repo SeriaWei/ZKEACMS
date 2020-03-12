@@ -53,6 +53,10 @@ body {
             margin: 0 2.5rem;
         }
 
+            .login-panel .login-panel-form .login-panel-body > p:first-of-type {
+                margin-bottom: 1rem;
+            }
+
     .login-panel .login-panel-info {
         color: #fff;
     }
@@ -120,6 +124,10 @@ body {
     .login-panel .btn-login {
         display: block;
         width: 100%;
+    }
+
+    .login-panel .login-panel-footer {
+        font-size: 14px;
     }
 
 @media all and (max-width:991px) {
