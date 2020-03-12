@@ -13,6 +13,7 @@ using Easy.Modules.MutiLanguage;
 using Easy.Options;
 using Microsoft.Extensions.Options;
 using Easy.Extend;
+using System.Linq;
 
 namespace Easy.Mvc.RazorPages
 {
@@ -31,12 +32,21 @@ namespace Easy.Mvc.RazorPages
         }
         private string _translatedContent;
         public string Content { get; set; }
+
+        private string _defaultCultureCode;
+        public string DefaultCultureCode
+        {
+            get
+            {
+                return _defaultCultureCode ?? (_defaultCultureCode = _httpContext.RequestServices.GetService<IOptions<CultureOption>>().Value.Code);
+            }
+        }
         private string _cultureCode;
         public string CultureCode
         {
             get
             {
-                return _cultureCode ?? (_cultureCode = _httpContext.RequestServices.GetService<IOptions<CultureOption>>().Value.Code);
+                return _cultureCode ?? (_cultureCode = _httpContext.Request.GetUserLanguages().FirstOrDefault() ?? DefaultCultureCode);
             }
         }
         public string Text { get { return Get(); } }
@@ -45,14 +55,31 @@ namespace Easy.Mvc.RazorPages
         {
             writer.Write(Get());
         }
+        LanguageEntity Get(string content, List<string> codes)
+        {
+            var service = _httpContext.RequestServices.GetService<ILanguageService>();
+            foreach (var item in codes)
+            {
+                LanguageEntity lanContent = service.Get(content, item);
+                if (lanContent != null)
+                {
+                    return lanContent;
+                }
+            }
+            return null;
+        }
         private string Get()
         {
             if (_translatedContent.IsNotNullAndWhiteSpace())
             {
                 return _translatedContent;
             }
-            var service = _httpContext.RequestServices.GetService<ILanguageService>();
-            var lanContent = service.Get(Content, CultureCode);
+            List<string> codes = new List<string> { CultureCode };
+            if (CultureCode != DefaultCultureCode)
+            {
+                codes.Add(DefaultCultureCode);
+            }
+            var lanContent = Get(Content, codes);
             if (lanContent != null && lanContent.LanValue.IsNotNullAndWhiteSpace())
             {
                 _translatedContent = lanContent.LanValue;
