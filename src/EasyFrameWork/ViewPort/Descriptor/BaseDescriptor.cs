@@ -8,6 +8,7 @@ using Easy.LINQ;
 using Easy.Modules.MutiLanguage;
 using Easy.Options;
 using Easy.ViewPort.Validator;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -178,63 +179,58 @@ namespace Easy.ViewPort.Descriptor
         private string GetLocalize(string key)
         {
             var languageService = ServiceLocator.GetService<ILanguageService>();
+            var localize = ServiceLocator.GetService<ILocalize>();
             var cultureOption = ServiceLocator.GetService<IOptions<CultureOption>>();
-            string culture = CultureInfo.CurrentUICulture.Name;
-            if (cultureOption != null && cultureOption.Value.Code.IsNotNullAndWhiteSpace())
+            var translated = localize.GetOrNull(key);
+
+            if (translated == null)
             {
-                culture = cultureOption.Value.Code;
-            }
-            var language = languageService.Get(key, culture);
-            if (language == null)
-            {
-                string lanValue = key;
-                string lanType = "UnKnown";
-                string module = "Unknown";
                 if (key.Contains("@"))
                 {
-                    lanValue = key.Split('@')[1];
-                    var translated = languageService.Get(n => n.LanKey.EndsWith("@" + lanValue) && n.CultureName == culture).FirstOrDefault();
-                    if (translated != null)
-                    {
-                        lanValue = translated.LanValue;
-                    }
-                    else
+                    string property = key.Split('@')[1];
+                    translated = localize.GetOrNull(property);
+                    if (translated == null)
                     {
                         StringBuilder lanValueBuilder = new StringBuilder();
-                        if (lanValue.Length > 2 && (lanValue.EndsWith("ID") || lanValue.EndsWith("Id")))
+                        if (property.Length > 2 && (property.EndsWith("ID") || property.EndsWith("Id")))
                         {
-                            lanValue = lanValue.Substring(0, lanValue.Length - 2);
+                            property = property.Substring(0, property.Length - 2);
                         }
-                        if (lanValue.Length > 2)
+                        if (property.Length > 2)
                         {
-                            for (int i = 0; i < lanValue.Length; i++)
+                            for (int i = 0; i < property.Length; i++)
                             {
-                                char charLan = lanValue[i];
+                                char charLan = property[i];
                                 if (i > 0 && char.IsUpper(charLan))
                                 {
                                     lanValueBuilder.Append(' ');
                                 }
                                 lanValueBuilder.Append(charLan);
                             }
-                            lanValue = lanValueBuilder.ToString();
+                            property = lanValueBuilder.ToString();
                         }
                     }
-                    lanType = "EntityProperty";
-                    module = key.Split('@')[0];
-                    language = new LanguageEntity
+                    else
                     {
-                        CultureName = culture,
-                        LanValue = lanValue,
+                        property = translated;
+                    }
+                    languageService.Add(new LanguageEntity
+                    {
+                        CultureName = cultureOption.Value.Code,
+                        LanValue = property,
                         LanKey = key,
-                        LanType = lanType,
-                        Module = module
-                    };
-                    languageService.Add(language);
-                    return language.LanValue;
+                        LanType = "EntityProperty",
+                        Module = key.Split('@')[0]
+                    });
+                    return property;
                 }
-                return key;
+                else
+                {
+                    return key;
+                }
+
             }
-            return language.LanValue;
+            return translated;
         }
     }
 

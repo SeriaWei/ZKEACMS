@@ -27,66 +27,35 @@ namespace Easy.Mvc.RazorPages
         public LocalizeString(string content, string cultureCode, HttpContext httpContext)
         {
             Content = content;
-            _cultureCode = cultureCode;
+            CultureCode = cultureCode;
             _httpContext = httpContext;
         }
         private string _translatedContent;
         public string Content { get; set; }
 
-        private string _defaultCultureCode;
-        public string DefaultCultureCode
-        {
-            get
-            {
-                return _defaultCultureCode ?? (_defaultCultureCode = _httpContext.RequestServices.GetService<IOptions<CultureOption>>().Value.Code);
-            }
-        }
-        private string _cultureCode;
-        public string CultureCode
-        {
-            get
-            {
-                return _cultureCode ?? (_cultureCode = _httpContext.Request.GetUserLanguages().FirstOrDefault() ?? DefaultCultureCode);
-            }
-        }
+
+        public string CultureCode { get; set; }
         public string Text { get { return Get(); } }
         private HttpContext _httpContext;
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
             writer.Write(Get());
         }
-        LanguageEntity Get(string content, List<string> codes)
-        {
-            var service = _httpContext.RequestServices.GetService<ILanguageService>();
-            foreach (var item in codes)
-            {
-                LanguageEntity lanContent = service.Get(content, item);
-                if (lanContent != null)
-                {
-                    return lanContent;
-                }
-            }
-            return null;
-        }
+
         private string Get()
         {
             if (_translatedContent.IsNotNullAndWhiteSpace())
             {
                 return _translatedContent;
             }
-            List<string> codes = new List<string> { CultureCode };
-            if (CultureCode != DefaultCultureCode)
+            var localize = _httpContext.RequestServices.GetService<ILocalize>();
+            if (CultureCode.IsNotNullAndWhiteSpace())
             {
-                codes.Add(DefaultCultureCode);
+                _translatedContent = localize.Get(Content, CultureCode);
             }
-            var lanContent = Get(Content, codes);
-            if (lanContent != null && lanContent.LanValue.IsNotNullAndWhiteSpace())
+            else
             {
-                _translatedContent = lanContent.LanValue;
-            }
-            if (_translatedContent.IsNullOrWhiteSpace())
-            {
-                _translatedContent = Content;
+                _translatedContent = localize.Get(Content);
             }
             return _translatedContent;
         }

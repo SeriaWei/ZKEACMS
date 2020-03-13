@@ -91,7 +91,7 @@ namespace ZKEACMS.Controllers
                 Service.Update(logOnUser);
                 return RedirectToAction("Logout", "Account", new { returnurl = "~/Account/Login" });
             }
-            ViewBag.Message = _localize.Get("原密码错误");
+            ViewBag.Message = _localize.Get("Current password error.");
             return View();
         }
 
