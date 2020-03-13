@@ -5,7 +5,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        @L("页面")
+        @L("Page")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -14,9 +14,9 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                 {
-                    <input type="submit" class="btn btn-primary" value="@L("保存")" />
+                    <input type="submit" class="btn btn-primary" value="@L("Save")" />
                 }
-                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
+                <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
             </div>
         }
     </div>

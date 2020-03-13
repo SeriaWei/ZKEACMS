@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Easy.Logging
 {
-    public class FileLoggerProvider : ILoggerProvider
+    public sealed class FileLoggerProvider : ILoggerProvider
     {
         private readonly IWebHostEnvironment _environment;
         private readonly IHttpContextAccessor _httpContextAccessor;

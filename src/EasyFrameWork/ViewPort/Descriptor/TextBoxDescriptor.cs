@@ -93,8 +93,7 @@ namespace Easy.ViewPort.Descriptor
             this.Validator.Add(new RegularValidator(Constant.RegularExpression.Email)
             {
                 Property = this.Name,
-                DisplayName = this.DisplayName,
-                ErrorMessage = "输入的邮件格式不正确"
+                DisplayName = this.DisplayName
             });
             return this;
         }

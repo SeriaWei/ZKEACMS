@@ -100,7 +100,7 @@ namespace ZKEACMS.Controllers
         {
             if (id == _applicationContextAccessor.Current.CurrentUser.UserID)
             {
-                return Json(new AjaxResult { Status = AjaxStatus.Error, Message = _localize.Get("不能删除当前登录用户") });
+                return Json(new AjaxResult { Status = AjaxStatus.Error, Message = _localize.Get("Can not delete yourself.") });
             }
             return base.Delete(id);
         }

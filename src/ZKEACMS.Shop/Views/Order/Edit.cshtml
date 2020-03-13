@@ -6,7 +6,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        @L("修改")
+        @L("Edit")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -15,25 +15,25 @@
             <div class="toolBar">                
                 @if (Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.ManageOrder))
                 {
-                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Update" />
+                    <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Update" />
                 }
                 @if (Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.ViewOrderPayment) && Model.PaymentID.IsNotNullAndWhiteSpace())
                 {
-                    <a href="javascript:void(0)" class="btn btn-primary payment-info">@L("支付信息")</a>
+                    <a href="javascript:void(0)" class="btn btn-primary payment-info">@L("Payment Information")</a>
                 }
                 @if (Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.RefundOrder) && Model.PaymentID.IsNotNullAndWhiteSpace() && Model.RefundID.IsNullOrEmpty())
                 {
-                    <a href="javascript:void(0)" class="btn btn-primary refund">@L("退款")</a>
+                    <a href="javascript:void(0)" class="btn btn-primary refund">@L("Refund")</a>
                 }
                 @if (Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.ViewOrderRefund) && Model.RefundID.IsNotNullAndWhiteSpace())
                 {
-                    <a href="javascript:void(0)" class="btn btn-primary refund-info">@L("退款信息")</a>
+                    <a href="javascript:void(0)" class="btn btn-primary refund-info">@L("Refund Information")</a>
                 }
                 @*@if (Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.CloseOrder) && Model.OrderStatus == (int)ZKEACMS.Shop.OrderStatus.UnPaid)
                 {
                     <a href="javascript:void(0)" class="btn btn-danger close-order">关闭订单</a>
                 }*@
-                <input type="button" class="btn btn-default cancel" value="@L("取消")" />                
+                <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />                
             </div>
         }
     </div>
@@ -44,13 +44,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">@L("信息")</h4>
+                <h4 class="modal-title" id="myModalLabel">@L("Information")</h4>
             </div>
             <div class="modal-body">
                 ...
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">@L("关闭")</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">@L("Close")</button>
             </div>
         </div>
     </div>
@@ -64,19 +64,19 @@
             Easy.Block();
             $.post("@Url.Action("PaymentInfo", new { id=Model.ID })", function (html) {
                 Easy.UnBlock();
-                $("#myModalLabel").text("@L("支付信息")")
+                $("#myModalLabel").text("@L("Payment Information")")
                 $(".modal-body").html(html);
                 $(".modal").modal();
             }, "html");
         });
         $(document).on("click", ".refund", function () {
             if (!$("#Refund").val()) {
-                Easy.ShowMessageBox("@L("提示")", "@L("请输入退款金额")");
+                Easy.ShowMessageBox("@L("Notice")", "@L("Please enter the refund amount")");
                 $("#Refund").focus();
                 return;
             }
             if (!$("#RefundReason").val()) {
-                Easy.ShowMessageBox("@L("提示")", "@L("请输入退款原因")");
+                Easy.ShowMessageBox("@L("Notice")", "@L("Please enter the refund reason")");
                 $("#RefundReason").focus();
                 return;
             }
@@ -84,13 +84,13 @@
                 if (Number($("#Refund").val()) > Number($("#Total").val())) {
                     return;
                 }
-                Easy.ShowMessageBox("@L("提示")", "@L("确定要退款吗？")", function () {
+                Easy.ShowMessageBox("@L("Notice")", "@L("Are you want to refund?")", function () {
                     Easy.Block();
                     $.post("@Url.Action("Refund", new { id = Model.ID })", { amount: $("#Refund").val(), reason: $("#RefundReason").val() }, function (data) {
                         if (data.hasViolation) {
-                            Easy.ShowMessageBox("@L("提示")", data.errorMessage);
+                            Easy.ShowMessageBox("@L("Notice")", data.errorMessage);
                         } else {
-                            Easy.ShowMessageBox("@L("提示")", "@L("退款成功！")", function () { window.location.reload(true); },false);
+                            Easy.ShowMessageBox("@L("Notice")", "@L("Refund successfull!")", function () { window.location.reload(true); },false);
                         }
                     });
                  }, true);
@@ -100,7 +100,7 @@
             Easy.Block();
             $.post("@Url.Action("RefundInfo", new { id=Model.ID })", function (html) {
                 Easy.UnBlock();
-                $("#myModalLabel").text("@L("退款信息")")
+                $("#myModalLabel").text("@L("Refund Information")")
                 $(".modal-body").html(html);
                 $(".modal").modal();
             }, "html");
@@ -109,9 +109,9 @@
             Easy.Block();
             $.post("@Url.Action("CloseOrder", new { id=Model.ID })", function (data) {
                 if (data.hasViolation) {
-                    Easy.ShowMessageBox("@L("提示")", data.errorMessage);
+                    Easy.ShowMessageBox("@L("Notice")", data.errorMessage);
                 } else {
-                    Easy.ShowMessageBox("@L("提示")", "@L("订单已关闭！")", function () { window.location.reload(true); }, false);
+                    Easy.ShowMessageBox("@L("Notice")", "@L("The order is closed!")", function () { window.location.reload(true); }, false);
                 }
             });
         });

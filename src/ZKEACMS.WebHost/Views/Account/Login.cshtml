@@ -19,7 +19,7 @@
                         </h2>
                     </div>
                     <div class="login-panel-body">
-                        <p>@L("请输入您的用户信息以登录系统")</p>
+                        <p>@L("Please enter your user information to log in to the system")</p>
                         <div class="form-group">
                             @Html.LabelFor(m => m.UserID)
                             @Html.EditorFor(m => m.UserID)
@@ -31,7 +31,7 @@
                             @Html.ValidationMessageFor(m => m.PassWord)
                         </div>
                         <div>
-                            <input type="submit" class="btn btn-danger btn-login" value="@L("登录")" />
+                            <input type="submit" class="btn btn-danger btn-login" value="@L("Sign in")" />
                         </div>
                         <hr />
                         <div class="login-panel-footer">

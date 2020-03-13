@@ -73,7 +73,7 @@ namespace ZKEACMS.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("PassWord", _localize.Get("登录失败，用户名密码不正确"));
+                    ModelState.AddModelError("PassWord", _localize.Get("User name password is incorrect"));
                 }
             }
 

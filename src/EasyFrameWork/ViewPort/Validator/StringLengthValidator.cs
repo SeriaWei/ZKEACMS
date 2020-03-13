@@ -10,31 +10,61 @@ namespace Easy.ViewPort.Validator
         {
             this.Max = max;
             this.Min = min;
-            if (Max > 0)
+            if (Max > 0 && Min > 0)
             {
-                this.BaseErrorMessage = "{{0}}的长度应大于{0}且小于{1}".FormatWith(Min, Max);
+                this.BaseErrorMessage = "{0} length should in range({1}-{2})";
             }
-            else
+            else if (Max > 0)
             {
-                this.BaseErrorMessage = "{{0}}的长度应小于{0}".FormatWith(Max);
+                this.BaseErrorMessage = "{0} length should less than or equal to {1}";
             }
+            else if (Min > 0)
+            {
+                this.BaseErrorMessage = "{0} length should greater than or equal to {1}";
+            }
+
         }
         public int Max { get; set; }
         public int Min { get; set; }
 
         public override bool Validate(object value)
         {
-            
+
             if (value == null) return true;
             string val = value.ToString();
-            if (val.Length <= Max)
+
+            if (Max > 0 && Min > 0)
             {
-                return true;
+                return val.Length >= Min && val.Length <= Max;
+            }
+            else if (Max > 0)
+            {
+                return val.Length <= Max;
+            }
+            else if (Min > 0)
+            {
+                return val.Length >= Min;
             }
             else
             {
                 return false;
             }
+        }
+        public override string FormatMessage(string key)
+        {
+            if (Max > 0 && Min > 0)
+            {
+                return string.Format(key, (DisplayName ?? Property), Min, Max);
+            }
+            else if (Max > 0)
+            {
+                return string.Format(key, (DisplayName ?? Property), Max);
+            }
+            else if (Min > 0)
+            {
+                return string.Format(key, (DisplayName ?? Property), Min);
+            }
+            return string.Empty;
         }
     }
 }

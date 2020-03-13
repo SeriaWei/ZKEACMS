@@ -1,5 +1,5 @@
 @{
-    ViewBag.Title = L("没有权限");
+    ViewBag.Title = L("Fobidden");
     Layout = Layouts.NormalDefault;
 }
 <div class="page-header" style="text-align: center;">
@@ -7,17 +7,7 @@
     <h1 style="font-size: 6em" class="text-danger">403</h1>
 </div>
 <div style="text-align:center">
-    <h2>@L("拒绝处理")</h2>
-    <br />
-    <p>@L("在处理您的请求时出现错误，因为您没有相关的权限，请与管理员联系。")</p>
-    <br />
-    <p class="text-muted">@L("或者您还可以使用其它账号登录：")</p>
-    <br />
-    <p>
-        <a href="@Url.Action("Index","Dashboard")" class="btn btn-primary">@L("返回后台")</a>
-        <a href="@Url.Action("Login","Account")" class="btn btn-primary">@L("切换账号")</a>
-    </p>
-    <br />
+    <h2>@L("Fobidden")</h2>
     <hr />
     <div>
         <p>

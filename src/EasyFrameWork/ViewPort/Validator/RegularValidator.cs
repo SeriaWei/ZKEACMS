@@ -9,7 +9,7 @@ namespace Easy.ViewPort.Validator
         public RegularValidator(string expression)
         {
             this.Expression = expression;
-            BaseErrorMessage = "{0}的输入的值不符合要求";
+            BaseErrorMessage = "{0} is not correct";
         }
         public string Expression { get; set; }
 

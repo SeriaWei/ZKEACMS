@@ -33,7 +33,7 @@ namespace ZKEACMS.Product.Service
                 if (GetByUrl(item.Url) != null)
                 {
                     var result = new ServiceResult<ProductCategory>();
-                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Url已存在")));
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
                     return result;
                 }
             }
@@ -46,7 +46,7 @@ namespace ZKEACMS.Product.Service
                 if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
                 {
                     var result = new ServiceResult<ProductCategory>();
-                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Url已存在")));
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
                     return result;
                 }
             }

@@ -3,5 +3,5 @@
 	Name:"ZKEACMS.SiteSearch",
 	FileName:"ZKEACMS.SiteSearch.dll",
 	Enable:"true",
-	Description:"利用搜索引擎搜索"
+	Description:"Search engine search"
 }

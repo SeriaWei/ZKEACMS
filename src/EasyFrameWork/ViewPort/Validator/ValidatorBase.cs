@@ -15,7 +15,7 @@ namespace Easy.ViewPort.Validator
                 if (string.IsNullOrEmpty(_ErrorMessage))
                 {
                     var localize = ServiceLocator.GetService<ILocalize>();
-                    return string.Format(localize.Get(BaseErrorMessage), DisplayName ?? Property);
+                    return FormatMessage(localize.Get(BaseErrorMessage));
                 }
                 else
                 {
@@ -23,6 +23,10 @@ namespace Easy.ViewPort.Validator
                 }
             }
             set { _ErrorMessage = value; }
+        }
+        public virtual string FormatMessage(string key)
+        {
+            return string.Format(key, DisplayName ?? Property);
         }
         public abstract bool Validate(object value);
     }

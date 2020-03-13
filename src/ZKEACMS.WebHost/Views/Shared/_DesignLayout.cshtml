@@ -30,7 +30,7 @@
     {
         <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
     }
-    <title>[@L("设计")]@Model.LayoutName</title>
+    <title>[@L("Design")]@Model.LayoutName</title>
     @StyleAtHead()
     @ScriptAtHead()
     <style type="text/css">
@@ -45,21 +45,21 @@
             <div class="container">
                 <div class="clearfix">
                     <div class="pull-left">
-                        <span class="badge">@L("布局设计")</span>
-                        <label class="AddContainer zk-btn zk-btn-primary" data-container="container-fluid" title="@L("点击拖动到主屏幕")" style="cursor:move">
+                        <span class="badge">@L("Layout Design")</span>
+                        <label class="AddContainer zk-btn zk-btn-primary" data-container="container-fluid" title="@L("Drag to layout")" style="cursor:move">
                             <i class="glyphicon glyphicon-unchecked"></i>
-                            @L("容器")
+                            @L("Container")
                             <span class="glyphicon glyphicon-move"></span>
                         </label>
-                        <label class="AddRow zk-btn zk-btn-primary" data-container="container-fluid" title="@L("点击拖动到容器")" style="cursor:move">
+                        <label class="AddRow zk-btn zk-btn-primary" data-container="container-fluid" title="@L("Drag to container")" style="cursor:move">
                             <i class="glyphicon glyphicon-align-justify"></i>
-                            @L("行")
+                            @L("Row")
                             <span class="glyphicon glyphicon-move"></span>
                         </label>
                         <div class="zk-btn-group">
-                            <label id="add-col-handle" class="AddCol zk-btn zk-btn-primary" data-col="col-md-" data-val="6" title="@L("点击拖动到行")" style="cursor:move">
+                            <label id="add-col-handle" class="AddCol zk-btn zk-btn-primary" data-col="col-md-" data-val="6" title="@L("Drag to row")" style="cursor:move">
                                 <i class="glyphicon glyphicon-tasks"></i>
-                                @L("列宽") <span class="col-size-info">@L("6/12")</span>
+                                @L("Column Width") <span class="col-size-info">@L("6/12")</span>
                                 <span class="glyphicon glyphicon-move"></span>
                             </label>
                             <button type="button" class="zk-btn zk-btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -80,7 +80,7 @@
                                 <li><a href="javascript:void(0)" data-val="12">@L("12/12")</a></li>
                             </ul>
                         </div>
-                        <a class="zk-btn zk-btn-primary" id="show-source-code" data-toggle="modal" data-target="#modal-layout-code" title="@L("代码")">
+                        <a class="zk-btn zk-btn-primary" id="show-source-code" data-toggle="modal" data-target="#modal-layout-code" title="@L("Code")">
                             <i class="glyphicon glyphicon-pencil"></i>
                         </a>
                         <span class="badge" data-toggle="modal" data-target="#question" style="cursor:help">?</span>
@@ -90,26 +90,26 @@
                         <div class="zk-btn-group">
                             <a class="zk-btn zk-btn-primary cancel">
                                 <i class="glyphicon glyphicon-arrow-left"></i>
-                                @L("取消")
+                                @L("Cancel")
                             </a>
                             @if (Model.Page != null)
                             {
                                 <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
                                     <i class="glyphicon glyphicon-pencil"></i>
-                                    @L("编辑页面")
+                                    @L("Edit Page")
                                 </a>
                             }
                             <a href="@Url.Action("LayoutWidget", "Layout", new { LayoutID = Model.ID })" class="zk-btn zk-btn-primary">
                                 <i class="glyphicon glyphicon-th-list"></i>
-                                @L("内容")
+                                @L("Content")
                             </a>
                             <a href="@Url.Action("Edit", "Layout", new {Model.ID})" class="zk-btn zk-btn-primary">
                                 <i class="glyphicon glyphicon-edit"></i>
-                                @L("属性")
+                                @L("Property")
                             </a>
                             <a class="zk-btn zk-btn-primary" id="save">
                                 <i class="glyphicon glyphicon-floppy-disk"></i>
-                                @L("保存")
+                                @L("Save")
                             </a>
                             @await Html.PartialAsync("Partial.Menu", Model)
                         </div>
@@ -140,77 +140,66 @@
             <div class="zk-modal-content">
                 <div class="zk-modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="zk-modal-title" id="myModalLabel">@L("布局设计说明")</h4>
+                    <h4 class="zk-modal-title" id="myModalLabel">@L("Grid System")</h4>
                 </div>
                 <div class="zk-modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th><code>@L("Grid System")</code></th>
+                                    <th>
+                                        @L("XS Screen")
+                                        <small>@L("Mobile (<768px)")</small>
+                                    </th>
+                                    <th>
+                                        @L("SM Screen")
+                                        <small>@L("Tablet (≥768px)")</small>
+                                    </th>
+                                    <th>
+                                        @L("MD Screen")
+                                        <small>@L("Desktop (≥992px)")</small>
+                                    </th>
+                                    <th>
+                                        @L("LG Screen")
+                                        <small>@L("Desktop (≥1200px)")</small>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th class="text-nowrap" scope="row">@L("Grid Display")</th>
+                                    <td>@L("Always horizontally")</td>
+                                    <td colspan="3">@L("Collapsed to start, horizontal above breakpoints")</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-nowrap" scope="row">@L("Max Width")</th>
+                                    <td>@L("None（Auto）")</td>
+                                    <td>750px</td>
+                                    <td>970px</td>
+                                    <td>1170px</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-nowrap" scope="row">@L("Max Column Width")</th>
+                                    <td class="text-muted">@L("Auto")</td>
+                                    <td>@L("~62px")</td>
+                                    <td>@L("~81px")</td>
+                                    <td>@L("~97px")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <h3>
-                        @L("居中 / 拉伸")
-                    </h3>
-                    <ol>
-                        <li>
-                            @L("居中，宽度响应变化")
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                @("超小屏幕")
-                                                <small>手机 (&lt;768px)</small>
-                                            </th>
-                                            <th>
-                                                @L("小屏幕")
-                                                <small>平板 (≥768px)</small>
-                                            </th>
-                                            <th>
-                                                @L("中等屏幕")
-                                                <small>@L("桌面显示器") (≥992px)</small>
-                                            </th>
-                                            <th>
-                                                @L("大屏幕")
-                                                <small>@L("大桌面显示器") (≥1200px)</small>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>100%</td>
-                                            <td>750px</td>
-                                            <td>970px</td>
-                                            <td>1170px</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </li>
-                        <li>
-                            @L("拉伸，宽度100%。")<code>@L("在这种情况下，选中行可以设置“行”居中或拉伸。")</code>
-                        </li>
-                    </ol>
-                    <h3>
-                        @L("行 / 列宽 / 组件区域")
-                    </h3>
-                    <ol>
-                        <li>
-                            <p><code>@L("拖放操作步骤：")</code>@L("1.容器，2.行 -> 容器，3.列 -> 行")</p>
-                        </li>
-                        <li>
-                            <p>@L("行，直接加入到主容器中。")</p>
-                        </li>
-                        <li>
-                            <p>@L("列，只能加入到“行”中。列宽分成12等分，选择任意宽度划分行。")</p>
-                        </li>
-                    </ol>
-                    <h3>
-                        @L("帮助")
+                        @L("Help")
                     </h3>
                     <ul>
                         <li>
-                            <a href="http://www.zkea.net/zkeacms/document/layout" target="_blank">@L("教我操作")</a>
+                            <a href="http://www.zkea.net/zkeacms/document/layout" target="_blank">@L("Document")</a>
                         </li>
                     </ul>
                 </div>
                 <div class="zk-modal-footer">
-                    <button type="button" class="zk-btn zk-btn-default" data-dismiss="modal">@L("关闭")</button>
+                    <button type="button" class="zk-btn zk-btn-default" data-dismiss="modal">@L("Close")</button>
                 </div>
             </div>
         </div>
@@ -221,14 +210,14 @@
             <div class="zk-modal-content">
                 <div class="zk-modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="zk-modal-title">@L("布局代码")</h4>
+                    <h4 class="zk-modal-title">@L("Layout Code")</h4>
                 </div>
                 <div class="zk-modal-body">
                     <textarea id="layout-code" rows="10" cols="10"></textarea>
                 </div>
                 <div class="zk-modal-footer">
-                    <button type="button" class="zk-btn zk-btn-default" data-dismiss="modal">@L("关闭")</button>
-                    <button type="button" class="zk-btn zk-btn-primary" id="save-layout-code" data-dismiss="modal">@L("确定")</button>
+                    <button type="button" class="zk-btn zk-btn-default" data-dismiss="modal">@L("Close")</button>
+                    <button type="button" class="zk-btn zk-btn-primary" id="save-layout-code" data-dismiss="modal">@L("OK")</button>
                 </div>
             </div>
         </div>

@@ -100,7 +100,7 @@ new List<string>{"col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2", 
             }
             else
             {
-                <input id="design" type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Update" />
+                <input id="design" type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Update" />
                 if (Model.IsTemplate && Model.Thumbnail.IsNotNullAndWhiteSpace())
                 {
                     <a href="@Url.Action("Pack", new {Model.ID})" class="btn btn-success">
@@ -110,7 +110,7 @@ new List<string>{"col-xs-4 col-sm-2", "col-xs-4 col-sm-2", "col-xs-4 col-sm-2", 
                 }
             }
             <input id="copy-widget" type="button" class="btn btn-warning" data-id="@Model.ID" value="@L("复制")" />
-            <input type="button" class="btn btn-default cancel" value="@L("取消")" />
+            <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
         </div>
 
     </div>

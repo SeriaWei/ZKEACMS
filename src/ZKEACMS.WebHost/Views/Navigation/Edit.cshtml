@@ -5,7 +5,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        @L("导航")
+        @L("Navigation")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -14,11 +14,11 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManageNavigation))
                 {
-                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Update" />
-                    <input type="button" class="btn btn-warning append-html" value="@L("转为伪静态路径")" />
-                    <input type="submit" class="btn btn-danger delete" value="@L("删除")" data-value="@ActionType.Delete" />
+                    <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Update" />
+                    <input type="button" class="btn btn-warning append-html" value="@L("Append '.html'")" />
+                    <input type="submit" class="btn btn-danger delete" value="@L("Delete")" data-value="@ActionType.Delete" />
                 }                
-                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
+                <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
             </div>
         }
     </div>
@@ -31,10 +31,10 @@
                 var url = $("#Url");
                 var path = url.val();
                 if (!url.val()) {
-                    Easy.ShowMessageBox("@L("提示")", "@L("请先输入URL地址")");
+                    Easy.ShowMessageBox("@L("Notice")", "@L("{0} is required").Text.FormatWith("URL")");
                 }
                 else if (path.indexOf("?") >= 0) {
-                    Easy.ShowMessageBox("@L("提示")", "@L("不支持带有参数的URL地址静态化")")
+                    Easy.ShowMessageBox("@L("Notice")", "@L("Querystring is not allowed")");
                 }
                 else {
                     if (path.indexOf(".html") < 0) {
@@ -42,7 +42,7 @@
                     }
                 }
             }).on("click", ".delete", function () {
-                return confirm("@L("删除导航会删除对应的子导航，确定要删除吗？")");
+                return confirm("@L("Do you want to delete?")");
             });
         });
     </script>

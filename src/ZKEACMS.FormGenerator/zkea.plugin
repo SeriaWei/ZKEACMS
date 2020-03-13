@@ -3,5 +3,5 @@
 	Name:"ZKEACMS.FormGenerator",
 	FileName:"ZKEACMS.FormGenerator.dll",
 	Enable:"true",
-	Description:"自定义表单"
+	Description:"Form Generator"
 }

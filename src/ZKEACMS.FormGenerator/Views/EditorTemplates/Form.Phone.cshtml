@@ -1,9 +1,9 @@
 @model ZKEACMS.FormGenerator.Models.FormField
 @{ 
     string maxLength = "15";
-    Model.Attributes.TryAdd("data-val-length", L("{0}的长度应小于{1}").Text.FormatWith(Model.DisplayName, maxLength));
+    Model.Attributes.TryAdd("data-val-length", L("The max length of {0} is {1}").Text.FormatWith(Model.DisplayName, maxLength));
     Model.Attributes.TryAdd("data-val-length-max", maxLength);
-    Model.Attributes.TryAdd("data-val-phonecn", L("电话地址格式不正确").Text);
+    Model.Attributes.TryAdd("data-val-phonecn", L("Please input a phone number").Text);
 }
 <div class="form-group size-@Model.Size">
     @if (Model.DisplayName.IsNotNullAndWhiteSpace())
