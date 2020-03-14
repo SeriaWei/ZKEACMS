@@ -195,13 +195,13 @@ namespace ZKEACMS
 
             services.Configure<NavigationWidget>(option =>
             {
-                option.DataSourceLinkTitle = "导航";
+                option.DataSourceLinkTitle = "Navigation";
                 option.DataSourceLink = "~/admin/Navigation";
             });
 
             services.Configure<CarouselWidget>(option =>
             {
-                option.DataSourceLinkTitle = "焦点图";
+                option.DataSourceLinkTitle = "Carousel";
                 option.DataSourceLink = "~/admin/Carousel";
             });
             #region 数据库配置
