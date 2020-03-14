@@ -3013,7 +3013,7 @@ INSERT INTO `Language` VALUES
 ('Page Design','en-GB','Design',NULL,NULL),
 ('Page Design','en-US','Design',NULL,NULL),
 ('Page Design','zh-CN','页面设计',NULL,NULL),
-('Page Not Exists','zh-CN','页面不存在',NULL,NULL),
+('Page Not Found','zh-CN','页面不存在',NULL,NULL),
 ('PageAsset@Url','en-US','Url','PageAsset','EntityProperty'),
 ('PageAsset@Url','zh-CN','Url','PageEntity','EntityProperty'),
 ('PageEntity@ActionType','zh-CN','ActionType','PageEntity','EntityProperty'),

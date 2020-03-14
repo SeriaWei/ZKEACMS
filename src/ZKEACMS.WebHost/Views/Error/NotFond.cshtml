@@ -1,5 +1,5 @@
 @{
-    ViewBag.Title = L("Page Not Exists");
+    ViewBag.Title = L("Page Not Found");
     Layout = Layouts.NormalDefault;
 }
 <div class="page-header" style="text-align: center;">
@@ -7,7 +7,12 @@
     <h1 style="font-size: 6em" class="text-danger">404</h1>
 </div>
 <div style="text-align:center">
-    <h2>@L("Page Not Exists")</h2>
+    <h2>@L("Page Not Found")</h2>
+    <br />
+    <p>
+        <a href="~/" class="btn btn-primary">@L("Home Page")</a>
+        <a href="@Url.Action("Index","Page")" class="btn btn-primary">@L("Manage Pages")</a>
+    </p>
     <br />
     <hr />
     <div>
