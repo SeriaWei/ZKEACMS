@@ -9,7 +9,7 @@ namespace Easy.ViewPort.Validator
     {
         public RemoteValidator()
         {
-            BaseErrorMessage = "{0} is not correct";
+            BaseErrorMessage = "{0} is invalid";
         }
         public string Url
         {

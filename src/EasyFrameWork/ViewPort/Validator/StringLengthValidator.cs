@@ -12,15 +12,15 @@ namespace Easy.ViewPort.Validator
             this.Min = min;
             if (Max > 0 && Min > 0)
             {
-                this.BaseErrorMessage = "{0} length should in range({1}-{2})";
+                this.BaseErrorMessage = "{0} length should be between {1} to {2}";
             }
             else if (Max > 0)
             {
-                this.BaseErrorMessage = "{0} length should less than or equal to {1}";
+                this.BaseErrorMessage = "{0} length should be less than {1}";
             }
             else if (Min > 0)
             {
-                this.BaseErrorMessage = "{0} length should greater than or equal to {1}";
+                this.BaseErrorMessage = "{0} length should be greater than {1}";
             }
 
         }

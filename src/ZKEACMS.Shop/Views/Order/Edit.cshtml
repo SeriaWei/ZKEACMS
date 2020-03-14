@@ -84,7 +84,7 @@
                 if (Number($("#Refund").val()) > Number($("#Total").val())) {
                     return;
                 }
-                Easy.ShowMessageBox("@L("Notice")", "@L("Are you want to refund?")", function () {
+                Easy.ShowMessageBox("@L("Notice")", "@L("Do you want to refund?")", function () {
                     Easy.Block();
                     $.post("@Url.Action("Refund", new { id = Model.ID })", { amount: $("#Refund").val(), reason: $("#RefundReason").val() }, function (data) {
                         if (data.hasViolation) {

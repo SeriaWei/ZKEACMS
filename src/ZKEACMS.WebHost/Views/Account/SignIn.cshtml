@@ -34,7 +34,7 @@
                        class="form-control"
                        data-val="true"
                        data-val-required="@L("{0} is required").Text.FormatWith(L("Email"))"
-                       data-val-length="@L("{0} length should less than or equal to {1}").Text.FormatWith(L("Email"),200)"
+                       data-val-length="@L("{0} length should be less than {1}").Text.FormatWith(L("Email"),200)"
                        data-val-regex-pattern="@(Easy.Constant.RegularExpression.Email)"
                        data-val-regex="@L("Email is incorrect")"
                        data-val-length-max="200" />
@@ -49,7 +49,7 @@
                        class="form-control"
                        data-val="true"
                        data-val-required="@L("{0} is required").Text.FormatWith(L("Password"))"
-                       data-val-length="@L("{0} length should less than or equal to {1}").Text.FormatWith(L("Password"),20)"
+                       data-val-length="@L("{0} length should be less than {1}").Text.FormatWith(L("Password"),20)"
                        data-val-length-max="20" />
                 <span class="field-validation-valid" data-valmsg-for="password" data-valmsg-replace="true"></span>
             </div>

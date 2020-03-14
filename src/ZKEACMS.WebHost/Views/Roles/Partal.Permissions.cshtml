@@ -10,28 +10,33 @@
 @for (int i = 0; i < rows; i++)
 {
     <div class="row">
-        @foreach (var item in permissions.Skip(i * 3).Take(3))
+        @foreach (var item in permissions.Skip(i * 2).Take(2))
         {
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         @L(item.Key)
                     </div>
                     <div class="panel-body">
-                        @foreach (var p in item)
-                        {
-                            <span style="margin: 0 5px;">
-                                <label class="checkbox-inline">
-                                    @Html.CheckBox("PermissionSet[{0}].Checked".FormatWith(index), Model.Any(m => m.PermissionKey == p.Key))
-                                    @Html.Hidden("PermissionSet[{0}].Description".FormatWith(index), p.Description)
-                                    @Html.Hidden("PermissionSet[{0}].Title".FormatWith(index), p.Title)
-                                    @Html.Hidden("PermissionSet[{0}].Key".FormatWith(index), p.Key)
-                                    @Html.Hidden("PermissionSet[{0}].Module".FormatWith(index), p.Module)
-                                    @L(p.Title)
-                                </label>
-                            </span>
-                            index++;
-                        }
+                        <div class="container-fluid">
+                            <div class="row">
+                                @foreach (var p in item)
+                                {
+                                    <div class="col-md-4">
+                                        <label class="checkbox-inline">
+                                            @Html.CheckBox("PermissionSet[{0}].Checked".FormatWith(index), Model.Any(m => m.PermissionKey == p.Key))
+                                            @Html.Hidden("PermissionSet[{0}].Description".FormatWith(index), p.Description)
+                                            @Html.Hidden("PermissionSet[{0}].Title".FormatWith(index), p.Title)
+                                            @Html.Hidden("PermissionSet[{0}].Key".FormatWith(index), p.Key)
+                                            @Html.Hidden("PermissionSet[{0}].Module".FormatWith(index), p.Module)
+                                            @L(p.Title)
+                                        </label>
+                                    </div>
+                                    index++;
+                                }
+                            </div>
+                        </div>
+                       
                     </div>
                 </div>
             </div>
