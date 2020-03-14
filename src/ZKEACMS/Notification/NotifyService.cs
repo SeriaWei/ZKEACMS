@@ -9,6 +9,7 @@ using Easy.Notification;
 using Microsoft.AspNetCore.Http;
 using ZKEACMS.Notification.ViewModels;
 using Microsoft.AspNetCore.DataProtection;
+using Easy;
 
 namespace ZKEACMS.Notification
 {
@@ -17,18 +18,23 @@ namespace ZKEACMS.Notification
         private readonly INotificationManager _notificationManager;
         private readonly IHostOptionProvider _hostOptionProvider;
         private readonly IDataProtectionProvider _dataProtectionProvider;
-        public NotifyService(INotificationManager notificationManager, IHostOptionProvider hostOptionProvider, IDataProtectionProvider dataProtectionProvider)
+        private readonly ILocalize _localize;
+        public NotifyService(INotificationManager notificationManager, 
+            IHostOptionProvider hostOptionProvider, 
+            IDataProtectionProvider dataProtectionProvider,
+            ILocalize localize)
         {
             _notificationManager = notificationManager;
             _hostOptionProvider = hostOptionProvider;
             _dataProtectionProvider = dataProtectionProvider;
+            _localize = localize;
         }
         public void ResetPassword(UserEntity user)
         {
             var dataProtector = _dataProtectionProvider.CreateProtector("ResetPassword");
             _notificationManager.Send(new RazorEmailNotice
             {
-                Subject = "重置密码",
+                Subject = _localize.Get("Reset password"),
                 To = new string[] { user.Email },
                 Model = new ResetPasswordViewModel
                 {

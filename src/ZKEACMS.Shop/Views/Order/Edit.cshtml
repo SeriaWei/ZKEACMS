@@ -31,7 +31,7 @@
                 }
                 @*@if (Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.CloseOrder) && Model.OrderStatus == (int)ZKEACMS.Shop.OrderStatus.UnPaid)
                 {
-                    <a href="javascript:void(0)" class="btn btn-danger close-order">关闭订单</a>
+                    <a href="javascript:void(0)" class="btn btn-danger close-order">@L("Close Order")</a>
                 }*@
                 <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />                
             </div>

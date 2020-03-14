@@ -22,10 +22,11 @@ namespace ZKEACMS.SectionWidget.Controllers
         private readonly IWidgetBasePartService _widgetService;
         private readonly IPackageInstallerProvider _packageInstallerProvider;
         private readonly IWidgetActivator _widgetActivator;
-
+        private readonly ILocalize _localize;
         public SectionGroupController(ISectionGroupService sectionGroupService,
             ISectionContentProviderService sectionContentProviderService,
             IWidgetBasePartService widgetService, IPackageInstallerProvider packageInstallerProvider,
+            ILocalize localize,
             IWidgetActivator widgetActivator)
         {
             _sectionGroupService = sectionGroupService;
@@ -33,6 +34,7 @@ namespace ZKEACMS.SectionWidget.Controllers
             _widgetService = widgetService;
             _packageInstallerProvider = packageInstallerProvider;
             _widgetActivator = widgetActivator;
+            _localize = localize;
         }
 
         public ActionResult Create(string sectionWidgetId)
@@ -44,7 +46,7 @@ namespace ZKEACMS.SectionWidget.Controllers
                 ActionType = ActionType.Create,
                 Order = order,
                 PartialView = "SectionTemplate.Default",
-                GroupName = "组 " + order
+                GroupName = _localize.Get("Group") + " " + order
             });
         }
         public ActionResult Edit(string Id)
@@ -111,11 +113,11 @@ namespace ZKEACMS.SectionWidget.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return Json(new AjaxResult { Status = AjaxStatus.Error, Message = "上传的模板不正确!" + ex.Message });
+                    return Json(new AjaxResult { Status = AjaxStatus.Error, Message = ex.Message });
                 }
             }
 
-            return Json(new AjaxResult { Status = AjaxStatus.Normal, Message = "上传成功" });
+            return Json(new AjaxResult { Status = AjaxStatus.Normal, Message = _localize.Get("Upload success") });
         }
 
         [HttpPost]

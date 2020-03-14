@@ -17,10 +17,10 @@ namespace ZKEACMS.Shop.Payment
 
 
             ViewConfig(m => m.AppId).AsTextBox().Required();
-            ViewConfig(m => m.Uid).AsTextBox().Required().SetDisplayName("商户UID");
-            ViewConfig(m => m.Gatewayurl).AsTextBox().Required().SetDisplayName("支付宝网关");
-            ViewConfig(m => m.AlipayPublicKey).AsTextArea().Required().SetDisplayName("应用公钥");
-            ViewConfig(m => m.PrivateKey).AsTextArea().Required().SetDisplayName("应用私钥");
+            ViewConfig(m => m.Uid).AsTextBox().Required();
+            ViewConfig(m => m.Gatewayurl).AsTextBox().Required();
+            ViewConfig(m => m.AlipayPublicKey).AsTextArea().Required();
+            ViewConfig(m => m.PrivateKey).AsTextArea().Required();
         }
     }
 }

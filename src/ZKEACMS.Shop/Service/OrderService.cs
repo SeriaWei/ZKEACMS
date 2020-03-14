@@ -14,13 +14,18 @@ namespace ZKEACMS.Shop.Service
     {
         private readonly IOrderItemService _orderItemService;
         private readonly IEnumerable<IPaymentService> _paymentServices;
-        public OrderService(IApplicationContext applicationContext, IOrderItemService orderItemService, IEnumerable<IPaymentService> paymentServices, CMSDbContext dbContext)
+        private readonly ILocalize _localize;
+        public OrderService(IApplicationContext applicationContext, IOrderItemService orderItemService,
+            IEnumerable<IPaymentService> paymentServices,
+            ILocalize localize,
+            CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _orderItemService = orderItemService;
             _paymentServices = paymentServices;
+            _localize = localize;
         }
-        
+
         public override ServiceResult<Order> Add(Order item)
         {
             item.ID = Guid.NewGuid().ToString("N");
@@ -51,7 +56,7 @@ namespace ZKEACMS.Shop.Service
             {
                 Result = false
             };
-            result.RuleViolations.Add(new RuleViolation("Error", "只能关闭未支付的订单"));
+            result.RuleViolations.Add(new RuleViolation("Error", _localize.Get("Only unpaid order can be closed!")));
             return result;
         }
 
@@ -106,15 +111,15 @@ namespace ZKEACMS.Shop.Service
             };
             if (order.PaymentID.IsNullOrEmpty())
             {
-                failed.RuleViolations.Add(new RuleViolation("Error", "退款失败，订单未付款"));
+                failed.RuleViolations.Add(new RuleViolation("Error", _localize.Get("Unpaid order")));
             }
             if (order.RefundID.IsNotNullAndWhiteSpace())
             {
-                failed.RuleViolations.Add(new RuleViolation("Error", "退款失败，订单已退款"));
+                failed.RuleViolations.Add(new RuleViolation("Error", _localize.Get("Refunded")));
             }
             if (amount > order.Total)
             {
-                failed.RuleViolations.Add(new RuleViolation("Error", "退款失败，退款金额超出订单金额"));
+                failed.RuleViolations.Add(new RuleViolation("Error", _localize.Get("Refund amount exceeds the amount of the order")));
             }
             return failed;
         }

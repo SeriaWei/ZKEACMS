@@ -136,7 +136,7 @@ namespace ZKEACMS.Controllers
                 _userService.Update(logOnUser);
                 return RedirectToAction("SignOut", new { returnurl = "~/Account/SignIn" });
             }
-            ViewBag.Message = "原密码错误";
+            ViewBag.Message = _localize.Get("Current password is not correct.");
             return View();
         }
         public ActionResult SignIn(string ReturnUrl)
@@ -161,7 +161,7 @@ namespace ZKEACMS.Controllers
                 }
                 return Redirect(ReturnUrl);
             }
-            ViewBag.Errormessage = "登录失败，用户名密码不正确";
+            ViewBag.Errormessage = _localize.Get("User name password is incorrect");
             ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
@@ -236,13 +236,13 @@ namespace ZKEACMS.Controllers
                 var dataProtector = _dataProtectionProvider.CreateProtector("ResetPassword");
                 if (pt.IsNullOrWhiteSpace() || dataProtector.Unprotect(pt) != token)
                 {
-                    ViewBag.Errormessage = "访问的重置链接无效，请重新申请";
+                    ViewBag.Errormessage = _localize.Get("Invalid request");
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.ToString());
-                ViewBag.Errormessage = "访问的重置链接无效，请重新申请";
+                ViewBag.Errormessage = _localize.Get("Invalid request");
             }
             return View(new ResetViewModel { ResetToken = token, Protect = pt });
         }
@@ -264,7 +264,7 @@ namespace ZKEACMS.Controllers
             {
                 _logger.LogError(ex.ToString());
             }
-            ViewBag.Errormessage = "重置密码失败";
+            ViewBag.Errormessage = _localize.Get("Reset password failed!");
             return View(user);
         }
         #endregion

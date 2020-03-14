@@ -32,6 +32,7 @@ namespace ZKEACMS.Page
         private readonly IZoneService _zoneService;
         private readonly ILayoutHtmlService _layoutHtmlService;
         private readonly IEventManager _eventManager;
+        private readonly ILocalize _localize;
         private Dictionary<string, IEnumerable<PageEntity>> _cachedPage;
         public PageService(IWidgetBasePartService widgetService,
             IApplicationContext applicationContext,
@@ -39,6 +40,7 @@ namespace ZKEACMS.Page
             IWidgetActivator widgetActivator,
             IZoneService zoneService,
             ILayoutHtmlService layoutHtmlService,
+            ILocalize localize,
             CMSDbContext dbContext,
             IEventManager eventManager)
             : base(applicationContext, dbContext)
@@ -49,6 +51,7 @@ namespace ZKEACMS.Page
             _zoneService = zoneService;
             _layoutHtmlService = layoutHtmlService;
             _eventManager = eventManager;
+            _localize = localize;
             _cachedPage = new Dictionary<string, IEnumerable<PageEntity>>();
         }
 
@@ -127,7 +130,7 @@ namespace ZKEACMS.Page
         {
             if (!item.IsPublishedPage && Count(m => m.Url == item.Url && m.IsPublishedPage == false) > 0)
             {
-                throw new PageExistException(item);
+                throw new PageExistException(_localize);
             }
             item.ID = Guid.NewGuid().ToString("N");
             if (item.ParentId.IsNullOrEmpty())
@@ -141,7 +144,7 @@ namespace ZKEACMS.Page
         {
             if (Count(m => m.ID != item.ID && m.Url == item.Url && m.IsPublishedPage == false) > 0)
             {
-                throw new PageExistException(item);
+                throw new PageExistException(_localize);
             }
             item.IsPublish = false;
             SerializeAssets(item);
@@ -213,7 +216,7 @@ namespace ZKEACMS.Page
                     var refPage = Get(page.ReferencePageID);
                     refPage.IsPublish = false;
                     Update(refPage);
-                    page.Description = "从 {0:yyyy/MM/dd H:mm} 版本撤回".FormatWith(page.PublishDate);
+                    page.Description = _localize.Get("Revert from version: {0:g}").FormatWith(page.PublishDate);
                     page.PublishDate = DateTime.Now;
                     Add(page);
 

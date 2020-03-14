@@ -1,29 +1,29 @@
 @{
-    ViewBag.Title = L("个人中心");
+    ViewBag.Title = L("Account Center");
     Layout = Layouts.CustomerCenter;
 }
 <div class="panel panel-default user-info">
     <div class="panel-heading clearfix">
-        <div class="pull-left">@L("基本信息")</div>
+        <div class="pull-left">@L("Information")</div>
         <div class="pull-right">
             <a href="@Url.Action("Edit","Account")">@L("Edit")</a>
         </div>
     </div>
     <div class="panel-body">
         <p>
-            <label>@L("姓名")</label>
+            <label>@L("Username")</label>
             @ApplicationContext.CurrentCustomer.UserName
         </p>
         <p>
-            <label>@L("邮箱")</label>
+            <label>@L("Email")</label>
             @ApplicationContext.CurrentCustomer.Email
         </p>
         <p>
-            <label>@L("电话")</label>
+            <label>@L("Phone")</label>
             @ApplicationContext.CurrentCustomer.Telephone
         </p>
         <p>
-            <label>@L("手机")</label>
+            <label>@L("Cell phone")</label>
             @ApplicationContext.CurrentCustomer.MobilePhone
         </p>
         <p>
@@ -31,15 +31,15 @@
             @ApplicationContext.CurrentCustomer.QQ
         </p>
         <p>
-            <label>@L("爱好")</label>
+            <label>@L("Hobby")</label>
             @ApplicationContext.CurrentCustomer.Hobby
         </p>
         <p>
-            <label>@L("收货地址")</label>
+            <label>@L("Shipping Address")</label>
             @ApplicationContext.CurrentCustomer.Address
         </p>
         <p>
-            <label>@L("邮政编码")</label>
+            <label>@L("Zip Code")</label>
             @ApplicationContext.CurrentCustomer.ZipCode
         </p>
     </div>

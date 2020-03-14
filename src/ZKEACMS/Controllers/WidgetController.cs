@@ -34,9 +34,12 @@ namespace ZKEACMS.Controllers
         private readonly IPackageInstallerProvider _packageInstallerProvider;
         private readonly IWidgetActivator _widgetActivator;
         private readonly IPageService _pageService;
+        private readonly ILocalize _localize;
 
         public WidgetController(IWidgetBasePartService widgetService, IWidgetTemplateService widgetTemplateService,
-            ICookie cookie, IPackageInstallerProvider packageInstallerProvider, IWidgetActivator widgetActivator, IPageService pageService)
+            ICookie cookie, IPackageInstallerProvider packageInstallerProvider, IWidgetActivator widgetActivator,
+            IPageService pageService,
+            ILocalize localize)
         {
             _widgetService = widgetService;
             _widgetTemplateService = widgetTemplateService;
@@ -44,6 +47,7 @@ namespace ZKEACMS.Controllers
             _packageInstallerProvider = packageInstallerProvider;
             _widgetActivator = widgetActivator;
             _pageService = pageService;
+            _localize = localize;
         }
         private void SetDataSource(WidgetBase widget)
         {
@@ -311,7 +315,7 @@ namespace ZKEACMS.Controllers
         public JsonResult Copy(string widgetId)
         {
             _cookie.SetValue(Const.CopyWidgetCookie, widgetId, true, true);
-            return Json(new AjaxResult { Status = AjaxStatus.Normal, Message = "复制成功，请到需要的页面区域粘贴！" });
+            return Json(new AjaxResult { Status = AjaxStatus.Normal, Message = _localize.Get("Copy success") });
         }
 
         [HttpPost]

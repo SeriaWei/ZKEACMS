@@ -75,7 +75,7 @@ namespace Easy.ViewPort.Descriptor
             Type dataType = typeof(T);
             if (!dataType.GetTypeInfo().IsEnum)
             {
-                throw new Exception(dataType.FullName + ",不是枚举类型。");
+                throw new Exception(dataType.FullName + " is not Enum type");
             }
             string[] text = Enum.GetNames(dataType);
 
