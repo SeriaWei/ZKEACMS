@@ -1831,7 +1831,7 @@ li.ui-sortable-helper {
     top: 0 !important;
     width: 300px !important;
     height: 100% !important;
-    z-index: 11 !important;
+    z-index: 10002 !important;
     background: #212636;
     border-color: #212636;
 }
