@@ -1,0 +1,25 @@
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Hosting
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
+    {
+        <meta name="referrer" content="same-origin" />
+    }
+    @if (ApplicationContext.As<CMSApplicationContext>().EnableResponsiveDesign)
+    {
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
+    }
+    @StyleAtHead()
+    @ScriptAtHead()
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    @StyleAtFoot()
+    @ScriptAtFoot()
+</body>
+</html>
