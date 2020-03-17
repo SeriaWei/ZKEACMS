@@ -97,8 +97,8 @@ namespace ZKEACMS.Shop
             yield return new PermissionDescriptor { Module = "Shop", Title = "Manage Order", Key = PermissionKeys.ManageOrder };
 
             yield return new PermissionDescriptor { Module = "Shop", Title = "View Transactions", Key = PermissionKeys.ViewOrderPayment };
-            yield return new PermissionDescriptor { Module = "Shop", Title = "View Refound", Key = PermissionKeys.ViewOrderRefund };
-            yield return new PermissionDescriptor { Module = "Shop", Title = "Refound", Key = PermissionKeys.RefundOrder };
+            yield return new PermissionDescriptor { Module = "Shop", Title = "View Refund", Key = PermissionKeys.ViewOrderRefund };
+            yield return new PermissionDescriptor { Module = "Shop", Title = "Refund", Key = PermissionKeys.RefundOrder };
             yield return new PermissionDescriptor { Module = "Shop", Title = "Payment Setting", Key = PermissionKeys.PaymentConfigManage };
         }
 

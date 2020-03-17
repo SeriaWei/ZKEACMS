@@ -85,7 +85,18 @@ namespace ZKEACMS
             .AddControllersAsServices()
             .AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.DateFormatString = "yyyy/MM/dd H:mm";
+                options.SerializerSettings.DateFormatString = "g";
+            })
+            .AddDataAnnotationsLocalization(option => option.DataAnnotationLocalizerProvider = (t, factory) =>
+            {
+                if (t.IsClass)
+                {
+                    return new LocalizeString(t);
+                }
+                else
+                {
+                    return factory.Create(t);
+                }
             })
             .SetCompatibilityVersion(CompatibilityVersion.Latest);
 

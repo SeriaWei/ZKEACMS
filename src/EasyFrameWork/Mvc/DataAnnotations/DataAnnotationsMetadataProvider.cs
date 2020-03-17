@@ -86,12 +86,15 @@ namespace Easy.Mvc.DataAnnotations
                     {
                         descriptor.Validator.Each(v =>
                         {
-                            v.DisplayName = descriptor.DisplayName;
+                            if (v.DisplayName == null)
+                            {
+                                v.DisplayName = () => descriptor.DisplayName;
+                            }
                             if (v is RangeValidator)
                             {
                                 RangeValidator valid = (RangeValidator)v;
                                 RangeAttribute range = new RangeAttribute(valid.Min, valid.Max);
-                                range.ErrorMessage = valid.ErrorMessage;
+                                range.ErrorMessage = Newtonsoft.Json.JsonConvert.SerializeObject(new Mapping(v.Name, v.Property));
 
                                 context.ValidationMetadata.ValidatorMetadata.Add(range);
                             }
@@ -99,28 +102,28 @@ namespace Easy.Mvc.DataAnnotations
                             {
                                 RegularValidator valid = (RegularValidator)v;
                                 RegularExpressionAttribute regular = new RegularExpressionAttribute(valid.Expression);
-                                regular.ErrorMessage = valid.ErrorMessage;
+                                regular.ErrorMessage = Newtonsoft.Json.JsonConvert.SerializeObject(new Mapping(v.Name, v.Property));
                                 context.ValidationMetadata.ValidatorMetadata.Add(regular);
                             }
                             else if (v is RemoteValidator)
                             {
                                 RemoteValidator valid = (RemoteValidator)v;
                                 RemoteAttribute remote = new RemoteAttribute(valid.Action, valid.Controller, valid.Area);
-                                remote.ErrorMessage = valid.ErrorMessage;
+                                remote.ErrorMessage = Newtonsoft.Json.JsonConvert.SerializeObject(new Mapping(v.Name, v.Property));
                                 context.ValidationMetadata.ValidatorMetadata.Add(remote);
                             }
                             else if (v is RequiredValidator)
                             {
                                 RequiredValidator valid = (RequiredValidator)v;
                                 RequiredAttribute required = new RequiredAttribute();
-                                required.ErrorMessage = valid.ErrorMessage;
+                                required.ErrorMessage = Newtonsoft.Json.JsonConvert.SerializeObject(new Mapping(v.Name, v.Property));
                                 context.ValidationMetadata.ValidatorMetadata.Add(required);
                             }
                             else if (v is StringLengthValidator)
                             {
                                 StringLengthValidator valid = (StringLengthValidator)v;
                                 StringLengthAttribute stringLength = new StringLengthAttribute(valid.Max);
-                                stringLength.ErrorMessage = valid.ErrorMessage;
+                                stringLength.ErrorMessage = Newtonsoft.Json.JsonConvert.SerializeObject(new Mapping(v.Name, v.Property));
                                 context.ValidationMetadata.ValidatorMetadata.Add(stringLength);
                             }
                         });

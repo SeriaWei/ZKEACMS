@@ -24,7 +24,7 @@ namespace Easy.ViewPort.Validator
         }
         public override string FormatMessage(string key)
         {
-            return string.Format(key, (DisplayName ?? Property), Min, Max);
+            return string.Format(key, GetDisplayName(), Min, Max);
         }
     }
 }

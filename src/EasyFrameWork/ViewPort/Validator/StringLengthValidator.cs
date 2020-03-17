@@ -54,15 +54,15 @@ namespace Easy.ViewPort.Validator
         {
             if (Max > 0 && Min > 0)
             {
-                return string.Format(key, (DisplayName ?? Property), Min, Max);
+                return string.Format(key, GetDisplayName(), Min, Max);
             }
             else if (Max > 0)
             {
-                return string.Format(key, (DisplayName ?? Property), Max);
+                return string.Format(key, GetDisplayName(), Max);
             }
             else if (Min > 0)
             {
-                return string.Format(key, (DisplayName ?? Property), Min);
+                return string.Format(key, GetDisplayName(), Min);
             }
             return string.Empty;
         }

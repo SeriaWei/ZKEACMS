@@ -3,14 +3,15 @@
 @{
     var AllPermission = PermissionKeys.KnownPermissions.Where(m => m.IsAvailable == null || m.IsAvailable());
     var permissions = AllPermission.GroupBy(m => m.Module);
-    int rows = permissions.Count() / 3;
-    rows += permissions.Count() % 3 == 0 ? 0 : 1;
+    var column = 2;
+    int rows = permissions.Count() / column;
+    rows += permissions.Count() % column == 0 ? 0 : 1;
     int index = 0;
 }
 @for (int i = 0; i < rows; i++)
 {
     <div class="row">
-        @foreach (var item in permissions.Skip(i * 2).Take(2))
+        @foreach (var item in permissions.Skip(i * column).Take(column))
         {
             <div class="col-md-6">
                 <div class="panel panel-default">

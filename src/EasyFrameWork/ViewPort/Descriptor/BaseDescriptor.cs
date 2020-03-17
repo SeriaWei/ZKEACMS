@@ -266,7 +266,7 @@ namespace Easy.ViewPort.Descriptor
             this.DisplayName = name;
             foreach (ValidatorBase item in this.Validator)
             {
-                item.DisplayName = name;
+                item.DisplayName = () => this.DisplayName;
             }
             return this as T;
         }
