@@ -95,7 +95,7 @@ namespace ZKEACMS
                 }
                 else
                 {
-                    return factory.Create(t);
+                    return null;
                 }
             })
             .SetCompatibilityVersion(CompatibilityVersion.Latest);
