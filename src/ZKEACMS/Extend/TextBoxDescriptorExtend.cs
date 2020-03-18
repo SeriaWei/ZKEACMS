@@ -16,11 +16,11 @@ namespace ZKEACMS.Extend
         }
         public static TextBoxDescriptor MediaSelector(this TextBoxDescriptor descriptor)
         {
-            return descriptor.AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia).AddProperty("placeholder", "Paste upload pictures");
+            return descriptor.AddClass(StringKeys.SelectImageClass).AddProperty("data-url", Urls.SelectMedia);
         }
         public static TextBoxDescriptor FileSelector(this TextBoxDescriptor descriptor)
         {
-            return descriptor.AddClass(StringKeys.SelectMediaClass).AddProperty("data-url", Urls.SelectMedia).AddProperty("placeholder", "Select file");
+            return descriptor.AddClass(StringKeys.SelectMediaClass).AddProperty("data-url", Urls.SelectMedia);
         }
         public static TextBoxDescriptor UrlPart(this TextBoxDescriptor descriptor)
         {
