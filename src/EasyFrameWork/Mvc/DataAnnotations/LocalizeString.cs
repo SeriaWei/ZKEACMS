@@ -1,5 +1,6 @@
 ﻿using Easy.Extend;
 using Microsoft.Extensions.Localization;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -25,7 +26,7 @@ namespace Easy.Mvc.DataAnnotations
             {
                 if (_viewConfigure != null)
                 {
-                    var mapping = Newtonsoft.Json.JsonConvert.DeserializeObject<Mapping>(name);
+                    var mapping = JsonConvert.DeserializeObject<Mapping>(Encoding.UTF8.GetString(Convert.FromBase64String(name)));
                     var descriptor = _viewConfigure.GetViewPortDescriptor(mapping.Property);
                     if (descriptor != null)
                     {

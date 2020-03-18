@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Easy.MetaData;
 using Easy.Extend;
 using Easy.ViewPort.Validator;
+using Newtonsoft.Json;
 
 namespace Easy.Mvc.DataAnnotations
 {
@@ -90,11 +91,12 @@ namespace Easy.Mvc.DataAnnotations
                             {
                                 v.DisplayName = () => descriptor.DisplayName;
                             }
+                            string encodeError = Convert.ToBase64String(JsonConvert.SerializeObject(new Mapping(v.Name, v.Property)).ToByte());
                             if (v is RangeValidator)
                             {
                                 RangeValidator valid = (RangeValidator)v;
                                 RangeAttribute range = new RangeAttribute(valid.Min, valid.Max);
-                                range.ErrorMessage = Newtonsoft.Json.JsonConvert.SerializeObject(new Mapping(v.Name, v.Property));
+                                range.ErrorMessage = encodeError;
 
                                 context.ValidationMetadata.ValidatorMetadata.Add(range);
                             }
@@ -102,28 +104,28 @@ namespace Easy.Mvc.DataAnnotations
                             {
                                 RegularValidator valid = (RegularValidator)v;
                                 RegularExpressionAttribute regular = new RegularExpressionAttribute(valid.Expression);
-                                regular.ErrorMessage = Newtonsoft.Json.JsonConvert.SerializeObject(new Mapping(v.Name, v.Property));
+                                regular.ErrorMessage = encodeError;
                                 context.ValidationMetadata.ValidatorMetadata.Add(regular);
                             }
                             else if (v is RemoteValidator)
                             {
                                 RemoteValidator valid = (RemoteValidator)v;
                                 RemoteAttribute remote = new RemoteAttribute(valid.Action, valid.Controller, valid.Area);
-                                remote.ErrorMessage = Newtonsoft.Json.JsonConvert.SerializeObject(new Mapping(v.Name, v.Property));
+                                remote.ErrorMessage = encodeError;
                                 context.ValidationMetadata.ValidatorMetadata.Add(remote);
                             }
                             else if (v is RequiredValidator)
                             {
                                 RequiredValidator valid = (RequiredValidator)v;
                                 RequiredAttribute required = new RequiredAttribute();
-                                required.ErrorMessage = Newtonsoft.Json.JsonConvert.SerializeObject(new Mapping(v.Name, v.Property));
+                                required.ErrorMessage = encodeError;
                                 context.ValidationMetadata.ValidatorMetadata.Add(required);
                             }
                             else if (v is StringLengthValidator)
                             {
                                 StringLengthValidator valid = (StringLengthValidator)v;
                                 StringLengthAttribute stringLength = new StringLengthAttribute(valid.Max);
-                                stringLength.ErrorMessage = Newtonsoft.Json.JsonConvert.SerializeObject(new Mapping(v.Name, v.Property));
+                                stringLength.ErrorMessage = encodeError;
                                 context.ValidationMetadata.ValidatorMetadata.Add(stringLength);
                             }
                         });
