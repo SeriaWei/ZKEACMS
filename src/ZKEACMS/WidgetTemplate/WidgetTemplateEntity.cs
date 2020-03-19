@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 using System.Linq;
+using Easy;
 
 namespace ZKEACMS.WidgetTemplate
 {
@@ -34,7 +35,7 @@ namespace ZKEACMS.WidgetTemplate
             widget.ViewModelTypeName = ViewModelTypeName;
             widget.Description = Description;
             widget.PartialView = PartialView;
-            widget.WidgetName = Title;
+            widget.WidgetName = serviceProvider.GetService<ILocalize>().Get(Title);
             return serviceProvider.GetService<IWidgetActivator>().CreateWidgetViewModel(widget);
         }
     }
