@@ -81,7 +81,6 @@ namespace ZKEACMS.Controllers
                 widget.Position = _widgetService.GetByLayoutId(context.LayoutID).Count(m => m.ZoneID == context.ZoneID) + 1;
             }
             SetDataSource(widget);
-            ViewBag.WidgetTemplateName = template.Title;
             ViewBag.ReturnUrl = context.ReturnUrl;
             if (template.FormView.IsNotNullAndWhiteSpace())
             {
@@ -119,14 +118,6 @@ namespace ZKEACMS.Controllers
             SetDataSource(widget);
             ViewBag.ReturnUrl = ReturnUrl;
 
-            var template = _widgetTemplateService.Get(
-                m =>
-                    m.PartialView == widget.PartialView && m.AssemblyName == widget.AssemblyName &&
-                    m.ServiceTypeName == widget.ServiceTypeName && m.ViewModelTypeName == widget.ViewModelTypeName).FirstOrDefault();
-            if (template != null)
-            {
-                ViewBag.WidgetTemplateName = template.Title;
-            }
             if (widget.FormView.IsNotNullAndWhiteSpace())
             {
                 return View(widget.FormView, widget);
