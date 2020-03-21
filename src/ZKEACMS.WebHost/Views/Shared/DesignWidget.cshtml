@@ -19,7 +19,7 @@
     <div class="widget widget-design @Model.Widget.CustomClass"
          id="widget_@Model.Widget.ID"
          data-widgetid="@Model.Widget.ID">
-        <div class="zoneToolbar @(Model.Widget.LayoutID.IsNullOrEmpty() ? "blue" : "green") @(Model.Widget.RuleID.HasValue ? "orange" : "")">
+        <div class="zoneToolbar @(Model.Widget.LayoutID.IsNullOrEmpty() ? "blue" : "green") @(Model.Widget.RuleID.HasValue ? "orange" : "")" title="@(Model.Widget.WidgetName)">
             <div class="tools">
                 @if (Model.Widget.LayoutID.IsNotNullAndWhiteSpace())
                 {
@@ -40,16 +40,17 @@
                 @if (Model.Widget.DataSourceLink.IsNotNullAndWhiteSpace())
                 {
                     <a href="@Url.PathContent(Model.Widget.DataSourceLink)"
-                       class="glyphicon glyphicon-pencil"
-                       title="@L("Edit Content") (@L(Model.Widget.DataSourceLinkTitle))">
-                        <span>@L("Edit Content") (@L(Model.Widget.DataSourceLinkTitle))</span>
+                       target="_blank"
+                       class="toggle-hidden hidden glyphicon glyphicon-pencil"
+                       title="@L("Edit Content")@L(Model.Widget.DataSourceLinkTitle)">
+                        <span>@L("Edit Content") @L(Model.Widget.DataSourceLinkTitle)</span>
                     </a>
                 }
                 <a href="javascript:void(0)"
                    data-action="@Url.Action("Copy", "Widget", new { widgetId = Model.Widget.ID })"
                    data-class="container"
                    title="@L("Copy")"
-                   class="glyphicon glyphicon-copy copy-widget">
+                   class="hide glyphicon glyphicon-copy copy-widget">
                     <span>@L("Copy")</span>
                 </a>
                 <a href="javascript:void(0)"
@@ -77,57 +78,63 @@
                    data-action="@toggleClasssAction"
                    data-class="align-center"
                    title="@L("Center")"
-                   class="glyphicon glyphicon-align-center toggle-widget-class">
+                   class="toggle-hidden hidden glyphicon glyphicon-align-center toggle-widget-class">
                     <span>@L("Center")</span>
                 </a>
                 <a href="javascript:void(0)"
                    data-action="@toggleClasssAction"
                    data-class="align-right"
                    title="@L("Aligh Right")"
-                   class="glyphicon glyphicon-align-right toggle-widget-class">
+                   class="toggle-hidden hidden glyphicon glyphicon-align-right toggle-widget-class">
                     <span>@L("Aligh Right")</span>
                 </a>
                 <a href="javascript:void(0)"
                    data-action="@toggleClasssAction"
                    data-class="border"
                    title="@L("Border")"
-                   class="glyphicon glyphicon-unchecked toggle-widget-class">
+                   class="toggle-hidden hidden glyphicon glyphicon-unchecked toggle-widget-class">
                     <span>@L("Border")</span>
                 </a>
                 <a href="javascript:void(0)"
                    data-action="@toggleClasssAction"
                    data-class="image-border"
                    title="@L("Image Border")"
-                   class="glyphicon glyphicon-picture toggle-widget-class">
+                   class="toggle-hidden hidden glyphicon glyphicon-picture toggle-widget-class">
                     <span>@L("Image Border")</span>
                 </a>
                 <a href="javascript:void(0)"
                    data-action="@toggleClasssAction"
                    data-class="image-circle"
                    title="@L("Image Radius")"
-                   class="glyphicon glyphicon-adjust toggle-widget-class">
+                   class="toggle-hidden hidden glyphicon glyphicon-adjust toggle-widget-class">
                     <span>@L("Image Radius")</span>
                 </a>
                 <a href="javascript:void(0)"
                    data-action="@toggleClasssAction"
                    data-class="box-shadow"
                    title="@L("Shadow")"
-                   class="glyphicon glyphicon-tags toggle-widget-class">
+                   class="toggle-hidden hidden glyphicon glyphicon-tags toggle-widget-class">
                     <span>@L("Shadow")</span>
                 </a>
                 <a href="javascript:void(0)" data-action="@Url.Action("SaveCustomStyle", "Widget", new {Model.Widget.ID})"
                    title="@L("Style")" class="glyphicon glyphicon-cog custom-style-editor">
                     <span>@L("Style")</span>
                 </a>
-                <a href="javascript:void(0)" class="delete glyphicon glyphicon-trash" title="@L("Delete")"
+                <a href="javascript:void(0)" class="toggle-hidden hidden delete glyphicon glyphicon-trash" title="@L("Delete")"
                    data-url="@Url.Action("DeleteWidget", "Widget")"
                    data-id="@Model.Widget.ID">
                     <span>@L("Delete?")</span>
                 </a>
                 <span class="text-muted">|</span>
-                <small>
-                    @(Model.Widget.WidgetName) {@(Model.Widget.PartialView)}
-                </small>
+                <span class="glyphicon glyphicon-info-sign">
+                    <span>{@(Model.Widget.PartialView)}</span>
+                </span>
+                <a href="javascript:void(0)" class="toggle-hidden more glyphicon glyphicon-chevron-right">
+                    <span>@L("More")</span>
+                </a>
+                <a href="javascript:void(0)" class="toggle-hidden hidden more glyphicon glyphicon-chevron-left">
+                    <span>@L("Collapse")</span>
+                </a>
             </div>
         </div>
         
