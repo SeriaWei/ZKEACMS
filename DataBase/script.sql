@@ -1960,7 +1960,7 @@ INSERT [dbo].[CMS_Message] ([ID], [Title], [Email], [PostMessage], [Reply], [Sta
 INSERT [dbo].[CMS_Message] ([ID], [Title], [Email], [PostMessage], [Reply], [Status], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description]) VALUES (2, N'ZKEASOFT', N'zkea@zkea.net', N'ZKEACMS使用可视化编辑设计', N'ZKEACMS是一个内容管理软件（网站），不仅只是管理内容，更是重新定义了布局、页面和组件，让用户可以自由规划页面的布局，页面和内容。', 1, N'admin', N'ZKEASOFT', CAST(N'2017-03-19T21:03:09.967' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-03-19T21:03:09.967' AS DateTime), NULL)
 SET IDENTITY_INSERT [dbo].[CMS_Message] OFF
 INSERT [dbo].[CMS_Page] ([ID], [ReferencePageID], [IsPublishedPage], [ParentId], [PageName], [IsHomePage], [Url], [LayoutId], [Title], [Content], [DisplayOrder], [Description], [Status], [IsPublish], [PublishDate], [MetaKeyWorlds], [MetaDescription], [Script], [Style], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'068c85b8de8744e7a81b1d1010583308', N'9d84599edb2443439a53e8d906815c8f', 1, N'#', N'产品', 0, N'~/product', N'0846a33e56bf45d5aae602ef40d87444', N'产品', NULL, 4, NULL, 1, 0, CAST(N'2016-05-15T20:56:40.843' AS DateTime), NULL, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-05-15T20:56:40.843' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2016-05-15T20:56:40.843' AS DateTime))
-INSERT [dbo].[CMS_Page] ([ID], [ReferencePageID], [IsPublishedPage], [ParentId], [PageName], [IsHomePage], [Url], [LayoutId], [Title], [Content], [DisplayOrder], [Description], [Status], [IsPublish], [PublishDate], [MetaKeyWorlds], [MetaDescription], [Script], [Style], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'0880a4dfdc184ff99b88c88325716d1b', NULL, 0, N'#', N'主页', 1, N'~/index', N'1dae90cf6a8547538cc0c369b9943c01', N'欢迎使用ZKEACMS进行创作', NULL, 1, NULL, 1, 1, CAST(N'2017-10-15T18:11:36.000' AS DateTime), NULL, NULL, N'[]', N'[]', N'admin', NULL, CAST(N'2015-08-31T13:27:16.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2019-08-01T16:52:01.177' AS DateTime))
+INSERT [dbo].[CMS_Page] ([ID], [ReferencePageID], [IsPublishedPage], [ParentId], [PageName], [IsHomePage], [Url], [LayoutId], [Title], [Content], [DisplayOrder], [Description], [Status], [IsPublish], [PublishDate], [MetaKeyWorlds], [MetaDescription], [Script], [Style], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'0880a4dfdc184ff99b88c88325716d1b', NULL, 0, N'#', N'主页', 1, N'~/index', N'1dae90cf6a8547538cc0c369b9943c01', N'欢迎使用ZKEACMS进行创作', NULL, 1, NULL, 1, 0, CAST(N'2017-10-15T18:11:36.000' AS DateTime), NULL, NULL, N'[]', N'[]', N'admin', NULL, CAST(N'2015-08-31T13:27:16.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2020-03-21T14:01:56.337' AS DateTime))
 INSERT [dbo].[CMS_Page] ([ID], [ReferencePageID], [IsPublishedPage], [ParentId], [PageName], [IsHomePage], [Url], [LayoutId], [Title], [Content], [DisplayOrder], [Description], [Status], [IsPublish], [PublishDate], [MetaKeyWorlds], [MetaDescription], [Script], [Style], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'1c93b61690ce49d7af8e1ea45ac58eb9', NULL, 0, N'#', N'联系我们', 0, N'~/contact', N'1dae90cf6a8547538cc0c369b9943c01', N' 联系我们', NULL, 7, NULL, 1, 1, CAST(N'2017-03-19T21:05:28.837' AS DateTime), N' 联系我们', N' 联系我们', NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2017-03-19T21:03:50.763' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-03-19T21:05:16.280' AS DateTime))
 INSERT [dbo].[CMS_Page] ([ID], [ReferencePageID], [IsPublishedPage], [ParentId], [PageName], [IsHomePage], [Url], [LayoutId], [Title], [Content], [DisplayOrder], [Description], [Status], [IsPublish], [PublishDate], [MetaKeyWorlds], [MetaDescription], [Script], [Style], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'4b889b430aa44517bbad38a57c745cc5', N'a8d73e29b1eb4b7ea43420e2b6bf2c1b', 1, N'9d84599edb2443439a53e8d906815c8f', N'产品详细', 0, N'~/product/detail', N'0846a33e56bf45d5aae602ef40d87444', NULL, NULL, 1, NULL, 1, 0, CAST(N'2016-03-10T23:24:38.777' AS DateTime), NULL, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T23:24:38.780' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2016-03-10T23:24:38.780' AS DateTime))
 INSERT [dbo].[CMS_Page] ([ID], [ReferencePageID], [IsPublishedPage], [ParentId], [PageName], [IsHomePage], [Url], [LayoutId], [Title], [Content], [DisplayOrder], [Description], [Status], [IsPublish], [PublishDate], [MetaKeyWorlds], [MetaDescription], [Script], [Style], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'50fa3579e7434555a22f095dcb4ea35e', N'0880a4dfdc184ff99b88c88325716d1b', 1, N'#', N'主页', 1, N'~/index', N'1dae90cf6a8547538cc0c369b9943c01', N'欢迎使用ZKEACMS进行创作', NULL, 1, NULL, 1, 0, CAST(N'2017-10-15T18:11:36.273' AS DateTime), NULL, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:11:36.277' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:11:36.810' AS DateTime))
@@ -1991,7 +1991,7 @@ INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutI
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'0f66ab8ff0df44e2b5e57fd8d8c5d8ff', N'文字三列', NULL, 8, NULL, NULL, NULL, N'Widget.Section', N'ZKEACMS.SectionWidget', N'ZKEACMS.SectionWidget.Service.SectionWidgetService', N'ZKEACMS.SectionWidget.Models.SectionWidget', N'SectionWidgetForm', NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-09T21:23:51.277' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2016-06-29T14:12:54.387' AS DateTime), NULL, NULL, 1, N'~/images/template (15).png', 1, NULL, NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'1433264e95f545ab97e6a481fa3747ea', N'评论箱', NULL, 2, NULL, N'a3d735320eb04c63bf3258d7b44e30f8', N'ZONE-1', N'Widget.Comments', N'ZKEACMS.Message', N'ZKEACMS.Message.Service.CommentsWidgetService', N'ZKEACMS.Message.Models.CommentsWidget', NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2017-12-03T17:11:36.467' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-12-03T17:11:36.467' AS DateTime), NULL, NULL, 0, NULL, 0, N'{"CustomClass":"","CustomStyle":"","ActionType":1}', NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'155c6511dd9c4cc1b3ccb27d5ad4b8ab', N'表单', NULL, 1, NULL, N'9ce910ba45a24fd2af804d6d0de7bba3', N'ZONE-1', N'Widget.Form', N'ZKEACMS.FormGenerator', N'ZKEACMS.FormGenerator.Service.FormWidgetService', N'ZKEACMS.FormGenerator.Models.FormWidget', NULL, N'', N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:20:42.213' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:20:42.213' AS DateTime), NULL, NULL, 0, NULL, 0, N'{"FormID":"5ed56d90ac154e73befa6fbc981ae3ae","CustomClass":"","CustomStyle":"","ActionType":1}', NULL)
-INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'19350341920b4827bf2a4e458ad24a58', N'焦点图', NULL, 1, NULL, N'0880a4dfdc184ff99b88c88325716d1b', N'ZONE-1', N'Widget.Carousel', N'ZKEACMS', N'ZKEACMS.Common.Service.CarouselWidgetService', N'ZKEACMS.Common.Models.CarouselWidget', NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-27T15:14:34.677' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-03-21T22:44:54.987' AS DateTime), NULL, NULL, 0, N'~/images/Widget.Carousel.png', 0, NULL, NULL)
+INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'19350341920b4827bf2a4e458ad24a58', N'焦点图', NULL, 1, NULL, N'0880a4dfdc184ff99b88c88325716d1b', N'ZONE-1', N'Widget.Carousel', N'ZKEACMS', N'ZKEACMS.Common.Service.CarouselWidgetService', N'ZKEACMS.Common.Models.CarouselWidget', NULL, N'', N'admin', N'ZKEASOFT', CAST(N'2016-03-27T15:14:34.677' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2020-03-21T14:01:56.237' AS DateTime), NULL, NULL, 0, N'~/images/Widget.Carousel.png', 0, NULL, NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'1fb967867e3b440e86336bc5a51e8719', N'图例三（圆）', NULL, 17, NULL, NULL, NULL, N'Widget.Section', N'ZKEACMS.SectionWidget', N'ZKEACMS.SectionWidget.Service.SectionWidgetService', N'ZKEACMS.SectionWidget.Models.SectionWidget', N'SectionWidgetForm', N'align-center image-circle', N'admin', N'ZKEASOFT', CAST(N'2016-03-09T14:40:26.767' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2016-06-29T14:19:30.777' AS DateTime), NULL, NULL, 1, N'~/images/template%20(12).png', 1, NULL, NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'2b3eb61307d24c50a6b3aaa75db3810e', N'图片左', NULL, 11, NULL, NULL, NULL, N'Widget.Section', N'ZKEACMS.SectionWidget', N'ZKEACMS.SectionWidget.Service.SectionWidgetService', N'ZKEACMS.SectionWidget.Models.SectionWidget', N'SectionWidgetForm', NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-09T14:06:17.637' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2016-06-29T14:14:54.330' AS DateTime), NULL, NULL, 1, N'~/images/template%20(5).png', 1, NULL, NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'2b510992f0174e668ca53116434e065c', N'图片', NULL, 1, NULL, N'e371628aa3ff46c3a167f121c7a3f32b', N'ZONE-1', N'Widget.Image', N'ZKEACMS', N'ZKEACMS.Common.Service.ImageWidgetService', N'ZKEACMS.Common.Models.ImageWidget', NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T23:15:37.333' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:00:21.587' AS DateTime), NULL, NULL, 0, N'~/images/Widget.Image.png', 0, NULL, NULL)
@@ -2013,14 +2013,14 @@ INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutI
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'604b2461f7c545e28dbb21fb15def5c7', N'相关链接', N'相关链接', 1, NULL, N'0880a4dfdc184ff99b88c88325716d1b', N'ZONE-2', N'Widget.Section', N'ZKEACMS.SectionWidget', N'ZKEACMS.SectionWidget.Service.SectionWidgetService', N'ZKEACMS.SectionWidget.Models.SectionWidget', N'SectionWidgetForm', NULL, N'admin', NULL, CAST(N'2015-09-01T10:13:42.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T17:18:36.063' AS DateTime), NULL, 0, 0, N'~/images/Widget.Section.png', 0, NULL, NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'62ca3b6b6ea644b4a64501021b02f13b', N'分隔符', NULL, 2, NULL, N'e371628aa3ff46c3a167f121c7a3f32b', N'ZONE-1', N'Widget.HTML', N'ZKEACMS', N'ZKEACMS.Common.Service.HtmlWidgetService', N'ZKEACMS.Common.Models.HtmlWidget', NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T23:16:08.137' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:00:21.613' AS DateTime), NULL, NULL, 0, N'~/images/Widget.HTML.png', 0, NULL, NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'6bb06e46293c46f084e83751a0832d36', N'产品列表', NULL, 1, NULL, N'068c85b8de8744e7a81b1d1010583308', N'ZONE-2', N'Widget.ProductList', N'ZKEACMS.Product', N'ZKEACMS.Product.Service.ProductListWidgetService', N'ZKEACMS.Product.Models.ProductListWidget', NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-05-15T20:56:40.867' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2016-05-15T20:56:40.867' AS DateTime), NULL, NULL, 0, N'~/Plugins/ZKEACMS.Product/Content/Image/Widget.ProductList.png', 0, NULL, NULL)
-INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'6ee67036e78b4b498d932ab2d76757fb', N'导航', NULL, NULL, NULL, NULL, N'ZONE-X', N'Widget.Navigation', N'ZKEACMS', N'ZKEACMS.Common.Service.NavigationWidgetService', N'ZKEACMS.Common.Models.NavigationWidget', NULL, N'full', N'admin', N'ZKEASOFT', CAST(N'2018-05-21T23:44:21.393' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2018-05-21T23:46:00.573' AS DateTime), NULL, NULL, 0, NULL, 0, NULL, 1)
+INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'6ee67036e78b4b498d932ab2d76757fb', N'导航', NULL, 1, NULL, NULL, N'ZONE-0', N'Widget.Navigation', N'ZKEACMS', N'ZKEACMS.Common.Service.NavigationWidgetService', N'ZKEACMS.Common.Models.NavigationWidget', NULL, N'full', N'admin', N'ZKEASOFT', CAST(N'2018-05-21T23:44:21.393' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2020-03-21T13:44:19.637' AS DateTime), NULL, NULL, 0, NULL, 0, NULL, 1)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'7679a5060035444d85fe49dc3c02cada', N'图片', NULL, 1, NULL, N'534e07f396b14b7584a833d270356cb7', N'ZONE-1', N'Widget.Image', N'ZKEACMS', N'ZKEACMS.Common.Service.ImageWidgetService', N'ZKEACMS.Common.Models.ImageWidget', NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2017-03-19T21:05:30.853' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-03-19T21:05:30.853' AS DateTime), NULL, NULL, 0, N'~/images/Widget.Image.png', 0, NULL, NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'787d9ad849dd40d0905f22ae072d8507', N'产品内容', NULL, 1, NULL, N'a8d73e29b1eb4b7ea43420e2b6bf2c1b', N'ZONE-1', N'Widget.ProductDetail', N'ZKEACMS.Product', N'ZKEACMS.Product.Service.ProductDetailWidgetService', N'ZKEACMS.Product.Models.ProductDetailWidget', NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T23:20:19.903' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2016-03-10T23:20:19.903' AS DateTime), NULL, NULL, 0, N'~/Plugins/ZKEACMS.Product/Content/Image/Widget.ProductDetail.png', 0, NULL, NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'7e7a1d5b8d644333a7b3341509fc960f', N'注册用户', N'注册用户', 2, NULL, N'50fa3579e7434555a22f095dcb4ea35e', N'ZONE-3', N'Widget.Section', N'ZKEACMS.SectionWidget', N'ZKEACMS.SectionWidget.Service.SectionWidgetService', N'ZKEACMS.SectionWidget.Models.SectionWidget', N'SectionWidgetForm', NULL, N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:11:36.773' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:11:36.773' AS DateTime), NULL, NULL, 0, NULL, 0, NULL, NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'7f77f09c3fcd4d498a4aa3b1c9508d7d', N'注册用户', N'注册用户', 2, NULL, N'0880a4dfdc184ff99b88c88325716d1b', N'ZONE-3', N'Widget.Section', N'ZKEACMS.SectionWidget', N'ZKEACMS.SectionWidget.Service.SectionWidgetService', N'ZKEACMS.SectionWidget.Models.SectionWidget', N'SectionWidgetForm', NULL, N'admin', N'ZKEASOFT', CAST(N'2017-10-15T17:03:14.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T17:04:42.893' AS DateTime), NULL, NULL, 0, NULL, 0, NULL, NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'80f365c7991a49a0b04aa11006018814', N'网站管理', N'后台管理', 1, NULL, N'0880a4dfdc184ff99b88c88325716d1b', N'ZONE-3', N'Widget.Section', N'ZKEACMS.SectionWidget', N'ZKEACMS.SectionWidget.Service.SectionWidgetService', N'ZKEACMS.SectionWidget.Models.SectionWidget', N'SectionWidgetForm', NULL, N'admin', NULL, CAST(N'2015-09-01T10:09:22.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T17:03:50.207' AS DateTime), NULL, 0, 0, NULL, 0, NULL, NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'88ab49212dee47bba878a52bec86f501', N'网站管理', N'后台管理', 1, NULL, N'50fa3579e7434555a22f095dcb4ea35e', N'ZONE-3', N'Widget.Section', N'ZKEACMS.SectionWidget', N'ZKEACMS.SectionWidget.Service.SectionWidgetService', N'ZKEACMS.SectionWidget.Models.SectionWidget', N'SectionWidgetForm', NULL, N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:11:36.793' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:11:36.793' AS DateTime), NULL, 0, 0, NULL, 0, NULL, NULL)
-INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'8c5b69f614b641c0a5f7a8e318de8df3', N'ZKEACMS 简介', NULL, 3, NULL, N'0880a4dfdc184ff99b88c88325716d1b', N'ZONE-1', N'Widget.ArticleSummary', N'ZKEACMS.Article', N'ZKEACMS.Article.Service.ArticleSummaryWidgetService', N'ZKEACMS.Article.Models.ArticleSummaryWidget', NULL, NULL, N'admin', NULL, CAST(N'2015-09-01T09:54:38.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T17:12:08.850' AS DateTime), NULL, 0, 0, NULL, 0, NULL, NULL)
+INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'8c5b69f614b641c0a5f7a8e318de8df3', N'ZKEACMS 简介', NULL, 2, NULL, N'0880a4dfdc184ff99b88c88325716d1b', N'ZONE-1', N'Widget.ArticleSummary', N'ZKEACMS.Article', N'ZKEACMS.Article.Service.ArticleSummaryWidgetService', N'ZKEACMS.Article.Models.ArticleSummaryWidget', NULL, NULL, N'admin', NULL, CAST(N'2015-09-01T09:54:38.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2020-03-21T13:47:22.757' AS DateTime), NULL, 0, 0, NULL, 0, NULL, NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'8cc061c2e2514ef9b85bbecdec3f84ab', N'分隔符', NULL, 5, NULL, NULL, NULL, N'Widget.HTML', N'ZKEACMS', N'ZKEACMS.Common.Service.HtmlWidgetService', N'ZKEACMS.Common.Models.HtmlWidget', NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-09T13:55:12.377' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2016-03-09T13:55:12.377' AS DateTime), NULL, NULL, 1, N'~/images/template%20(3).png', 1, NULL, NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'8df64186d2fd4d63a9f9bb3b6e34cd2a', N'文章类别', N'文章类别', 1, NULL, N'e371628aa3ff46c3a167f121c7a3f32b', N'ZONE-3', N'Widget.ArticleType', N'ZKEACMS.Article', N'ZKEACMS.Article.Service.ArticleTypeWidgetService', N'ZKEACMS.Article.Models.ArticleTypeWidget', NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T21:21:20.527' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2016-05-15T21:04:35.783' AS DateTime), NULL, NULL, 0, N'~/Plugins/ZKEACMS.Article/Content/Image/Widget.ArticleType.png', 0, NULL, NULL)
 INSERT [dbo].[CMS_WidgetBase] ([ID], [WidgetName], [Title], [Position], [LayoutId], [PageId], [ZoneId], [PartialView], [AssemblyName], [ServiceTypeName], [ViewModelTypeName], [FormView], [StyleClass], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Description], [Status], [IsTemplate], [Thumbnail], [IsSystem], [ExtendData], [RuleID]) VALUES (N'8ea46d2923ad4d62958c565b19bb172d', N'图片', NULL, 1, NULL, N'068c85b8de8744e7a81b1d1010583308', N'ZONE-1', N'Widget.Image', N'ZKEACMS', N'ZKEACMS.Common.Service.ImageWidgetService', N'ZKEACMS.Common.Models.ImageWidget', NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-05-15T20:56:40.857' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2016-05-15T20:56:40.857' AS DateTime), NULL, NULL, 0, N'~/images/Widget.Image.png', 0, NULL, NULL)
@@ -2870,6 +2870,10 @@ GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'CMS Plugins', N'en-US', N'Plugins', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'CMS Plugins', N'zh-CN', N'扩展插件', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Code', N'zh-CN', N'代码', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Collapse', N'en-GB', N'Collapse', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Collapse', N'en-US', N'Collapse', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Collapse', N'zh-CN', N'收起', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Collapse', N'zh-TW', N'收起', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Collapsed to start, horizontal above breakpoints', N'zh-CN', N'开始是堆叠在一起的，当大于这些阈值时将变为水平排列', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Color', N'zh-CN', N'颜色', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Column', N'zh-CN', N'列', NULL, NULL)
@@ -2963,11 +2967,11 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Content', N'zh-CN', N'内容', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Content Category', N'en-GB', N'Content Category', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Content Category', N'en-US', N'Content Category', NULL, NULL)
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Content Category', N'zh-CN', N'内容类型', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ContentField@FieldType', N'zh-CN', N'字段类型', N'ContentField', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ContentField@Name', N'zh-CN', N'属性名', N'ContentField', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ContentField@Order', N'zh-CN', N'订单', N'ContentField', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ContentField@Status', N'en-GB', N'Status', N'ContentField', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ContentField@Status', N'en-US', N'Status', N'ContentField', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ContentField@Title', N'zh-CN', N'显示名称', N'ContentField', N'EntityProperty')
@@ -3064,11 +3068,11 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Culture@Title', N'zh-CN', N'标题', N'Culture', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Culture@UrlCode', N'zh-CN', N'Url缩写', N'Culture', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'CultureSetting@CultureMode', N'en-GB', N'Culture Mode', N'CultureSetting', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'CultureSetting@CultureMode', N'en-US', N'Culture Mode', N'CultureSetting', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'CultureSetting@CultureMode', N'zh-CN', N'多语言模式', N'CultureSetting', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'CultureSetting@DefaultCulture', N'en-GB', N'Default Culture', N'CultureSetting', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'CultureSetting@DefaultCulture', N'en-US', N'Default Culture', N'CultureSetting', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'CultureSetting@DefaultCulture', N'zh-CN', N'默认语言', N'CultureSetting', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'CultureSetting@IsEnable', N'en-GB', N'Is Enable', N'CultureSetting', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'CultureSetting@IsEnable', N'en-US', N'Is Enable', N'CultureSetting', N'EntityProperty')
@@ -3165,11 +3169,11 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Drag', N'en-GB', N'Drag', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Drag', N'en-US', N'Drag', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Drag', N'zh-CN', N'拖动', NULL, NULL)
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Drag to container', N'zh-CN', N'点击拖动到容器', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Drag to layout', N'zh-CN', N'点击拖动到主屏幕', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Drag to row', N'zh-CN', N'点击拖动到行', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Dropdown', N'zh-CN', N'下拉菜单', NULL, NULL)
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Dynamic', N'en-GB', N'Dynamic', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Dynamic', N'en-US', N'Dynamic', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Dynamic', N'zh-CN', N'动态', NULL, NULL)
@@ -3266,11 +3270,11 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Fluid Content List', N'zh-CN', N'自定义内容列表', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FluidContentListWidget@AssemblyName', N'zh-CN', N'Assembly Name', N'FluidContentListWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FluidContentListWidget@ContentTemplateID', N'zh-CN', N'显示模板', N'FluidContentListWidget', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FluidContentListWidget@ContentTypeID', N'zh-CN', N'自定义内容类型', N'FluidContentListWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FluidContentListWidget@DetailPageUrl', N'zh-CN', N'详细页面', N'FluidContentListWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FluidContentListWidget@IsPageable', N'zh-CN', N'分页?', N'FluidContentListWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FluidContentListWidget@IsSystem', N'zh-CN', N'Is System', N'FluidContentListWidget', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FluidContentListWidget@IsTemplate', N'zh-CN', N'保存为模板', N'FluidContentListWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FluidContentListWidget@PageSize', N'zh-CN', N'分页大小', N'FluidContentListWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FluidContentListWidget@Position', N'zh-CN', N'位置', N'FluidContentListWidget', N'EntityProperty')
@@ -3367,11 +3371,11 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FormWidget@ActionType', N'zh-CN', N'ActionType', N'FormWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FormWidget@AssemblyName', N'zh-CN', N'AssemblyName', N'FormWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FormWidget@CreateBy', N'zh-CN', N'CreateBy', N'FormWidget', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FormWidget@CreatebyName', N'zh-CN', N'创建人', N'FormWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FormWidget@CreateDate', N'zh-CN', N'创建日期', N'FormWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FormWidget@CustomClass', N'zh-CN', N'CustomClass', N'FormWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FormWidget@CustomStyle', N'zh-CN', N'CustomStyle', N'FormWidget', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FormWidget@Description', N'zh-CN', N'描述', N'FormWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FormWidget@ExtendData', N'zh-CN', N'ExtendData', N'FormWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'FormWidget@FormID', N'zh-CN', N'表单', N'FormWidget', N'EntityProperty')
@@ -3468,11 +3472,11 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'HtmlWidget@LayoutID', N'zh-CN', N'布局', N'HtmlWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'HtmlWidget@PageID', N'zh-CN', N'页面', N'HtmlWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'HtmlWidget@PartDriver', N'zh-CN', N'PartDriver', N'HtmlWidget', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'HtmlWidget@PartialView', N'zh-CN', N'显示模板', N'HtmlWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'HtmlWidget@Position', N'zh-CN', N'排序', N'HtmlWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'HtmlWidget@ServiceTypeName', N'zh-CN', N'ServiceTypeName', N'HtmlWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'HtmlWidget@Status', N'zh-CN', N'状态', N'HtmlWidget', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'HtmlWidget@StyleClass', N'zh-CN', N'自定义样式', N'HtmlWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'HtmlWidget@Thumbnail', N'zh-CN', N'缩略图', N'HtmlWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'HtmlWidget@Title', N'zh-CN', N'标题', N'HtmlWidget', N'EntityProperty')
@@ -3569,11 +3573,11 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Keywords@MetaKeyWords', N'en-US', N'Meta Key Words', N'Keywords', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Keywords@MetaKeyWords', N'zh-CN', N'SEO关键字', N'Keywords', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Keywords@MetaKeyWorlds', N'en-GB', N'Meta Key Worlds', N'Keywords', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Keywords@MetaKeyWorlds', N'en-US', N'Meta Key Worlds', N'Keywords', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Keywords@MetaKeyWorlds', N'zh-CN', N'SEO关键字', N'Keywords', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Keywords@SEODescription', N'en-US', N'SEO Description', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Keywords@SEODescription', N'zh-CN', N'SEO描述', N'Keywords', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Keywords@SEODescription', N'zh-TW', N'SEO描述', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Keywords@SEOKeyWord', N'en-US', N'SEO Keywords', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Keywords@SEOKeyWord', N'zh-CN', N'SEO关键字', N'Keywords', N'EntityProperty')
@@ -3670,11 +3674,11 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Less Than', N'en-GB', N'Less Than', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Less Than', N'en-US', N'Less Than', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Less Than', N'zh-CN', N'小于', NULL, NULL)
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Less Than Or Equals', N'en-GB', N'Less Than Or Equals', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Less Than Or Equals', N'en-US', N'Less Than Or Equals', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Less Than Or Equals', N'zh-CN', N'小于等于', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Letter Spacing', N'zh-CN', N'字间距', NULL, NULL)
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'LG Screen', N'zh-CN', N'大屏幕', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'License', N'en-GB', N'License', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'License', N'en-US', N'License', NULL, NULL)
@@ -3771,11 +3775,11 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Message List', N'en-GB', N'Message List', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Message List', N'en-US', N'Message List', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Message List', N'zh-CN', N'留言内容', NULL, NULL)
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'MessageBoxWidget@AssemblyName', N'zh-CN', N'Assembly Name', N'MessageBoxWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'MessageBoxWidget@IsSystem', N'zh-CN', N'Is System', N'MessageBoxWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'MessageBoxWidget@IsTemplate', N'zh-CN', N'保存为模板', N'MessageBoxWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'MessageBoxWidget@PartialView', N'zh-CN', N'显示模板', N'MessageBoxWidget', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'MessageBoxWidget@Position', N'zh-CN', N'位置', N'MessageBoxWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'MessageBoxWidget@ServiceTypeName', N'zh-CN', N'Service Type Name', N'MessageBoxWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'MessageBoxWidget@StyleClass', N'zh-CN', N'自定义样式', N'MessageBoxWidget', N'EntityProperty')
@@ -3853,6 +3857,10 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Modify Account', N'en-GB', N'Modify Account', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Modify Account', N'en-US', N'Modify Account', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Modify Account', N'zh-CN', N'修改基本信息', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'More', N'en-GB', N'More', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'More', N'en-US', N'More', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'More', N'zh-CN', N'更多', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'More', N'zh-TW', N'更多', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'More Templates', N'zh-CN', N'更多模板>>', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'More...', N'zh-CN', N'更多...', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Most Read Top10', N'zh-CN', N'阅读排行 Top10', NULL, NULL)
@@ -3868,6 +3876,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Multi-Language Setting', N'zh-CN', N'语言设置', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'My Order', N'en-GB', N'Orders', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'My Order', N'en-US', N'Orders', NULL, NULL)
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'My Order', N'zh-CN', N'我的订单', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Name', N'zh-CN', N'名称', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Navigation', N'en-GB', N'Navigation', NULL, NULL)
@@ -3876,7 +3885,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'NavigationEntity@ActionType', N'zh-CN', N'ActionType', N'NavigationEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'NavigationEntity@CreateBy', N'zh-CN', N'CreateBy', N'NavigationEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'NavigationEntity@CreatebyName', N'zh-CN', N'创建人', N'NavigationEntity', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'NavigationEntity@CreateDate', N'zh-CN', N'创建日期', N'NavigationEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'NavigationEntity@Description', N'en-GB', N'Description', N'NavigationEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'NavigationEntity@Description', N'en-US', N'Description', N'NavigationEntity', N'EntityProperty')
@@ -3969,6 +3977,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'NavigationWidget@ViewModelTypeName', N'en-GB', N'View Model Type Name', N'NavigationWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'NavigationWidget@ViewModelTypeName', N'en-US', N'View Model Type Name', N'NavigationWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'NavigationWidget@ViewModelTypeName', N'zh-CN', N'ViewModelTypeName', N'NavigationWidget', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'NavigationWidget@WidgetName', N'en-GB', N'Widget Name', N'NavigationWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'NavigationWidget@WidgetName', N'en-US', N'Widget Name', N'NavigationWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'NavigationWidget@WidgetName', N'zh-CN', N'组件名称', N'NavigationWidget', N'EntityProperty')
@@ -3977,7 +3986,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'NavigationWidget@ZoneID', N'zh-CN', N'区域', N'NavigationWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ne-resize', N'zh-CN', N'向右上改变大小', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'New', N'en-GB', N'New', NULL, NULL)
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'New', N'en-US', N'New', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'New', N'zh-CN', N'新建', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'New Category', N'en-GB', N'New', NULL, NULL)
@@ -4070,6 +4078,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Only support zip package', N'zh-CN', N'上传的包必需为<code>zip</code>格式', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Only unpaid order can be closed!', N'zh-CN', N'只有未支付的订单可以关闭', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Option', N'zh-CN', N'选项', NULL, NULL)
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Option 1', N'zh-CN', N'选项1', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Option 2', N'zh-CN', N'选项2', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Or', N'en-GB', N'Or', NULL, NULL)
@@ -4078,7 +4087,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Order', N'en-GB', N'Order', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Order', N'en-US', N'Order', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Order', N'zh-CN', N'订单', NULL, NULL)
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Order Amount', N'zh-CN', N'订单总额', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Order Confirm', N'zh-CN', N'确认定单', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Order Date', N'zh-CN', N'订单日期', NULL, NULL)
@@ -4171,6 +4179,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'PageEntity@CreateBy', N'zh-CN', N'CreateBy', N'PageEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'PageEntity@CreatebyName', N'zh-CN', N'创建人', N'PageEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'PageEntity@CreateDate', N'zh-CN', N'创建日期', N'PageEntity', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'PageEntity@Description', N'en-GB', N'Description', N'PageEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'PageEntity@Description', N'en-US', N'Description', N'PageEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'PageEntity@Description', N'zh-CN', N'描述', N'PageEntity', N'EntityProperty')
@@ -4179,7 +4188,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'PageEntity@Favicon', N'zh-CN', N'Favicon', N'PageEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'PageEntity@ID', N'zh-CN', N'ID', N'PageEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'PageEntity@IsHomePage', N'en-GB', N'Is Home Page', N'PageEntity', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'PageEntity@IsHomePage', N'en-US', N'Is Home Page', N'PageEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'PageEntity@IsHomePage', N'zh-CN', N'首页?', N'PageEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'PageEntity@IsPublish', N'en-GB', N'Is Publish', N'PageEntity', N'EntityProperty')
@@ -4272,6 +4280,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Phone number is invalid', N'zh-CN', N'电话格式不正确', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Picture', N'en-GB', N'Image', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Picture', N'en-US', N'Image', NULL, NULL)
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Picture', N'zh-CN', N'图片', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Pixel Script', N'zh-CN', N'访客统计代码', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Please contact administrator.', N'zh-CN', N'请联系管理员。', NULL, NULL)
@@ -4280,7 +4289,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Please enter your name', N'en-GB', N'Please enter your name', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Please enter your name', N'en-US', N'Please enter your name', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Please enter your name', N'zh-CN', N'输入姓名', NULL, NULL)
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Please enter your user information to log in', N'en-GB', N'Please enter your user information to log in', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Please enter your user information to log in', N'en-US', N'Please enter your user information to log in', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Please enter your user information to log in', N'zh-CN', N'请输入您的用户信息以登录', NULL, NULL)
@@ -4373,6 +4381,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductCategoryWidget@IsTemplate', N'zh-CN', N'保存为模板', N'ProductCategoryWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductCategoryWidget@LastUpdateBy', N'zh-CN', N'LastUpdateBy', N'ProductCategoryWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductCategoryWidget@LastUpdateByName', N'zh-CN', N'更新人', N'ProductCategoryWidget', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductCategoryWidget@LastUpdateDate', N'zh-CN', N'更新日期', N'ProductCategoryWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductCategoryWidget@LayoutID', N'zh-CN', N'LayoutID', N'ProductCategoryWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductCategoryWidget@PageID', N'zh-CN', N'PageID', N'ProductCategoryWidget', N'EntityProperty')
@@ -4381,7 +4390,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductCategoryWidget@ProductCategoryID', N'zh-CN', N'产品类别', N'ProductCategoryWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductCategoryWidget@ServiceTypeName', N'zh-CN', N'ServiceTypeName', N'ProductCategoryWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductCategoryWidget@Status', N'zh-CN', N'状态', N'ProductCategoryWidget', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductCategoryWidget@StyleClass', N'zh-CN', N'自定义样式', N'ProductCategoryWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductCategoryWidget@TargetPage', N'zh-CN', N'详细页面', N'ProductCategoryWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductCategoryWidget@Thumbnail', N'zh-CN', N'缩略图', N'ProductCategoryWidget', N'EntityProperty')
@@ -4474,6 +4482,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductEntity@Title', N'zh-CN', N'标题', N'ProductEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductEntity@Url', N'zh-CN', N'英文名', N'ProductEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductImage@ActionType', N'zh-CN', N'ActionType', N'ProductImage', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductImage@CreateBy', N'zh-CN', N'CreateBy', N'ProductImage', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductImage@CreatebyName', N'zh-CN', N'创建人', N'ProductImage', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductImage@CreateDate', N'zh-CN', N'创建日期', N'ProductImage', N'EntityProperty')
@@ -4482,7 +4491,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductImage@ImageUrl', N'zh-CN', N'图片', N'ProductImage', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductImage@LastUpdateBy', N'zh-CN', N'LastUpdateBy', N'ProductImage', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductImage@LastUpdateByName', N'zh-CN', N'更新人', N'ProductImage', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductImage@LastUpdateDate', N'zh-CN', N'更新日期', N'ProductImage', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductImage@ProductId', N'zh-CN', N'ProductId', N'ProductImage', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ProductImage@Status', N'zh-CN', N'状态', N'ProductImage', N'EntityProperty')
@@ -4575,15 +4583,19 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'repeat-y', N'zh-CN', N'垂直重复', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Reply', N'zh-CN', N'回复', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Report issue', N'zh-CN', N'反馈问题', NULL, NULL)
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Reset failed?', N'zh-CN', N'重置失败？', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Reset password', N'zh-CN', N'重置密码', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Revert', N'en-GB', N'Revert', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Revert', N'en-US', N'Revert', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Revert', N'zh-CN', N'恢复', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Revert', N'zh-TW', N'恢復', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Revert from version: {0:g}', N'zh-CN', N'从 {0:g} 版本撤回', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Revert to', N'zh-CN', N'撤回到该版本', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Revert to original', N'zh-CN', N'将模板还原到最初状态？', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Review', N'zh-CN', N'预览', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Rich Text', N'zh-CN', N'富文本', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Rich text box', N'zh-CN', N'富文本输入', NULL, NULL)
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Ridge', N'zh-CN', N'屋脊', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Robots@Content', N'en-US', N'Content', N'Robots', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Robots@Content', N'zh-CN', N'内容', N'Robots', N'EntityProperty')
@@ -4672,6 +4684,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ScriptWidget@LastUpdateByName', N'zh-CN', N'更新人', N'ScriptWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ScriptWidget@LastUpdateDate', N'zh-CN', N'更新日期', N'ScriptWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ScriptWidget@LayoutID', N'zh-CN', N'LayoutID', N'ScriptWidget', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ScriptWidget@PageID', N'zh-CN', N'PageID', N'ScriptWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ScriptWidget@PartialView', N'zh-CN', N'显示模板', N'ScriptWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ScriptWidget@Position', N'zh-CN', N'排序', N'ScriptWidget', N'EntityProperty')
@@ -4684,7 +4697,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ScriptWidget@ViewModelTypeName', N'zh-CN', N'ViewModelTypeName', N'ScriptWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ScriptWidget@WidgetName', N'zh-CN', N'组件名称', N'ScriptWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ScriptWidget@ZoneID', N'zh-CN', N'区域', N'ScriptWidget', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Scroll', N'zh-CN', N'滚动', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Search', N'zh-CN', N'搜 索', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Search Engine Optimization', N'en-GB', N'SEO', NULL, NULL)
@@ -4773,6 +4785,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionContentParagraph@LastUpdateBy', N'zh-CN', N'LastUpdateBy', N'SectionContentParagraph', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionContentParagraph@LastUpdateByName', N'zh-CN', N'更新人', N'SectionContentParagraph', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionContentParagraph@LastUpdateDate', N'zh-CN', N'更新日期', N'SectionContentParagraph', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionContentParagraph@Order', N'zh-CN', N'排序', N'SectionContentParagraph', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionContentParagraph@SectionContentType', N'zh-CN', N'SectionContentType', N'SectionContentParagraph', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionContentParagraph@SectionGroupId', N'zh-CN', N'SectionGroupId', N'SectionContentParagraph', N'EntityProperty')
@@ -4785,7 +4798,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionContentTitle@CreateDate', N'zh-CN', N'创建日期', N'SectionContentTitle', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionContentTitle@Description', N'zh-CN', N'描述', N'SectionContentTitle', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionContentTitle@Href', N'zh-CN', N'链接', N'SectionContentTitle', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionContentTitle@ID', N'zh-CN', N'ID', N'SectionContentTitle', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionContentTitle@InnerText', N'zh-CN', N'标题', N'SectionContentTitle', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionContentTitle@LastUpdateBy', N'zh-CN', N'LastUpdateBy', N'SectionContentTitle', N'EntityProperty')
@@ -4874,6 +4886,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionWidget@Status', N'zh-CN', N'状态', N'SectionWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionWidget@StyleClass', N'zh-CN', N'自定义样式', N'SectionWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionWidget@Template', N'zh-CN', N'Template', N'SectionWidget', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionWidget@Thumbnail', N'zh-CN', N'缩略图', N'SectionWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionWidget@Title', N'zh-CN', N'标题', N'SectionWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SectionWidget@ViewModelTypeName', N'zh-CN', N'ViewModelTypeName', N'SectionWidget', N'EntityProperty')
@@ -4886,7 +4899,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Select widget then double click or click next.', N'zh-CN', N'选择组件，<strong>双击</strong>或者点击<strong>下一步</strong>', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SEO Description', N'zh-CN', N'SEO描述', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SEO Keywords', N'zh-CN', N'SEO关键字', NULL, NULL)
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'se-resize', N'zh-CN', N'向右下改变大小', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Setting', N'zh-CN', N'设置', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Setting have saved, but an error occur when clean cache.', N'zh-CN', N'配置保存成功，但清空缓存时发生异常，请重试！', NULL, NULL)
@@ -4975,6 +4987,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'StaticPageSetting@ExcludePages', N'zh-CN', N'例外页面', NULL, N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Statistics@ActionType', N'zh-CN', N'ActionType', N'Statistics', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Statistics@ContactName', N'zh-CN', N'ContactName', N'Statistics', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Statistics@CreateBy', N'zh-CN', N'CreateBy', N'Statistics', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Statistics@CreatebyName', N'zh-CN', N'CreatebyName', N'Statistics', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Statistics@CreateDate', N'zh-CN', N'CreateDate', N'Statistics', N'EntityProperty')
@@ -4987,7 +5000,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Statistics@StatisticsId', N'zh-CN', N'StatisticsId', N'Statistics', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Statistics@Status', N'zh-CN', N'状态', N'Statistics', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Statistics@Tel', N'zh-CN', N'Tel', N'Statistics', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Statistics@Title', N'zh-CN', N'标题', N'Statistics', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'StatisticsScript@Location', N'en-US', N'Location', N'StatisticsScript', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'StatisticsScript@Location', N'zh-CN', N'位置', N'GlobalScripts', N'EntityProperty')
@@ -5076,6 +5088,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'TemplateFile@RelativePath', N'zh-CN', N'模板路径', N'TemplateFile', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'TemplateFile@ThemeName', N'en-US', N'Theme Name', N'TemplateFile', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'TemplateFile@ThemeName', N'zh-CN', N'主题', N'TemplateFile', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Test Page', N'en-GB', N'Test Page', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Test Page', N'en-US', N'Test Page', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Test Page', N'zh-CN', N'页面检测', NULL, NULL)
@@ -5088,7 +5101,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Text Title', N'en-US', N'Title', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Text Title', N'zh-CN', N'文字标题', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Text Vertical', N'zh-CN', N'垂直大小', NULL, NULL)
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Thank you for sign up', N'en-GB', N'Thank you!', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Thank you for sign up', N'en-US', N'Thank you!', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'Thank you for sign up', N'zh-CN', N'注册结果', NULL, NULL)
@@ -5177,6 +5189,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@CreateBy', N'zh-CN', N'CreateBy', N'UrlRedirect', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@CreatebyName', N'en-GB', N'Create By', N'UrlRedirect', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@CreatebyName', N'en-US', N'Create By', N'UrlRedirect', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@CreatebyName', N'zh-CN', N'创建人', N'UrlRedirect', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@CreateDate', N'en-GB', N'Create Date', N'UrlRedirect', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@CreateDate', N'en-US', N'Create Date', N'UrlRedirect', N'EntityProperty')
@@ -5189,7 +5202,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@DestinationURL', N'zh-CN', N'跳转地址', NULL, N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@ID', N'zh-CN', N'ID', N'UrlRedirect', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@InComingUrl', N'en-GB', N'In Coming Url', N'UrlRedirect', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@InComingUrl', N'en-US', N'In Coming Url', N'UrlRedirect', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@InComingUrl', N'zh-CN', N'访问地址', N'UrlRedirect', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@IsPermanent', N'en-GB', N'Is Permanent', N'UrlRedirect', N'EntityProperty')
@@ -5278,6 +5290,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@PassWordNew', N'en-US', N'Pass Word New', N'UserEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@PassWordNew', N'zh-CN', N'密码', N'UserEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@PhotoUrl', N'en-GB', N'Photo Url', N'UserEntity', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@PhotoUrl', N'en-US', N'Photo Url', N'UserEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@PhotoUrl', N'zh-CN', N'头像', N'UserEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@Profession', N'en-GB', N'Profession', N'UserEntity', N'EntityProperty')
@@ -5290,7 +5303,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@ResetTokenDate', N'zh-CN', N'ResetTokenDate', N'UserEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@Roles', N'en-GB', N'Roles', N'UserEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@Roles', N'en-US', N'Roles', N'UserEntity', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@Roles', N'zh-CN', N'角色', N'UserEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@School', N'en-GB', N'School', N'UserEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@School', N'en-US', N'School', N'UserEntity', N'EntityProperty')
@@ -5379,6 +5391,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'VideoWidget@ViewModelTypeName', N'zh-CN', N'ViewModelTypeName', N'VideoWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'VideoWidget@WidgetName', N'zh-CN', N'组件名称', N'VideoWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'VideoWidget@Width', N'zh-CN', N'宽度(px)', N'VideoWidget', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'VideoWidget@ZoneID', N'zh-CN', N'区域', N'VideoWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'View', N'en-GB', N'View', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'View', N'en-US', N'View', NULL, NULL)
@@ -5391,7 +5404,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'View Content', N'zh-CN', N'查看内容', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'View Content Template', N'zh-CN', N'查看内容模板', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'View Content Type', N'zh-CN', N'查看内容类型', NULL, NULL)
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'View Detail', N'zh-CN', N'查看详细', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'View Form', N'zh-CN', N'查看表单', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'View Form Data', N'zh-CN', N'查看表单数据', NULL, NULL)
@@ -5480,6 +5492,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetBase@StyleClass', N'zh-CN', N'自定义样式', N'WidgetBase', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetBase@Thumbnail', N'zh-CN', N'缩略图', N'WidgetBase', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetBase@Title', N'zh-CN', N'标题', N'WidgetBase', N'EntityProperty')
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetBase@ViewModelTypeName', N'zh-CN', N'ViewModelTypeName', N'WidgetBase', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetBase@WidgetName', N'zh-CN', N'组件名称', N'WidgetBase', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetBase@ZoneID', N'zh-CN', N'区域', N'WidgetBase', N'EntityProperty')
@@ -5492,7 +5505,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetTemplateEntity@Description', N'zh-CN', N'描述', N'WidgetTemplateEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetTemplateEntity@FormView', N'zh-CN', N'FormView', N'WidgetTemplateEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetTemplateEntity@GroupName', N'zh-CN', N'组名', N'WidgetTemplateEntity', N'EntityProperty')
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetTemplateEntity@ID', N'zh-CN', N'ID', N'WidgetTemplateEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetTemplateEntity@LastUpdateBy', N'zh-CN', N'LastUpdateBy', N'WidgetTemplateEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetTemplateEntity@LastUpdateByName', N'zh-CN', N'更新人', N'WidgetTemplateEntity', N'EntityProperty')
@@ -5581,6 +5593,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'字段名', N'en-GB', N'Display Name', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'字段名', N'en-US', N'Display Name', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'安全退出', N'en-GB', N'Sign out', NULL, NULL)
+GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'安全退出', N'en-US', N'Sign out', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'密码不能为空', N'en-GB', N'Please input your password', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'密码不能为空', N'en-US', N'Please input your password', NULL, NULL)
@@ -5593,7 +5606,6 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'工具栏', N'en-US', N'Toolbar', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'巨幕', N'en-GB', N'Jumbotron', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'巨幕', N'en-US', N'Jumbotron', NULL, NULL)
-GO
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'文字三列', N'en-GB', N'Three Column Text', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'文字三列', N'en-US', N'Three Column Text', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'文字二列', N'en-GB', N'Tow Column Text', NULL, NULL)
@@ -5974,7 +5986,7 @@ SET IDENTITY_INSERT [dbo].[UserRoleRelation] ON
 
 INSERT [dbo].[UserRoleRelation] ([ID], [RoleID], [UserID]) VALUES (5, 1, N'admin')
 SET IDENTITY_INSERT [dbo].[UserRoleRelation] OFF
-INSERT [dbo].[Users] ([UserID], [PassWord], [ApiLoginToken], [LastLoginDate], [LoginIP], [PhotoUrl], [Timestamp], [UserName], [UserTypeCD], [Address], [Age], [Birthday], [Birthplace], [Email], [EnglishName], [FirstName], [Hobby], [LastName], [MaritalStatus], [MobilePhone], [NickName], [Profession], [QQ], [School], [Sex], [Telephone], [ZipCode], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Status], [Description], [ResetToken], [ResetTokenDate]) VALUES (N'admin', N'8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', NULL, CAST(N'2020-03-18T21:23:53.540' AS DateTime), N'::1', N'~/images/head.png', 0, N'ZKEASOFT', 1, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, N'Admin', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, N'admin', N'Admin', CAST(N'2020-03-18T21:23:53.553' AS DateTime), 1, NULL, NULL, NULL)
+INSERT [dbo].[Users] ([UserID], [PassWord], [ApiLoginToken], [LastLoginDate], [LoginIP], [PhotoUrl], [Timestamp], [UserName], [UserTypeCD], [Address], [Age], [Birthday], [Birthplace], [Email], [EnglishName], [FirstName], [Hobby], [LastName], [MaritalStatus], [MobilePhone], [NickName], [Profession], [QQ], [School], [Sex], [Telephone], [ZipCode], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Status], [Description], [ResetToken], [ResetTokenDate]) VALUES (N'admin', N'8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', NULL, CAST(N'2020-03-21T20:24:28.157' AS DateTime), N'::1', N'~/images/head.png', 0, N'ZKEASOFT', 1, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, N'Admin', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, N'admin', N'Admin', CAST(N'2020-03-21T20:24:28.180' AS DateTime), 1, NULL, NULL, NULL)
 ALTER TABLE [dbo].[CMS_WidgetBase] ADD  CONSTRAINT [DF_CMS_WidgetBase_IsTemplate]  DEFAULT ((0)) FOR [IsTemplate]
 GO
 ALTER TABLE [dbo].[CMS_WidgetBase] ADD  CONSTRAINT [DF_CMS_WidgetBase_IsSystem]  DEFAULT ((0)) FOR [IsSystem]
