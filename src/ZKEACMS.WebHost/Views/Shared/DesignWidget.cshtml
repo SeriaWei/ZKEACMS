@@ -48,9 +48,8 @@
                 }
                 <a href="javascript:void(0)"
                    data-action="@Url.Action("Copy", "Widget", new { widgetId = Model.Widget.ID })"
-                   data-class="container"
                    title="@L("Copy")"
-                   class="hide glyphicon glyphicon-copy copy-widget">
+                   class="glyphicon glyphicon-copy copy-widget">
                     <span>@L("Copy")</span>
                 </a>
                 <a href="javascript:void(0)"
@@ -125,8 +124,7 @@
                    data-id="@Model.Widget.ID">
                     <span>@L("Delete?")</span>
                 </a>
-                <span class="text-muted">|</span>
-                <span class="glyphicon glyphicon-info-sign">
+                <span class="toggle-hidden hidden glyphicon glyphicon-info-sign">
                     <span>{@(Model.Widget.PartialView)}</span>
                 </span>
                 <a href="javascript:void(0)" class="toggle-hidden more glyphicon glyphicon-chevron-right">
