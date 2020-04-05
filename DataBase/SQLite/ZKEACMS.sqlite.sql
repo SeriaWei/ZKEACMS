@@ -1,7 +1,7 @@
 -- Script Date: 2020/4/5 星期日 10:20  - ErikEJ.SqlCeScripting version 3.5.2.56
 SELECT 1;
 PRAGMA foreign_keys=OFF;
-BEGIN TRANSACTION;
+
 CREATE TABLE [Users] (
   [UserID] nvarchar(50) NOT NULL
 , [PassWord] nvarchar(255) NULL
@@ -6153,5 +6153,5 @@ INSERT INTO [ApplicationSetting] ([SettingKey],[Value],[Title],[Description],[St
 INSERT INTO [ApplicationSetting] ([SettingKey],[Value],[Title],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES ('ExpandAllPage','true',NULL,NULL,1,'admin','ZKEASOFT','2019-05-07 21:20:04.247','admin','ZKEASOFT','2019-05-07 21:20:04.247');
 INSERT INTO [ApplicationSetting] ([SettingKey],[Value],[Title],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES ('Favicon','~/favicon.ico',NULL,NULL,NULL,'admin','ZKEASOFT','2017-03-19 20:57:33.627','admin','ZKEASOFT','2017-03-19 20:57:33.627');
 INSERT INTO [ApplicationSetting] ([SettingKey],[Value],[Title],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES ('OuterChainPicture','false',NULL,NULL,1,NULL,NULL,'2020-04-05 10:11:19.510',NULL,NULL,'2020-04-05 10:11:19.510');
-COMMIT;
+
 
