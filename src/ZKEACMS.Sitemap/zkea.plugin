@@ -3,5 +3,5 @@
 	Name:"ZKEACMS.Sitemap",
 	FileName:"ZKEACMS.Sitemap.dll",
 	Enable:"true",
-	Description:"站点地图"
+	Description:"Sitemap"
 }

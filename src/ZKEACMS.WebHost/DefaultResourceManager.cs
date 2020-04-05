@@ -54,8 +54,6 @@ namespace ZKEACMS.WebHost
 
             script("admin")
                 .Include($"{ScriptPath}/admin.js", $"{ScriptPath}/admin.min.js")
-                .Include($"{LibraryPath}/CryptoJS/components/core.js", $"{LibraryPath}/CryptoJS/components/core-min.js")
-                .Include($"{LibraryPath}/CryptoJS/components/enc-base64.js", $"{LibraryPath}/CryptoJS/components/enc-base64-min.js")
                 .Include($"{LibraryPath}/smooth-scrollbar/dist/smooth-scrollbar.js");
 
             script("smooth-scrollbar")

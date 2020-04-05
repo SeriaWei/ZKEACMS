@@ -60,12 +60,12 @@ namespace ZKEACMS.Product.Service
                     actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{productCategory.Url}", true);
                 }
             }
-            if (productCategory != null)
+            if (productCategory != null && productCategory.SEOTitle.IsNotNullAndWhiteSpace())
             {
                 var layout = actionContext.HttpContext.GetLayout();
                 if (layout != null && layout.Page != null)
                 {
-                    layout.Page.Title = productCategory.SEOTitle ?? productCategory.Title;
+                    layout.Page.Title = productCategory.SEOTitle;
                     layout.Page.MetaKeyWorlds = productCategory.SEOKeyWord;
                     layout.Page.MetaDescription = productCategory.SEODescription;
                 }

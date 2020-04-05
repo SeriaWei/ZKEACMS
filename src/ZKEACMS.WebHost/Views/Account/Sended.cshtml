@@ -24,24 +24,21 @@
         <div class="login-panel-body">
             <div class="info-bar">
                 <p>
-                    @L("找回密码")
+                    @L("Forgotten password")
                 </p>
                 <img src="~/css/Images/picker_account_msa.svg" />
             </div>
             <br />
             <p>
-                @L("我们已经给您的邮箱")
+                @L("We have sent the change password message to your email")
             </p>
             <p>
                 <strong>
                     @email
                 </strong>
             </p>
-            <p>
-                @L("发送了一封找回密码的邮件，请及时查收并修改密码。")
-            </p>
             <div class="form-input">
-                <a href="@Url.Content(link)" target="_blank" class="btn-login">@L("查收邮件")</a>
+                <a href="@Url.Content(link)" target="_blank" class="btn-login">@L("Check the email")</a>
             </div>
         </div>
     </div>

@@ -175,6 +175,7 @@ Easy.OpacityBackGround = (function () {
 })();
 
 Easy.Block = function () {
+    Easy.Block.IsBlocked = true;
     if ($(".easy-block").size() === 0) {
         Easy.OpacityBackGround.Show();
         $(".OpacityBackGround").addClass("busy");
@@ -182,9 +183,12 @@ Easy.Block = function () {
     }
 }
 Easy.UnBlock = function () {
-    $(".OpacityBackGround").removeClass("busy");
-    Easy.OpacityBackGround.Close();
-    $(".easy-block").remove();
+    if (Easy.Block.IsBlocked) {
+        Easy.Block.IsBlocked = false;
+        $(".OpacityBackGround").removeClass("busy");
+        Easy.OpacityBackGround.Close();
+        $(".easy-block").remove();
+    }    
 }
 
 Easy.ShowMessageBox = function (title, msg, fnOk, ShowCancel, zindex) {

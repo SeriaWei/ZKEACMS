@@ -3,5 +3,5 @@
 	Name:"ZKEACMS.Message",
 	FileName:"ZKEACMS.Message.dll",
 	Enable:"true",
-	Description:"留言，评论"
+	Description:"Message and Comments"
 }

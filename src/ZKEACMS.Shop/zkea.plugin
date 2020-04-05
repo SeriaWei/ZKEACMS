@@ -3,5 +3,5 @@
 	Name:"ZKEACMS.Shop",
 	FileName:"ZKEACMS.Shop.dll",
 	Enable:"true",
-	Description:"在线商城"
+	Description:"Shop"
 }

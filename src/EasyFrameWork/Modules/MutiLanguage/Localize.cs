@@ -3,31 +3,65 @@
  * http://www.zkea.net/licenses */
 using Easy.Extend;
 using Easy.Options;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Easy.Modules.MutiLanguage
 {
     public class Localize : ILocalize
     {
-        private IOptions<CultureOption> options;
-        private ILanguageService languageService;
+        private ILanguageService _languageService;
+        List<string> cultureCodes = new List<string>();
+        public Localize(ILanguageService languageService, IOptions<CultureOption> options, IHttpContextAccessor httpContextAccessor)
+        {
+            _languageService = languageService;
 
+            var userLan = httpContextAccessor.HttpContext.Request.GetUserLanguages().FirstOrDefault();
+
+            if (userLan.IsNotNullAndWhiteSpace())
+            {
+                cultureCodes.Add(userLan);
+            }
+            if (userLan != options.Value.Code)
+            {
+                cultureCodes.Add(options.Value.Code);
+            }
+        }
         public string Get(string content)
         {
-            if (languageService == null)
+            return GetOrNull(content) ?? content;
+        }
+
+        public string Get(string content, string culture)
+        {
+            return GetOrNull(content, culture) ?? content;
+        }
+
+        public string GetOrNull(string content)
+        {
+            foreach (var item in cultureCodes)
             {
-                languageService = ServiceLocator.GetService<ILanguageService>();
-                options = ServiceLocator.GetService<IOptions<CultureOption>>();
+                string lanValue = GetOrNull(content, item);
+                if (lanValue.IsNotNullAndWhiteSpace())
+                {
+                    return lanValue;
+                }
             }
-            var lanContent = languageService.Get(content, options.Value.Code);
+            return null;
+        }
+
+        public string GetOrNull(string content, string culture)
+        {
+            var lanContent = _languageService.Get(content, culture);
             if (lanContent != null && lanContent.LanValue.IsNotNullAndWhiteSpace())
             {
                 return lanContent.LanValue;
             }
-            return content;
+            return null;
         }
     }
 }

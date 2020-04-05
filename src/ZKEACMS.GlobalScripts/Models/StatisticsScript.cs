@@ -26,8 +26,8 @@ namespace ZKEACMS.GlobalScripts.Models
             ViewConfig(m => m.Location).AsDropDownList().DataSource(() =>
             {
                 Dictionary<string, string> data = new Dictionary<string, string>();
-                data.Add(ScriptLocation.Footer.ToString("D"), "页尾");
-                data.Add(ScriptLocation.Header.ToString("D"), "页头");
+                data.Add(ScriptLocation.Footer.ToString("D"), "Head");
+                data.Add(ScriptLocation.Header.ToString("D"), "Foot");
                 return data;
             });
             ViewConfig(m => m.Script).AsTextArea();

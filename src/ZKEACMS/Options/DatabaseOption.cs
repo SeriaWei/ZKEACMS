@@ -12,5 +12,6 @@ namespace ZKEACMS.Options
     {
         public DbTypes DbType { get; set; }
         public string ConnectionString { get; set; }
+        public bool IsLowerCaseTableNames { get; set; }
     }
 }

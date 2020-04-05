@@ -1,13 +1,15 @@
-@using ZKEACMS.Message.Models
+﻿@using ZKEACMS.Message.Models
 @model Comments
 @{
-    var host = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}";
+    string host = hostOptionProvider.GetOrigin();
     string link = $"{host}/admin/Comments/Edit/{Model.ID}";
 }
+@inject ZKEACMS.IHostOptionProvider hostOptionProvider
+@inject Easy.ILocalize localize
 <!DOCTYPE html>
 <html>
 <head>
-    <title>新的评论提醒</title>
+    <title>@localize.Get("New comment")</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -15,24 +17,24 @@
 <body>
     <div>
         <h3>
-            收到新的评论
+            @localize.Get("New comment")
         </h3>
         <table border="1" cellspacing="0" cellpadding="5" bgcolor="" style="border-color: #eee;">
             <tbody>
                 <tr>
-                    <td>标题</td>
+                    <td>@localize.Get("Title")</td>
                     <td>@Model.Title</td>
                 </tr>
                 <tr>
-                    <td>评论人</td>
+                    <td>@localize.Get("Username")</td>
                     <td>@Model.UserName</td>
                 </tr>
                 <tr>
-                    <td>评论内容</td>
+                    <td>@localize.Get("Comments")</td>
                     <td>@Model.CommentContent</td>
                 </tr>
                 <tr>
-                    <td>页面</td>
+                    <td>@localize.Get("Page")</td>
                     <td><a href="@(host+Model.PagePath)" target="_blank">@(host + Model.PagePath)</a></td>
                 </tr>
 
@@ -40,7 +42,7 @@
         </table>
     </div>
     <p>
-        查看详情 <a href="@link" target="_blank">@link</a>
+        @localize.Get("For detail") <a href="@link" target="_blank">@link</a>
     </p>
     <h4>
         ZKEASOFT
@@ -51,7 +53,7 @@
         </a>
     </p>
     <p>
-        <em>@DateTime.Now.ToString("yyyy-MM-dd")</em>
+        <em>@DateTime.Now.ToString("g")</em>
     </p>
 </body>
 </html>

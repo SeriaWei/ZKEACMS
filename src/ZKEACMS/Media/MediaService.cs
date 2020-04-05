@@ -79,7 +79,7 @@ namespace ZKEACMS.Media
 
         public MediaEntity GetImageFolder()
         {
-            const string imageFolder = "图片";
+            const string imageFolder = "Image";
             var folder = Get(m => m.Title == imageFolder && m.MediaType == (int)MediaType.Folder).FirstOrDefault();
             if (folder == null)
             {

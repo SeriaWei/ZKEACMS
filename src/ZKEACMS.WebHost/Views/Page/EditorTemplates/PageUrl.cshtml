@@ -15,11 +15,11 @@
         }
     }
 }
-@inject IHttpContextAccessor httpContextAccessor
+@inject IHostOptionProvider hostOptionProvider
 
 <div class="input-group clearfix">
     <div class="input-group-addon" style="max-width:600px;overflow:hidden;text-overflow:ellipsis;">        
-        @(httpContextAccessor.HttpContext.Request.Scheme + "://" + httpContextAccessor.HttpContext.Request.Host + "/" + path)       
+        @(hostOptionProvider.GetOrigin() + "/" + path)       
     </div>
     @Html.TextBox("", Model, descriptor?.ToHtmlProperties())
 </div>

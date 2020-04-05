@@ -33,16 +33,16 @@ namespace ZKEACMS.Common.Models
             {
                 return new Dictionary<string, string>
                 {
-                     {"container","居中"},
-                     {"container-fluid","自适应"}
+                     {"container","container"},
+                     {"container-fluid","container-fluid"}
                 };
             }).Order(NextOrder());
             ViewConfig(m => m.AlignClass).AsDropDownList().DataSource(() =>
             {
                 return new Dictionary<string, string>
                 {
-                     {"navbar-left","左对齐"},
-                     {"navbar-right","右对齐"}
+                     {"navbar-left","navbar-left"},
+                     {"navbar-right","navbar-right"}
                 };
             }).Order(NextOrder());
             ViewConfig(m => m.IsTopFix).AsHidden();
@@ -50,7 +50,7 @@ namespace ZKEACMS.Common.Models
             ViewConfig(m => m.RootID).AsDropDownList().Order(NextOrder()).AddClass("select").AddProperty("data-url", "/admin/Navigation/Select").DataSource(() =>
             {
                 Dictionary<string, string> navigations = new Dictionary<string, string>();
-                navigations.Add("root", "导航");
+                navigations.Add("root", "Navigation");
                 ServiceLocator.GetService<INavigationService>().Get().Each(navigation => {
                     navigations.Add(navigation.ID, navigation.Title);
                 });

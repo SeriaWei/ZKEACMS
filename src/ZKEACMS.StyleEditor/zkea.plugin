@@ -3,5 +3,5 @@
 	Name:"ZKEACMS.StyleEditor",
 	FileName:"ZKEACMS.StyleEditor.dll",
 	Enable:"true",
-	Description:"在线样式编辑"
+	Description:"Style Editor"
 }

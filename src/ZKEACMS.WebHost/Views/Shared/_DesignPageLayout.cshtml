@@ -17,7 +17,6 @@
 <!--<![endif]-->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="cache-control" content="no-store">
@@ -27,9 +26,12 @@
     {
         <meta name="referrer" content="same-origin" />
     }
-    <title>[@L("设计")]@Model.Page.Title</title>
+    @if (ApplicationContext.As<CMSApplicationContext>().EnableResponsiveDesign)
+    {
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
+    }
+    <title>[@L("Design")]@Model.Page.Title</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width" />
     @StyleAtHead()
     @ScriptAtHead()
     @foreach (var item in appContext.HeaderPart)
@@ -53,11 +55,11 @@
         <div class="container">
             <div class="clearfix">
                 <div class="pull-left">
-                    <span class="badge">@L("页面设计")</span>
+                    <span class="badge">@L("Page Design")</span>
                     <label class="display-border">
                         <input class="helper" data-class="design-border" type="checkbox" autocomplete="off" checked />
                         <span>
-                            @L("边框(显示空区域)")
+                            @L("Border(Empty Zone)")
                         </span>
                     </label>
                 </div>
@@ -65,43 +67,43 @@
                     <div class="zk-btn-group">
                         <a class="zk-btn zk-btn-primary" href="@Url.Action("RedirectView", "Page", new {Model.Page.ID})">
                             <i class="glyphicon glyphicon-eye-open"></i>
-                            @L("预览")
+                            @L("Preview")
                         </a>
                         <button class="zk-btn zk-btn-primary mobile-preview" data-toggle="modal" data-target="#mobile-frame">
                             <i class="glyphicon glyphicon-phone"></i>
                         </button>
                         <a class="zk-btn zk-btn-primary" href="@Url.Action("Index", "Page", new {PageID = Model.Page.ID})">
                             <i class="glyphicon glyphicon-th-list"></i>
-                            @L("概览")
+                            @L("Overview")
                         </a>
                         <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Layout", new {Model.ID, PageID = Model.Page.ID})">
                             <i class="glyphicon glyphicon-th"></i>
-                            @L("编辑布局")
+                            @L("Edit Layout")
                         </a>
                         <a class="zk-btn zk-btn-primary" href="@Url.Action("Edit", "Page", new { Model.Page.ID})">
                             <i class="glyphicon glyphicon-record"></i>
-                            @L("属性/历史记录")
+                            @L("Property/History")
                         </a>
                         <a class="zk-btn zk-btn-primary" href="@Url.Action("SelectWidget", "WidgetTemplate", new { pageId = Model.Page.ID})">
                             <i class="glyphicon glyphicon-plus"></i>
-                            @L("添加内容")
+                            @L("Add Content")
                         </a>
                         <a href="javascript:void(0)" class="upload-template zk-btn zk-btn-primary">
                             <i class="glyphicon glyphicon-copy"></i>
-                            @L("安装板块")
+                            @L("Upload Section")
                         </a>
                         <a class="zk-btn zk-btn-primary" href="@Url.Action("PublishPage", "Page", new {Model.Page.ID, ReturnUrl = Model.Page.Url})">
                             <i class="glyphicon glyphicon-open"></i>
-                            @L("发布")
+                            @L("Publish")
                         </a>
 
                         @if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
                         {
                             <a class="zk-btn zk-btn-primary" href="@Url.Action("CancelPreView", "Theme")">
                                 <i class="glyphicon glyphicon-transfer"></i>
-                                @L("退出")
+                                @L("Close")
                                 @Model.CurrentTheme.Title
-                                @L("主题")
+                                @L("Theme")
                             </a>
                         }
                         @await Html.PartialAsync("Partial.Menu", Model)

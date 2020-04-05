@@ -1,3 +1,4 @@
+@using ZKEACMS.Article.Extend
 @model ZKEACMS.Article.ViewModel.ArticleDetailViewModel
 @{
     Style.Reqiured("Article").AtHead();
@@ -12,7 +13,7 @@
             <div class="align-right">
                 <span>
                     <i class="glyphicon glyphicon-eye-open"></i>
-                    @(Model.Current.Counter ?? 1)
+                    @Html.RawCount(Model.Current.Counter ?? 1)
                 </span>
                 <span>
                     <i class="glyphicon glyphicon-user"></i>
@@ -24,7 +25,7 @@
                 </span>
                 @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticle) && Model.Current.ID > 0)
                 {
-                    <a href="@Url.Action("Edit", "Article", new { id = Model.Current.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">@L("编辑")</a>
+                    <a href="@Url.Action("Edit", "Article", new { id = Model.Current.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">@L("Edit")</a>
                 }
             </div>
         </div>
@@ -41,7 +42,7 @@
                     @if (Model.Prev != null)
                     {
                         <span>
-                            @L("上一篇:")
+                            @L("Previous:")
                         </span>
                         <a href="@Url.PostUrl(ViewContext.RouteData.GetPath(), Model.Prev)">
                             @Model.Prev.Title
@@ -53,7 +54,7 @@
                     @if (Model.Next != null)
                     {
                         <span>
-                            @L("下一篇:")
+                            @L("Next:")
                         </span>
                         <a href="@Url.PostUrl(ViewContext.RouteData.GetPath(), Model.Next)">
                             @Model.Next.Title

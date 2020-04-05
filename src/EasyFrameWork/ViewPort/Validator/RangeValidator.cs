@@ -10,7 +10,7 @@ namespace Easy.ViewPort.Validator
         {
             this.Min = min;
             this.Max = max;
-            BaseErrorMessage = "{{0}}的值范围应在{0}-{1}之间".FormatWith(Min, Max);
+            BaseErrorMessage = "{0} should in range({1}-{2})";
         }
         public double Min { get; set; }
         public double Max { get; set; }
@@ -21,6 +21,10 @@ namespace Easy.ViewPort.Validator
             double val = Convert.ToDouble(value);
             if (val >= Min && val <= Max) return true;
             else return false;
+        }
+        public override string FormatMessage(string key)
+        {
+            return string.Format(key, GetDisplayName(), Min, Max);
         }
     }
 }

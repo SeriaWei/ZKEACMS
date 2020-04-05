@@ -96,7 +96,7 @@ namespace Easy.Mvc.TagHelpers
                         string.Empty,
                         WebUtility.HtmlEncode(manager),
                         string.Empty,
-                        ActionLable ?? localize.Get("操作"),
+                        ActionLable ?? localize.Get("Action"),
                         string.Empty,
                         Query.Operators.None,
                         string.Empty,
@@ -133,8 +133,8 @@ namespace Easy.Mvc.TagHelpers
                         }
                         else if (m.DataType == typeof(bool) || m.DataType == typeof(bool?))
                         {
-                            optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", localize.Get("是"), "true");
-                            optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", localize.Get("否"), "false");
+                            optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", localize.Get("Yes"), "true");
+                            optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", localize.Get("No"), "false");
                         }
                         tableHeaderBuilder.AppendFormat(TableHeadStructure,
                             m.Name.FirstCharToLowerCase(),

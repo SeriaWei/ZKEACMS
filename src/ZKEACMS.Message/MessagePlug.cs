@@ -34,14 +34,14 @@ namespace ZKEACMS.Message
         {
             yield return new AdminMenu
             {
-                Title = "留言评论",
+                Title = "Message And Comments",
                 Icon = "glyphicon-volume-up",
                 Order = 7,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu
                     {
-                        Title = "留言",
+                        Title = "Message",
                         Url = "~/admin/message",
                         Order = 1,
                         Icon = "glyphicon-volume-up",
@@ -49,7 +49,7 @@ namespace ZKEACMS.Message
                     },
                     new AdminMenu
                     {
-                        Title = "评论",
+                        Title = "Comments",
                         Url = "~/admin/comments",
                         Order = 2,
                         Icon = "glyphicon-comment",
@@ -57,7 +57,7 @@ namespace ZKEACMS.Message
                     },
                     new AdminMenu
                     {
-                        Title = "配置通知邮箱",
+                        Title = "Notify Email",
                         Url = "~/admin/messagenotification/config",
                         Order = 3,
                         Icon = "glyphicon-flag",
@@ -71,19 +71,19 @@ namespace ZKEACMS.Message
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
         {
-            yield return new PermissionDescriptor(PermissionKeys.ViewMessage, "留言评论", "查看留言", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageMessage, "留言评论", "管理留言", "");
-            yield return new PermissionDescriptor(PermissionKeys.ViewComments, "留言评论", "查看评论", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageComments, "留言评论", "管理评论", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageMessageNotification, "留言评论", "管理通知邮箱", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewMessage, "Message And Comments", "View Message", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageMessage, "Message And Comments", "Manage Message", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewComments, "Message And Comments", "View Comments", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageComments, "Message And Comments", "Manage Comments", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageMessageNotification, "Message And Comments", "Manage Notify Email", "");
         }
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
-            string groupName = "5.消息";
+            string groupName = "5.Message";
             yield return new WidgetTemplateEntity<CommentsWidgetService>
             {
-                Title = "评论箱",
+                Title = "Comment Box",
                 GroupName = groupName,
                 PartialView = "Widget.Comments",
                 Thumbnail = "~/Plugins/ZKEACMS.Message/Content/Image/Widget.Comments.png",
@@ -91,7 +91,7 @@ namespace ZKEACMS.Message
             };
             yield return new WidgetTemplateEntity<MessageWidgetService>
             {
-                Title = "留言板",
+                Title = "Message Board",
                 GroupName = groupName,
                 PartialView = "Widget.Message",
                 Thumbnail = "~/Plugins/ZKEACMS.Message/Content/Image/Widget.Message.png",
@@ -99,7 +99,7 @@ namespace ZKEACMS.Message
             };
             yield return new WidgetTemplateEntity<MessageBoxWidgetService>
             {
-                Title = "留言内容",
+                Title = "Message List",
                 GroupName = groupName,
                 PartialView = "Widget.MessageBox",
                 Thumbnail = "~/Plugins/ZKEACMS.Message/Content/Image/Widget.MessageBox.png",
@@ -123,12 +123,12 @@ namespace ZKEACMS.Message
 
             serviceCollection.Configure<MessageBoxWidget>(option =>
             {
-                option.DataSourceLinkTitle = "留言";
+                option.DataSourceLinkTitle = "Message";
                 option.DataSourceLink = "~/admin/message";
             });
             serviceCollection.Configure<CommentsWidget>(option =>
             {
-                option.DataSourceLinkTitle = "评论";
+                option.DataSourceLinkTitle = "Comments";
                 option.DataSourceLink = "~/admin/comments";
             });
             
