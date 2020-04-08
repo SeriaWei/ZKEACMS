@@ -1445,9 +1445,10 @@ label.additional {
     color: white;
     transition: all 400ms;
     opacity: 0;
-    z-index: 10;
+    z-index: 10000;
     border-radius: 3px;
     font-size: 18px;
+    margin-top: -30px;
 }
 
 .widget:hover .zoneToolbar {
@@ -1455,7 +1456,7 @@ label.additional {
 }
 
 .zoneToolbar:hover {
-    z-index: 12;
+    z-index: 10001;
 }
 
 .zoneToolbar .tools {
@@ -1593,7 +1594,7 @@ label.additional {
     border-radius: 0;
     top: 0;
     margin: 0;
-    z-index: 10;
+    z-index: 10001;
     position: fixed;
     left: 0;
     top: 0;
@@ -1682,7 +1683,7 @@ label.additional {
     right: 0;
     top: 0;
     height: 100%;
-    z-index: 10;
+    z-index: 10002;
     transition: all 0.5s ease-in-out;
     box-shadow: 0 0 5px rgba(0, 0, 0,0.2);
 }
@@ -1830,7 +1831,7 @@ li.ui-sortable-helper {
     top: 0 !important;
     width: 300px !important;
     height: 100% !important;
-    z-index: 11 !important;
+    z-index: 10002 !important;
     background: #212636;
     border-color: #212636;
 }

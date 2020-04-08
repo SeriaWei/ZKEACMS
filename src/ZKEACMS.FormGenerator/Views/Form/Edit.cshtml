@@ -12,11 +12,14 @@
 {
     <script type="text/javascript">
         angular.module("fild", ["fieldSetting"]).controller("formgenerator", function ($scope) {
-            $scope.ID = '@Model.ID';
-            $scope.Title = decodeURIComponent('@System.Net.WebUtility.UrlEncode(Model.Title)');
-            $scope.Description = decodeURIComponent('@System.Net.WebUtility.UrlEncode(Model.Description)');
-            $scope.NotificationReceiver = decodeURIComponent('@System.Net.WebUtility.UrlEncode(Model.NotificationReceiver)');
-            $scope.Fields = @Html.Raw(Model.FieldsData);
+            var obj = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+            
+            for(var p in obj){
+                if(obj.hasOwnProperty(p) && p != 'FieldsData' && p != 'FormFields'){
+                    $scope[p] = obj[p];
+                }
+            }
+            $scope.Fields = JSON.parse(obj.FieldsData);
         });
     </script>
 }

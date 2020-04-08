@@ -67,24 +67,7 @@ namespace ZKEACMS.Filter
         }
         public virtual string GetLayout(ActionExecutedContext filterContext, ThemeEntity theme)
         {
-            string name = string.Empty;
-            if (theme != null)
-            {
-                name = theme.ID;
-            }
-            if (name.IsNotNullAndWhiteSpace())
-            {
-                string path = string.Format(Layouts.Theme, name);
-                string path2 = string.Format(Layouts.Theme2, name);
-
-                var env = filterContext.HttpContext.RequestServices.GetService<IWebHostEnvironment>();
-                var controller = filterContext.Controller as Controller;
-
-                if (File.Exists(env.MapPath(controller.Url.ToArray(path)))) return path;
-                if (File.Exists(env.MapPath(controller.Url.ToArray(path2)))) return path2;
-            }
             return Layouts.Default;
-            //return "~/Views/Shared/_Layout.cshtml";
         }
         public virtual PageViewMode GetPageViewMode()
         {
@@ -97,7 +80,7 @@ namespace ZKEACMS.Filter
             if (page != null)
             {
                 var requestServices = filterContext.HttpContext.RequestServices;
-                var onPageExecuteds = requestServices.GetServices<IOnPageExecuted>();
+                var eventManager = requestServices.GetService<IEventManager>();
                 var layoutService = requestServices.GetService<ILayoutService>();
                 var widgetService = requestServices.GetService<IWidgetBasePartService>();
                 var applicationSettingService = requestServices.GetService<IApplicationSettingService>();
@@ -180,9 +163,9 @@ namespace ZKEACMS.Filter
                     }
                     (filterContext.Controller as Controller).ViewData.Model = layout;
                 }
-                if (page.IsPublishedPage && onPageExecuteds != null)
+                if (page.IsPublishedPage)
                 {
-                    onPageExecuteds.Each(m => m.OnExecuted(page, filterContext.HttpContext));
+                    eventManager.Trigger(Events.OnPageExecuted, page);
                 }
 
                 layoutService.Dispose();
@@ -222,11 +205,8 @@ namespace ZKEACMS.Filter
                     applicationContext.Current.PageMode = GetPageViewMode();
                 }
             }
-            var _onPageExecutings = filterContext.HttpContext.RequestServices.GetServices<IOnPageExecuting>();
-            if (_onPageExecutings != null)
-            {
-                _onPageExecutings.Each(m => m.OnExecuting(filterContext.HttpContext));
-            }
+            var eventManager = filterContext.HttpContext.RequestServices.GetService<IEventManager>();
+            eventManager.Trigger(Events.OnPageExecuting, filterContext);
         }
 
         public bool Accept(ActionConstraintContext context)

@@ -1,4 +1,5 @@
 /* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+using Easy;
 using Easy.Mvc.Attribute;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
@@ -14,10 +15,12 @@ namespace ZKEACMS.Controllers
     [DefaultAuthorize(Policy = PermissionKeys.ViewNavigation)]
     public class NavigationController : BasicController<NavigationEntity, string, INavigationService>
     {
-        public NavigationController(INavigationService service)
+        private readonly ILocalize _localize;
+        public NavigationController(INavigationService service,
+            ILocalize localize)
             : base(service)
         {
-
+            _localize = localize;
         }
         [NonAction]
         public override IActionResult Create()
@@ -51,16 +54,16 @@ namespace ZKEACMS.Controllers
         }
         public JsonResult GetNavTree()
         {
-            var navs = Service.Get().OrderBy(m => m.DisplayOrder);
+            var navs = Service.Get().OrderBy(m => m.DisplayOrder).ToList();
             var node = new Tree<NavigationEntity>().Source(navs).ToNode(m => m.ID, m => m.Title, m => m.ParentId, "#");
             return Json(node);
         }
 
         public JsonResult GetSelectNavTree()
         {
-            var navs = Service.Get().OrderBy(m => m.DisplayOrder);
+            var navs = Service.Get().OrderBy(m => m.DisplayOrder).ToList();
             var node = new Tree<NavigationEntity>().Source(navs).ToNode(m => m.ID, m => m.Title, m => m.ParentId, "#");
-            Node root = new Node { id = "root", text = "导航", children = node, state = new State { opened = true }, a_attr = new { id = "root" } };
+            Node root = new Node { id = "root", text = _localize.Get("Navigation"), children = node, state = new State { opened = true }, a_attr = new { id = "root" } };
             return Json(root);
         }
 

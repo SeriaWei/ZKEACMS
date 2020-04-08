@@ -24,8 +24,8 @@ namespace ZKEACMS.TemplateImporter
         {
             yield return new AdminMenu
             {
-                Group = "系统",
-                Title = "导入静态模板",
+                Group = "System",
+                Title = "Import Html Template",
                 Icon = "glyphicon-briefcase",
                 PermissionKey = PermissionKeys.ImportStaticHtmlTemplate,
                 Url = "~/admin/templateimporter",
@@ -45,7 +45,7 @@ namespace ZKEACMS.TemplateImporter
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
         {
-            yield return new PermissionDescriptor(PermissionKeys.ImportStaticHtmlTemplate, "设置", "导入静态模板", "");
+            yield return new PermissionDescriptor(PermissionKeys.ImportStaticHtmlTemplate, "Setting", "Import Html Template", "");
         }
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()

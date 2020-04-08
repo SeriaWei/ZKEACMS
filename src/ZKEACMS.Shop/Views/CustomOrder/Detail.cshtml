@@ -2,7 +2,7 @@
 @model OrderDetailViewModel
 @{
     Layout = Layouts.CustomerCenter;
-    ViewBag.Title = L("订单明细").Text;
+    ViewBag.Title = L("Order Detail").Text;
     if (Model.Order == null)
     {
         return;
@@ -12,7 +12,7 @@
     <div class="panel-heading clearfix">
         <div class="pull-left">
             <span>
-                @L("订单号：")
+                @L("Order Number:")
                 @Model.Order.ID
             </span>
             <label class="badge">
@@ -20,7 +20,7 @@
             </label>
             @if (Model.Order.TrackingNumber.IsNotNullAndWhiteSpace())
             {
-                <span>@L("运单：")</span>
+                <span>@L("Tracking number:")</span>
                 @Model.Order.LogisticsCompany
                 <a href="https://www.baidu.com/s?wd=@(Model.Order.LogisticsCompany+" "+Model.Order.TrackingNumber)" target="_blank">
                     @Model.Order.TrackingNumber
@@ -29,7 +29,7 @@
         </div>
         <div class="pull-right">
             <small>
-                @Model.Order.CreateDate.Value.ToString("yyyy/MM/dd")
+                @Model.Order.CreateDate.Value.ToString("g")
             </small>
         </div>
     </div>
@@ -53,7 +53,7 @@
                 @if (item == Model.OrderItems.First())
                 {
                     <td width="200" align="center" style="vertical-align:middle" rowspan="@Model.OrderItems.Count">
-                        @L("合计：")
+                        @L("Total:")
                         @L("￥")
                         @Model.Order.Total.ToString("F2")
                     </td>

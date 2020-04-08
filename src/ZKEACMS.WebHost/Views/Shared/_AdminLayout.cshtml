@@ -14,10 +14,13 @@
     <meta charset="utf-8" />
     <title>@(ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank)</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width" />
     @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
     {
         <meta name="referrer" content="same-origin" />
+    }
+    @if (ApplicationContext.As<CMSApplicationContext>().EnableResponsiveDesign)
+    {
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
     }
     @StyleAtHead()
     @ScriptAtHead()
@@ -38,44 +41,44 @@
                     </p>
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="~/" target="_blank">@L("查看站点")</a>
+                            <a href="~/" target="_blank">@L("View Site")</a>
                         </li>
                         <li>
-                            <a href="http://www.zkea.net/zkeacms/videos" target="_blank">@L("演示视频")</a>
+                            <a href="http://www.zkea.net/zkeacms/videos" target="_blank">@L("Demo Video")</a>
                         </li>
                         <li>
-                            <a href="http://www.zkea.net/zkeacms/templates" target="_blank">@L("下载板块")</a>
+                            <a href="http://www.zkea.net/zkeacms/templates" target="_blank">@L("Download Sections")</a>
                         </li>
                         <li>
-                            <a href="http://www.zkea.net/zkeacms/sites" target="_blank">@L("成品模板")</a>
+                            <a href="http://www.zkea.net/zkeacms/sites" target="_blank">@L("Site Templates")</a>
                         </li>
                         <li>
-                            <a href="http://www.zkea.net/zkeacms/theme" target="_blank">@L("下载主题")</a>
+                            <a href="http://www.zkea.net/zkeacms/theme" target="_blank">@L("Download Themes")</a>
                         </li>
                         <li>
-                            <a href="http://www.zkea.net/zkeacms/extend" target="_blank">@L("扩展插件")</a>
+                            <a href="http://www.zkea.net/zkeacms/extend" target="_blank">@L("CMS Plugins")</a>
                         </li>
                         <li>
-                            <a href="http://www.zkea.net/zkeacms/document" target="_blank">@L("文档")</a>
+                            <a href="http://www.zkea.net/zkeacms/document" target="_blank">@L("Document")</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a href="http://www.zkea.net/zkeacms/enterprise" target="_blank">
                                 <i class="glyphicon glyphicon-copyright-mark"></i>
-                                @L("企业版")
+                                @L("Enterprise")
                             </a>
                         </li>
                         <li>
                             <a href="http://www.zkea.net/zkeacms/donate" target="_blank">
                                 <i class="glyphicon glyphicon-usd"></i>
-                                @L("赞助")
+                                @L("Donate")
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("Logout", "Account")" target="_self" title="@L("退出")">
+                            <a href="@Url.Action("Logout", "Account")" target="_self" title="@L("Sign Out")">
                                 <i class="glyphicon glyphicon-off"></i>
-                                @L("退出")
+                                @L("Sign Out")
                             </a>
                         </li>
                     </ul>
@@ -104,7 +107,7 @@
                                 if (children.Any(m => Authorizer.Authorize(m.PermissionKey) && (m.HasPermission == null || m.HasPermission())))
                                 {
                                     <li class="accordion-group">
-                                        <a class="b_9FDDF6 group-item" href="#">
+                                        <a class="b_9FDDF6 group-item" href="#" data-order="@menu.Order">
                                             <i class="glyphicon @menu.Icon"></i>
                                             @L(menu.Title)
                                             <i class="glyphicon group"></i>
@@ -112,7 +115,7 @@
                                         <div class="accordion-inner">
                                             @foreach (AdminMenu child in children.Where(m => Authorizer.Authorize(m.PermissionKey) && (m.HasPermission == null || m.HasPermission())).OrderBy(m => m.Order))
                                             {
-                                                <a id="menu@((child.Url ?? child.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(child.Url ?? "~/")">
+                                                <a id="menu@((child.Url ?? child.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(child.Url ?? "~/")" data-order="@child.Order">
                                                     <i class="glyphicon @child.Icon"></i>
                                                     @L(child.Title)
                                                 </a>
@@ -124,7 +127,7 @@
                             else
                             {
                                 <li>
-                                    <a id="menu@((menu.Url ?? menu.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(menu.Url ?? "~/")">
+                                    <a id="menu@((menu.Url ?? menu.Title).GetHashCode())" class="b_9FDDF6 menu-item" href="@Url.Content(menu.Url ?? "~/")" data-order="@menu.Order">
                                         <i class="glyphicon @menu.Icon"></i>
                                         @L(menu.Title)
                                     </a>

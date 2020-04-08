@@ -3,5 +3,5 @@
 	Name:"ZKEACMS.Product",
 	FileName:"ZKEACMS.Product.dll",
 	Enable:"true",
-	Description:"产品"
+	Description:"Product"
 }

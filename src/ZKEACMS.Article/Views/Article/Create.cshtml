@@ -6,7 +6,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        @L("新建")
+        @L("New")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -15,13 +15,13 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticle))
                 {
-                    <input type="submit" class="btn btn-primary " value="@L("保存")" data-value="@ActionType.Create" />
+                    <input type="submit" class="btn btn-primary " value="@L("Save")" data-value="@ActionType.Create" />
                 }                
                 @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.PublishArticle))
                 {
-                    <input type="submit" class="btn btn-info publish" value="@L("发布")" data-value="@ActionType.Publish" />
+                    <input type="submit" class="btn btn-info publish" value="@L("Publish")" data-value="@ActionType.Publish" />
                 }                
-                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
+                <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
             </div>
         }
     </div>

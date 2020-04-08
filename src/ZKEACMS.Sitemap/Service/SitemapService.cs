@@ -17,15 +17,20 @@ namespace ZKEACMS.Sitemap.Service
         private readonly SitemapDbContext _sitemapDbContext;
         private readonly IEnumerable<ISiteUrlProvider> _siteUrlProviders;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public SitemapService(SitemapDbContext sitemapDbContext, IEnumerable<ISiteUrlProvider> siteUrlProviders, IHttpContextAccessor httpContextAccessor)
+        private readonly IHostOptionProvider _hostOptionProvider;
+        public SitemapService(SitemapDbContext sitemapDbContext, 
+            IEnumerable<ISiteUrlProvider> siteUrlProviders,
+            IHttpContextAccessor httpContextAccessor,
+            IHostOptionProvider hostOptionProvider)
         {
             _sitemapDbContext = sitemapDbContext;
             _siteUrlProviders = siteUrlProviders;
             _httpContextAccessor = httpContextAccessor;
+            _hostOptionProvider = hostOptionProvider;
         }
         public string Get()
         {
-            var host = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host;
+            var host = _hostOptionProvider.GetOrigin();
             var articleDetailPage = _sitemapDbContext.ArticleListWidget.Where(m => m.DetailPageUrl != null).Select(m => m.DetailPageUrl.Replace("~/", "/")).Distinct().ToList();
             var productDetailPage = _sitemapDbContext.ProductListWidget.Where(m => m.DetailPageUrl != null).Select(m => m.DetailPageUrl.Replace("~/", "/")).Distinct().ToList();
             StringBuilder xmlBuilder = new StringBuilder();
@@ -37,7 +42,7 @@ namespace ZKEACMS.Sitemap.Service
                 {
                     if (articleDetailPage.Contains(item.Url) || productDetailPage.Contains(item.Url)) continue;
                     xmlBuilder.AppendFormat("<url><loc>{0}</loc><lastmod>{1}</lastmod><changefreq>{2}</changefreq><priority>{3}</priority></url>",
-                     host + item.Url, item.ModifyDate.ToString("yyyy-MM-dd"), item.Changefreq, item.Priority);
+                     host + item.Url, item.ModifyDate.ToString("s"), item.Changefreq, item.Priority);
                 }
             }
             xmlBuilder.AppendLine("</urlset>");

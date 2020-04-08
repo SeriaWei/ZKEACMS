@@ -68,7 +68,7 @@ namespace ZKEACMS.Controllers
             if (_languageService.GetCultures(LanKey).Any())
             {
                 ViewBag.LanKey = LanKey;
-                ModelState.AddModelError("LanKey", _localize.Get("翻译键已存在"));
+                ModelState.AddModelError("LanKey", _localize.Get("Translation key is already exists"));
                 return View(language);
             }
             foreach (var item in language)

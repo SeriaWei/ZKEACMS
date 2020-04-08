@@ -10,5 +10,9 @@ namespace Easy
     public interface ILocalize
     {
         string Get(string content);
+        string Get(string content, string culture);
+
+        string GetOrNull(string content);
+        string GetOrNull(string content, string culture);
     }
 }

@@ -8,7 +8,6 @@
                name="media"
                src="@Url.Content(Model.Url)"
                style="@(Model.Width.HasValue? "width:" + Model.Width + "px;" : string.Empty)@(Model.Height.HasValue?"height:" + Model.Height + "px;" : string.Empty)">
-            @L("您的浏览器不支持播放该视频")
         </video>
     }
     else if (Model.Code.IsNotNullAndWhiteSpace())

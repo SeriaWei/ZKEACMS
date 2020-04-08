@@ -23,25 +23,7 @@
             {
                 foreach (var widgetPart in Model.ZoneWidgets[zoneId].OrderBy(m => m.Widget.Position).ThenBy(m => m.Widget.WidgetName))
                 {
-                    <div style="@widgetPart.Widget.CustomStyle">
-                        <div class="widget @widgetPart.Widget.CustomClass">
-                            @if (widgetPart.Widget.Title.IsNotNullAndWhiteSpace())
-                            {
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        @widgetPart.Widget.Title
-                                    </div>
-                                    <div class="panel-body">
-                                        @await Html.DisPlayWidget(widgetPart)
-                                    </div>
-                                </div>
-                            }
-                            else
-                            {
-                                @await Html.DisPlayWidget(widgetPart)
-                            }
-                        </div>
-                    </div>
+                    @await Html.DisplayWidget(widgetPart)
                 }
             }
         }

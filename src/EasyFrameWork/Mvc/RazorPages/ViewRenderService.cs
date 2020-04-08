@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Easy.Mvc.RazorPages
 {
@@ -46,7 +47,15 @@ namespace Easy.Mvc.RazorPages
             {
                 actualViewPath = actualViewPath.Replace(pluginPath, DeveloperViewFileProvider.ProjectRootPath);
             }
-
+            else if (_hostingEnvironment.IsProduction() && actualViewPath.StartsWith(pluginPath))
+            {
+                string filePath = actualViewPath.Replace("~/", string.Empty);
+                var fileInfo = _hostingEnvironment.ContentRootFileProvider.GetFileInfo(filePath);
+                if (!fileInfo.Exists)
+                {
+                    actualViewPath = $"~/{string.Join("/", actualViewPath.Split('/').Skip(4))}";
+                }
+            }
             ViewEngineResult viewResult = _viewEngine.GetView(null, actualViewPath, true);
 
             if (!viewResult.Success)

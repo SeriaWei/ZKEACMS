@@ -19,16 +19,19 @@ namespace Easy.Mvc.Plugin
 {
     public class AssemblyLoader
     {
-        private static bool Resolving { get; set; }
-        public AssemblyLoader()
+        private static Dictionary<string, Assembly> LoadedAssemblies { get; set; }
+        private static HashSet<string> CompileLibraries { get; set; }
+        public AssemblyLoader(List<PluginInfo> plugins)
         {
             DependencyAssemblies = new List<Assembly>();
+            PluginInfos = plugins ?? new List<PluginInfo>();
         }
         public string CurrentPath { get; set; }
         public string AssemblyPath { get; set; }
         public Assembly CurrentAssembly { get; private set; }
+        public List<PluginInfo> PluginInfos { get; set; }
         public List<Assembly> DependencyAssemblies { get; private set; }
-        private TypeInfo PluginTypeInfo = typeof(IPluginStartup).GetTypeInfo();
+        private readonly TypeInfo PluginTypeInfo = typeof(IPluginStartup).GetTypeInfo();
         public IEnumerable<Assembly> LoadPlugin(string path)
         {
             if (CurrentAssembly == null)
@@ -70,20 +73,36 @@ namespace Easy.Mvc.Plugin
         private void ResolveDenpendency(Assembly assembly)
         {
             string currentName = assembly.GetName().Name;
+            if (CompileLibraries == null)
+            {
+                CompileLibraries = new HashSet<string>();
+                foreach (var item in DependencyContext.Default.CompileLibraries)
+                {
+                    if (!CompileLibraries.Contains(item.Name))
+                    {
+                        CompileLibraries.Add(item.Name);
+                    }
+                }
+            }
             List<CompilationLibrary> dependencyCompilationLibrary = DependencyContext.Load(assembly)
-                .CompileLibraries.Where(de => de.Name != currentName && !DependencyContext.Default.CompileLibraries.Any(m => m.Name == de.Name))
+                .CompileLibraries.Where(de => PluginInfos.All(m => m.Name != de.Name) && de.Name != currentName && !CompileLibraries.Contains(de.Name))
                 .ToList();
 
-            Dictionary<string, Assembly> loadedAssembly = AppDomain.CurrentDomain.GetAssemblies().ToDictionary(m => m.GetName().Name);
+            if (LoadedAssemblies == null)
+            {
+                LoadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToDictionary(m => m.GetName().Name);
+            }
 
             dependencyCompilationLibrary.Each(libaray =>
             {
                 foreach (var item in libaray.ResolveReferencePaths(new DependencyAssemblyResolver(Path.GetDirectoryName(assembly.Location))))
                 {
                     string assemblyName = AssemblyName.GetAssemblyName(item).Name;
-                    if (!loadedAssembly.ContainsKey(assemblyName))
+                    if (!LoadedAssemblies.ContainsKey(assemblyName))
                     {
-                        DependencyAssemblies.Add(AssemblyLoadContext.Default.LoadFromAssemblyPath(item));
+                        Assembly assemblyDep = AssemblyLoadContext.Default.LoadFromAssemblyPath(item);
+                        DependencyAssemblies.Add(assemblyDep);
+                        LoadedAssemblies.Add(assemblyName, assemblyDep);
                     }
                 }
             });
@@ -95,11 +114,13 @@ namespace Easy.Mvc.Plugin
 
                 if (PluginTypeInfo.IsAssignableFrom(typeInfo))
                 {
-                    plugin = new PluginDescriptor();
-                    plugin.PluginType = typeInfo.AsType();
-                    plugin.Assembly = assembly;
-                    plugin.Dependency = dependencyCompilationLibrary;
-                    plugin.CurrentPluginPath = CurrentPath;
+                    plugin = new PluginDescriptor
+                    {
+                        PluginType = typeInfo.AsType(),
+                        Assembly = assembly,
+                        Dependency = dependencyCompilationLibrary,
+                        CurrentPluginPath = CurrentPath
+                    };
                 }
             }
 

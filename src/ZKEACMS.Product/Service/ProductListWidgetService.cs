@@ -101,19 +101,7 @@ namespace ZKEACMS.Product.Service
             else
             {
                 products = _productService.Get().Where(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID).ToList();
-            }
-
-            var currentCategory = _productCategoryService.Get(cate == 0 ? currentWidget.ProductCategoryID : cate);
-            if (currentCategory != null)
-            {
-                var layout = actionContext.HttpContext.GetLayout();
-                if (layout != null && layout.Page != null)
-                {
-                    var page = layout.Page;
-                    //page.Title = (page.Title ?? "") + " - " + currentCategory.Title;
-                    page.Title = page.Title.IsNullOrWhiteSpace() ? currentCategory.Title : $"{page.Title} - {currentCategory.Title}";
-                }
-            }
+            }           
 
             return widget.ToWidgetViewModelPart(new ProductListWidgetViewModel
             {

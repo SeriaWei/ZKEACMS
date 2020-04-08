@@ -1,33 +1,33 @@
 @using ZKEACMS.Common
 
 <div class="panel panel-default">
-    <div class="panel-heading">@L("欢迎")</div>
+    <div class="panel-heading">@L("Welcome")</div>
     <div class="panel-body">
         <h2>
-            @L("欢迎使用ZKEACMS")
+            @L("Welcome to use ZKEACMS")
         </h2>
         <p class="text-muted">
-            <small>@L("我们准备了几个链接供您开始：")</small>
+            <small>@L("We have prepared a few links for you to get started:")</small>
         </p>
         @if (Authorizer.Authorize(PermissionKeys.ManagePage))
         {
-            <a class="btn btn-primary" href="@Url.Action("Create", "Page")">@L("创建页面")</a>
+            <a class="btn btn-primary" href="@Url.Action("Create", "Page")">@L("New Page")</a>
         }
         @if (Authorizer.Authorize(PermissionKeys.ViewPage))
         {
-            <a class="btn btn-primary" href="@Url.Action("Index", "Page")">@L("查看页面")</a>
+            <a class="btn btn-primary" href="@Url.Action("Index", "Page")">@L("View Pages")</a>
         }
         @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
         {
-            <a class="btn btn-primary" href="@Url.Action("Create", "Layout")">@L("创建布局")</a>
+            <a class="btn btn-primary" href="@Url.Action("Create", "Layout")">@L("New Layout")</a>
         }
         @if (Authorizer.Authorize(PermissionKeys.ViewLayout))
         {
-            <a class="btn btn-primary" href="@Url.Action("Index", "Layout")">@L("查看布局")</a>
+            <a class="btn btn-primary" href="@Url.Action("Index", "Layout")">@L("Layout")</a>
         }
         @if (Authorizer.Authorize(PermissionKeys.ViewNavigation))
         {
-            <a class="btn btn-primary" href="@Url.Action("Index", "Navigation")">@L("查看导航")</a>
+            <a class="btn btn-primary" href="@Url.Action("Index", "Navigation")">@L("Navigation")</a>
         }
     </div>
 </div>

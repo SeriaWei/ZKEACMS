@@ -1,7 +1,6 @@
-﻿
-$.post("/admin/Theme/GetCurrentTheme", function (theme) {
-    tinymce.init({
-        content_css: [theme],
+﻿function getTinymceConfig() {
+    return {
+        content_css: ['/themes/Default/css/Theme.min.css'],
         selector: "textarea.html",
         verify_html: false,
         plugins: [
@@ -16,7 +15,7 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
         relative_urls: false,
         language: "zh_CN",
         table_default_attributes: {
-            class:"table table-hover"
+            class: "table table-hover"
         },
         table_class_list: [
             { title: '无', value: 'table table-hover' },
@@ -36,7 +35,21 @@ $.post("/admin/Theme/GetCurrentTheme", function (theme) {
             { text: 'C#', value: 'csharp' },
             { text: 'C++', value: 'cpp' }
         ],
-        extended_valid_elements:"style,link[href|rel]",
-        custom_elements:"style,link,~link"
+        extended_valid_elements: "style,link[href|rel]",
+        custom_elements: "style,link,~link"
+    };
+}
+function initEditor(selector) {
+    $.post("/admin/Theme/GetCurrentTheme", function (theme) {
+        var config = getTinymceConfig();
+        config.content_css = [theme];
+        config.selector = selector;
+        tinymce.init(config);
     });
+}
+initEditor("textarea.html");
+$(document).on("init-editor", function (e) {
+    id = "editor-" + new Date().getTime();
+    $(e.target).attr("id", id);
+    initEditor("#" + id);
 });

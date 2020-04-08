@@ -13,16 +13,17 @@ namespace ZKEACMS
 
     public class Layouts
     {
-        public const string PageDesign = "~/Views/Shared/_DesignPageLayout.cshtml";
-        public const string LayoutDesign = "~/Views/Shared/_DesignLayout.cshtml";
-        public const string Default = "~/Views/Shared/_Layout.cshtml";
-        public const string NormalDefault = "~/Views/Shared/_LayoutNormal.cshtml";
-        public const string PopUp = "~/Views/Shared/_PopUpLayout.cshtml";
-        public const string ClientPopUp = "~/Views/Shared/_PopUpClientLayout.cshtml";
-        public const string CustomerCenter = "~/Views/Shared/_CustomerCenterLayout.cshtml";
+        public const string PageDesign = "_DesignPageLayout";
+        public const string LayoutDesign = "_DesignLayout";
+        public const string Default = "_Layout";
+        public const string NormalDefault = "_LayoutNormal";
+        public const string PopUp = "_PopUpLayout";
+        public const string ClientPopUp = "_PopUpClientLayout";
+        public const string CustomerCenter = "_CustomerCenterLayout";
+        public const string EmptyLayout = "_EmptyLayout";
 
-        public const string Theme = "~/wwwroot/themes/{0}/Views/_Layout.cshtml";
-        public const string Theme2 = "~/wwwroot/themes/{0}/Views/Shared/_Layout.cshtml";
+        public const string ThemeLayout = "~/wwwroot/themes/{0}/Views/_Layout.cshtml";
+        public const string ThemeSharedLayout = "~/wwwroot/themes/{0}/Views/Shared/_Layout.cshtml";
     }
 
     public class ViewDataKeys
@@ -108,6 +109,7 @@ namespace ZKEACMS
         public const string SelectPageClass = "select select-page";
         public const string StyleEditor = "select custom-style-target";
         public const string HtmlEditorClass = "html";
+        public const string DynamicHtmlEditorClass = "dy-editor";
         public const string UrlPart = "url-part";
 
         public const string RouteValue_Path = "path";

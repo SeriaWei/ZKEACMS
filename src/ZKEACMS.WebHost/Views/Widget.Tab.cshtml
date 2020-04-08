@@ -1,0 +1,24 @@
+@model ZKEACMS.Common.Models.TabWidget
+@{
+    string idBase = "tab-" + Guid.NewGuid().ToString("N");
+    var items = Model.TabItems.Where(m => m.Status == (int)RecordStatus.Active).ToList();
+}
+<ul id="@idBase" class="nav nav-tabs" role="tablist">
+    @for (int i = 0; i < items.Count; i++)
+    {
+        var item = items[i];
+        <li role="presentation" class="@(i==0?"active":"")">
+            <a href="#@(idBase+i)" role="tab" data-toggle="tab" aria-expanded="true">@item.Title</a>
+        </li>
+    }
+
+</ul>
+<div id="myTabContent" class="tab-content">
+    @for (int i = 0; i < items.Count; i++)
+    {
+        var item = items[i];
+        <div role="tabpanel" class="tab-pane fade @(i==0?"in active":"")" id="@(idBase+i)" aria-labelledby="home-tab">
+            @Html.Raw(item.Description)
+        </div>
+    }
+</div>

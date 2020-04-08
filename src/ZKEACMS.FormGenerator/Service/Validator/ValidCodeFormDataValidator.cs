@@ -27,7 +27,7 @@ namespace ZKEACMS.FormGenerator.Service.Validator
                 string code = _validate.GetCode();
                 if (!code.Equals(data.FieldValue, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    message = _localize.Get("{0}不正确").FormatWith(field.DisplayName);
+                    message = _localize.Get("{0} is not correct.").FormatWith(field.DisplayName);
                     return false;
                 }
             }

@@ -35,7 +35,7 @@ namespace ZKEACMS.Filter
 
         public override string GetLayout(ActionExecutedContext filterContext, ThemeEntity theme)
         {
-            return "~/Views/Shared/_DesignPageLayout.cshtml";
+            return Layouts.PageDesign;
         }
         public override PageViewMode GetPageViewMode()
         {

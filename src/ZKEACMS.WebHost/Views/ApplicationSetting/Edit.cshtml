@@ -4,7 +4,7 @@
 }
 <div class="panel panel-default">
     <div class="panel-heading">
-        @L("编辑")
+        @L("Edit")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -13,9 +13,9 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManageApplicationSetting))
                 {
-                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Update" />
+                    <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Update" />
                 }
-                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
+                <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
             </div>
         }
     </div>

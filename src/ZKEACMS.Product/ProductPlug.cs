@@ -26,35 +26,35 @@ namespace ZKEACMS.Product
         {
             yield return new AdminMenu
             {
-                Title = "产品管理",
+                Title = "Manage Product",
                 Icon = "glyphicon-list-alt",
                 Order = 11,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu
                     {
-                        Title = "产品列表",
+                        Title = "Product List",
                         Url = "~/admin/product",
                         Icon = "glyphicon-align-justify",
                         PermissionKey = PermissionKeys.ViewProduct
                     },
                     new AdminMenu
                     {
-                        Title = "产品排序",
+                        Title = "Product Sort",
                         Url = "~/admin/product/sort",
                         Icon = "glyphicon-sort",
                         PermissionKey = PermissionKeys.ViewProduct
                     },
                     new AdminMenu
                     {
-                        Title = "产品类别",
+                        Title = "Product Category",
                         Url = "~/admin/productcategory",
                         Icon = "glyphicon-th-list",
                         PermissionKey = PermissionKeys.ViewProductCategory
                     },
                     new AdminMenu
                     {
-                        Title = "产品标签",
+                        Title = "Product Tag",
                         Url = "~/admin/productcategorytag",
                         Icon = "glyphicon-tag",
                         PermissionKey = PermissionKeys.ViewProductCategoryTag
@@ -83,21 +83,21 @@ namespace ZKEACMS.Product
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
         {
-            yield return new PermissionDescriptor(PermissionKeys.ViewProduct, "产品", "查看产品", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageProduct, "产品", "管理产品", "");
-            yield return new PermissionDescriptor(PermissionKeys.PublishProduct, "产品", "发布产品", "");
-            yield return new PermissionDescriptor(PermissionKeys.ViewProductCategory, "产品", "查看产品类别", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageProductCategory, "产品", "管理产品类别", "");
-            yield return new PermissionDescriptor(PermissionKeys.ViewProductCategoryTag, "产品", "查看产品标签", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageProductCategoryTag, "产品", "管理产品标签", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewProduct, "Product", "View Product", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageProduct, "Product", "Manage Product", "");
+            yield return new PermissionDescriptor(PermissionKeys.PublishProduct, "Product", "Publish Product", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewProductCategory, "Product", "View Product Category", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageProductCategory, "Product", "Manage Product Category", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewProductCategoryTag, "Product", "View Product Tag", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageProductCategoryTag, "Product", "Manage Product Tag", "");
         }
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
-            string groupName = "3.产品";
+            string groupName = "3.Product";
             yield return new WidgetTemplateEntity<ProductListWidgetService>
             {
-                Title = "产品列表",
+                Title = "Product List",
                 GroupName = groupName,
                 PartialView = "Widget.ProductList",
                 Thumbnail = "~/Plugins/ZKEACMS.Product/Content/Image/Widget.ProductList.png",
@@ -105,7 +105,7 @@ namespace ZKEACMS.Product
             };
             yield return new WidgetTemplateEntity<ProductDetailWidgetService>
             {
-                Title = "产品内容",
+                Title = "Product Content",
                 GroupName = groupName,
                 PartialView = "Widget.ProductDetail",
                 Thumbnail = "~/Plugins/ZKEACMS.Product/Content/Image/Widget.ProductDetail.png",
@@ -113,7 +113,7 @@ namespace ZKEACMS.Product
             };
             yield return new WidgetTemplateEntity<ProductCategoryWidgetService>
             {
-                Title = "产品类别",
+                Title = "Product Category",
                 GroupName = groupName,
                 PartialView = "Widget.ProductCategory",
                 Thumbnail = "~/Plugins/ZKEACMS.Product/Content/Image/Widget.ProductCategory.png",
@@ -136,12 +136,12 @@ namespace ZKEACMS.Product
 
             serviceCollection.Configure<ProductListWidget>(option =>
             {
-                option.DataSourceLinkTitle = "产品列表";
+                option.DataSourceLinkTitle = "Product List";
                 option.DataSourceLink = "~/admin/product";
             });
             serviceCollection.Configure<ProductCategoryWidget>(option =>
             {
-                option.DataSourceLinkTitle = "产品类别";
+                option.DataSourceLinkTitle = "Product Category";
                 option.DataSourceLink = "~/admin/productcategory";
             });
 

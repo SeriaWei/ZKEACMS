@@ -857,3 +857,6 @@ p:last-child {
   border-color: #4395db;
   font-size: 17px;
 }
+.zone {
+    width: 100%;
+}

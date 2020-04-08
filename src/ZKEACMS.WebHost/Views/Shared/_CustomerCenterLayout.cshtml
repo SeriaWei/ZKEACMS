@@ -19,10 +19,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>@ViewBag.Title</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
     @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
     {
         <meta name="referrer" content="same-origin" />
+    }
+    @if (ApplicationContext.As<CMSApplicationContext>().EnableResponsiveDesign)
+    {
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
     }
     @StyleAtHead()
     @ScriptAtHead()
@@ -45,7 +48,7 @@
                                 <span class="icon-bar"></span>
                             </button>
                             <a class="navbar-brand" href="/">
-                                @L("首页")
+                                @L("Home Page")
                             </a>
                         </div>
                         <div class="navbar-collapse collapse navbar-responsive-collapse">
@@ -59,7 +62,7 @@
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
-                                    <a target="_self" href="@Url.Action("SignOut","Account")" title="@L("安全退出")">
+                                    <a target="_self" href="@Url.Action("SignOut","Account")" title="@L("Sign Out")">
                                         <i class="glyphicon glyphicon-off"></i>
                                     </a>
                                 </li>

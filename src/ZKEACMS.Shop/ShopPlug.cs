@@ -53,14 +53,14 @@ namespace ZKEACMS.Shop
         {
             yield return new AdminMenu
             {
-                Title = "电子商务",
+                Title = "E-commerce",
                 Icon = "glyphicon-shopping-cart",
                 Order = 9,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu
                     {
-                        Title = "订单",
+                        Title = "Order",
                         Icon = "glyphicon-shopping-cart",
                         Url="~/admin/order",
                         Order = 1,
@@ -68,7 +68,7 @@ namespace ZKEACMS.Shop
                     },
                     new AdminMenu
                     {
-                        Title = "支付宝集成设置",
+                        Title = "Alipay Setting",
                         Icon = "glyphicon-credit-card",
                         Url="~/admin/alipaysetting/config",
                         Order = 1,
@@ -93,14 +93,13 @@ namespace ZKEACMS.Shop
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
         {
-            yield return new PermissionDescriptor { Module = "商城", Title = "查看订单", Key = PermissionKeys.ViewOrder };
-            yield return new PermissionDescriptor { Module = "商城", Title = "管理订单", Key = PermissionKeys.ManageOrder };
+            yield return new PermissionDescriptor { Module = "Shop", Title = "View Order", Key = PermissionKeys.ViewOrder };
+            yield return new PermissionDescriptor { Module = "Shop", Title = "Manage Order", Key = PermissionKeys.ManageOrder };
 
-            yield return new PermissionDescriptor { Module = "商城", Title = "查看支付平台支付信息", Key = PermissionKeys.ViewOrderPayment };
-            yield return new PermissionDescriptor { Module = "商城", Title = "查看支付平台退款信息", Key = PermissionKeys.ViewOrderRefund };
-            yield return new PermissionDescriptor { Module = "商城", Title = "退款", Key = PermissionKeys.RefundOrder };
-            yield return new PermissionDescriptor { Module = "商城", Title = "支付集成设置", Key = PermissionKeys.PaymentConfigManage };
-            //yield return new PermissionDescriptor { Module = "商城", Title = "关闭订单", Key = PermissionKeys.CloseOrder };
+            yield return new PermissionDescriptor { Module = "Shop", Title = "View Transactions", Key = PermissionKeys.ViewOrderPayment };
+            yield return new PermissionDescriptor { Module = "Shop", Title = "View Refund", Key = PermissionKeys.ViewOrderRefund };
+            yield return new PermissionDescriptor { Module = "Shop", Title = "Refund", Key = PermissionKeys.RefundOrder };
+            yield return new PermissionDescriptor { Module = "Shop", Title = "Payment Setting", Key = PermissionKeys.PaymentConfigManage };
         }
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
