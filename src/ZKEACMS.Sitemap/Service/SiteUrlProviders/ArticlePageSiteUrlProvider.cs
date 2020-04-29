@@ -26,7 +26,8 @@ namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
             HashSet<string> excuted = new HashSet<string>();
             foreach (var item in _sitemapDbContext.ArticleListWidget.ToList())
             {
-                if (item.DetailPageUrl.IsNotNullAndWhiteSpace() && !excuted.Contains(item.DetailPageUrl))
+                string typeDetail = $"{item.DetailPageUrl}-{item.ArticleTypeID}";
+                if (item.DetailPageUrl.IsNotNullAndWhiteSpace() && !excuted.Contains(typeDetail))
                 {
                     var ids = _articleTypeService.Get(m => m.ID == item.ArticleTypeID || m.ParentID == item.ArticleTypeID).Select(m => m.ID).ToList();
                     var articles = _articleService.Get(m => m.IsPublish && ids.Contains(m.ArticleTypeID ?? 0));
@@ -41,7 +42,7 @@ namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
                             Priority = 0.5F
                         };
                     }
-                    excuted.Add(item.DetailPageUrl);
+                    excuted.Add(typeDetail);
                 }
             }
         }
