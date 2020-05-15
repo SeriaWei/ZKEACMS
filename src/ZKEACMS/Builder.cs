@@ -32,9 +32,11 @@ using ZKEACMS.Account;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Common.Models;
 using ZKEACMS.Common.Service;
+using ZKEACMS.Common.ViewModels;
 using ZKEACMS.Dashboard;
 using ZKEACMS.DataArchived;
 using ZKEACMS.DbConnectionPool;
+using ZKEACMS.Event;
 using ZKEACMS.ExtendField;
 using ZKEACMS.Layout;
 using ZKEACMS.Media;
@@ -83,7 +85,18 @@ namespace ZKEACMS
             .AddControllersAsServices()
             .AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.DateFormatString = "yyyy/MM/dd H:mm";
+                options.SerializerSettings.DateFormatString = "g";
+            })
+            .AddDataAnnotationsLocalization(option => option.DataAnnotationLocalizerProvider = (t, factory) =>
+            {
+                if (t.IsClass)
+                {
+                    return new LocalizeString(t);
+                }
+                else
+                {
+                    return null;
+                }
             })
             .SetCompatibilityVersion(CompatibilityVersion.Latest);
 
@@ -126,6 +139,7 @@ namespace ZKEACMS
             services.TryAddTransient<IWidgetTemplateService, WidgetTemplateService>();
             services.TryAddScoped<IWidgetBasePartService, WidgetBasePartService>();
             services.TryAddScoped<IZoneService, ZoneService>();
+            services.TryAddScoped<IHostOptionProvider, HostOptionProvider>();
             services.TryAddTransient<Rule.IRuleService, Rule.RuleService>();
 
             services.AddScoped<IOnModelCreating, EntityFrameWorkModelCreating>();
@@ -137,6 +151,7 @@ namespace ZKEACMS
             services.AddTransient<IPackageInstaller, DataDictionaryPackageInstaller>();
             services.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             services.AddTransient<IEventViewerService, EventViewerService>();
+            services.AddTransient<IEventManager, EventManager>();
 
             services.AddTransient<IStorage, WebStorage>();
 
@@ -151,6 +166,7 @@ namespace ZKEACMS
             services.ConfigureCache<ConcurrentDictionary<string, object>>();
             services.ConfigureCache<string>();
 
+            services.ConfigureMetaData<AdminSignViewModel, AdminSignViewModelMetaData>();
             services.ConfigureMetaData<ArticleEntity, ArticleEntityMeta>();
             services.ConfigureMetaData<ArticleType, ArtycleTypeMetaData>();
             services.ConfigureMetaData<BreadcrumbWidget, BreadcrumbWidgetMetaData>();
@@ -190,13 +206,13 @@ namespace ZKEACMS
 
             services.Configure<NavigationWidget>(option =>
             {
-                option.DataSourceLinkTitle = "导航";
+                option.DataSourceLinkTitle = "Navigation";
                 option.DataSourceLink = "~/admin/Navigation";
             });
 
             services.Configure<CarouselWidget>(option =>
             {
-                option.DataSourceLinkTitle = "焦点图";
+                option.DataSourceLinkTitle = "Carousel";
                 option.DataSourceLink = "~/admin/Carousel";
             });
             #region 数据库配置
@@ -216,6 +232,7 @@ namespace ZKEACMS
             DataTableAttribute.IsLowerCaseTableNames = databaseOption.IsLowerCaseTableNames;
             services.AddSingleton(databaseOption);
             #endregion
+            services.Configure<HostOption>(configuration.GetSection("Host"));
 
             services.UseEasyFrameWork(configuration);
             foreach (IPluginStartup item in services.LoadAvailablePlugins())
@@ -278,7 +295,7 @@ namespace ZKEACMS
                         constraints: route.Constraints,
                         dataTokens: route.DataTokens);
                 });
-                
+
                 endpoints.MapRazorPages();
             });
 

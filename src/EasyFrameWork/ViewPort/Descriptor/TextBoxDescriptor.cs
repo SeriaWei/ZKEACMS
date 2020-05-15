@@ -15,7 +15,7 @@ namespace Easy.ViewPort.Descriptor
         public string DateFormat { get; set; }
         public string JavaScriptDateFormat { get; set; }
 
-        
+
 
         public TextBoxDescriptor FormatAsDate()
         {
@@ -24,7 +24,7 @@ namespace Easy.ViewPort.Descriptor
             this.AddClass("Date");
             return this;
         }
-        
+
         public TextBoxDescriptor FormatAsDateTime()
         {
             FormatDate("yyyy/MM/dd hh:mm");
@@ -93,8 +93,7 @@ namespace Easy.ViewPort.Descriptor
             this.Validator.Add(new RegularValidator(Constant.RegularExpression.Email)
             {
                 Property = this.Name,
-                DisplayName = this.DisplayName,
-                ErrorMessage = "输入的邮件格式不正确"
+                DisplayName = () => this.DisplayName
             });
             return this;
         }
@@ -104,7 +103,7 @@ namespace Easy.ViewPort.Descriptor
             {
                 ErrorMessage = errorMsg,
                 Property = this.Name,
-                DisplayName = this.DisplayName
+                DisplayName = () => this.DisplayName
             });
             return this.Email();
         }
@@ -197,7 +196,7 @@ namespace Easy.ViewPort.Descriptor
             return this;
         }
 
-        
-        
+
+
     }
 }

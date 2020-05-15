@@ -5,8 +5,8 @@
     SelectList list = new SelectList(new List<SelectListItem>
     {
         new SelectListItem(),
-        new SelectListItem(L("是").Text,"true"),
-        new SelectListItem(L("否").Text,"false")
+        new SelectListItem(L("Yes").Text,"true"),
+        new SelectListItem(L("No").Text,"false")
     },"Value","Text");
 }
 @Html.DropDownList("", list, descriptor?.ToHtmlProperties())

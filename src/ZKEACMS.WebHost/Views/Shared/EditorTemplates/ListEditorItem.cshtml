@@ -5,7 +5,7 @@
     
 }
 
-<div class="row item">
+<div class="row item" data-name="@ViewData.TemplateInfo.HtmlFieldPrefix">
     @foreach (var item in model.Properties.Where(m => m.ShowForEdit).OrderBy(m => m.Order))
     {
         <div class="form-group">

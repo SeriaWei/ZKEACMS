@@ -18,11 +18,17 @@ namespace ZKEACMS.Message.Service
     {
         private readonly INotificationManager _notificationManager;
         private readonly IApplicationSettingService _applicationSettingService;
-        public CommentsService(IApplicationContext applicationContext, INotificationManager notificationManager, IApplicationSettingService applicationSettingService, CMSDbContext dbContext) 
+        private readonly ILocalize _localize;
+        public CommentsService(IApplicationContext applicationContext, 
+            INotificationManager notificationManager, 
+            IApplicationSettingService applicationSettingService,
+            ILocalize localize,
+            CMSDbContext dbContext) 
             : base(applicationContext, dbContext)
         {
             _notificationManager = notificationManager;
             _applicationSettingService = applicationSettingService;
+            _localize = localize;
         }
         public override ServiceResult<Comments> Add(Comments item)
         {
@@ -32,7 +38,7 @@ namespace ZKEACMS.Message.Service
             {
                 _notificationManager.Send(new RazorEmailNotice
                 {
-                    Subject = "新的评论提醒",
+                    Subject = _localize.Get("New comment"),
                     To = notifyConfig.CommentNotifyEmails.Split(new char[] { '\r', '\n', ',', ';' }, StringSplitOptions.RemoveEmptyEntries),
                     Model = item,
                     TemplatePath = "~/wwwroot/Plugins/ZKEACMS.Message/EmailTemplates/CommentNotification.cshtml"

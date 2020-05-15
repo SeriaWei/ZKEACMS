@@ -6,7 +6,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        @L("布局")
+        @L("Layout")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
@@ -15,9 +15,9 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
                 {
-                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Create" />
+                    <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Create" />
                 }
-                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
+                <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
             </div>
         }        
     </div>

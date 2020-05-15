@@ -26,18 +26,21 @@ namespace ZKEACMS.FormGenerator.Service
         private readonly IFormDataItemService _formDataItemService;
         private readonly IEnumerable<IFormDataValidator> _formDataValidators;
         private readonly INotificationManager _notificationManager;
+        private readonly ILocalize _localize;
         public FormDataService(IApplicationContext applicationContext,
             CMSDbContext dbContext,
             IFormService formService,
             IFormDataItemService formDataItemService,
             IEnumerable<IFormDataValidator> formDataValidators,
-            INotificationManager notificationManager) :
+            INotificationManager notificationManager,
+            ILocalize localize) :
             base(applicationContext, dbContext)
         {
             _formService = formService;
             _formDataItemService = formDataItemService;
             _formDataValidators = formDataValidators;
             _notificationManager = notificationManager;
+            _localize = localize;
         }
 
         public override ServiceResult<FormData> Add(FormData item)
@@ -147,7 +150,7 @@ namespace ZKEACMS.FormGenerator.Service
             {
                 _notificationManager.Send(new RazorEmailNotice
                 {
-                    Subject = "新的表单提醒",
+                    Subject = _localize.Get("New form data"),
                     To = form.NotificationReceiver.Split(new char[] { '\r', '\n', ',', ';' }, StringSplitOptions.RemoveEmptyEntries),
                     Model = Get(formData.ID),
                     TemplatePath = "~/wwwroot/Plugins/ZKEACMS.FormGenerator/EmailTemplates/FormDataNotification.cshtml"

@@ -7,16 +7,22 @@ using Easy;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Easy.Extend;
+using ZKEACMS.Event;
 
 namespace ZKEACMS.Article.Service
 {
     public class ArticleService : ServiceBase<ArticleEntity, CMSDbContext>, IArticleService
     {
         private readonly ILocalize _localize;
-        public ArticleService(IApplicationContext applicationContext, ILocalize localize, CMSDbContext dbContext) 
+        private readonly IEventManager _eventManager;
+        public ArticleService(IApplicationContext applicationContext, 
+            ILocalize localize, 
+            CMSDbContext dbContext,
+            IEventManager eventManager) 
             : base(applicationContext, dbContext)
         {
             _localize = localize;
+            _eventManager = eventManager;
         }
         public override ServiceResult<ArticleEntity> Add(ArticleEntity item)
         {
@@ -25,7 +31,7 @@ namespace ZKEACMS.Article.Service
                 if (GetByUrl(item.Url) != null)
                 {
                     var result = new ServiceResult<ArticleEntity>();
-                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Url已存在")));
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
                     return result;
                 }
             }
@@ -38,7 +44,7 @@ namespace ZKEACMS.Article.Service
                 if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
                 {
                     var result = new ServiceResult<ArticleEntity>();
-                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("Url已存在")));
+                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
                     return result;
                 }
             }
@@ -79,6 +85,7 @@ namespace ZKEACMS.Article.Service
             if (article.ID > 0)
             {
                 Update(article);
+                _eventManager.Trigger(Events.OnArticlePublished, article);
             }
         }
     }

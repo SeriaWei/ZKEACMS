@@ -21,13 +21,16 @@ namespace ZKEACMS.Controllers
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IPackageInstallerProvider _packageInstallerProvider;
+        private readonly ILocalize _localize;
 
         public ThemeController(IThemeService service, IWebHostEnvironment hostingEnvironment,
-            IPackageInstallerProvider packageInstallerProvider)
+            IPackageInstallerProvider packageInstallerProvider,
+            ILocalize localize)
             : base(service)
         {
             _packageInstallerProvider = packageInstallerProvider;
             _hostingEnvironment = hostingEnvironment;
+            _localize = localize;
         }
 
         public override IActionResult Index()
@@ -49,16 +52,16 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTheme)]
         public JsonResult ChangeTheme(string id)
         {
-            var result = new AjaxResult(AjaxStatus.Normal, "切换主题中...");
+            var result = new AjaxResult(AjaxStatus.Normal, _localize.Get("Switching Theme..."));
             try
             {
                 Service.ChangeTheme(id);
-                result.Message = "切换主题成功!";
+                result.Message = _localize.Get("Theme have switched.");
             }
             catch (Exception e)
             {
                 result.Status = AjaxStatus.Error;
-                result.Message = string.Format("切换主题失败-[{0}]", e.Message);
+                result.Message = string.Format(_localize.Get("Switch failed - [{0}]"), e.Message);
             }
             return Json(result);
         }
@@ -75,7 +78,7 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTheme)]
         public JsonResult UploadTheme()
         {
-            var result = new AjaxResult(AjaxStatus.Normal, "主题安装成功，正在刷新...");
+            var result = new AjaxResult(AjaxStatus.Normal, _localize.Get("Theme have been installed."));
             if (Request.Form.Files.Count > 0)
             {
                 try
@@ -86,7 +89,7 @@ namespace ZKEACMS.Controllers
                 }
                 catch (Exception ex)
                 {
-                    result.Message = "上传的主题不正确！" + ex.Message;
+                    result.Message = ex.Message;
                     result.Status = AjaxStatus.Error;
                     return Json(result);
                 }

@@ -42,7 +42,7 @@
                             @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProduct) && Model.ID > 0)
                             {
                                 <p>
-                                    <a href="@Url.Action("Edit", "Product", new { id = Model.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">@L("编辑")</a>
+                                    <a href="@Url.Action("Edit", "Product", new { id = Model.ID,ReturnUrl=ViewContext.HttpContext.Request.Path })">@L("Edit")</a>
                                 </p>
                             }
                             @if (Model.Description.IsNotNullAndWhiteSpace())
@@ -138,7 +138,7 @@
                                 </div>
                                 <p>
                                     <a class="btn btn-flat btn-lg add-to-basket" href="javascript:" data-productid="@Model.ID" data-quantity="1">
-                                        <i class="glyphicon glyphicon-shopping-cart"></i> @L("加入购物车")
+                                        <i class="glyphicon glyphicon-shopping-cart"></i> @L("Add To Cart")
                                     </a>
                                 </p>
                             }

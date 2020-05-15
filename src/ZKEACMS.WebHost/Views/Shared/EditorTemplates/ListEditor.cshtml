@@ -10,7 +10,7 @@
         var unAttach = Activator.CreateInstance(ViewData.ModelMetadata.ModelType.GetTypeInfo().GetGenericArguments()[0]) as Easy.Models.EditorEntity;
         if (unAttach == null)
         {
-            throw new Exception($"{ViewData.ModelMetadata.ModelType.GetTypeInfo().GetGenericArguments()[0].FullName} 必须继承于 Easy.Models.EditorEntity");
+            throw new Exception($"{ViewData.ModelMetadata.ModelType.GetTypeInfo().GetGenericArguments()[0].FullName} must inherit from Easy.Models.EditorEntity");
         }
         unAttach.ActionType = ActionType.UnAttach;
         Model.Insert(0, unAttach);
@@ -30,6 +30,6 @@
             }
         }
     </div>
-    <input type="button" value="@L("添加")" class="btn btn-primary btn-xs add" data-value="@ActionType.Create" />
+    <input type="button" value="@L("Add")" class="btn btn-primary btn-xs add" data-value="@ActionType.Create" />
 
 </div>

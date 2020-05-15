@@ -20,12 +20,12 @@ namespace ZKEACMS.FormGenerator.Service.Validator
             message = string.Empty;
             if (field.Name == "SingleLine" && data.FieldValue.IsNotNullAndWhiteSpace() && data.FieldValue.Length > 200)
             {
-                message = _localize.Get("{0}的长度应小于200").FormatWith(field.DisplayName);
+                message = _localize.Get("{0} length should be less than {1}").FormatWith(field.DisplayName, 200);
                 return false;
             }
             else if (field.Name == "Paragraph" && data.FieldValue.IsNotNullAndWhiteSpace() && data.FieldValue.Length > 1000)
             {
-                message = _localize.Get("{0}的长度应小于1000").FormatWith(field.DisplayName);
+                message = _localize.Get("{0} length should be less than {1}").FormatWith(field.DisplayName, 1000);
                 return false;
             }
 

@@ -3,5 +3,5 @@
 	Name:"ZKEACMS.TemplateImporter",
 	FileName:"ZKEACMS.TemplateImporter.dll",
 	Enable:"true",
-	Description:"静态模板导入"
+	Description:"Import Html Template"
 }

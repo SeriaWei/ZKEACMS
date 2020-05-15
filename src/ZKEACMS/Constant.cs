@@ -20,6 +20,7 @@ namespace ZKEACMS
         public const string PopUp = "_PopUpLayout";
         public const string ClientPopUp = "_PopUpClientLayout";
         public const string CustomerCenter = "_CustomerCenterLayout";
+        public const string EmptyLayout = "_EmptyLayout";
 
         public const string ThemeLayout = "~/wwwroot/themes/{0}/Views/_Layout.cshtml";
         public const string ThemeSharedLayout = "~/wwwroot/themes/{0}/Views/Shared/_Layout.cshtml";

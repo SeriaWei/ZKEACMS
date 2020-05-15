@@ -230,7 +230,7 @@ namespace ZKEACMS.Widget
             var widget = new WidgetPackageInstaller(ApplicationContext.HostingEnvironment).Install(pack);
             if (widget != null)
             {
-                (widget as WidgetBase).Description = "安装";
+                (widget as WidgetBase).Description = "Install";
                 AddWidget(widget as WidgetBase);
             }
 

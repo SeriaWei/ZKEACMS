@@ -5,7 +5,7 @@
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    @L("定义条件")
+                    @L("Custom Rule")
                 </div>
                 <div class="panel-body">
                     <ul id="rules" class="fullRowList">
@@ -17,13 +17,13 @@
                                     <a href="javascript:void(0)" class="role-item" id="rule-@item.RuleID" data-id="@item.RuleID">
                                         @item.Title
                                         [@item.ZoneName]
-                                        @L("区域")
+                                        @L("Zone")
                                     </a>
                                 </div>
                                 @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                                 {
                                     <div class="pull-right">
-                                        <a href="@Url.Action("Edit", new {ID = item.RuleID})" title="编辑">
+                                        <a href="@Url.Action("Edit", new {ID = item.RuleID})" title="Edit">
                                             <i class="glyphicon glyphicon-edit"></i>
                                         </a>
                                     </div>
@@ -33,9 +33,9 @@
                     </ul>
                 </div>
                 <div class="panel-footer">
-                    <a href="@Url.Action("Create")" class="btn btn-primary btn-sm">@L("新建")</a>
+                    <a href="@Url.Action("Create")" class="btn btn-primary btn-sm">@L("New")</a>
                     <small class="text-muted" style="margin-left:1rem">
-                        @L("提示：点击左边条件，右则将展示出满足该条件时的内容")
+                        @L("Notice: click the rule will display the match content.")
                     </small>                    
                 </div>
             </div>
@@ -63,7 +63,7 @@
 
         $(document).on("click", ".fullRowList .delete", function () {
             var id = $(this).data("widgetid");
-            if (confirm("@L("确定要删除该组件吗？")")) {
+            if (confirm("@L("Do you want to delete?")")) {
                 $.post("@Url.Action("DeleteWidget", "Widget")", { ID: id }, function (data) {
                     if (data) {
                         $("#widget_" + id).remove();

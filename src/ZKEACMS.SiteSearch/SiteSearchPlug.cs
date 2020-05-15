@@ -48,8 +48,8 @@ namespace ZKEACMS.SiteSearch
         {
             yield return new WidgetTemplateEntity<SiteSearchWidgetService>
             {
-                Title = "站点搜索",
-                GroupName = "6.搜索",
+                Title = "Search Engine Search",
+                GroupName = "6.Search",
                 PartialView = "Widget.SiteSearch",
                 Thumbnail = "~/Plugins/ZKEACMS.SiteSearch/Content/Widget.SiteSearch.png",
                 Order = 1

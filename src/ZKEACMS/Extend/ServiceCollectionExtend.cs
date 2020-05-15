@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ZKEACMS.DbConnectionPool;
+using ZKEACMS.Event;
 
 namespace ZKEACMS
 {
@@ -22,6 +23,13 @@ namespace ZKEACMS
                 configure.OnConfiguring(optBuilder, holder.DbConnection);
                 return optBuilder.Options;
             });
+        }
+        public static void RegistEvent<Handler>(this IServiceCollection services, string name)
+            where Handler : class, IEventHandler
+        {
+            Type type = typeof(Handler);
+            EventManager.RegistEvent(name, type);
+            services.AddTransient(type);
         }
     }
 }

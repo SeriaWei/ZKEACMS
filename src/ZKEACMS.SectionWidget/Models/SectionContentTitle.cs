@@ -47,12 +47,12 @@ namespace ZKEACMS.SectionWidget.Models
             ViewConfig(m => m.Href).AsTextBox().PageSelector();
             ViewConfig(m => m.TitleLevel).AsDropDownList().DataSource(() => new Dictionary<string, string>
             {
-                {SectionContentTitle.H1,"一级标题"},
-                {SectionContentTitle.H2,"二级标题"},
-                {SectionContentTitle.H3,"三级标题"},
-                {SectionContentTitle.H4,"四级标题"},
-                {SectionContentTitle.H5,"五级标题"},
-                {SectionContentTitle.H6,"六级标题"}
+                {SectionContentTitle.H1,"H1"},
+                {SectionContentTitle.H2,"H2"},
+                {SectionContentTitle.H3,"H3"},
+                {SectionContentTitle.H4,"H4"},
+                {SectionContentTitle.H5,"H5"},
+                {SectionContentTitle.H6,"H6"}
             });
         }
     }

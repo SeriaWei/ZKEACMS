@@ -111,7 +111,7 @@ namespace ZKEACMS.Common.Service
             }
             else
             {
-                result.RuleViolations.Add(new RuleViolation("Name", "文件名称格式错误"));
+                result.RuleViolations.Add(new RuleViolation("Name", "File not support"));
             }
             return result;
         }

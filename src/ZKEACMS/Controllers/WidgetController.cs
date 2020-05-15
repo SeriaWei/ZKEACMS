@@ -34,9 +34,12 @@ namespace ZKEACMS.Controllers
         private readonly IPackageInstallerProvider _packageInstallerProvider;
         private readonly IWidgetActivator _widgetActivator;
         private readonly IPageService _pageService;
+        private readonly ILocalize _localize;
 
         public WidgetController(IWidgetBasePartService widgetService, IWidgetTemplateService widgetTemplateService,
-            ICookie cookie, IPackageInstallerProvider packageInstallerProvider, IWidgetActivator widgetActivator, IPageService pageService)
+            ICookie cookie, IPackageInstallerProvider packageInstallerProvider, IWidgetActivator widgetActivator,
+            IPageService pageService,
+            ILocalize localize)
         {
             _widgetService = widgetService;
             _widgetTemplateService = widgetTemplateService;
@@ -44,6 +47,7 @@ namespace ZKEACMS.Controllers
             _packageInstallerProvider = packageInstallerProvider;
             _widgetActivator = widgetActivator;
             _pageService = pageService;
+            _localize = localize;
         }
         private void SetDataSource(WidgetBase widget)
         {
@@ -77,7 +81,6 @@ namespace ZKEACMS.Controllers
                 widget.Position = _widgetService.GetByLayoutId(context.LayoutID).Count(m => m.ZoneID == context.ZoneID) + 1;
             }
             SetDataSource(widget);
-            ViewBag.WidgetTemplateName = template.Title;
             ViewBag.ReturnUrl = context.ReturnUrl;
             if (template.FormView.IsNotNullAndWhiteSpace())
             {
@@ -115,14 +118,6 @@ namespace ZKEACMS.Controllers
             SetDataSource(widget);
             ViewBag.ReturnUrl = ReturnUrl;
 
-            var template = _widgetTemplateService.Get(
-                m =>
-                    m.PartialView == widget.PartialView && m.AssemblyName == widget.AssemblyName &&
-                    m.ServiceTypeName == widget.ServiceTypeName && m.ViewModelTypeName == widget.ViewModelTypeName).FirstOrDefault();
-            if (template != null)
-            {
-                ViewBag.WidgetTemplateName = template.Title;
-            }
             if (widget.FormView.IsNotNullAndWhiteSpace())
             {
                 return View(widget.FormView, widget);
@@ -311,7 +306,7 @@ namespace ZKEACMS.Controllers
         public JsonResult Copy(string widgetId)
         {
             _cookie.SetValue(Const.CopyWidgetCookie, widgetId, true, true);
-            return Json(new AjaxResult { Status = AjaxStatus.Normal, Message = "复制成功，请到需要的页面区域粘贴！" });
+            return Json(new AjaxResult { Status = AjaxStatus.Normal, Message = _localize.Get("Copy success") });
         }
 
         [HttpPost]

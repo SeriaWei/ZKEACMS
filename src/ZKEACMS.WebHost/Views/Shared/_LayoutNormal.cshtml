@@ -1,8 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Hosting
 @{
-    Style.Reqiured("bootStrap").AtHead();
+    ThemeEntity theme = themeService.GetCurrentTheme();
+    if (theme == null)
+    {
+        Style.Reqiured("bootStrap").AtHead();
+    }
 }
+@inject IThemeService themeService
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->
@@ -26,6 +31,14 @@
     }
     @StyleAtHead()
     @ScriptAtHead()
+    @if (theme != null && ApplicationContext.HostingEnvironment.IsDevelopment())
+    {
+        <link type="text/css" async rel="stylesheet" href="@Url.Content(theme.UrlDebugger)" />
+    }
+    else
+    {
+        <link type="text/css" async rel="stylesheet" href="@Url.Content(theme.Url)" />
+    }
 </head>
 <body>
     <div id="container" class="container">

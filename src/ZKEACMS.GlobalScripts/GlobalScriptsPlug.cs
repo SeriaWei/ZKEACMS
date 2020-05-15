@@ -28,8 +28,8 @@ namespace ZKEACMS.GlobalScripts
         {
             yield return new AdminMenu
             {
-                Group = "系统",
-                Title = "访客统计代码",
+                Group = "System",
+                Title = "Pixel Script",
                 Icon = "glyphicon-fire",
                 PermissionKey = PermissionKeys.ManageStatisticsScript,
                 Url = "~/admin/statisticsscript/config",
@@ -37,8 +37,8 @@ namespace ZKEACMS.GlobalScripts
             };
             yield return new AdminMenu
             {
-                Group = "系统",
-                Title = "在线客服代码",
+                Group = "System",
+                Title = "Chat Script",
                 Icon = "glyphicon-comment",
                 PermissionKey = PermissionKeys.ManageLiveChatScript,
                 Url = "~/admin/livechatscript/config",
@@ -57,8 +57,8 @@ namespace ZKEACMS.GlobalScripts
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
         {
-            yield return new PermissionDescriptor(PermissionKeys.ManageStatisticsScript, "设置", "设置访客统计代码", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageLiveChatScript, "设置", "设置在线客服代码", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageStatisticsScript, "Setting", "Edit Pixel Script", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageLiveChatScript, "Setting", "Edit Chat Script", "");
         }
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
@@ -68,8 +68,8 @@ namespace ZKEACMS.GlobalScripts
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IOnPageExecuted, LiveChatScriptProvider>();
-            serviceCollection.AddTransient<IOnPageExecuted, StatisticsScriptProvider>();
+            serviceCollection.RegistEvent<LiveChatScriptProvider>(Events.OnPageExecuted);
+            serviceCollection.RegistEvent<StatisticsScriptProvider>(Events.OnPageExecuted);
             serviceCollection.ConfigureMetaData<Models.LiveChatScript, Models.LiveChatScriptMetaData>();
             serviceCollection.ConfigureMetaData<Models.StatisticsScript, Models.StatisticsScriptMetaData>();
         }

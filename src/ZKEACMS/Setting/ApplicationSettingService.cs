@@ -18,12 +18,15 @@ namespace ZKEACMS.Setting
         private readonly IDataArchivedService _dataArchivedService;
         private readonly ConcurrentDictionary<string, object> _settingCache;
         private const string ApplicationSetting = "ApplicationSetting";
+        private readonly ILocalize _localize;
         public ApplicationSettingService(IApplicationContext applicationContext,
             IDataArchivedService dataArchivedService,
+            ILocalize localize,
             ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
             CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
             _dataArchivedService = dataArchivedService;
+            _localize = localize;
             _settingCache = cacheManager.GetOrAdd(ApplicationSetting, new ConcurrentDictionary<string, object>());
         }
 
@@ -44,7 +47,7 @@ namespace ZKEACMS.Setting
                     return base.Add(item);
                 }
                 var result = new ServiceResult<ApplicationSetting>();
-                result.RuleViolations.Add(new RuleViolation("SettingKey", "已经存在该键值"));
+                result.RuleViolations.Add(new RuleViolation("SettingKey", _localize.Get("The setting key is already exists")));
                 return result;
             }
 

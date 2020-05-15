@@ -100,7 +100,7 @@ namespace ZKEACMS.Updater.Service
             StringBuilder stringBuilder = new StringBuilder();
             using (FileStream fileStream = file.OpenRead())
             {
-                using (StreamReader reader = new StreamReader(fileStream, Encoding.Unicode))
+                using (StreamReader reader = new StreamReader(fileStream))
                 {
                     string line = null;
                     while ((line = reader.ReadLine()) != null)
