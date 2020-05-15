@@ -85,7 +85,11 @@ namespace Easy.Constant
         /// </summary>
         public const string LettersAndNumber = @"^[A-Za-z0-9]+$";
         /// <summary>
-        /// 匹配由数字、26个英文字母或者下划线组成的字符串
+        /// 匹配包括下划线中划线的任何单词字符
+        /// </summary>
+        public const string LetterNumberOrLine = @"^[A-Za-z0-9_-]+$";
+        /// <summary>
+        /// 匹配包括下划线的任何单词字符
         /// </summary>
         public const string LettersAndNumberAndLine = @"^\w+$";
     }
