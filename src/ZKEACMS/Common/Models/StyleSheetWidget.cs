@@ -20,6 +20,7 @@ namespace ZKEACMS.Common.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
+            ViewConfig(m => m.PartialView).AsHidden();
             ViewConfig(m => m.Title).AsHidden();
             ViewConfig(m => m.StyleClass).AsHidden();
             ViewConfig(m => m.StyleSheet).AsTextArea().AsCodeEditor().Order(NextOrder()).Required();
