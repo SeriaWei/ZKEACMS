@@ -1,0 +1,24 @@
+@using System.Text.RegularExpressions
+@model string
+@{
+    Layout = Layouts.EmptyLayout;
+}
+@using (Style.AtHead())
+{
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+
+            body > div {
+                height: 100%;
+            }
+    </style>
+}
+<video controls="controls"
+       name="media"
+       src="@Url.Content(Model)"
+       style="width:100%;height:100%">
+</video>

@@ -331,5 +331,10 @@ namespace ZKEACMS.Controllers
             _cookie.GetValue<string>(Const.CopyWidgetCookie, true);
             return RedirectToAction("SelectWidget", "WidgetTemplate", new { widget.PageID, widget.ZoneID, widget.LayoutID, ReturnUrl });
         }
+
+        public IActionResult PlayVideo(string url)
+        {
+            return View("PlayVideo", url);
+        }
     }
 }

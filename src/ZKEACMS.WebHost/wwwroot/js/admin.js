@@ -258,21 +258,14 @@ $(function () {
         });
     }
 
-    $(".input-group .glyphicon.glyphicon-play").popover({
-        trigger: "click",
-        html: true,
-        title: "视频预览",
-        content: function () {
-            var url = $(this).parent().siblings("input").val();
-            if (url) {
-                if (url.indexOf("~") === 0) {
-                    url = url.replace("~", location.origin);
-                }
-                return "<div><video style='width:244px;height:183px' controls='controls' src='" + url + "'>您的浏览器不支持播放该视频</video></div>";
+    $(".input-group .glyphicon.glyphicon-play").click(function () {
+        var url = $(this).closest(".input-group").find(".form-control").val();
+        if (url) {
+            if (url.indexOf("~") === 0) {
+                url = url.replace("~", location.origin);
             }
-            return null;
-        },
-        placement: "left"
+            Easy.ShowUrlWindow({ url: '/admin/widget/playvideo?url=' + encodeURIComponent(url), width: 800, height: 450 });
+        }
     });
 
     //main menu
