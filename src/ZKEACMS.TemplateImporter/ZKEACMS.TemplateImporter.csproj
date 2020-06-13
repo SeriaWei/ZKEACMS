@@ -15,7 +15,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.23" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
 </Project>
