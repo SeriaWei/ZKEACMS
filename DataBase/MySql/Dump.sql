@@ -1392,6 +1392,8 @@ CREATE TABLE `ImageWidget` (
 	`Height` INT  NULL,
 	`AltText` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
 	`Link` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`ImageUrlMd` VARCHAR(225) CHARACTER SET utf8mb4  NULL,
+	`ImageUrlSm` VARCHAR(225) CHARACTER SET utf8mb4  NULL,
 	PRIMARY KEY (`ID`),
 	KEY `FK_ImageWidget_Widget` (`ID`),
 	CONSTRAINT `FK_ImageWidget_Widget` FOREIGN KEY (`ID`) REFERENCES `CMS_WidgetBase` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -1399,13 +1401,13 @@ CREATE TABLE `ImageWidget` (
 
 /*!40000 ALTER TABLE `ImageWidget` DISABLE KEYS */;
 INSERT INTO `ImageWidget` VALUES
-('2b510992f0174e668ca53116434e065c','~/images/bg4.jpg',NULL,NULL,NULL,NULL),
-('3017aef0eabc451b81daebe6bae68857','~/images/bg4.jpg',NULL,NULL,NULL,NULL),
-('43bb869688ee4752a3127dd19ccc6caa','http://www.zkea.net/UpLoad/Images/20160318/09e179985c582366.jpg',NULL,NULL,NULL,NULL),
-('7679a5060035444d85fe49dc3c02cada','http://www.zkea.net/UpLoad/Images/20160318/09e179985c582366.jpg',NULL,NULL,NULL,NULL),
-('8ea46d2923ad4d62958c565b19bb172d','~/images/bg3.jpg',NULL,NULL,NULL,NULL),
-('e5ba6adb117440959757b98e4289430f','~/images/bg3.jpg',NULL,NULL,NULL,NULL),
-('fee7f4d7d7e641b0bfa74491a543d245','~/images/30.jpg',NULL,NULL,NULL,NULL);
+('2b510992f0174e668ca53116434e065c','~/images/bg4.jpg',NULL,NULL,NULL,NULL,NULL,NULL),
+('3017aef0eabc451b81daebe6bae68857','~/images/bg4.jpg',NULL,NULL,NULL,NULL,NULL,NULL),
+('43bb869688ee4752a3127dd19ccc6caa','http://www.zkea.net/UpLoad/Images/20160318/09e179985c582366.jpg',NULL,NULL,NULL,NULL,NULL,NULL),
+('7679a5060035444d85fe49dc3c02cada','http://www.zkea.net/UpLoad/Images/20160318/09e179985c582366.jpg',NULL,NULL,NULL,NULL,NULL,NULL),
+('8ea46d2923ad4d62958c565b19bb172d','~/images/bg3.jpg',NULL,NULL,NULL,NULL,NULL,NULL),
+('e5ba6adb117440959757b98e4289430f','~/images/bg3.jpg',NULL,NULL,NULL,NULL,NULL,NULL),
+('fee7f4d7d7e641b0bfa74491a543d245','~/images/30.jpg',NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `ImageWidget` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `Language`;
@@ -2668,6 +2670,8 @@ INSERT INTO `Language` VALUES
 ('ImageWidget@Height','zh-CN','高度(px)','ImageWidget','EntityProperty'),
 ('ImageWidget@ID','zh-CN','ID','ImageWidget','EntityProperty'),
 ('ImageWidget@ImageUrl','zh-CN','图片','ImageWidget','EntityProperty'),
+('ImageWidget@ImageUrlMd','zh-CN','中屏图片','PageEntity','EntityProperty'),
+('ImageWidget@ImageUrlSm','zh-CN','小屏图片','PageEntity','EntityProperty'),
 ('ImageWidget@IsSystem','zh-CN','IsSystem','ImageWidget','EntityProperty'),
 ('ImageWidget@IsTemplate','zh-CN','保存为模板','ImageWidget','EntityProperty'),
 ('ImageWidget@LastUpdateBy','zh-CN','LastUpdateBy','ImageWidget','EntityProperty'),
