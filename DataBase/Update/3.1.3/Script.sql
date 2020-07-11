@@ -1,1 +1,0 @@
-﻿INSERT INTO [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'SiteSearchWidget@SearchEngine', N'zh-CN', N'搜索引擎', NULL, N'EntityProperty')
