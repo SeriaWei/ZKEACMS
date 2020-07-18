@@ -3,8 +3,14 @@
     @if (Model.Link.IsNullOrEmpty())
     {
         <picture>
-            <source srcset="@Url.PathContent(Model.ImageUrlSm)" media="(max-width: 767px)">
-            <source srcset="@Url.PathContent(Model.ImageUrlMd)" media="(max-width: 991px)">
+            @if (Model.ImageUrlSm.IsNotNullAndWhiteSpace())
+            {
+                <source srcset="@Url.PathContent(Model.ImageUrlSm)" media="(max-width: 767px)">
+            }
+            @if (Model.ImageUrlMd.IsNotNullAndWhiteSpace())
+            {
+                <source srcset="@Url.PathContent(Model.ImageUrlMd)" media="(max-width: 991px)">
+            }
             <img alt="@Model.AltText"
                  src="@Url.PathContent(Model.ImageUrl)"
                  style="@(Model.Width.HasValue ? $"width:{Model.Width}px;" : string.Empty)@(Model.Height.HasValue ? $"height:{Model.Height}px;" : string.Empty)" />
@@ -14,8 +20,14 @@
     {
         <a href="@Url.Content(Model.Link)" target="@Html.SmartLinkTarget(Model.Link)">
             <picture>
-                <source srcset="@Url.PathContent(Model.ImageUrlSm)" media="(max-width: 767px)">
-                <source srcset="@Url.PathContent(Model.ImageUrlMd)" media="(max-width: 991px)">
+                @if (Model.ImageUrlSm.IsNotNullAndWhiteSpace())
+                {
+                    <source srcset="@Url.PathContent(Model.ImageUrlSm)" media="(max-width: 767px)">
+                }
+                @if (Model.ImageUrlMd.IsNotNullAndWhiteSpace())
+                {
+                    <source srcset="@Url.PathContent(Model.ImageUrlMd)" media="(max-width: 991px)">
+                }
                 <img alt="@Model.AltText"
                      src="@Url.PathContent(Model.ImageUrl)"
                      style="@(Model.Width.HasValue ? $"width:{Model.Width}px;" : string.Empty)@(Model.Height.HasValue ? $"height:{Model.Height}px;" : string.Empty)" />
