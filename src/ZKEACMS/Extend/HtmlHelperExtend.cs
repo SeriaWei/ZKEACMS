@@ -61,7 +61,7 @@ namespace ZKEACMS
 
         private static bool IsOpenSelf(string link)
         {
-            return true;
+            return !link.StartsWith("http://", StringComparison.OrdinalIgnoreCase) && !link.StartsWith("https://", StringComparison.OrdinalIgnoreCase);
         }
 
         public static async Task<IHtmlContent> WidgetError(this IHtmlHelper html)
