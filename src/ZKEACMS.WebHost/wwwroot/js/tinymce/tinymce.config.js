@@ -13,6 +13,15 @@
         toolbar: 'styleselect | bold italic strikethrough forecolor backcolor | link image media | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent removeformat | bootstrap imagelocal filebrowser preview code',
         height: 600,
         relative_urls: false,
+        image_advtab: true,
+        image_class_list: [
+            { title: '无', value: '' },
+            { title: '边框', value: 'img-thumbnail' }
+        ],
+        paste_data_images: true,
+        images_upload_url: '/admin/Media/UploadBlob',
+        imagetools_proxy: '/admin/Media/Proxy',
+        images_reuse_filename: true,
         language: "zh_CN",
         table_default_attributes: {
             class: "table table-hover"
