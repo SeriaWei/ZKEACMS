@@ -1,5 +1,6 @@
 using Easy;
 using Easy.Cache;
+using Easy.Constant;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,12 +23,34 @@ namespace ZKEACMS.Redirection.Service
         {
             _cacheManager.Remove(CacheKey);
         }
+        private ServiceResult<UrlRedirect> ParsePattern(UrlRedirect item)
+        {
+            ServiceResult<UrlRedirect> exceptionResult = new ServiceResult<UrlRedirect>();
+            if (item.IsPattern ?? false)
+            {
+                try
+                {
+                    item.ParsePattern();
+                }
+                catch (Exception ex)
+                {
+                    exceptionResult.RuleViolations.Add(new RuleViolation("InComingUrl", ex.Message));
+
+                }
+            }
+            return exceptionResult;
+        }
         public override IQueryable<UrlRedirect> Get()
         {
             return CurrentDbSet.AsNoTracking();
         }
         public override ServiceResult<UrlRedirect> Add(UrlRedirect item)
         {
+            ServiceResult<UrlRedirect> parseResult = ParsePattern(item);
+            if (parseResult.HasViolation)
+            {
+                return parseResult;
+            }
             ServiceResult<UrlRedirect> result = base.Add(item);
             if (!result.HasViolation)
             {
@@ -47,6 +70,11 @@ namespace ZKEACMS.Redirection.Service
 
         public override ServiceResult<UrlRedirect> Update(UrlRedirect item)
         {
+            ServiceResult<UrlRedirect> parseResult = ParsePattern(item);
+            if (parseResult.HasViolation)
+            {
+                return parseResult;
+            }
             ServiceResult<UrlRedirect> result = base.Update(item);
             if (!result.HasViolation)
             {
@@ -81,7 +109,12 @@ namespace ZKEACMS.Redirection.Service
         }
         public IEnumerable<UrlRedirect> GetAll()
         {
-            return _cacheManager.GetOrAdd(CacheKey, key => Get().ToList());
+            return _cacheManager.GetOrAdd(CacheKey, key => Get(m => m.Status == (int)RecordStatus.Active).ToList());
+        }
+
+        public UrlRedirect GetByPath(string path)
+        {
+            return GetAll().FirstOrDefault(m => m.IsMatch(path));
         }
     }
 }
