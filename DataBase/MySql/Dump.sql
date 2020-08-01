@@ -843,12 +843,13 @@ CREATE TABLE `CMS_Redirection` (
 	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
 	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
 	`LastUpdateDate` DATETIME  NULL,
+	`IsPattern` TINYINT(1)  NULL,
 	PRIMARY KEY (`ID`)
 );
 
 /*!40000 ALTER TABLE `CMS_Redirection` DISABLE KEYS */;
 INSERT INTO `CMS_Redirection` VALUES
-(1,'默认','~/','~/index',0,NULL,1,'admin','ZKEASOFT','2017-08-14 14:58:06.000','admin','ZKEASOFT','2017-08-14 15:53:01.387');
+(1,'默认','~/','~/index',0,NULL,1,'admin','ZKEASOFT','2017-08-14 14:58:06.000','admin','ZKEASOFT','2020-08-01 22:21:26.837',1);
 /*!40000 ALTER TABLE `CMS_Redirection` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `CMS_Rule`;
@@ -4352,6 +4353,7 @@ INSERT INTO `Language` VALUES
 ('UrlRedirect@InComingUrl','en-GB','In Coming Url','UrlRedirect','EntityProperty'),
 ('UrlRedirect@InComingUrl','en-US','In Coming Url','UrlRedirect','EntityProperty'),
 ('UrlRedirect@InComingUrl','zh-CN','访问地址','UrlRedirect','EntityProperty'),
+('UrlRedirect@IsPattern','zh-CN','使用正则表达式？',NULL,NULL),
 ('UrlRedirect@IsPermanent','en-GB','Is Permanent','UrlRedirect','EntityProperty'),
 ('UrlRedirect@IsPermanent','en-US','Is Permanent','UrlRedirect','EntityProperty'),
 ('UrlRedirect@IsPermanent','zh-CN','永久？','UrlRedirect','EntityProperty'),
@@ -5671,7 +5673,7 @@ CREATE TABLE `Users` (
 
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
 INSERT INTO `Users` VALUES
-('admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',NULL,'2020-03-21 20:24:28.157','::1','~/images/head.png',0,'ZKEASOFT',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,'Admin',NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,'admin','Admin','2020-03-21 20:24:28.180',1,NULL,NULL,NULL);
+('admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',NULL,'2020-08-01 22:21:07.537','::1','~/images/head.png',0,'ZKEASOFT',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,'Admin',NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,'admin','Admin','2020-08-01 22:21:07.553',1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `VideoWidget`;

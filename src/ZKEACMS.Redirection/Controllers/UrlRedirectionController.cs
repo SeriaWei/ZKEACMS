@@ -97,7 +97,7 @@ namespace ZKEACMS.Redirection.Controllers
                 return RedirectPermanent($"~/{(path ?? "").Trim()}.html");
             }
             path = $"~/{(path ?? "").TrimEnd('/')}";
-            var redirec = Service.GetAll().Where(m => m.InComingUrl == path).FirstOrDefault();
+            var redirec = Service.GetByPath(path);
             if (redirec != null)
             {
                 if (redirec.IsPermanent)
