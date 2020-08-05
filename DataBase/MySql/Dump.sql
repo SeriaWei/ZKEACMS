@@ -849,7 +849,7 @@ CREATE TABLE `CMS_Redirection` (
 
 /*!40000 ALTER TABLE `CMS_Redirection` DISABLE KEYS */;
 INSERT INTO `CMS_Redirection` VALUES
-(1,'默认','~/','~/index',0,NULL,1,'admin','ZKEASOFT','2017-08-14 14:58:06.000','admin','ZKEASOFT','2020-08-01 22:21:26.837',1);
+(1,'默认','~/','~/index',0,NULL,1,'admin','ZKEASOFT','2017-08-14 14:58:06.000','admin','ZKEASOFT','2020-08-01 22:21:26.837',0);
 /*!40000 ALTER TABLE `CMS_Redirection` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `CMS_Rule`;

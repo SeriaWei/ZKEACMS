@@ -52,7 +52,7 @@ namespace ZKEACMS.Page
             _layoutHtmlService = layoutHtmlService;
             _eventManager = eventManager;
             _localize = localize;
-            _cachedPage = new Dictionary<string, IEnumerable<PageEntity>>();
+            _cachedPage = new Dictionary<string, IEnumerable<PageEntity>>(StringComparer.OrdinalIgnoreCase);
         }
 
         private string FormatPath(string path)
@@ -77,6 +77,7 @@ namespace ZKEACMS.Page
             {
                 if (page.Style.IsNotNullAndWhiteSpace())
                 {
+                    page.Styles.Clear();
                     if (page.Style.StartsWith("["))
                     {
                         foreach (var item in JsonConvert.DeserializeObject<string[]>(page.Style))
@@ -91,6 +92,7 @@ namespace ZKEACMS.Page
                 }
                 if (page.Script.IsNotNullAndWhiteSpace())
                 {
+                    page.Scripts.Clear();
                     if (page.Script.StartsWith("["))
                     {
                         foreach (var item in JsonConvert.DeserializeObject<string[]>(page.Script))
@@ -378,16 +380,19 @@ namespace ZKEACMS.Page
         public PageEntity GetByPath(string path, bool isPreView)
         {
             string formatedPath = FormatPath(path);
+            PageEntity page = null;
             if (_cachedPage.ContainsKey(formatedPath))
             {
-                return _cachedPage[formatedPath].Where(m => m.Url.Equals(formatedPath, StringComparison.OrdinalIgnoreCase) && m.IsPublishedPage == !isPreView)
+                page = _cachedPage[formatedPath].Where(m => m.IsPublishedPage == !isPreView)
                       .OrderByDescending(m => m.PublishDate)
                       .FirstOrDefault();
             }
-            PageEntity page = Get()
-                      .Where(m => m.Url == formatedPath && m.IsPublishedPage == !isPreView)
-                      .OrderByDescending(m => m.PublishDate)
-                      .FirstOrDefault();
+            else
+            {
+                page = Get().Where(m => m.Url == formatedPath && m.IsPublishedPage == !isPreView)
+                          .OrderByDescending(m => m.PublishDate)
+                          .FirstOrDefault();
+            }
             InitAssets(page);
             return page;
         }
