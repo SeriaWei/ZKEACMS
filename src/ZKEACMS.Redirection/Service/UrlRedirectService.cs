@@ -34,11 +34,29 @@ namespace ZKEACMS.Redirection.Service
                 }
                 catch (Exception ex)
                 {
-                    exceptionResult.RuleViolations.Add(new RuleViolation("InComingUrl", ex.Message));
+                    exceptionResult.AddRuleViolation("InComingUrl", ex.Message);
 
                 }
             }
             return exceptionResult;
+        }
+        private ServiceResult<UrlRedirect> Test(UrlRedirect item)
+        {
+            ServiceResult<UrlRedirect> result = new ServiceResult<UrlRedirect>();
+            HashSet<string> direction = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            direction.Add(item.InComingUrl);
+            direction.Add(item.DestinationURL);
+            UrlRedirect destiantion = item;
+            while (true)
+            {
+                destiantion = GetAll().FirstOrDefault(m => m.ID != item.ID && m.IsMatch(destiantion.DestinationURL));
+                if (destiantion == null)
+                {
+                    break;
+                }
+
+            }
+            return result;
         }
         public override IQueryable<UrlRedirect> Get()
         {
