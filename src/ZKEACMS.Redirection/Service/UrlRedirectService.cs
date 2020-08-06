@@ -23,7 +23,7 @@ namespace ZKEACMS.Redirection.Service
         {
             _cacheManager.Remove(CacheKey);
         }
-        private ServiceResult<UrlRedirect> ParsePattern(UrlRedirect item)
+        private ServiceResult<UrlRedirect> PatternTest(UrlRedirect item)
         {
             ServiceResult<UrlRedirect> exceptionResult = new ServiceResult<UrlRedirect>();
             if (item.IsPattern ?? false)
@@ -40,23 +40,46 @@ namespace ZKEACMS.Redirection.Service
             }
             return exceptionResult;
         }
-        private ServiceResult<UrlRedirect> Test(UrlRedirect item)
+        private ServiceResult<UrlRedirect> LoopTest(UrlRedirect item)
         {
             ServiceResult<UrlRedirect> result = new ServiceResult<UrlRedirect>();
-            HashSet<string> direction = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            direction.Add(item.InComingUrl);
-            direction.Add(item.DestinationURL);
+            List<string> direction = new List<string>();
+            direction.Add(item.DestinationURL.ToLowerInvariant());
             UrlRedirect destiantion = item;
+            List<UrlRedirect> allRedirects = GetAll().Where(m => m.ID != item.ID).ToList();
+            allRedirects.Add(item);
             while (true)
             {
-                destiantion = GetAll().FirstOrDefault(m => m.ID != item.ID && m.IsMatch(destiantion.DestinationURL));
+                destiantion = allRedirects.FirstOrDefault(m => m.IsMatch(destiantion.DestinationURL));
                 if (destiantion == null)
                 {
                     break;
                 }
-
+                else
+                {
+                    string url = destiantion.DestinationURL.ToLowerInvariant();
+                    if (direction.Contains(url))
+                    {
+                        direction.Add(url);
+                        result.AddRuleViolation("DestinationURL", string.Join(" > ", direction));
+                        break;
+                    }
+                    else
+                    {
+                        direction.Add(url);
+                    }
+                }
             }
             return result;
+        }
+        private ServiceResult<UrlRedirect> Valid(UrlRedirect item)
+        {
+            ServiceResult<UrlRedirect> result = PatternTest(item);
+            if (result.HasViolation)
+            {
+                return result;
+            }
+            return LoopTest(item);
         }
         public override IQueryable<UrlRedirect> Get()
         {
@@ -64,11 +87,12 @@ namespace ZKEACMS.Redirection.Service
         }
         public override ServiceResult<UrlRedirect> Add(UrlRedirect item)
         {
-            ServiceResult<UrlRedirect> parseResult = ParsePattern(item);
-            if (parseResult.HasViolation)
+            ServiceResult<UrlRedirect> validResult = Valid(item);
+            if (validResult.HasViolation)
             {
-                return parseResult;
+                return validResult;
             }
+
             ServiceResult<UrlRedirect> result = base.Add(item);
             if (!result.HasViolation)
             {
@@ -88,10 +112,10 @@ namespace ZKEACMS.Redirection.Service
 
         public override ServiceResult<UrlRedirect> Update(UrlRedirect item)
         {
-            ServiceResult<UrlRedirect> parseResult = ParsePattern(item);
-            if (parseResult.HasViolation)
+            ServiceResult<UrlRedirect> validResult = Valid(item);
+            if (validResult.HasViolation)
             {
-                return parseResult;
+                return validResult;
             }
             ServiceResult<UrlRedirect> result = base.Update(item);
             if (!result.HasViolation)
