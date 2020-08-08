@@ -3,10 +3,10 @@
 ZKEACMS is a visual design, **WYSIWYG** Content Management System.
 
 ## Page Design
-![Page Design](src/ZKEACMS.WebHost/wwwroot/images/page-design.gif)
+![Page Design](http://www.zkea.net/images/page-design.gif)
 
 ## Add Content To Page
-![Add Content](src/ZKEACMS.WebHost/wwwroot/images/add-content.gif)
+![Add Content](http://www.zkea.net/images/add-content.gif)
 
 **Get Started**
 
@@ -63,13 +63,13 @@ $ docker run -d -p 5000:80 zkeasoft/zkeacms:ent
 ZKEACMS is featuring a modern responsive design that automatically adapts to different screen sizes and devices. From the PC, laptop, TV, tablet to the phone page will automatically adapt to adapt.
 
 ## Layout Design
-![Layout Design](src/ZKEACMS.WebHost/wwwroot/images/design-layout.jpg)
+![Layout Design](http://www.zkea.net/images/design-layout.jpg)
 
 Layout is used to make a page of the zone, the user can drag the "row", "column" to design layout. The layout uses the Bootstrap3 Grid system.
 
 
 ## Widgets
-![Widgets](src/ZKEACMS.WebHost/wwwroot/images/widgets.png)
+![Widgets](http://www.zkea.net/images/widgets.png)
 
 A widget is a `HTML Components`. Add different widget to build your page. Multiple widgets can be added to the same zone, and can be sorted by drag and drop. 
 
@@ -79,7 +79,7 @@ Using LESS to create a theme, by modifying the variables, you can easily create 
 
 The theme is base on Boorstrap.
 
-![Theme](src/ZKEACMS.WebHost/wwwroot/images/themes.jpg)
+![Theme](http://www.zkea.net/images/themes.jpg)
 
 ## Videos
 [http://www.zkea.net/zkeacms/videos](http://www.zkea.net/zkeacms/videos)
@@ -100,7 +100,7 @@ The following videos can help you to know the Enterprise Edition:
 
 
 ## 关注微信(ZKEASOFT)
-![关注微信](src/ZKEACMS.WebHost/wwwroot/images/qrcode.jpg)
+![关注微信](http://www.zkea.net/images/qrcode.jpg)
 
 ## QQ群
 纸壳CMS 群1（493586356） [点击加群](https://jq.qq.com/?_wv=1027&k=5SlfPaT)
