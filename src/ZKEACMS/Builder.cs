@@ -151,7 +151,7 @@ namespace ZKEACMS
             services.AddTransient<IPackageInstaller, DataDictionaryPackageInstaller>();
             services.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             services.AddTransient<IEventViewerService, EventViewerService>();
-            services.AddTransient<IEventManager, EventManager>();
+            services.AddScoped<IEventManager, EventManager>();
 
             services.AddTransient<IStorage, WebStorage>();
 
@@ -199,9 +199,10 @@ namespace ZKEACMS
             services.ConfigureMetaData<TemplateFile, TemplateFileMetaData>();
             services.ConfigureMetaData<TabWidget, TabWidgetMetaData>();
             services.ConfigureMetaData<TabItem, TabItemMetaData>();
-            
-            services.RegistEvent<RemoveCacheOnPagePublishedEvent>(Events.OnPagePublished);
-            services.RegistEvent<RemoveCacheOnPageDeletedEvent>(Events.OnPageDeleted);
+
+            services.RegistEvent<RemoveCacheOnPagePublishedEventHandler>(Events.OnPagePublished);
+            services.RegistEvent<RemoveCacheOnPageDeletedEventHandler>(Events.OnPageDeleted);
+            services.RegistEvent<WidgetChangedTriggerPageEventHandler>(Events.OnWidgetAdded, Events.OnWidgetUpdated, Events.OnWidgetDeleted, Events.OnWidgetBasePartUpdated);
 
             services.AddScoped<IValidateService, DefaultValidateService>();
 

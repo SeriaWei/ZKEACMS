@@ -9,13 +9,13 @@ using ZKEACMS.Zone;
 
 namespace ZKEACMS.Page
 {
-    public class RemoveCacheOnPageDeletedEvent : IEventHandler
+    public class RemoveCacheOnPageDeletedEventHandler : IEventHandler
     {
         private readonly IWidgetBasePartService _widgetService;
         private readonly IZoneService _zoneService;
         private readonly ILayoutHtmlService _layoutHtmlService;
 
-        public RemoveCacheOnPageDeletedEvent(IWidgetBasePartService widgetService, IZoneService zoneService, ILayoutHtmlService layoutHtmlService)
+        public RemoveCacheOnPageDeletedEventHandler(IWidgetBasePartService widgetService, IZoneService zoneService, ILayoutHtmlService layoutHtmlService)
         {
             _widgetService = widgetService;
             _zoneService = zoneService;

@@ -137,7 +137,6 @@ namespace ZKEACMS.Page
                 {
                     m = widgetService.GetWidget(m);
                     m.PageID = item.ID;
-                    widgetService.IsNeedNotifyChange = false;
                     widgetService.Publish(m);
                 }
             });
@@ -161,12 +160,18 @@ namespace ZKEACMS.Page
             {
                 throw new PageExistException(_localize);
             }
+            _eventManager.Trigger(Events.OnPageAdding, item);
             item.ID = Guid.NewGuid().ToString("N");
             if (item.ParentId.IsNullOrEmpty())
             {
                 item.ParentId = "#";
             }
-            return base.Add(item);
+            var result = base.Add(item);
+            if (!result.HasViolation)
+            {
+                _eventManager.Trigger(Events.OnPageAdded, item);
+            }
+            return result;
         }
 
         public override ServiceResult<PageEntity> Update(PageEntity item)
@@ -175,9 +180,15 @@ namespace ZKEACMS.Page
             {
                 throw new PageExistException(_localize);
             }
+            _eventManager.Trigger(Events.OnPageUpdating, item);
             item.IsPublish = false;
             SerializeAssets(item);
-            return base.Update(item);
+            var result = base.Update(item);
+            if (!result.HasViolation)
+            {
+                _eventManager.Trigger(Events.OnPageUpdated, item);
+            }
+            return result;
         }
 
         public void Publish(PageEntity item)
@@ -234,7 +245,6 @@ namespace ZKEACMS.Page
                         _widgetService.GetByPageId(page.ReferencePageID).Each(m =>
                         {
                             var widgetService = _widgetActivator.Create(m);
-                            widgetService.IsNeedNotifyChange = false;
                             widgetService.DeleteWidget(m.ID);
                         });
                         _widgetService.GetByPageId(ID).Each(m =>
@@ -242,7 +252,6 @@ namespace ZKEACMS.Page
                             var widgetService = _widgetActivator.Create(m);
                             m = widgetService.GetWidget(m);
                             m.PageID = page.ReferencePageID;
-                            widgetService.IsNeedNotifyChange = false;
                             widgetService.Publish(m);
                         });
                     }
@@ -277,7 +286,6 @@ namespace ZKEACMS.Page
                     {
                         using (var widgetService = _widgetActivator.Create(m))
                         {
-                            widgetService.IsNeedNotifyChange = false;
                             widgetService.DeleteWidget(m.ID);
                         }
                     });
@@ -324,7 +332,6 @@ namespace ZKEACMS.Page
                     {
                         using (var widgetService = _widgetActivator.Create(m))
                         {
-                            widgetService.IsNeedNotifyChange = false;
                             widgetService.DeleteWidget(m.ID);
                         }
                     });
@@ -380,7 +387,7 @@ namespace ZKEACMS.Page
         public void MarkChanged(string pageId)
         {
             var pageEntity = Get(pageId);
-            if (pageEntity != null)
+            if (pageEntity != null && !pageEntity.IsPublishedPage)
             {
                 pageEntity.IsPublish = false;
                 pageEntity.LastUpdateDate = DateTime.Now;
