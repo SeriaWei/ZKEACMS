@@ -201,6 +201,7 @@ namespace ZKEACMS
             services.ConfigureMetaData<TabItem, TabItemMetaData>();
 
             services.RegistEvent<RemoveCacheOnPagePublishedEventHandler>(Events.OnPagePublished);
+            services.RegistEvent<RemoveOldVersionOnPagePublishedEventHandler>(Events.OnPagePublished);
             services.RegistEvent<RemoveCacheOnPageDeletedEventHandler>(Events.OnPageDeleted);
             services.RegistEvent<WidgetChangedTriggerPageEventHandler>(Events.OnWidgetAdded, Events.OnWidgetUpdated, Events.OnWidgetDeleted, Events.OnWidgetBasePartUpdated);
 

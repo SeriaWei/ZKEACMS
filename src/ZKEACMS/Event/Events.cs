@@ -29,7 +29,23 @@ namespace ZKEACMS.Event
         #endregion
 
         #region Article
+        public const string OnArticleAdding = "OnArticleAdding";
+        public const string OnArticleAdded = "OnArticleAdded";
+        public const string OnArticleUpdating = "OnArticleUpdating";
+        public const string OnArticleUpdated = "OnArticleUpdated";
+        public const string OnArticleDeleting = "OnArticleDeleting";
+        public const string OnArticleDeleted = "OnArticleDeleted";
         public const string OnArticlePublished = "OnArticlePublished";
+        #endregion
+
+        #region Product
+        public const string OnProductAdding = "OnProductAdding";
+        public const string OnProductAdded = "OnProductAdded";
+        public const string OnProductUpdating = "OnProductUpdating";
+        public const string OnProductUpdated = "OnProductUpdated";
+        public const string OnProductDeleting = "OnProductDeleting";
+        public const string OnProductDeleted = "OnProductDeleted";
+        public const string OnProductPublished = "OnProductPublished";
         #endregion
     }
 }

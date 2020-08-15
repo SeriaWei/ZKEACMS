@@ -203,15 +203,7 @@ namespace ZKEACMS.Page
                 item.ReferencePageID = item.ID;
                 PublishAsNew(item);
             });
-            const int keepVersions = 6;
-            var allPublishedVersion = Get(m => m.ReferencePageID == pageId && m.IsPublishedPage == true).OrderByDescending(m => m.PublishDate).ToList();
-            if (allPublishedVersion.Count > keepVersions)
-            {
-                for (int i = keepVersions; i < allPublishedVersion.Count; i++)
-                {
-                    DeleteVersion(allPublishedVersion[i].ID);
-                }
-            }
+            
             _eventManager.Trigger(Events.OnPagePublished, item);
         }
 
