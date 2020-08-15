@@ -4,30 +4,26 @@
  */
 
 using Easy;
-using Easy.Constant;
 using Easy.Extend;
 using Easy.RepositoryPattern;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using ZKEACMS.DataArchived;
-using ZKEACMS.ExtendField;
-using ZKEACMS.Widget;
-using Microsoft.EntityFrameworkCore;
-using ZKEACMS.Zone;
-using ZKEACMS.Layout;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using ZKEACMS.Extend;
 using ZKEACMS.Event;
+using ZKEACMS.Extend;
+using ZKEACMS.Layout;
+using ZKEACMS.Widget;
+using ZKEACMS.Zone;
 
 namespace ZKEACMS.Page
 {
     public class PageService : ServiceBase<PageEntity, CMSDbContext>, IPageService
     {
         private readonly IWidgetBasePartService _widgetService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWidgetActivator _widgetActivator;
         private readonly IZoneService _zoneService;
         private readonly ILayoutHtmlService _layoutHtmlService;
@@ -36,7 +32,6 @@ namespace ZKEACMS.Page
         private Dictionary<string, IEnumerable<PageEntity>> _cachedPage;
         public PageService(IWidgetBasePartService widgetService,
             IApplicationContext applicationContext,
-            IHttpContextAccessor httpContextAccessor,
             IWidgetActivator widgetActivator,
             IZoneService zoneService,
             ILayoutHtmlService layoutHtmlService,
@@ -46,7 +41,6 @@ namespace ZKEACMS.Page
             : base(applicationContext, dbContext)
         {
             _widgetService = widgetService;
-            _httpContextAccessor = httpContextAccessor;
             _widgetActivator = widgetActivator;
             _zoneService = zoneService;
             _layoutHtmlService = layoutHtmlService;
@@ -116,6 +110,39 @@ namespace ZKEACMS.Page
             }
         }
 
+
+        private void PublishAsNew(PageEntity item)
+        {
+            if (item.ID.IsNullOrWhiteSpace()) throw new Exception("Can not publish page while it is new.");
+
+            item.IsPublishedPage = true;
+            item.PublishDate = DateTime.Now;
+            var zones = _zoneService.GetByPage(item);
+            var layoutHtmls = _layoutHtmlService.GetByPage(item);
+            var widgets = _widgetService.GetByPageId(item.ID);
+            Add(item);
+            zones.Each(m =>
+            {
+                m.PageId = item.ID;
+                _zoneService.Add(m);
+            });
+            layoutHtmls.Each(m =>
+            {
+                m.PageId = item.ID;
+                _layoutHtmlService.Add(m);
+            });
+            widgets.Each(m =>
+            {
+                using (var widgetService = _widgetActivator.Create(m))
+                {
+                    m = widgetService.GetWidget(m);
+                    m.PageID = item.ID;
+                    widgetService.IsNeedNotifyChange = false;
+                    widgetService.Publish(m);
+                }
+            });
+        }
+
         public override DbSet<PageEntity> CurrentDbSet
         {
             get { return DbContext.Page; }
@@ -162,37 +189,8 @@ namespace ZKEACMS.Page
                 item.IsPublish = true;
                 item.PublishDate = DateTime.Now;
                 base.Update(item);
-
-                var zones = _zoneService.GetByPage(item);
-                var layoutHtmls = _layoutHtmlService.GetByPage(item);
-
-
                 item.ReferencePageID = item.ID;
-                item.IsPublishedPage = true;
-                item.PublishDate = DateTime.Now;
-
-                var widgets = _widgetService.GetByPageId(item.ID);
-                Add(item);
-                zones.Each(m =>
-                {
-                    m.PageId = item.ID;
-                    _zoneService.Add(m);
-                });
-                layoutHtmls.Each(m =>
-                {
-                    m.PageId = item.ID;
-                    _layoutHtmlService.Add(m);
-                });
-                widgets.Each(m =>
-                {
-                    using (var widgetService = _widgetActivator.Create(m))
-                    {
-                        m = widgetService.GetWidget(m);
-                        m.PageID = item.ID;
-                        widgetService.IsNeedNotifyChange = false;
-                        widgetService.Publish(m);
-                    }
-                });
+                PublishAsNew(item);
             });
             const int keepVersions = 6;
             var allPublishedVersion = Get(m => m.ReferencePageID == pageId && m.IsPublishedPage == true).OrderByDescending(m => m.PublishDate).ToList();
@@ -203,35 +201,22 @@ namespace ZKEACMS.Page
                     DeleteVersion(allPublishedVersion[i].ID);
                 }
             }
-            _widgetService.RemoveCache(pageId);
-            _zoneService.RemoveCache(pageId);
-            _layoutHtmlService.RemoveCache(pageId);
             _eventManager.Trigger(Events.OnPagePublished, item);
         }
+
+
         public void Revert(string ID, bool RetainLatest)
         {
+            var page = Get(ID);
             BeginTransaction(() =>
             {
-                var page = Get(ID);
                 if (page.IsPublishedPage)
                 {
                     var refPage = Get(page.ReferencePageID);
                     refPage.IsPublish = false;
                     Update(refPage);
                     page.Description = _localize.Get("Revert from version: {0:g}").FormatWith(page.PublishDate);
-                    page.PublishDate = DateTime.Now;
-                    Add(page);
-
-                    var widgets = _widgetService.GetByPageId(ID);
-                    widgets.Each(m =>
-                    {
-                        var widgetService = _widgetActivator.Create(m);
-                        m = widgetService.GetWidget(m);
-                        m.PageID = page.ID;
-                        widgetService.IsNeedNotifyChange = false;
-                        widgetService.Publish(m);
-                    });
-                    _widgetService.RemoveCache(page.ReferencePageID);
+                    PublishAsNew(page);
                     if (!RetainLatest)
                     {//清空当前的所有修改
 
@@ -261,20 +246,14 @@ namespace ZKEACMS.Page
                             widgetService.Publish(m);
                         });
                     }
-
-                    _zoneService.RemoveCache(page.ReferencePageID);
-                    _layoutHtmlService.RemoveCache(page.ReferencePageID);
                 }
             });
-
+            _eventManager.Trigger(Events.OnPagePublished, page);
         }
 
         public override void Remove(PageEntity item)
         {
             Remove(m => m.ID == item.ID);
-            _widgetService.RemoveCache(item.ID);
-            _zoneService.RemoveCache(item.ID);
-            _layoutHtmlService.RemoveCache(item.ID);
         }
 
         public override void Remove(Expression<Func<PageEntity, bool>> filter)
@@ -306,7 +285,7 @@ namespace ZKEACMS.Page
                     _layoutHtmlService.Remove(m => allPageIds.Contains(m.PageId));
                     _zoneService.Remove(m => allPageIds.Contains(m.PageId));
 
-                    allPages.Each(p => _widgetService.RemoveCache(p.ID));
+                    allPages.Each(p => _eventManager.Trigger(Events.OnPageDeleted, p));
 
                     base.RemoveRange(allPages.ToArray());
                 }
@@ -335,9 +314,9 @@ namespace ZKEACMS.Page
 
         public void DeleteVersion(string ID)
         {
+            PageEntity page = Get(ID);
             BeginTransaction(() =>
             {
-                PageEntity page = Get(ID);
                 if (page != null)
                 {
                     var widgets = _widgetService.GetByPageId(page.ID);
@@ -349,11 +328,12 @@ namespace ZKEACMS.Page
                             widgetService.DeleteWidget(m.ID);
                         }
                     });
-                    _widgetService.RemoveCache(ID);
+                    _layoutHtmlService.Remove(m => m.PageId == ID);
+                    _zoneService.Remove(m => m.PageId == ID);
                 }
                 base.Remove(page);
             });
-
+            _eventManager.Trigger(Events.OnPageDeleted, page);
         }
 
         public void Move(string id, int position, int oldPosition)
