@@ -1,8 +1,7 @@
 /* http://www.zkea.net/ 
- * Copyright 2017 ZKEASOFT 
- * http://www.zkea.net/licenses 
- *
- */
+ * Copyright 2020 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
 using Microsoft.Extensions.DependencyInjection;
@@ -67,6 +66,7 @@ namespace ZKEACMS.Sitemap
             serviceCollection.AddTransient<ISiteUrlProvider, PageSiteUrlProvider>();
             serviceCollection.AddTransient<ISiteUrlProvider, ProductPageSiteUrlProvider>();
             serviceCollection.AddTransient<ISiteUrlProvider, ArticlePageSiteUrlProvider>();
+            serviceCollection.AddTransient<IBlockUrlService, BlockUrlService>();
         }
     }
 }

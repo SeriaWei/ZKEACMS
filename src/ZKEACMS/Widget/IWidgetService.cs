@@ -6,12 +6,13 @@ using ZKEACMS.Page;
 using Microsoft.AspNetCore.Http;
 using System;
 using Microsoft.AspNetCore.Mvc;
+using ZKEACMS.Event;
 
 namespace ZKEACMS.Widget
 {
     public interface IWidgetBasePartService : IService<WidgetBasePart>
     {
-        bool IsNeedNotifyChange { get; set; }
+        IEventManager EventManager { get; }
         IEnumerable<WidgetBase> GetByLayoutId(string layoutId);
         IEnumerable<WidgetBase> GetByPageId(string pageId);
         IEnumerable<WidgetBase> GetAllByPage(PageEntity page);

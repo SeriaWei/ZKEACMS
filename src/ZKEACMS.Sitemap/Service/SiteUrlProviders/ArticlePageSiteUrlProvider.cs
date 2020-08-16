@@ -1,3 +1,7 @@
+/* http://www.zkea.net/ 
+ * Copyright 2020 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -11,39 +15,24 @@ namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
 {
     public class ArticlePageSiteUrlProvider : ISiteUrlProvider
     {
-        private readonly SitemapDbContext _sitemapDbContext;
-        private readonly IArticleService _articleService;
-        private readonly IArticleTypeService _articleTypeService;
+        private readonly IArticleUrlService _articleUrlService;
 
-        public ArticlePageSiteUrlProvider(SitemapDbContext sitemapDbContext, IArticleService articleService, IArticleTypeService articleTypeService)
+        public ArticlePageSiteUrlProvider(IArticleUrlService articleUrlService)
         {
-            _sitemapDbContext = sitemapDbContext;
-            _articleService = articleService;
-            _articleTypeService = articleTypeService;
+            _articleUrlService = articleUrlService;
         }
+
         public IEnumerable<SiteUrl> Get()
         {
-            HashSet<string> excuted = new HashSet<string>();
-            foreach (var item in _sitemapDbContext.ArticleListWidget.ToList())
+            foreach (var item in _articleUrlService.GetAllPublicUrls())
             {
-                string typeDetail = $"{item.DetailPageUrl}-{item.ArticleTypeID}";
-                if (item.DetailPageUrl.IsNotNullAndWhiteSpace() && !excuted.Contains(typeDetail))
+                yield return new SiteUrl
                 {
-                    var ids = _articleTypeService.Get(m => m.ID == item.ArticleTypeID || m.ParentID == item.ArticleTypeID).Select(m => m.ID).ToList();
-                    var articles = _articleService.Get(m => m.IsPublish && ids.Contains(m.ArticleTypeID ?? 0));
-                    foreach (var article in articles)
-                    {
-                        string post = article.Url.IsNullOrWhiteSpace() ? $"post-{article.ID}" : article.Url;
-                        yield return new SiteUrl
-                        {
-                            Url = $"{item.DetailPageUrl.Replace("~/", "/")}/{post}.html",
-                            ModifyDate = article.LastUpdateDate ?? DateTime.Now,
-                            Changefreq = "daily",
-                            Priority = 0.5F
-                        };
-                    }
-                    excuted.Add(typeDetail);
-                }
+                    Url = item.Url.Replace("~/", "/"),
+                    ModifyDate = item.Article.LastUpdateDate ?? DateTime.Now,
+                    Changefreq = "daily",
+                    Priority = 0.5F
+                };
             }
         }
     }
