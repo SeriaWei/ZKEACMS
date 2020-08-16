@@ -1,3 +1,7 @@
+/* http://www.zkea.net/ 
+ * Copyright 2020 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +17,7 @@ namespace ZKEACMS.Sitemap
         public SitemapDbContext(DbContextOptions<SitemapDbContext> options) : base(options)
         {
         }
-        internal DbSet<ArticleListWidget> ArticleListWidget { get; set; }
         internal DbSet<ArticleDetailWidget> ArticleDetailWidget { get; set; }
-        internal DbSet<ProductListWidget> ProductListWidget { get; set; }
         internal DbSet<ProductDetailWidget> ProductDetailWidget { get; set; }
     }
 }

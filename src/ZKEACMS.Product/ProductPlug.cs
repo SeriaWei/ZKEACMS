@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2020 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using System;
 using System.Collections.Generic;
 using Easy.Mvc.Resource;
@@ -124,7 +127,7 @@ namespace ZKEACMS.Product
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
-            
+
             serviceCollection.AddTransient<IRouteDataProvider, ProductRouteDataProvider>();
             serviceCollection.AddTransient<IRouteDataProvider, ProductCategoryRouteDataProvider>();
 
@@ -133,6 +136,8 @@ namespace ZKEACMS.Product
             serviceCollection.AddTransient<IProductCategoryTagService, ProductCategoryTagService>();
             serviceCollection.AddTransient<IProductTagService, ProductTagService>();
             serviceCollection.AddTransient<IProductImageService, ProductImageService>();
+            serviceCollection.AddTransient<IProductUrlService, ProductUrlService>();
+            serviceCollection.AddTransient<IProductListWidgetService, ProductListWidgetService>();
 
             serviceCollection.Configure<ProductListWidget>(option =>
             {
@@ -149,6 +154,6 @@ namespace ZKEACMS.Product
             serviceCollection.ConfigureMetaData<ProductDetailWidget, ProductDetailWidgetMetaData>();
             serviceCollection.ConfigureMetaData<ProductListWidget, ProductListWidgetMetaData>();
         }
-        
+
     }
 }
