@@ -11,6 +11,6 @@ namespace ZKEACMS.FormGenerator
 {
     public class Events
     {
-        public const string OnFormDataSubmitted = "OnFormDataSubmitted";
+        public const string OnFormDataSubmitted = "ZKEACMS.FormGenerator.Events.OnFormDataSubmitted";
     }
 }

@@ -7,45 +7,45 @@ namespace ZKEACMS.Event
     public class Events
     {
         #region Page
-        public const string OnPageAdding = "OnPageAdding";
-        public const string OnPageAdded = "OnPageAdded";
-        public const string OnPageUpdating = "OnPageUpdating";
-        public const string OnPageUpdated = "OnPageUpdated";
-        public const string OnPageExecuting = "OnPageExecuting";
-        public const string OnPageExecuted = "OnPageExecuted";
-        public const string OnPagePublishing = "OnPagePublishing";
-        public const string OnPagePublished = "OnPagePublished";
-        public const string OnPageDeleted = "OnPageDeleted";
+        public const string OnPageAdding = "ZKEACMS.Events.OnPageAdding";
+        public const string OnPageAdded = "ZKEACMS.Events.OnPageAdded";
+        public const string OnPageUpdating = "ZKEACMS.Events.OnPageUpdating";
+        public const string OnPageUpdated = "ZKEACMS.Events.OnPageUpdated";
+        public const string OnPageExecuting = "ZKEACMS.Events.OnPageExecuting";
+        public const string OnPageExecuted = "ZKEACMS.Events.OnPageExecuted";
+        public const string OnPagePublishing = "ZKEACMS.Events.OnPagePublishing";
+        public const string OnPagePublished = "ZKEACMS.Events.OnPagePublished";
+        public const string OnPageDeleted = "ZKEACMS.Events.OnPageDeleted";
         #endregion
 
         #region Widget
-        public const string OnWidgetAdding = "OnWidgetAdding";
-        public const string OnWidgetAdded = "OnWidgetAdded";
-        public const string OnWidgetUpdating = "OnWidgetUpdating";
-        public const string OnWidgetUpdated = "OnWidgetUpdated";
-        public const string OnWidgetBasePartUpdated = "OnWidgetBasePartUpdated";
-        public const string OnWidgetDeleting = "OnWidgetDeleting";
-        public const string OnWidgetDeleted = "OnWidgetDeleted";
+        public const string OnWidgetAdding = "ZKEACMS.Events.OnWidgetAdding";
+        public const string OnWidgetAdded = "ZKEACMS.Events.OnWidgetAdded";
+        public const string OnWidgetUpdating = "ZKEACMS.Events.OnWidgetUpdating";
+        public const string OnWidgetUpdated = "ZKEACMS.Events.OnWidgetUpdated";
+        public const string OnWidgetBasePartUpdated = "ZKEACMS.Events.OnWidgetBasePartUpdated";
+        public const string OnWidgetDeleting = "ZKEACMS.Events.OnWidgetDeleting";
+        public const string OnWidgetDeleted = "ZKEACMS.Events.OnWidgetDeleted";
         #endregion
 
         #region Article
-        public const string OnArticleAdding = "OnArticleAdding";
-        public const string OnArticleAdded = "OnArticleAdded";
-        public const string OnArticleUpdating = "OnArticleUpdating";
-        public const string OnArticleUpdated = "OnArticleUpdated";
-        public const string OnArticleDeleting = "OnArticleDeleting";
-        public const string OnArticleDeleted = "OnArticleDeleted";
-        public const string OnArticlePublished = "OnArticlePublished";
+        public const string OnArticleAdding = "ZKEACMS.Events.OnArticleAdding";
+        public const string OnArticleAdded = "ZKEACMS.Events.OnArticleAdded";
+        public const string OnArticleUpdating = "ZKEACMS.Events.OnArticleUpdating";
+        public const string OnArticleUpdated = "ZKEACMS.Events.OnArticleUpdated";
+        public const string OnArticleDeleting = "ZKEACMS.Events.OnArticleDeleting";
+        public const string OnArticleDeleted = "ZKEACMS.Events.OnArticleDeleted";
+        public const string OnArticlePublished = "ZKEACMS.Events.OnArticlePublished";
         #endregion
 
         #region Product
-        public const string OnProductAdding = "OnProductAdding";
-        public const string OnProductAdded = "OnProductAdded";
-        public const string OnProductUpdating = "OnProductUpdating";
-        public const string OnProductUpdated = "OnProductUpdated";
-        public const string OnProductDeleting = "OnProductDeleting";
-        public const string OnProductDeleted = "OnProductDeleted";
-        public const string OnProductPublished = "OnProductPublished";
+        public const string OnProductAdding = "ZKEACMS.Events.OnProductAdding";
+        public const string OnProductAdded = "ZKEACMS.Events.OnProductAdded";
+        public const string OnProductUpdating = "ZKEACMS.Events.OnProductUpdating";
+        public const string OnProductUpdated = "ZKEACMS.Events.OnProductUpdated";
+        public const string OnProductDeleting = "ZKEACMS.Events.OnProductDeleting";
+        public const string OnProductDeleted = "ZKEACMS.Events.OnProductDeleted";
+        public const string OnProductPublished = "ZKEACMS.Events.OnProductPublished";
         #endregion
     }
 }

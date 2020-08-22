@@ -13,7 +13,7 @@ namespace ZKEACMS.Message
 {
     public class Events
     {
-        public const string OnMessageSubmitted = "OnMessageSubmitted";
-        public const string OnCommentsSubmitted = "OnMessageSubmitted";
+        public const string OnMessageSubmitted = "ZKEACMS.Message.Events.OnMessageSubmitted";
+        public const string OnCommentsSubmitted = "ZKEACMS.Message.Events.OnMessageSubmitted";
     }
 }
