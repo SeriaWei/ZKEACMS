@@ -147,7 +147,7 @@ namespace ZKEACMS.FormGenerator.Service
             if (!result.HasViolation)
             {
                 FormData data = Get(formData.ID);
-                _eventManager.Trigger(Events.OnFormDataSubmited, data);
+                _eventManager.Trigger(Events.OnFormDataSubmitted, data);
             }
             return result;
         }

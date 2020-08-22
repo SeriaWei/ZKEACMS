@@ -13,12 +13,12 @@ using ZKEACMS.FormGenerator.Models;
 
 namespace ZKEACMS.FormGenerator.EventHandler
 {
-    public class NotifyOnFormDataSubmitedEventHandler : IEventHandler
+    public class NotifyOnFormDataSubmittedEventHandler : IEventHandler
     {
         private readonly INotificationManager _notificationManager;
         private readonly ILocalize _localize;
 
-        public NotifyOnFormDataSubmitedEventHandler(INotificationManager notificationManager, ILocalize localize)
+        public NotifyOnFormDataSubmittedEventHandler(INotificationManager notificationManager, ILocalize localize)
         {
             _notificationManager = notificationManager;
             _localize = localize;

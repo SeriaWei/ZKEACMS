@@ -122,7 +122,7 @@ namespace ZKEACMS.FormGenerator
             serviceCollection.ConfigureMetaData<FormData, FormDataMetaData>();
             serviceCollection.ConfigureMetaData<FormWidget, FormWidgetMetaData>();
 
-            serviceCollection.RegistEvent<NotifyOnFormDataSubmitedEventHandler>(Events.OnFormDataSubmited);
+            serviceCollection.RegistEvent<NotifyOnFormDataSubmittedEventHandler>(Events.OnFormDataSubmitted);
 
             serviceCollection.Configure<FormWidget>(option =>
             {
