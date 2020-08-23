@@ -28,7 +28,7 @@ namespace ZKEACMS.Shop.Models
         public int ProductId { get; set; }
         public string PromoCode { get; set; }
 
-        public OrderItem ToOrderItem(string orderid)
+        public OrderItem ToOrderItem()
         {
             return new OrderItem
             {
@@ -38,7 +38,6 @@ namespace ZKEACMS.Shop.Models
                 Price = Price,
                 ProductId = ProductId,
                 PromoCode = PromoCode,
-                OrderId = orderid,
                 Title = Title,
                 Description = Description
             };

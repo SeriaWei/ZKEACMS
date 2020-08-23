@@ -52,6 +52,9 @@ namespace ZKEACMS.Shop.Models
             }
             return "Complete";
         }
+
+        [NotMapped]
+        public IEnumerable<OrderItem> OrderItems { get; set; }
     }
     class OrderMetaData : ViewMetaData<Order>
     {
@@ -76,6 +79,7 @@ namespace ZKEACMS.Shop.Models
             ViewConfig(m => m.Refund).AsTextBox().RegularExpression(Easy.Constant.RegularExpression.Float);
             ViewConfig(m => m.RefundReason).AsTextBox();
             ViewConfig(m => m.RefundDate).AsTextBox().ReadOnly();
+            ViewConfig(m => m.OrderItems).AsHidden().Ignore();
         }
     }
 }

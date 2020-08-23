@@ -16,6 +16,7 @@ using Easy.Extend;
 using Newtonsoft.Json;
 using Easy.Mvc.Authorize;
 using ZKEACMS.DataArchived;
+using Easy.Mvc.ViewResult;
 
 namespace ZKEACMS.Shop.Controllers
 {
@@ -23,26 +24,27 @@ namespace ZKEACMS.Shop.Controllers
     {
         private readonly IAlipayService _alipayService;
         private readonly IOrderService _orderService;
-        private readonly IOrderItemService _orderItemService;
         private readonly IHostOptionProvider _hostOptionProvider;
         public AliPayController(IAlipayService alipayService,
             IOrderService orderService,
-            IOrderItemService orderItemService,
             IHostOptionProvider hostOptionProvider)
         {
             _alipayService = alipayService;
             _orderService = orderService;
-            _orderItemService = orderItemService;
             _hostOptionProvider = hostOptionProvider;
         }
 
         public IActionResult Pay(string orderId)
         {
+            if (orderId.IsNullOrWhiteSpace())
+            {
+                return new HttpBadRequestResult();
+            }
             var order = _orderService.Get(orderId);
-            var items = _orderItemService.Get(m => m.OrderId == orderId);
+            var items = order.OrderItems;
             if (!items.Any())
             {
-                return Redirect("~/");
+                return new HttpBadRequestResult();
             }
             AlipayTradePagePayModel model = new AlipayTradePagePayModel
             {
@@ -60,7 +62,7 @@ namespace ZKEACMS.Shop.Controllers
             request.SetNotifyUrl($"{_hostOptionProvider.GetOrigin()}/AliPay/Notify");
             request.SetBizModel(model);
             var response = _alipayService.SdkExecute(request);
-
+            order.PaymentGateway = Gateways.AliPay;
             _orderService.BeginPay(order);
 
             return Redirect(_alipayService.Options.Gatewayurl + "?" + response.Body);
