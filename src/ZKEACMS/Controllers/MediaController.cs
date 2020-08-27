@@ -168,6 +168,41 @@ namespace ZKEACMS.Controllers
             }
             return Json(false);
         }
+
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
+        public IActionResult UploadBlob()
+        {
+            if (Request.Form.Files.Count > 0)
+            {
+                string parentId = Service.GetImageFolder().ID;
+                string fileName = Path.GetFileName(Request.Form.Files[0].FileName);
+                if (fileName != "image.png")
+                {
+                    var old = Service.Get(Path.GetFileNameWithoutExtension(fileName));
+                    if (old != null)
+                    {
+                        Request.DeleteFile(old.Url);
+                        Service.Remove(old);
+                    }
+                }
+
+                var url = Request.SaveImage();
+
+                var entity = new MediaEntity
+                {
+                    ID = Path.GetFileNameWithoutExtension(url),
+                    ParentID = parentId,
+                    MediaType = (int)MediaType.Image,
+                    Title = fileName,
+                    Status = (int)RecordStatus.Active,
+                    Url = url
+                };
+                Service.Add(entity);
+                return Json(new { location = Url.Content(entity.Url) });
+            }
+            return Json(null);
+        }
+
         [DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
         public override IActionResult Delete(string ids)
         {
@@ -226,7 +261,7 @@ namespace ZKEACMS.Controllers
                     {
                         ext = ".jpg";
                     }
-                    string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
+                    string fileName = string.Format("{0}{1}", new Easy.IDGenerator().CreateStringId(), ext);
                     try
                     {
                         using (MD5 md5hash = MD5.Create())
@@ -272,6 +307,11 @@ namespace ZKEACMS.Controllers
                 sBuilder.Append(data[i].ToString("x2"));
             }
             return sBuilder.ToString();
+        }
+
+        public IActionResult Proxy(string url)
+        {
+            return File(_webClient.OpenRead(url), "image/jpeg");
         }
 
         protected override void Dispose(bool disposing)

@@ -1,3 +1,7 @@
+/* http://www.zkea.net/ 
+ * Copyright 2020 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -11,38 +15,24 @@ namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
 {
     public class ProductPageSiteUrlProvider : ISiteUrlProvider
     {
-        private readonly SitemapDbContext _sitemapDbContext;
-        private readonly IProductService _productService;
-        private readonly IProductCategoryService _productCategoryService;
-        public ProductPageSiteUrlProvider(SitemapDbContext sitemapDbContext, IProductService productService, IProductCategoryService productCategoryService)
+        private readonly IProductUrlService _productUrlService;
+
+        public ProductPageSiteUrlProvider(IProductUrlService productUrlService)
         {
-            _sitemapDbContext = sitemapDbContext;
-            _productService = productService;
-            _productCategoryService = productCategoryService;
+            _productUrlService = productUrlService;
         }
+
         public IEnumerable<SiteUrl> Get()
         {
-            HashSet<string> excuted = new HashSet<string>();
-            foreach (var item in _sitemapDbContext.ProductListWidget.ToList())
+            foreach (var item in _productUrlService.GetAllPublicUrls())
             {
-                string typeDetail = $"{item.DetailPageUrl}-{item.ProductCategoryID}";
-                if (item.DetailPageUrl.IsNotNullAndWhiteSpace() && !excuted.Contains(typeDetail))
+                yield return new SiteUrl
                 {
-                    var ids = _productCategoryService.Get(m => m.ID == item.ProductCategoryID || m.ParentID == item.ProductCategoryID).Select(m => m.ID).ToList();
-                    var products = _productService.Get(m => m.IsPublish && ids.Contains(m.ProductCategoryID));
-                    foreach (var product in products)
-                    {
-                        string post = product.Url.IsNullOrWhiteSpace() ? $"post-{product.ID}" : product.Url;
-                        yield return new SiteUrl
-                        {
-                            Url = $"{item.DetailPageUrl.Replace("~/", "/")}/{post}.html",
-                            ModifyDate = product.LastUpdateDate ?? DateTime.Now,
-                            Changefreq = "weekly",
-                            Priority = 0.5F
-                        };
-                    }
-                    excuted.Add(typeDetail);
-                }
+                    Url = item.Url.Replace("~/", "/"),
+                    ModifyDate = item.Product.LastUpdateDate ?? DateTime.Now,
+                    Changefreq = "weekly",
+                    Priority = 0.5F
+                };
             }
         }
     }

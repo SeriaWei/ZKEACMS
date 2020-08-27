@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2020 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using Easy;
 using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +19,7 @@ using Easy.Extend;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleListWidgetService : WidgetService<ArticleListWidget>
+    public class ArticleListWidgetService : WidgetService<ArticleListWidget>, IArticleListWidgetService
     {
         private readonly IArticleTypeService _articleTypeService;
         private readonly IArticleService _articleService;

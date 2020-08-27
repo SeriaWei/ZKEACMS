@@ -323,7 +323,8 @@ CREATE TABLE [dbo].[CMS_Redirection](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+	[IsPattern] [bit] NULL
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1977,7 +1978,7 @@ INSERT [dbo].[CMS_Page] ([ID], [ReferencePageID], [IsPublishedPage], [ParentId],
 INSERT [dbo].[CMS_Page] ([ID], [ReferencePageID], [IsPublishedPage], [ParentId], [PageName], [IsHomePage], [Url], [LayoutId], [Title], [Content], [DisplayOrder], [Description], [Status], [IsPublish], [PublishDate], [MetaKeyWorlds], [MetaDescription], [Script], [Style], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'e371628aa3ff46c3a167f121c7a3f32b', NULL, 0, N'#', N'文章', 0, N'~/article', N'0846a33e56bf45d5aae602ef40d87444', N'文章', NULL, 3, NULL, 1, 1, CAST(N'2017-10-15T18:11:44.940' AS DateTime), NULL, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-09T12:45:01.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:11:44.940' AS DateTime))
 SET IDENTITY_INSERT [dbo].[CMS_Redirection] ON 
 
-INSERT [dbo].[CMS_Redirection] ([ID], [Title], [InComingUrl], [DestinationURL], [IsPermanent], [Description], [Status], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (1, N'默认', N'~/', N'~/index', 0, NULL, 1, N'admin', N'ZKEASOFT', CAST(N'2017-08-14T14:58:06.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-08-14T15:53:01.387' AS DateTime))
+INSERT [dbo].[CMS_Redirection] ([ID], [Title], [InComingUrl], [DestinationURL], [IsPermanent], [Description], [Status], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [IsPattern]) VALUES (1, N'默认', N'~/', N'~/index', 0, NULL, 1, N'admin', N'ZKEASOFT', CAST(N'2017-08-14T14:58:06.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2020-08-01T22:21:26.837' AS DateTime), 0)
 SET IDENTITY_INSERT [dbo].[CMS_Redirection] OFF
 SET IDENTITY_INSERT [dbo].[CMS_Rule] ON 
 
@@ -5222,6 +5223,7 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@InComingUrl', N'en-GB', N'In Coming Url', N'UrlRedirect', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@InComingUrl', N'en-US', N'In Coming Url', N'UrlRedirect', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@InComingUrl', N'zh-CN', N'访问地址', N'UrlRedirect', N'EntityProperty')
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@IsPattern', N'zh-CN', N'使用正则表达式？', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@IsPermanent', N'en-GB', N'Is Permanent', N'UrlRedirect', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@IsPermanent', N'en-US', N'Is Permanent', N'UrlRedirect', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UrlRedirect@IsPermanent', N'zh-CN', N'永久？', N'UrlRedirect', N'EntityProperty')
@@ -5291,8 +5293,8 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@LastUpdateByName', N'zh-CN', N'更新人', N'UserEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@LastUpdateDate', N'en-GB', N'Last Update Date', N'UserEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@LastUpdateDate', N'en-US', N'Last Update Date', N'UserEntity', N'EntityProperty')
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@LastUpdateDate', N'zh-CN', N'更新日期', N'UserEntity', N'EntityProperty')
 GO
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@LastUpdateDate', N'zh-CN', N'更新日期', N'UserEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@LoginIP', N'zh-CN', N'LoginIP', N'UserEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@MaritalStatus', N'en-GB', N'Marital Status', N'UserEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'UserEntity@MaritalStatus', N'en-US', N'Marital Status', N'UserEntity', N'EntityProperty')
@@ -5392,8 +5394,8 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'VideoWidget@Height', N'zh-CN', N'高度(px)', N'VideoWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'VideoWidget@ID', N'zh-CN', N'ID', N'VideoWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'VideoWidget@IsSystem', N'zh-CN', N'IsSystem', N'VideoWidget', N'EntityProperty')
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'VideoWidget@IsTemplate', N'zh-CN', N'保存为模板', N'VideoWidget', N'EntityProperty')
 GO
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'VideoWidget@IsTemplate', N'zh-CN', N'保存为模板', N'VideoWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'VideoWidget@LastUpdateBy', N'zh-CN', N'LastUpdateBy', N'VideoWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'VideoWidget@LastUpdateByName', N'zh-CN', N'LastUpdateByName', N'VideoWidget', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'VideoWidget@LastUpdateDate', N'zh-CN', N'LastUpdateDate', N'VideoWidget', N'EntityProperty')
@@ -5493,8 +5495,8 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetBase@CustomStyle', N'zh-CN', N'CustomStyle', N'WidgetBase', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetBase@Description', N'zh-CN', N'描述', N'WidgetBase', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetBase@ExtendFields', N'zh-CN', N'扩展属性', N'WidgetBase', N'EntityProperty')
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetBase@FormView', N'zh-CN', N'FormView', N'WidgetBase', N'EntityProperty')
 GO
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetBase@FormView', N'zh-CN', N'FormView', N'WidgetBase', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetBase@ID', N'zh-CN', N'ID', N'WidgetBase', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetBase@IsSystem', N'zh-CN', N'IsSystem', N'WidgetBase', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'WidgetBase@IsTemplate', N'zh-CN', N'保存为模板', N'WidgetBase', N'EntityProperty')
@@ -5594,8 +5596,8 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例二', N'en-GB', N'Image Caption', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例二', N'en-US', N'Image Caption', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例二（圆）', N'en-GB', N'Image Caption', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例二（圆）', N'en-US', N'Image Caption', NULL, NULL)
 GO
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例二（圆）', N'en-US', N'Image Caption', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片右', N'en-GB', N'Image Right', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片右', N'en-US', N'Image Right', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片右（圆）', N'en-GB', N'Image Right', NULL, NULL)
@@ -6005,7 +6007,7 @@ SET IDENTITY_INSERT [dbo].[UserRoleRelation] ON
 
 INSERT [dbo].[UserRoleRelation] ([ID], [RoleID], [UserID]) VALUES (5, 1, N'admin')
 SET IDENTITY_INSERT [dbo].[UserRoleRelation] OFF
-INSERT [dbo].[Users] ([UserID], [PassWord], [ApiLoginToken], [LastLoginDate], [LoginIP], [PhotoUrl], [Timestamp], [UserName], [UserTypeCD], [Address], [Age], [Birthday], [Birthplace], [Email], [EnglishName], [FirstName], [Hobby], [LastName], [MaritalStatus], [MobilePhone], [NickName], [Profession], [QQ], [School], [Sex], [Telephone], [ZipCode], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Status], [Description], [ResetToken], [ResetTokenDate]) VALUES (N'admin', N'8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', NULL, CAST(N'2020-03-21T20:24:28.157' AS DateTime), N'::1', N'~/images/head.png', 0, N'ZKEASOFT', 1, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, N'Admin', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, N'admin', N'Admin', CAST(N'2020-03-21T20:24:28.180' AS DateTime), 1, NULL, NULL, NULL)
+INSERT [dbo].[Users] ([UserID], [PassWord], [ApiLoginToken], [LastLoginDate], [LoginIP], [PhotoUrl], [Timestamp], [UserName], [UserTypeCD], [Address], [Age], [Birthday], [Birthplace], [Email], [EnglishName], [FirstName], [Hobby], [LastName], [MaritalStatus], [MobilePhone], [NickName], [Profession], [QQ], [School], [Sex], [Telephone], [ZipCode], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Status], [Description], [ResetToken], [ResetTokenDate]) VALUES (N'admin', N'8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', NULL, CAST(N'2020-08-01T22:21:07.537' AS DateTime), N'::1', N'~/images/head.png', 0, N'ZKEASOFT', 1, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, N'Admin', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, N'admin', N'Admin', CAST(N'2020-08-01T22:21:07.553' AS DateTime), 1, NULL, NULL, NULL)
 ALTER TABLE [dbo].[CMS_WidgetBase] ADD  CONSTRAINT [DF_CMS_WidgetBase_IsTemplate]  DEFAULT ((0)) FOR [IsTemplate]
 GO
 ALTER TABLE [dbo].[CMS_WidgetBase] ADD  CONSTRAINT [DF_CMS_WidgetBase_IsSystem]  DEFAULT ((0)) FOR [IsSystem]

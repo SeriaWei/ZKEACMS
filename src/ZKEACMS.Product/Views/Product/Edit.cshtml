@@ -2,19 +2,24 @@
 @{
     Script.Reqiured("validate").AtFoot();
     Script.Reqiured("tinymce").AtFoot();
+    string publicUrl = productUrlService.GetPublicUrl(Model.ID).FirstOrDefault();
 }
-
+@inject ZKEACMS.Product.Service.IProductUrlService productUrlService
 <div class="panel panel-default">
     <div class="panel-heading">
         @L("Edit")
-        <span class="badge pull-right">
+        <span class="pull-right">
             @if (!Model.IsPublish)
             {
-                @L("Unpublished")
+                <span class="badge">
+                    @L("Unpublished")
+                </span>
             }
             else
             {
-                @L("Published")
+                <a href="@Url.PathContent(publicUrl)" target="_blank" class="badge">
+                    @L("Published")
+                </a>
             }
         </span>
     </div>
