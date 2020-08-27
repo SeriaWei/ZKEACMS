@@ -20,12 +20,14 @@ namespace ZKEACMS.Shop.Service
         public OrderService(IApplicationContext applicationContext, IOrderItemService orderItemService,
             IEnumerable<IPaymentService> paymentServices,
             ILocalize localize,
+            IEventManager eventManager,
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _orderItemService = orderItemService;
             _paymentServices = paymentServices;
             _localize = localize;
+            _eventManager = eventManager;
         }
 
         public override Order Get(params object[] primaryKey)
