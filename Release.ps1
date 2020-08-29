@@ -11,7 +11,8 @@ if(Test-path $destination) {
 }
 Invoke-Expression("dotnet restore")
 Set-Location src/ZKEACMS.WebHost
-Invoke-Expression("publish-zkeacms")
+Invoke-Expression("dotnet tool restore")
+Invoke-Expression("dotnet tool run publish-zkeacms")
 Set-Location ../../
 Write-Host "Copy files..."
 New-Item -Path "." -Name "Release" -ItemType "directory" -Force
