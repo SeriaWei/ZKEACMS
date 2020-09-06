@@ -2,6 +2,7 @@
  * Copyright 2020 ZKEASOFT 
  * http://www.zkea.net/licenses */
 
+using Easy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,7 +27,7 @@ namespace ZKEACMS.Sitemap.Service
             string[] articleDetailPages = _articleUrlService.GetDetailPages();
             foreach (var item in articleDetailPages)
             {
-                string url = item.Replace("~/", "/");
+                string url = Helper.Url.ToAbsolutePath(item);
                 if (!result.Contains(url))
                 {
                     result.Add(url);
@@ -36,7 +37,7 @@ namespace ZKEACMS.Sitemap.Service
             string[] productDetailPages = _productUrlService.GetDetailPages();
             foreach (var item in productDetailPages)
             {
-                string url = item.Replace("~/", "/");
+                string url = Helper.Url.ToAbsolutePath(item);
                 if (!result.Contains(url))
                 {
                     result.Add(url);
