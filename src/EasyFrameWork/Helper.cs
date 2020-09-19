@@ -4,6 +4,7 @@
 using Easy.Extend;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Easy
@@ -12,6 +13,12 @@ namespace Easy
     {
         public static class Url
         {
+            static string[] schemes = new string[] {
+                Uri.UriSchemeFile + ":", Uri.UriSchemeFtp + ":",Uri.UriSchemeGopher + ":",
+                Uri.UriSchemeHttp + ":", Uri.UriSchemeHttps + ":",Uri.UriSchemeMailto + ":",
+                Uri.UriSchemeNetPipe + ":",Uri.UriSchemeNetTcp + ":", Uri.UriSchemeNews + ":",
+                Uri.UriSchemeNntp + ":"
+            };
             public static string Combine(params string[] paths)
             {
                 return "~/" + string.Join("/", paths);
@@ -23,16 +30,15 @@ namespace Easy
                 {
                     return false;
                 }
-                return path.StartsWith(Uri.UriSchemeFile, StringComparison.OrdinalIgnoreCase) ||
-                    path.StartsWith(Uri.UriSchemeFtp, StringComparison.OrdinalIgnoreCase) ||
-                    path.StartsWith(Uri.UriSchemeGopher, StringComparison.OrdinalIgnoreCase) ||
-                    path.StartsWith(Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase) ||
-                    path.StartsWith(Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase) ||
-                    path.StartsWith(Uri.UriSchemeMailto, StringComparison.OrdinalIgnoreCase) ||
-                    path.StartsWith(Uri.UriSchemeNetPipe, StringComparison.OrdinalIgnoreCase) ||
-                    path.StartsWith(Uri.UriSchemeNetTcp, StringComparison.OrdinalIgnoreCase) ||
-                    path.StartsWith(Uri.UriSchemeNews, StringComparison.OrdinalIgnoreCase) ||
-                    path.StartsWith(Uri.UriSchemeNntp, StringComparison.OrdinalIgnoreCase);
+                foreach (var item in schemes)
+                {
+                    if (path.StartsWith(item))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
             }
             /// <summary>
             /// Convert path to start with "~/"
