@@ -17,9 +17,9 @@ namespace ZKEACMS.Message.Service
             : base(widgetBasePartService, applicationContext, dbContext)
         {
         }
-        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
+        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
-            return widget.ToWidgetViewModelPart(new MessageEntity());
+            return widgetDisplayContext.ToWidgetViewModelPart(new MessageEntity());
         }
     }
 }

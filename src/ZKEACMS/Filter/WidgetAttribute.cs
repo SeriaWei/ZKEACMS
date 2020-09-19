@@ -97,13 +97,17 @@ namespace ZKEACMS.Filter
                 }
                 layout.CurrentTheme = themeService.GetCurrentTheme();
                 layout.ZoneWidgets = new ZoneWidgetCollection();
-                filterContext.HttpContext.TrySetLayout(layout);
                 widgetService.GetAllByPage(page).Each(widget =>
                     {
                         if (widget != null)
                         {
                             IWidgetPartDriver partDriver = widgetActivator.Create(widget);
-                            WidgetViewModelPart part = partDriver.Display(widget, filterContext);
+                            WidgetViewModelPart part = partDriver.Display(new WidgetDisplayContext
+                            {
+                                PageLayout = layout,
+                                ActionContext = filterContext,
+                                Widget = widget
+                            });
                             if (part != null)
                             {
                                 if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID ?? UnknownZone))
@@ -134,7 +138,12 @@ namespace ZKEACMS.Filter
                         if (widget != null)
                         {
                             IWidgetPartDriver partDriver = widgetActivator.Create(widget);
-                            WidgetViewModelPart part = partDriver.Display(widget, filterContext);
+                            WidgetViewModelPart part = partDriver.Display(new WidgetDisplayContext
+                            {
+                                PageLayout = layout,
+                                ActionContext = filterContext,
+                                Widget = widget
+                            });
                             var zone = layout.Zones.FirstOrDefault(z => z.ZoneName == rules.First(m => m.RuleID == widget.RuleID).ZoneName);
                             if (part != null && zone != null)
                             {
@@ -165,7 +174,7 @@ namespace ZKEACMS.Filter
                 }
                 if (page.IsPublishedPage)
                 {
-                    eventManager.Trigger(Events.OnPageExecuted, page);
+                    eventManager.Trigger(Events.OnPageExecuted, layout);
                 }
 
                 layoutService.Dispose();

@@ -26,16 +26,16 @@ namespace ZKEACMS.Article.Service
             _articleTypeService = articleTypeService;
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
+        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
-            var currentWidget = widget as ArticleTopWidget;
+            var currentWidget = widgetDisplayContext.Widget as ArticleTopWidget;
             var viewModel = new ArticleTopWidgetViewModel
             {
                 Widget = currentWidget
             };
             var categoryIds = _articleTypeService.Get(m => m.ID == currentWidget.ArticleTypeID || m.ParentID == currentWidget.ArticleTypeID).Select(m => m.ID);
             viewModel.Articles = _articleService.Get(m => m.IsPublish && categoryIds.Contains(m.ArticleTypeID ?? 0)).OrderByDescending(m => m.PublishDate).Take(currentWidget.Tops ?? 10);
-            return widget.ToWidgetViewModelPart(viewModel);
+            return widgetDisplayContext.ToWidgetViewModelPart(viewModel);
         }
     }
 }

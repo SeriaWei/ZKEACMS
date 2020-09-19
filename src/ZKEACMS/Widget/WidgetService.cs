@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Event;
+using ZKEACMS.Page;
 
 namespace ZKEACMS.Widget
 {
@@ -28,7 +29,7 @@ namespace ZKEACMS.Widget
             WidgetBasePartService = widgetBasePartService;
         }
 
-        protected IWidgetBasePartService WidgetBasePartService { get; private set; }  
+        protected IWidgetBasePartService WidgetBasePartService { get; private set; }
         public override IQueryable<T> Get()
         {
             return CurrentDbSet.AsNoTracking();
@@ -157,16 +158,17 @@ namespace ZKEACMS.Widget
             }
             return result;
         }
+
         /// <summary>
         /// Display the specified widget.
         /// </summary>
         /// <returns>The widget view model</returns>
-        /// <param name="widget">Widget.</param>
-        /// <param name="actionContext">Action context.</param>
-        public virtual WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
+        /// <param name="widgetDisplayContext">WidgetDisplayContext.</param>
+        public virtual WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
-            return widget.ToWidgetViewModelPart();
+            return widgetDisplayContext.ToWidgetViewModelPart();
         }
+
 
         #region PartDrive
         public virtual void AddWidget(WidgetBase widget)

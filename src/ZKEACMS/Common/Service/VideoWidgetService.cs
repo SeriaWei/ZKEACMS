@@ -17,9 +17,9 @@ namespace ZKEACMS.Common.Service
         }
         public override DbSet<VideoWidget> CurrentDbSet => DbContext.VideoWidget;
 
-        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
+        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
-            VideoWidget videoWidget = widget as VideoWidget;
+            VideoWidget videoWidget = widgetDisplayContext.Widget as VideoWidget;
             if (!videoWidget.Height.HasValue)
             {
                 videoWidget.Height = 400;
@@ -31,7 +31,7 @@ namespace ZKEACMS.Common.Service
             {
                 videoWidget.Code = "<iframe style=\"width:100%;height:100%\" " + videoWidget.Code.Substring(8);
             }
-            return base.Display(widget, actionContext);
+            return widgetDisplayContext.ToWidgetViewModelPart();
         }
     }
 }

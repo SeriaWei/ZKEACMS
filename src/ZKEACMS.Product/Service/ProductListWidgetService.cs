@@ -73,10 +73,11 @@ namespace ZKEACMS.Product.Service
             }
             return widget;
         }
-        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
+        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
-            ProductListWidget currentWidget = widget as ProductListWidget;
+            ProductListWidget currentWidget = widgetDisplayContext.Widget as ProductListWidget;
             IEnumerable<ProductEntity> products = null;
+            var actionContext = widgetDisplayContext.ActionContext;
             int pageIndex = actionContext.RouteData.GetPage();
             int cate = actionContext.RouteData.GetCategory();
             var pagin = new Pagination
@@ -106,7 +107,7 @@ namespace ZKEACMS.Product.Service
                 products = _productService.Get().Where(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID).ToList();
             }
 
-            return widget.ToWidgetViewModelPart(new ProductListWidgetViewModel
+            return widgetDisplayContext.ToWidgetViewModelPart(new ProductListWidgetViewModel
             {
                 Products = products,
                 Page = pagin,

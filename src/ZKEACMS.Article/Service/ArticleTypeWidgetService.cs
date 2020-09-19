@@ -45,10 +45,11 @@ namespace ZKEACMS.Article.Service
             DismissRelatedPageUrls();
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
+        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
-            ArticleTypeWidget currentWidget = widget as ArticleTypeWidget;
+            ArticleTypeWidget currentWidget = widgetDisplayContext.Widget as ArticleTypeWidget;
             var types = _articleTypeService.Get(m => m.ParentID == currentWidget.ArticleTypeID);
+            var actionContext = widgetDisplayContext.ActionContext;
             int ac = actionContext.RouteData.GetCategory();
             ArticleType articleType = null;
             if (ac > 0)
@@ -64,7 +65,7 @@ namespace ZKEACMS.Article.Service
             }
             if (articleType != null && articleType.SEOTitle.IsNotNullAndWhiteSpace())
             {
-                var layout = actionContext.HttpContext.GetLayout();
+                var layout = widgetDisplayContext.PageLayout;
                 if (layout != null && layout.Page != null)
                 {
                     layout.Page.Title = articleType.SEOTitle;
@@ -72,7 +73,7 @@ namespace ZKEACMS.Article.Service
                     layout.Page.MetaDescription = articleType.SEODescription;
                 }
             }
-            return widget.ToWidgetViewModelPart(new ArticleTypeWidgetViewModel
+            return widgetDisplayContext.ToWidgetViewModelPart(new ArticleTypeWidgetViewModel
             {
                 ArticleTypes = types,
                 ArticleTypeID = ac

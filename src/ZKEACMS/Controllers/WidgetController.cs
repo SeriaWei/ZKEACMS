@@ -186,15 +186,14 @@ namespace ZKEACMS.Controllers
             WidgetViewModelPart widgetPart = null;
             if (page != null)
             {
-                var layout = HttpContext.RequestServices.GetService<Layout.ILayoutService>().Get(page.LayoutId);
+                var layout = HttpContext.RequestServices.GetService<Layout.ILayoutService>().GetByPage(page);
                 layout.Page = page;
-                ControllerContext.HttpContext.TrySetLayout(layout);
-
-                widgetPart = _widgetService.ApplyTemplate(widget, ControllerContext);
+                widgetPart = _widgetService.ApplyTemplate(layout, widget, ControllerContext);
             }
             if (widgetPart == null)
             {
-                widgetPart = new HtmlWidget { PartialView = "Widget.HTML", HTML = "<h1 class='text-danger'><hr/>Error<hr/></h1>" }.ToWidgetViewModelPart();
+                HtmlWidget errorWidget= new HtmlWidget { PartialView = "Widget.HTML", HTML = "<h1 class='text-danger'><hr/>Error<hr/></h1>" };
+                widgetPart = new WidgetViewModelPart { ViewModel = errorWidget, Widget = errorWidget };
             }
             return PartialView("AppendWidget", new DesignWidgetViewModel(widgetPart, widget.PageID));
         }
@@ -319,7 +318,10 @@ namespace ZKEACMS.Controllers
         public ActionResult PasteAndRedirect(WidgetBase widget, string ReturnUrl)
         {
             widget.ID = _cookie.GetValue<string>(Const.CopyWidgetCookie);
-            var widgetPart = _widgetService.ApplyTemplate(widget, ControllerContext);
+            var page = HttpContext.RequestServices.GetService<IPageService>().Get(widget.PageID);
+            var layout = HttpContext.RequestServices.GetService<Layout.ILayoutService>().GetByPage(page);
+            layout.Page = page;
+            var widgetPart = _widgetService.ApplyTemplate(layout, widget, ControllerContext);
             if (widgetPart != null)
             {
                 if (ReturnUrl.IsNotNullAndWhiteSpace())
