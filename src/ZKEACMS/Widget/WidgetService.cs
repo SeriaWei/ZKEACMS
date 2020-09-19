@@ -18,7 +18,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZKEACMS.Widget
 {
-    public abstract class WidgetService<T> : ServiceBase<T, CMSDbContext>, IWidgetPartDriver 
+    public abstract class WidgetService<T> : ServiceBase<T, CMSDbContext>, IWidgetPartDriver
         where T : WidgetBase
     {
         public WidgetService(IWidgetBasePartService widgetBasePartService, IApplicationContext applicationContext, CMSDbContext dbContext)
@@ -46,16 +46,8 @@ namespace ZKEACMS.Widget
                 var basePart = item.ToWidgetBasePart();
                 basePart.ID = id;
                 WidgetBasePartService.Add(basePart);
-                try
-                {
-                    item.ID = basePart.ID;
-                    result = base.Add(item);
-                }
-                catch (Exception ex)
-                {
-                    WidgetBasePartService.Remove(item.ID);
-                    throw ex;
-                }
+                item.ID = basePart.ID;
+                result = base.Add(item);
             });
             return result;
         }
