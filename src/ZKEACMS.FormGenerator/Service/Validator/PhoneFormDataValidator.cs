@@ -29,7 +29,7 @@ namespace ZKEACMS.FormGenerator.Service.Validator
                 }
                 else
                 {
-                    message = _localize.Get("{0}的格式不正确").FormatWith(field.DisplayName);
+                    message = _localize.Get("Invalid value for {0}.").FormatWith(field.DisplayName);
                     return false;
                 }
             }

@@ -15,6 +15,7 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using ZKEACMS.Event;
 
 namespace ZKEACMS.Widget
 {
@@ -27,12 +28,7 @@ namespace ZKEACMS.Widget
             WidgetBasePartService = widgetBasePartService;
         }
 
-        public IWidgetBasePartService WidgetBasePartService { get; private set; }
-        public bool IsNeedNotifyChange
-        {
-            get { return WidgetBasePartService.IsNeedNotifyChange; }
-            set { WidgetBasePartService.IsNeedNotifyChange = value; }
-        }
+        protected IWidgetBasePartService WidgetBasePartService { get; private set; }  
         public override IQueryable<T> Get()
         {
             return CurrentDbSet.AsNoTracking();
@@ -179,13 +175,21 @@ namespace ZKEACMS.Widget
             {
                 throw new Exception("Widget.PartialView must be specified!");
             }
+            WidgetBasePartService.EventManager.Trigger(Events.OnWidgetAdding, widget);
             Add((T)widget);
+            WidgetBasePartService.EventManager.Trigger(Events.OnWidgetAdded, widget);
         }
 
 
         public virtual void DeleteWidget(string widgetId)
         {
-            Remove(widgetId);
+            var widget = Get(widgetId);
+            if (widget != null)
+            {
+                WidgetBasePartService.EventManager.Trigger(Events.OnWidgetDeleting, widget);
+                Remove(widget);
+                WidgetBasePartService.EventManager.Trigger(Events.OnWidgetDeleted, widget);
+            }
         }
 
         public virtual void UpdateWidget(WidgetBase widget)
@@ -194,7 +198,9 @@ namespace ZKEACMS.Widget
             {
                 throw new Exception("Widget.PartialView must be specified!");
             }
+            WidgetBasePartService.EventManager.Trigger(Events.OnWidgetUpdating, widget);
             Update((T)widget);
+            WidgetBasePartService.EventManager.Trigger(Events.OnWidgetUpdated, widget);
         }
         #endregion
 
@@ -202,7 +208,7 @@ namespace ZKEACMS.Widget
         {
             widget.IsTemplate = false;
             widget.IsSystem = false;
-            AddWidget(widget);
+            Add((T)widget);
         }
 
         #region PackWidget
@@ -222,7 +228,7 @@ namespace ZKEACMS.Widget
             var widget = new WidgetPackageInstaller(ApplicationContext.HostingEnvironment).Install(pack);
             if (widget != null)
             {
-                (widget as WidgetBase).Description = "安装";
+                (widget as WidgetBase).Description = "Install";
                 AddWidget(widget as WidgetBase);
             }
 

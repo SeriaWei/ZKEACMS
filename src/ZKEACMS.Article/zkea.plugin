@@ -3,5 +3,5 @@
 	Name:"ZKEACMS.Article",
 	FileName:"ZKEACMS.Article.dll",
 	Enable:"true",
-	Description:"文章，新闻，资讯"
+	Description:"Article, News"
 }

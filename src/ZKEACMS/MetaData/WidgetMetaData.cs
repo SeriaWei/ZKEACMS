@@ -28,10 +28,7 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.IsSystem).AsHidden();
             ViewConfig(m => m.ServiceTypeName).AsHidden().Required();
             ViewConfig(m => m.ViewModelTypeName).AsHidden().Required();
-            //update by roc 
-            //后台可以修改 PartialView 字段 ,前端可以替换任意 视图页面
-            ViewConfig(m => m.PartialView).AsTextBox().Required().ReadOnly();
-            //ViewConfig(m => m.PartialView).AsHidden().Required();
+            ViewConfig(m => m.PartialView).AsDropDownList().AsWidgetTemplateChooser();
             ViewConfig(m => m.LayoutID).AsHidden();
             ViewConfig(m => m.PageID).AsHidden();
             ViewConfig(m => m.RuleID).AsHidden();
@@ -45,7 +42,7 @@ namespace ZKEACMS.MetaData
 
             ViewConfig(m => m.WidgetName).AsTextBox().Order(NextOrder()).Required();
             ViewConfig(m => m.Title).AsTextBox().Order(NextOrder());
-            ViewConfig(m => m.Position).AsTextBox().Order(NextOrder()).RegularExpression(RegularExpression.Integer,"请输入数字").Required();
+            ViewConfig(m => m.Position).AsTextBox().Order(NextOrder()).RegularExpression(RegularExpression.Integer).Required();
             ViewConfig(m => m.ZoneID).AsDropDownList().Order(NextOrder()).DataSource(ViewDataKeys.Zones, SourceType.ViewData).Required();            
             ViewConfig(m => m.IsTemplate).AsCheckBox().Order(NextOrder());
             ViewConfig(m => m.Thumbnail).AsTextBox().Order(NextOrder()).MediaSelector();

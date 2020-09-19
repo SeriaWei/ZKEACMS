@@ -19,7 +19,7 @@ namespace ZKEACMS.Controllers
 
         public IActionResult NotFond()
         {
-            var result = View("NotFond");
+            var result = View("NotFound");
             result.StatusCode = 404;
             return result;
         }

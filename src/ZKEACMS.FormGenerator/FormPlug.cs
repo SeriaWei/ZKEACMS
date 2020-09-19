@@ -15,6 +15,7 @@ using Easy;
 using ZKEACMS.FormGenerator.Models;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.FormGenerator.Service.Validator;
+using ZKEACMS.FormGenerator.EventHandler;
 
 namespace ZKEACMS.FormGenerator
 {
@@ -35,19 +36,19 @@ namespace ZKEACMS.FormGenerator
         {
             yield return new AdminMenu
             {
-                Title = "自定义表单",
+                Title = "Form Generator",
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu
                     {
-                        Title="表单",
+                        Title="Form",
                         Url="~/admin/form",
                         Icon="glyphicon-list-alt",
                         PermissionKey=PermissionKeys.ViewForm
                     },
                     new AdminMenu
                     {
-                        Title="表单数据",
+                        Title="Form Data",
                         Url="~/admin/formdata",
                         Icon="glyphicon-record",
                         PermissionKey=PermissionKeys.ViewFormData
@@ -81,19 +82,19 @@ namespace ZKEACMS.FormGenerator
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
         {
-            yield return new PermissionDescriptor(PermissionKeys.ViewForm, "自定义表单", "查看表单", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageForm, "自定义表单", "管理表单", "");
-            yield return new PermissionDescriptor(PermissionKeys.ViewFormData, "自定义表单", "查看表单数据", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageFormData, "自定义表单", "管理表单数据", "");
-            yield return new PermissionDescriptor(PermissionKeys.ExportFormData, "自定义表单", "导出表单数据", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewForm, "Form Generator", "View Form", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageForm, "Form Generator", "Manage Form", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewFormData, "Form Generator", "View Form Data", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageFormData, "Form Generator", "Manage Form Data", "");
+            yield return new PermissionDescriptor(PermissionKeys.ExportFormData, "Form Generator", "Export Form Data", "");
         }
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
             yield return new WidgetTemplateEntity<FormWidgetService>
             {
-                Title = "表单",
-                GroupName = "4.表单",
+                Title = "Form",
+                GroupName = "4.Form",
                 PartialView = "Widget.Form",
                 Thumbnail = "~/Plugins/ZKEACMS.FormGenerator/Content/images/Widget.Form.png",
                 Order = 1
@@ -121,9 +122,11 @@ namespace ZKEACMS.FormGenerator
             serviceCollection.ConfigureMetaData<FormData, FormDataMetaData>();
             serviceCollection.ConfigureMetaData<FormWidget, FormWidgetMetaData>();
 
+            serviceCollection.RegistEvent<NotifyOnFormDataSubmittedEventHandler>(Events.OnFormDataSubmitted);
+
             serviceCollection.Configure<FormWidget>(option =>
             {
-                option.DataSourceLinkTitle = "表单";
+                option.DataSourceLinkTitle = "Form";
                 option.DataSourceLink = "~/admin/form";
             });            
         }

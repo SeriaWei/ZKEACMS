@@ -9,15 +9,15 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                @L("表单数据")
+                @L("Form Data")
                 @Model.Form.Title
             </div>
             <div class="panel-body form-widget">
                 <table class="table table-striped table-bordered ">
                     <thead>
                         <tr>
-                            <th>@L("字段")</th>
-                            <th>@L("值")</th>
+                            <th>@L("Property")</th>
+                            <th>@L("Value")</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,14 +37,14 @@
 
             </div>
             <div class="panel-footer">
-                <a class="btn btn-default cancel">@L("返回")</a>
+                <a class="btn btn-default cancel">@L("Cancel")</a>
                 @if (Authorizer.Authorize(ZKEACMS.FormGenerator.PermissionKeys.ExportFormData))
                 {
                     <a class="btn btn-primary" href="@Url.Action("Export",new { id = Model.ID })" download="@Model.Form.Title">
-                        @L("导出Excel")
+                        @L("Export Excel")
                     </a>
                     <a class="btn btn-danger" href="@Url.Action("ExportForm",new { id = Model.FormId })" download="@Model.Form.Title">
-                        @L("导出所有数据")
+                        @L("Export All Data")
                         @Model.Form.Title
                     </a>
                 }

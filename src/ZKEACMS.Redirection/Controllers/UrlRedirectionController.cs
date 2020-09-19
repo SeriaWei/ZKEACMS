@@ -30,12 +30,12 @@ namespace ZKEACMS.Redirection.Controllers
         {
             if (Url.Content(redirect.InComingUrl) == Url.Content(redirect.DestinationURL))
             {
-                ModelState.AddModelError("InComingUrl", _localize.Get("访问地址和跳转地址不能一样"));
+                ModelState.AddModelError("InComingUrl", _localize.Get("Incoming address is the same with target address."));
                 return false;
             }
             if (Service.Count(m => m.InComingUrl == redirect.InComingUrl && m.ID != redirect.ID) > 0)
             {
-                ModelState.AddModelError("InComingUrl", _localize.Get("访问地址已经存在，不可重复添加"));
+                ModelState.AddModelError("InComingUrl", _localize.Get("Incoming address is already exists."));
                 return false;
             }
             return true;
@@ -97,7 +97,7 @@ namespace ZKEACMS.Redirection.Controllers
                 return RedirectPermanent($"~/{(path ?? "").Trim()}.html");
             }
             path = $"~/{(path ?? "").TrimEnd('/')}";
-            var redirec = Service.GetAll().Where(m => m.InComingUrl == path).FirstOrDefault();
+            var redirec = Service.GetByPath(path);
             if (redirec != null)
             {
                 if (redirec.IsPermanent)

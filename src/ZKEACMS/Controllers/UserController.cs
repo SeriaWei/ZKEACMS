@@ -91,7 +91,7 @@ namespace ZKEACMS.Controllers
                 Service.Update(logOnUser);
                 return RedirectToAction("Logout", "Account", new { returnurl = "~/Account/Login" });
             }
-            ViewBag.Message = _localize.Get("原密码错误");
+            ViewBag.Message = _localize.Get("Current password error.");
             return View();
         }
 
@@ -100,7 +100,7 @@ namespace ZKEACMS.Controllers
         {
             if (id == _applicationContextAccessor.Current.CurrentUser.UserID)
             {
-                return Json(new AjaxResult { Status = AjaxStatus.Error, Message = _localize.Get("不能删除当前登录用户") });
+                return Json(new AjaxResult { Status = AjaxStatus.Error, Message = _localize.Get("Can not delete yourself.") });
             }
             return base.Delete(id);
         }

@@ -1,0 +1,41 @@
+﻿@using Easy.ViewPort.Descriptor
+@model Object
+@{
+    Style.Reqiured("select2").AtHead();
+    Script.Reqiured("select2").AtFoot();
+
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor() as DropDownListDescriptor;
+
+    Dictionary<string, string> options = new Dictionary<string, string>();
+    if (Model != null)
+    {
+        options.Add(Model.ToString(), Model.ToString());
+    }
+    if (descriptor != null)
+    {
+        if (descriptor.SourceType == SourceType.ViewData)
+        {
+            foreach (var item in ViewData[descriptor.SourceKey] as SelectList)
+            {
+                options[item.Value] = item.Text;
+            }
+        }
+        else
+        {
+            foreach (var item in descriptor.OptionItems)
+            {
+                options[item.Key] = item.Value;
+            }
+        }
+    }
+}
+@Html.DropDownList("", new SelectList(options,"Key","Value"), descriptor?.ToHtmlProperties())
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#@Html.Id("")").select2({ tags: true });
+        });
+    </script>
+}

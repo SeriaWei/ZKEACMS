@@ -57,6 +57,9 @@
                 $("#widget_" + data).parent().remove();
             }
         }, "json");
+    }).on("click", ".zoneToolbar .more", function () {
+        $(this).siblings(".toggle-hidden").toggleClass("hidden");
+        $(this).toggleClass("hidden");
     });
     $(document).on("click", ".templates .tool-open", function () {
         $(this).parent().toggleClass("active");

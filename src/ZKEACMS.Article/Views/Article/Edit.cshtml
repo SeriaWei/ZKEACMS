@@ -2,19 +2,24 @@
 @{
     Script.Reqiured("validate").AtFoot();
     Script.Reqiured("tinymce").AtFoot();
+    string publicUrl = articleUrlService.GetPublicUrl(Model).FirstOrDefault();
 }
-
+@inject ZKEACMS.Article.Service.IArticleUrlService articleUrlService
 <div class="panel panel-default">
     <div class="panel-heading">
-        @L("修改")
-        <span class="badge pull-right">
+        @L("Edit")
+        <span class="pull-right">
             @if (!Model.IsPublish)
             {
-                @L("未发布")
+                <span class="badge">
+                    @L("Unpublished")
+                </span>
             }
             else
             {
-                @L("已发布")
+                <a href="@Url.PathContent(publicUrl)" target="_blank" class="badge">
+                    @L("Published")
+                </a>
             }
         </span>
     </div>
@@ -25,13 +30,13 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticle))
                 {
-                    <input type="submit" class="btn btn-primary" value="@L("保存")" data-value="@ActionType.Update" />
+                    <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Update" />
                 }
                 @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.PublishArticle))
                 {
-                    <input type="submit" class="btn btn-info publish" value="@L("发布")" data-value="@ActionType.Publish" />
+                    <input type="submit" class="btn btn-info publish" value="@L("Publish")" data-value="@ActionType.Publish" />
                 }
-                <input type="button" class="btn btn-default cancel" value="@L("取消")" />
+                <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
             </div>
         }
     </div>

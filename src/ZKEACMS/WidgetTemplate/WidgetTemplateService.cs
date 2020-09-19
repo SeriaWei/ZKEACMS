@@ -18,66 +18,74 @@ namespace ZKEACMS.WidgetTemplate
             new WidgetTemplateEntity<HtmlWidgetService>
             {
                 Title = "HTML",
-                GroupName = "1.通用",
+                GroupName = "1.General",
                 PartialView = "Widget.HTML",
                 Thumbnail = "~/images/Widget.HTML.png",
                 Order = 1
             },
             new WidgetTemplateEntity<ImageWidgetService>
             {
-                Title = "图片",
-                GroupName = "1.通用",
+                Title = "Picture",
+                GroupName = "1.General",
                 PartialView = "Widget.Image",
                 Thumbnail = "~/images/Widget.Image.png",
                 Order = 2
             },
             new WidgetTemplateEntity<CarouselWidgetService>
             {
-                Title = "焦点图",
-                GroupName = "1.通用",
+                Title = "Carousel",
+                GroupName = "1.General",
                 PartialView = "Widget.Carousel",
                 Thumbnail = "~/images/Widget.Carousel.png",
                 Order = 3
             },
             new WidgetTemplateEntity<NavigationWidgetService>
             {
-                Title = "导航",
-                GroupName = "1.通用",
+                Title = "Navigation",
+                GroupName = "1.General",
                 PartialView = "Widget.Navigation",
                 Thumbnail = "~/images/Widget.Navigation.png",
                 Order = 4
             },
             new WidgetTemplateEntity<VideoWidgetService>
             {
-                Title = "视频",
-                GroupName = "1.通用",
+                Title = "Video",
+                GroupName = "1.General",
                 PartialView = "Widget.Video",
                 Thumbnail = "~/images/Widget.Video.png",
                 Order = 5
             },
             new WidgetTemplateEntity<BreadcrumbWidgetService>
             {
-                Title = "路径导航",
-                GroupName = "1.通用",
+                Title = "Breadcrumbs",
+                GroupName = "1.General",
                 PartialView = "Widget.Breadcrumb",
                 Thumbnail = "~/images/Widget.Breadcrumb.png",
                 Order = 6
             },
             new WidgetTemplateEntity<ScriptWidgetService>
             {
-                Title = "脚本",
-                GroupName = "1.通用",
+                Title = "JavaScript",
+                GroupName = "1.General",
                 PartialView = "Widget.Script",
                 Thumbnail = "~/images/Widget.Script.png",
                 Order = 7
             },
             new WidgetTemplateEntity<StyleSheetWidgetService>
             {
-                Title = "样式",
-                GroupName = "1.通用",
+                Title = "Style",
+                GroupName = "1.General",
                 PartialView = "Widget.StyleSheet",
                 Thumbnail = "~/images/Widget.StyleSheet.png",
                 Order = 8
+            },
+            new WidgetTemplateEntity<TabWidgetService>
+            {
+                Title = "Tab",
+                GroupName = "1.General",
+                PartialView = "Widget.Tab",
+                Thumbnail = "~/images/Widget.Tab.png",
+                Order = 9
             }
         };
 

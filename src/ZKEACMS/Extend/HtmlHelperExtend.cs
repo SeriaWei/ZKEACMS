@@ -14,7 +14,15 @@ namespace ZKEACMS
 {
     public static class HtmlHelperExtend
     {
-        public static async Task<IHtmlContent> DisPlayWidget(this IHtmlHelper html, WidgetViewModelPart widget)
+        public static async Task<IHtmlContent> DisplayWidget(this IHtmlHelper html, WidgetViewModelPart widget)
+        {
+            if (widget.ViewModel != null)
+            {
+                return await html.PartialAsync("DisplayWidget", widget);
+            }
+            return await html.WidgetError();
+        }
+        public static async Task<IHtmlContent> DisplayWidgetPart(this IHtmlHelper html, WidgetViewModelPart widget)
         {
             if (widget.ViewModel != null)
             {
@@ -22,7 +30,6 @@ namespace ZKEACMS
             }
             return await html.WidgetError();
         }
-
         public static async Task<IHtmlContent> DesignWidget(this IHtmlHelper html, DesignWidgetViewModel viewModel)
         {
             return await html.PartialAsync("DesignWidget", viewModel);
@@ -54,7 +61,7 @@ namespace ZKEACMS
 
         private static bool IsOpenSelf(string link)
         {
-            return true;
+            return !link.StartsWith("http://", StringComparison.OrdinalIgnoreCase) && !link.StartsWith("https://", StringComparison.OrdinalIgnoreCase);
         }
 
         public static async Task<IHtmlContent> WidgetError(this IHtmlHelper html)
@@ -108,7 +115,7 @@ namespace ZKEACMS
                 {
                     return html.Editor(item.PropertyName, "Decimal");
                 }
-                else if (modelType == typeof(Int32))
+                else if (modelType == typeof(int))
                 {
                     return html.Editor(item.PropertyName, "Int32");
                 }

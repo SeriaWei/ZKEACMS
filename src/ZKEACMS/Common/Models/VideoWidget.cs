@@ -23,7 +23,6 @@ namespace ZKEACMS.Common.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
-            ViewConfig(m => m.PartialView).AsHidden();
             ViewConfig(m => m.Url).AsTextBox().Order(NextOrder()).AddClass(StringKeys.SelectVideoClass).AddProperty("data-url", Urls.SelectMedia);
             ViewConfig(m => m.Code).AsTextArea().Order(NextOrder()).MaxLength(500);
         }

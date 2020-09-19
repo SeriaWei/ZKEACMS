@@ -6,10 +6,7 @@
     @if (ViewContext.HttpContext.Request.Cookies.Any(key => key.Key == "Message"))
     {
         <div class="alert alert-info">
-            <h4>@L("Thank You!")</h4>
-            <p>
-                @L("我们已经收到您的留言，我们会在第一时间处理您的信息，并在需要的时候通过邮件与您取得联系。")
-            </p>
+            <h4>@L("Thank You for your submit!")</h4>
         </div>
     }
     @using (Html.BeginForm("PostMessage", "MessageHandle", FormMethod.Post))
@@ -22,25 +19,25 @@
             <div class="col-md-6">
                 <div class="form-group">
                     @Html.LabelFor(m => m.Title)
-                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "输入您的名字" })
+                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = L("Your name").Text })
                     @Html.ValidationMessageFor(m => m.Title)
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     @Html.LabelFor(m => m.Email)
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "输入您的邮箱地址" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = L("Your email address").Text })
                     @Html.ValidationMessageFor(m => m.Email)
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
                     @Html.LabelFor(m => m.PostMessage)
-                    @Html.TextAreaFor(m => m.PostMessage, new { @class = "form-control", rows = "10", placeholder = "请留言..." })
+                    @Html.TextAreaFor(m => m.PostMessage, new { @class = "form-control", rows = "10", placeholder = L("Have your say...").Text })
                     @Html.ValidationMessageFor(m => m.PostMessage)
                 </div>
             </div>
         </div>
-        <input type="submit" value="@L("提交留言")" class="btn btn-default" />
+        <input type="submit" value="@L("Submit")" class="btn btn-default" />
     }
 </div>

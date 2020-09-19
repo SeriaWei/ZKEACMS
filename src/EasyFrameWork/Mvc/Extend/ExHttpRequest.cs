@@ -35,7 +35,7 @@ namespace Easy.Mvc.Extend
                 if (Common.IsImage(ext))
                 {
                     IStorage storage = request.HttpContext.RequestServices.GetService<IStorage>();
-                    return storage.SaveFile(request.Form.Files[0].OpenReadStream(), string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext));
+                    return storage.SaveFile(request.Form.Files[0].OpenReadStream(), string.Format("{0}{1}", new Easy.IDGenerator().CreateStringId(), ext));
                 }
             }
             return string.Empty;
@@ -54,7 +54,7 @@ namespace Easy.Mvc.Extend
                 if (Common.FileCanUp(ext))
                 {
                     IStorage storage = request.HttpContext.RequestServices.GetService<IStorage>();
-                    return storage.SaveFile(request.Form.Files[0].OpenReadStream(), string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext));
+                    return storage.SaveFile(request.Form.Files[0].OpenReadStream(), string.Format("{0}{1}", new Easy.IDGenerator().CreateStringId(), ext));
 
                 }
             }
@@ -77,10 +77,6 @@ namespace Easy.Mvc.Extend
         public static string GetReferer(this HttpRequest request)
         {
             return request.Headers["Referer"].ToString();
-        }
-        public static string GetHostWithScheme(this HttpRequest request)
-        {
-            return request.Scheme + "://" + request.Host;
         }
     }
 }

@@ -62,8 +62,8 @@ namespace ZKEACMS.SectionWidget
         {
             yield return new WidgetTemplateEntity<SectionWidgetService>
             {
-                Title = "自定义",
-                GroupName = "1.通用",
+                Title = "Section Widget",
+                GroupName = "1.General",
                 PartialView = "Widget.Section",
                 Thumbnail = "~/images/Widget.Section.png",
                 FormView= "SectionWidgetForm",

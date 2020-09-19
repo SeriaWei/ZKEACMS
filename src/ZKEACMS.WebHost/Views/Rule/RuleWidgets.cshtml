@@ -5,7 +5,7 @@
 }
 <div class="panel panel-default">
     <div class="panel-heading">
-        @L("显示内容")
+        @L("Display Contents")
     </div>
     <div class="panel-body">
         <ul id="rule-widgets" class="fullRowList">
@@ -14,7 +14,7 @@
                 <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
                     @if (widget.LayoutID.IsNotNullAndWhiteSpace())
                     {
-                        <span class="badge">@L("布局")</span>
+                        <span class="badge">@L("Layout")</span>
                     }
                     @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                     {
@@ -28,7 +28,7 @@
     </div>
     <div class="panel-footer">
         <a class="btn btn-primary btn-sm" href="@Url.Action("SelectWidget", "WidgetTemplate", new { RuleID=ViewBag.RuleID, ReturnUrl = returnUrl+"#rule-"+ViewBag.RuleID})">
-            @L("添加内容")
+            @L("Add Content")
         </a>
     </div>
 </div>

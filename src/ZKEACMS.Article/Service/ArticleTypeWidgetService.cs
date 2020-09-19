@@ -19,9 +19,9 @@ namespace ZKEACMS.Article.Service
         private const string ArticleTypeWidgetRelatedPageUrls = "ArticleTypeWidgetRelatedPageUrls";
         private readonly ConcurrentDictionary<string, object> _allRelatedUrlCache;
         private readonly IArticleTypeService _articleTypeService;
-        public ArticleTypeWidgetService(IWidgetBasePartService widgetService, 
-            IArticleTypeService articleTypeService, 
-            IApplicationContext applicationContext, 
+        public ArticleTypeWidgetService(IWidgetBasePartService widgetService,
+            IArticleTypeService articleTypeService,
+            IApplicationContext applicationContext,
             ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
             CMSDbContext dbContext)
             : base(widgetService, applicationContext, dbContext)
@@ -62,12 +62,12 @@ namespace ZKEACMS.Article.Service
                     actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{articleType.Url}", true);
                 }
             }
-            if (articleType != null)
+            if (articleType != null && articleType.SEOTitle.IsNotNullAndWhiteSpace())
             {
                 var layout = actionContext.HttpContext.GetLayout();
                 if (layout != null && layout.Page != null)
                 {
-                    layout.Page.Title = articleType.SEOTitle ?? articleType.Title;
+                    layout.Page.Title = articleType.SEOTitle;
                     layout.Page.MetaKeyWorlds = articleType.SEOKeyWord;
                     layout.Page.MetaDescription = articleType.SEODescription;
                 }

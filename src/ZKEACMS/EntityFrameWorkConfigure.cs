@@ -6,6 +6,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Data.Common;
 using ZKEACMS.DbConnectionPool;
 using ZKEACMS.Options;
@@ -35,11 +36,7 @@ namespace ZKEACMS
                     }
                 case Easy.DbTypes.MsSqlEarly:
                     {
-                        if (dbConnectionForReusing != null)
-                            optionsBuilder.UseSqlServer(dbConnectionForReusing, option => option.UseRowNumberForPaging());
-                        else
-                            optionsBuilder.UseSqlServer(_dataBaseOption.ConnectionString, option => option.UseRowNumberForPaging());
-                        break;
+                        throw new Exception("Starting with EF Core 3.0, EF will only generate SQL for paging that is only compatible with later SQL Server versions. Because SQL Server 2008 is no longer a supported product.");
                     }
                 case Easy.DbTypes.Sqlite:
                     {

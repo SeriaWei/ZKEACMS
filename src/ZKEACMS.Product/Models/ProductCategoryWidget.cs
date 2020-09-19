@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel.DataAnnotations.Schema;
 using Easy.Constant;
 using Easy.RepositoryPattern;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Product.Models
 {
@@ -26,7 +27,7 @@ namespace ZKEACMS.Product.Models
         {
             base.ViewConfigure();
             ViewConfig(m => m.ProductCategoryID).AsDropDownList().Order(NextOrder()).SetTemplate("ProductCategoryTree").Required();
-            ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary).Required();
+            ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary).AsWidgetTemplateChooser();
             ViewConfig(m => m.TargetPage).AsHidden();
         }
     }

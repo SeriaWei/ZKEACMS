@@ -3,5 +3,5 @@
 	Name:"ZKEACMS.Redirection",
 	FileName:"ZKEACMS.Redirection.dll",
 	Enable:"true",
-	Description:"Url重定向"
+	Description:"Url Redirection"
 }

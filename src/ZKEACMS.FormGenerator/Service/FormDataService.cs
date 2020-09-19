@@ -17,6 +17,7 @@ using System.IO;
 using Easy.DataTransfer;
 using ZKEACMS.FormGenerator.Service.Validator;
 using Easy.Notification;
+using ZKEACMS.Event;
 
 namespace ZKEACMS.FormGenerator.Service
 {
@@ -25,19 +26,19 @@ namespace ZKEACMS.FormGenerator.Service
         private readonly IFormService _formService;
         private readonly IFormDataItemService _formDataItemService;
         private readonly IEnumerable<IFormDataValidator> _formDataValidators;
-        private readonly INotificationManager _notificationManager;
+        private readonly IEventManager _eventManager;
         public FormDataService(IApplicationContext applicationContext,
             CMSDbContext dbContext,
             IFormService formService,
             IFormDataItemService formDataItemService,
             IEnumerable<IFormDataValidator> formDataValidators,
-            INotificationManager notificationManager) :
+            ILocalize localize, IEventManager eventManager) :
             base(applicationContext, dbContext)
         {
             _formService = formService;
             _formDataItemService = formDataItemService;
             _formDataValidators = formDataValidators;
-            _notificationManager = notificationManager;
+            _eventManager = eventManager;
         }
 
         public override ServiceResult<FormData> Add(FormData item)
@@ -143,15 +144,10 @@ namespace ZKEACMS.FormGenerator.Service
                 formData.Title = formData.Datas.FirstOrDefault().FieldValue;
             }
             result = Add(formData);
-            if (!result.HasViolation && form.NotificationReceiver.IsNotNullAndWhiteSpace())
+            if (!result.HasViolation)
             {
-                _notificationManager.Send(new RazorEmailNotice
-                {
-                    Subject = "新的表单提醒",
-                    To = form.NotificationReceiver.Split(new char[] { '\r', '\n', ',', ';' }, StringSplitOptions.RemoveEmptyEntries),
-                    Model = Get(formData.ID),
-                    TemplatePath = "~/wwwroot/Plugins/ZKEACMS.FormGenerator/EmailTemplates/FormDataNotification.cshtml"
-                });
+                FormData data = Get(formData.ID);
+                _eventManager.Trigger(Events.OnFormDataSubmitted, data);
             }
             return result;
         }

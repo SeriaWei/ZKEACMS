@@ -14,6 +14,8 @@ namespace ZKEACMS.Common.Models
     public class ImageWidget : BasicWidget
     {
         public string ImageUrl { get; set; }
+        public string ImageUrlMd { get; set; }
+        public string ImageUrlSm { get; set; }
         public int? Width { get; set; }
         public int? Height { get; set; }
         public string Link { get; set; }
@@ -24,8 +26,9 @@ namespace ZKEACMS.Common.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
-            ViewConfig(m => m.PartialView).AsHidden();
             ViewConfig(m => m.ImageUrl).AsTextBox().Required().Order(NextOrder()).MediaSelector();
+            ViewConfig(m => m.ImageUrlMd).AsTextBox().Order(NextOrder()).MediaSelector();
+            ViewConfig(m => m.ImageUrlSm).AsTextBox().Order(NextOrder()).MediaSelector();
         }
     }
 }

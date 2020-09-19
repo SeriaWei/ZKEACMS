@@ -14,8 +14,13 @@ namespace Easy.Modules.User.Service
 {
     public class UserService : ServiceBase<UserEntity, EasyDbContext>, IUserService
     {
-        public UserService(IApplicationContext applicationContext, EasyDbContext easyDbContext) : base(applicationContext, easyDbContext)
+        private ILocalize _localize;
+        public UserService(IApplicationContext applicationContext, 
+            ILocalize localize,
+            EasyDbContext easyDbContext) 
+            : base(applicationContext, easyDbContext)
         {
+            _localize = localize;
         }
         public override DbSet<UserEntity> CurrentDbSet
         {
@@ -70,11 +75,11 @@ namespace Easy.Modules.User.Service
             }
             if (Get(item.UserID) != null)
             {
-                throw new Exception($"用户 {item.UserID} 已存在");
+                throw new Exception(_localize.Get("{0} is already exists").FormatWith(item.UserID));
             }
             if (item.Email.IsNotNullAndWhiteSpace() && Count(m => m.Email == item.Email && m.UserTypeCD == item.UserTypeCD) > 0)
             {
-                throw new Exception($"邮件地址 {item.Email} 已被使用");
+                throw new Exception(_localize.Get("{0} is already exists").FormatWith(item.Email));
             }
             var result = base.Add(item);
             if (!result.HasViolation)
@@ -122,7 +127,7 @@ namespace Easy.Modules.User.Service
             }
             if (item.Email.IsNotNullAndWhiteSpace() && Count(m => m.UserID != item.UserID && m.Email == item.Email && m.UserTypeCD == item.UserTypeCD) > 0)
             {
-                throw new Exception($"邮件地址 {item.Email} 已被使用");
+                throw new Exception(_localize.Get("{0} is already exists").FormatWith(item.Email));
             }
 
             var result = base.Update(item);

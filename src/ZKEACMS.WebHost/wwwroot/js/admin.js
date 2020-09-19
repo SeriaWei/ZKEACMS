@@ -5,7 +5,6 @@
  */
 
 $(function () {
-
     $(".accordion-group>a").click(function () {
         var className = 'active';
         var a = $(this);
@@ -60,6 +59,9 @@ $(function () {
         });
     }).on("click", ".form-group select#ZoneID", function () {
         var obj = $(this);
+        if (obj.val() == "ZONE-X") {
+            return;
+        }
         var url = "/admin/Layout/SelectZone?layoutId=" + $(".hide #LayoutID").val() + "&pageId=" + $(".hide #PageID").val() + "&zoneId=" + obj.val();
         window.top.Easy.ShowUrlWindow({
             url: url,
@@ -107,11 +109,14 @@ $(function () {
         Easy.Block();
     });
     $(".form-group select#ZoneID,.form-group select.select").on("mousedown", false);
-
-
+    $(".form-group select#ZoneID").each(function () {
+        if ($(this).val() == "ZONE-X") {
+            $(this).closest(".form-group").hide();
+        }
+    });
 
     if ($.fn.datetimepicker) {
-        $(".Date").each(function () {
+        $(".Date:not(input[type=hidden])").each(function () {
             if (!$(this).prop("readonly") && !$(this).prop("disabled")) {
                 $(this).datetimepicker({ locale: "zh-CN", format: $(this).attr("JsDateFormat") });
                 $(this).closest(".input-group").find(".glyphicon-calendar").click(function () {
@@ -253,21 +258,14 @@ $(function () {
         });
     }
 
-    $(".input-group .glyphicon.glyphicon-play").popover({
-        trigger: "click",
-        html: true,
-        title: "视频预览",
-        content: function () {
-            var url = $(this).parent().siblings("input").val();
-            if (url) {
-                if (url.indexOf("~") === 0) {
-                    url = url.replace("~", location.origin);
-                }
-                return "<div><video style='width:244px;height:183px' controls='controls' src='" + url + "'>您的浏览器不支持播放该视频</video></div>";
+    $(".input-group .glyphicon.glyphicon-play").click(function () {
+        var url = $(this).closest(".input-group").find(".form-control").val();
+        if (url) {
+            if (url.indexOf("~") === 0) {
+                url = url.replace("~", location.origin);
             }
-            return null;
-        },
-        placement: "left"
+            Easy.ShowUrlWindow({ url: '/admin/widget/playvideo?url=' + encodeURIComponent(url), width: 800, height: 450 });
+        }
     });
 
     //main menu
@@ -305,7 +303,7 @@ $(function () {
             Easy.Processor(setHeight, 500);
         });
         if (scroll > 0) {
-            scrollBar.scrollTop = scroll/2;
+            scrollBar.scrollTop = scroll / 2;
         }
     }
 
@@ -320,7 +318,14 @@ $(function () {
 
     $(document).on("click", ".input-group-collection .add", function () {
         var index = $(this).siblings(".items").children(".item").size();
-        var template = $($(this).siblings(".Template").html());
+        var tpl = $(this).siblings(".Template");
+        var template = $(tpl.html());
+        var namePrefix = tpl.children().data("name");
+        var deep = 0;
+        namePrefix.replace(/\[(\d+)\]/g, function (a) {
+            deep++;
+            return a;
+        });
         $("input,select,textarea", template).attr("data-val", true).each(function () {
             if ($(this).attr("editable")) {
                 $(this).prop("disabled", false);
@@ -328,11 +333,21 @@ $(function () {
             }
             var name = $(this).attr("name");
             if (name) {
-                $(this).attr("name", name.replace(/\[(\d+)\]/, "[" + index + "]"));
+                var cuDeep = 0;
+                $(this).attr("name", name.replace(/\[(\d+)\]/g, function (a) {
+                    cuDeep++;
+                    var idx = cuDeep == deep ? "[" + index + "]" : a;
+                    return idx;
+                }));
             }
             var id = $(this).attr("id");
             if (id) {
-                $(this).attr("id", id.replace(/\_(\d+)\_/, "_" + index + "_"));
+                var cuDeep = 0;
+                $(this).attr("id", id.replace(/\_(\d+)\_/g, function (a) {
+                    cuDeep++;
+                    var idx = cuDeep == deep ? "_" + index + "_" : a;
+                    return idx;
+                }));
             }
 
             if ($(this).hasClass("Date") && !$(this).prop("readonly") && !$(this).prop("disabled") && $.fn.datetimepicker) {
@@ -342,15 +357,19 @@ $(function () {
 
         $(".field-validation-error,.field-validation-valid", template).each(function () {
             var msgFor = $(this).attr("data-valmsg-for");
-            $(this).attr("data-valmsg-for", msgFor.replace(/\[(\d+)\]/, "[" + index + "]"))
+            var cuDeep = 0;
+            $(this).attr("data-valmsg-for", msgFor.replace(/\[(\d+)\]/g, function (a) {
+                cuDeep++;
+                var idx = cuDeep == deep ? "[" + index + "]" : a;
+                return idx;
+            }))
         });
         template.find(".ActionType").val($(this).data("value"));
         $(this).siblings(".items").append(template);
-
+        $(".dy-editor:visible", template).trigger("init-editor");
         var form = $(this).closest("form");
         form.removeData("validator").removeData("unobtrusiveValidation");
         $.validator.unobtrusive.parse(form[0]);
-
     }).on("click", ".input-group-collection .delete", function () {
         var form = $(this).closest("form");
         var allValid = true;
@@ -380,4 +399,5 @@ $(function () {
     if ($.fn.select2) {
         $("select[multiple='multiple']").select2();
     }
+    $(".dy-editor:visible").trigger("init-editor");
 });

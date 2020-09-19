@@ -35,7 +35,7 @@ namespace ZKEACMS.Article.Models
             ViewConfig(m => m.MoreLink).AsTextBox().Order(NextOrder()).PageSelector();
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector();
 
-            ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary);
+            ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary).AsWidgetTemplateChooser();
         }
     }
 

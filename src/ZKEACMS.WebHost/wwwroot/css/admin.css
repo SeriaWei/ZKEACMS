@@ -761,3 +761,6 @@ a.pack-theme {
 .dataTable tfoot .search {
     display: none;
 }
+.select2-container--default .select2-selection--single{
+    border-color:#ccc;
+}

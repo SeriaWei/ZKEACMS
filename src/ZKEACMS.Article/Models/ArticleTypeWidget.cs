@@ -6,6 +6,7 @@ using Easy.RepositoryPattern;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using ZKEACMS.Article.Service;
+using ZKEACMS.Extend;
 using ZKEACMS.MetaData;
 using ZKEACMS.Widget;
 
@@ -23,7 +24,7 @@ namespace ZKEACMS.Article.Models
         {
             base.ViewConfigure();
             ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).SetTemplate("ArticleTypeTree").Required();
-            ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary).Required();
+            ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary).AsWidgetTemplateChooser();
             ViewConfig(m => m.TargetPage).AsHidden();
         }
     }

@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.DependencyInjection;
 using Easy.Constant;
 using Easy.RepositoryPattern;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.Common.Models
 {
@@ -34,7 +35,7 @@ namespace ZKEACMS.Common.Models
             ViewConfig(m => m.ID).AsHidden();
             ViewConfig(m => m.CarouselID).AsDropDownList().Order(NextOrder()).DataSource(() =>
             {
-                var result = new Dictionary<string, string> { { "", "---请选择---" } };
+                var result = new Dictionary<string, string> { { "", "--- Select ---" } };
                 using (var carouselService = ServiceLocator.GetService<ICarouselService>())
                 {
                     carouselService.Get().Each(m => result.Add(m.ID.ToString(), m.Title));
@@ -42,7 +43,7 @@ namespace ZKEACMS.Common.Models
                 }
             });
             ViewConfig(m => m.CarouselItems).AsListEditor().Order(NextOrder());
-            ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary);
+            ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary).AsWidgetTemplateChooser();
         }
     }
 

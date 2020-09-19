@@ -3,5 +3,5 @@
 	Name:"ZKEACMS.SectionWidget",
 	FileName:"ZKEACMS.SectionWidget.dll",
 	Enable:"true",
-	Description:"自由组件标题，段落，图片，视频"
+	Description:"Section Widget"
 }

@@ -107,11 +107,11 @@ namespace ZKEACMS.Common.Service
                 }
                 ExtFile.WriteFile(model.Path, model.Content);
                 _cacheMgr.Remove(_templateFilesCacheKey);
-                result.Result = GetTemplateFiles().First(m => m.Name == name);
+                result.Result = GetTemplateFiles().First(m => m.RelativePath == model.RelativePath);
             }
             else
             {
-                result.RuleViolations.Add(new RuleViolation("Name", "文件名称格式错误"));
+                result.RuleViolations.Add(new RuleViolation("Name", "File not support"));
             }
             return result;
         }
