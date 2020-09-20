@@ -199,6 +199,7 @@ namespace ZKEACMS
             services.ConfigureMetaData<TemplateFile, TemplateFileMetaData>();
             services.ConfigureMetaData<TabWidget, TabWidgetMetaData>();
             services.ConfigureMetaData<TabItem, TabItemMetaData>();
+            services.ConfigureMetaData<HeadWidget, HeaderWidgetMetaData>();
 
             services.RegistEvent<RemoveCacheOnPagePublishedEventHandler>(Events.OnPagePublished);
             services.RegistEvent<RemoveOldVersionOnPagePublishedEventHandler>(Events.OnPagePublished);
