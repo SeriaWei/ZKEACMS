@@ -21,6 +21,7 @@ using ZKEACMS.Widget;
 using ZKEACMS;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace ZKEACMS.Filter
 {
@@ -87,7 +88,7 @@ namespace ZKEACMS.Filter
                 var themeService = requestServices.GetService<IThemeService>();
                 var widgetActivator = requestServices.GetService<IWidgetActivator>();
                 var ruleService = requestServices.GetService<IRuleService>();
-
+                var logger = requestServices.GetService<ILogger<WidgetAttribute>>();
                 LayoutEntity layout = layoutService.GetByPage(page);
                 layout.Page = page;
                 page.Favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
@@ -101,6 +102,7 @@ namespace ZKEACMS.Filter
                     {
                         if (widget != null)
                         {
+                            DateTime startTime = DateTime.Now;
                             IWidgetPartDriver partDriver = widgetActivator.Create(widget);
                             WidgetViewModelPart part = partDriver.Display(new WidgetDisplayContext
                             {
@@ -108,6 +110,7 @@ namespace ZKEACMS.Filter
                                 ActionContext = filterContext,
                                 Widget = widget
                             });
+                            logger.LogInformation("{0}.Display(): {1}ms", widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
                             if (part != null)
                             {
                                 if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID ?? UnknownZone))
@@ -137,6 +140,7 @@ namespace ZKEACMS.Filter
                     {
                         if (widget != null)
                         {
+                            DateTime startTime = DateTime.Now;
                             IWidgetPartDriver partDriver = widgetActivator.Create(widget);
                             WidgetViewModelPart part = partDriver.Display(new WidgetDisplayContext
                             {
@@ -144,6 +148,7 @@ namespace ZKEACMS.Filter
                                 ActionContext = filterContext,
                                 Widget = widget
                             });
+                            logger.LogInformation("{0}.Display(): {1}ms", widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
                             var zone = layout.Zones.FirstOrDefault(z => z.ZoneName == rules.First(m => m.RuleID == widget.RuleID).ZoneName);
                             if (part != null && zone != null)
                             {
