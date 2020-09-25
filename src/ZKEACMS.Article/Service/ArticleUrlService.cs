@@ -30,7 +30,7 @@ namespace ZKEACMS.Article.Service
         public IEnumerable<ArticleUrl> GetAllPublicUrls()
         {
             HashSet<string> excuted = new HashSet<string>();
-            foreach (var item in _articleListWidgetService.Get())
+            foreach (var item in _articleListWidgetService.Get().ToList())
             {
                 string typeDetail = $"{item.DetailPageUrl}-{item.ArticleTypeID}";
                 if (item.DetailPageUrl.IsNotNullAndWhiteSpace() && !excuted.Contains(typeDetail))

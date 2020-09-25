@@ -30,7 +30,7 @@ namespace ZKEACMS.Product.Service
         public IEnumerable<ProductUrl> GetAllPublicUrls()
         {
             HashSet<string> excuted = new HashSet<string>();
-            foreach (var item in _productListWidgetService.Get())
+            foreach (var item in _productListWidgetService.Get().ToList())
             {
                 string typeDetail = $"{item.DetailPageUrl}-{item.ProductCategoryID}";
                 if (item.DetailPageUrl.IsNotNullAndWhiteSpace() && !excuted.Contains(typeDetail))
