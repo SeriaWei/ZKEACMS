@@ -24,9 +24,10 @@ namespace ZKEACMS.Common.Service
             _navigationService = navigationService;
         }
         public override DbSet<NavigationWidget> CurrentDbSet => DbContext.NavigationWidget;
-        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
+        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
-            var currentWidget = widget as NavigationWidget;
+            var currentWidget = widgetDisplayContext.Widget as NavigationWidget;
+            var actionContext = widgetDisplayContext.ActionContext;
             var navs = _navigationService.Get()
                 .Where(m => m.Status == (int)RecordStatus.Active).OrderBy(m => m.DisplayOrder).ToList();
 
@@ -34,7 +35,7 @@ namespace ZKEACMS.Common.Service
             IUrlHelper urlHelper = null;
             if (ApplicationContext.As<CMSApplicationContext>().IsDesignMode)
             {
-                var layout = actionContext.HttpContext.GetLayout();
+                var layout = widgetDisplayContext.PageLayout;
                 if (layout != null && layout.Page != null)
                 {
                     path = layout.Page.Url.Replace("~/", "/");
@@ -82,7 +83,7 @@ namespace ZKEACMS.Common.Service
             {
                 currentWidget.RootID = "#";
             }
-            return widget.ToWidgetViewModelPart(new NavigationWidgetViewModel(navs, currentWidget));
+            return widgetDisplayContext.ToWidgetViewModelPart(new NavigationWidgetViewModel(navs, currentWidget));
         }
     }
 }

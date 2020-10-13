@@ -12,6 +12,7 @@ namespace ZKEACMS.Article.Service
     public interface IArticleUrlService
     {
         string[] GetPublicUrl(int ID);
+        string[] GetPublicUrl(ArticleEntity article);
         IEnumerable<ArticleUrl> GetAllPublicUrls();
         string[] GetDetailPages();
     }

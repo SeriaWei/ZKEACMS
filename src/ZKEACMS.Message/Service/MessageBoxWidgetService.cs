@@ -21,9 +21,9 @@ namespace ZKEACMS.Message.Service
             _messageService = messageService;
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
+        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
-            return widget.ToWidgetViewModelPart(_messageService.Get(m => m.Status == (int)RecordStatus.Active));
+            return widgetDisplayContext.ToWidgetViewModelPart(_messageService.Get(m => m.Status == (int)RecordStatus.Active));
 
         }
     }

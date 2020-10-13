@@ -18,19 +18,16 @@ namespace ZKEACMS.Sitemap.Service
 {
     public class SitemapService : ISitemapService
     {
-        private readonly SitemapDbContext _sitemapDbContext;
         private readonly IEnumerable<ISiteUrlProvider> _siteUrlProviders;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHostOptionProvider _hostOptionProvider;
         private readonly IBlockUrlService _blockUrlService;
 
-        public SitemapService(SitemapDbContext sitemapDbContext,
-            IEnumerable<ISiteUrlProvider> siteUrlProviders,
+        public SitemapService(IEnumerable<ISiteUrlProvider> siteUrlProviders,
             IHttpContextAccessor httpContextAccessor,
             IHostOptionProvider hostOptionProvider, 
             IBlockUrlService blockUrlService)
         {
-            _sitemapDbContext = sitemapDbContext;
             _siteUrlProviders = siteUrlProviders;
             _httpContextAccessor = httpContextAccessor;
             _hostOptionProvider = hostOptionProvider;

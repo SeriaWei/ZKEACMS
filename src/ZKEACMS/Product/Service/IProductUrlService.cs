@@ -12,6 +12,7 @@ namespace ZKEACMS.Product.Service
     public interface IProductUrlService
     {
         string[] GetPublicUrl(int ID);
+        string[] GetPublicUrl(ProductEntity product);
         IEnumerable<ProductUrl> GetAllPublicUrls();
         string[] GetDetailPages();
     }

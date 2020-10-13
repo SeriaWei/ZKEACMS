@@ -2,6 +2,7 @@
  * Copyright 2020 ZKEASOFT 
  * http://www.zkea.net/licenses */
 
+using Easy;
 using Easy.Extend;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace ZKEACMS.Product.Service
         public IEnumerable<ProductUrl> GetAllPublicUrls()
         {
             HashSet<string> excuted = new HashSet<string>();
-            foreach (var item in _productListWidgetService.Get())
+            foreach (var item in _productListWidgetService.Get().ToList())
             {
                 string typeDetail = $"{item.DetailPageUrl}-{item.ProductCategoryID}";
                 if (item.DetailPageUrl.IsNotNullAndWhiteSpace() && !excuted.Contains(typeDetail))
@@ -41,7 +42,7 @@ namespace ZKEACMS.Product.Service
                         string post = product.Url.IsNullOrWhiteSpace() ? $"post-{product.ID}" : product.Url;
                         yield return new ProductUrl
                         {
-                            Url = $"{item.DetailPageUrl}/{post}.html",
+                            Url = Helper.Url.ToVirtualPath($"{item.DetailPageUrl}/{post}.html"),
                             Product = product
                         };
                     }
@@ -52,7 +53,7 @@ namespace ZKEACMS.Product.Service
 
         public string[] GetDetailPages()
         {
-            return _productListWidgetService.Get(m => m.DetailPageUrl != null).Select(m => m.DetailPageUrl).Distinct().ToArray();
+            return _productListWidgetService.Get(m => m.DetailPageUrl != null).Select(m => Helper.Url.ToVirtualPath(m.DetailPageUrl)).Distinct().ToArray();
         }
 
         public string[] GetPublicUrl(int ID)
@@ -60,6 +61,11 @@ namespace ZKEACMS.Product.Service
             ProductEntity product = _productService.Get(ID);
             if (product == null) return null;
 
+            return GetPublicUrl(product);
+        }
+
+        public string[] GetPublicUrl(ProductEntity product)
+        {
             int categoryId = product.ProductCategoryID;
             if (categoryId == 0) return null;
 
@@ -73,7 +79,7 @@ namespace ZKEACMS.Product.Service
             string post = product.Url.IsNullOrWhiteSpace() ? $"post-{product.ID}" : product.Url;
             for (int i = 0; i < detailPageUrls.Length; i++)
             {
-                detailPageUrls[i] = $"{detailPageUrls[i]}/{post}.html";
+                detailPageUrls[i] = Helper.Url.ToVirtualPath($"{detailPageUrls[i]}/{post}.html");
             }
             return detailPageUrls;
         }

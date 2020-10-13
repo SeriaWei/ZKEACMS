@@ -82,22 +82,7 @@ namespace ZKEACMS.Widget
                 });
             }
         }
-        public WidgetViewModelPart ToWidgetViewModelPart()
-        {
-            return new WidgetViewModelPart
-            {
-                Widget = this,
-                ViewModel = this
-            };
-        }
-        public WidgetViewModelPart ToWidgetViewModelPart(object viewModel)
-        {
-            return new WidgetViewModelPart
-            {
-                Widget = this,
-                ViewModel = viewModel
-            };
-        }
+        
         public Type GetViewModelType()
         {
             string key = $"{AssemblyName},{ViewModelTypeName}";

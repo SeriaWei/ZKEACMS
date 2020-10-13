@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using ZKEACMS.Product.Service;
 using ZKEACMS.Sitemap.Models;
 using Easy.Extend;
+using Easy;
 
 namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
 {
@@ -28,7 +29,7 @@ namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
             {
                 yield return new SiteUrl
                 {
-                    Url = item.Url.Replace("~/", "/"),
+                    Url = Helper.Url.ToAbsolutePath(item.Url),
                     ModifyDate = item.Product.LastUpdateDate ?? DateTime.Now,
                     Changefreq = "weekly",
                     Priority = 0.5F

@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2020 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using System.Collections.Generic;
 using System.IO;
 using Easy.RepositoryPattern;
@@ -17,7 +20,7 @@ namespace ZKEACMS.Widget
         IEnumerable<WidgetBase> GetByPageId(string pageId);
         IEnumerable<WidgetBase> GetAllByPage(PageEntity page);
         IEnumerable<WidgetBase> GetAllByRule(int[] roleId, bool formCache = false);
-        WidgetViewModelPart ApplyTemplate(WidgetBase widget, ActionContext actionContext);
+        WidgetViewModelPart ApplyTemplate(Layout.LayoutEntity pageLayout, WidgetBase widget, ActionContext actionContext);
         void RemoveCache(string pageId);
         void ClearCache();
     }

@@ -2,7 +2,7 @@
 @{
     Script.Reqiured("validate").AtFoot();
     Script.Reqiured("tinymce").AtFoot();
-    string publicUrl = productUrlService.GetPublicUrl(Model.ID).FirstOrDefault();
+    string publicUrl = productUrlService.GetPublicUrl(Model).FirstOrDefault();
 }
 @inject ZKEACMS.Product.Service.IProductUrlService productUrlService
 <div class="panel panel-default">
