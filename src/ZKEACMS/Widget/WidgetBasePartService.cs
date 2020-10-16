@@ -84,7 +84,7 @@ namespace ZKEACMS.Widget
             return result;
         }
 
-        public WidgetViewModelPart ApplyTemplate(WidgetBase widget, ActionContext actionContext)
+        public WidgetViewModelPart ApplyTemplate(Layout.LayoutEntity pageLayout, WidgetBase widget, ActionContext actionContext)
         {
             var widgetBasePart = Get(widget.ID);
             if (widgetBasePart == null) return null;
@@ -101,7 +101,12 @@ namespace ZKEACMS.Widget
             widgetBase.Thumbnail = null;
             widgetBase.RuleID = null;
 
-            var widgetPart = service.Display(widgetBase, actionContext);
+            var widgetPart = service.Display(new WidgetDisplayContext
+            {
+                PageLayout = pageLayout,
+                Widget = widgetBase,
+                ActionContext = actionContext
+            });
             service.AddWidget(widgetBase);
             return widgetPart;
         }

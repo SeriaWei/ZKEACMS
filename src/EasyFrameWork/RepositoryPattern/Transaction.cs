@@ -37,10 +37,10 @@ namespace Easy.RepositoryPattern
                 Invoke?.Invoke();
                 _transation.Commit();
             }
-            catch (Exception ex)
+            catch
             {
                 _transation.Rollback();
-                throw ex;
+                throw;
             }
             finally
             {

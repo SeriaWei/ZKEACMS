@@ -26,5 +26,7 @@ namespace ZKEACMS
         /// </summary>
         /// <returns></returns>
         public string GetOrigin();
+
+        public Uri ToAbsoluteUri(string relativePath);
     }
 }

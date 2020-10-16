@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Easy.Mvc.Extend;
 using System;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ZKEACMS
 {
@@ -18,7 +20,11 @@ namespace ZKEACMS
         {
             if (widget.ViewModel != null)
             {
-                return await html.PartialAsync("DisplayWidget", widget);
+                var logger = html.ViewContext.HttpContext.RequestServices.GetService<ILogger<WidgetViewModelPart>>();
+                DateTime startTime = DateTime.Now;
+                var widgetResult = await html.PartialAsync("DisplayWidget", widget);
+                logger.LogInformation("Render Widget [{0}]: {1}ms", widget.Widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
+                return widgetResult;
             }
             return await html.WidgetError();
         }

@@ -50,10 +50,10 @@ namespace Easy.RepositoryPattern
                         action.Invoke();
                         transaction.Commit();
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         transaction.Rollback();
-                        throw ex;
+                        throw;
                     }
                 }
             }
@@ -74,10 +74,10 @@ namespace Easy.RepositoryPattern
                         transaction.Commit();
                         return result;
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         transaction.Rollback();
-                        throw ex;
+                        throw;
                     }
                 }
             }

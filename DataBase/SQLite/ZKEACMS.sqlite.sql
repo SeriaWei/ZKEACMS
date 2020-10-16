@@ -1,4 +1,4 @@
--- Script Date: 2020/8/1 星期六 22:26  - ErikEJ.SqlCeScripting version 3.5.2.56
+-- Script Date: 2020/9/20 星期日 14:35  - ErikEJ.SqlCeScripting version 3.5.2.56
 SELECT 1;
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
@@ -111,13 +111,13 @@ CREATE TABLE [Roles] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Roles__3214EC27BC82FA70] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Roles__3214EC2756B14F8D] PRIMARY KEY ([ID])
 );
 CREATE TABLE [UserRoleRelation] (
   [ID] INTEGER NOT NULL
 , [RoleID] int NULL
 , [UserID] nvarchar(50) NULL
-, CONSTRAINT [PK__UserRole__3214EC27EE6F2592] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__UserRole__3214EC2753D84092] PRIMARY KEY ([ID])
 , FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 , FOREIGN KEY ([UserID]) REFERENCES [Users] ([UserID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
@@ -2258,6 +2258,19 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Have account?','en-US','Have account?',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Have account?','zh-CN','已有账号？',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Have your say...','zh-CN','说说你的看法...',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HeadWidget@AssemblyName','en-US','Assembly Name','HeadWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HeadWidget@Content','en-US','内容','HeadWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HeadWidget@IsSystem','en-US','Is System','HeadWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HeadWidget@IsTemplate','en-US','保存为模板','HeadWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HeadWidget@PartialView','en-US','显示模板','HeadWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HeadWidget@Position','en-US','位置','HeadWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HeadWidget@ServiceTypeName','en-US','Service Type Name','HeadWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HeadWidget@StyleClass','en-US','自定义样式','HeadWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HeadWidget@Thumbnail','en-US','缩略图','HeadWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HeadWidget@Title','en-US','标题','HeadWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HeadWidget@ViewModelTypeName','en-US','View Model Type Name','HeadWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HeadWidget@WidgetName','en-US','组件名称','HeadWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HeadWidget@ZoneID','en-US','区域','HeadWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Height(px)','zh-CN','高(px)',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Help','zh-CN','帮助',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Hidden','zh-CN','隐藏',NULL,NULL);

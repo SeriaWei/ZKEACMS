@@ -20,10 +20,10 @@ namespace ZKEACMS.Article.Service
             _articleService = articleService;
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
+        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
             var viewModel = new ArticleDetailViewModel();
-            var articleWidget = widget as ArticleSpecialDetailWidget;
+            var articleWidget = widgetDisplayContext.Widget as ArticleSpecialDetailWidget;
             ArticleEntity article = null;
             int articleId = articleWidget.ArticleId ?? 0;
             if (articleId > 0)
@@ -36,12 +36,12 @@ namespace ZKEACMS.Article.Service
             }
             if (article == null)
             {
-                actionContext.NotFoundResult();
+                widgetDisplayContext.ActionContext.NotFoundResult();
             }
             else
             {
                 _articleService.IncreaseCount(article);
-                var layout = actionContext.HttpContext.GetLayout();
+                var layout = widgetDisplayContext.PageLayout;
                 if (layout != null && layout.Page != null)
                 {
                     layout.Page.MetaKeyWorlds = article.MetaKeyWords;
@@ -51,7 +51,7 @@ namespace ZKEACMS.Article.Service
             }
             viewModel.Current = article;
 
-            return widget.ToWidgetViewModelPart(viewModel);
+            return widgetDisplayContext.ToWidgetViewModelPart(viewModel);
         }
     }
 }

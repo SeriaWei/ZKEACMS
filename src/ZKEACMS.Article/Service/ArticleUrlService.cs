@@ -2,6 +2,7 @@
  * Copyright 2020 ZKEASOFT 
  * http://www.zkea.net/licenses */
 
+using Easy;
 using Easy.Extend;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace ZKEACMS.Article.Service
         public IEnumerable<ArticleUrl> GetAllPublicUrls()
         {
             HashSet<string> excuted = new HashSet<string>();
-            foreach (var item in _articleListWidgetService.Get())
+            foreach (var item in _articleListWidgetService.Get().ToList())
             {
                 string typeDetail = $"{item.DetailPageUrl}-{item.ArticleTypeID}";
                 if (item.DetailPageUrl.IsNotNullAndWhiteSpace() && !excuted.Contains(typeDetail))
@@ -41,7 +42,7 @@ namespace ZKEACMS.Article.Service
                         string post = article.Url.IsNullOrWhiteSpace() ? $"post-{article.ID}" : article.Url;
                         yield return new ArticleUrl
                         {
-                            Url = $"{item.DetailPageUrl}/{post}.html",
+                            Url = Helper.Url.ToVirtualPath($"{item.DetailPageUrl}/{post}.html"),
                             Article = article
                         };
                     }
@@ -53,7 +54,7 @@ namespace ZKEACMS.Article.Service
         public string[] GetDetailPages()
         {
             return _articleListWidgetService.Get(m => m.DetailPageUrl != null)
-                .Select(m => m.DetailPageUrl).Distinct().ToArray();
+                .Select(m => Helper.Url.ToVirtualPath(m.DetailPageUrl)).Distinct().ToArray();
         }
 
         public string[] GetPublicUrl(int ID)
@@ -61,6 +62,11 @@ namespace ZKEACMS.Article.Service
             ArticleEntity article = _articleService.Get(ID);
             if (article == null) return null;
 
+            return GetPublicUrl(article);
+        }
+
+        public string[] GetPublicUrl(ArticleEntity article)
+        {
             int articleTypeId = article.ArticleTypeID ?? 0;
             if (articleTypeId == 0) return null;
 
@@ -74,7 +80,7 @@ namespace ZKEACMS.Article.Service
             string post = article.Url.IsNullOrWhiteSpace() ? $"post-{article.ID}" : article.Url;
             for (int i = 0; i < detailPageUrls.Length; i++)
             {
-                detailPageUrls[i] = $"{detailPageUrls[i]}/{post}.html";
+                detailPageUrls[i] = Helper.Url.ToVirtualPath($"{detailPageUrls[i]}/{post}.html");
             }
             return detailPageUrls;
         }

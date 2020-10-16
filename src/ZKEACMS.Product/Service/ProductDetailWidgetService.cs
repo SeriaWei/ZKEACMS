@@ -43,8 +43,9 @@ namespace ZKEACMS.Product.Service
             base.DeleteWidget(widgetId);
             DismissRelatedPageUrls();
         }
-        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
+        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
+            var actionContext = widgetDisplayContext.ActionContext;
             int productId = actionContext.RouteData.GetPost();
             ProductEntity product = null;
             if (productId != 0)
@@ -69,7 +70,7 @@ namespace ZKEACMS.Product.Service
             }
             if (product != null)
             {
-                var layout = actionContext.HttpContext.GetLayout();
+                var layout = widgetDisplayContext.PageLayout;
                 if (layout != null && layout.Page != null)
                 {
                     var page = layout.Page;
@@ -79,7 +80,7 @@ namespace ZKEACMS.Product.Service
                 }
             }
 
-            return widget.ToWidgetViewModelPart(product ?? new ProductEntity());
+            return widgetDisplayContext.ToWidgetViewModelPart(product ?? new ProductEntity());
         }
 
         public string[] GetRelatedPageUrls()

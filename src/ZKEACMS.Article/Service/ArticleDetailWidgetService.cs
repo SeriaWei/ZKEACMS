@@ -49,8 +49,9 @@ namespace ZKEACMS.Article.Service
             DismissRelatedPageUrls();
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
+        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
+            var actionContext = widgetDisplayContext.ActionContext;
             int articleId = actionContext.RouteData.GetPost();
             var viewModel = new ArticleDetailViewModel();
             if (articleId != 0)
@@ -80,7 +81,7 @@ namespace ZKEACMS.Article.Service
             }
             else
             {
-                var layout = actionContext.HttpContext.GetLayout();
+                var layout = widgetDisplayContext.PageLayout;
                 if (layout != null && layout.Page != null)
                 {
                     layout.Page.MetaKeyWorlds = viewModel.Current.MetaKeyWords;
@@ -90,7 +91,7 @@ namespace ZKEACMS.Article.Service
             }
 
 
-            return widget.ToWidgetViewModelPart(viewModel);
+            return widgetDisplayContext.ToWidgetViewModelPart(viewModel);
         }
 
         public string[] GetRelatedPageUrls()

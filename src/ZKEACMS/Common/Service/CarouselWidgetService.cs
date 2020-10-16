@@ -100,15 +100,15 @@ namespace ZKEACMS.Common.Service
             base.DeleteWidget(widgetId);
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
+        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
-            var carouselWidget = widget as CarouselWidget;
+            var carouselWidget = widgetDisplayContext.Widget as CarouselWidget;
             if (carouselWidget.CarouselID.HasValue)
             {
                 carouselWidget.CarouselItems = _carouselItemService.Get(m => m.CarouselID == carouselWidget.CarouselID);
             }
             carouselWidget.CarouselItems = carouselWidget.CarouselItems.Where(m => m.Status == (int)RecordStatus.Active);
-            return base.Display(widget, actionContext);
+            return widgetDisplayContext.ToWidgetViewModelPart();
         }
     }
 }

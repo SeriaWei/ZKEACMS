@@ -1,4 +1,5 @@
-﻿using Easy.Extend;
+﻿using Easy;
+using Easy.Extend;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System;
@@ -51,6 +52,12 @@ namespace ZKEACMS
                 return _hostOptions.Value.Scheme;
             }
             return _httpContextAccessor.HttpContext.Request.Scheme;
+        }
+
+        public Uri ToAbsoluteUri(string relativePath)
+        {
+            string path = Helper.Url.ToAbsolutePath(relativePath);
+            return new Uri($"{GetOrigin()}{path}", UriKind.Absolute);
         }
     }
 }
