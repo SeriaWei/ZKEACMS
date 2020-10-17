@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "sqlite-exec": {
+      "version": "0.0.3",
+      "commands": [
+        "sqlite-exec"
+      ]
+    }
+  }
+}
