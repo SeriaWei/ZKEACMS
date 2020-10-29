@@ -104,6 +104,11 @@ namespace Easy
             services.Configure<CultureOption>(configuration.GetSection("Culture"));
 
             services.AddDataProtection();
+            //Share persistkeys for distributed deployment
+            //You can create a new implementation of 'IXmlRepository' to store the persistkeys for sharing, like Redis or other database
+            //FileSystemXmlRepository:
+            //https://github.com/dotnet/aspnetcore/blob/master/src/DataProtection/DataProtection/src/Repositories/FileSystemXmlRepository.cs
+            //services.AddDataProtection().SetApplicationName("ZKEACMS").PersistKeysToFileSystem(new DirectoryInfo("PersistKeys"));
         }
 
         public static void ConfigureMetaData<TEntity, TMetaData>(this IServiceCollection service)
