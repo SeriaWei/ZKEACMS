@@ -13,10 +13,10 @@ using System.Xml.Serialization;
 
 namespace ZKEACMS.Distribution.Models
 {
-    [XmlRoot("key")]
+    [XmlRoot("key"), DataTable("PersistKey")]
     public class PersistKey
     {
-        [XmlAttribute("id")]
+        [XmlAttribute("id"), Key]
         public string ID { get; set; }
         public string XML { get; set; }
 

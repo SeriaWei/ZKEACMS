@@ -5,6 +5,7 @@
  */
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
+using Easy.RepositoryPattern;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,8 @@ namespace ZKEACMS.Distribution
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddSingleton<IDistributionPersistKeysRepository, DistributionPersistKeysRepository>();
+            serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
+            serviceCollection.AddTransient<IPersistKeyService, PersistKeyService>();
             serviceCollection.AddDataProtection().EnableDistribution();
         }
     }

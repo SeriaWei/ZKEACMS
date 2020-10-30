@@ -19,10 +19,9 @@ namespace ZKEACMS.Distribution
             builder.SetApplicationName("ZKEACMS");
             builder.Services.AddSingleton<IConfigureOptions<KeyManagementOptions>>(services =>
             {
-                var repository = services.GetService<IDistributionPersistKeysRepository>();
                 return new ConfigureOptions<KeyManagementOptions>(options =>
                 {
-                    options.XmlRepository = repository;
+                    options.XmlRepository = new DistributionPersistKeysRepository(services);
                 });
             });
 

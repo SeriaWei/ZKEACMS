@@ -4,12 +4,11 @@
  *
  */
 
+using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -19,7 +18,7 @@ using ZKEACMS.Distribution.Models;
 
 namespace ZKEACMS.Distribution.Service
 {
-    public class DistributionPersistKeysRepository : IDistributionPersistKeysRepository
+    public class DistributionPersistKeysRepository : IXmlRepository
     {
         private string DistributionPersistKeys = "DistributionPersistKeys";
         private readonly IServiceProvider _serviceProvider;
@@ -33,8 +32,8 @@ namespace ZKEACMS.Distribution.Service
             List<XElement> elements = new List<XElement>();
             using (IServiceScope scope = _serviceProvider.CreateScope())
             {
-                var dataArchiveService = scope.ServiceProvider.GetService<IDataArchivedService>();
-                var keys = dataArchiveService.Get<List<PersistKey>>(DistributionPersistKeys);
+                var persistKeyService = scope.ServiceProvider.GetService<IPersistKeyService>();
+                var keys = persistKeyService.GetPersistKeys();
                 if (keys != null)
                 {
                     foreach (var item in keys)
@@ -68,20 +67,10 @@ namespace ZKEACMS.Distribution.Service
                 }
                 persistKey.XML = xmlBuilder.ToString();
             }
-            List<PersistKey> persistKeys = new List<PersistKey>();
-            persistKeys.Add(persistKey);
             using (IServiceScope scope = _serviceProvider.CreateScope())
             {
-                var dataArchiveService = scope.ServiceProvider.GetService<IDataArchivedService>();
-                var keys = dataArchiveService.Get(DistributionPersistKeys, () => new List<PersistKey>());
-                foreach (var item in keys)
-                {
-                    if (item.ExpirationDate > DateTime.Now)
-                    {
-                        persistKeys.Add(item);
-                    }
-                }
-                dataArchiveService.Archive(DistributionPersistKeys, persistKeys);
+                var persistKeyService = scope.ServiceProvider.GetService<IPersistKeyService>();
+                persistKeyService.Save(persistKey);
             }
         }
 
