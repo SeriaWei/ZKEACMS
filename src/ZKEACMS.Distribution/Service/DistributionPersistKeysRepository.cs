@@ -13,14 +13,12 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using ZKEACMS.DataArchived;
 using ZKEACMS.Distribution.Models;
 
 namespace ZKEACMS.Distribution.Service
 {
     public class DistributionPersistKeysRepository : IXmlRepository
     {
-        private string DistributionPersistKeys = "DistributionPersistKeys";
         private readonly IServiceProvider _serviceProvider;
         public DistributionPersistKeysRepository(IServiceProvider serviceProvider)
         {
@@ -29,23 +27,29 @@ namespace ZKEACMS.Distribution.Service
 
         public virtual IReadOnlyCollection<XElement> GetAllElements()
         {
+            List<PersistKey> persistKeys = GetPersistKeys();
             List<XElement> elements = new List<XElement>();
-            using (IServiceScope scope = _serviceProvider.CreateScope())
+            foreach (var key in persistKeys)
             {
-                var persistKeyService = scope.ServiceProvider.GetService<IPersistKeyService>();
-                var keys = persistKeyService.GetPersistKeys();
-                if (keys != null)
+                using (TextReader reader = new StringReader(key.XML))
                 {
-                    foreach (var item in keys)
-                    {
-                        using (TextReader reader = new StringReader(item.XML))
-                        {
-                            elements.Add(XElement.Load(reader));
-                        }
-                    }
+                    elements.Add(XElement.Load(reader));
                 }
             }
             return elements.AsReadOnly();
+        }
+
+        private List<PersistKey> GetPersistKeys()
+        {
+            List<PersistKey> persistKeys;
+            using (IServiceScope scope = _serviceProvider.CreateScope())
+            {
+                var persistKeyService = scope.ServiceProvider.GetService<IPersistKeyService>();
+                persistKeys = persistKeyService.GetPersistKeys();
+
+            }
+
+            return persistKeys;
         }
 
         public virtual void StoreElement(XElement element, string friendlyName)
@@ -55,6 +59,12 @@ namespace ZKEACMS.Distribution.Service
                 throw new ArgumentNullException(nameof(element));
             }
 
+            PersistKey persistKey = DeserializePersistKey(element);
+            SavePersistKey(persistKey);
+        }
+
+        private static PersistKey DeserializePersistKey(XElement element)
+        {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(PersistKey));
             PersistKey persistKey;
             using (XmlReader reader = element.CreateReader())
@@ -67,13 +77,18 @@ namespace ZKEACMS.Distribution.Service
                 }
                 persistKey.XML = xmlBuilder.ToString();
             }
+
+            return persistKey;
+        }
+
+        private void SavePersistKey(PersistKey persistKey)
+        {
             using (IServiceScope scope = _serviceProvider.CreateScope())
             {
                 var persistKeyService = scope.ServiceProvider.GetService<IPersistKeyService>();
                 persistKeyService.Save(persistKey);
             }
         }
-
 
     }
 }

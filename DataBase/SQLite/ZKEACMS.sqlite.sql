@@ -1,4 +1,4 @@
--- Script Date: 2020/9/20 星期日 14:35  - ErikEJ.SqlCeScripting version 3.5.2.56
+-- Script Date: 2020/10/30 星期五 21:38  - ErikEJ.SqlCeScripting version 3.5.2.56
 SELECT 1;
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
@@ -111,13 +111,13 @@ CREATE TABLE [Roles] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Roles__3214EC2756B14F8D] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Roles__3214EC27BF6D39AB] PRIMARY KEY ([ID])
 );
 CREATE TABLE [UserRoleRelation] (
   [ID] INTEGER NOT NULL
 , [RoleID] int NULL
 , [UserID] nvarchar(50) NULL
-, CONSTRAINT [PK__UserRole__3214EC2753D84092] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__UserRole__3214EC27F55C5FB1] PRIMARY KEY ([ID])
 , FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 , FOREIGN KEY ([UserID]) REFERENCES [Users] ([UserID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
@@ -211,6 +211,14 @@ CREATE TABLE [Product] (
 , [LastUpdateDate] datetime NULL
 , CONSTRAINT [PK_Product] PRIMARY KEY ([ID])
 , FOREIGN KEY ([ProductCategoryID]) REFERENCES [ProductCategory] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+CREATE TABLE [PersistKey] (
+  [ID] nvarchar(100) NOT NULL
+, [XML] ntext NULL
+, [CreationDate] datetime NULL
+, [ActivationDate] datetime NULL
+, [ExpirationDate] datetime NULL
+, CONSTRAINT [PK__PersistK__3214EC27F5668A51] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Permission] (
   [PermissionKey] nvarchar(100) NOT NULL
