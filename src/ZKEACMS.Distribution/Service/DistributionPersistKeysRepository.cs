@@ -4,55 +4,49 @@
  *
  */
 
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Serialization;
+using ZKEACMS.DataArchived;
+using ZKEACMS.Distribution.Models;
 
 namespace ZKEACMS.Distribution.Service
 {
     public class DistributionPersistKeysRepository : IDistributionPersistKeysRepository
     {
-        public DistributionPersistKeysRepository()
+        private string DistributionPersistKeys = "DistributionPersistKeys";
+        private readonly IServiceProvider _serviceProvider;
+        public DistributionPersistKeysRepository(IServiceProvider serviceProvider)
         {
-            //todo: Save PersistKey to database.
-            Directory = new DirectoryInfo("PersistKeys");
+            _serviceProvider = serviceProvider;
         }
-
-        public DirectoryInfo Directory { get; }
 
         public virtual IReadOnlyCollection<XElement> GetAllElements()
         {
-            return GetAllElementsCore().ToList().AsReadOnly();
-        }
-
-        private IEnumerable<XElement> GetAllElementsCore()
-        {
-            Directory.Create(); 
-
-            foreach (var fileSystemInfo in Directory.EnumerateFileSystemInfos("*.xml", SearchOption.TopDirectoryOnly))
+            List<XElement> elements = new List<XElement>();
+            using (IServiceScope scope = _serviceProvider.CreateScope())
             {
-                yield return ReadElementFromFile(fileSystemInfo.FullName);
+                var dataArchiveService = scope.ServiceProvider.GetService<IDataArchivedService>();
+                var keys = dataArchiveService.Get<List<PersistKey>>(DistributionPersistKeys);
+                if (keys != null)
+                {
+                    foreach (var item in keys)
+                    {
+                        using (TextReader reader = new StringReader(item.XML))
+                        {
+                            elements.Add(XElement.Load(reader));
+                        }
+                    }
+                }
             }
-        }
-
-        private static bool IsSafeFilename(string filename)
-        {
-            return (!String.IsNullOrEmpty(filename) && filename.All(c =>
-                c == '-'
-                || c == '_'
-                || ('0' <= c && c <= '9')
-                || ('A' <= c && c <= 'Z')
-                || ('a' <= c && c <= 'z')));
-        }
-
-        private XElement ReadElementFromFile(string fullPath)
-        {
-            using (var fileStream = File.OpenRead(fullPath))
-            {
-                return XElement.Load(fileStream);
-            }
+            return elements.AsReadOnly();
         }
 
         public virtual void StoreElement(XElement element, string friendlyName)
@@ -62,41 +56,35 @@ namespace ZKEACMS.Distribution.Service
                 throw new ArgumentNullException(nameof(element));
             }
 
-            if (!IsSafeFilename(friendlyName))
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(PersistKey));
+            PersistKey persistKey;
+            using (XmlReader reader = element.CreateReader())
             {
-                var newFriendlyName = Guid.NewGuid().ToString();
-                friendlyName = newFriendlyName;
+                persistKey = (PersistKey)xmlSerializer.Deserialize(reader);
+                StringBuilder xmlBuilder = new StringBuilder();
+                using (TextWriter writer = new StringWriter(xmlBuilder))
+                {
+                    element.Save(writer, SaveOptions.DisableFormatting);
+                }
+                persistKey.XML = xmlBuilder.ToString();
             }
-
-            StoreElementCore(element, friendlyName);
-        }
-
-        private void StoreElementCore(XElement element, string filename)
-        {
-            Directory.Create(); 
-            var tempFilename = Path.Combine(Directory.FullName, Guid.NewGuid().ToString() + ".tmp");
-            var finalFilename = Path.Combine(Directory.FullName, filename + ".xml");
-
-            try
+            List<PersistKey> persistKeys = new List<PersistKey>();
+            persistKeys.Add(persistKey);
+            using (IServiceScope scope = _serviceProvider.CreateScope())
             {
-                using (var tempFileStream = File.OpenWrite(tempFilename))
+                var dataArchiveService = scope.ServiceProvider.GetService<IDataArchivedService>();
+                var keys = dataArchiveService.Get(DistributionPersistKeys, () => new List<PersistKey>());
+                foreach (var item in keys)
                 {
-                    element.Save(tempFileStream);
+                    if (item.ExpirationDate > DateTime.Now)
+                    {
+                        persistKeys.Add(item);
+                    }
                 }
-
-                try
-                {
-                    File.Move(tempFilename, finalFilename);
-                }
-                catch (IOException)
-                {
-                    File.Copy(tempFilename, finalFilename);
-                }
-            }
-            finally
-            {
-                File.Delete(tempFilename);
+                dataArchiveService.Archive(DistributionPersistKeys, persistKeys);
             }
         }
+
+
     }
 }

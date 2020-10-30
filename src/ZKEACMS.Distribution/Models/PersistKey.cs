@@ -7,22 +7,26 @@
 using Easy.MetaData;
 using Easy.Models;
 using Easy.RepositoryPattern;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
 
 namespace ZKEACMS.Distribution.Models
 {
-    [DataTable("PersistKey")]
-    public class PersistKey : EditorEntity
+    [XmlRoot("key")]
+    public class PersistKey
     {
-        [Key]
+        [XmlAttribute("id")]
         public string ID { get; set; }
-        public string Value { get; set; }
-    }
-    class PersistKeyMetaData : ViewMetaData<PersistKey>
-    {
-        protected override void ViewConfigure()
-        {
-            ViewConfig(m => m.ID).AsHidden();
-        }
+        public string XML { get; set; }
+
+        [XmlElement("creationDate")]
+        public DateTime CreationDate { get; set; }
+
+        [XmlElement("activationDate")]
+        public DateTime ActivationDate { get; set; }
+
+        [XmlElement("expirationDate")]
+        public DateTime ExpirationDate { get; set; }
     }
 }
