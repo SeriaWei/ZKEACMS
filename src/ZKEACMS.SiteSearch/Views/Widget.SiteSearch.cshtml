@@ -1,38 +1,13 @@
 @model ZKEACMS.SiteSearch.Models.SiteSearchWidget
-@inject ZKEACMS.IHostOptionProvider hostOptionProvider
+@{ 
+    Style.Reqiured("site-search").AtHead();
+    Script.Reqiured("site-search").AtFoot();
+}
 <div class="site-search">
-    <div class="row">
-        <div class="col-xs-8 col-md-10">
-            <input class="form-control site-search-query" type="text" placeholder="@L("Input keywords to search")">
-        </div>
-        <div class="col-xs-4 col-md-2">
-            <a href="javascript:void(0)" class="btn btn-primary btn-large btn-submit" style="display:block">
-                @L("Search")
-            </a>
-        </div>
+    <div class="s-input-group clearfix">
+        <input class="form-control site-search-query" type="text" data-search="@Model.SearchEngine" placeholder="@L("Input keywords to search")">
+        <a href="javascript:void(0)" class="btn btn-primary btn-submit">
+            @L("Search")
+        </a>
     </div>
 </div>
-
-@using (Script.AtFoot())
-{
-    <script type="text/javascript">
-        $(function () {
-            function search(value) {
-                window.open("@Model.SearchEngine.FormatWith($"site:{hostOptionProvider.GetDomain()}")" + " " + $.trim(value), "_blank");
-            }
-            $(document).on("click", ".site-search .btn-submit", function () {
-                var value = $(this).closest(".site-search").find(".site-search-query").val();
-                if ($.trim(value)) {
-                    search($.trim(value));
-                }
-            }).on("keyup", ".site-search .site-search-query", function (e) {
-                if (e.keyCode == 13) {
-                    var value = $(this).val();
-                    if ($.trim(value)) {
-                        search($.trim(value));
-                    }
-                }
-            });
-        });
-    </script>
-}
