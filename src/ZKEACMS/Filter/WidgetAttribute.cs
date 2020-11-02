@@ -177,10 +177,7 @@ namespace ZKEACMS.Filter
                     }
                     (filterContext.Controller as Controller).ViewData.Model = layout;
                 }
-                if (page.IsPublishedPage)
-                {
-                    eventManager.Trigger(Events.OnPageExecuted, layout);
-                }
+                eventManager.Trigger(Events.OnPageExecuted, layout);
 
                 layoutService.Dispose();
                 applicationSettingService.Dispose();
