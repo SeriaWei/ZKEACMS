@@ -28,7 +28,14 @@
             {
                 foreach (var widgetPart in Model.ZoneWidgets[zoneId].OrderBy(m => m.Widget.Position).ThenBy(m => m.Widget.WidgetName))
                 {
-                    @await Html.DesignWidget(new DesignWidgetViewModel(widgetPart, Model.Page.ID));
+                    if (widgetPart.Widget.ID.IsNotNullAndWhiteSpace())
+                    {
+                        @await Html.DesignWidget(new DesignWidgetViewModel(widgetPart, Model.Page.ID));
+                    }
+                    else
+                    {
+                        @await Html.DisplayWidget(widgetPart)
+                    }
                 }
             }
             if (Model.Zones.Any(m => m.HeadingCode == zoneId))
@@ -40,7 +47,7 @@
                        href="@Url.Action("SelectWidget", "WidgetTemplate", new {pageId = Model.Page.ID, ZoneId = zoneId})">
                         <i class="glyphicon glyphicon-plus"></i>
                         @L("Add Content") | @Model.Zones.First(m => m.HeadingCode == zoneId).ZoneName
-                        
+
                     </a>
                     @if (ViewBag.CanPasteWidget == true)
                     {

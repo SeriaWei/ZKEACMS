@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2020 ZKEASOFT 
+ * http://www.zkea.net/licenses 
+ */
 using Easy.Extend;
 using System.Collections.Generic;
 using System.Reflection;
@@ -8,18 +11,46 @@ namespace ZKEACMS
 {
     public class Const
     {
-        public const string CopyWidgetCookie = "032F84D1BA204DC88F1C2694BF41F989";
+        public const string CopyWidgetCookie = "F84DBA";
     }
 
     public class Layouts
     {
+        /// <summary>
+        /// Page Design
+        /// </summary>
         public const string PageDesign = "_DesignPageLayout";
+        /// <summary>
+        /// Layout Design
+        /// </summary>
         public const string LayoutDesign = "_DesignLayout";
+        /// <summary>
+        /// Layout for user created pages
+        /// </summary>
         public const string Default = "_Layout";
+        /// <summary>
+        /// Layout with current theme and body with container.
+        /// </summary>
         public const string NormalDefault = "_LayoutNormal";
+        /// <summary>
+        /// Layout with current theme
+        /// </summary>
+        public const string Generic = "_LayoutGeneric";
+        /// <summary>
+        /// Layout for admin pop up modal
+        /// </summary>
         public const string PopUp = "_PopUpLayout";
+        /// <summary>
+        /// Layout for front end pop up modal
+        /// </summary>
         public const string ClientPopUp = "_PopUpClientLayout";
+        /// <summary>
+        /// User center
+        /// </summary>
         public const string CustomerCenter = "_CustomerCenterLayout";
+        /// <summary>
+        /// Empty Layout, without current theme.
+        /// </summary>
         public const string EmptyLayout = "_EmptyLayout";
 
         public const string ThemeLayout = "~/wwwroot/themes/{0}/Views/_Layout.cshtml";
