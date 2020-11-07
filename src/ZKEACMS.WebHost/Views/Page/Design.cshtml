@@ -30,7 +30,7 @@
                 {
                     if (widgetPart.Widget.ID.IsNotNullAndWhiteSpace())
                     {
-                        @await Html.DesignWidget(new DesignWidgetViewModel(widgetPart, Model.Page.ID));
+                        @await Html.DesignWidget(new DesignWidgetViewModel(widgetPart, Model.Page.ID))
                     }
                     else
                     {
