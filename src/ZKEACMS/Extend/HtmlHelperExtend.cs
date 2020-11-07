@@ -11,6 +11,8 @@ using Easy.Mvc.Extend;
 using System;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using Easy.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace ZKEACMS
 {
@@ -89,11 +91,12 @@ namespace ZKEACMS
         }
         public static IHtmlContent SearchTerms(this IHtmlHelper html, bool createAble, string createAction)
         {
-            html.ViewBag.CreateAble = createAble;
-            html.ViewBag.CreateAction = createAction;
-            return html.Editor(string.Empty, "Search-Terms");
+            return html.Editor(string.Empty, "Search-Terms", new { CreateAble = createAble, CreateAction = createAction });
         }
-
+        public static IDisposable SearchTermsWithActions(this IHtmlHelper html, RazorPage page)
+        {
+            return new InjectEditorViewRender(page, html, "Search-Terms");
+        }
         public static IHtmlContent SearchItem(this IHtmlHelper html, ModelMetadata item)
         {
             var descriptor = item.GetViewDescriptor();
