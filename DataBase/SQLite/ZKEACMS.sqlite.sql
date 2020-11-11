@@ -1,4 +1,4 @@
--- Script Date: 2020/11/10 星期二 21:49  - ErikEJ.SqlCeScripting version 3.5.2.56
+-- Script Date: 2020/11/11 星期三 21:01  - ErikEJ.SqlCeScripting version 3.5.2.56
 SELECT 1;
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
@@ -41,6 +41,23 @@ CREATE TABLE [Users] (
 , [ResetToken] nvarchar(50) NULL
 , [ResetTokenDate] datetime NULL
 , CONSTRAINT [PK_Users] PRIMARY KEY ([UserID])
+);
+CREATE TABLE [Subscription] (
+  [ID] INTEGER NOT NULL
+, [Email] nvarchar(100) NULL
+, [Phone] nvarchar(100) NULL
+, [Referrer] nvarchar(500) NULL
+, [IsValidate] bit NULL
+, [Title] nvarchar(50) NULL
+, [Description] nvarchar(500) NULL
+, [Status] int NULL
+, [CreateBy] nvarchar(50) NULL
+, [CreatebyName] nvarchar(100) NULL
+, [CreateDate] datetime NULL
+, [LastUpdateBy] nvarchar(50) NULL
+, [LastUpdateByName] nvarchar(100) NULL
+, [LastUpdateDate] datetime NULL
+, CONSTRAINT [PK__Subscrip__3214EC27EE5E2523] PRIMARY KEY ([ID])
 );
 CREATE TABLE [SectionTemplate] (
   [TemplateName] nvarchar(100) NOT NULL
@@ -111,13 +128,13 @@ CREATE TABLE [Roles] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Roles__3214EC27130EC946] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Roles__3214EC27AD7BE6C0] PRIMARY KEY ([ID])
 );
 CREATE TABLE [UserRoleRelation] (
   [ID] INTEGER NOT NULL
 , [RoleID] int NULL
 , [UserID] nvarchar(50) NULL
-, CONSTRAINT [PK__UserRole__3214EC2709D82410] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__UserRole__3214EC2738C42230] PRIMARY KEY ([ID])
 , FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 , FOREIGN KEY ([UserID]) REFERENCES [Users] ([UserID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
@@ -218,7 +235,7 @@ CREATE TABLE [PersistKey] (
 , [CreationDate] datetime NULL
 , [ActivationDate] datetime NULL
 , [ExpirationDate] datetime NULL
-, CONSTRAINT [PK__PersistK__3214EC272145062B] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__PersistK__3214EC271F087037] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Permission] (
   [PermissionKey] nvarchar(100) NOT NULL

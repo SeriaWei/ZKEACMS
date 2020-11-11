@@ -5674,6 +5674,26 @@ CREATE TABLE `StyleSheetWidget` (
 );
 
 
+DROP TABLE IF EXISTS `Subscription`;
+CREATE TABLE `Subscription` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Email` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`Phone` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`Referrer` VARCHAR(500) CHARACTER SET utf8mb4  NULL,
+	`IsValidate` TINYINT(1)  NULL,
+	`Title` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(500) CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
+);
+
+
 DROP TABLE IF EXISTS `UserRoleRelation`;
 CREATE TABLE `UserRoleRelation` (
 	`ID` INT AUTO_INCREMENT  NOT NULL,
