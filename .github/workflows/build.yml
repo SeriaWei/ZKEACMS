@@ -21,9 +21,19 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - name: restore publish tool
-      working-directory: ./src/ZKEACMS.WebHost
-      run: dotnet tool restore
-    - name: publish
-      working-directory: ./src/ZKEACMS.WebHost
-      run: dotnet tool run publish-zkeacms
+    - name: Install tools
+      run: |
+        dotnet tool install --global ZKEACMS.Publisher
+        dotnet tool install --global sqlite-exec
+    - name: Publish
+      run: publish-zkeacms
+    - name: Create database
+      run: |
+        mkdir ./src/ZKEACMS.WebHost/bin/Release/PublishOutput/App_Data
+        sqlite-exec -d ./src/ZKEACMS.WebHost/bin/Release/PublishOutput/App_Data/Database.sqlite -f ./DataBase/SQLite/ZKEACMS.sqlite.sql
+        cp -f ./DataBase/SQLite/appsettings.json ./src/ZKEACMS.WebHost/bin/Release/PublishOutput/appsettings.json
+    - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Artifacts
+          path: ./src/ZKEACMS.WebHost/bin/Release/PublishOutput
