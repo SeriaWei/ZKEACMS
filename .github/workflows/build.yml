@@ -26,6 +26,7 @@ jobs:
         dotnet tool install --global ZKEACMS.Publisher
         dotnet tool install --global sqlite-exec
     - name: Publish
+      working-directory: ./src/ZKEACMS.WebHost
       run: publish-zkeacms
     - name: Create database
       run: |
