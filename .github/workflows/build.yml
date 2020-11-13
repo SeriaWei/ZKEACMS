@@ -21,3 +21,9 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
+    - name: go to WebHost
+      run: cd src/ZKEACMS.WebHost
+    - name: restore publish tool
+      run: dotnet tool restore
+    - name: publish
+      run: dotnet tool run publish-zkeacms
