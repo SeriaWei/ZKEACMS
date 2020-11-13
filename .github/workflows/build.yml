@@ -21,6 +21,9 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
+    - name: Test EasyFrameWork
+      working-directory: ./test/EasyFrameWork.Test
+      run: dotnet test
     - name: Install tools
       run: |
         dotnet tool install --global ZKEACMS.Publisher
