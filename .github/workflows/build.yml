@@ -2,9 +2,9 @@ name: Auto Build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, develop ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, develop ]
 
 jobs:
   build:
@@ -21,9 +21,9 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - name: go to WebHost
-      run: cd src/ZKEACMS.WebHost
     - name: restore publish tool
+      working-directory: ./src/ZKEACMS.WebHost
       run: dotnet tool restore
     - name: publish
+      working-directory: ./src/ZKEACMS.WebHost
       run: dotnet tool run publish-zkeacms
