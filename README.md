@@ -1,4 +1,4 @@
-﻿# ZKEACMS Build With Asp.Net Core 3.1
+﻿# ZKEACMS Build With .Net 5
 
 ZKEACMS is a visual design, **WYSIWYG** Content Management System.
 
@@ -55,7 +55,7 @@ $ docker run -d -p 5000:80 zkeasoft/zkeacms:ent
 ```
 
 ## Development
-* [.Net Core SDK 3.1](https://dotnet.microsoft.com/download)
+* [.Net SDK 5](https://dotnet.microsoft.com/download)
 * Microsoft Sql Server 2012+ / MySql 5.6+ / SQLite 3
 * Microsoft Visual Studio 2019 / Visual Studio Code
 
