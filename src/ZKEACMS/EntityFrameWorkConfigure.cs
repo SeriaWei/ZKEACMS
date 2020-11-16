@@ -49,9 +49,9 @@ namespace ZKEACMS
                 case Easy.DbTypes.MySql:
                     {
                         if (dbConnectionForReusing != null)
-                            optionsBuilder.UseMySql(dbConnectionForReusing);
+                            optionsBuilder.UseMySql(dbConnectionForReusing, ServerVersion.AutoDetect(dbConnectionForReusing as MySqlConnector.MySqlConnection));
                         else
-                            optionsBuilder.UseMySql(_dataBaseOption.ConnectionString);
+                            optionsBuilder.UseMySql(_dataBaseOption.ConnectionString , ServerVersion.AutoDetect(_dataBaseOption.ConnectionString));
                         break;
                     }
             }

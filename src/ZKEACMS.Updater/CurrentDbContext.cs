@@ -39,7 +39,7 @@ namespace ZKEACMS.Updater
                     }
                 case Easy.DbTypes.MySql:
                     {
-                        optionsBuilder.UseMySql(_dataBaseOption.ConnectionString);
+                        optionsBuilder.UseMySql(_dataBaseOption.ConnectionString, ServerVersion.AutoDetect(_dataBaseOption.ConnectionString));
                         break;
                     }
             }
