@@ -7,9 +7,11 @@ using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
 using Easy.RepositoryPattern;
 using Easy.StartTask;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using ZKEACMS.Updater.Models;
 using ZKEACMS.Updater.Service;
 using ZKEACMS.WidgetTemplate;
 
@@ -52,6 +54,12 @@ namespace ZKEACMS.Updater
             serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
             serviceCollection.AddTransient<IStartTask, ApplicationStartup>();
             serviceCollection.AddTransient<IDbUpdaterService, DbUpdaterService>();
+
+            var configuration = new ConfigurationBuilder()
+             .SetBasePath(CurrentPluginPath)
+             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();
+
+            serviceCollection.Configure<DBVersionOption>(configuration.GetSection("DBVersionOption"));
         }
     }
 }

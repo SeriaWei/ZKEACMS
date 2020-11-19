@@ -98,15 +98,15 @@ namespace Easy
         }
         public static bool operator >=(Version v1, Version v2)
         {
-            if (v1.Major >= v2.Major)
+            if (v1.Major > v2.Major)
             {
                 return true;
             }
-            if (v1.Major == v2.Major && v1.Minor >= v2.Minor)
+            if (v1.Major == v2.Major && v1.Minor > v2.Minor)
             {
                 return true;
             }
-            if (v1.Major == v2.Major && v1.Minor == v2.Minor && v1.Revision >= v2.Revision)
+            if (v1.Major == v2.Major && v1.Minor == v2.Minor && v1.Revision > v2.Revision)
             {
                 return true;
             }
@@ -118,15 +118,15 @@ namespace Easy
         }
         public static bool operator <=(Version v1, Version v2)
         {
-            if (v1.Major <= v2.Major)
+            if (v1.Major < v2.Major)
             {
                 return true;
             }
-            if (v1.Major == v2.Major && v1.Minor <= v2.Minor)
+            if (v1.Major == v2.Major && v1.Minor < v2.Minor)
             {
                 return true;
             }
-            if (v1.Major == v2.Major && v1.Minor == v2.Minor && v1.Revision <= v2.Revision)
+            if (v1.Major == v2.Major && v1.Minor == v2.Minor && v1.Revision < v2.Revision)
             {
                 return true;
             }

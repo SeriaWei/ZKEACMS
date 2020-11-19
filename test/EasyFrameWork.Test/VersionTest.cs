@@ -58,17 +58,28 @@ namespace EasyFrameWork.Test
         [TestMethod]
         public void TestGreaterLessAndEqual()
         {
-            Version v1 = Version.Parse("1.2.0.0");
-            Version v2 = Version.Parse("1.2");
+            Assert.IsTrue(Version.Parse("1.2") <= Version.Parse("1.2"));
+            Assert.IsTrue(Version.Parse("1.2.1") <= Version.Parse("1.2.1"));
+            Assert.IsTrue(Version.Parse("1.2.1.1") <= Version.Parse("1.2.1.1"));
 
-            Assert.IsTrue(v1 <= v2);
-            Assert.IsTrue(v2 >= v1);
+            Assert.IsTrue(Version.Parse("1.2") >= Version.Parse("1.2"));
+            Assert.IsTrue(Version.Parse("1.2.1") >= Version.Parse("1.2.1"));
+            Assert.IsTrue(Version.Parse("1.2.1.1") >= Version.Parse("1.2.1.1"));
 
-            v1 = Version.Parse("1.1.2.1");
-            v2 = Version.Parse("1.2");
+            Assert.IsFalse(Version.Parse("1.2") >= Version.Parse("1.2.1"));
+            Assert.IsFalse(Version.Parse("1.2.1") >= Version.Parse("1.2.1.1"));
+            Assert.IsFalse(Version.Parse("1.2.1.1") >= Version.Parse("1.2.1.2"));
 
-            Assert.IsTrue(v1 <= v2);
-            Assert.IsTrue(v2 >= v1);
+            Assert.IsTrue(Version.Parse("1.2") <= Version.Parse("1.2.1"));
+            Assert.IsTrue(Version.Parse("1.2.1") <= Version.Parse("1.2.1.1"));
+            Assert.IsTrue(Version.Parse("1.2.1.1") <= Version.Parse("1.2.1.2"));
+
+
+            Assert.IsFalse(Version.Parse("1.2.1") <= Version.Parse("1.2"));
+            Assert.IsFalse(Version.Parse("1.2.1.1") <= Version.Parse("1.2.1"));
+            Assert.IsFalse(Version.Parse("1.2.1.2") <= Version.Parse("1.2.1.1"));
+
+
         }
 
         [TestMethod]

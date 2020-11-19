@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
 using ZKEACMS.Options;
+using ZKEACMS.Updater.Models;
 
 namespace ZKEACMS.Updater
 {
@@ -18,7 +19,7 @@ namespace ZKEACMS.Updater
         {
             _dataBaseOption = dataBaseOption;
         }
-
+        public DbSet<DBVersion> DBVersion { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             switch (_dataBaseOption.DbType)

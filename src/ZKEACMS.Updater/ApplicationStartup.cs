@@ -19,6 +19,7 @@ namespace ZKEACMS.Updater
         public void Excute()
         {
             _dbUpdaterService.UpdateDatabase();
+            _dbUpdaterService.Dispose();
         }
     }
 }

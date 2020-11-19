@@ -29,11 +29,11 @@ namespace ZKEACMS.Controllers
     public class MediaController : BasicController<MediaEntity, string, IMediaService>
     {
         private readonly ILogger _logger;
-        private readonly WebClient _webClient;
+        private readonly IWebClient _webClient;
         private readonly IStorage _storage;
         public MediaController(IMediaService service,
             ILoggerFactory loggerFactory,
-            WebClient webClient,
+            IWebClient webClient,
             IStorage storage)
             : base(service)
         {
@@ -228,28 +228,11 @@ namespace ZKEACMS.Controllers
             }
             Service.Remove(mediaId);
         }
-        //public IActionResult Thumbnail(string id)
-        //{
-        //    const int size = 220;
-        //    using (var input = System.IO.File.OpenRead(Request.MapPath(Service.Get(id).Url)))
-        //    {
-        //        MemoryStream ms = new MemoryStream();
-        //        using (var image = Image.Load<Rgba32>(input))
-        //        {
-        //            image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(size, size), Mode = ResizeMode.Max }));
-        //            image.Save(ms, new JpegEncoder());
-        //            ms.Position = 0;
-        //            return File(ms, "image/jpeg");
-        //        }
-        //    }
-        //}
 
         [HttpPost]
         public IActionResult DownLoadExternalImage(string[] images)
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
-
-            //_webClient.Proxy = new System.Net.WebProxy("kyproxy.keyou.corp", 8080);
 
             string parentId = Service.GetImageFolder().ID;
             foreach (var item in images)
