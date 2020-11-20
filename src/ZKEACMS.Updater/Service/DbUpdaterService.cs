@@ -10,6 +10,7 @@ using Easy.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -29,17 +30,18 @@ namespace ZKEACMS.Updater.Service
     {
         private readonly IOptions<DBVersionOption> _dbVersionOption;
         private readonly IWebClient _webClient;
-        private readonly CurrentDbContext _dbContext;
-        private readonly DatabaseOption _databaseOption;
+        private readonly ILogger<DbUpdaterService> _logger;
+        private readonly CMSDbContext _dbContext;
         private const int DBVersionRecord = 1;
         private readonly string _scriptFileName;
-        public DbUpdaterService(DatabaseOption databaseOption, IOptions<DBVersionOption> dbVersionOption, IWebClient webClient)
+        public DbUpdaterService(DatabaseOption databaseOption, IOptions<DBVersionOption> dbVersionOption, IWebClient webClient, ILogger<DbUpdaterService> logger,
+            CMSDbContext dbContext)
         {
             _dbVersionOption = dbVersionOption;
             _webClient = webClient;
-            _dbContext = new CurrentDbContext(databaseOption);
-            _databaseOption = databaseOption;
-            _scriptFileName = $"{_databaseOption.DbType}.sql";//MsSql.sql, MySql.sql, Sqlite.sql
+            _scriptFileName = $"{databaseOption.DbType}.sql";//MsSql.sql, MySql.sql, Sqlite.sql
+            _logger = logger;
+            _dbContext = dbContext;
         }
 
         public void UpdateDatabase()
@@ -55,24 +57,33 @@ namespace ZKEACMS.Updater.Service
             DBVersion dbVersion = GetDbVersion();
             if (dbVersion < appVersion)
             {
-                Console.WriteLine("Updating database to version: {0}.", appVersion);
-                IEnumerable<string> sqlScripts = ReadRemoteScripts(dbVersion, appVersion);
-                bool isSuccess = ExecuteScripts(sqlScripts);
-                if (isSuccess)
-                {
-                    dbVersion.Major = appVersion.Major;
-                    dbVersion.Minor = appVersion.Minor;
-                    dbVersion.Revision = appVersion.Revision;
-                    dbVersion.Build = appVersion.Build;
+                _logger.LogInformation("Updating database to version: {0}.", appVersion);
 
-                    if (dbVersion.ID == DBVersionRecord)
+                try
+                {
+                    IEnumerable<string> sqlScripts = ReadRemoteScripts(dbVersion, appVersion);
+                    bool isSuccess = ExecuteScripts(sqlScripts);
+                    if (isSuccess)
                     {
-                        _dbContext.DBVersion.Update(dbVersion);
+                        dbVersion.Major = appVersion.Major;
+                        dbVersion.Minor = appVersion.Minor;
+                        dbVersion.Revision = appVersion.Revision;
+                        dbVersion.Build = appVersion.Build;
+
+                        if (dbVersion.ID == DBVersionRecord)
+                        {
+                            _dbContext.Set<DBVersion>().Update(dbVersion);
+                        }
+                        _dbContext.SaveChanges();
+
+                        DeleteAllCachedScripts();
                     }
-                    _dbContext.SaveChanges();
-                    
-                    DeleteAllCachedScripts();
                 }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message);
+                }
+
             }
         }
 
@@ -81,11 +92,11 @@ namespace ZKEACMS.Updater.Service
             //After 3.3.6, change to return application version if get database version failed.
             try
             {
-                return _dbContext.DBVersion.Find(DBVersionRecord) ?? new DBVersion();
+                return _dbContext.Set<DBVersion>().Find(DBVersionRecord) ?? new DBVersion();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Getting database version failed. {0}", ex.Message);
+                _logger.LogInformation("Getting database version failed. {0}", ex.Message);
             }
             return new DBVersion();
         }
@@ -105,7 +116,7 @@ namespace ZKEACMS.Updater.Service
             string[] scriptFiles = GetLocalScriptFiles();
             foreach (var item in scriptFiles)
             {
-                Console.WriteLine("Reading script: {0}", item);
+                _logger.LogInformation("Reading script: {0}", item);
                 sqlScripts.AddRange(ReadSql(item));
             }
             return sqlScripts;
@@ -121,8 +132,8 @@ namespace ZKEACMS.Updater.Service
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Query executed successfully, but failed to delete the script!");
-                    Console.WriteLine(ex.Message);
+                    _logger.LogInformation("Query executed successfully, but failed to delete the script!");
+                    _logger.LogInformation(ex.Message);
                 }
             }
         }
@@ -175,16 +186,7 @@ namespace ZKEACMS.Updater.Service
                 var version = Easy.Version.Parse(item);
                 if (version > dbVersion && version <= appVersion)
                 {
-                    try
-                    {
-                        sqlScripts.AddRange(GetUpdateScripts(item));
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Download script package for version {0} failed. {1}", item, ex.Message);
-                        sqlScripts.Clear();
-                        break;
-                    }
+                    sqlScripts.AddRange(GetUpdateScripts(item));
                 }
             }
             return sqlScripts;
@@ -192,17 +194,9 @@ namespace ZKEACMS.Updater.Service
 
         private ReleaseVersion GetReleaseVersions()
         {
-            try
-            {
-                string source = $"{_dbVersionOption.Value.Source}/index.json";
-                Console.WriteLine("Getting release versions. {0}", source);
-                return JsonSerializer.Deserialize<ReleaseVersion>(_webClient.DownloadString(source));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Get release versions failed. {0}", ex.Message);
-            }
-            return null;
+            string source = $"{_dbVersionOption.Value.Source}/index.json";
+            _logger.LogInformation("Getting release versions. {0}", source);
+            return JsonSerializer.Deserialize<ReleaseVersion>(_webClient.DownloadString(source));
         }
         private IEnumerable<string> GetUpdateScripts(string version)
         {
@@ -244,7 +238,7 @@ namespace ZKEACMS.Updater.Service
         private byte[] GetUpdateScriptsFromRemote(string version)
         {
             string packageUrl = $"{_dbVersionOption.Value.Source}/Update/{version}/package.zip";
-            Console.WriteLine("Getting update scripts for version {0}. {1}", version, packageUrl);
+            _logger.LogInformation("Getting update scripts for version {0}. {1}", version, packageUrl);
             byte[] packageByte = _webClient.DownloadData(packageUrl);
             try
             {
@@ -296,7 +290,7 @@ namespace ZKEACMS.Updater.Service
             {
                 return true;
             }
-            Console.WriteLine("Executing scripts...");
+            _logger.LogInformation("Executing scripts...");
             DbConnection dbConnection = _dbContext.Database.GetDbConnection();
             if (dbConnection.State != ConnectionState.Open)
             {
@@ -326,7 +320,7 @@ namespace ZKEACMS.Updater.Service
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    _logger.LogInformation(ex.Message);
                     dbTransaction.Rollback();
                 }
                 finally

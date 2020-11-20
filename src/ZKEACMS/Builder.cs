@@ -304,11 +304,14 @@ namespace ZKEACMS
 
                 endpoints.MapRazorPages();
             });
-
-            foreach (IStartTask task in applicationBuilder.ApplicationServices.GetServices<IStartTask>())
+            using (var scope = applicationBuilder.ApplicationServices.CreateScope())
             {
-                task.Excute();
+                foreach (IStartTask task in scope.ServiceProvider.GetServices<IStartTask>())
+                {
+                    task.Excute();
+                }
             }
+
             System.IO.Directory.SetCurrentDirectory(hostingEnvironment.ContentRootPath);
             Console.WriteLine("Welcome to use ZKEACMS");
         }
