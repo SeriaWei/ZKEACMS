@@ -27,19 +27,19 @@ namespace ZKEACMS.Updater.Service
 {
     public class DbUpdaterService : IDbUpdaterService
     {
-        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IOptions<DBVersionOption> _dbVersionOption;
         private readonly IWebClient _webClient;
         private readonly CurrentDbContext _dbContext;
         private readonly DatabaseOption _databaseOption;
         private const int DBVersionRecord = 1;
-        public DbUpdaterService(DatabaseOption databaseOption, IWebHostEnvironment hostingEnvironment, IOptions<DBVersionOption> dbVersionOption, IWebClient webClient)
+        private readonly string _scriptFileName;
+        public DbUpdaterService(DatabaseOption databaseOption, IOptions<DBVersionOption> dbVersionOption, IWebClient webClient)
         {
-            _hostingEnvironment = hostingEnvironment;
             _dbVersionOption = dbVersionOption;
             _webClient = webClient;
             _dbContext = new CurrentDbContext(databaseOption);
             _databaseOption = databaseOption;
+            _scriptFileName = $"{_databaseOption.DbType}.sql";//MsSql.sql, MySql.sql, Sqlite.sql
         }
 
         public void UpdateDatabase()
@@ -57,18 +57,22 @@ namespace ZKEACMS.Updater.Service
             {
                 Console.WriteLine("Updating database to version: {0}.", appVersion);
                 IEnumerable<string> sqlScripts = ReadRemoteScripts(dbVersion, appVersion);
-                ExecuteScripts(sqlScripts);
-
-                dbVersion.Major = appVersion.Major;
-                dbVersion.Minor = appVersion.Minor;
-                dbVersion.Revision = appVersion.Revision;
-                dbVersion.Build = appVersion.Build;
-
-                if (dbVersion.ID == DBVersionRecord)
+                bool isSuccess = ExecuteScripts(sqlScripts);
+                if (isSuccess)
                 {
-                    _dbContext.DBVersion.Update(dbVersion);
+                    dbVersion.Major = appVersion.Major;
+                    dbVersion.Minor = appVersion.Minor;
+                    dbVersion.Revision = appVersion.Revision;
+                    dbVersion.Build = appVersion.Build;
+
+                    if (dbVersion.ID == DBVersionRecord)
+                    {
+                        _dbContext.DBVersion.Update(dbVersion);
+                    }
+                    _dbContext.SaveChanges();
+                    
+                    DeleteAllCachedScripts();
                 }
-                _dbContext.SaveChanges();
             }
         }
 
@@ -156,11 +160,8 @@ namespace ZKEACMS.Updater.Service
         }
         private string[] GetLocalScriptFiles()
         {
-            string path = _hostingEnvironment.IsDevelopment() ?
-                new DirectoryInfo(_hostingEnvironment.ContentRootPath).Parent.FullName :
-                Path.Combine(_hostingEnvironment.WebRootPath, Loader.PluginFolder);
-
-            return Directory.GetFiles(Path.Combine(path, "ZKEACMS.Updater", "DbScripts"), "*.sql");
+            string path = PluginBase.GetPath<UpdaterPlug>();
+            return Directory.GetFiles(Path.Combine(path, "DbScripts"), "*.sql");
         }
 
         private IEnumerable<string> ReadRemoteScripts(Easy.Version dbVersion, Easy.Version appVersion)
@@ -206,18 +207,19 @@ namespace ZKEACMS.Updater.Service
         private IEnumerable<string> GetUpdateScripts(string version)
         {
             List<string> sqlScripts = new List<string>();
-            string scriptFileName = $"{_databaseOption.DbType}.sql";//MsSql.sql, MySql.sql, Sqlite.sql
 
-            string packageUrl = $"{_dbVersionOption.Value.Source}/Update/{version}/package.zip";
-            Console.WriteLine("Getting update scripts for version {0}. {1}", version, packageUrl);
-            byte[] packageByte = _webClient.DownloadData(packageUrl);
+            byte[] packageByte = GetUpdateScriptsFromLocalCache(version);
+            if (packageByte == null)
+            {
+                packageByte = GetUpdateScriptsFromRemote(version);
+            }
             using (MemoryStream memoryStream = new MemoryStream(packageByte))
             {
                 using (ZipArchive archive = new ZipArchive(memoryStream, ZipArchiveMode.Read))
                 {
                     foreach (ZipArchiveEntry entry in archive.Entries)
                     {
-                        if (!entry.Name.Equals(scriptFileName, StringComparison.OrdinalIgnoreCase)) continue;
+                        if (!entry.Name.Equals(_scriptFileName, StringComparison.OrdinalIgnoreCase)) continue;
 
                         using (StreamReader reader = new StreamReader(entry.Open()))
                         {
@@ -229,6 +231,41 @@ namespace ZKEACMS.Updater.Service
                 }
             }
             return sqlScripts;
+        }
+        private byte[] GetUpdateScriptsFromLocalCache(string version)
+        {
+            string file = Path.Combine(PluginBase.GetPath<UpdaterPlug>(), "DbScripts", $"package.{version}.zip");
+            if (File.Exists(file))
+            {
+                return File.ReadAllBytes(file);
+            }
+            return null;
+        }
+        private byte[] GetUpdateScriptsFromRemote(string version)
+        {
+            string packageUrl = $"{_dbVersionOption.Value.Source}/Update/{version}/package.zip";
+            Console.WriteLine("Getting update scripts for version {0}. {1}", version, packageUrl);
+            byte[] packageByte = _webClient.DownloadData(packageUrl);
+            try
+            {
+                string file = Path.Combine(PluginBase.GetPath<UpdaterPlug>(), "DbScripts", $"package.{version}.zip");
+                File.WriteAllBytes(file, packageByte);
+            }
+            catch { };
+
+            return packageByte;
+        }
+        private void DeleteAllCachedScripts()
+        {
+            string[] cachedFiles = Directory.GetFiles(Path.Combine(PluginBase.GetPath<UpdaterPlug>(), "DbScripts", $"package.*.zip"));
+            foreach (string file in cachedFiles)
+            {
+                try
+                {
+                    File.Delete(file);
+                }
+                catch { }
+            }
         }
         private IEnumerable<string> AsScripts(string script)
         {
