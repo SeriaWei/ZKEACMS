@@ -57,7 +57,7 @@ namespace ZKEACMS.Updater.Service
             DBVersion dbVersion = GetDbVersion();
             if (dbVersion < appVersion)
             {
-                _logger.LogInformation("Updating database to version: {0}.", appVersion);
+                _logger.LogInformation("Try to update database to version: {0}.", appVersion);
 
                 try
                 {
@@ -200,31 +200,37 @@ namespace ZKEACMS.Updater.Service
         }
         private IEnumerable<string> GetUpdateScripts(string version)
         {
-            List<string> sqlScripts = new List<string>();
-
             byte[] packageByte = GetUpdateScriptsFromLocalCache(version);
             if (packageByte == null)
             {
                 packageByte = GetUpdateScriptsFromRemote(version);
             }
-            using (MemoryStream memoryStream = new MemoryStream(packageByte))
+            if (packageByte != null)
+            {
+                return ConvertToScripts(packageByte);
+            }
+            return Enumerable.Empty<string>();
+        }
+        private IEnumerable<string> ConvertToScripts(byte[] package)
+        {
+            using (MemoryStream memoryStream = new MemoryStream(package))
             {
                 using (ZipArchive archive = new ZipArchive(memoryStream, ZipArchiveMode.Read))
                 {
                     foreach (ZipArchiveEntry entry in archive.Entries)
                     {
+                        //There three scripts in the package, MsSql.sql, MySql.sql, Sqlite.sql
+                        //Pick up matched script to execute.
                         if (!entry.Name.Equals(_scriptFileName, StringComparison.OrdinalIgnoreCase)) continue;
 
                         using (StreamReader reader = new StreamReader(entry.Open()))
                         {
-                            string script = reader.ReadToEnd();
-                            sqlScripts.AddRange(AsScripts(script));
+                            return SplitToScripts(reader.ReadToEnd());
                         }
-                        break;
                     }
                 }
             }
-            return sqlScripts;
+            throw new Exception($"{_scriptFileName} is not in the update package.");
         }
         private byte[] GetUpdateScriptsFromLocalCache(string version)
         {
@@ -238,14 +244,17 @@ namespace ZKEACMS.Updater.Service
         private byte[] GetUpdateScriptsFromRemote(string version)
         {
             string packageUrl = $"{_dbVersionOption.Value.Source}/Update/{version}/package.zip";
-            _logger.LogInformation("Getting update scripts for version {0}. {1}", version, packageUrl);
+            _logger.LogInformation("Getting update scripts for version {0} from {1}", version, packageUrl);
             byte[] packageByte = _webClient.DownloadData(packageUrl);
             try
             {
                 string file = Path.Combine(PluginBase.GetPath<UpdaterPlug>(), "DbScripts", $"package.{version}.zip");
                 File.WriteAllBytes(file, packageByte);
             }
-            catch { };
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
 
             return packageByte;
         }
@@ -261,7 +270,7 @@ namespace ZKEACMS.Updater.Service
                 catch { }
             }
         }
-        private IEnumerable<string> AsScripts(string script)
+        private IEnumerable<string> SplitToScripts(string script)
         {
             StringReader stringReader = new StringReader(script);
             StringBuilder scriptBuilder = new StringBuilder();
