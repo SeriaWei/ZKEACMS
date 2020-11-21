@@ -175,7 +175,7 @@ namespace ZKEACMS.Updater.Service
             return Directory.GetFiles(Path.Combine(path, "DbScripts"), "*.sql");
         }
 
-        private IEnumerable<string> ReadRemoteScripts(Easy.Version dbVersion, Easy.Version appVersion)
+        private IEnumerable<string> ReadRemoteScripts(Easy.Version versionFrom, Easy.Version versionTo)
         {
             List<string> sqlScripts = new List<string>();
             ReleaseVersion releaseVersion = GetReleaseVersions();
@@ -184,7 +184,7 @@ namespace ZKEACMS.Updater.Service
             foreach (var item in releaseVersion.Versions)
             {
                 var version = Easy.Version.Parse(item);
-                if (version > dbVersion && version <= appVersion)
+                if (version > versionFrom && version <= versionTo)
                 {
                     sqlScripts.AddRange(GetUpdateScripts(item));
                 }
