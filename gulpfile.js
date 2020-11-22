@@ -3,7 +3,8 @@ var less = require('gulp-less');
 var sourcemaps = require('gulp-sourcemaps');
 var cleanCSS = require('gulp-clean-css');
 var rename = require('gulp-rename');
-var minify = require('gulp-minify');
+var uglify = require('gulp-uglify-es').default;
+var saveLicense = require('uglify-save-license');
 
 function handleError(err) {
     console.log(err.toString());
@@ -34,19 +35,16 @@ gulp.task('compile-theme:default', function (cb) {
     cb();
 });
 
-gulp.task('watch:theme-js-css', function (cb) {
+gulp.task('watch:minify-js-css', function (cb) {
     gulp.watch(themeFilter('Default'), gulp.series('compile-theme:default'));
 
     var jsWatch = gulp.watch(['src/**/*.js', '!src/**/*.min.js']);
     jsWatch.on('change', function (path, stats) {
         console.log(`Minify ${path}`);
-        gulp.src(path)
-            .pipe(minify({
-                ext: { src: '.js', min: '.min.js' },
-                noSource: true,
-                preserveComments: "some"
-            }))
+        gulp.src(path)            
+			.pipe(uglify({ output: { comments: saveLicense } }))
             .on("error", handleError)
+            .pipe(rename({ suffix: ".min" }))
             .pipe(gulp.dest(function (f) {
                 return f.base;
             }));
