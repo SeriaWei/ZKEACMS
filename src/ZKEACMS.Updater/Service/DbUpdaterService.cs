@@ -183,7 +183,7 @@ namespace ZKEACMS.Updater.Service
 
             foreach (var item in releaseVersion.Versions)
             {
-                var version = Easy.Version.Parse(item);
+                var version = Easy.Version.Parse(item.Version);
                 if (version > versionFrom && version <= versionTo)
                 {
                     sqlScripts.AddRange(GetUpdateScripts(item));
@@ -198,12 +198,12 @@ namespace ZKEACMS.Updater.Service
             _logger.LogInformation("Getting release versions. {0}", source);
             return JsonSerializer.Deserialize<ReleaseVersion>(_webClient.DownloadString(source));
         }
-        private IEnumerable<string> GetUpdateScripts(string version)
+        private IEnumerable<string> GetUpdateScripts(VersionInfo versionInfo)
         {
-            byte[] packageByte = GetUpdateScriptsFromLocalCache(version);
+            byte[] packageByte = GetUpdateScriptsFromLocalCache(versionInfo.Version);
             if (packageByte == null)
             {
-                packageByte = GetUpdateScriptsFromRemote(version);
+                packageByte = GetUpdateScriptsFromRemote(versionInfo);
             }
             if (packageByte != null)
             {
@@ -241,17 +241,17 @@ namespace ZKEACMS.Updater.Service
             }
             return null;
         }
-        private byte[] GetUpdateScriptsFromRemote(string version)
+        private byte[] GetUpdateScriptsFromRemote(VersionInfo versionInfo)
         {
-            string packageUrl = $"{_dbVersionOption.Value.Source}/Update/{version}/package.zip";
-            _logger.LogInformation("Getting update scripts for version {0} from {1}", version, packageUrl);
+            string packageUrl = $"{_dbVersionOption.Value.Source}/{versionInfo.Resolved}";
+            _logger.LogInformation("Getting update scripts for version {0} from {1}", versionInfo.Version, packageUrl);
             byte[] packageByte = _webClient.DownloadData(packageUrl);
             try
             {
-                string file = Path.Combine(PluginBase.GetPath<UpdaterPlug>(), "DbScripts", $"package.{version}.zip");
+                string file = Path.Combine(PluginBase.GetPath<UpdaterPlug>(), "DbScripts", $"package.{versionInfo.Version}.zip");
                 File.WriteAllBytes(file, packageByte);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
             }
@@ -260,7 +260,7 @@ namespace ZKEACMS.Updater.Service
         }
         private void DeleteAllCachedScripts()
         {
-            string[] cachedFiles = Directory.GetFiles(Path.Combine(PluginBase.GetPath<UpdaterPlug>(), "DbScripts", $"package.*.zip"));
+            string[] cachedFiles = Directory.GetFiles(Path.Combine(PluginBase.GetPath<UpdaterPlug>(), "DbScripts"), $"package.*.zip");
             foreach (string file in cachedFiles)
             {
                 try

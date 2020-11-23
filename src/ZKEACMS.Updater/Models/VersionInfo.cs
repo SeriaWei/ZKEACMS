@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.Updater.Models
 {
-    public class ReleaseVersion
+    public class VersionInfo
     {
         public string Version { get; set; }
-        public VersionInfo[] Versions { get; set; }
+        public string Resolved { get; set; }
     }
 }

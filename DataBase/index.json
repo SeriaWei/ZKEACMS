@@ -1,5 +1,9 @@
 {
+    "Version": "0.1",
     "Versions": [
-        "3.3.6"
+        {
+            "Version": "3.3.6",
+            "Resolved": "Update/3.3.6/package.zip"
+        }
     ]
 }
