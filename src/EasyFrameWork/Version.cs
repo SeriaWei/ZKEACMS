@@ -49,6 +49,18 @@ namespace Easy
 
         public static bool operator ==(Version v1, Version v2)
         {
+            if (ReferenceEquals(v1, v2))
+            {
+                return true;
+            }
+            if (ReferenceEquals(v1, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(v2, null))
+            {
+                return false;
+            }
             return v1.Major == v2.Major && v1.Minor == v2.Minor && v1.Revision == v2.Revision && v1.Build == v2.Build;
         }
         public static bool operator !=(Version v1, Version v2)

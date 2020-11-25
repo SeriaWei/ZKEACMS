@@ -54,7 +54,7 @@ namespace ZKEACMS.Updater.Service
         private void UpgradeDbToLatest()
         {
             var appVersion = Easy.Version.Parse(Version.VersionInfo);
-            DBVersion dbVersion = GetDbVersion();
+            Easy.Version dbVersion = GetDbVersion();
             if (dbVersion < appVersion)
             {
                 _logger.LogInformation("Try to update database to version: {0}.", appVersion);
@@ -70,9 +70,9 @@ namespace ZKEACMS.Updater.Service
                         dbVersion.Revision = appVersion.Revision;
                         dbVersion.Build = appVersion.Build;
 
-                        if (dbVersion.ID == DBVersionRecord)
+                        if (dbVersion is DBVersion)
                         {
-                            _dbContext.Set<DBVersion>().Update(dbVersion);
+                            _dbContext.Set<DBVersion>().Update(dbVersion as DBVersion);
                         }
                         _dbContext.SaveChanges();
 
@@ -87,18 +87,22 @@ namespace ZKEACMS.Updater.Service
             }
         }
 
-        private DBVersion GetDbVersion()
+        private Easy.Version GetDbVersion()
         {
-            //After 3.3.6, change to return application version if get database version failed.
+            Easy.Version version = null;
             try
             {
-                return _dbContext.Set<DBVersion>().Find(DBVersionRecord) ?? new DBVersion();
+                version = _dbContext.Set<DBVersion>().Find(DBVersionRecord);
             }
             catch (Exception ex)
             {
                 _logger.LogInformation("Getting database version failed. {0}", ex.Message);
             }
-            return new DBVersion();
+            if (version == null)
+            {
+                version = Easy.Version.Parse(_dbVersionOption.Value.BaseVersion);
+            }
+            return version;
         }
 
         private void ExcuteLocalScripts()
@@ -329,7 +333,7 @@ namespace ZKEACMS.Updater.Service
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogInformation(ex.Message);
+                    _logger.LogError(ex, ex.Message);
                     dbTransaction.Rollback();
                 }
                 finally

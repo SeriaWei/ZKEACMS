@@ -88,5 +88,16 @@ namespace EasyFrameWork.Test
             Version v1 = Version.Parse("1.2.0.0");
             Assert.IsTrue("1.2.0.0" == v1.ToString());
         }
+
+        [TestMethod]
+        public void TestEqualsNull()
+        {
+            Version v1 = null;
+            Version v2 = null;
+            Assert.IsTrue(v1 == v2);
+
+            Assert.IsFalse(Version.Parse("1.2.0.0") == null);
+            Assert.IsFalse(null == Version.Parse("1.2.0.0"));
+        }
     }
 }
