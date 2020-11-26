@@ -120,6 +120,7 @@ namespace ZKEACMS
             services.TryAddTransient<ICarouselItemService, CarouselItemService>();
             services.TryAddTransient<ICarouselService, CarouselService>();
             services.TryAddTransient<INavigationService, NavigationService>();
+            services.TryAddTransient<Site.ISiteInformationService, Site.SiteInformationService>();
 
             services.TryAddTransient<IDashboardProviderService, DashboardProviderService>();
             services.AddTransient<IDashboardPartDriveService, DashboardWelcomePartService>();
@@ -157,7 +158,7 @@ namespace ZKEACMS
 
             services.ConfigureStateProvider<StateProvider.OuterChainPictureStateProvider>();
             services.ConfigureStateProvider<StateProvider.EnableResponsiveDesignStateProvider>();
-            services.ConfigureStateProvider<Site.SiteInformationProvicer>();
+            services.ConfigureStateProvider<Site.SiteInformationStateProvider>();
 
             services.ConfigureCache<IEnumerable<WidgetBase>>();
             services.ConfigureCache<IEnumerable<ZoneEntity>>();

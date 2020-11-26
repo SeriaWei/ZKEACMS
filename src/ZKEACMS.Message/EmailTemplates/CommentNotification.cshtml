@@ -7,6 +7,7 @@
 }
 @inject ZKEACMS.IHostOptionProvider hostOptionProvider
 @inject Easy.ILocalize localize
+@inject ZKEACMS.Site.ISiteInformationService siteInformationService
 
 <!DOCTYPE html>
 <html>
@@ -77,7 +78,7 @@
         <div style="padding: 1rem; border-top: 1px solid #ccc; font-size: 80%;">
             <p>
                 <a href="@hostOptionProvider.GetOrigin()" target="_blank">
-                    @L("ZKEASOFT")
+                    @siteInformationService.Get().SiteName
                 </a>
             </p>
         </div>
