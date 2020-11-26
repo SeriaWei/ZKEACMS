@@ -8,7 +8,7 @@ namespace Easy.Modules.User.Service
     public interface IUserService : IService<UserEntity>
     {
         UserEntity Login(string userID, string passWord, UserType userType, string ip);
-        UserEntity SetResetToken(string userID, UserType userType);
+        UserEntity SetResetToken(string email, UserType userType);
         bool ResetPassWord(string token, string newPassword);
     }
 }

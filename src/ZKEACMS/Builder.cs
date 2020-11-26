@@ -157,6 +157,7 @@ namespace ZKEACMS
 
             services.ConfigureStateProvider<StateProvider.OuterChainPictureStateProvider>();
             services.ConfigureStateProvider<StateProvider.EnableResponsiveDesignStateProvider>();
+            services.ConfigureStateProvider<Site.SiteInformationProvicer>();
 
             services.ConfigureCache<IEnumerable<WidgetBase>>();
             services.ConfigureCache<IEnumerable<ZoneEntity>>();
@@ -200,6 +201,8 @@ namespace ZKEACMS
             services.ConfigureMetaData<TabWidget, TabWidgetMetaData>();
             services.ConfigureMetaData<TabItem, TabItemMetaData>();
             services.ConfigureMetaData<HeadWidget, HeaderWidgetMetaData>();
+            services.ConfigureMetaData<ForgottenViewModel, ForgottenViewModelMetaData>();
+            services.ConfigureMetaData<ResetViewModel, ResetViewModelMetaData>();
 
             services.RegistEvent<RemoveCacheOnPagePublishedEventHandler>(Events.OnPagePublished);
             services.RegistEvent<RemoveOldVersionOnPagePublishedEventHandler>(Events.OnPagePublished);

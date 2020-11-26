@@ -12,7 +12,7 @@
         <div class="login-panel-heading">
             <p>
                 <a href="~/" target="_blank">
-                    <img class="logo" src="~/images/logo_min.png" alt="ZKEACMS" />
+                    <img class="logo" src="@(ApplicationContext.As<CMSApplicationContext>().SiteInformation.Logo_Mini)" alt="@(ApplicationContext.As<CMSApplicationContext>().SiteInformation.SiteName)" />
                 </a>
             </p>
         </div>

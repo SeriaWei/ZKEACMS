@@ -30,9 +30,12 @@
                             @Html.EditorFor(m => m.PassWord)
                             @Html.ValidationMessageFor(m => m.PassWord)
                         </div>
-                        <div>
+                        <p>
                             <input type="submit" class="btn btn-danger btn-login" value="@L("Sign in")" />
-                        </div>
+                        </p>
+                        <div class="small">
+                            <a href="@Url.Action("Forgotten", new { UserType = UserType.Administrator })">@L("Forgot your password?")</a>
+                        </div>                        
                         <hr />
                         <div class="login-panel-footer">
                             <p>
