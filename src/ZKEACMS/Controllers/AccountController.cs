@@ -119,7 +119,7 @@ namespace ZKEACMS.Controllers
                     return View(user);
                 }
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Account");
         }
         [CustomerAuthorize]
         public ActionResult PassWord()
@@ -134,7 +134,7 @@ namespace ZKEACMS.Controllers
             {
                 logOnUser.PassWordNew = user.PassWordNew;
                 _userService.Update(logOnUser);
-                return RedirectToAction("SignOut", new { returnurl = "~/Account/SignIn" });
+                return RedirectToAction("SignOut", "Account", new { returnurl = "~/Account/SignIn" });
             }
             ViewBag.Message = _localize.Get("Current password is not correct.");
             return View();
@@ -157,7 +157,7 @@ namespace ZKEACMS.Controllers
 
                 if (ReturnUrl.IsNullOrEmpty() || !Url.IsLocalUrl(ReturnUrl))
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Account");
                 }
                 return Redirect(ReturnUrl);
             }
@@ -173,7 +173,7 @@ namespace ZKEACMS.Controllers
             {
                 return Redirect(returnurl);
             }
-            return RedirectToAction("SignIn");
+            return RedirectToAction("SignIn", "Account");
         }
         public ActionResult SignUp(string ReturnUrl)
         {
@@ -198,7 +198,7 @@ namespace ZKEACMS.Controllers
                 }
 
             }
-            return RedirectToAction("SignUpSuccess", new { ReturnUrl });
+            return RedirectToAction("SignUpSuccess", "Account", new { ReturnUrl });
         }
         public ActionResult SignUpSuccess()
         {
@@ -219,9 +219,9 @@ namespace ZKEACMS.Controllers
                 {
                     _notifyService.ResetPassword(user);
                 }
-                return RedirectToAction("Sended", new { to = model.Email, status = (user != null ? 1 : 2) });
+                return RedirectToAction("Sended", "Account", new { to = model.Email, status = (user != null ? 1 : 2) });
             }
-            return RedirectToAction("Forgotten");
+            return RedirectToAction("Forgotten", "Account");
         }
 
         public ActionResult Sended(string to)
@@ -258,7 +258,7 @@ namespace ZKEACMS.Controllers
                     {
                         if (_userService.ResetPassWord(user.ResetToken, user.PassWordNew))
                         {
-                            return RedirectToAction("SignIn");
+                            return RedirectToAction("SignIn", "Account");
                         }
                     }
                 }

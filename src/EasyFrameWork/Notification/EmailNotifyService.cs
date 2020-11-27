@@ -62,7 +62,7 @@ namespace Easy.Notification
             SmtpClient client = _smtpProvider.Get();
             if (client == null)
             {//If SMTP server is not ready save email to temp
-                string tempEmlPath = Path.Combine(Directory.GetCurrentDirectory(), "Temp", "emls", Guid.NewGuid().ToString());
+                string tempEmlPath = Path.Combine(Directory.GetCurrentDirectory(), "Temp", "emails");
                 Directory.CreateDirectory(tempEmlPath);
                 client = new SmtpClient
                 {
@@ -70,13 +70,18 @@ namespace Easy.Notification
                     PickupDirectoryLocation = tempEmlPath
                 };
                 _logger.LogError("SMTP Server is not ready, the email have temporary saved to {0}. for more information: {1}",
-                tempEmlPath, "http://www.zkea.net/codesnippet/detail/zkeacms-notification.html");
+                tempEmlPath, "http://www.zkea.net/zkeacms/document/smtp-setting");
+                if (email.From.IsNullOrWhiteSpace())
+                {
+                    email.From = "webmaster@zkea.net";
+                }
             }
-            else if (email.From.IsNullOrWhiteSpace())
+
+            if (email.From.IsNullOrWhiteSpace() && client.Credentials != null)
             {
                 email.From = (client.Credentials as NetworkCredential).UserName;
-                mailMessage.From = new MailAddress(email.From, email.DisplayName ?? email.From);
             }
+            mailMessage.From = new MailAddress(email.From, email.DisplayName ?? email.From);
 
             client.SendCompleted += Client_SendCompleted;
             client.SendAsync(mailMessage, email);

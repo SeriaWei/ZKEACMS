@@ -26,7 +26,7 @@ namespace ZKEACMS.SMTP
             {
                 return null;
             }
-            SmtpClient client = null;
+            SmtpClient client;
             if (setting.Port > 0)
             {
                 client = new SmtpClient(setting.Host, setting.Port);
