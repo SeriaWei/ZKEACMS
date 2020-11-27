@@ -72,11 +72,12 @@ namespace Easy.Notification
                 _logger.LogError("SMTP Server is not ready, the email have temporary saved to {0}. for more information: {1}",
                 tempEmlPath, "http://www.zkea.net/codesnippet/detail/zkeacms-notification.html");
             }
-            if (email.From.IsNullOrWhiteSpace())
+            else if (email.From.IsNullOrWhiteSpace())
             {
                 email.From = (client.Credentials as NetworkCredential).UserName;
+                mailMessage.From = new MailAddress(email.From, email.DisplayName ?? email.From);
             }
-            mailMessage.From = new MailAddress(email.From, email.DisplayName ?? email.From);
+
             client.SendCompleted += Client_SendCompleted;
             client.SendAsync(mailMessage, email);
         }
