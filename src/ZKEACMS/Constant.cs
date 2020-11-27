@@ -52,6 +52,7 @@ namespace ZKEACMS
         /// Empty Layout, without current theme.
         /// </summary>
         public const string EmptyLayout = "_EmptyLayout";
+        public const string EmailLayout = "_EmailLayout";
 
         public const string ThemeLayout = "~/wwwroot/themes/{0}/Views/_Layout.cshtml";
         public const string ThemeSharedLayout = "~/wwwroot/themes/{0}/Views/Shared/_Layout.cshtml";
