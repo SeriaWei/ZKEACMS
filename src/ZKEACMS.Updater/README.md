@@ -61,7 +61,7 @@ unzip cms.zip -d cms
 
 **Linux**环境可使用下列命令先下载最新的运行时：
 ``` bash
-wget -O dotnet.tar.gz http://www.zkea.net/dotnet-runtime-**Linux**
+wget -O dotnet.tar.gz http://www.zkea.net/dotnet-runtime-linux
 ```
 
 然后解压到`dotnet`目录：
