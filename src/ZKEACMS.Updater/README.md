@@ -1,25 +1,23 @@
 # ZKEACMS 升级步骤
-### 下载CMS程序
-首先您需要到我们的官方网站下载最新版本的程序
 
-[下载企业版](https://www.zkea.net/download)
+### 停止网站
+在开始更新之前，需要先关闭网站。
 
-### 关闭/停止网站
-在IIS中停止网站
+**Windows**直接在IIS中停止网站。
 
-Linux 用户使用以下命令停止网站
+**Linux**用户使用以下命令停止网站：
 ``` bash
  systemctl stop zkeacms
 ```
 
 ### 覆盖更新
-Windows环境直接使用下列链接下载最新版本的CMS程序
+**Windows**环境可直接使用下列链接下载最新版本的CMS程序：
 
 [https://cloud.zkeasoft.com/file/zkeasoft/cms.zip](https://cloud.zkeasoft.com/file/zkeasoft/cms.zip)
 
 下载后，注意先删除包里面的`App_Data`目录后再解压覆盖原先的程序。
 
-Linux环境使用wget命令来下载最新版本的CMS程序：
+**Linux**环境使用`wget`命令来下载最新版本的CMS程序：
 ``` bash
 wget -O cms.zip https://cloud.zkeasoft.com/file/zkeasoft/cms.zip
 ```
@@ -29,16 +27,16 @@ wget -O cms.zip https://cloud.zkeasoft.com/file/zkeasoft/cms.zip
 zip -d cms.zip "App_Data/Database.sqlite"
 ```
 
-将文件解压到`cms`目录，请跟据实际情况填写cms的路径：
+将文件解压到`cms`目录，注意请跟据实际情况填写cms的路径：
 ``` bash
 unzip cms.zip -d cms
 ```
 **注意：** 在替换文件确认时，输入大写"A"，替换所有文件。
 
 ### 重启网站
-在IIS中重新启动网站
+**Windows**环境直接在IIS中重新启动网站即可。
 
-Linux用户可以使用以下命令启动网站：
+**Linux**用户可以使用以下命令启动网站：
 ``` bash
  systemctl start zkeacms
 ```
@@ -57,13 +55,13 @@ Linux用户可以使用以下命令启动网站：
 ## 升级运行环境
 在更新了CMS程序后，可能会遇到网站无法启动的问题，这可能是因为需要更新运行环境。
 
-Windows环境请直接使用下列地址下载并安装最新版本的运行环境
+**Windows**环境请直接使用下列地址下载并安装最新版本的运行环境
 
-[http://www.zkea.net/windows-hosting-bundle-installer](http://www.zkea.net/windows-hosting-bundle-installer)
+[http://www.zkea.net/**Windows**-hosting-bundle-installer](http://www.zkea.net/**Windows**-hosting-bundle-installer)
 
-Linux环境可使用下列命令先下载最新的运行时：
+**Linux**环境可使用下列命令先下载最新的运行时：
 ``` bash
-wget -O dotnet.tar.gz http://www.zkea.net/dotnet-runtime-linux
+wget -O dotnet.tar.gz http://www.zkea.net/dotnet-runtime-**Linux**
 ```
 
 然后解压到`dotnet`目录：
