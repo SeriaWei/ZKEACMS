@@ -57,7 +57,7 @@ unzip cms.zip -d cms
 
 **Windows**环境请直接使用下列地址下载并安装最新版本的运行环境
 
-[http://www.zkea.net/**Windows**-hosting-bundle-installer](http://www.zkea.net/**Windows**-hosting-bundle-installer)
+[http://www.zkea.net/windows-hosting-bundle-installer](http://www.zkea.net/windows-hosting-bundle-installer)
 
 **Linux**环境可使用下列命令先下载最新的运行时：
 ``` bash
