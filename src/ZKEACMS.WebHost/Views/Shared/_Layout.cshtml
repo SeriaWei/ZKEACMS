@@ -35,11 +35,11 @@
     <meta name="about" content="@ZKEACMS.Version.CurrentVersion" />
     <meta name="website" content="http://www.zkea.net" />
     <link rel="author" href="http://www.zkea.net"/>
-    @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
+    @if (this.WorkContext().OuterChainPicture)
     {
         <meta name="referrer" content="same-origin" />
     }
-    @if (ApplicationContext.As<CMSApplicationContext>().EnableResponsiveDesign)
+    @if (this.WorkContext().EnableResponsiveDesign)
     {
         <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
     }

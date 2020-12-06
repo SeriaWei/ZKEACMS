@@ -40,12 +40,12 @@ if %ERRORLEVEL% NEQ 0 goto errors
 sqlcmd -x -S %server% -d master -U %dbUserId% -P %dbPassword% -b -Q "ALTER DATABASE [%dataBase%] SET READ_WRITE"
 
 @echo -----------------------------------------------------------------------------
-@echo 数据库创建成功。
+@echo Complete
 goto done
 
 :errors
 @echo -----------------------------------------------------------------------------
-@echo 警告，在数据库创建过程中，出现了错误。请重新检查您的配置信息并重试。
+@echo Warning, an error occurred during database creation. Please check your configuration and try again.
 goto done
 :done
 @pause
