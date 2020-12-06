@@ -247,6 +247,8 @@ namespace ZKEACMS.Updater.Service
         }
         private byte[] GetUpdateScriptsFromRemote(VersionInfo versionInfo)
         {
+            if(versionInfo.Resolved.IsNullOrEmpty()) return null;
+            
             string packageUrl = $"{_dbVersionOption.Value.Source}/{versionInfo.Resolved}";
             _logger.LogInformation("Getting update scripts for version {0} from {1}", versionInfo.Version, packageUrl);
             byte[] packageByte = _webClient.DownloadData(packageUrl);
