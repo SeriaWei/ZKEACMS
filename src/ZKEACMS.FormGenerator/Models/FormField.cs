@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Easy.Extend;
 using Newtonsoft.Json;
 using System.Text;
+using Easy;
 
 namespace ZKEACMS.FormGenerator.Models
 {
@@ -45,12 +46,14 @@ namespace ZKEACMS.FormGenerator.Models
             {
                 if (attirbutes == null)
                 {
+                    ILocalize localize = Easy.ServiceLocator.GetService<ILocalize>();
                     attirbutes = new Dictionary<string, object>();
                     attirbutes.Add("class", (IsRequired ? "required " : "") + "form-control ");
                     attirbutes.Add("data-val", "true");
                     if (IsRequired)
                     {
-                        attirbutes.Add("data-val-required", RequiredMessage ?? "The field is required");
+                        string requiredMessage = RequiredMessage ?? localize.Get("{0} is required").FormatWith(DisplayName);
+                        attirbutes.Add("data-val-required", requiredMessage);
                     }
                     if (Placeholder.IsNotNullAndWhiteSpace())
                     {
@@ -58,7 +61,8 @@ namespace ZKEACMS.FormGenerator.Models
                     }
                     if (RegexPattern.IsNotNullAndWhiteSpace())
                     {
-                        Attributes.Add("data-val-regex", RegexMessage ?? "Invalid value");
+                        string invalidMessage = RegexMessage ?? localize.Get("{0} is invalid").FormatWith(DisplayName);
+                        Attributes.Add("data-val-regex", invalidMessage);
                         Attributes.Add("data-val-regex-pattern", RegexPattern);
                     }
                 }
