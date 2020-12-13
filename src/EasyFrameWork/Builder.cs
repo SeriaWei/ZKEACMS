@@ -98,6 +98,7 @@ namespace Easy
             services.ConfigureMetaData<Permission, PermissionMetaData>();
             services.ConfigureMetaData<RoleEntity, RoleMetaData>();
             services.ConfigureMetaData<UserRoleRelation, UserRoleRelationMetaData>();
+            services.ConfigureMetaData<SmtpSetting, SmtpSettingMetaData>();
 
 
             services.Configure<CDNOption>(configuration.GetSection("CDN"));

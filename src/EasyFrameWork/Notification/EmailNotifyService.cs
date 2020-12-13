@@ -59,7 +59,7 @@ namespace Easy.Notification
                     mailMessage.Attachments.Add(new Attachment(item));
                 }
             }
-            SmtpClient client = _smtpProvider.Get();
+            SmtpClient client = _smtpProvider.GetSmtpClient();
             if (client == null)
             {//If SMTP server is not ready save email to temp
                 string tempEmlPath = Path.Combine(Directory.GetCurrentDirectory(), "Temp", "emails");
@@ -77,9 +77,9 @@ namespace Easy.Notification
                 }
             }
 
-            if (email.From.IsNullOrWhiteSpace() && client.Credentials != null)
+            if (email.From.IsNullOrWhiteSpace())
             {
-                email.From = (client.Credentials as NetworkCredential).UserName;
+                email.From = _smtpProvider.GetSmtpSetting().Email;
             }
             mailMessage.From = new MailAddress(email.From, email.DisplayName ?? email.From);
 

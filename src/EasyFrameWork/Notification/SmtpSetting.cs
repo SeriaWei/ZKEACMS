@@ -1,11 +1,12 @@
-/* http://www.zkea.net/ 
- * Copyright 2018 ZKEASOFT 
- * http://www.zkea.net/licenses */
-
-using Easy.Constant;
+﻿using Easy.Constant;
 using Easy.MetaData;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ZKEACMS.SMTP
+namespace Easy.Notification
 {
     public class SmtpSetting
     {
@@ -15,7 +16,7 @@ namespace ZKEACMS.SMTP
         public string PassWord { get; set; }
         public bool EnableSsl { get; set; }
     }
-    class SmtpSettingMetaData : ViewMetaData<SmtpSetting> 
+    class SmtpSettingMetaData : ViewMetaData<SmtpSetting>
     {
         protected override void ViewConfigure()
         {

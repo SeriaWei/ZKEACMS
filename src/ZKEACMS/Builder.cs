@@ -196,7 +196,6 @@ namespace ZKEACMS
             services.ConfigureMetaData<ZoneEntity, ZoneEntityMetaData>();
             services.ConfigureMetaData<Rule.Rule, Rule.RuleMetaData>();
             services.ConfigureMetaData<Rule.RuleItem, Rule.RuleItemMetaData>();
-            services.ConfigureMetaData<SmtpSetting, SmtpSettingMetaData>();
             services.ConfigureMetaData<Robots, RobotsMetaData>();
             services.ConfigureMetaData<TemplateFile, TemplateFileMetaData>();
             services.ConfigureMetaData<TabWidget, TabWidgetMetaData>();

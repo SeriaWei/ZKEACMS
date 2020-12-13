@@ -19,9 +19,9 @@ namespace ZKEACMS.SMTP
         {
             _applicationSettingService = applicationSettingService;
         }
-        public SmtpClient Get()
+        public SmtpClient GetSmtpClient()
         {
-            var setting = _applicationSettingService.Get<SmtpSetting>();
+            var setting = GetSmtpSetting();
             if (setting.Host.IsNullOrWhiteSpace() || setting.Email.IsNullOrWhiteSpace())
             {
                 return null;
@@ -39,6 +39,11 @@ namespace ZKEACMS.SMTP
             client.EnableSsl = setting.EnableSsl;
             client.Credentials = new NetworkCredential(setting.Email, setting.PassWord);
             return client;
+        }
+
+        public SmtpSetting GetSmtpSetting()
+        {
+            return _applicationSettingService.Get<SmtpSetting>();
         }
     }
 }
