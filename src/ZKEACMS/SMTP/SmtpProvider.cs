@@ -35,9 +35,10 @@ namespace ZKEACMS.SMTP
             {
                 client = new SmtpClient(setting.Host);
             }
-            client.UseDefaultCredentials = true;
+
             client.EnableSsl = setting.EnableSsl;
             client.Credentials = new NetworkCredential(setting.Email, setting.PassWord);
+
             return client;
         }
 

@@ -22,7 +22,7 @@ namespace Easy.Notification
         {
             ViewConfig(m => m.Host).AsTextBox().Required();
             ViewConfig(m => m.Port).AsTextBox().RegularExpression(RegularExpression.Integer);
-            ViewConfig(m => m.Email).AsTextBox().Email().Required();
+            ViewConfig(m => m.Email).AsTextBox().Required();
             ViewConfig(m => m.PassWord).AsPassWord().Required();
         }
     }
