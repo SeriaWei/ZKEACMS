@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using ZKEACMS.Dashboard;
 using ZKEACMS.Updater.Models;
 using ZKEACMS.Updater.Service;
 using ZKEACMS.WidgetTemplate;
@@ -54,6 +55,7 @@ namespace ZKEACMS.Updater
             serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
             serviceCollection.AddTransient<IStartTask, ApplicationStartup>();
             serviceCollection.AddTransient<IDbUpdaterService, DbUpdaterService>();
+            serviceCollection.AddTransient<IDashboardPartDriveService, UpdateDbFailedDashboardService>();
 
             var configuration = new ConfigurationBuilder()
              .SetBasePath(CurrentPluginPath)
