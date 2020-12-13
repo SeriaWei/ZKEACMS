@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using ZKEACMS.Dashboard;
+using ZKEACMS.Event;
 using ZKEACMS.Updater.Models;
 using ZKEACMS.Updater.Service;
 using ZKEACMS.WidgetTemplate;
@@ -37,7 +38,7 @@ namespace ZKEACMS.Updater
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
-           
+
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
@@ -56,6 +57,7 @@ namespace ZKEACMS.Updater
             serviceCollection.AddTransient<IStartTask, ApplicationStartup>();
             serviceCollection.AddTransient<IDbUpdaterService, DbUpdaterService>();
             serviceCollection.AddTransient<IDashboardPartDriveService, UpdateDbFailedDashboardService>();
+            serviceCollection.RegistEvent<UpdateDbOnDbCreatedEventHandler>(Events.OnDatabaseCreated);
 
             var configuration = new ConfigurationBuilder()
              .SetBasePath(CurrentPluginPath)

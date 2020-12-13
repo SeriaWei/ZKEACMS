@@ -60,44 +60,56 @@ namespace ZKEACMS.Updater.Service
             bool allSuccess = true;
             foreach (var dbContext in _dbContextProvider.GetAvailableDbContexts())
             {
-                Easy.Version dbVersion = GetDbVersion(dbContext);
-                if (dbVersion < appVersion)
+                bool success = UpdateDatabaseToVersion(dbContext, appVersion);
+                if (!success)
                 {
-                    _logger.LogInformation("Try to update database to version: {0}.", appVersion);
-
-                    try
-                    {
-                        IEnumerable<string> sqlScripts = ReadRemoteScripts(dbVersion, appVersion);
-                        bool isSuccess = ExecuteScripts(dbContext, sqlScripts);
-                        if (isSuccess)
-                        {
-                            dbVersion.Major = appVersion.Major;
-                            dbVersion.Minor = appVersion.Minor;
-                            dbVersion.Revision = appVersion.Revision;
-                            dbVersion.Build = appVersion.Build;
-
-                            if (dbVersion is DBVersion)
-                            {
-                                dbContext.Set<DBVersion>().Update(dbVersion as DBVersion);
-                            }
-                            dbContext.SaveChanges();
-                        }
-                        else
-                        {
-                            allSuccess = false;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, ex.Message);
-                    }
-
+                    allSuccess = false;
                 }
             }
             if (allSuccess)
             {
                 DeleteAllCachedScripts();
-            }            
+            }
+        }
+
+        public bool UpdateDatabaseToVersion(DbContext dbContext, Easy.Version versionTo)
+        {
+            Easy.Version versionFrom = GetDbVersion(dbContext);
+            if (versionFrom < versionTo)
+            {
+                _logger.LogInformation("Try to update database to version: {0}.", versionTo);
+
+                try
+                {
+                    IEnumerable<string> sqlScripts = ReadRemoteScripts(versionFrom, versionTo);
+                    bool isSuccess = ExecuteScripts(dbContext, sqlScripts);
+                    if (isSuccess)
+                    {
+                        versionFrom.Major = versionTo.Major;
+                        versionFrom.Minor = versionTo.Minor;
+                        versionFrom.Revision = versionTo.Revision;
+                        versionFrom.Build = versionTo.Build;
+
+                        if (versionFrom is DBVersion)
+                        {
+                            dbContext.Set<DBVersion>().Update(versionFrom as DBVersion);
+                        }
+                        dbContext.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message);
+                }
+
+            }
+
+            return true;
         }
 
         private Easy.Version GetDbVersion(DbContext dbContext)
@@ -365,6 +377,10 @@ namespace ZKEACMS.Updater.Service
 
         public void Dispose()
         {
+            foreach (var item in _dbContextProvider.GetAvailableDbContexts())
+            {
+                item.Dispose();
+            }
             _webClient.Dispose();
         }
     }
