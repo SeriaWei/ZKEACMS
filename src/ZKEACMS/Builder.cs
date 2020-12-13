@@ -152,6 +152,7 @@ namespace ZKEACMS
             services.AddTransient<IPackageInstaller, DataDictionaryPackageInstaller>();
             services.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             services.AddTransient<IEventViewerService, EventViewerService>();
+            services.AddTransient<IDBContextProvider, DefaultDBContextProvider>();
             services.AddScoped<IEventManager, EventManager>();
 
             services.AddTransient<IStorage, WebStorage>();

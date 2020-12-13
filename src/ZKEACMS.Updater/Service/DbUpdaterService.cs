@@ -31,17 +31,20 @@ namespace ZKEACMS.Updater.Service
         private readonly IOptions<DBVersionOption> _dbVersionOption;
         private readonly IWebClient _webClient;
         private readonly ILogger<DbUpdaterService> _logger;
-        private readonly CMSDbContext _dbContext;
+        private readonly IDBContextProvider _dbContextProvider;
         private const int DBVersionRecord = 1;
         private readonly string _scriptFileName;
-        public DbUpdaterService(DatabaseOption databaseOption, IOptions<DBVersionOption> dbVersionOption, IWebClient webClient, ILogger<DbUpdaterService> logger,
-            CMSDbContext dbContext)
+        public DbUpdaterService(DatabaseOption databaseOption,
+            IOptions<DBVersionOption> dbVersionOption,
+            IWebClient webClient,
+            IDBContextProvider dbContextProvider,
+            ILogger<DbUpdaterService> logger)
         {
             _dbVersionOption = dbVersionOption;
             _webClient = webClient;
             _scriptFileName = $"{databaseOption.DbType}.sql";//MsSql.sql, MySql.sql, Sqlite.sql
             _logger = logger;
-            _dbContext = dbContext;
+            _dbContextProvider = dbContextProvider;
         }
 
         public void UpdateDatabase()
@@ -54,45 +57,55 @@ namespace ZKEACMS.Updater.Service
         private void UpgradeDbToLatest()
         {
             var appVersion = Easy.Version.Parse(Version.VersionInfo);
-            Easy.Version dbVersion = GetDbVersion();
-            if (dbVersion < appVersion)
+            bool allSuccess = true;
+            foreach (var dbContext in _dbContextProvider.GetAvailableDbContexts())
             {
-                _logger.LogInformation("Try to update database to version: {0}.", appVersion);
-
-                try
+                Easy.Version dbVersion = GetDbVersion(dbContext);
+                if (dbVersion < appVersion)
                 {
-                    IEnumerable<string> sqlScripts = ReadRemoteScripts(dbVersion, appVersion);
-                    bool isSuccess = ExecuteScripts(sqlScripts);
-                    if (isSuccess)
+                    _logger.LogInformation("Try to update database to version: {0}.", appVersion);
+
+                    try
                     {
-                        dbVersion.Major = appVersion.Major;
-                        dbVersion.Minor = appVersion.Minor;
-                        dbVersion.Revision = appVersion.Revision;
-                        dbVersion.Build = appVersion.Build;
-
-                        if (dbVersion is DBVersion)
+                        IEnumerable<string> sqlScripts = ReadRemoteScripts(dbVersion, appVersion);
+                        bool isSuccess = ExecuteScripts(dbContext, sqlScripts);
+                        if (isSuccess)
                         {
-                            _dbContext.Set<DBVersion>().Update(dbVersion as DBVersion);
+                            dbVersion.Major = appVersion.Major;
+                            dbVersion.Minor = appVersion.Minor;
+                            dbVersion.Revision = appVersion.Revision;
+                            dbVersion.Build = appVersion.Build;
+
+                            if (dbVersion is DBVersion)
+                            {
+                                dbContext.Set<DBVersion>().Update(dbVersion as DBVersion);
+                            }
+                            dbContext.SaveChanges();
                         }
-                        _dbContext.SaveChanges();
-
-                        DeleteAllCachedScripts();
+                        else
+                        {
+                            allSuccess = false;
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, ex.Message);
-                }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, ex.Message);
+                    }
 
+                }
             }
+            if (allSuccess)
+            {
+                DeleteAllCachedScripts();
+            }            
         }
 
-        private Easy.Version GetDbVersion()
+        private Easy.Version GetDbVersion(DbContext dbContext)
         {
             Easy.Version version = null;
             try
             {
-                version = _dbContext.Set<DBVersion>().Find(DBVersionRecord);
+                version = dbContext.Set<DBVersion>().Find(DBVersionRecord);
             }
             catch (Exception ex)
             {
@@ -108,8 +121,8 @@ namespace ZKEACMS.Updater.Service
         private void ExcuteLocalScripts()
         {
             List<string> localScripts = ReadLocalScripts();
-            bool isSuccess = ExecuteScripts(localScripts);
-            if (isSuccess)
+
+            if (_dbContextProvider.GetAvailableDbContexts().All(m => ExecuteScripts(m, localScripts)))
             {
                 DeleteLocalScripts();
             }
@@ -247,8 +260,8 @@ namespace ZKEACMS.Updater.Service
         }
         private byte[] GetUpdateScriptsFromRemote(VersionInfo versionInfo)
         {
-            if(versionInfo.Resolved.IsNullOrEmpty()) return null;
-            
+            if (versionInfo.Resolved.IsNullOrEmpty()) return null;
+
             string packageUrl = $"{_dbVersionOption.Value.Source}/{versionInfo.Resolved}";
             _logger.LogInformation("Getting update scripts for version {0} from {1}", versionInfo.Version, packageUrl);
             byte[] packageByte = _webClient.DownloadData(packageUrl);
@@ -299,14 +312,14 @@ namespace ZKEACMS.Updater.Service
             yield return scriptBuilder.ToString().Trim();
         }
 
-        private bool ExecuteScripts(IEnumerable<string> sqlScripts)
+        private bool ExecuteScripts(DbContext dbContext, IEnumerable<string> sqlScripts)
         {
             if (!sqlScripts.Any())
             {
                 return true;
             }
             _logger.LogInformation("Executing scripts...");
-            DbConnection dbConnection = _dbContext.Database.GetDbConnection();
+            DbConnection dbConnection = dbContext.Database.GetDbConnection();
             if (dbConnection.State != ConnectionState.Open)
             {
                 dbConnection.Open();
@@ -352,7 +365,6 @@ namespace ZKEACMS.Updater.Service
 
         public void Dispose()
         {
-            _dbContext.Dispose();
             _webClient.Dispose();
         }
     }
