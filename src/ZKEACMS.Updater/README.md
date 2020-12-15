@@ -47,7 +47,7 @@ unzip cms.zip -d cms
 {
   "DBVersionOption": {
     "BaseVersion": "3.3.5",
-    "Source": "https://gitee.com/seriawei/ZKEACMS.Core/raw/develop/DataBase"
+    "Source": "https://gitee.com/seriawei/ZKEACMS.Core/raw/develop/Database"
   }
 }
 ```

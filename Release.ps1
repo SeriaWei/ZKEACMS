@@ -18,9 +18,9 @@ Write-Host "Copy files..."
 New-Item -Path "." -Name "Release" -ItemType "directory" -Force
 Move-Item -Path "src/ZKEACMS.WebHost/bin/Release/PublishOutput" -Destination "Release/Application"
 New-Item -Path "Release/Application" -Name "App_Data" -ItemType "directory"
-Invoke-Expression("sqlite-exec -d Release/Application/App_Data/Database.sqlite -f DataBase/SQLite/ZKEACMS.sqlite.sql")
-Copy-Item -Path "DataBase/SQLite/appsettings.json" -Destination "Release/Application/appsettings.json" -Force
-$dbSource = 'DataBase'
+Invoke-Expression("sqlite-exec -d Release/Application/App_Data/Database.sqlite -f Database/SQLite/ZKEACMS.sqlite.sql")
+Copy-Item -Path "Database/SQLite/appsettings.json" -Destination "Release/Application/appsettings.json" -Force
+$dbSource = 'Database'
 $dbDestination = 'Release/Database'
 $exclude = @('*.mdf','*.ldf','*.cmd','*.exe','*.dll','*.sh','*.json')
 $length =(Get-Item -Path ".\" -Verbose).FullName.Length + $dbSource.Length + 1

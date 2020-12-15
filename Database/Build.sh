@@ -5,7 +5,7 @@ dataBase='ZKEACMS'
 dbUserId='sa'
 dbPassword='sa'
 
-echo Creating DataBase $dataBase
+echo Creating Database $dataBase
 sqlcmd -x -S $server -d master -U $dbUserId -P $dbPassword -b -Q "DROP DATABASE IF EXISTS [$dataBase]"
 sqlcmd -x -S $server -d master -U $dbUserId -P $dbPassword -b -Q "CREATE DATABASE [$dataBase]"
 
