@@ -6,6 +6,10 @@ namespace ZKEACMS.Event
 {
     public class Events
     {
+        #region
+        public const string OnDatabaseCreated = "ZKEACMS.Events.OnDatabaseCreated";
+        #endregion
+
         #region Page
         public const string OnPageAdding = "ZKEACMS.Events.OnPageAdding";
         public const string OnPageAdded = "ZKEACMS.Events.OnPageAdded";

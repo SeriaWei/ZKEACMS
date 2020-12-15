@@ -77,7 +77,7 @@ namespace Easy
             services.AddTransient<IRuleProvider, DateRuleProvider>();
             services.AddTransient<IRuleProvider, MoneyRuleProvider>();
             services.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
-            services.AddTransient<WebClient>();
+            services.AddTransient<IWebClient, WebClient>();
 
             services.AddSingleton<ICacheProvider, DefaultCacheProvider>();
             services.AddScoped<ILocalize, Localize>();
@@ -98,6 +98,7 @@ namespace Easy
             services.ConfigureMetaData<Permission, PermissionMetaData>();
             services.ConfigureMetaData<RoleEntity, RoleMetaData>();
             services.ConfigureMetaData<UserRoleRelation, UserRoleRelationMetaData>();
+            services.ConfigureMetaData<SmtpSetting, SmtpSettingMetaData>();
 
 
             services.Configure<CDNOption>(configuration.GetSection("CDN"));

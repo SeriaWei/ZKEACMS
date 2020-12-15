@@ -5,7 +5,7 @@
         return;
     }
     Layout = Model.Layout;
-    if (Authorizer.Authorize(PermissionKeys.ManagePage) && ApplicationContext.As<CMSApplicationContext>().PageMode != ZKEACMS.Filter.PageViewMode.ViewOnly)
+    if (Authorizer.Authorize(PermissionKeys.ManagePage) && this.WorkContext().PageMode != ZKEACMS.Filter.PageViewMode.ViewOnly)
     {
         Style.Reqiured("Layout").AtHead();
     }
@@ -34,7 +34,7 @@
         @Html.Raw(item.Html)
     }
 }
-@if (ApplicationContext.As<CMSApplicationContext>().PageMode == ZKEACMS.Filter.PageViewMode.ViewOnly)
+@if (this.WorkContext().PageMode == ZKEACMS.Filter.PageViewMode.ViewOnly)
 {
     Script.Reqiured("smooth-scrollbar").AtFoot();
     using (Script.AtFoot())

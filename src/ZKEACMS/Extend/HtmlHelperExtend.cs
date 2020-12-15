@@ -134,5 +134,14 @@ namespace ZKEACMS
                 }
             }
         }
+
+        public static IHtmlContent EmailLinkButton(this IHtmlHelper html, string link, string text)
+        {
+            return html.EmailLinkButton(link, text, false);
+        }
+        public static IHtmlContent EmailLinkButton(this IHtmlHelper html, string link, string text, bool center)
+        {
+            return html.Partial("EmailLinkButton", new Tuple<string, string, bool>(link, text, center));
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace Easy.Notification
 {
     public interface ISmtpProvider
     {
-        SmtpClient Get();
+        SmtpClient GetSmtpClient();
+        SmtpSetting GetSmtpSetting();
     }
 }

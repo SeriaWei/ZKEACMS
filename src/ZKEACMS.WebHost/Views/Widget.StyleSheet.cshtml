@@ -3,17 +3,24 @@
 {
     return;
 }
-@if (Model.StyleSheet.StartsWith("<link"))
+@if (Model.StyleSheet.StartsWith("<link", StringComparison.OrdinalIgnoreCase) || Model.StyleSheet.IndexOf("<style>", StringComparison.OrdinalIgnoreCase) >= 0)
 {
-    @Html.Raw(Model.StyleSheet)
+    using (Style.AtHead())
+    {
+        @Html.Raw(Model.StyleSheet)
+    }
 }
 else
 {
-    <style>
-        @Html.Raw(Model.StyleSheet)
-    </style>
+    using (Style.AtHead())
+    {
+        <style>
+            @Html.Raw(Model.StyleSheet)
+        </style>
+    }
 }
-@if (ApplicationContext.As<CMSApplicationContext>().IsDesignMode)
+
+@if (this.WorkContext().IsDesignMode)
 {
-    <pre class="code" code="CSS">@Model.StyleSheet</pre>
+    <pre class="code" code="CSS">@L("Custom Style")</pre>
 }

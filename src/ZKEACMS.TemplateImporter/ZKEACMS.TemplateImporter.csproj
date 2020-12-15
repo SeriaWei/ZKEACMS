@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <AssemblyName>ZKEACMS.TemplateImporter</AssemblyName>
     <PackageId>ZKEACMS.TemplateImporter</PackageId>
@@ -15,7 +15,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.28" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
 </Project>

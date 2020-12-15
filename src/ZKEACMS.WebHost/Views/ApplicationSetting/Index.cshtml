@@ -8,7 +8,15 @@
 @model ApplicationSetting
 
 <div class="grid-component">
-    @Html.SearchTerms(Authorizer.Authorize(PermissionKeys.ManageApplicationSetting))
+    @using (Html.SearchTermsWithActions(this))
+    {
+        if (Authorizer.Authorize(PermissionKeys.ManageApplicationSetting))
+        {
+            <a href="@Url.Action("Create")" class="btn btn-primary btn-sm">@L("New")</a>
+        }
+        <a href="http://www.zkea.net/zkeacms/document/other-settings" class="btn btn-link" target="_blank">@L("Document")</a>
+    }
+
     <div class="panel panel-default">
         <div class="panel-body">
             <grid edit-able="Authorizer.Authorize(PermissionKeys.ManageApplicationSetting)" delete-able="Authorizer.Authorize(PermissionKeys.ManageApplicationSetting)"></grid>
