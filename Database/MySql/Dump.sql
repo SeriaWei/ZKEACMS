@@ -1256,6 +1256,21 @@ INSERT INTO `DataDictionary` VALUES
 (82,'CultureSetting@CultureMode','Standalone domain','2',3,0,1,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `DataDictionary` ENABLE KEYS */;
 
+DROP TABLE IF EXISTS `DBVersion`;
+CREATE TABLE `DBVersion` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Major` INT  NULL,
+	`Minor` INT  NULL,
+	`Revision` INT  NULL,
+	`Build` INT  NULL,
+	PRIMARY KEY (`ID`)
+);
+
+/*!40000 ALTER TABLE `DBVersion` DISABLE KEYS */;
+INSERT INTO `DBVersion` VALUES
+(1,3,3,6,0);
+/*!40000 ALTER TABLE `DBVersion` ENABLE KEYS */;
+
 DROP TABLE IF EXISTS `ExtendField`;
 CREATE TABLE `ExtendField` (
 	`ID` INT AUTO_INCREMENT  NOT NULL,
