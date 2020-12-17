@@ -86,7 +86,7 @@ namespace Easy.RepositoryPattern
                 return action.Invoke();
             }
         }
-        protected ServiceResult<T> Validate(T item)
+        protected virtual ServiceResult<T> Validate(T item)
         {
             ServiceResult<T> serviceResult = new ServiceResult<T>();
             var entryType = typeof(T);
@@ -122,7 +122,7 @@ namespace Easy.RepositoryPattern
             {
                 return result;
             }
-            var editor = item as EditorEntity;
+            var editor = item as IEditorEntity;
             if (editor != null)
             {
                 if (ApplicationContext.CurrentUser != null)
@@ -153,7 +153,7 @@ namespace Easy.RepositoryPattern
                 {
                     return itemResult;
                 }
-                var editor = item as EditorEntity;
+                var editor = item as IEditorEntity;
                 if (editor != null)
                 {
                     if (ApplicationContext.CurrentUser != null)
@@ -289,7 +289,7 @@ namespace Easy.RepositoryPattern
             {
                 return result;
             }
-            var editor = item as EditorEntity;
+            var editor = item as IEditorEntity;
             if (editor != null)
             {
                 if (ApplicationContext.CurrentUser != null)
@@ -315,7 +315,7 @@ namespace Easy.RepositoryPattern
                 {
                     return itemResult;
                 }
-                var editor = item as EditorEntity;
+                var editor = item as IEditorEntity;
                 if (editor != null)
                 {
                     if (ApplicationContext.CurrentUser != null)
