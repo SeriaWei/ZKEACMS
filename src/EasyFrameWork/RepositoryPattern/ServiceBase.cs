@@ -122,7 +122,7 @@ namespace Easy.RepositoryPattern
             {
                 return result;
             }
-            var editor = item as IEditorEntity;
+            var editor = item as EditorEntity;
             if (editor != null)
             {
                 if (ApplicationContext.CurrentUser != null)
@@ -153,7 +153,7 @@ namespace Easy.RepositoryPattern
                 {
                     return itemResult;
                 }
-                var editor = item as IEditorEntity;
+                var editor = item as EditorEntity;
                 if (editor != null)
                 {
                     if (ApplicationContext.CurrentUser != null)
@@ -289,7 +289,7 @@ namespace Easy.RepositoryPattern
             {
                 return result;
             }
-            var editor = item as IEditorEntity;
+            var editor = item as EditorEntity;
             if (editor != null)
             {
                 if (ApplicationContext.CurrentUser != null)
@@ -315,7 +315,7 @@ namespace Easy.RepositoryPattern
                 {
                     return itemResult;
                 }
-                var editor = item as IEditorEntity;
+                var editor = item as EditorEntity;
                 if (editor != null)
                 {
                     if (ApplicationContext.CurrentUser != null)

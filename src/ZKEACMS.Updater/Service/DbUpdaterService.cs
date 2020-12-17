@@ -34,6 +34,7 @@ namespace ZKEACMS.Updater.Service
         private readonly IDBContextProvider _dbContextProvider;
         private const int DBVersionRecord = 1;
         private readonly string _scriptFileName;
+        private string availableSource;
         public DbUpdaterService(DatabaseOption databaseOption,
             IOptions<DBVersionOption> dbVersionOption,
             IWebClient webClient,
@@ -223,9 +224,28 @@ namespace ZKEACMS.Updater.Service
 
         private ReleaseVersion GetReleaseVersions()
         {
-            string source = $"{_dbVersionOption.Value.Source}/index.json";
-            _logger.LogInformation("Getting release versions. {0}", source);
-            return JsonSerializer.Deserialize<ReleaseVersion>(_webClient.DownloadString(source));
+            ReleaseVersion releaseVersion = null;
+            foreach (var item in _dbVersionOption.Value.Source)
+            {
+                availableSource = item;
+                string source = $"{availableSource}/index.json";
+                _logger.LogInformation("Getting release versions. {0}", source);
+                try
+                {
+                    releaseVersion = JsonSerializer.Deserialize<ReleaseVersion>(_webClient.DownloadString(source));
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message);
+                    continue;
+                }
+            }
+            if (releaseVersion == null)
+            {
+                throw new Exception("Cannot get release information.");
+            }
+            return releaseVersion;
         }
         private IEnumerable<string> GetUpdateScripts(VersionInfo versionInfo)
         {
@@ -274,7 +294,7 @@ namespace ZKEACMS.Updater.Service
         {
             if (versionInfo.Resolved.IsNullOrEmpty()) return null;
 
-            string packageUrl = $"{_dbVersionOption.Value.Source}/{versionInfo.Resolved}";
+            string packageUrl = $"{availableSource}/{versionInfo.Resolved}";
             _logger.LogInformation("Getting update scripts for version {0} from {1}", versionInfo.Version, packageUrl);
             byte[] packageByte = _webClient.DownloadData(packageUrl);
             try
