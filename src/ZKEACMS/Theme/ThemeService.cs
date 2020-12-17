@@ -156,8 +156,8 @@ namespace ZKEACMS.Theme
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        _logger.LogError(ex.Message);
-                        throw ex;
+                        _logger.LogError(ex, ex.Message);
+                        throw;
                     }
                     finally
                     {

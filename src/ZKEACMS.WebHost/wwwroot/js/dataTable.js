@@ -63,6 +63,9 @@
                 },
                 "orderable": orderAble
             });
+            $("input[type=checkbox].select-all", this).on("click", function () {
+                $("tbody>tr>td input[type=checkbox].select-item", $(this).closest("table")).prop("checked", $(this).prop("checked"));
+            });
         });
         var dataTable = $(this);
         dataTable.DataTable({

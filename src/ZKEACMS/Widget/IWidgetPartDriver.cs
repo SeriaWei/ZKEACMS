@@ -3,18 +3,19 @@ using Easy.Zip;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using ZKEACMS.Page;
 
 namespace ZKEACMS.Widget
 {
     public interface IWidgetPartDriver : IDisposable
     {
-        bool IsNeedNotifyChange { get; set; }
         void AddWidget(WidgetBase widget);
         void DeleteWidget(string widgetId);
         void UpdateWidget(WidgetBase widget);
         void Publish(WidgetBase widget);
         WidgetBase GetWidget(WidgetBase widget);
-        WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext);
+        WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext);
         WidgetPackage PackWidget(WidgetBase widget);
         void InstallWidget(WidgetPackage pack);
     }

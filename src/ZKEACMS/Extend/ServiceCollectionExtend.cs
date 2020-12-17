@@ -24,12 +24,15 @@ namespace ZKEACMS
                 return optBuilder.Options;
             });
         }
-        public static void RegistEvent<Handler>(this IServiceCollection services, string name)
+        public static void RegistEvent<Handler>(this IServiceCollection services, params string[] events)
             where Handler : class, IEventHandler
         {
             Type type = typeof(Handler);
-            EventManager.RegistEvent(name, type);
-            services.AddTransient(type);
+            foreach (var name in events)
+            {
+                EventManager.RegistEvent(name, type);
+            }
+            services.AddScoped(type);
         }
     }
 }

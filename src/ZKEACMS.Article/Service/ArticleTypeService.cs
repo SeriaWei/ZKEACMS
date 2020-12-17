@@ -61,11 +61,11 @@ namespace ZKEACMS.Article.Service
         {
             if (item != null)
             {
+                _articleService.Remove(n => n.ArticleTypeID == item.ID);
                 GetChildren(item.ID).Each(m =>
                 {
                     Remove(m);
-                });
-                _articleService.Remove(n => n.ArticleTypeID == item.ID);
+                });                
             }
             base.Remove(item);
         }

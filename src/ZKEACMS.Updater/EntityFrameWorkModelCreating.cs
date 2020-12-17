@@ -6,6 +6,7 @@
 
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
+using ZKEACMS.Updater.Models;
 
 namespace ZKEACMS.Updater
 {
@@ -13,7 +14,7 @@ namespace ZKEACMS.Updater
     {
         public void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            modelBuilder.Entity<DBVersion>();
         }
     }
 }

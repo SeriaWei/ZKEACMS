@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+using Easy.Constant;
 using Easy.ViewPort.Descriptor;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace ZKEACMS.Extend
         }
         public static TextBoxDescriptor UrlPart(this TextBoxDescriptor descriptor)
         {
-            return descriptor.AddClass(StringKeys.UrlPart).SetTemplate("UrlPart");
+            return descriptor.AddClass(StringKeys.UrlPart).SetTemplate("UrlPart").RegularExpression(RegularExpression.LetterNumberOrLine);
         }
     }
 }

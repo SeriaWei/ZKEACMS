@@ -38,7 +38,7 @@
             <div class="panel-footer">
                 <div>
                     <a class="btn btn-primary btn-sm search">@L("Search")</a>
-                    @if (ViewBag.CreateAble != null && ViewBag.CreateAble != false)
+                    @if (ViewBag.CreateAble == true)
                     {
                         string action = ViewBag.CreateAction as string;
                         if (action.IndexOf("/") < 0)
@@ -47,10 +47,7 @@
                         }
                         <a class="btn btn-primary btn-sm" href="@action">@L("New")</a>
                     }
-                    @if (ViewBag.SearchToolbar != null)
-                    {
-                        @Html.Raw(ViewBag.SearchToolbar)
-                    }
+                    @ViewData["InjectedContent"]
                 </div>
             </div>
         </div>

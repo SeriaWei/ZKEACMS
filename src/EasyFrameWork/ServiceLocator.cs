@@ -40,7 +40,7 @@ namespace Easy
         }
         public static ViewConfigure GetViewConfigure(Type type)
         {
-            if (type != null)
+            if (type != null && HttpContextAccessor != null)
             {
                 if (typeof(Microsoft.AspNetCore.Mvc.ControllerBase).IsAssignableFrom(type))
                 {

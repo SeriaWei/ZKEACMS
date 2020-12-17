@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Easy.Mvc.Extend;
 using System;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Easy.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace ZKEACMS
 {
@@ -18,7 +22,11 @@ namespace ZKEACMS
         {
             if (widget.ViewModel != null)
             {
-                return await html.PartialAsync("DisplayWidget", widget);
+                var logger = html.ViewContext.HttpContext.RequestServices.GetService<ILogger<WidgetViewModelPart>>();
+                DateTime startTime = DateTime.Now;
+                var widgetResult = await html.PartialAsync("DisplayWidget", widget);
+                logger.LogInformation("Render Widget [{0}]: {1}ms", widget.Widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
+                return widgetResult;
             }
             return await html.WidgetError();
         }
@@ -61,7 +69,7 @@ namespace ZKEACMS
 
         private static bool IsOpenSelf(string link)
         {
-            return true;
+            return !link.StartsWith("http://", StringComparison.OrdinalIgnoreCase) && !link.StartsWith("https://", StringComparison.OrdinalIgnoreCase);
         }
 
         public static async Task<IHtmlContent> WidgetError(this IHtmlHelper html)
@@ -83,11 +91,12 @@ namespace ZKEACMS
         }
         public static IHtmlContent SearchTerms(this IHtmlHelper html, bool createAble, string createAction)
         {
-            html.ViewBag.CreateAble = createAble;
-            html.ViewBag.CreateAction = createAction;
-            return html.Editor(string.Empty, "Search-Terms");
+            return html.Editor(string.Empty, "Search-Terms", new { CreateAble = createAble, CreateAction = createAction });
         }
-
+        public static IDisposable SearchTermsWithActions(this IHtmlHelper html, RazorPage page)
+        {
+            return new InjectEditorViewRender(page, html, "Search-Terms");
+        }
         public static IHtmlContent SearchItem(this IHtmlHelper html, ModelMetadata item)
         {
             var descriptor = item.GetViewDescriptor();
@@ -124,6 +133,15 @@ namespace ZKEACMS
                     return html.Editor(item.PropertyName, "String");
                 }
             }
+        }
+
+        public static IHtmlContent EmailLinkButton(this IHtmlHelper html, string link, string text)
+        {
+            return html.EmailLinkButton(link, text, false);
+        }
+        public static IHtmlContent EmailLinkButton(this IHtmlHelper html, string link, string text, bool center)
+        {
+            return html.Partial("EmailLinkButton", new Tuple<string, string, bool>(link, text, center));
         }
     }
 }

@@ -14,11 +14,11 @@
     <meta charset="utf-8" />
     <title>@(ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank)</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
+    @if (this.WorkContext().OuterChainPicture)
     {
         <meta name="referrer" content="same-origin" />
     }
-    @if (ApplicationContext.As<CMSApplicationContext>().EnableResponsiveDesign)
+    @if (this.WorkContext().EnableResponsiveDesign)
     {
         <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
     }
@@ -31,8 +31,8 @@
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a href="~/admin" class="navbar-brand" title="ZKEASOFT">
-                        <img src="~/images/logo_zkea_min.png" alt="" style="height: 20px;" />
+                    <a href="~/admin" class="navbar-brand" title="@(this.WorkContext().SiteInformation.SiteName)">
+                        <img src="@(this.WorkContext().SiteInformation.Logo_Mini)" alt="" style="height: 20px;" />
                     </a>
                 </div>
                 <div class="collapse navbar-collapse">

@@ -1,3 +1,4 @@
+@model ZKEACMS.Account.ForgottenViewModel
 @{
     ViewBag.Title = ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank;
     Layout = Layouts.NormalDefault;
@@ -8,11 +9,12 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserType)
     <div class="login-panel forgotten">
         <div class="login-panel-heading">
             <p>
                 <a href="~/" target="_blank">
-                    <img class="logo" src="~/images/logo_min.png" alt="ZKEACMS" />
+                    <img class="logo" src="@(this.WorkContext().SiteInformation.Logo_Mini)" alt="@(this.WorkContext().SiteInformation.SiteName)" />
                 </a>
             </p>
         </div>
@@ -47,8 +49,23 @@
                 <input type="submit" class="btn-login" value="@L("Submit")" />
             </div>
         </div>
-        <div class="login-panel-footer ">
-            <a href="@Url.Action("SignIn", new { ReturnUrl = ViewContext.HttpContext.Request.Query["ReturnUrl"] })">@L("Sign in")</a>
+        <div class="login-panel-footer clearfix">
+            <div class="pull-left">
+                @if (Model.UserType == UserType.Administrator)
+                {
+                    <a href="@Url.Action("Login")">@L("Sign in")</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("SignIn", new { ReturnUrl = ViewContext.HttpContext.Request.Query["ReturnUrl"] })">@L("Sign in")</a>
+                }
+            </div>
+            <div class="pull-right">
+                @if (Model.UserType == UserType.Administrator)
+                {
+                    <code>@Model.UserType</code>
+                }
+            </div>
         </div>
     </div>
 }

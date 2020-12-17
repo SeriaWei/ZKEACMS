@@ -32,11 +32,12 @@ namespace ZKEACMS.SiteSearch
 
         protected override void InitScript(Func<string, ResourceHelper> script)
         {
-
+            script("site-search").Include("~/Plugins/ZKEACMS.SiteSearch/Content/site-search.js", "~/Plugins/ZKEACMS.SiteSearch/Content/site-search.min.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
+            style("site-search").Include("~/Plugins/ZKEACMS.SiteSearch/Content/site-search.css", "~/Plugins/ZKEACMS.SiteSearch/Content/site-search.min.css");
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()

@@ -1,12 +1,12 @@
-﻿# ZKEACMS Build With Asp.Net Core 3.1
+﻿# ZKEACMS Build With .Net 5
 
 ZKEACMS is a visual design, **WYSIWYG** Content Management System.
 
 ## Page Design
-![Page Design](https://user-images.githubusercontent.com/6006218/59973922-176ced80-95d8-11e9-9ff8-be71ae1a0787.gif)
+![Page Design](http://www.zkea.net/images/page-design.gif)
 
 ## Add Content To Page
-![Add Content](https://user-images.githubusercontent.com/6006218/59973935-33708f00-95d8-11e9-851b-3724defc7d1b.gif)
+![Add Content](http://www.zkea.net/images/add-content.gif)
 
 **Get Started**
 
@@ -55,7 +55,7 @@ $ docker run -d -p 5000:80 zkeasoft/zkeacms:ent
 ```
 
 ## Development
-* [.Net Core SDK 3.0](https://dot.net/get-core3)
+* [.Net SDK 5](https://dotnet.microsoft.com/download)
 * Microsoft Sql Server 2012+ / MySql 5.6+ / SQLite 3
 * Microsoft Visual Studio 2019 / Visual Studio Code
 
@@ -63,13 +63,13 @@ $ docker run -d -p 5000:80 zkeasoft/zkeacms:ent
 ZKEACMS is featuring a modern responsive design that automatically adapts to different screen sizes and devices. From the PC, laptop, TV, tablet to the phone page will automatically adapt to adapt.
 
 ## Layout Design
-![Layout Design](https://cloud.githubusercontent.com/assets/6006218/23800807/b4298c0a-05e8-11e7-834f-fef335e64a94.jpg)
+![Layout Design](http://www.zkea.net/images/design-layout.jpg)
 
 Layout is used to make a page of the zone, the user can drag the "row", "column" to design layout. The layout uses the Bootstrap3 Grid system.
 
 
 ## Widgets
-![Widgets](https://cloud.githubusercontent.com/assets/6006218/23800984/5c243978-05e9-11e7-8804-6a82e92b519b.png)
+![Widgets](http://www.zkea.net/images/widgets.png)
 
 A widget is a `HTML Components`. Add different widget to build your page. Multiple widgets can be added to the same zone, and can be sorted by drag and drop. 
 
@@ -79,7 +79,7 @@ Using LESS to create a theme, by modifying the variables, you can easily create 
 
 The theme is base on Boorstrap.
 
-![Theme](https://cloud.githubusercontent.com/assets/6006218/23801129/f5be52ee-05e9-11e7-8a7e-6465a4cb3c9f.jpg)
+![Theme](http://www.zkea.net/images/themes.jpg)
 
 ## Videos
 [http://www.zkea.net/zkeacms/videos](http://www.zkea.net/zkeacms/videos)
@@ -100,7 +100,7 @@ The following videos can help you to know the Enterprise Edition:
 
 
 ## 关注微信(ZKEASOFT)
-![关注微信](http://www.zkea.net/UpLoad/Images/20160318/263801921375bdf2.jpg)
+![关注微信](http://www.zkea.net/images/qrcode.jpg)
 
 ## QQ群
 纸壳CMS 群1（493586356） [点击加群](https://jq.qq.com/?_wv=1027&k=5SlfPaT)

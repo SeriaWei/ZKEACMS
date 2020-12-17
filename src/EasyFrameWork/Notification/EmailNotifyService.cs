@@ -8,6 +8,7 @@ using System.Net.Mail;
 using System.Net;
 using Easy.Extend;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace Easy.Notification
 {
@@ -58,17 +59,32 @@ namespace Easy.Notification
                     mailMessage.Attachments.Add(new Attachment(item));
                 }
             }
-            SmtpClient client = _smtpProvider.Get();
+            SmtpClient client = _smtpProvider.GetSmtpClient();
+            if (client == null)
+            {//If SMTP server is not ready save email to temp
+                string tempEmlPath = Path.Combine(Directory.GetCurrentDirectory(), "Temp", "emails");
+                Directory.CreateDirectory(tempEmlPath);
+                client = new SmtpClient
+                {
+                    DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory,
+                    PickupDirectoryLocation = tempEmlPath
+                };
+                _logger.LogError("SMTP Server is not ready, the email have temporary saved to {0}. for more information: {1}",
+                tempEmlPath, "http://www.zkea.net/zkeacms/document/smtp-setting");
+                if (email.From.IsNullOrWhiteSpace())
+                {
+                    email.From = "webmaster@zkea.net";
+                }
+            }
+
             if (email.From.IsNullOrWhiteSpace())
             {
-                email.From = (client.Credentials as NetworkCredential).UserName;
+                email.From = _smtpProvider.GetSmtpSetting().Email;
             }
             mailMessage.From = new MailAddress(email.From, email.DisplayName ?? email.From);
+
             client.SendCompleted += Client_SendCompleted;
-
             client.SendAsync(mailMessage, email);
-
-
         }
 
         private void Client_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)

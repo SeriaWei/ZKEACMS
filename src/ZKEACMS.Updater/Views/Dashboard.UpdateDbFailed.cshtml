@@ -1,0 +1,26 @@
+@using ZKEACMS.Updater.ViewModel
+@model UpdateDbFailedViewModel
+
+@if (Model.Packages != null && Model.Packages.Any())
+{
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span>@L("Database update failed.")</span>
+        <span>@L("Please execute scripts manually!")</span>
+        @foreach (var item in Model.Packages)
+        {
+            <p>@item</p>
+        }
+        <p class="small">@L("Please delete the script package manually after upgrade.")</p>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span>@L("Database version is mismatched!")</span>
+        <span>@L("Please restart your website or contact the administrator.")</span>
+    </div>
+}

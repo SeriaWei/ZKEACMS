@@ -26,29 +26,56 @@ namespace ZKEACMS.Article.Service
         }
         public override ServiceResult<ArticleEntity> Add(ArticleEntity item)
         {
+            ServiceResult<ArticleEntity> result;
             if (item.Url.IsNotNullAndWhiteSpace())
             {
                 if (GetByUrl(item.Url) != null)
                 {
-                    var result = new ServiceResult<ArticleEntity>();
+                    result = new ServiceResult<ArticleEntity>();
                     result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
                     return result;
                 }
             }
-            return base.Add(item);
+            _eventManager.Trigger(Events.OnArticleAdding, item);
+            result = base.Add(item);
+            if (!result.HasViolation)
+            {
+                _eventManager.Trigger(Events.OnArticleAdded, item);
+            }
+            return result;
         }
         public override ServiceResult<ArticleEntity> Update(ArticleEntity item)
         {
+            ServiceResult<ArticleEntity> result;
             if (item.Url.IsNotNullAndWhiteSpace())
             {
                 if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
                 {
-                    var result = new ServiceResult<ArticleEntity>();
+                    result = new ServiceResult<ArticleEntity>();
                     result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
                     return result;
                 }
             }
-            return base.Update(item);
+            _eventManager.Trigger(Events.OnArticleUpdating, item);
+            result = base.Update(item);
+            if (!result.HasViolation)
+            {
+                _eventManager.Trigger(Events.OnArticleUpdated, item);
+            }
+            return result;
+        }
+
+        public override void Remove(ArticleEntity item)
+        {
+            _eventManager.Trigger(Events.OnArticleDeleting, item);
+            base.Remove(item);
+            _eventManager.Trigger(Events.OnArticleDeleted, item);
+        }
+        public override void RemoveRange(params ArticleEntity[] items)
+        {
+            items.Each(item => _eventManager.Trigger(Events.OnArticleDeleting, item));
+            base.RemoveRange(items);
+            items.Each(item => _eventManager.Trigger(Events.OnArticleDeleted, item));
         }
         public ArticleEntity GetByUrl(string url)
         {

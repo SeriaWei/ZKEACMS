@@ -5,10 +5,14 @@
  */
 
 
+using Microsoft.EntityFrameworkCore;
+using System;
+
 namespace ZKEACMS.Updater.Service
 {
-    public interface IDbUpdaterService
+    public interface IDbUpdaterService : IDisposable
     {
         void UpdateDatabase();
+        bool UpdateDatabaseToVersion(DbContext dbContext, Easy.Version versionTo);
     }
 }

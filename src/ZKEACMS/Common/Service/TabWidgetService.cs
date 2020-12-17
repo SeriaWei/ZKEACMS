@@ -20,10 +20,6 @@ namespace ZKEACMS.Common.Service
         {
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
-        {
-            return widget.ToWidgetViewModelPart();
-        }
         public override ServiceResult<TabWidget> Add(TabWidget item)
         {
             item.TabItems = item.TabItems.RemoveDeletedItems().ToList();

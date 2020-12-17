@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2020 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using Easy;
 using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +19,7 @@ using Easy.Extend;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleListWidgetService : WidgetService<ArticleListWidget>
+    public class ArticleListWidgetService : WidgetService<ArticleListWidget>, IArticleListWidgetService
     {
         private readonly IArticleTypeService _articleTypeService;
         private readonly IArticleService _articleService;
@@ -64,10 +67,11 @@ namespace ZKEACMS.Article.Service
             return widget;
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
+        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
-            var currentWidget = widget as ArticleListWidget;
+            var currentWidget = widgetDisplayContext.Widget as ArticleListWidget;
             var categoryEntity = _articleTypeService.Get(currentWidget.ArticleTypeID);
+            var actionContext = widgetDisplayContext.ActionContext;
             int pageIndex = actionContext.RouteData.GetPage();
             int cate = actionContext.RouteData.GetCategory();
             var pagin = new Pagination
@@ -105,7 +109,7 @@ namespace ZKEACMS.Article.Service
                 articles = _articleService.Get().Where(filter).OrderByDescending(m => m.PublishDate).ToList();
             }
 
-            return widget.ToWidgetViewModelPart(new ArticleListWidgetViewModel
+            return widgetDisplayContext.ToWidgetViewModelPart(new ArticleListWidgetViewModel
             {
                 Articles = articles,
                 Widget = currentWidget,

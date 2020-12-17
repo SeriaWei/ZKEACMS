@@ -86,6 +86,14 @@ namespace ZKEACMS.WidgetTemplate
                 PartialView = "Widget.Tab",
                 Thumbnail = "~/images/Widget.Tab.png",
                 Order = 9
+            },
+            new WidgetTemplateEntity<HeadWidgetService>
+            {
+                Title = "Head",
+                GroupName = "1.General",
+                PartialView = "Widget.Head",
+                Thumbnail = "~/images/Widget.Head.png",
+                Order = 10
             }
         };
 

@@ -151,7 +151,40 @@ namespace ZKEACMS
                         if (serviceCollection != null)
                         {
                             ConfigureServices(serviceCollection);
-                            Assembly.DefinedTypes.Where(type => IsController(type)).Each(c => serviceCollection.TryAddTransient(c));
+                            Assembly.DefinedTypes.Where(type => IsController(type)).Each(c =>
+                            {
+                                // RouteAttribute[] controllerRoutes = c.GetCustomAttributes(typeof(RouteAttribute), false) as RouteAttribute[];
+                                // if (controllerRoutes != null)
+                                // {
+                                //     foreach (var route in controllerRoutes)
+                                //     {
+                                //         RouteDescriptors.Routes.Add(new RouteDescriptor()
+                                //         {
+                                //             RouteName = $"ControllerRoute_{c.Name}",
+                                //             Template = route.Template,
+                                //             Priority = 10
+                                //         });
+                                //     }
+                                // }
+                                // MemberInfo[] actions = c.GetMethods();
+                                // foreach (var action in actions)
+                                // {
+                                //     RouteAttribute[] actionRoutes = action.GetCustomAttributes(typeof(RouteAttribute), false) as RouteAttribute[];
+                                //     if (actionRoutes != null)
+                                //     {
+                                //         foreach (var route in actionRoutes)
+                                //         {
+                                //             RouteDescriptors.Routes.Add(new RouteDescriptor()
+                                //             {
+                                //                 RouteName = $"ActionRoute_{c.Name}",
+                                //                 Template = route.Template,
+                                //                 Priority = 11
+                                //             });
+                                //         }
+                                //     }
+                                // }
+                                serviceCollection.TryAddTransient(c);
+                            });
                         }
                     }
                     else if (item is IMvcBuilder)

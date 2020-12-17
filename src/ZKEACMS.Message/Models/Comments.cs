@@ -34,7 +34,7 @@ namespace ZKEACMS.Message.Models
             ViewConfig(m => m.PagePath).AsTextBox().ReadOnly();
             ViewConfig(m => m.UserId).AsHidden();
             ViewConfig(m => m.Picture).AsHidden();
-            ViewConfig(m => m.CommentContent).AsTextArea().ShowInGrid().MaxLength(100);
+            ViewConfig(m => m.CommentContent).AsTextArea().ShowInGrid().MaxLength(500);
         }
     }
 }

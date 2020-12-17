@@ -39,7 +39,7 @@ namespace Easy.Mvc.Resource
         {
             this._page = page;
             _position = position;
-            this._page.StartTagHelperWritingScope(HtmlEncoder.Default);
+            this._page.StartTagHelperWritingScope(page.HtmlEncoder);
             _onRegisted = onRegisted;
         }
 

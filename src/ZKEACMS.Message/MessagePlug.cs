@@ -11,6 +11,7 @@ using Easy.RepositoryPattern;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using ZKEACMS.Message.EventHandler;
 using ZKEACMS.Message.Models;
 using ZKEACMS.Message.Service;
 using ZKEACMS.WidgetTemplate;
@@ -120,6 +121,9 @@ namespace ZKEACMS.Message
             serviceCollection.ConfigureMetaData<MessageEntity, MessageMetaData>();
             serviceCollection.ConfigureMetaData<MessageWidget, MessageWidgetMetaData>();
             serviceCollection.ConfigureMetaData<MessageNotificationConfig, MessageNotificationConfigMetaData>();
+
+            serviceCollection.RegistEvent<NotifyOnCommentsSubmittedEventHandler>(Events.OnCommentsSubmitted);
+            serviceCollection.RegistEvent<NotifyOnMessageSubmittedEventHandler>(Events.OnMessageSubmitted);
 
             serviceCollection.Configure<MessageBoxWidget>(option =>
             {

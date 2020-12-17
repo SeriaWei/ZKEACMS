@@ -9,6 +9,7 @@ using ZKEACMS.Filter;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Html;
 using Easy.Mvc.StateProviders;
+using ZKEACMS.Site;
 
 namespace ZKEACMS
 {
@@ -69,5 +70,6 @@ namespace ZKEACMS
         public List<string> Scripts { get; set; }
         public bool OuterChainPicture { get { return Get<bool>(nameof(OuterChainPicture)); } }
         public bool EnableResponsiveDesign { get { return Get<bool>(nameof(EnableResponsiveDesign)); } }
+        public SiteInformation SiteInformation { get { return Get<SiteInformation>(nameof(SiteInformation)); } }
     }
 }

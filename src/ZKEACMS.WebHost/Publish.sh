@@ -1,1 +1,2 @@
-publish-zkeacms
+dotnet tool restore
+dotnet tool run publish-zkeacms

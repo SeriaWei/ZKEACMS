@@ -1,27 +1,23 @@
 @{
-    ViewBag.Title = L("Internal Error");
-    Layout = Layouts.NormalDefault;
+    ViewBag.Title = ViewContext.HttpContext.Response.StatusCode;
+    Layout = Layouts.Generic;
 }
-<div class="page-header" style="text-align: center;">
-    <br /><br />
-    <h1 style="font-size: 6em" class="text-danger">500</h1>
-</div>
-<div style="text-align:center">
-    <h2>@L("Internal Error")</h2>
+<div style="text-align: center; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <img src="~/images/error.png" />
+    <h1 style="font-size: 6em;font-family: fantasy;" class="text-danger">@ViewContext.HttpContext.Response.StatusCode</h1>
+
     <br />
-    <br />
-    <p>@L("Please contact administrator.")</p>
     <p>
-        @L("Report issue") <a href="https://github.com/SeriaWei/ZKEACMS/issues" target="_blank">Github</a>
+        <a href="~/" class="btn btn-primary">
+            <i class="glyphicon glyphicon-arrow-left"></i>
+            @L("Home Page")
+        </a>
     </p>
     <br />
-    <hr />
-    <div>
-        <p>
-            <a href="http://www.zkea.net" target="_blank" title="@L("深圳市纸壳软件科技有限公司")">ZKEASOFT</a>. All Rights Reserved,
-            Powered by <a href="http://www.zkea.net/zkeacms/zkeacmscore" target="_blank">ZKEACMS</a>
-            <br />Copyright (c) 2016-@DateTime.Now.Year <a href="http://www.zkea.net/licenses" target="_blank">@L("License")</a>
-        </p>
-    </div>
+    <br />
+    <p>
+        <a href="http://www.zkea.net" target="_blank">@(this.WorkContext().SiteInformation.SiteName)</a>. @L("All Rights Reserved"),
+        @L("Powered by") <a href="http://www.zkea.net/zkeacms/zkeacmscore" target="_blank">@L("ZKEACMS")</a>
+        <br />Copyright (c) @DateTime.Now.Year <a href="http://www.zkea.net/licenses" target="_blank">@L("License")</a>
+    </p>
 </div>
-

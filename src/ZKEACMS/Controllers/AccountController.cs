@@ -119,7 +119,7 @@ namespace ZKEACMS.Controllers
                     return View(user);
                 }
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Account");
         }
         [CustomerAuthorize]
         public ActionResult PassWord()
@@ -134,7 +134,7 @@ namespace ZKEACMS.Controllers
             {
                 logOnUser.PassWordNew = user.PassWordNew;
                 _userService.Update(logOnUser);
-                return RedirectToAction("SignOut", new { returnurl = "~/Account/SignIn" });
+                return RedirectToAction("SignOut", "Account", new { returnurl = "~/Account/SignIn" });
             }
             ViewBag.Message = _localize.Get("Current password is not correct.");
             return View();
@@ -157,7 +157,7 @@ namespace ZKEACMS.Controllers
 
                 if (ReturnUrl.IsNullOrEmpty() || !Url.IsLocalUrl(ReturnUrl))
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Account");
                 }
                 return Redirect(ReturnUrl);
             }
@@ -173,7 +173,7 @@ namespace ZKEACMS.Controllers
             {
                 return Redirect(returnurl);
             }
-            return RedirectToAction("SignIn");
+            return RedirectToAction("SignIn", "Account");
         }
         public ActionResult SignUp(string ReturnUrl)
         {
@@ -198,30 +198,30 @@ namespace ZKEACMS.Controllers
                 }
 
             }
-            return RedirectToAction("SignUpSuccess", new { ReturnUrl });
+            return RedirectToAction("SignUpSuccess", "Account", new { ReturnUrl });
         }
         public ActionResult SignUpSuccess()
         {
             return View();
         }
 
-        public ActionResult Forgotten()
+        public ActionResult Forgotten(UserType? userType)
         {
-            return View();
+            return View(new ForgottenViewModel { UserType = userType ?? UserType.Customer });
         }
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Forgotten(string Email)
+        public ActionResult Forgotten(ForgottenViewModel model)
         {
-            if (Email.IsNotNullAndWhiteSpace())
+            if (ModelState.IsValid)
             {
-                var user = _userService.SetResetToken(Email, UserType.Customer);
+                var user = _userService.SetResetToken(model.Email, model.UserType);
                 if (user != null)
                 {
                     _notifyService.ResetPassword(user);
                 }
-                return RedirectToAction("Sended", new { to = Email, status = (user != null ? 1 : 2) });
+                return RedirectToAction("Sended", "Account", new { to = model.Email, status = (user != null ? 1 : 2) });
             }
-            return RedirectToAction("Forgotten");
+            return RedirectToAction("Forgotten", "Account");
         }
 
         public ActionResult Sended(string to)
@@ -233,7 +233,7 @@ namespace ZKEACMS.Controllers
         {
             try
             {
-                var dataProtector = _dataProtectionProvider.CreateProtector("ResetPassword");
+                var dataProtector = GetPasswordProtector();
                 if (pt.IsNullOrWhiteSpace() || dataProtector.Unprotect(pt) != token)
                 {
                     ViewBag.Errormessage = _localize.Get("Invalid request");
@@ -251,14 +251,18 @@ namespace ZKEACMS.Controllers
         {
             try
             {
-                var dataProtector = _dataProtectionProvider.CreateProtector("ResetPassword");
-                if (user.Protect.IsNotNullAndWhiteSpace() && dataProtector.Unprotect(user.Protect) == user.ResetToken)
+                if (ModelState.IsValid)
                 {
-                    if (_userService.ResetPassWord(user.ResetToken, user.PassWordNew))
+                    IDataProtector dataProtector = GetPasswordProtector();
+                    if (user.Protect.IsNotNullAndWhiteSpace() && dataProtector.Unprotect(user.Protect) == user.ResetToken)
                     {
-                        return RedirectToAction("SignIn");
+                        if (_userService.ResetPassWord(user.ResetToken, user.PassWordNew))
+                        {
+                            return RedirectToAction("SignIn", "Account");
+                        }
                     }
                 }
+
             }
             catch (Exception ex)
             {
@@ -266,6 +270,11 @@ namespace ZKEACMS.Controllers
             }
             ViewBag.Errormessage = _localize.Get("Reset password failed!");
             return View(user);
+        }
+
+        private IDataProtector GetPasswordProtector()
+        {
+            return _dataProtectionProvider.CreateProtector("ResetPassword");
         }
         #endregion
     }

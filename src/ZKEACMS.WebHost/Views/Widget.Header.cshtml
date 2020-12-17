@@ -1,0 +1,5 @@
+@model ZKEACMS.Common.Models.HeadWidget
+@if (this.WorkContext().IsDesignMode)
+{
+    <pre class="code" code="Head">@Model.Content</pre>
+}

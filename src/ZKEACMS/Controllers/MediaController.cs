@@ -29,11 +29,11 @@ namespace ZKEACMS.Controllers
     public class MediaController : BasicController<MediaEntity, string, IMediaService>
     {
         private readonly ILogger _logger;
-        private readonly WebClient _webClient;
+        private readonly IWebClient _webClient;
         private readonly IStorage _storage;
         public MediaController(IMediaService service,
             ILoggerFactory loggerFactory,
-            WebClient webClient,
+            IWebClient webClient,
             IStorage storage)
             : base(service)
         {
@@ -168,6 +168,41 @@ namespace ZKEACMS.Controllers
             }
             return Json(false);
         }
+
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
+        public IActionResult UploadBlob()
+        {
+            if (Request.Form.Files.Count > 0)
+            {
+                string parentId = Service.GetImageFolder().ID;
+                string fileName = Path.GetFileName(Request.Form.Files[0].FileName);
+                if (fileName != "image.png")
+                {
+                    var old = Service.Get(Path.GetFileNameWithoutExtension(fileName));
+                    if (old != null)
+                    {
+                        Request.DeleteFile(old.Url);
+                        Service.Remove(old);
+                    }
+                }
+
+                var url = Request.SaveImage();
+
+                var entity = new MediaEntity
+                {
+                    ID = Path.GetFileNameWithoutExtension(url),
+                    ParentID = parentId,
+                    MediaType = (int)MediaType.Image,
+                    Title = fileName,
+                    Status = (int)RecordStatus.Active,
+                    Url = url
+                };
+                Service.Add(entity);
+                return Json(new { location = Url.Content(entity.Url) });
+            }
+            return Json(null);
+        }
+
         [DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
         public override IActionResult Delete(string ids)
         {
@@ -193,28 +228,11 @@ namespace ZKEACMS.Controllers
             }
             Service.Remove(mediaId);
         }
-        //public IActionResult Thumbnail(string id)
-        //{
-        //    const int size = 220;
-        //    using (var input = System.IO.File.OpenRead(Request.MapPath(Service.Get(id).Url)))
-        //    {
-        //        MemoryStream ms = new MemoryStream();
-        //        using (var image = Image.Load<Rgba32>(input))
-        //        {
-        //            image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(size, size), Mode = ResizeMode.Max }));
-        //            image.Save(ms, new JpegEncoder());
-        //            ms.Position = 0;
-        //            return File(ms, "image/jpeg");
-        //        }
-        //    }
-        //}
 
         [HttpPost]
         public IActionResult DownLoadExternalImage(string[] images)
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
-
-            //_webClient.Proxy = new System.Net.WebProxy("kyproxy.keyou.corp", 8080);
 
             string parentId = Service.GetImageFolder().ID;
             foreach (var item in images)
@@ -226,7 +244,7 @@ namespace ZKEACMS.Controllers
                     {
                         ext = ".jpg";
                     }
-                    string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString("N"), ext);
+                    string fileName = string.Format("{0}{1}", new Easy.IDGenerator().CreateStringId(), ext);
                     try
                     {
                         using (MD5 md5hash = MD5.Create())
@@ -272,6 +290,11 @@ namespace ZKEACMS.Controllers
                 sBuilder.Append(data[i].ToString("x2"));
             }
             return sBuilder.ToString();
+        }
+
+        public IActionResult Proxy(string url)
+        {
+            return File(_webClient.OpenRead(url), "image/jpeg");
         }
 
         protected override void Dispose(bool disposing)

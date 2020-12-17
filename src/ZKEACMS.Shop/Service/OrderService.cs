@@ -7,6 +7,7 @@ using ZKEACMS.Shop.Models;
 using Microsoft.EntityFrameworkCore;
 using Easy;
 using Easy.Extend;
+using ZKEACMS.Event;
 
 namespace ZKEACMS.Shop.Service
 {
@@ -15,21 +16,42 @@ namespace ZKEACMS.Shop.Service
         private readonly IOrderItemService _orderItemService;
         private readonly IEnumerable<IPaymentService> _paymentServices;
         private readonly ILocalize _localize;
+        private readonly IEventManager _eventManager;
         public OrderService(IApplicationContext applicationContext, IOrderItemService orderItemService,
             IEnumerable<IPaymentService> paymentServices,
             ILocalize localize,
+            IEventManager eventManager,
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
             _orderItemService = orderItemService;
             _paymentServices = paymentServices;
             _localize = localize;
+            _eventManager = eventManager;
+        }
+
+        public override Order Get(params object[] primaryKey)
+        {
+            Order order = base.Get(primaryKey);
+            order.OrderItems = _orderItemService.Get(m => m.OrderId == order.ID);
+            return order;
         }
 
         public override ServiceResult<Order> Add(Order item)
         {
             item.ID = Guid.NewGuid().ToString("N");
-            return base.Add(item);
+            item.OrderStatus = (int)OrderStatus.UnPaid;
+            ServiceResult<Order> result = base.Add(item);
+            if (!result.HasViolation)
+            {
+                foreach (var orderItem in item.OrderItems)
+                {
+                    orderItem.OrderId = item.ID;
+                    _orderItemService.Add(orderItem);
+                }
+            }
+            _eventManager.Trigger(Events.OnPendingOrderCreated, item);
+            return result;
         }
 
         public void BeginPay(Order order)
@@ -37,6 +59,7 @@ namespace ZKEACMS.Shop.Service
             order.OrderStatus = (int)OrderStatus.UnPaid;
             order.PayTime = DateTime.Now;
             Update(order);
+            _eventManager.Trigger(Events.OnPaymentBegin, order);
         }
 
         public ServiceResult<bool> CloseOrder(string orderId)
@@ -67,6 +90,7 @@ namespace ZKEACMS.Shop.Service
             order.PaymentGateway = paymentGateway;
             order.PaymentID = paymentID;
             Update(order);
+            _eventManager.Trigger(Events.OnPaymentCompleted, order);
         }
 
         public PaymentInfo GetPaymentInfo(string orderId)

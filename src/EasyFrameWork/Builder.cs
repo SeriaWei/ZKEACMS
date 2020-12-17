@@ -77,7 +77,7 @@ namespace Easy
             services.AddTransient<IRuleProvider, DateRuleProvider>();
             services.AddTransient<IRuleProvider, MoneyRuleProvider>();
             services.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
-            services.AddTransient<WebClient>();
+            services.AddTransient<IWebClient, WebClient>();
 
             services.AddSingleton<ICacheProvider, DefaultCacheProvider>();
             services.AddScoped<ILocalize, Localize>();
@@ -98,12 +98,18 @@ namespace Easy
             services.ConfigureMetaData<Permission, PermissionMetaData>();
             services.ConfigureMetaData<RoleEntity, RoleMetaData>();
             services.ConfigureMetaData<UserRoleRelation, UserRoleRelationMetaData>();
+            services.ConfigureMetaData<SmtpSetting, SmtpSettingMetaData>();
 
 
             services.Configure<CDNOption>(configuration.GetSection("CDN"));
             services.Configure<CultureOption>(configuration.GetSection("Culture"));
 
             services.AddDataProtection();
+            //Share persistkeys for distributed deployment
+            //You can create a new implementation of 'IXmlRepository' to store the persistkeys for sharing, like Redis or other database
+            //FileSystemXmlRepository:
+            //https://github.com/dotnet/aspnetcore/blob/master/src/DataProtection/DataProtection/src/Repositories/FileSystemXmlRepository.cs
+            //services.AddDataProtection().SetApplicationName("ZKEACMS").PersistKeysToFileSystem(new DirectoryInfo("PersistKeys"));
         }
 
         public static void ConfigureMetaData<TEntity, TMetaData>(this IServiceCollection service)

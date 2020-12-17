@@ -21,9 +21,10 @@ namespace ZKEACMS.FormGenerator.Service
             _formService = formService;
         }
 
-        public override WidgetViewModelPart Display(WidgetBase widget, ActionContext actionContext)
+        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
-            return widget.ToWidgetViewModelPart(_formService.Get((widget as FormWidget).FormID));
+            Form form = _formService.Get((widgetDisplayContext.Widget as FormWidget).FormID);
+            return widgetDisplayContext.ToWidgetViewModelPart(form);
         }
     }
 }

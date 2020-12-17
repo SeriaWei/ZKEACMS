@@ -7,8 +7,10 @@ using Easy.Constant;
 using Easy.Extend;
 using Easy.Mvc.Extend;
 using Easy.Mvc.ValueProvider;
+using Easy.Mvc.ViewResult;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Net;
 using ZKEACMS.Message.Models;
 using ZKEACMS.Message.Service;
 
@@ -41,6 +43,11 @@ namespace ZKEACMS.Message.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult PostComment(string CommentContent, string PagePath, string ReplyTo, string Title)
         {
+            string referer = Request.GetReferer();
+            if (referer.IsNullOrEmpty())
+            {
+                return new HttpBadRequestResult();
+            }
             if (_applicationContextAccessor.Current.CurrentCustomer != null &&
                 CommentContent.IsNotNullAndWhiteSpace() &&
                 CommentContent.Length <= 500 &&
@@ -56,11 +63,11 @@ namespace ZKEACMS.Message.Controllers
                     CommentContent = CommentContent,
                     Status = (int)RecordStatus.Active
                 });
-                return Redirect(Request.GetReferer());
+                return Redirect(referer);
             }
             else
             {
-                return RedirectToAction("SignIn", "Account", new { ReturnUrl = new Uri(Request.GetReferer()).AbsolutePath });
+                return RedirectToAction("SignIn", "Account", new { ReturnUrl = new Uri(referer).AbsolutePath });
             }
         }
     }

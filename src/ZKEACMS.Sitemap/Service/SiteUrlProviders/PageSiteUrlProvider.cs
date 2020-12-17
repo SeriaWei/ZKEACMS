@@ -7,6 +7,7 @@ using ZKEACMS.Page;
 using ZKEACMS.Sitemap.Models;
 using ZKEACMS.Widget;
 using Easy.Extend;
+using Easy;
 
 namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
 {
@@ -37,7 +38,7 @@ namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
                     distinct.Add(page.ReferencePageID);
                     yield return new SiteUrl
                     {
-                        Url = page.Url.Replace("~/", "/"),
+                        Url = Helper.Url.ToAbsolutePath(page.Url),
                         ModifyDate = page.PublishDate ?? DateTime.Now,
                         Changefreq = "daily",
                         Priority = 0.5F

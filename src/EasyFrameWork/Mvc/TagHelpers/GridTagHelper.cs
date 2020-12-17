@@ -31,7 +31,7 @@ namespace Easy.Mvc.TagHelpers
         private const string TableSearchStructure = "<th></th>";
         public const string EditLinkTemplate = "<a href=\"{0}\" class=\"glyphicon glyphicon-edit\"></a>";
         public const string DeleteLinkTemplate = "<a href=\"{0}\" class=\"glyphicon glyphicon-remove\"></a>";
-
+        public const string CheckboxTemplate = "<input type=\"checkbox\" class=\"glyphicon {1}\" value=\"{0}\">";
         public string Source { get; set; }
         public string Edit { get; set; }
         public string EditTemplate { get; set; }
@@ -40,6 +40,7 @@ namespace Easy.Mvc.TagHelpers
         public string GridClass { get; set; }
         public bool? EditAble { get; set; }
         public bool? DeleteAble { get; set; }
+        public bool? DisplayCheckbox { get; set; }
         public string OrderAsc { get; set; }
         public string OrderDesc { get; set; }
         public string ActionLable { get; set; }
@@ -87,16 +88,25 @@ namespace Easy.Mvc.TagHelpers
                     {
                         Delete = Url.Action(DefaultDeleteAction) + "/{" + name + "}";
                     }
-                    string manager = (EditTemplate ?? EditLinkTemplate).FormatWith(Edit);
+                    StringBuilder actionPartBuilder = new StringBuilder();
+                    StringBuilder managerBuiller = new StringBuilder();
+                    if (DisplayCheckbox ?? false)
+                    {
+                        managerBuiller.AppendLine(CheckboxTemplate.FormatWith("{" + name + "}", "select-item " + name));
+                        actionPartBuilder.AppendLine(CheckboxTemplate.FormatWith(0, "select-all"));
+                    }
+                    managerBuiller.AppendLine((EditTemplate ?? EditLinkTemplate).FormatWith(Edit));
                     if (DeleteAble ?? true)
                     {
-                        manager += " " + (DeleteTemplate ?? DeleteLinkTemplate).FormatWith(Delete);
+                        managerBuiller.AppendLine((DeleteTemplate ?? DeleteLinkTemplate).FormatWith(Delete));
                     }
+
+                    actionPartBuilder.AppendLine(ActionLable ?? localize.Get("Action"));
                     tableHeaderBuilder.AppendFormat(TableHeadStructure,
                         string.Empty,
-                        WebUtility.HtmlEncode(manager),
+                        WebUtility.HtmlEncode(managerBuiller.ToString()),
                         string.Empty,
-                        ActionLable ?? localize.Get("Action"),
+                        actionPartBuilder,
                         string.Empty,
                         Query.Operators.None,
                         string.Empty,

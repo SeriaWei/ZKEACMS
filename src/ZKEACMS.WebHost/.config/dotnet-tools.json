@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "zkeacms.publisher": {
+      "version": "1.5.7.3",
+      "commands": [
+        "publish-zkeacms"
+      ]
+    }
+  }
+}

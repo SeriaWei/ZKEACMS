@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using ZKEACMS.Redirection.Service;
 using Microsoft.Extensions.DependencyInjection;
+using ZKEACMS.Redirection.Models;
 
 namespace ZKEACMS.Redirection
 {
@@ -24,12 +25,9 @@ namespace ZKEACMS.Redirection
             {
                 return true;
             }
-            var redirect = httpContext.RequestServices.GetService<IUrlRedirectService>().GetAll()
-                .Count(m => m.Status == (int)Easy.Constant.RecordStatus.Active &&
-                m.InComingUrl.Equals(path, StringComparison.OrdinalIgnoreCase) &&
-                !m.InComingUrl.Equals(m.DestinationURL, StringComparison.OrdinalIgnoreCase));
+            UrlRedirect redirect = httpContext.RequestServices.GetService<IUrlRedirectService>().GetByPath(path);
 
-            return redirect > 0;
+            return redirect != null;
         }
     }
 }

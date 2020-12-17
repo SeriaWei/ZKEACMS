@@ -1,59 +1,39 @@
-﻿@using ZKEACMS.FormGenerator.Models
+﻿@using ZKEACMS
+@using ZKEACMS.FormGenerator.Models
 @using ZKEACMS.FormGenerator
 @model FormData
-@{ 
+@{
+    Layout = ZKEACMS.Layouts.EmailLayout;
     string link = $"{hostOptionProvider.GetOrigin()}/admin/FormData/Edit/{Model.ID}";
+    Func<string, string> L = localize.Get;
 }
 @inject ZKEACMS.IHostOptionProvider hostOptionProvider
 @inject Easy.ILocalize localize
-<!DOCTYPE html>
-<html>
-<head>
-    <title>@localize.Get("New form data")</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-</head>
-<body>
-    <div>
-        <h3>
-            @localize.Get("New form data from:")  @(Model.Form.Title)
-        </h3>
-        <table border="1" cellspacing="0" cellpadding="5" bgcolor="" style="border-color: #eee;">
-            <thead>
+<div>
+    <h3>
+        @(Model.Form.Title)
+    </h3>
+    <table border="1" cellspacing="0" cellpadding="5" bgcolor="" style="border-color: #eee; ">
+        <thead>
+            <tr>
+                <th>@L("Field")</th>
+                <th>@L("Value")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Form.FormFields.Count; i++)
+            {
                 <tr>
-                    <th>@localize.Get("Field")</th>
-                    <th>@localize.Get("Value")</th>
+                    <td>
+                        @Model.Form.FormFields[i].DisplayName
+                    </td>
+                    <td>
+                        @Html.DisplayFieldValue(Model.Form.FormFields[i])
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < Model.Form.FormFields.Count; i++)
-                {
-                    <tr>
-                        <td>
-                            @Model.Form.FormFields[i].DisplayName
-                        </td>
-                        <td>
-                            @Html.DisplayFieldValue(Model.Form.FormFields[i])
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    <p>
-        @localize.Get("For detail") <a href="@link" target="_blank">@link</a>
-    </p>
-    <h4>
-        ZKEASOFT
-    </h4>
-    <p>
-        <a href="http://www.zkea.net" target="_blank">
-            http://www.zkea.net
-        </a>
-    </p>
-    <p>
-        <em>@DateTime.Now.ToString("g")</em>
-    </p>
-</body>
-</html>
+            }
+        </tbody>
+    </table>
+    <br />
+    @Html.EmailLinkButton(link, L("View"))
+</div>

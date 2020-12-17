@@ -120,6 +120,7 @@ namespace ZKEACMS
             services.TryAddTransient<ICarouselItemService, CarouselItemService>();
             services.TryAddTransient<ICarouselService, CarouselService>();
             services.TryAddTransient<INavigationService, NavigationService>();
+            services.TryAddTransient<Site.ISiteInformationService, Site.SiteInformationService>();
 
             services.TryAddTransient<IDashboardProviderService, DashboardProviderService>();
             services.AddTransient<IDashboardPartDriveService, DashboardWelcomePartService>();
@@ -151,12 +152,14 @@ namespace ZKEACMS
             services.AddTransient<IPackageInstaller, DataDictionaryPackageInstaller>();
             services.AddTransient<IPackageInstallerProvider, PackageInstallerProvider>();
             services.AddTransient<IEventViewerService, EventViewerService>();
-            services.AddTransient<IEventManager, EventManager>();
+            services.AddTransient<IDBContextProvider, DefaultDBContextProvider>();
+            services.AddScoped<IEventManager, EventManager>();
 
             services.AddTransient<IStorage, WebStorage>();
 
             services.ConfigureStateProvider<StateProvider.OuterChainPictureStateProvider>();
             services.ConfigureStateProvider<StateProvider.EnableResponsiveDesignStateProvider>();
+            services.ConfigureStateProvider<Site.SiteInformationStateProvider>();
 
             services.ConfigureCache<IEnumerable<WidgetBase>>();
             services.ConfigureCache<IEnumerable<ZoneEntity>>();
@@ -194,11 +197,18 @@ namespace ZKEACMS
             services.ConfigureMetaData<ZoneEntity, ZoneEntityMetaData>();
             services.ConfigureMetaData<Rule.Rule, Rule.RuleMetaData>();
             services.ConfigureMetaData<Rule.RuleItem, Rule.RuleItemMetaData>();
-            services.ConfigureMetaData<SmtpSetting, SmtpSettingMetaData>();
             services.ConfigureMetaData<Robots, RobotsMetaData>();
             services.ConfigureMetaData<TemplateFile, TemplateFileMetaData>();
             services.ConfigureMetaData<TabWidget, TabWidgetMetaData>();
             services.ConfigureMetaData<TabItem, TabItemMetaData>();
+            services.ConfigureMetaData<HeadWidget, HeaderWidgetMetaData>();
+            services.ConfigureMetaData<ForgottenViewModel, ForgottenViewModelMetaData>();
+            services.ConfigureMetaData<ResetViewModel, ResetViewModelMetaData>();
+
+            services.RegistEvent<RemoveCacheOnPagePublishedEventHandler>(Events.OnPagePublished);
+            services.RegistEvent<RemoveOldVersionOnPagePublishedEventHandler>(Events.OnPagePublished);
+            services.RegistEvent<RemoveCacheOnPageDeletedEventHandler>(Events.OnPageDeleted);
+            services.RegistEvent<WidgetChangedTriggerPageEventHandler>(Events.OnWidgetAdded, Events.OnWidgetUpdated, Events.OnWidgetDeleted, Events.OnWidgetBasePartUpdated);
 
             services.AddScoped<IValidateService, DefaultValidateService>();
 
@@ -298,11 +308,14 @@ namespace ZKEACMS
 
                 endpoints.MapRazorPages();
             });
-
-            foreach (IStartTask task in applicationBuilder.ApplicationServices.GetServices<IStartTask>())
+            using (var scope = applicationBuilder.ApplicationServices.CreateScope())
             {
-                task.Excute();
+                foreach (IStartTask task in scope.ServiceProvider.GetServices<IStartTask>())
+                {
+                    task.Excute();
+                }
             }
+
             System.IO.Directory.SetCurrentDirectory(hostingEnvironment.ContentRootPath);
             Console.WriteLine("Welcome to use ZKEACMS");
         }

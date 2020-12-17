@@ -1,0 +1,25 @@
+{
+    "Version": "0.1",
+    "Versions": [
+        {
+            "Version": "3.3.1",
+            "Resolved": "Update/3.3.1/package.zip"
+        },
+        {
+            "Version": "3.3.2",
+            "Resolved": "Update/3.3.2/package.zip"
+        },
+        {
+            "Version": "3.3.3",
+            "Resolved": "Update/3.3.3/package.zip"
+        },
+        {
+            "Version": "3.3.5",
+            "Resolved": "Update/3.3.5/package.zip"
+        },
+        {
+            "Version": "3.3.6",
+            "Resolved": "Update/3.3.6/package.zip"
+        }
+    ]
+}

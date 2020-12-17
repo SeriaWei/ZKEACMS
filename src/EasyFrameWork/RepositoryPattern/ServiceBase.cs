@@ -50,10 +50,10 @@ namespace Easy.RepositoryPattern
                         action.Invoke();
                         transaction.Commit();
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         transaction.Rollback();
-                        throw ex;
+                        throw;
                     }
                 }
             }
@@ -74,10 +74,10 @@ namespace Easy.RepositoryPattern
                         transaction.Commit();
                         return result;
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         transaction.Rollback();
-                        throw ex;
+                        throw;
                     }
                 }
             }
@@ -86,7 +86,7 @@ namespace Easy.RepositoryPattern
                 return action.Invoke();
             }
         }
-        protected ServiceResult<T> Validate(T item)
+        protected virtual ServiceResult<T> Validate(T item)
         {
             ServiceResult<T> serviceResult = new ServiceResult<T>();
             var entryType = typeof(T);

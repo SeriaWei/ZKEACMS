@@ -10,14 +10,13 @@
     CMSApplicationContext appContext = ApplicationContext as CMSApplicationContext;
     foreach (var item in appContext.Styles)
     {
-        Style.Reqiured(item).AtFoot();
+        Style.Reqiured(item).AtHead();
     }
     foreach (var item in appContext.Scripts)
     {
         Script.Reqiured(item).AtFoot();
     }
 }
-<!-- http://www.zkea.net/ Copyright 2017 ZKEASOFT http://www.zkea.net/licenses -->
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->
@@ -35,11 +34,12 @@
     <meta name="author" content="ZKEASOFT" />
     <meta name="about" content="@ZKEACMS.Version.CurrentVersion" />
     <meta name="website" content="http://www.zkea.net" />
-    @if (ApplicationContext.As<CMSApplicationContext>().OuterChainPicture)
+    <link rel="author" href="http://www.zkea.net"/>
+    @if (this.WorkContext().OuterChainPicture)
     {
         <meta name="referrer" content="same-origin" />
     }
-    @if (ApplicationContext.As<CMSApplicationContext>().EnableResponsiveDesign)
+    @if (this.WorkContext().EnableResponsiveDesign)
     {
         <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
     }
@@ -49,6 +49,14 @@
     @foreach (var item in appContext.HeaderPart)
     {
         @item
+    }
+    @if (!Model.Style.IsNullOrEmpty())
+    {
+        <link href="@Url.Content(Model.Style)" rel="stylesheet" />
+    }
+    @foreach (var style in Model.Page.Styles)
+    {
+        <link href="@Url.Content(style.Url)" rel="stylesheet" />
     }
     @if (Model.CurrentTheme != null)
     {
@@ -146,14 +154,6 @@
 
     @StyleAtFoot()
     @ScriptAtFoot()
-    @if (!Model.Style.IsNullOrEmpty())
-    {
-        <link href="@Url.Content(Model.Style)" rel="stylesheet" />
-    }
-    @foreach (var style in Model.Page.Styles)
-    {
-        <link href="@Url.Content(style.Url)" rel="stylesheet" />
-    }
     @if (!Model.Script.IsNullOrEmpty())
     {
         <script type="text/javascript" src="@Url.Content(Model.Script)"></script>

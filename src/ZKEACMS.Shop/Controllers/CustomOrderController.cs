@@ -13,12 +13,10 @@ namespace ZKEACMS.Shop.Controllers
     public class CustomOrderController : Controller
     {
         private readonly IOrderService _orderService;
-        private readonly IOrderItemService _orderItemService;
         private readonly IApplicationContextAccessor _applicationContextAccessor;
-        public CustomOrderController(IOrderService orderService, IOrderItemService orderItemService, IApplicationContextAccessor applicationContextAccessor)
+        public CustomOrderController(IOrderService orderService, IApplicationContextAccessor applicationContextAccessor)
         {
             _orderService = orderService;
-            _orderItemService = orderItemService;
             _applicationContextAccessor = applicationContextAccessor;
         }
 
@@ -42,7 +40,7 @@ namespace ZKEACMS.Shop.Controllers
             return View(new OrderDetailViewModel
             {
                 Order = order,
-                OrderItems = _orderItemService.Get(m => m.OrderId == Id)
+                OrderItems = order.OrderItems.ToList()
             });
         }
         public IActionResult Failed()
