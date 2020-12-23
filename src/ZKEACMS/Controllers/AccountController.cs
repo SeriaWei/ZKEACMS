@@ -56,7 +56,7 @@ namespace ZKEACMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _userService.Login(model.UserID, model.PassWord, UserType.Administrator, Request.HttpContext.Connection.RemoteIpAddress.ToString());
+                var user = _userService.Login(model.UserID, model.PassWord, UserType.Administrator, Request.HttpContext.Connection.RemoteIpAddress?.ToString());
                 if (user != null)
                 {
 
