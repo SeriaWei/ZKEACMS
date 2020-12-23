@@ -10,10 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 using ZKEACMS.Article.Service;
 using ZKEACMS.Api;
+using ZKEACMS.Article.Models;
 
 namespace ZKEACMS.Article.ApiControllers
 {
-    [ApiController]
+    [ApiController, ApiAuthorize]
     [Route("api/[controller]")]
     public class ArticleController : ControllerBase
     {
@@ -30,6 +31,23 @@ namespace ZKEACMS.Article.ApiControllers
             if (article != null) return Ok(article);
 
             return NotFound();
+        }
+        [HttpPost("Create"), ApiAuthorize(Policy = PermissionKeys.ManageArticle)]
+        public IActionResult Create([FromBody] ArticleEntity article)
+        {
+            return Ok(_articleService.Add(article));
+        }
+
+        [HttpPut("Update"), ApiAuthorize(Policy = PermissionKeys.ManageArticle)]
+        public IActionResult Update([FromBody] ArticleEntity article)
+        {
+            return Ok(_articleService.Update(article));
+        }
+        [HttpDelete("Delete/{id}"), ApiAuthorize(Policy = PermissionKeys.ManageArticle)]
+        public IActionResult Delete(int id)
+        {
+            _articleService.Remove(id);
+            return Ok();
         }
     }
 }

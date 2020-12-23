@@ -66,6 +66,7 @@ namespace ZKEACMS.WebHost
             script("dataTable")
                 .Include($"{LibraryPath}/datatables/media/js/jquery.dataTables.js", $"{LibraryPath}/datatables/media/js/jquery.dataTables.min.js")
                 .Include($"{LibraryPath}/datatables/media/js/dataTables.bootstrap.js", $"{LibraryPath}/datatables/media/js/dataTables.bootstrap.min.js")
+                .Include($"{ScriptPath}/moment.js", $"{ScriptPath}/moment.min.js")
                 .Include($"{ScriptPath}/dataTable.js", $"{ScriptPath}/dataTable.min.js");
 
             script("datepicker")

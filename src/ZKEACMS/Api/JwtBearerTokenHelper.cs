@@ -14,7 +14,6 @@ namespace ZKEACMS.Api
     {
         public JwtToken BuildToken(string userId)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(JwtBearerDefaults.IssuerSigningKey);
             DateTime expires = DateTime.UtcNow.AddDays(JwtBearerDefaults.ExpireDays);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -25,8 +24,9 @@ namespace ZKEACMS.Api
                 Expires = expires,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
             };
+            var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-
+            
             return new JwtToken
             {
                 Token = tokenHandler.WriteToken(token),

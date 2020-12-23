@@ -86,10 +86,6 @@ namespace ZKEACMS
                 opt.ViewLocationExpanders.Add(new ThemeViewLocationExpander());
             })
             .AddControllersAsServices()
-            .AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.DateFormatString = "g";
-            })
             .AddDataAnnotationsLocalization(option => option.DataAnnotationLocalizerProvider = (t, factory) =>
             {
                 if (t.IsClass)

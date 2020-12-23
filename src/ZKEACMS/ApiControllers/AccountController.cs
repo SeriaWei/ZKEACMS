@@ -8,6 +8,7 @@ using Easy.Modules.User.Service;
 using Microsoft.AspNetCore.Mvc;
 using ZKEACMS.Api;
 using Easy.Extend;
+using ZKEACMS.Common.ViewModels;
 
 namespace ZKEACMS.ApiControllers
 {
@@ -22,12 +23,10 @@ namespace ZKEACMS.ApiControllers
             _userService = userService;
         }
 
-        [HttpGet("GetToken")]
-        public IActionResult GetToken(string UserID, string PassWord)
+        [HttpPost("CreateToken")]
+        public IActionResult CreateToken([FromBody]AdminSignViewModel model)
         {
-            if (UserID.IsNullOrEmpty() || PassWord.IsNullOrEmpty()) return Unauthorized();
-
-            var user = _userService.Login(UserID, PassWord, UserType.Administrator, Request.HttpContext.Connection.RemoteIpAddress?.ToString());
+            var user = _userService.Login(model.UserID, model.PassWord, UserType.Administrator, Request.HttpContext.Connection.RemoteIpAddress?.ToString());
             if (user == null) return Unauthorized();
 
             var token = new JwtBearerTokenHelper().BuildToken(user.UserID);
