@@ -1,3 +1,7 @@
+/* http://www.zkea.net/ 
+ * Copyright 2020 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using Easy.MetaData;
 using System;
 using System.Collections.Generic;

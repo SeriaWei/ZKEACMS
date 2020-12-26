@@ -1,3 +1,7 @@
+/* http://www.zkea.net/ 
+ * Copyright 2020 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Http;
 using System;

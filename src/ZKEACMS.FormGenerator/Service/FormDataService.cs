@@ -1,23 +1,21 @@
-using Easy.RepositoryPattern;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ZKEACMS.FormGenerator.Models;
-using Microsoft.EntityFrameworkCore;
-using Easy;
-using Microsoft.AspNetCore.Http;
-using System.Text.RegularExpressions;
-using Easy.Extend;
-using Newtonsoft.Json;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
+/* http://www.zkea.net/ 
+ * Copyright 2020 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
 using DocumentFormat.OpenXml;
-using System.IO;
+using Easy;
 using Easy.DataTransfer;
-using ZKEACMS.FormGenerator.Service.Validator;
-using Easy.Notification;
+using Easy.Extend;
+using Easy.RepositoryPattern;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using ZKEACMS.Event;
+using ZKEACMS.FormGenerator.Models;
+using ZKEACMS.FormGenerator.Service.Validator;
 
 namespace ZKEACMS.FormGenerator.Service
 {
