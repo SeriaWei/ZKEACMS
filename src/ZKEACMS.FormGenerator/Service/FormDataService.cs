@@ -27,6 +27,8 @@ namespace ZKEACMS.FormGenerator.Service
         private readonly IFormDataItemService _formDataItemService;
         private readonly IEnumerable<IFormDataValidator> _formDataValidators;
         private readonly IEventManager _eventManager;
+        private static Regex _nameRegex = new Regex(@"(\w+)\[(\d+)\]", RegexOptions.Compiled);
+
         public FormDataService(IApplicationContext applicationContext,
             CMSDbContext dbContext,
             IFormService formService,
@@ -106,11 +108,10 @@ namespace ZKEACMS.FormGenerator.Service
                 return result;
             }
             var formData = new FormData { FormId = formId, Datas = new List<FormDataItem>(), Form = form };
-            Regex regex = new Regex(@"(\w+)\[(\d+)\]");
 
             foreach (var item in formCollection.Keys)
             {
-                string id = regex.Replace(item, evaluator =>
+                string id = _nameRegex.Replace(item, evaluator =>
                 {
                     return evaluator.Groups[1].Value;
                 });
