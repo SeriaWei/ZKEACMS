@@ -132,6 +132,7 @@ namespace ZKEACMS.Article
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IArticleService, ArticleService>();
+            serviceCollection.AddTransient<IArticleApiService, ArticleApiService>();
             serviceCollection.AddTransient<IArticleTypeService, ArticleTypeService>();
             serviceCollection.AddTransient<IRouteDataProvider, ArticleRouteDataProvider>();
             serviceCollection.AddTransient<IRouteDataProvider, ArticleTypeRouteDataProvider>();

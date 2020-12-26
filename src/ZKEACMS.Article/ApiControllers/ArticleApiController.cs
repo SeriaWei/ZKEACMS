@@ -14,17 +14,17 @@ using ZKEACMS.Article.Models;
 
 namespace ZKEACMS.Article.ApiControllers
 {
-    [ApiController, ApiAuthorize]
-    [Route("api/[controller]")]
-    public class ArticleController : ControllerBase
+    [ApiController]
+    [Route("api/article")]
+    public class ArticleApiController : ControllerBase
     {
-        private readonly IArticleService _articleService;
+        private readonly IArticleApiService _articleService;
 
-        public ArticleController(IArticleService articleService)
+        public ArticleApiController(IArticleApiService articleService)
         {
             _articleService = articleService;
         }
-        [HttpGet("Get/{id}"), ApiAuthorize(Policy = PermissionKeys.ViewArticle)]
+        [HttpGet("Get/{id}")]
         public IActionResult Get(int id)
         {
             var article = _articleService.Get(id);
@@ -32,10 +32,18 @@ namespace ZKEACMS.Article.ApiControllers
 
             return NotFound();
         }
+        [HttpGet("GetByName/{name}")]
+        public IActionResult GetByName(string name)
+        {
+            var article = _articleService.GetByName(name);
+            if (article != null) return Ok(article);
+
+            return NotFound();
+        }
         [HttpPost("Create"), ApiAuthorize(Policy = PermissionKeys.ManageArticle)]
         public IActionResult Create([FromBody] ArticleEntity article)
         {
-            return Ok(_articleService.Add(article));
+            return Ok(_articleService.Create(article));
         }
 
         [HttpPut("Update"), ApiAuthorize(Policy = PermissionKeys.ManageArticle)]
@@ -43,10 +51,19 @@ namespace ZKEACMS.Article.ApiControllers
         {
             return Ok(_articleService.Update(article));
         }
+
+        [HttpPut("Publish"), ApiAuthorize(Policy = PermissionKeys.PublishArticle)]
+        public IActionResult Publish(int id)
+        {
+            var article = _articleService.Publish(id);
+            if (article != null) return Ok(article);
+
+            return NotFound();
+        }
         [HttpDelete("Delete/{id}"), ApiAuthorize(Policy = PermissionKeys.ManageArticle)]
         public IActionResult Delete(int id)
         {
-            _articleService.Remove(id);
+            _articleService.Delete(id);
             return Ok();
         }
     }

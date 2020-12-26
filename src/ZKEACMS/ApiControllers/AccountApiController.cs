@@ -13,12 +13,12 @@ using ZKEACMS.Common.ViewModels;
 namespace ZKEACMS.ApiControllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class AccountController : ControllerBase
+    [Route("api/acount")]
+    public class AccountApiController : ControllerBase
     {
         public readonly IUserService _userService;
 
-        public AccountController(IUserService userService)
+        public AccountApiController(IUserService userService)
         {
             _userService = userService;
         }
