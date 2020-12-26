@@ -132,7 +132,9 @@ namespace ZKEACMS.Product
             serviceCollection.AddTransient<IRouteDataProvider, ProductCategoryRouteDataProvider>();
 
             serviceCollection.AddTransient<IProductService, ProductService>();
+            serviceCollection.AddTransient<IProductApiService, ProductApiService>();
             serviceCollection.AddTransient<IProductCategoryService, ProductCategoryService>();
+            serviceCollection.AddTransient<IProductCategoryApiService, ProductCategoryApiService>();
             serviceCollection.AddTransient<IProductCategoryTagService, ProductCategoryTagService>();
             serviceCollection.AddTransient<IProductTagService, ProductTagService>();
             serviceCollection.AddTransient<IProductImageService, ProductImageService>();
