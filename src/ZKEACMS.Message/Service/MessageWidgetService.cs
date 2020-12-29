@@ -19,6 +19,11 @@ namespace ZKEACMS.Message.Service
         }
         public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
         {
+            if (widgetDisplayContext.Model is MessageEntity messageEntity)
+            {
+                return widgetDisplayContext.ToWidgetViewModelPart(messageEntity);
+            }
+
             return widgetDisplayContext.ToWidgetViewModelPart(new MessageEntity());
         }
     }

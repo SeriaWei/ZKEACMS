@@ -131,12 +131,15 @@ namespace ZKEACMS.FormGenerator.Service
                     {
                         if (!validator.Validate(field, dataitem, out string message))
                         {
-                            result.RuleViolations.Add(new RuleViolation(field.DisplayName, message));
-                            return result;
+                            result.RuleViolations.Add(new RuleViolation(item, message));
                         }
                     }
                     formData.Datas.Add(dataitem);
                 }
+            }
+            if (result.HasViolation)
+            {
+                return result;
             }
             if (formData.Datas.Any())
             {

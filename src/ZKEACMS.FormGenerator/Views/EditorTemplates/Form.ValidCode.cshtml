@@ -17,7 +17,7 @@
     }
     @Html.TextBox(Model.ID, Model.Value, Model.Attributes)
     <img src="/Validation/Code" class="validation-code" style="cursor:pointer" onclick="$(this).attr('src','/Validation/Code?v='+new Date().getTime())" />
-    <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
+    @Html.ValidationMessage(Model.ID)
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
         <dl>

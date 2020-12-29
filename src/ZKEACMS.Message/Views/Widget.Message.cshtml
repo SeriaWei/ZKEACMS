@@ -3,18 +3,13 @@
     Script.Reqiured("validate").AtFoot();
 }
 <div class="message">
-    @if (ViewContext.HttpContext.Request.Cookies.Any(key => key.Key == "Message"))
-    {
-        <div class="alert alert-info">
-            <h4>@L("Thank You for your submit!")</h4>
-        </div>
-    }
     @using (Html.BeginForm("PostMessage", "MessageHandle", FormMethod.Post))
     {
+        @Html.HiddenForCurrentPagePath()
         @Html.HiddenFor(m => m.Status)
         @Html.HiddenFor(m => m.Description)
         @Html.HiddenFor(m => m.Reply)
-        <input type="hidden" value="@ViewContext.HttpContext.Request.Path.ToString()" name="redirect" />
+
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -38,6 +33,14 @@
                 </div>
             </div>
         </div>
-        <input type="submit" value="@L("Submit")" class="btn btn-default" />
+        @if (TempData["Message"] != null)
+        {
+            <p class="alert alert-info">
+                @TempData["Message"]
+            </p>
+        }
+        <p>
+            <input type="submit" value="@L("Submit")" class="btn btn-default" />
+        </p>
     }
 </div>

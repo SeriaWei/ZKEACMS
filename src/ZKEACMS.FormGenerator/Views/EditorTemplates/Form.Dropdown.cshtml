@@ -18,7 +18,7 @@
         </label>
     }
     @Html.DropDownList(Model.ID, items, L("-- Select --").Text, Model.Attributes)
-    <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
+    @Html.ValidationMessage(Model.ID)
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
         <dl>

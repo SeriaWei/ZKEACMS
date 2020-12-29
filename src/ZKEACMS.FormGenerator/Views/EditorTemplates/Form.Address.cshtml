@@ -46,8 +46,7 @@
             @Html.DropDownList(Model.ID + "[2]", items, new Dictionary<string, object> { { "class", "form-control" }, { "data-district", district ?? L("-- District --").Text } })
         </div>
     </div>
-
-    <span class="field-validation-valid" data-valmsg-for="@(Model.ID + "[0]")" data-valmsg-replace="true"></span>
+    @Html.ValidationMessage(Model.ID + "[0]")
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
         <dl>

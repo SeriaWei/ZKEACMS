@@ -27,9 +27,7 @@
         }
 
     </div>
-    <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true">
-        <span id="@(Model.ID)-error" class="">@L("Please select at least one option")</span>
-    </span>
+    @Html.ValidationMessage(Model.ID, L("Please select at least one option").Text)
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
         <dl>
