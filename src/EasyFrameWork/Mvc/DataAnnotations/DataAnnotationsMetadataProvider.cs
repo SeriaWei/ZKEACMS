@@ -129,6 +129,7 @@ namespace Easy.Mvc.DataAnnotations
                                 customValidationHandler.ErrorMessage = encodeError;
                                 context.ValidationMetadata.ValidatorMetadata.Add(customValidationHandler);
                             }
+                            //todo: CompareAttribute
                         });
 
                     }
