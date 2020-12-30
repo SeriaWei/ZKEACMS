@@ -15,15 +15,13 @@
             }
         </label>
     }
+    @if (Model.Description.IsNotNullAndWhiteSpace())
+    {
+        <span class="text-muted">
+            <span>@Model.Description</span>
+        </span>
+    }
     @Html.TextBox(Model.ID, Model.Value, Model.Attributes)
     <img src="/Validation/Code" class="validation-code" style="cursor:pointer" onclick="$(this).attr('src','/Validation/Code?v='+new Date().getTime())" />
     @Html.ValidationMessage(Model.ID)
-    @if (Model.Description.IsNotNullAndWhiteSpace())
-    {
-        <dl>
-            <dd>
-                @Model.Description
-            </dd>
-        </dl>
-    }
 </div>

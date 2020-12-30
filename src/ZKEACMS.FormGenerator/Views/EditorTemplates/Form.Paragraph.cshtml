@@ -16,14 +16,12 @@
             }
         </label>
     }
-    @Html.TextArea(Model.ID, Model.Value, Model.Attributes)
-    @Html.ValidationMessage(Model.ID)
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
-        <dl>
-            <dd>
-                @Model.Description
-            </dd>
-        </dl>
+        <span class="text-muted">
+            <span>@Model.Description</span>
+        </span>
     }
+    @Html.TextArea(Model.ID, Model.Value, Model.Attributes)
+    @Html.ValidationMessage(Model.ID)
 </div>

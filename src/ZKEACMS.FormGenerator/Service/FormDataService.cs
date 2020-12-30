@@ -63,6 +63,12 @@ namespace ZKEACMS.FormGenerator.Service
             var formData = base.Get(primaryKey);
             formData.Form = _formService.Get(formData.FormId);
             formData.Datas = _formDataItemService.Get(m => m.FormDataId == formData.ID).ToList();
+            MergeDataToForm(formData);
+            return formData;
+        }
+
+        private void MergeDataToForm(FormData formData)
+        {
             if (formData.Form != null)
             {
                 foreach (var item in formData.Form.FormFields)
@@ -94,8 +100,8 @@ namespace ZKEACMS.FormGenerator.Service
 
                 }
             }
-            return formData;
         }
+
         public ServiceResult<FormData> SaveForm(IFormCollection formCollection, string formId)
         {
             var result = new ServiceResult<FormData>();
@@ -137,6 +143,8 @@ namespace ZKEACMS.FormGenerator.Service
                     formData.Datas.Add(dataitem);
                 }
             }
+            MergeDataToForm(formData);
+            result.Result = formData;
             if (result.HasViolation)
             {
                 return result;

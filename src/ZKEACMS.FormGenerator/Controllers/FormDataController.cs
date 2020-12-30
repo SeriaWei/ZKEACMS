@@ -40,7 +40,7 @@ namespace ZKEACMS.FormGenerator.Controllers
             {
                 TempData["Message"] = _localize.Get("Form have submited");
             }
-            return View();
+            return View(result.Result.Form);
         }
 
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageFormData)]

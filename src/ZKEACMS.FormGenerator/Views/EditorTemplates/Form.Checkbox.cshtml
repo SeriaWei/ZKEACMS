@@ -10,6 +10,12 @@
             }
         </label>
     }
+    @if (Model.Description.IsNotNullAndWhiteSpace())
+    {
+        <span class="text-muted">
+            <span>@Model.Description</span>
+        </span>
+    }
     <div>
         @for (int i = 0; i < Model.FieldOptions.Count; i++)
         {
@@ -28,12 +34,4 @@
 
     </div>
     @Html.ValidationMessage(Model.ID, L("Please select at least one option").Text)
-    @if (Model.Description.IsNotNullAndWhiteSpace())
-    {
-        <dl>
-            <dd>
-                @Model.Description
-            </dd>
-        </dl>
-    }
 </div>

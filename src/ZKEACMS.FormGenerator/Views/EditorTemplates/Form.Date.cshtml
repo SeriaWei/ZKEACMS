@@ -17,17 +17,15 @@
             }
         </label>
     }
+    @if (Model.Description.IsNotNullAndWhiteSpace())
+    {
+        <span class="text-muted">
+            <span>@Model.Description</span>
+        </span>
+    }
     <div class="input-group">
         @Html.TextBox(Model.ID, Model.Value, Model.Attributes)
         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
     </div>
     @Html.ValidationMessage(Model.ID)
-    @if (Model.Description.IsNotNullAndWhiteSpace())
-    {
-        <dl>
-            <dd>
-                @Model.Description
-            </dd>
-        </dl>
-    }
 </div>
