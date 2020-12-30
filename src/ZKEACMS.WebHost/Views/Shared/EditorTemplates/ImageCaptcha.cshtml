@@ -1,0 +1,10 @@
+@model String
+@{
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
+}
+<div class="input-validation-code">
+    @Html.TextBox("", Model, descriptor?.ToHtmlProperties())
+    <div class="validation-code">
+        <img src="/Validation/Code" class="validation-code" style="cursor:pointer" onclick="$(this).attr('src','/Validation/Code?v='+new Date().getTime())" />
+    </div>
+</div>

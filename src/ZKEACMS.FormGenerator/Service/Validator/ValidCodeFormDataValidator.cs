@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ZKEACMS.FormGenerator.Models;
-using ZKEACMS.Validate;
+using ZKEACMS.Captcha;
 using Easy.Extend;
 
 namespace ZKEACMS.FormGenerator.Service.Validator
@@ -16,8 +16,8 @@ namespace ZKEACMS.FormGenerator.Service.Validator
     public class ValidCodeFormDataValidator : IFormDataValidator
     {
         private readonly ILocalize _localize;
-        private readonly IValidateService _validate;
-        public ValidCodeFormDataValidator(ILocalize localize, IValidateService validateService)
+        private readonly IImageCaptchaService _validate;
+        public ValidCodeFormDataValidator(ILocalize localize, IImageCaptchaService validateService)
         {
             _localize = localize;
             _validate = validateService;

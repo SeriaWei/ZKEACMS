@@ -53,7 +53,7 @@ using ZKEACMS.Route;
 using ZKEACMS.Setting;
 using ZKEACMS.SMTP;
 using ZKEACMS.Theme;
-using ZKEACMS.Validate;
+using ZKEACMS.Captcha;
 using ZKEACMS.Widget;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.Zone;
@@ -209,7 +209,7 @@ namespace ZKEACMS
             services.RegistEvent<RemoveCacheOnPageDeletedEventHandler>(Events.OnPageDeleted);
             services.RegistEvent<WidgetChangedTriggerPageEventHandler>(Events.OnWidgetAdded, Events.OnWidgetUpdated, Events.OnWidgetDeleted, Events.OnWidgetBasePartUpdated);
 
-            services.AddScoped<IValidateService, DefaultValidateService>();
+            services.AddScoped<IImageCaptchaService, ImageCaptchaValidateService>();
 
             services.AddScoped<ITemplateService, TemplateService>();
 
