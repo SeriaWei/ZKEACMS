@@ -20,7 +20,7 @@ namespace ZKEACMS
             TextBoxDescriptor textBoxDescriptor = tagsHelper.AsTextBox();
             textBoxDescriptor.Required();
             textBoxDescriptor.SetTemplate("ImageCaptcha");
-            textBoxDescriptor.Validator.Add(new ImageCaptchaValidator(textBoxDescriptor.Name));
+            textBoxDescriptor.Validator.Add(new ImageCaptchaModelValidator(textBoxDescriptor.Name));
             textBoxDescriptor.MaxLength(10);
             return textBoxDescriptor;
         }

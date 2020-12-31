@@ -209,7 +209,9 @@ namespace ZKEACMS
             services.RegistEvent<RemoveCacheOnPageDeletedEventHandler>(Events.OnPageDeleted);
             services.RegistEvent<WidgetChangedTriggerPageEventHandler>(Events.OnWidgetAdded, Events.OnWidgetUpdated, Events.OnWidgetDeleted, Events.OnWidgetBasePartUpdated);
 
-            services.AddScoped<IImageCaptchaService, ImageCaptchaValidateService>();
+            services.AddScoped<IImageCaptchaService, ImageCaptchaService>();
+            services.AddScoped<IImageGenerator, DefaultImageGenerator>();
+            services.AddScoped<ICaptchaCodeStorageProvider, SessionCaptchaCodeStorageProvider>();
 
             services.AddScoped<ITemplateService, TemplateService>();
 
