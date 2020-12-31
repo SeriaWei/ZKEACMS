@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.Captcha
 {
-    public class ImageCaptchaValidator : ValidatorBase
+    public class ImageCaptchaModelValidator : ValidatorBase
     {
-        public ImageCaptchaValidator(string property)
+        public ImageCaptchaModelValidator(string property)
         {
             Property = property;
             BaseErrorMessage = "{0} is not correct.";

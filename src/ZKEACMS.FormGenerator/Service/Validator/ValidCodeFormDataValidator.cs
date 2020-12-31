@@ -16,11 +16,11 @@ namespace ZKEACMS.FormGenerator.Service.Validator
     public class ValidCodeFormDataValidator : IFormDataValidator
     {
         private readonly ILocalize _localize;
-        private readonly IImageCaptchaService _validate;
-        public ValidCodeFormDataValidator(ILocalize localize, IImageCaptchaService validateService)
+        private readonly IImageCaptchaService _imageCaptchaService;
+        public ValidCodeFormDataValidator(ILocalize localize, IImageCaptchaService imageCaptchaService)
         {
             _localize = localize;
-            _validate = validateService;
+            _imageCaptchaService = imageCaptchaService;
         }
 
         public bool Validate(FormField field, FormDataItem data, out string message)
@@ -28,7 +28,7 @@ namespace ZKEACMS.FormGenerator.Service.Validator
             message = string.Empty;
             if (field.Name == "ValidCode" && data.FieldValue.IsNotNullAndWhiteSpace())
             {
-                string code = _validate.GetCode();
+                string code = _imageCaptchaService.GetCode();
                 if (!code.Equals(data.FieldValue, StringComparison.InvariantCultureIgnoreCase))
                 {
                     message = _localize.Get("{0} is not correct.").FormatWith(field.DisplayName);

@@ -9,20 +9,20 @@ namespace ZKEACMS.Controllers
 {
     public class ValidationController : Controller
     {
-        private readonly IImageCaptchaService _validateService;
-        public ValidationController(IImageCaptchaService validateService)
+        private readonly IImageCaptchaService _imageCaptchaService;
+        public ValidationController(IImageCaptchaService imageCaptchaService)
         {
-            _validateService = validateService;
+            _imageCaptchaService = imageCaptchaService;
         }
 
         public ActionResult Code()
         {
-            return File(_validateService.GenerateCode(5), "image/jpeg");
+            return File(_imageCaptchaService.GenerateCode(5), "image/jpeg");
         }
 
         public JsonResult ValidCode(string code)
         {
-            return Json(_validateService.ValidateCode(code));
+            return Json(_imageCaptchaService.ValidateCode(code));
         }
     }
 }
