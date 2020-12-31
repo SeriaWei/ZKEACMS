@@ -13,7 +13,7 @@ namespace ZKEACMS.Captcha
 {
     public interface ICaptchaCodeStorageProvider
     {
-        void SaveCode(string key, string code);
-        string GetCode(string key);
+        void SaveCode(string code);
+        string GetCode();
     }
 }

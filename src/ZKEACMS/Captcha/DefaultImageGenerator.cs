@@ -15,12 +15,12 @@ namespace ZKEACMS.Captcha
             Width = 200;
             Height = 70;
             Fonts = new List<FontFamily>
-                        {
-                            new FontFamily("Times New Roman"),
-                            new FontFamily("Georgia"),
-                            new FontFamily("Arial"),
-                            new FontFamily("Comic Sans MS")
-                        };
+            {
+                new FontFamily("Times New Roman"),
+                new FontFamily("Georgia"),
+                new FontFamily("Arial"),
+                new FontFamily("Comic Sans MS")
+            };
             FontColor = Color.Blue;
             Background = Color.White;
         }
@@ -38,7 +38,7 @@ namespace ZKEACMS.Captcha
         public byte[] Generate(string text)
         {
             var random = new Random();
-            
+
             FontFamily familyName = Fonts[random.Next(Fonts.Count - 1)];
             var bitmap = new Bitmap(
                 Width,
@@ -85,7 +85,7 @@ namespace ZKEACMS.Captcha
                             FontStyle.Bold);
                         size = g.MeasureCharacterRanges(text, font, rect, format)[0].GetBounds(g);
                     } while (size.Width > rect.Width || size.Height > rect.Height);
-                    
+
                     var path = new GraphicsPath();
                     path.AddString(
                         text,

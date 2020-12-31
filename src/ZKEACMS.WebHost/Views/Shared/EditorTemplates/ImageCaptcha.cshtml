@@ -1,10 +1,33 @@
 @model String
 @{
+    Style.Reqiured("captcha").AtHead();
+    Script.Reqiured("captcha").AtFoot();
+
     var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
+    Dictionary<string, object> properties;
+    if (descriptor != null)
+    {
+        descriptor.Properties["placeholder"] = L("Captcha").Text;
+        properties = descriptor?.ToHtmlProperties();
+    }
+    else
+    {
+        properties = new Dictionary<string, object>();
+        properties["class"] = "form-control";
+        properties["placeholder"] = L("Captcha").Text;
+    }
 }
-<div class="input-validation-code">
-    @Html.TextBox("", Model, descriptor?.ToHtmlProperties())
-    <div class="validation-code">
-        <img src="/Validation/Code" class="validation-code" style="cursor:pointer" onclick="$(this).attr('src','/Validation/Code?v='+new Date().getTime())" />
-    </div>
-</div>
+<table class="captcha-container">
+    <tbody>
+        <tr>
+            <td>
+                @Html.TextBox("", Model, properties)
+            </td>
+            <td>
+                <a class="image-captcha" href="javascript:void(0)" data-captcha="@Url.Action("Image", "Captcha")">
+                    <img src="@Url.Action("Image", "Captcha")" />
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

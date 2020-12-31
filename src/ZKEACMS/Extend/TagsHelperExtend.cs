@@ -22,6 +22,7 @@ namespace ZKEACMS
             textBoxDescriptor.SetTemplate("ImageCaptcha");
             textBoxDescriptor.Validator.Add(new ImageCaptchaModelValidator(textBoxDescriptor.Name));
             textBoxDescriptor.MaxLength(10);
+            textBoxDescriptor.AddClass("image-captcha");
             return textBoxDescriptor;
         }
     }

@@ -8,6 +8,7 @@ using Easy.Cache;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Collections;
+using System;
 
 namespace ZKEACMS.Captcha
 {
@@ -26,7 +27,7 @@ namespace ZKEACMS.Captcha
             string code = new RandomText().Generate(num);
             foreach (var item in _captchaCodeStorageProviders)
             {
-                item.SaveCode(string.Empty, code);
+                item.SaveCode(code);
             }
             return _imageGenerator.Generate(code);
         }
@@ -35,14 +36,14 @@ namespace ZKEACMS.Captcha
         {
             if (code.IsNullOrWhiteSpace()) return false;
 
-            return code.Equals(GetCode());
+            return code.Equals(GetCode(), StringComparison.OrdinalIgnoreCase);
         }
 
-        public string GetCode()
+        private string GetCode()
         {
             foreach (var item in _captchaCodeStorageProviders)
             {
-                string code = item.GetCode(string.Empty);
+                string code = item.GetCode();
                 if (code.IsNotNullAndWhiteSpace()) return code;
             }
             return string.Empty;

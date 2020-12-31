@@ -11,14 +11,14 @@
         @Html.HiddenFor(m => m.Reply)
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <div class="form-group">
                     @Html.LabelFor(m => m.Title)
                     @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = L("Your name").Text })
                     @Html.ValidationMessageFor(m => m.Title)
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <div class="form-group">
                     @Html.LabelFor(m => m.Email)
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = L("Your email address").Text })
@@ -32,6 +32,15 @@
                     @Html.ValidationMessageFor(m => m.PostMessage)
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.EditorFor(m => m.Captcha)
+                    @Html.ValidationMessageFor(m => m.Captcha)
+                </div>
+            </div>
+            <div class="col-md-8">
+                <input type="submit" value="@L("Submit")" class="btn btn-default pull-right" />
+            </div>
         </div>
         @if (TempData["Message"] != null)
         {
@@ -39,8 +48,6 @@
                 @TempData["Message"]
             </p>
         }
-        <p>
-            <input type="submit" value="@L("Submit")" class="btn btn-default" />
-        </p>
+
     }
 </div>

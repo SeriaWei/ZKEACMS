@@ -95,6 +95,9 @@ namespace ZKEACMS.WebHost
                 .Include($"{LibraryPath}/codemirror/mode/css/css.js")
                 .Include($"{LibraryPath}/codemirror/mode/htmlmixed/htmlmixed.js")
                 .Include($"{LibraryPath}/codemirror/addon/format/autoformat.js", $"{LibraryPath}/codemirror/addon/format/autoformat.min.js");
+
+            script("captcha")
+                .Include($"{ScriptPath}/captcha.js", $"{ScriptPath}/captcha.min.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
@@ -150,6 +153,9 @@ namespace ZKEACMS.WebHost
             style("codemirror").Include($"{LibraryPath}/codemirror/lib/codemirror.css")
                 .Include($"{LibraryPath}/codemirror/theme/monokai.css")
                 .Include($"{LibraryPath}/codemirror/addon/hint/show-hint.css");
+
+            style("captcha")
+                .Include($"{StylePath}/captcha.css", $"{StylePath}/captcha.min.css");
         }
     }
 }

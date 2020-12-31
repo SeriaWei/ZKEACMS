@@ -1,8 +1,13 @@
 @model ZKEACMS.FormGenerator.Models.FormField
 @{
-    string maxLength = "200";
+    Style.Reqiured("captcha").AtHead();
+    Script.Reqiured("captcha").AtFoot();
+
+    string maxLength = "10";
     Model.Attributes.TryAdd("data-val-length", L("The max length of {0} is {1}").Text.FormatWith(Model.DisplayName, maxLength));
     Model.Attributes.TryAdd("data-val-length-max", maxLength);
+    Model.Attributes.TryAdd("data-captcha", Url.Action("Image", "Captcha"));
+    Model.Attributes["class"] = "required form-control image-captcha";
 }
 <div class="form-group size-@Model.Size">
     @if (Model.DisplayName.IsNotNullAndWhiteSpace())
@@ -21,7 +26,21 @@
             <span>@Model.Description</span>
         </span>
     }
-    @Html.TextBox(Model.ID, Model.Value, Model.Attributes)
-    <img src="/Validation/Code" class="validation-code" style="cursor:pointer" onclick="$(this).attr('src','/Validation/Code?v='+new Date().getTime())" />
+
+    <table class="captcha-container">
+        <tbody>
+            <tr>
+                <td>
+                    @Html.TextBox(Model.ID, Model.Value, Model.Attributes)
+                </td>
+                <td>
+                    <a class="image-captcha" href="javascript:void(0)" data-captcha="@Url.Action("Image", "Captcha")">
+                        <img src="@Url.Action("Image", "Captcha")" />
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
     @Html.ValidationMessage(Model.ID)
 </div>

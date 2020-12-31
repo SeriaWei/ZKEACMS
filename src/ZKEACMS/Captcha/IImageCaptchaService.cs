@@ -8,6 +8,5 @@ namespace ZKEACMS.Captcha
     {
         byte[] GenerateCode(int num);
         bool ValidateCode(string code);
-        string GetCode();
     }
 }

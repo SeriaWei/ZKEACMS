@@ -30,9 +30,9 @@ namespace ZKEACMS
              },
              new RouteDescriptor
              {
-                RouteName = "Validation",
-                Template = "validation/{action}",
-                Defaults = new { controller = "validation" },
+                RouteName = "Captcha",
+                Template = "captcha/{action}",
+                Defaults = new { controller = "captcha" },
                 Priority = 11
              },
              new RouteDescriptor

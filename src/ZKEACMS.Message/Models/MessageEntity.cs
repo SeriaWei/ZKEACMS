@@ -20,6 +20,9 @@ namespace ZKEACMS.Message.Models
         public string Email { get; set; }
         public string PostMessage { get; set; }
         public string Reply { get; set; }
+
+        [NotMapped]
+        public string Captcha { get; set; }
     }
     class MessageMetaData : ViewMetaData<MessageEntity>
     {
@@ -30,6 +33,7 @@ namespace ZKEACMS.Message.Models
             ViewConfig(m => m.Email).AsTextBox().Email().Required().MaxLength(50).Order(2).ShowInGrid();
             ViewConfig(m => m.PostMessage).AsTextArea().Required().MaxLength(500).Order(3);
             ViewConfig(m => m.Reply).AsTextArea().MaxLength(500).Order(4);
+            ViewConfig(m => m.Captcha).AsImageCaptcha();
         }
     }
 }

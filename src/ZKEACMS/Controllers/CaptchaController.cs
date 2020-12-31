@@ -7,22 +7,17 @@ using ZKEACMS.Captcha;
 
 namespace ZKEACMS.Controllers
 {
-    public class ValidationController : Controller
+    public class CaptchaController : Controller
     {
         private readonly IImageCaptchaService _imageCaptchaService;
-        public ValidationController(IImageCaptchaService imageCaptchaService)
+        public CaptchaController(IImageCaptchaService imageCaptchaService)
         {
             _imageCaptchaService = imageCaptchaService;
         }
 
-        public ActionResult Code()
+        public ActionResult Image()
         {
             return File(_imageCaptchaService.GenerateCode(5), "image/jpeg");
-        }
-
-        public JsonResult ValidCode(string code)
-        {
-            return Json(_imageCaptchaService.ValidateCode(code));
         }
     }
 }

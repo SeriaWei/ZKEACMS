@@ -28,8 +28,7 @@ namespace ZKEACMS.FormGenerator.Service.Validator
             message = string.Empty;
             if (field.Name == "ValidCode" && data.FieldValue.IsNotNullAndWhiteSpace())
             {
-                string code = _imageCaptchaService.GetCode();
-                if (!code.Equals(data.FieldValue, StringComparison.InvariantCultureIgnoreCase))
+                if (!_imageCaptchaService.ValidateCode(data.FieldValue))
                 {
                     message = _localize.Get("{0} is not correct.").FormatWith(field.DisplayName);
                     return false;
