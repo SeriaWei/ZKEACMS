@@ -13,7 +13,7 @@ namespace ZKEACMS.Captcha
 {
     public class RandomText
     {
-        private const string chars = "QWERTYUIOPASDFGHJKLZXCVBNM7410852963";
+        private const string chars = "QWERTYUPASDFGHJKLZXCVBNM74852963";
         public string Generate(int length)
         {
             StringBuilder output = new StringBuilder(length);

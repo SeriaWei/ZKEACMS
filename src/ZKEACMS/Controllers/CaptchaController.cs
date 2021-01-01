@@ -17,7 +17,7 @@ namespace ZKEACMS.Controllers
 
         public ActionResult Image()
         {
-            return File(_imageCaptchaService.GenerateCode(5), "image/jpeg");
+            return File(_imageCaptchaService.GenerateCode(4), "image/jpeg");
         }
     }
 }

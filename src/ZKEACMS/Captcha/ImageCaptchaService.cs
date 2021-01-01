@@ -22,7 +22,7 @@ namespace ZKEACMS.Captcha
             _captchaCodeStorageProviders = captchaCodeStorageProviders;
         }
 
-        public byte[] GenerateCode(int num = 5)
+        public byte[] GenerateCode(int num)
         {
             string code = new RandomText().Generate(num);
             foreach (var item in _captchaCodeStorageProviders)

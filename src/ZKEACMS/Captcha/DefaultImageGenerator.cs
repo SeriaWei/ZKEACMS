@@ -48,9 +48,9 @@ namespace ZKEACMS.Captcha
                 Height,
                 PixelFormat.Format32bppArgb);
 
-            using (Graphics g = Graphics.FromImage(bitmap))
+            using (Graphics graph = Graphics.FromImage(bitmap))
             {
-                g.SmoothingMode = SmoothingMode.AntiAlias;
+                graph.SmoothingMode = SmoothingMode.AntiAlias;
                 var rect = new Rectangle(0, 0, Width, Height);
 
                 // Fill in the background.
@@ -59,7 +59,7 @@ namespace ZKEACMS.Captcha
                     Color.LightGray,
                     Background))
                 {
-                    g.FillRectangle(brush, rect);
+                    graph.FillRectangle(brush, rect);
 
                     // Set up the text format.
                     var format = new StringFormat
@@ -86,7 +86,7 @@ namespace ZKEACMS.Captcha
                             familyName,
                             fontSize,
                             FontStyle.Bold);
-                        size = g.MeasureCharacterRanges(text, font, rect, format)[0].GetBounds(g);
+                        size = graph.MeasureCharacterRanges(text, font, rect, format)[0].GetBounds(graph);
                     } while (size.Width > rect.Width || size.Height > rect.Height);
 
                     var path = new GraphicsPath();
@@ -94,9 +94,10 @@ namespace ZKEACMS.Captcha
                         text,
                         font.FontFamily,
                         (int)font.Style,
-                        g.DpiY * font.Size / 72, rect,
+                        graph.DpiY * font.Size / 72, rect,
                         format);
 
+                    var matrix = new Matrix();
                     if (isWindowsOS)
                     {
                         PointF[] points =
@@ -114,14 +115,13 @@ namespace ZKEACMS.Captcha
                                     rect.Width - random.Next(rect.Width)/V,
                                     rect.Height - random.Next(rect.Height)/V)
                             };
-                        var matrix = new Matrix();
+
                         matrix.Translate(0F, 0F);
                         path.Warp(points, rect, matrix, WarpMode.Perspective, 0F); //Not work on linux
                     }
                     else
                     {
-                        var matrix = new Matrix();
-                        matrix.Translate(0F, random.Next(rect.Height) / V);
+                        matrix.Translate(0F, random.Next(-rect.Height, rect.Height) / 5F);
                         path.Transform(matrix);
                     }
 
@@ -131,7 +131,7 @@ namespace ZKEACMS.Captcha
                         Color.LightGray,
                         FontColor))
                     {
-                        g.FillPath(hatchBrush, path);
+                        graph.FillPath(hatchBrush, path);
 
                         // Add some random noise.
                         int m = Math.Max(rect.Width, rect.Height);
@@ -141,18 +141,18 @@ namespace ZKEACMS.Captcha
                             int y = random.Next(rect.Height);
                             int w = random.Next(m / 50);
                             int h = random.Next(m / 50);
-                            g.FillEllipse(hatchBrush, x, y, w, h);
+                            graph.FillEllipse(hatchBrush, x, y, w, h);
                         }
                     }
                     // Clean up.
+
+                    format.Dispose();
                     font.Dispose();
+                    path.Dispose();
+                    matrix.Dispose();
                 }
             }
-            if (!isWindowsOS)
-            {
-                AdjustRippleEffect(bitmap);
-            }
-            
+            AdjustRippleEffect(bitmap);
             using (bitmap)
             {
                 using (MemoryStream ms = new MemoryStream())
