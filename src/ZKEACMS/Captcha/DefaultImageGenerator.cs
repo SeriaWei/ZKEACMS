@@ -16,9 +16,9 @@ namespace ZKEACMS.Captcha
             Height = 70;
             Fonts = new List<FontFamily>
             {
-                new FontFamily("Times New Roman"),
-                new FontFamily("Georgia"),
-                new FontFamily("Arial"),
+               // new FontFamily("Times New Roman"),
+                //new FontFamily("Georgia"),
+                //new FontFamily("Arial"),
                 new FontFamily("Comic Sans MS")
             };
             FontColor = Color.Blue;
@@ -111,7 +111,7 @@ namespace ZKEACMS.Captcha
                         };
                     var matrix = new Matrix();
                     matrix.Translate(0F, 0F);
-                    path.Warp(points, rect, matrix, WarpMode.Perspective, 0F);
+                    //path.Warp(points, rect, matrix, WarpMode.Perspective, 0F);
 
                     // Draw the text.
                     using (var hatchBrush = new HatchBrush(
