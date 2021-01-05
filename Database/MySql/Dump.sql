@@ -1268,7 +1268,7 @@ CREATE TABLE `DBVersion` (
 
 /*!40000 ALTER TABLE `DBVersion` DISABLE KEYS */;
 INSERT INTO `DBVersion` VALUES
-(1,3,3,6,0);
+(1,3,3,7,0);
 /*!40000 ALTER TABLE `DBVersion` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ExtendField`;
@@ -1936,6 +1936,7 @@ INSERT INTO `Language` VALUES
 ('Cancel','en-US','Cancel',NULL,NULL),
 ('Cancel','zh-CN','取消',NULL,NULL),
 ('Capitalize','zh-CN','首字母大写',NULL,NULL),
+('Captcha','zh-CN','验证码',NULL,NULL),
 ('Carousel','en-GB','Carousel',NULL,NULL),
 ('Carousel','en-US','Carousel',NULL,NULL),
 ('Carousel','zh-CN','焦点图',NULL,NULL),
