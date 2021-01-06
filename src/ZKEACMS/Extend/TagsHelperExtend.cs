@@ -18,6 +18,8 @@ namespace ZKEACMS
         public static TextBoxDescriptor AsImageCaptcha(this TagsHelper tagsHelper)
         {
             TextBoxDescriptor textBoxDescriptor = tagsHelper.AsTextBox();
+            textBoxDescriptor.SetDisplayName("Captcha");
+            textBoxDescriptor.PlaceHolder("Captcha");
             textBoxDescriptor.Required();
             textBoxDescriptor.SetTemplate("ImageCaptcha");
             textBoxDescriptor.Validator.Add(new ImageCaptchaModelValidator(textBoxDescriptor.Name));

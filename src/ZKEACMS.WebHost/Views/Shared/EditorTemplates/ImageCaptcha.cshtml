@@ -7,7 +7,6 @@
     Dictionary<string, object> properties;
     if (descriptor != null)
     {
-        descriptor.Properties["placeholder"] = L("Captcha").Text;
         properties = descriptor?.ToHtmlProperties();
     }
     else
