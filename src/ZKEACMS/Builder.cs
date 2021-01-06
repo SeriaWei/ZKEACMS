@@ -169,6 +169,8 @@ namespace ZKEACMS
             services.ConfigureCache<string>();
 
             services.ConfigureMetaData<AdminSignViewModel, AdminSignViewModelMetaData>();
+            services.ConfigureMetaData<SignInViewModel, SignInViewModelMetaData>();
+            services.ConfigureMetaData<CustomerSignInViewModel, CustomerSignInViewModelMetaData>();
             services.ConfigureMetaData<ArticleEntity, ArticleEntityMeta>();
             services.ConfigureMetaData<ArticleType, ArtycleTypeMetaData>();
             services.ConfigureMetaData<BreadcrumbWidget, BreadcrumbWidgetMetaData>();

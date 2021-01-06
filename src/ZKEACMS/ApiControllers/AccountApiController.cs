@@ -24,7 +24,7 @@ namespace ZKEACMS.ApiControllers
         }
 
         [HttpPost("CreateToken")]
-        public IActionResult CreateToken([FromBody]AdminSignViewModel model)
+        public IActionResult CreateToken([FromBody] SignInViewModel model)
         {
             var user = _userService.Login(model.UserID, model.PassWord, UserType.Administrator, Request.HttpContext.Connection.RemoteIpAddress?.ToString());
             if (user == null) return Unauthorized();
