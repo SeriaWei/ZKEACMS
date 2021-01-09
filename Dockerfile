@@ -19,5 +19,7 @@ RUN cp -f /build/Database/SQLite/appsettings.json /build/src/ZKEACMS.WebHost/bin
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /zkeacms
 COPY --from=builder /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput .
+RUN apt update -y
+RUN apt install libicu-dev libgdiplus -y
 EXPOSE 80
 ENTRYPOINT ["dotnet", "ZKEACMS.WebHost.dll"]
