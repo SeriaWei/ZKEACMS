@@ -21,7 +21,12 @@ namespace ZKEACMS.FormGenerator.Service
         public IEnumerable<FormDataApiModel> GetByForm(string formId, int top)
         {
             List<FormDataApiModel> output = new List<FormDataApiModel>();
-            var formDatas = _formDataService.Get().Where(m => m.FormId == formId).Take(top).ToList();
+            var formDatas = _formDataService.Get()
+                .Where(m => m.FormId == formId)
+                .OrderByDescending(m => m.ID)
+                .Take(top)
+                .ToList();
+
             foreach (var item in formDatas)
             {
                 item.Datas = _formDataItemService.Get(m => m.FormDataId == item.ID).ToList();
