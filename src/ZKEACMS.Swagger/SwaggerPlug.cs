@@ -60,7 +60,7 @@ namespace ZKEACMS.Swagger
                     Description = "Enter JWT Bearer token **_only_**",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.Http,
-                    Scheme = "bearer", 
+                    Scheme = "bearer",
                     BearerFormat = "JWT",
                     Reference = new OpenApiReference
                     {
@@ -78,11 +78,15 @@ namespace ZKEACMS.Swagger
 
         public override void ConfigureApplication(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            app.UseSwagger(options =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ZKEACMS API v1"));
-            }
+                options.RouteTemplate = "api/document/{documentName}/docs.json";
+            });
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/api/document/v1/docs.json", "ZKEACMS API v1");
+                options.RoutePrefix = "api/document";
+            });
         }
     }
 }

@@ -3,7 +3,7 @@
     <span ng-bind="field.Description"></span>
 </span>
 <select class="form-control" ng-class="'size-' + field.Size">
-    <option>-- 请选择 --</option>
+    <option>@L("-- Select --")</option>
     <option ng-repeat="op in field.FieldOptions" value="op.Value" ng-bind="op.DisplayText"></option>
 </select>
 <button type="button" class="close" ng-click="removeField(field)" ng-if="Fields.length>1"><span aria-hidden="true">&times;</span></button>

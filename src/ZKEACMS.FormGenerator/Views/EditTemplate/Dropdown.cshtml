@@ -2,34 +2,34 @@
     <div class="checkbox">
         <label>
             <input type="checkbox" ng-checked="fieldInfo.IsRequired" ng-click="fieldInfo.IsRequired=!fieldInfo.IsRequired" />
-            必填？
+            @L("Required?")
         </label>
     </div>
 </div>
 <div class="form-group" ng-if="fieldInfo.IsRequired">
-    <label class="control-label" for="requiredMessage">必填项提示信息</label>
+    <label class="control-label" for="requiredMessage">@L("Required Message")</label>
     <input type="text" class="form-control" name="requiredMessage" id="requiredMessage" ng-model="fieldInfo.RequiredMessage" />
 </div>
 <div class="form-group">
-    <label class="control-label">输入框长度</label>
+    <label class="control-label">@L("Form Control Size")</label>
     <div>
         <div class="btn-group">
-            <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Size==1}" ng-click="fieldInfo.Size=1">窄</a>
-            <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Size==2}" ng-click="fieldInfo.Size=2">中等</a>
-            <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Size==3}" ng-click="fieldInfo.Size=3">宽</a>
-            <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Size==4}" ng-click="fieldInfo.Size=4">占满</a>
+            <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Size==1}" ng-click="fieldInfo.Size=1">@L("Small")</a>
+            <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Size==2}" ng-click="fieldInfo.Size=2">@L("Medium")</a>
+            <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Size==3}" ng-click="fieldInfo.Size=3">@L("Large")</a>
+            <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Size==4}" ng-click="fieldInfo.Size=4">@L("Full")</a>
         </div>
     </div>
 </div>
 <div class="form-group">
     <label class="control-label">
-        选项
+        @L("Option")
     </label>
     <div class="control-group">
         <div style="margin-bottom:10px;" ng-class="{default:option.DefaultSelected}" ng-repeat="option in fieldInfo.FieldOptions | orderBy:'Order'">
             <div>
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="输入选项内容" ng-model="option.DisplayText">
+                    <input type="text" class="form-control" placeholder="@L("Input option")" ng-model="option.DisplayText">
                     <span class="input-group-addon dropdown">
                         <i class="glyphicon glyphicon-remove" ng-click="removeOption(fieldInfo.FieldOptions,option)" data-toggle="dropdown">
                         </i>
@@ -48,6 +48,6 @@
         </div>
     </div>
 </div>
-<input type="button" class="btn btn-default btn-xs" value="添加选项" ng-click="addOption(fieldInfo.FieldOptions)" />
+<input type="button" class="btn btn-default btn-xs" value="@L("Add")" ng-click="addOption(fieldInfo.FieldOptions)" />
 <input type="hidden" class="form-control" name="regexPattern" id="regexPattern" ng-model="fieldInfo.RegexPattern" />
 <input type="hidden" class="form-control" name="regexMessage" id="regexMessage" ng-model="fieldInfo.RegexMessage" />
