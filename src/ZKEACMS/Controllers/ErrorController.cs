@@ -32,15 +32,13 @@ namespace ZKEACMS.Controllers
         }
         public IActionResult Code(int code)
         {
-            if (code == 404)
+            switch (code)
             {
-                return NotFond();
+                case 404: return NotFond();
+                case 403: return Forbidden();
+                case 401: return Unauthorized();
+                default: return Index(code);
             }
-            else if (code == 403)
-            {
-                return Forbidden();
-            }
-            return Index(code);
         }
     }
 }
