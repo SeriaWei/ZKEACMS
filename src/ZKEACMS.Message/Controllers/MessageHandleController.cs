@@ -3,6 +3,7 @@
  * Copyright 2018 ZKEASOFT
  * http://www.zkea.net/licenses
  */
+using Easy;
 using Easy.Constant;
 using Easy.Extend;
 using Easy.Mvc.Extend;
@@ -11,6 +12,7 @@ using Easy.Mvc.ViewResult;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
+using ZKEACMS.Filter;
 using ZKEACMS.Message.Models;
 using ZKEACMS.Message.Service;
 
@@ -21,24 +23,31 @@ namespace ZKEACMS.Message.Controllers
         private readonly IMessageService _messageService;
         private readonly ICommentsService _commentService;
         private readonly IApplicationContextAccessor _applicationContextAccessor;
-        private readonly ICookie _cookie;
-        public MessageHandleController(IApplicationContextAccessor applicationContextAccessor, IMessageService messageService, ICommentsService commentsService, ICookie cookie)
+        private readonly ILocalize _localize;
+        public MessageHandleController(IApplicationContextAccessor applicationContextAccessor,
+            IMessageService messageService,
+            ICommentsService commentsService,
+            ILocalize localize)
         {
             _applicationContextAccessor = applicationContextAccessor;
             _messageService = messageService;
             _commentService = commentsService;
-            _cookie = cookie;
+            _localize = localize;
         }
-        [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult PostMessage(MessageEntity entity, string redirect)
+        [HttpPost, ValidateAntiForgeryToken, RenderRefererPage]
+        public IActionResult PostMessage(MessageEntity entity)
         {
             if (ModelState.IsValid)
             {
-                _cookie.SetValue("Message", "true", 1);
                 entity.Status = (int)RecordStatus.InActive;
-                _messageService.Add(entity);
+                var result = _messageService.Add(entity);
+                ModelState.Merge(result);
+                if (!result.HasViolation)
+                {
+                    TempData["Message"] = _localize.Get("Thank You for your submit!");
+                }
             }
-            return Redirect(redirect);
+            return View(entity);
         }
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult PostComment(string CommentContent, string PagePath, string ReplyTo, string Title)

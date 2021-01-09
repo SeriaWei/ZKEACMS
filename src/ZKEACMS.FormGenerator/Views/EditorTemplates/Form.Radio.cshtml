@@ -17,6 +17,12 @@
             }
         </label>
     }
+    @if (Model.Description.IsNotNullAndWhiteSpace())
+    {
+        <span class="text-muted">
+            <span>@Model.Description</span>
+        </span>
+    }
     <div>
         @foreach (var item in Model.FieldOptions)
         {
@@ -28,13 +34,5 @@
             </div>
         }
     </div>
-    <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
-    @if (Model.Description.IsNotNullAndWhiteSpace())
-    {
-        <dl>
-            <dd>
-                @Model.Description
-            </dd>
-        </dl>
-    }
+    @Html.ValidationMessage(Model.ID)
 </div>

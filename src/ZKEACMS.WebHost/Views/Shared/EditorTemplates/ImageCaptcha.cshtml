@@ -1,0 +1,32 @@
+@model String
+@{
+    Style.Reqiured("captcha").AtHead();
+    Script.Reqiured("captcha").AtFoot();
+
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
+    Dictionary<string, object> properties;
+    if (descriptor != null)
+    {
+        properties = descriptor?.ToHtmlProperties();
+    }
+    else
+    {
+        properties = new Dictionary<string, object>();
+        properties["class"] = "form-control";
+        properties["placeholder"] = L("Captcha").Text;
+    }
+}
+<table class="captcha-container">
+    <tbody>
+        <tr>
+            <td>
+                @Html.TextBox("", Model, properties)
+            </td>
+            <td>
+                <a class="image-captcha" href="javascript:void(0)" data-captcha="@Url.Action("Image", "Captcha")">
+                    <img src="@Url.Action("Image", "Captcha")" />
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

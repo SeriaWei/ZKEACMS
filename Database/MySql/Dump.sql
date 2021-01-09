@@ -1268,7 +1268,7 @@ CREATE TABLE `DBVersion` (
 
 /*!40000 ALTER TABLE `DBVersion` DISABLE KEYS */;
 INSERT INTO `DBVersion` VALUES
-(1,3,3,6,0);
+(1,3,3,7,0);
 /*!40000 ALTER TABLE `DBVersion` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ExtendField`;
@@ -1936,6 +1936,7 @@ INSERT INTO `Language` VALUES
 ('Cancel','en-US','Cancel',NULL,NULL),
 ('Cancel','zh-CN','取消',NULL,NULL),
 ('Capitalize','zh-CN','首字母大写',NULL,NULL),
+('Captcha','zh-CN','验证码',NULL,NULL),
 ('Carousel','en-GB','Carousel',NULL,NULL),
 ('Carousel','en-US','Carousel',NULL,NULL),
 ('Carousel','zh-CN','焦点图',NULL,NULL),
@@ -2271,6 +2272,7 @@ INSERT INTO `Language` VALUES
 ('Custom Rule','en-GB','Rule',NULL,NULL),
 ('Custom Rule','en-US','Rule',NULL,NULL),
 ('Custom Rule','zh-CN','定义条件',NULL,NULL),
+('Custom Validation','zh-CN','自定义验证',NULL,NULL),
 ('Customer','zh-CN','前端用户',NULL,NULL),
 ('Danger','zh-CN','危险',NULL,NULL),
 ('Dashed','zh-CN','虚线',NULL,NULL),
@@ -2408,6 +2410,7 @@ INSERT INTO `Language` VALUES
 ('Equals','en-US','Equals',NULL,NULL),
 ('Equals','zh-CN','等于',NULL,NULL),
 ('e-resize','zh-CN','向右改变大小',NULL,NULL),
+('Error Message','zh-CN','错误信息',NULL,NULL),
 ('Error!','zh-CN','错误！',NULL,NULL),
 ('Everything goes well.','zh-CN','一切都很好。',NULL,NULL),
 ('Example','zh-CN','示例',NULL,NULL),
@@ -2494,6 +2497,7 @@ INSERT INTO `Language` VALUES
 ('Form','en-GB','Form',NULL,NULL),
 ('Form','en-US','Form',NULL,NULL),
 ('Form','zh-CN','表单',NULL,NULL),
+('Form Control Size','zh-CN','输入框尺寸',NULL,NULL),
 ('Form Data','en-GB','Form Data',NULL,NULL),
 ('Form Data','en-US','Form Data',NULL,NULL),
 ('Form Data','zh-CN','表单数据',NULL,NULL),
@@ -2754,6 +2758,7 @@ INSERT INTO `Language` VALUES
 ('Information','en-US','Information',NULL,NULL),
 ('Information','zh-CN','基本信息',NULL,NULL),
 ('Input keywords to search','zh-CN','输入关键字搜索',NULL,NULL),
+('Input option','zh-CN','输入选项内容',NULL,NULL),
 ('Inset','zh-CN','内嵌',NULL,NULL),
 ('Install','zh-CN','安装',NULL,NULL),
 ('Install Theme','en-GB','Install',NULL,NULL),
@@ -2810,6 +2815,7 @@ INSERT INTO `Language` VALUES
 ('LanguageEntity@LanValue','en-US','Lan Value','LanguageEntity','EntityProperty'),
 ('LanguageEntity@LanValue','zh-CN','翻译值','LanguageEntity','EntityProperty'),
 ('LanguageEntity@Module','zh-CN','模块','LanguageEntity','EntityProperty'),
+('Large','zh-CN','大',NULL,NULL),
 ('Last-Modified','zh-CN','修改时间',NULL,NULL),
 ('Layout','en-GB','Layout',NULL,NULL),
 ('Layout','en-US','Layout',NULL,NULL),
@@ -2970,6 +2976,7 @@ INSERT INTO `Language` VALUES
 ('MediaEntity@Status','zh-CN','状态','MediaEntity','EntityProperty'),
 ('MediaEntity@Title','zh-CN','标题','MediaEntity','EntityProperty'),
 ('MediaEntity@Url','zh-CN','Url','MediaEntity','EntityProperty'),
+('Medium','zh-CN','中等',NULL,NULL),
 ('Memory Cache','zh-CN','内存缓存',NULL,NULL),
 ('Message','en-GB','Message',NULL,NULL),
 ('Message','en-US','Message',NULL,NULL),
@@ -3486,6 +3493,7 @@ INSERT INTO `Language` VALUES
 ('Picture','en-US','Image',NULL,NULL),
 ('Picture','zh-CN','图片',NULL,NULL),
 ('Pixel Script','zh-CN','访客统计代码',NULL,NULL),
+('Placeholder','zh-CN','占位文字',NULL,NULL),
 ('Please contact administrator.','zh-CN','请联系管理员。',NULL,NULL),
 ('Please enter the refund amount','zh-CN','请输入退款金额',NULL,NULL),
 ('Please enter your account information','zh-CN','请输入您的用户信息以找回密码',NULL,NULL),
@@ -3774,6 +3782,7 @@ INSERT INTO `Language` VALUES
 ('Refund successfull!','zh-CN','退款成功！',NULL,NULL),
 ('Refunded','zh-CN','已退款',NULL,NULL),
 ('Refunding','zh-CN','退款中',NULL,NULL),
+('Regular expression','zh-CN','正则表达式',NULL,NULL),
 ('Reinstall to update the theme','en-GB','Reinstall to update the theme',NULL,NULL),
 ('Reinstall to update the theme','en-US','Reinstall to update the theme',NULL,NULL),
 ('Reinstall to update the theme','zh-CN','若主题有更新，重复安装即可更新',NULL,NULL),
@@ -3784,6 +3793,8 @@ INSERT INTO `Language` VALUES
 ('repeat-y','zh-CN','垂直重复',NULL,NULL),
 ('Reply','zh-CN','回复',NULL,NULL),
 ('Report issue','zh-CN','反馈问题',NULL,NULL),
+('Required Message','zh-CN','必填项提示信息',NULL,NULL),
+('Required?','zh-CN','必填？',NULL,NULL),
 ('Reset failed?','zh-CN','重置失败？',NULL,NULL),
 ('Reset password','zh-CN','重置密码',NULL,NULL),
 ('Revert','en-GB','Revert',NULL,NULL),
@@ -4139,6 +4150,7 @@ INSERT INTO `Language` VALUES
 ('SiteSearchWidget@ZoneID','zh-CN','区域','SiteSearchWidget','EntityProperty'),
 ('Size','zh-CN','大小',NULL,NULL),
 ('SM Screen','zh-CN','小屏幕',NULL,NULL),
+('Small','zh-CN','小',NULL,NULL),
 ('Small Caps','zh-CN','小字体',NULL,NULL),
 ('SMTP Config','en-GB','SMTP',NULL,NULL),
 ('SMTP Config','en-US','SMTP',NULL,NULL),

@@ -1,6 +1,0 @@
-﻿<label class="control-label" ng-if="field.DisplayName" ng-bind="field.DisplayName"></label>
-<textarea class="form-control" rows="3" cols="10" ng-class="'size-' + field.Size" placeholder="{{field.Placeholder}}"></textarea>
-<dl ng-if="field.Description">
-    <dd ng-bind="field.Description"></dd>
-</dl>
-<button type="button" class="close" ng-click="removeField(field)" ng-if="Fields.length>1"><span aria-hidden="true">&times;</span></button>

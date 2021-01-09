@@ -1,0 +1,9 @@
+﻿<label class="control-label" ng-if="field.DisplayName" ng-bind="field.DisplayName"></label>
+<span class="text-muted" ng-if="field.Description">
+    <span ng-bind="field.Description"></span>
+</span>
+<div class="input-group" ng-class="'size-' + field.Size">
+    <input type="text" class="form-control" placeholder="{{field.Placeholder}}">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+</div>
+<button type="button" class="close" ng-click="removeField(field)" ng-if="Fields.length>1"><span aria-hidden="true">&times;</span></button>

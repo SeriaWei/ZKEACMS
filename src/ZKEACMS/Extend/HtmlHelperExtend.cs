@@ -143,5 +143,18 @@ namespace ZKEACMS
         {
             return html.Partial("EmailLinkButton", new Tuple<string, string, bool>(link, text, center));
         }
+        public static IHtmlContent HiddenForCurrentPagePath(this IHtmlHelper html)
+        {
+            var request = html.ViewContext.HttpContext.Request;
+            if (request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase))
+            {
+                var pagePath = request.Query["CurrentPagePath"];
+                return html.Hidden("CurrentPagePath", pagePath.Count > 0 ? pagePath : request.Path);
+            }
+            else
+            {
+                return html.Hidden("CurrentPagePath", request.Form["CurrentPagePath"]);
+            }
+        }
     }
 }

@@ -6,12 +6,11 @@
             @Model.DisplayName
         </h3>
     }
+
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
-        <dl>
-            <dd>
-                @Model.Description
-            </dd>
-        </dl>
+        <p class="text-muted">
+            <span>@Model.Description</span>
+        </p>
     }
 </div>

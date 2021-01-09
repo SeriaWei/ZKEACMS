@@ -17,6 +17,7 @@ namespace ZKEACMS.Widget
         public LayoutEntity PageLayout { get; set; }
         public WidgetBase Widget { get; set; }
         public ActionContext ActionContext { get; set; }
+        public object Model { get; set; }
         public WidgetViewModelPart ToWidgetViewModelPart()
         {
             return new WidgetViewModelPart

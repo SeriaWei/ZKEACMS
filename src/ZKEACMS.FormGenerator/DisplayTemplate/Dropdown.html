@@ -1,9 +1,0 @@
-﻿<label class="control-label" ng-if="field.DisplayName" ng-bind="field.DisplayName"></label>
-<select class="form-control" ng-class="'size-' + field.Size">
-    <option>-- 请选择 --</option>
-    <option ng-repeat="op in field.FieldOptions" value="op.Value" ng-bind="op.DisplayText"></option>
-</select>
-<dl ng-if="field.Description">
-    <dd ng-bind="field.Description"></dd>
-</dl>
-<button type="button" class="close" ng-click="removeField(field)" ng-if="Fields.length>1"><span aria-hidden="true">&times;</span></button>

@@ -51,6 +51,7 @@ namespace Easy.ViewPort.Descriptor
             }
 
         }
+        protected string PlaceHolderText;
         #endregion
 
         #region 公共属性
@@ -100,7 +101,7 @@ namespace Easy.ViewPort.Descriptor
             {
                 if (_displayName.IsNotNullAndWhiteSpace())
                 {
-                    return _displayName;
+                    return GetLocalize(_displayName);
                 }
                 return GetLocalize($"{ModelType.Name}@{Name}");
             }
@@ -173,6 +174,10 @@ namespace Easy.ViewPort.Descriptor
                 }
             });
             result.Add("data-opeartor", (int)SearchOperator);
+            if (PlaceHolderText.IsNotNullAndWhiteSpace())
+            {
+                result.Add("placeholder", GetLocalize(PlaceHolderText));
+            }
             return result;
         }
 
@@ -379,6 +384,12 @@ namespace Easy.ViewPort.Descriptor
         public T Search(Query.Operators searchOperator)
         {
             this.SearchOperator = searchOperator;
+            return this as T;
+        }
+
+        public T PlaceHolder(string info)
+        {
+            PlaceHolderText = info;
             return this as T;
         }
         #endregion

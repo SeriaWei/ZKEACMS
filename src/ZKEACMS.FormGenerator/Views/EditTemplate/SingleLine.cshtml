@@ -1,0 +1,35 @@
+﻿<div class="form-group">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-checked="fieldInfo.IsRequired" ng-click="fieldInfo.IsRequired=!fieldInfo.IsRequired" />
+            @L("Required?")
+        </label>
+    </div>
+</div>
+<div class="form-group" ng-if="fieldInfo.IsRequired">
+    <label class="control-label" for="requiredMessage">@L("Required Message")</label>
+    <input type="text" class="form-control" name="requiredMessage" id="requiredMessage" ng-model="fieldInfo.RequiredMessage" />
+</div>
+<div class="form-group">
+    <label class="control-label" for="placeholder">@L("Placeholder")</label>
+    <input type="text" class="form-control" name="placeholder" id="placeholder" ng-model="fieldInfo.Placeholder" />
+</div>
+<div class="form-group">
+    <label class="control-label">@L("Form Control Size")</label>
+    <div>
+        <div class="btn-group">
+            <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Size==1}" ng-click="fieldInfo.Size=1">@L("Small")</a>
+            <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Size==2}" ng-click="fieldInfo.Size=2">@L("Medium")</a>
+            <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Size==3}" ng-click="fieldInfo.Size=3">@L("Large")</a>
+            <a class="btn btn-default btn-sm" ng-class="{disabled:fieldInfo.Size==4}" ng-click="fieldInfo.Size=4">@L("Full")</a>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="control-label" for="regexPattern">@L("Custom Validation")</label>
+    <input type="text" class="form-control" name="regexPattern" id="regexPattern" ng-model="fieldInfo.RegexPattern" placeholder="@L("Regular expression")" />
+</div>
+<div class="form-group">
+    <label class="control-label" for="regexMessage">@L("Error Message")</label>
+    <input type="text" class="form-control" name="regexMessage" id="regexMessage" ng-model="fieldInfo.RegexMessage" placeholder="@L("Error Message")" />
+</div>

@@ -1,0 +1,12 @@
+﻿<label class="control-label" ng-if="field.DisplayName" ng-bind="field.DisplayName"></label>
+<span class="text-muted" ng-if="field.Description">
+    <span ng-bind="field.Description"></span>
+</span>
+<div>
+    <div class="checkbox" ng-repeat="option in field.FieldOptions">
+        <label>
+            <input type="checkbox" ng-checked="option.DefaultSelected"> <span ng-bind="option.DisplayText" />
+        </label>
+    </div>
+</div>
+<button type="button" class="close" ng-click="removeField(field)" ng-if="Fields.length>1"><span aria-hidden="true">&times;</span></button>

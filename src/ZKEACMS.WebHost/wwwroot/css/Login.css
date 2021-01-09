@@ -20,7 +20,7 @@ body {
     left: 50%;
     top: 50%;
     margin-left: -400px;
-    margin-top: -234px;
+    margin-top: -260px;
     overflow: hidden;
 }
 
@@ -35,7 +35,7 @@ body {
 
     .login-panel .login-panel-form,
     .login-panel .login-panel-info {
-        height: 468px;
+        height: 520px;
     }
 
     .login-panel .login-panel-form {
@@ -100,7 +100,8 @@ body {
             margin: 0;
         }
 
-    .login-panel input {
+    .login-panel input,
+    .login-panel .captcha-container .image-captcha > img {
         border-radius: 0;
     }
 

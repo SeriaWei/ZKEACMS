@@ -89,6 +89,8 @@ namespace ZKEACMS.Filter
                 var widgetActivator = requestServices.GetService<IWidgetActivator>();
                 var ruleService = requestServices.GetService<IRuleService>();
                 var logger = requestServices.GetService<ILogger<WidgetAttribute>>();
+                var viewResult = (filterContext.Result as ViewResult);
+
                 LayoutEntity layout = layoutService.GetByPage(page);
                 layout.Page = page;
                 page.Favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
@@ -99,32 +101,33 @@ namespace ZKEACMS.Filter
                 layout.CurrentTheme = themeService.GetCurrentTheme();
                 layout.ZoneWidgets = new ZoneWidgetCollection();
                 widgetService.GetAllByPage(page).Each(widget =>
+                {
+                    if (widget != null)
                     {
-                        if (widget != null)
+                        DateTime startTime = DateTime.Now;
+                        IWidgetPartDriver partDriver = widgetActivator.Create(widget);
+                        WidgetViewModelPart part = partDriver.Display(new WidgetDisplayContext
                         {
-                            DateTime startTime = DateTime.Now;
-                            IWidgetPartDriver partDriver = widgetActivator.Create(widget);
-                            WidgetViewModelPart part = partDriver.Display(new WidgetDisplayContext
+                            PageLayout = layout,
+                            ActionContext = filterContext,
+                            Widget = widget,
+                            Model = viewResult?.Model
+                        });
+                        logger.LogInformation("{0}.Display(): {1}ms", widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
+                        if (part != null)
+                        {
+                            if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID ?? UnknownZone))
                             {
-                                PageLayout = layout,
-                                ActionContext = filterContext,
-                                Widget = widget
-                            });
-                            logger.LogInformation("{0}.Display(): {1}ms", widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
-                            if (part != null)
-                            {
-                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID ?? UnknownZone))
-                                {
-                                    layout.ZoneWidgets[part.Widget.ZoneID ?? UnknownZone].TryAdd(part);
-                                }
-                                else
-                                {
-                                    layout.ZoneWidgets.Add(part.Widget.ZoneID ?? UnknownZone, new WidgetCollection { part });
-                                }
+                                layout.ZoneWidgets[part.Widget.ZoneID ?? UnknownZone].TryAdd(part);
                             }
-                            partDriver.Dispose();
+                            else
+                            {
+                                layout.ZoneWidgets.Add(part.Widget.ZoneID ?? UnknownZone, new WidgetCollection { part });
+                            }
                         }
-                    });
+                        partDriver.Dispose();
+                    }
+                });
 
                 var ruleWorkContext = new RuleWorkContext
                 {
@@ -146,7 +149,8 @@ namespace ZKEACMS.Filter
                             {
                                 PageLayout = layout,
                                 ActionContext = filterContext,
-                                Widget = widget
+                                Widget = widget,
+                                Model = viewResult?.Model
                             });
                             logger.LogInformation("{0}.Display(): {1}ms", widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
                             var zone = layout.Zones.FirstOrDefault(z => z.ZoneName == rules.First(m => m.RuleID == widget.RuleID).ZoneName);
@@ -167,7 +171,7 @@ namespace ZKEACMS.Filter
                         }
                     });
                 }
-                var viewResult = (filterContext.Result as ViewResult);
+
                 if (viewResult != null)
                 {
                     layout.Layout = GetLayout(filterContext, layout.CurrentTheme);

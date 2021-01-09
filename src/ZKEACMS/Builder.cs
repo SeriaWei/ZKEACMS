@@ -15,6 +15,7 @@ using Easy.Mvc.Resource;
 using Easy.RepositoryPattern;
 using Easy.StartTask;
 using Easy.Storage;
+using ZKEACMS.Api;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,10 +25,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using ZKEACMS.Account;
 using ZKEACMS.Article.Models;
 using ZKEACMS.Common.Models;
@@ -50,7 +53,7 @@ using ZKEACMS.Route;
 using ZKEACMS.Setting;
 using ZKEACMS.SMTP;
 using ZKEACMS.Theme;
-using ZKEACMS.Validate;
+using ZKEACMS.Captcha;
 using ZKEACMS.Widget;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.Zone;
@@ -83,10 +86,6 @@ namespace ZKEACMS
                 opt.ViewLocationExpanders.Add(new ThemeViewLocationExpander());
             })
             .AddControllersAsServices()
-            .AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.DateFormatString = "g";
-            })
             .AddDataAnnotationsLocalization(option => option.DataAnnotationLocalizerProvider = (t, factory) =>
             {
                 if (t.IsClass)
@@ -170,6 +169,8 @@ namespace ZKEACMS
             services.ConfigureCache<string>();
 
             services.ConfigureMetaData<AdminSignViewModel, AdminSignViewModelMetaData>();
+            services.ConfigureMetaData<SignInViewModel, SignInViewModelMetaData>();
+            services.ConfigureMetaData<CustomerSignInViewModel, CustomerSignInViewModelMetaData>();
             services.ConfigureMetaData<ArticleEntity, ArticleEntityMeta>();
             services.ConfigureMetaData<ArticleType, ArtycleTypeMetaData>();
             services.ConfigureMetaData<BreadcrumbWidget, BreadcrumbWidgetMetaData>();
@@ -210,7 +211,9 @@ namespace ZKEACMS
             services.RegistEvent<RemoveCacheOnPageDeletedEventHandler>(Events.OnPageDeleted);
             services.RegistEvent<WidgetChangedTriggerPageEventHandler>(Events.OnWidgetAdded, Events.OnWidgetUpdated, Events.OnWidgetDeleted, Events.OnWidgetBasePartUpdated);
 
-            services.AddScoped<IValidateService, DefaultValidateService>();
+            services.AddScoped<IImageCaptchaService, ImageCaptchaService>();
+            services.AddScoped<IImageGenerator, DefaultImageGenerator>();
+            services.AddScoped<ICaptchaCodeStorageProvider, SessionCaptchaCodeStorageProvider>();
 
             services.AddScoped<ITemplateService, TemplateService>();
 
@@ -275,6 +278,18 @@ namespace ZKEACMS
                 {
                     option.LoginPath = new PathString("/account/signin");
                     option.AccessDeniedPath = new PathString("/error/forbidden");
+                })
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = JwtBearerDefaults.Issuer,
+                        ValidateAudience = true,
+                        ValidAudience = JwtBearerDefaults.Audience,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtBearerDefaults.IssuerSigningKey))
+                    };
                 });
         }
 
