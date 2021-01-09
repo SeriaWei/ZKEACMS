@@ -1,4 +1,9 @@
-﻿using Easy.Mvc.Authorize;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2021 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
+
+using Easy.Mvc.Authorize;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
