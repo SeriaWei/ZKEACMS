@@ -1,8 +1,17 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2021 ZKEASOFT 
+ * http://www.zkea.net/licenses 
+ */
+
 namespace ZKEACMS.Widget
 {
     public class WidgetViewModelPart
     {
+        public WidgetViewModelPart(WidgetBase widget,object viewModel)
+        {
+            Widget = widget;
+            ViewModel = viewModel;
+        }
         public WidgetBase Widget { get; set; }
         public object ViewModel { get; set; }
 

@@ -73,7 +73,7 @@ namespace ZKEACMS.Product.Service
             }
             return widget;
         }
-        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
+        public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             ProductListWidget currentWidget = widgetDisplayContext.Widget as ProductListWidget;
             IEnumerable<ProductEntity> products = null;
@@ -107,14 +107,14 @@ namespace ZKEACMS.Product.Service
                 products = _productService.Get().Where(filter).OrderBy(m => m.OrderIndex).ThenByDescending(m => m.ID).ToList();
             }
 
-            return widgetDisplayContext.ToWidgetViewModelPart(new ProductListWidgetViewModel
+            return new ProductListWidgetViewModel
             {
                 Products = products,
                 Page = pagin,
                 IsPageable = currentWidget.IsPageable,
                 Columns = currentWidget.Columns,
                 DetailPageUrl = currentWidget.DetailPageUrl
-            });
+            };
         }
     }
 }

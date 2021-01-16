@@ -19,11 +19,11 @@ namespace ZKEACMS.Message.Service
         {
             _commentsService = commentsService;
         }
-        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
+        public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             var actionContext = widgetDisplayContext.ActionContext;
             var comments = _commentsService.Get(m => m.PagePath == actionContext.HttpContext.Request.Path.Value && m.Status == (int)RecordStatus.Active);
-            return widgetDisplayContext.ToWidgetViewModelPart(comments);
+            return comments;
         }
     }
 }

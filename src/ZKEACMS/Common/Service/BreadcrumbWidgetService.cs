@@ -23,15 +23,15 @@ namespace ZKEACMS.Common.Service
 
         public override DbSet<BreadcrumbWidget> CurrentDbSet => DbContext.BreadcrumbWidget;
 
-        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
+        public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
-            List<PageEntity> ParentPages = new List<PageEntity>();
+            List<PageEntity> parentPages = new List<PageEntity>();
             var layout = widgetDisplayContext.PageLayout;
             if (layout != null && layout.Page != null)
             {
-                GetParentPage(ParentPages, layout.Page);
+                GetParentPage(parentPages, layout.Page);
             }
-            return widgetDisplayContext.ToWidgetViewModelPart(ParentPages);
+            return parentPages;
         }
 
         void GetParentPage(List<PageEntity> parentPages, PageEntity page)

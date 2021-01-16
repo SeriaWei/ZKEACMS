@@ -24,7 +24,7 @@ namespace ZKEACMS.Common.Service
             _navigationService = navigationService;
         }
         public override DbSet<NavigationWidget> CurrentDbSet => DbContext.NavigationWidget;
-        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
+        public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             var currentWidget = widgetDisplayContext.Widget as NavigationWidget;
             var actionContext = widgetDisplayContext.ActionContext;
@@ -83,7 +83,7 @@ namespace ZKEACMS.Common.Service
             {
                 currentWidget.RootID = "#";
             }
-            return widgetDisplayContext.ToWidgetViewModelPart(new NavigationWidgetViewModel(navs, currentWidget));
+            return new NavigationWidgetViewModel(navs, currentWidget);
         }
     }
 }

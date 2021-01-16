@@ -106,13 +106,14 @@ namespace ZKEACMS.Filter
                     {
                         DateTime startTime = DateTime.Now;
                         IWidgetPartDriver partDriver = widgetActivator.Create(widget);
-                        WidgetViewModelPart part = partDriver.Display(new WidgetDisplayContext
+                        object viewModel = partDriver.Display(new WidgetDisplayContext
                         {
                             PageLayout = layout,
                             ActionContext = filterContext,
                             Widget = widget,
-                            Model = viewResult?.Model
+                            FormModel = viewResult?.Model
                         });
+                        WidgetViewModelPart part = new WidgetViewModelPart(widget, viewModel);
                         logger.LogInformation("{0}.Display(): {1}ms", widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
                         if (part != null)
                         {
@@ -145,13 +146,14 @@ namespace ZKEACMS.Filter
                         {
                             DateTime startTime = DateTime.Now;
                             IWidgetPartDriver partDriver = widgetActivator.Create(widget);
-                            WidgetViewModelPart part = partDriver.Display(new WidgetDisplayContext
+                            object viewModel = partDriver.Display(new WidgetDisplayContext
                             {
                                 PageLayout = layout,
                                 ActionContext = filterContext,
                                 Widget = widget,
-                                Model = viewResult?.Model
+                                FormModel = viewResult?.Model
                             });
+                            WidgetViewModelPart part = new WidgetViewModelPart(widget, viewModel);
                             logger.LogInformation("{0}.Display(): {1}ms", widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
                             var zone = layout.Zones.FirstOrDefault(z => z.ZoneName == rules.First(m => m.RuleID == widget.RuleID).ZoneName);
                             if (part != null && zone != null)

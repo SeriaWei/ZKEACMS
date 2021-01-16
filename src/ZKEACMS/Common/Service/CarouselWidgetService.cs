@@ -108,7 +108,7 @@ namespace ZKEACMS.Common.Service
 
         }
 
-        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
+        public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             var carouselWidget = widgetDisplayContext.Widget as CarouselWidget;
             if (carouselWidget.CarouselID.HasValue)
@@ -116,7 +116,7 @@ namespace ZKEACMS.Common.Service
                 carouselWidget.CarouselItems = _carouselItemService.Get(m => m.CarouselID == carouselWidget.CarouselID);
             }
             carouselWidget.CarouselItems = carouselWidget.CarouselItems.Where(m => m.Status == (int)RecordStatus.Active);
-            return widgetDisplayContext.ToWidgetViewModelPart();
+            return carouselWidget;
         }
     }
 }

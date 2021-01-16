@@ -44,7 +44,7 @@ namespace ZKEACMS.Product.Service
             base.DeleteWidget(widgetId);
             DismissRelatedPageUrls();
         }
-        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
+        public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             ProductCategoryWidget currentWidget = widgetDisplayContext.Widget as ProductCategoryWidget;
             var actionContext = widgetDisplayContext.ActionContext;
@@ -71,11 +71,11 @@ namespace ZKEACMS.Product.Service
                     layout.Page.MetaDescription = productCategory.SEODescription;
                 }
             }
-            return widgetDisplayContext.ToWidgetViewModelPart(new ProductCategoryWidgetViewModel
+            return new ProductCategoryWidgetViewModel
             {
                 Categorys = _productCategoryService.Get(m => m.ParentID == currentWidget.ProductCategoryID),
                 CurrentCategory = cate
-            });
+            };
         }
 
         public string[] GetRelatedPageUrls()

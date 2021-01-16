@@ -43,7 +43,7 @@ namespace ZKEACMS.Product.Service
             base.DeleteWidget(widgetId);
             DismissRelatedPageUrls();
         }
-        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
+        public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             var actionContext = widgetDisplayContext.ActionContext;
             int productId = actionContext.RouteData.GetPost();
@@ -80,7 +80,7 @@ namespace ZKEACMS.Product.Service
                 }
             }
 
-            return widgetDisplayContext.ToWidgetViewModelPart(product ?? new ProductEntity());
+            return product ?? new ProductEntity();
         }
 
         public string[] GetRelatedPageUrls()

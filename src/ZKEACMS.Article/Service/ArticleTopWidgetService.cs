@@ -26,7 +26,7 @@ namespace ZKEACMS.Article.Service
             _articleTypeService = articleTypeService;
         }
 
-        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
+        public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             var currentWidget = widgetDisplayContext.Widget as ArticleTopWidget;
             var viewModel = new ArticleTopWidgetViewModel
@@ -35,7 +35,7 @@ namespace ZKEACMS.Article.Service
             };
             var categoryIds = _articleTypeService.Get(m => m.ID == currentWidget.ArticleTypeID || m.ParentID == currentWidget.ArticleTypeID).Select(m => m.ID);
             viewModel.Articles = _articleService.Get(m => m.IsPublish && categoryIds.Contains(m.ArticleTypeID ?? 0)).OrderByDescending(m => m.PublishDate).Take(currentWidget.Tops ?? 10);
-            return widgetDisplayContext.ToWidgetViewModelPart(viewModel);
+            return viewModel;
         }
     }
 }
