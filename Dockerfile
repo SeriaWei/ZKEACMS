@@ -16,11 +16,9 @@ RUN sqlite-exec -d /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/Database
 RUN cp -f /build/Database/SQLite/appsettings.json /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/appsettings.json
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:5.0
+FROM zkeasoft/cms-runtime:5.0
 WORKDIR /zkeacms
 COPY --from=builder /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput .
-RUN apt update -y
-RUN apt install libicu-dev libgdiplus -y
 EXPOSE 80
 RUN echo "cp -n Database.sqlite App_Data/Database.sqlite" > run.sh
 RUN echo "dotnet ZKEACMS.WebHost.dll" >> run.sh
