@@ -158,6 +158,22 @@ namespace Easy.Mvc.TagHelpers
                         tableSearchBuilder.Append(TableSearchStructure);
                     });
             }
+            else
+            {
+                foreach (var property in ModelType.GetProperties())
+                {
+                    tableHeaderBuilder.AppendFormat(TableHeadStructure,
+                            property.Name.FirstCharToLowerCase(),
+                            string.Empty,
+                            OrderAsc == property.Name ? "asc" : OrderDesc == property.Name ? "desc" : "",
+                            property.Name,
+                            string.Empty,
+                            Query.Operators.Equal,
+                            (Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType).Name,
+                            string.Empty);
+                    tableSearchBuilder.Append(TableSearchStructure);
+                }
+            }
             output.TagName = "div";
             //output.Attributes.Add("class", "container-fluid");
             output.Content.SetHtmlContent(TableStructure.FormatWith(GridClass, Source, tableHeaderBuilder, tableSearchBuilder));
