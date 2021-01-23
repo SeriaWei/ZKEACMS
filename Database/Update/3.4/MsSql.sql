@@ -51,3 +51,9 @@ INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Article Gallery',N
 
 DELETE FROM [Language] WHERE LanKey = N'Product Gallery' AND CultureName = N'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Product Gallery',N'zh-CN',N'产品组');
+
+DELETE FROM [Language] WHERE LanKey = N'ArticleGalleryWidget@DetailPageUrl' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'ArticleGalleryWidget@DetailPageUrl',N'zh-CN',N'详细页面');
+
+DELETE FROM [Language] WHERE LanKey = N'ArticleGalleryWidget@ArticleGalleryId' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'ArticleGalleryWidget@ArticleGalleryId',N'zh-CN',N'文章组');

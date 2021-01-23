@@ -133,6 +133,14 @@ namespace ZKEACMS.Article
                 PartialView = "Widget.ArticleType",
                 Thumbnail = "~/Plugins/ZKEACMS.Article/Content/Image/Widget.ArticleType.png",
                 Order = 5
+            }; ;
+            yield return new WidgetTemplateEntity<ArticleGalleryWidgetService>
+            {
+                Title = "Article Gallery",
+                GroupName = groupName,
+                PartialView = "Widget.ArticleGallery",
+                Thumbnail = "~/Plugins/ZKEACMS.Article/Content/Image/Widget.ArticleGallery.png",
+                Order = 6
             };
         }
 
@@ -169,9 +177,8 @@ namespace ZKEACMS.Article
             serviceCollection.ConfigureMetaData<ArticleSummaryWidget, ArticleSummaryWidgetMetaData>();
             serviceCollection.ConfigureMetaData<ArticleTopWidget, ArticleTopWidgetMetaData>();
             serviceCollection.ConfigureMetaData<ArticleTypeWidget, ArticleTypeWidgetMetaData>();
-
-            //add by roc
             serviceCollection.ConfigureMetaData<ArticleSpecialDetailWidget, ArticleSpecialDetailWidgetMetaData>();
+            serviceCollection.ConfigureMetaData<ArticleGalleryWidget, ArticleGalleryWidgetMetaData>();
         }
     }
 }

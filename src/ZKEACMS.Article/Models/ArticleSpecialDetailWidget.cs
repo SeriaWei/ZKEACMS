@@ -1,4 +1,9 @@
-﻿using Easy.Constant;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2021 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
+
+using Easy.Constant;
 using Easy.MetaData;
 using Easy.RepositoryPattern;
 using System.ComponentModel.DataAnnotations.Schema;
