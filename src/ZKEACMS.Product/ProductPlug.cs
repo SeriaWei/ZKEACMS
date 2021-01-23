@@ -61,6 +61,13 @@ namespace ZKEACMS.Product
                         Url = "~/admin/productcategorytag",
                         Icon = "glyphicon-tag",
                         PermissionKey = PermissionKeys.ViewProductCategoryTag
+                    },
+                    new AdminMenu
+                    {
+                        Title = "Product Gallery",
+                        Url = "~/admin/productgallery",
+                        Icon = "glyphicon-align-justify",
+                        PermissionKey = PermissionKeys.ViewProduct
                     }
                 }
             };
@@ -122,6 +129,14 @@ namespace ZKEACMS.Product
                 Thumbnail = "~/Plugins/ZKEACMS.Product/Content/Image/Widget.ProductCategory.png",
                 Order = 3
             };
+            yield return new WidgetTemplateEntity<ProductGalleryWidgetService>
+            {
+                Title = "Product Gallery",
+                GroupName = groupName,
+                PartialView = "Widget.ProductGallery",
+                Thumbnail = "~/Plugins/ZKEACMS.Product/Content/Image/Widget.ProductGallery.png",
+                Order = 4
+            };
         }
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
@@ -132,6 +147,7 @@ namespace ZKEACMS.Product
             serviceCollection.AddTransient<IRouteDataProvider, ProductCategoryRouteDataProvider>();
 
             serviceCollection.AddTransient<IProductService, ProductService>();
+            serviceCollection.AddTransient<IProductGalleryService, ProductGalleryService>();
             serviceCollection.AddTransient<IProductApiService, ProductApiService>();
             serviceCollection.AddTransient<IProductCategoryService, ProductCategoryService>();
             serviceCollection.AddTransient<IProductCategoryApiService, ProductCategoryApiService>();
@@ -155,6 +171,7 @@ namespace ZKEACMS.Product
             serviceCollection.ConfigureMetaData<ProductCategoryWidget, ProductCategoryWidgetMedata>();
             serviceCollection.ConfigureMetaData<ProductDetailWidget, ProductDetailWidgetMetaData>();
             serviceCollection.ConfigureMetaData<ProductListWidget, ProductListWidgetMetaData>();
+            serviceCollection.ConfigureMetaData<ProductGalleryWidget, ProductGalleryWidgetMetaData>();
         }
 
     }

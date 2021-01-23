@@ -1,21 +1,21 @@
-@model ZKEACMS.Article.Models.ArticleGallery
+@model ZKEACMS.Product.Models.ProductGallery
 @{
     Script.Reqiured("validate").AtFoot();
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        @L("Edit")
+        @L("New")
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
         {
             @Html.EditorForModel()
             <div class="toolBar">
-                @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticle))
+                @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProduct))
                 {
-                    <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Update" />
-                }
+                    <input type="submit" class="btn btn-primary " value="@L("Save")" data-value="@ActionType.Create" />
+                }             
                 <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
             </div>
         }

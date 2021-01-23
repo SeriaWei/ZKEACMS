@@ -196,6 +196,9 @@ namespace ZKEACMS
             services.ConfigureMetaData<ProductEntity, ProductMetaData>();
             services.ConfigureMetaData<ProductCategory, ProductCategoryMetaData>();
             services.ConfigureMetaData<ProductImage, ProductImageMetaData>();
+            services.ConfigureMetaData<ProductGallery, ProductGalleryMetaData>();
+            services.ConfigureMetaData<ProductGalleryItem, ProductGalleryItemMetaData>();
+            services.ConfigureMetaData<ProductItem, ProductGalleryProductMetaData>();
             services.ConfigureMetaData<ApplicationSetting, ApplicationSettingMedaData>();
             services.ConfigureMetaData<ThemeEntity, ThemeEntityMetaData>();
             services.ConfigureMetaData<ZoneEntity, ZoneEntityMetaData>();

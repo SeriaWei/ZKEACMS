@@ -37,5 +37,15 @@ namespace ZKEACMS
             descriptor.ReadOnly();
             return descriptor;
         }
+        public static TextBoxDescriptor AsProductSelector(this TagsHelper helper)
+        {
+            TextBoxDescriptor descriptor = helper.AsTextBox();
+            descriptor.AddClass(StringKeys.SelectProductClass);
+            descriptor.AddProperty("data-width", "100%");
+            descriptor.AddProperty("data-url", Urls.SelectProduct);
+            descriptor.SetTemplate("ProductSelector");
+            descriptor.ReadOnly();
+            return descriptor;
+        }
     }
 }
