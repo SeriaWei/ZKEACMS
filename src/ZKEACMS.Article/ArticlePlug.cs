@@ -45,6 +45,13 @@ namespace ZKEACMS.Article
                     },
                     new AdminMenu
                     {
+                        Title = "Article Gallery",
+                        Url = "~/admin/articlegallery",
+                        Icon = "glyphicon-align-justify",
+                        PermissionKey = PermissionKeys.ViewArticle
+                    },
+                    new AdminMenu
+                    {
                         Title = "Article Category",
                         Url = "~/admin/articletype",
                         Icon = "glyphicon-th-list",
@@ -132,6 +139,7 @@ namespace ZKEACMS.Article
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IArticleService, ArticleService>();
+            serviceCollection.AddTransient<IArticleGalleryService, ArticleGalleryService>();
             serviceCollection.AddTransient<IArticleApiService, ArticleApiService>();
             serviceCollection.AddTransient<IArticleTypeService, ArticleTypeService>();
             serviceCollection.AddTransient<IArticleTypeApiService, ArticleTypeApiService>();

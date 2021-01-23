@@ -27,5 +27,15 @@ namespace ZKEACMS
             textBoxDescriptor.AddClass("image-captcha");
             return textBoxDescriptor;
         }
+        public static TextBoxDescriptor AsArticleSelector(this TagsHelper helper)
+        {
+            TextBoxDescriptor descriptor = helper.AsTextBox();
+            descriptor.AddClass(StringKeys.SelectArticleClass);
+            descriptor.AddProperty("data-width", "100%");
+            descriptor.AddProperty("data-url", Urls.SelectArticle);
+            descriptor.SetTemplate("ArticleSelector");
+            descriptor.ReadOnly();
+            return descriptor;
+        }
     }
 }

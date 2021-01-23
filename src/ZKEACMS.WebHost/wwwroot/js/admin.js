@@ -45,7 +45,23 @@ $(function () {
                 var win = this;
                 $(this.document).find("#confirm").click(function () {
                     var target = obj.parent().siblings("input.form-control");
-                    target.val(win.GetSelected());
+                    var selectValue = win.GetSelected();
+                    if (typeof (selectValue) == "object") {
+                        target.val(selectValue.value);
+                        if (selectValue.additional) {
+                            var form = target.closest("form");
+                            var nameArray = target.attr("name").split('.');
+                            for (var p in selectValue.additional) {
+                                if (selectValue.additional.hasOwnProperty(p)) {
+                                    nameArray[nameArray.length - 1] = p;
+                                    var name = nameArray.join('.');
+                                    $('[name="' + name + '"]', form).val(selectValue.additional[p]);
+                                }
+                            }
+                        }
+                    } else {
+                        target.val(selectValue);
+                    }                    
                     box.close();
                     target.trigger("change");
                 });

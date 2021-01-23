@@ -73,5 +73,10 @@ namespace ZKEACMS.Article.Controllers
         {
             return base.Delete(id);
         }
+        [DefaultAuthorize(Policy = PermissionKeys.ViewArticle)]
+        public IActionResult Select()
+        {
+            return View();
+        }
     }
 }

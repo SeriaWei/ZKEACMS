@@ -84,6 +84,7 @@ namespace ZKEACMS
         public const string SelectPage = "/admin/page/select";
         public const string SelectMedia = "/admin/Media/Select";
         public const string StyleEditor = "/admin/StyleEditor/Edit";
+        public const string SelectArticle = "/admin/article/select";
     }
 
     public enum MediaType
@@ -139,6 +140,7 @@ namespace ZKEACMS
         public const string SelectMediaClass = "select select-media";
         public const string SelectVideoClass = "select select-video";
         public const string SelectPageClass = "select select-page";
+        public const string SelectArticleClass = "select select-article";
         public const string StyleEditor = "select custom-style-target";
         public const string HtmlEditorClass = "html";
         public const string DynamicHtmlEditorClass = "dy-editor";

@@ -172,6 +172,9 @@ namespace ZKEACMS
             services.ConfigureMetaData<SignInViewModel, SignInViewModelMetaData>();
             services.ConfigureMetaData<CustomerSignInViewModel, CustomerSignInViewModelMetaData>();
             services.ConfigureMetaData<ArticleEntity, ArticleEntityMeta>();
+            services.ConfigureMetaData<ArticleGallery, ArticleGalleryMetaData>();
+            services.ConfigureMetaData<ArticleGalleryItem, ArticleGalleryItemMetaData>();
+            services.ConfigureMetaData<ArticleItem, ArticleGalleryProductMetaData>();
             services.ConfigureMetaData<ArticleType, ArtycleTypeMetaData>();
             services.ConfigureMetaData<BreadcrumbWidget, BreadcrumbWidgetMetaData>();
             services.ConfigureMetaData<CarouselEntity, CarouselEntityMetaData>();
