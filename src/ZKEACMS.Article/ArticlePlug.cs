@@ -47,7 +47,7 @@ namespace ZKEACMS.Article
                     {
                         Title = "Article Gallery",
                         Url = "~/admin/articlegallery",
-                        Icon = "glyphicon-align-justify",
+                        Icon = "glyphicon-th",
                         PermissionKey = PermissionKeys.ViewArticle
                     },
                     new AdminMenu

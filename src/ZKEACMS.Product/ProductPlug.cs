@@ -43,6 +43,13 @@ namespace ZKEACMS.Product
                     },
                     new AdminMenu
                     {
+                        Title = "Product Gallery",
+                        Url = "~/admin/productgallery",
+                        Icon = "glyphicon-th",
+                        PermissionKey = PermissionKeys.ViewProduct
+                    },
+                    new AdminMenu
+                    {
                         Title = "Product Sort",
                         Url = "~/admin/product/sort",
                         Icon = "glyphicon-sort",
@@ -61,13 +68,6 @@ namespace ZKEACMS.Product
                         Url = "~/admin/productcategorytag",
                         Icon = "glyphicon-tag",
                         PermissionKey = PermissionKeys.ViewProductCategoryTag
-                    },
-                    new AdminMenu
-                    {
-                        Title = "Product Gallery",
-                        Url = "~/admin/productgallery",
-                        Icon = "glyphicon-align-justify",
-                        PermissionKey = PermissionKeys.ViewProduct
                     }
                 }
             };

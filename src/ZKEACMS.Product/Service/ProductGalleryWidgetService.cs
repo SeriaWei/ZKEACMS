@@ -3,6 +3,7 @@
  * http://www.zkea.net/licenses */
 
 using Easy;
+using Easy.Constant;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,9 @@ namespace ZKEACMS.Product.Service
             }
             else
             {
-                var ProductIds = ProductGallery.Products.Where(m => m.Product != null).Select(m => m.Product.ProductID).ToArray();
+                var ProductIds = ProductGallery.Products.Where(m => m.Product != null && m.Status == (int)RecordStatus.Active)
+                    .Select(m => m.Product.ProductID)
+                    .ToArray();
                 viewModel.Products = _ProductService.Get(m => ProductIds.Contains(m.ID) && m.IsPublish);
             }
             return viewModel;
