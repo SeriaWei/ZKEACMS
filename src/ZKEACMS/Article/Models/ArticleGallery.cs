@@ -1,4 +1,9 @@
-﻿using Easy.MetaData;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2020 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
+
+using Easy.MetaData;
 using Easy.Models;
 using Easy.RepositoryPattern;
 using System;

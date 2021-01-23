@@ -1,4 +1,9 @@
-﻿using Easy;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2020 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
+
+using Easy;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
 using System;
