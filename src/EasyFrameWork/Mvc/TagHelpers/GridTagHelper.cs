@@ -114,7 +114,7 @@ namespace Easy.Mvc.TagHelpers
                     tableSearchBuilder.Append(TableSearchStructure);
                 }
 
-                var columns = viewConfig.GetViewPortDescriptors(true)
+                var columns = viewConfig.MetaData.ViewPortDescriptors.Select(m => m.Value)
                     .Where(m => m.IsShowInGrid)
                     .Each(m =>
                     {
