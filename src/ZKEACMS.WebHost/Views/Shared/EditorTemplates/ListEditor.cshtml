@@ -5,6 +5,8 @@
     {
         return;
     }
+
+    Script.Reqiured("list-editor").AtFoot();
     if (Model.Count == 0 || (Model[0] as Easy.Models.EditorEntity)?.ActionType != ActionType.UnAttach)
     {
         var unAttach = Activator.CreateInstance(ViewData.ModelMetadata.ModelType.GetTypeInfo().GetGenericArguments()[0]) as Easy.Models.EditorEntity;
@@ -16,12 +18,14 @@
         Model.Insert(0, unAttach);
     }
 
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
+    List<string> definedClass = descriptor?.Classes ?? new List<string>();
 }
 <div class="input-group-collection container-fluid">
     <div class="Template hide">
         @Html.EditorFor(m => m[0], "ListEditorItem")
     </div>
-    <div class="items">
+    <div class="items @string.Join(" ",definedClass)">
         @{
             Model.RemoveAt(0);
             for (int i = 0; i < Model.Count; i++)

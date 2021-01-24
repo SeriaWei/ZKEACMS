@@ -17,34 +17,35 @@ namespace ZKEACMS.Product.Service
 {
     public class ProductGalleryWidgetService : SimpleWidgetService<ProductGalleryWidget>
     {
-        private readonly IProductService _ProductService;
-        private readonly IProductGalleryService _ProductGalleryService;
+        private readonly IProductService _productService;
+        private readonly IProductGalleryService _productGalleryService;
         public ProductGalleryWidgetService(IWidgetBasePartService widgetBasePartService,
             IApplicationContext applicationContext,
             CMSDbContext dbContext,
-            IProductService ProductService,
+            IProductService productService,
             IProductGalleryService ProductGalleryService)
             : base(widgetBasePartService, applicationContext, dbContext)
         {
-            _ProductService = ProductService;
-            _ProductGalleryService = ProductGalleryService;
+            _productService = productService;
+            _productGalleryService = ProductGalleryService;
         }
         public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             var widget = widgetDisplayContext.Widget as ProductGalleryWidget;
             ProductGalleryWidgetViewModel viewModel = new ProductGalleryWidgetViewModel { DetailPageUrl = widget.DetailPageUrl };
-            var ProductGallery = _ProductGalleryService.Get(widget.ProductGalleryId);
+            var productGallery = _productGalleryService.Get(widget.ProductGalleryId);
 
-            if (ProductGallery == null || ProductGallery.Products.Count() == 0)
+            if (productGallery == null || productGallery.Products.Count() == 0)
             {
                 viewModel.Products = Enumerable.Empty<ProductEntity>();
             }
             else
             {
-                var ProductIds = ProductGallery.Products.Where(m => m.Product != null && m.Status == (int)RecordStatus.Active)
+                var productIds = productGallery.Products.Where(m => m.Product != null && m.Status == (int)RecordStatus.Active)
                     .Select(m => m.Product.ProductID)
                     .ToArray();
-                viewModel.Products = _ProductService.Get(m => ProductIds.Contains(m.ID) && m.IsPublish);
+
+                viewModel.Products = _productService.Get(m => productIds.Contains(m.ID) && m.IsPublish).OrderBy(m => Array.IndexOf(productIds, m.ID)).ToList();
             }
             return viewModel;
         }

@@ -29,7 +29,7 @@ namespace ZKEACMS.Product.Models
         public int ID { get; set; }
 
         [NotMapped]
-        public IEnumerable<ProductGalleryItem> Products { get; set; }
+        public List<ProductGalleryItem> Products { get; set; }
         public string RawData
         {
             get { return JsonSerializer.Serialize(Products.RemoveDeletedItems()); }
@@ -44,7 +44,7 @@ namespace ZKEACMS.Product.Models
             ViewConfig(m => m.RawData).AsHidden().Ignore();
 
             ViewConfig(m => m.Title).AsTextBox().Required().Order(1).MaxLength(200).ShowInGrid();
-            ViewConfig(m => m.Products).AsListEditor().Order(2);
+            ViewConfig(m => m.Products).AsListEditor().Order(2).Sortable();
         }
     }
 }

@@ -45,7 +45,7 @@ namespace ZKEACMS.Article.Service
                     .Select(m => m.Article.ArticleID)
                     .ToArray();
 
-                viewModel.Articles = _articleService.Get(m => articleIds.Contains(m.ID) && m.IsPublish);
+                viewModel.Articles = _articleService.Get(m => articleIds.Contains(m.ID) && m.IsPublish).OrderBy(m => Array.IndexOf(articleIds, m.ID)).ToList();
             }
             return viewModel;
         }

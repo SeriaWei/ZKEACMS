@@ -202,5 +202,11 @@
     "inputFiles": [
       "wwwroot/css/captcha.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/list-editor.min.js",
+    "inputFiles": [
+      "wwwroot/js/list-editor.js"
+    ]
   }
 ]

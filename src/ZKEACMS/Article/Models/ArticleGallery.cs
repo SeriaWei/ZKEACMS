@@ -29,7 +29,7 @@ namespace ZKEACMS.Article.Models
         public int ID { get; set; }
 
         [NotMapped]
-        public IEnumerable<ArticleGalleryItem> Articles { get; set; }
+        public List<ArticleGalleryItem> Articles { get; set; }
         public string RawData
         {
             get { return JsonSerializer.Serialize(Articles.RemoveDeletedItems()); }
@@ -44,7 +44,7 @@ namespace ZKEACMS.Article.Models
             ViewConfig(m => m.RawData).AsHidden().Ignore();
 
             ViewConfig(m => m.Title).AsTextBox().Required().Order(1).MaxLength(200).ShowInGrid();
-            ViewConfig(m => m.Articles).AsListEditor().Order(2);
+            ViewConfig(m => m.Articles).AsListEditor().Order(2).Sortable();
         }
     }
 }

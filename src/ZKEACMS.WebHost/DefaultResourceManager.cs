@@ -27,6 +27,9 @@ namespace ZKEACMS.WebHost
             script("jQueryUi")
                 .Include($"{LibraryPath}/jquery-ui/jquery-ui.js", $"{LibraryPath}/jquery-ui/jquery-ui.min.js");
 
+            script("jQueryUi-sortable")
+                .Include($"{LibraryPath}/jquery-ui/jquery-ui-sortalbe.js", $"{LibraryPath}/jquery-ui/jquery-ui-sortalbe.min.js");
+
             script("Easy")
                 .Include($"{ScriptPath}/EasyPlug/Easy.js", $"{ScriptPath}/EasyPlug/Easy.min.js").RequiredAtHead();
 
@@ -98,6 +101,10 @@ namespace ZKEACMS.WebHost
 
             script("captcha")
                 .Include($"{ScriptPath}/captcha.js", $"{ScriptPath}/captcha.min.js");
+
+            script("list-editor")
+                .Include($"{LibraryPath}/jquery-ui/jquery-ui-sortable.js", $"{LibraryPath}/jquery-ui/jquery-ui-sortable.min.js")
+                .Include($"{ScriptPath}/list-editor.js", $"{ScriptPath}/list-editor.min.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
