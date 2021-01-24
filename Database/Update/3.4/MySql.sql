@@ -55,6 +55,7 @@ DROP TABLE IF EXISTS `FluidContentGroup`;
 CREATE TABLE `FluidContentGroup` (
 	`ID` INT AUTO_INCREMENT  NOT NULL,
 	`Title` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Icon` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
 	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
 	`Status` INT  NULL,
 	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
@@ -66,8 +67,9 @@ CREATE TABLE `FluidContentGroup` (
 	PRIMARY KEY (`ID`)
 );
 
-ALTER TABLE `FluidContentType` ADD GroupID int null;
-ALTER TABLE `FluidContentType` ADD RoleID int null;
+ALTER TABLE `FluidContentType` ADD `GroupID` int null;
+ALTER TABLE `FluidContentType` ADD `RoleID` int null;
+ALTER TABLE `FluidContentType` ADD `Icon` VARCHAR(255) CHARACTER SET utf8mb4  NULL;
 
 DROP TABLE IF EXISTS `ArticleGallery`;
 CREATE TABLE `ArticleGallery` (
@@ -135,3 +137,9 @@ INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('ProductGaller
 
 DELETE FROM `Language` WHERE `LanKey` = 'ProductGalleryWidget@ProductGalleryId' AND `CultureName` = 'zh-CN';
 INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('ProductGalleryWidget@ProductGalleryId','zh-CN','产品组');
+
+DELETE FROM `Language` WHERE `LanKey` = 'Icon' AND `CultureName` = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Icon','zh-CN','图标');
+
+DELETE FROM `Language` WHERE `LanKey` = 'Content Group' AND `CultureName` = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Content Group','zh-CN','内容分组');

@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS [FluidContentTemplate] (
 CREATE TABLE [FluidContentGroup] (
   [ID] INTEGER NOT NULL
 , [Title] nvarchar(255) NULL
+, [Icon] nvarchar(100) NULL
 , [Description] nvarchar(255) NULL
 , [Status] int NULL
 , [CreateBy] nvarchar(50) NULL
@@ -65,6 +66,7 @@ CREATE TABLE [FluidContentGroup] (
 
 ALTER TABLE FluidContentType ADD GroupID int null;
 ALTER TABLE FluidContentType ADD RoleID int null;
+ALTER TABLE FluidContentType ADD Icon nvarchar(255) NULL;
 
 
 CREATE TABLE [ArticleGallery] (
@@ -131,3 +133,9 @@ INSERT INTO [Language] (LanKey,CultureName,LanValue) values('ProductGalleryWidge
 
 DELETE FROM [Language] WHERE LanKey = 'ProductGalleryWidget@ProductGalleryId' AND CultureName = 'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values('ProductGalleryWidget@ProductGalleryId','zh-CN','产品组');
+
+DELETE FROM [Language] WHERE LanKey = 'Icon' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('Icon','zh-CN','图标');
+
+DELETE FROM [Language] WHERE LanKey = 'Content Group' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('Content Group','zh-CN','内容分组');

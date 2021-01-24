@@ -58,6 +58,7 @@ END
 CREATE TABLE [dbo].[FluidContentGroup](
 	[ID] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	[Title] [nvarchar](255) NULL,	
+	[Icon] [nvarchar](100) NULL,
 	[Description] [nvarchar](255) NULL,
 	[Status] [int] NULL,	
 	[CreateBy] [nvarchar](50) NULL,
@@ -70,6 +71,7 @@ CREATE TABLE [dbo].[FluidContentGroup](
 
 ALTER TABLE FluidContentType ADD GroupID int null;
 ALTER TABLE FluidContentType ADD RoleID int null;
+ALTER TABLE FluidContentType ADD Icon nvarchar(100) null;
 
 CREATE TABLE [dbo].[ArticleGallery](
 	[ID] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
@@ -136,3 +138,9 @@ INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'ProductGalleryWidg
 
 DELETE FROM [Language] WHERE LanKey = N'ProductGalleryWidget@ProductGalleryId' AND CultureName = N'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'ProductGalleryWidget@ProductGalleryId',N'zh-CN',N'产品组');
+
+DELETE FROM [Language] WHERE LanKey = N'Icon' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Icon',N'zh-CN',N'图标');
+
+DELETE FROM [Language] WHERE LanKey = N'Content Group' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Content Group',N'zh-CN',N'内容分组');
