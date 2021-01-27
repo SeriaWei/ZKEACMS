@@ -143,3 +143,9 @@ INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Icon','zh-CN'
 
 DELETE FROM `Language` WHERE `LanKey` = 'Content Group' AND `CultureName` = 'zh-CN';
 INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Content Group','zh-CN','内容分组');
+
+DELETE FROM `Language` WHERE `LanKey` = 'GroupID' AND `CultureName` = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('GroupID','zh-CN','分组');
+
+DELETE FROM `Language` WHERE `LanKey` = 'RoleID' AND `CultureName` = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('RoleID','zh-CN','角色');

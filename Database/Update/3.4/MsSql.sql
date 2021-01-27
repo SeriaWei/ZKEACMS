@@ -144,3 +144,9 @@ INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Icon',N'zh-CN',N'�
 
 DELETE FROM [Language] WHERE LanKey = N'Content Group' AND CultureName = N'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Content Group',N'zh-CN',N'内容分组');
+
+DELETE FROM [Language] WHERE LanKey = N'GroupID' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'GroupID',N'zh-CN',N'分组');
+
+DELETE FROM [Language] WHERE LanKey = N'RoleID' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'RoleID',N'zh-CN',N'角色');
