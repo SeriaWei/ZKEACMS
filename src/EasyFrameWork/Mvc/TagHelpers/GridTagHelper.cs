@@ -116,6 +116,7 @@ namespace Easy.Mvc.TagHelpers
 
                 var columns = viewConfig.MetaData.ViewPortDescriptors.Select(m => m.Value)
                     .Where(m => m.IsShowInGrid)
+                    .OrderBy(m => m.OrderIndex)
                     .Each(m =>
                     {
                         var dropDown = m as DropDownListDescriptor;
