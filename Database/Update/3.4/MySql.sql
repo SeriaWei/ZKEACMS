@@ -102,6 +102,30 @@ CREATE TABLE `ProductGallery` (
 	PRIMARY KEY (`ID`)
 );
 
+ALTER TABLE `Order` ADD ShippingOption int null;
+ALTER TABLE `Order` ADD SubTotal DECIMAL (19,4) null;
+ALTER TABLE `Order` ADD Tax DECIMAL (19,4) null;
+ALTER TABLE `Order` ADD Shipping DECIMAL (19,4) null;
+
+DROP TABLE IF EXISTS `ShippingOption`;
+CREATE TABLE `ShippingOption` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Price` DECIMAL (19,4)  NULL,
+	`Rule` LONGTEXT CHARACTER SET utf8mb4  NULL,
+	`ContentID` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CultureID` INT  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
+);
+
 DELETE FROM `Language` WHERE `LanKey` = 'CreatebyName' AND `CultureName` = 'zh-CN';
 INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('CreatebyName','zh-CN','创建人');
 
@@ -149,3 +173,24 @@ INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('GroupID','zh-
 
 DELETE FROM `Language` WHERE `LanKey` = 'RoleID' AND `CultureName` = 'zh-CN';
 INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('RoleID','zh-CN','角色');
+
+DELETE FROM `Language` WHERE `LanKey` = 'Subtotal' AND CultureName = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Subtotal','zh-CN','小计');
+
+DELETE FROM `Language` WHERE `LanKey` = 'Shipping' AND CultureName = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Shipping','zh-CN','运费');
+
+DELETE FROM `Language` WHERE `LanKey` = 'Tax' AND CultureName = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Tax','zh-CN','税');
+
+DELETE FROM `Language` WHERE `LanKey` = 'Shipping Option' AND CultureName = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Shipping Option','zh-CN','物流选项');
+
+DELETE FROM `Language` WHERE `LanKey` = 'Contact Info' AND CultureName = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Contact Info','zh-CN','联系人信息');
+
+DELETE FROM `Language` WHERE `LanKey` = 'Secure Payment' AND CultureName = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Secure Payment','zh-CN','安全支付');
+
+DELETE FROM `Language` WHERE `LanKey` = 'Summary' AND CultureName = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Summary','zh-CN','摘要');

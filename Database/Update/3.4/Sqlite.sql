@@ -98,6 +98,29 @@ CREATE TABLE [ProductGallery] (
 , CONSTRAINT [PK__ProductG__3214EC270743593F] PRIMARY KEY ([ID])
 );
 
+ALTER TABLE [Order] ADD ShippingOption int null;
+ALTER TABLE [Order] ADD SubTotal money null;
+ALTER TABLE [Order] ADD Tax money null;
+ALTER TABLE [Order] ADD Shipping money null;
+
+CREATE TABLE [ShippingOption] (
+  [ID] INTEGER NOT NULL
+, [Title] nvarchar(255) NULL
+, [Description] nvarchar(255) NULL
+, [Price] money NULL
+, [Rule] ntext NULL
+, [ContentID] nvarchar(100) NULL
+, [CultureID] int NULL
+, [Status] int NULL
+, [CreateBy] nvarchar(50) NULL
+, [CreatebyName] nvarchar(100) NULL
+, [CreateDate] datetime NULL
+, [LastUpdateBy] nvarchar(50) NULL
+, [LastUpdateByName] nvarchar(100) NULL
+, [LastUpdateDate] datetime NULL
+, CONSTRAINT [PK__Shipping__3214EC270AE03820] PRIMARY KEY ([ID])
+);
+
 DELETE FROM [Language] WHERE LanKey = 'CreatebyName' AND CultureName = 'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values('CreatebyName','zh-CN','创建人');
 
@@ -145,3 +168,24 @@ INSERT INTO [Language] (LanKey,CultureName,LanValue) values('GroupID','zh-CN','�
 
 DELETE FROM [Language] WHERE LanKey = 'RoleID' AND CultureName = 'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values('RoleID','zh-CN','角色');
+
+DELETE FROM [Language] WHERE LanKey = 'Subtotal' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('Subtotal','zh-CN','小计');
+
+DELETE FROM [Language] WHERE LanKey = 'Shipping' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('Shipping','zh-CN','运费');
+
+DELETE FROM [Language] WHERE LanKey = 'Tax' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('Tax','zh-CN','税');
+
+DELETE FROM [Language] WHERE LanKey = 'Shipping Option' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('Shipping Option','zh-CN','物流选项');
+
+DELETE FROM [Language] WHERE LanKey = 'Contact Info' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('Contact Info','zh-CN','联系人信息');
+
+DELETE FROM [Language] WHERE LanKey = 'Secure Payment' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('Secure Payment','zh-CN','安全支付');
+
+DELETE FROM [Language] WHERE LanKey = 'Summary' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('Summary','zh-CN','摘要');

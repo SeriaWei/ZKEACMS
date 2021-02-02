@@ -73,6 +73,7 @@ ALTER TABLE FluidContentType ADD GroupID int null;
 ALTER TABLE FluidContentType ADD RoleID int null;
 ALTER TABLE FluidContentType ADD Icon nvarchar(100) null;
 
+
 CREATE TABLE [dbo].[ArticleGallery](
 	[ID] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	[Title] [nvarchar](255) NULL,	
@@ -102,6 +103,28 @@ CREATE TABLE [dbo].[ProductGallery](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
+ALTER TABLE [Order] ADD ShippingOption int null;
+ALTER TABLE [Order] ADD SubTotal money null;
+ALTER TABLE [Order] ADD Tax money null;
+ALTER TABLE [Order] ADD Shipping money null;
+
+CREATE TABLE [dbo].[ShippingOption](
+	[ID] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	[Title] [nvarchar](255) NULL,	
+	[Description] [nvarchar](255) NULL,
+	[Price] money null,
+	[Rule] nvarchar(max) null,
+	[ContentID] nvarchar(100) null,
+	[CultureID] int null,
+	[Status] [int] NULL,	
+	[CreateBy] [nvarchar](50) NULL,
+	[CreatebyName] [nvarchar](100) NULL,
+	[CreateDate] [datetime] NULL,
+	[LastUpdateBy] [nvarchar](50) NULL,
+	[LastUpdateByName] [nvarchar](100) NULL,
+	[LastUpdateDate] [datetime] NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
 
 DELETE FROM [Language] WHERE LanKey = N'CreatebyName' AND CultureName = N'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'CreatebyName',N'zh-CN',N'创建人');
@@ -150,3 +173,24 @@ INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'GroupID',N'zh-CN',
 
 DELETE FROM [Language] WHERE LanKey = N'RoleID' AND CultureName = N'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'RoleID',N'zh-CN',N'角色');
+
+DELETE FROM [Language] WHERE LanKey = N'Subtotal' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Subtotal',N'zh-CN',N'小计');
+
+DELETE FROM [Language] WHERE LanKey = N'Shipping' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Shipping',N'zh-CN',N'运费');
+
+DELETE FROM [Language] WHERE LanKey = N'Tax' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Tax',N'zh-CN',N'税');
+
+DELETE FROM [Language] WHERE LanKey = N'Shipping Option' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Shipping Option',N'zh-CN',N'物流选项');
+
+DELETE FROM [Language] WHERE LanKey = N'Contact Info' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Contact Info',N'zh-CN',N'联系人信息');
+
+DELETE FROM [Language] WHERE LanKey = N'Secure Payment' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Secure Payment',N'zh-CN',N'安全支付');
+
+DELETE FROM [Language] WHERE LanKey = N'Summary' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Summary',N'zh-CN',N'摘要');
