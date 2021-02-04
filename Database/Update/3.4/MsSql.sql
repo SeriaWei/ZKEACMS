@@ -183,6 +183,9 @@ INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Shipping',N'zh-CN'
 DELETE FROM [Language] WHERE LanKey = N'Tax' AND CultureName = N'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Tax',N'zh-CN',N'税');
 
+DELETE FROM [Language] WHERE LanKey = N'ShippingOption' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'ShippingOption',N'zh-CN',N'物流选项');
+
 DELETE FROM [Language] WHERE LanKey = N'Shipping Option' AND CultureName = N'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Shipping Option',N'zh-CN',N'物流选项');
 
