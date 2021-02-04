@@ -194,3 +194,9 @@ INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Secure Payment',N'
 
 DELETE FROM [Language] WHERE LanKey = N'Summary' AND CultureName = N'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Summary',N'zh-CN',N'摘要');
+
+DELETE FROM [Language] WHERE LanKey = N'TaxRate' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'TaxRate',N'zh-CN',N'税率');
+
+DELETE FROM [Language] WHERE LanKey = N'Tax Rate' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Tax Rate',N'zh-CN',N'税率');
