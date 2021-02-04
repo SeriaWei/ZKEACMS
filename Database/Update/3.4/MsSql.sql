@@ -203,3 +203,6 @@ INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'TaxRate',N'zh-CN',
 
 DELETE FROM [Language] WHERE LanKey = N'Tax Rate' AND CultureName = N'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Tax Rate',N'zh-CN',N'税率');
+
+DELETE FROM [Language] WHERE LanKey = N'Price' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Price',N'zh-CN',N'价格');
