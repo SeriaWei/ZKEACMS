@@ -126,6 +126,55 @@ CREATE TABLE `ShippingOption` (
 	PRIMARY KEY (`ID`)
 );
 
+
+DROP TABLE IF EXISTS `Currency`;
+CREATE TABLE `Currency` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Code` VARCHAR(10) CHARACTER SET utf8mb4  NULL,
+	`Symbol` VARCHAR(10) CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
+);
+
+/*!40000 ALTER TABLE `Currency` DISABLE KEYS */;
+INSERT INTO `Currency` VALUES
+(1,'Australian Dollar',NULL,'AUD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(2,'Brazilian Real',NULL,'BRL','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(3,'Canadian Dollar',NULL,'CAD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(4,'Chinese Renmenbi',NULL,'CNY','￥',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(5,'Czech Koruna',NULL,'CZK','Kč',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(6,'Danish Krone',NULL,'DKK','kr',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(7,'Euro',NULL,'EUR','€',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(8,'Hong Kong Dollar',NULL,'HKD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(9,'Hungarian Forint',NULL,'HUF','HUF',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(10,'Indian Rupee',NULL,'INR','INR',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(11,'Israeli New Shekel',NULL,'ILS','₪',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(12,'Japanese Yen',NULL,'JPY','￥',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(13,'Malaysian Ringgit',NULL,'MYR','MYR',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(14,'Mexican Peso',NULL,'MXN','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(15,'New Taiwan Dollar',NULL,'TWD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(16,'New Zealand Dollar',NULL,'NZD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(17,'Norwegian Krone',NULL,'NOK','NOK',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(18,'Philippine Peso',NULL,'PHP','PHP',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(19,'Polish Zloty',NULL,'PLN','zł',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(20,'Pound Sterling',NULL,'GBP','£',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(21,'Russian Ruble',NULL,'RUB','RUB',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(22,'Singapore Dollar',NULL,'SGD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(23,'Swedish Krona',NULL,'SEK','SEK',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(24,'Swiss Franc',NULL,'CHF','CHF',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(25,'Thai Baht',NULL,'THB','฿',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(26,'United States Dollar',NULL,'USD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `Currency` ENABLE KEYS */;
+
+
 DELETE FROM `Language` WHERE `LanKey` = 'CreatebyName' AND `CultureName` = 'zh-CN';
 INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('CreatebyName','zh-CN','创建人');
 
@@ -206,3 +255,9 @@ INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Tax Rate','zh
 
 DELETE FROM `Language` WHERE `LanKey` = 'Price' AND CultureName = 'zh-CN';
 INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Price','zh-CN','价格');
+
+DELETE FROM `Language` WHERE `LanKey` = 'Currency' AND CultureName = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Currency','zh-CN','货币');
+
+DELETE FROM `Language` WHERE `LanKey` = 'CurrencyOption@CurrencyID' AND CultureName = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('CurrencyOption@CurrencyID','zh-CN','货币');

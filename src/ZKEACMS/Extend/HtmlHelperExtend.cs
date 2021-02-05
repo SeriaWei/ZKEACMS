@@ -156,5 +156,14 @@ namespace ZKEACMS
                 return html.Hidden("CurrentPagePath", request.Form["CurrentPagePath"]);
             }
         }
+
+        public static string CurrencySymbol(this IHtmlHelper html)
+        {
+            return html.ViewContext.HttpContext.RequestServices.GetService<IApplicationContextAccessor>().Current.Currency.Symbol;
+        }
+        public static string CurrencyCode(this IHtmlHelper html)
+        {
+            return html.ViewContext.HttpContext.RequestServices.GetService<IApplicationContextAccessor>().Current.Currency.Code;
+        }
     }
 }

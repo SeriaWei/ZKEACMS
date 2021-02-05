@@ -46,6 +46,7 @@ namespace ZKEACMS
 
         public const string ViewTemplate = "Template_View";
         public const string ManageTemplate = "Template_Manage";
+        public const string ConfigCurrency = "Config_Currency";
 
         public static List<PermissionDescriptor> KnownPermissions = new List<PermissionDescriptor>
         {
@@ -75,7 +76,8 @@ namespace ZKEACMS
             new PermissionDescriptor { Module="Setting",Title="Translate",Key=ManageLanguage,Description="Translate" },
             new PermissionDescriptor { Module="Setting",Title="SMTP Config",Key=SMTPSetting,Description="SMTP Config" },
             new PermissionDescriptor { Module="Setting",Title="Robots.txt",Key=RobotsSetting,Description="Robots.txt" },
-            new PermissionDescriptor { Module="Setting",Title="Plugins",Key=ViewPlugins,Description="Plugins" }
+            new PermissionDescriptor { Module="Setting",Title="Plugins",Key=ViewPlugins,Description="Plugins" },
+            new PermissionDescriptor { Module="Setting",Title="Currency",Key=ConfigCurrency,Description="Currency" }
         };
         public static void Configure(AuthorizationOptions options)
         {

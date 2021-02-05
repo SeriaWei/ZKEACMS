@@ -126,6 +126,51 @@ CREATE TABLE [dbo].[ShippingOption](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
+CREATE TABLE [dbo].[Currency](
+	[ID] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	[Title] [nvarchar](255) NULL,	
+	[Description] [nvarchar](255) NULL,
+	[Code] nvarchar(10) null,
+	[Symbol] nvarchar(10) null,
+	[Status] [int] NULL,	
+	[CreateBy] [nvarchar](50) NULL,
+	[CreatebyName] [nvarchar](100) NULL,
+	[CreateDate] [datetime] NULL,
+	[LastUpdateBy] [nvarchar](50) NULL,
+	[LastUpdateByName] [nvarchar](100) NULL,
+	[LastUpdateDate] [datetime] NULL
+)
+GO
+
+INSERT INTO Currency(Title,Code,Symbol)
+SELECT N'Australian Dollar',N'AUD',N'$' UNION ALL
+SELECT N'Brazilian Real',N'BRL',N'$' UNION ALL
+SELECT N'Canadian Dollar',N'CAD',N'$' UNION ALL
+SELECT N'Chinese Renmenbi',N'CNY',N'￥' UNION ALL
+SELECT N'Czech Koruna',N'CZK',N'Kč' UNION ALL
+SELECT N'Danish Krone',N'DKK',N'kr' UNION ALL
+SELECT N'Euro',N'EUR',N'€' UNION ALL
+SELECT N'Hong Kong Dollar',N'HKD',N'$' UNION ALL
+SELECT N'Hungarian Forint',N'HUF',N'HUF' UNION ALL
+SELECT N'Indian Rupee',N'INR',N'INR' UNION ALL
+SELECT N'Israeli New Shekel',N'ILS',N'₪' UNION ALL
+SELECT N'Japanese Yen',N'JPY',N'￥' UNION ALL
+SELECT N'Malaysian Ringgit',N'MYR',N'MYR' UNION ALL
+SELECT N'Mexican Peso',N'MXN',N'$' UNION ALL
+SELECT N'New Taiwan Dollar',N'TWD',N'$' UNION ALL
+SELECT N'New Zealand Dollar',N'NZD',N'$' UNION ALL
+SELECT N'Norwegian Krone',N'NOK',N'NOK' UNION ALL
+SELECT N'Philippine Peso',N'PHP',N'PHP' UNION ALL
+SELECT N'Polish Zloty',N'PLN',N'zł' UNION ALL
+SELECT N'Pound Sterling',N'GBP',N'£' UNION ALL
+SELECT N'Russian Ruble',N'RUB',N'RUB' UNION ALL
+SELECT N'Singapore Dollar',N'SGD',N'$' UNION ALL
+SELECT N'Swedish Krona',N'SEK',N'SEK' UNION ALL
+SELECT N'Swiss Franc',N'CHF',N'CHF' UNION ALL
+SELECT N'Thai Baht',N'THB',N'฿' UNION ALL
+SELECT N'United States Dollar',N'USD',N'$'
+GO
+
 DELETE FROM [Language] WHERE LanKey = N'CreatebyName' AND CultureName = N'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'CreatebyName',N'zh-CN',N'创建人');
 
@@ -206,3 +251,9 @@ INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Tax Rate',N'zh-CN'
 
 DELETE FROM [Language] WHERE LanKey = N'Price' AND CultureName = N'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Price',N'zh-CN',N'价格');
+
+DELETE FROM [Language] WHERE LanKey = N'Currency' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'Currency',N'zh-CN',N'货币');
+
+DELETE FROM [Language] WHERE LanKey = N'CurrencyOption@CurrencyID' AND CultureName = N'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'CurrencyOption@CurrencyID',N'zh-CN',N'货币');

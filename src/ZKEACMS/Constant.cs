@@ -65,6 +65,7 @@ namespace ZKEACMS
         public const string ArticleCategory = "ViewDataKey_ArticleType";
         public const string ProductCategory = "ViewDataKey_ProductCategory";
         public const string ProductListTemplate = "ViewDataKey_ProductListTemplate";
+        public const string Currency = "ViewDataKey_Currency";
     }
     public class ReView
     {

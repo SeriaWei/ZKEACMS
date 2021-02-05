@@ -182,6 +182,14 @@ namespace ZKEACMS
                     },
                     new AdminMenu
                     {
+                        Title = "Currency",
+                        Icon = "glyphicon-usd",
+                        Url = "~/admin/currencyoption/config",
+                        Order = 8,
+                        PermissionKey = PermissionKeys.ConfigCurrency
+                    },
+                    new AdminMenu
+                    {
                         Title = "Plugins",
                         Icon = "glyphicon-equalizer",
                         Url = "~/admin/plugin",

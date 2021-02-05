@@ -57,6 +57,7 @@ using ZKEACMS.Captcha;
 using ZKEACMS.Widget;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.Zone;
+using ZKEACMS.Currency;
 
 namespace ZKEACMS
 {
@@ -155,10 +156,12 @@ namespace ZKEACMS
             services.AddScoped<IEventManager, EventManager>();
 
             services.AddTransient<IStorage, WebStorage>();
+            services.AddTransient<ICurrencyService, CurrencyService>();
 
             services.ConfigureStateProvider<StateProvider.OuterChainPictureStateProvider>();
             services.ConfigureStateProvider<StateProvider.EnableResponsiveDesignStateProvider>();
             services.ConfigureStateProvider<Site.SiteInformationStateProvider>();
+            services.ConfigureStateProvider<CurrencyStateProvider>();
 
             services.ConfigureCache<IEnumerable<WidgetBase>>();
             services.ConfigureCache<IEnumerable<ZoneEntity>>();
@@ -211,6 +214,9 @@ namespace ZKEACMS
             services.ConfigureMetaData<HeadWidget, HeaderWidgetMetaData>();
             services.ConfigureMetaData<ForgottenViewModel, ForgottenViewModelMetaData>();
             services.ConfigureMetaData<ResetViewModel, ResetViewModelMetaData>();
+
+            services.ConfigureMetaData<CurrencyEntry, CurrencyEntryMetaData>();
+            services.ConfigureMetaData<CurrencyOption, CurrencyOptionMetaData>();
 
             services.RegistEvent<RemoveCacheOnPagePublishedEventHandler>(Events.OnPagePublished);
             services.RegistEvent<RemoveOldVersionOnPagePublishedEventHandler>(Events.OnPagePublished);
