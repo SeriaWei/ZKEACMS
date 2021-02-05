@@ -26,7 +26,7 @@ namespace ZKEACMS.Currency
             ViewConfig(m => m.Name).AsHidden();
             ViewConfig(m => m.Code).AsHidden();
             ViewConfig(m => m.Symbol).AsHidden();
-            ViewConfig(m => m.CurrencyID).AsDropDownList().DataSource(ViewDataKeys.Currency, SourceType.ViewData);
+            ViewConfig(m => m.CurrencyID).AsDropDownList().DataSource(ViewDataKeys.Currency, SourceType.ViewData).Required();
         }
     }
 }
