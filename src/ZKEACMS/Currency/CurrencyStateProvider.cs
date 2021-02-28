@@ -6,6 +6,7 @@ using Easy;
 using Easy.Mvc.StateProviders;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using ZKEACMS.Currency;
 using ZKEACMS.Setting;
@@ -28,19 +29,28 @@ namespace ZKEACMS.Currency
         public Func<IApplicationContext, T> Get<T>()
         {
             var currencyOption = _applicationSettingService.Get<CurrencyOption>();
+            CurrencyEntry currency = null;
             if (currencyOption.CurrencyID > 0)
             {
-                var currency = _currencyService.Get(currencyOption.CurrencyID);
-                currencyOption.Name = currency.Title;
-                currencyOption.Code = currency.Code;
-                currencyOption.Symbol = currency.Symbol;
+                currency = _currencyService.Get(currencyOption.CurrencyID);
             }
             else
             {
-                currencyOption.Name = "Chinese Renmenbi";
-                currencyOption.Code = "CNY";
-                currencyOption.Symbol = "￥";
+                currency = _currencyService.Get(m => m.Code == "CNY").FirstOrDefault();
             }
+            if (currency == null)
+            {
+                currency = new CurrencyEntry
+                {
+                    Title = "Chinese Renmenbi",
+                    Code = "CNY",
+                    Symbol = "￥"
+                };
+            }
+            currencyOption.CurrencyID = currency.ID;
+            currencyOption.Name = currency.Title;
+            currencyOption.Code = currency.Code;
+            currencyOption.Symbol = currency.Symbol;
             return (context) =>
             {
                 return (T)(object)currencyOption;

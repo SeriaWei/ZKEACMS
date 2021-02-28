@@ -27,7 +27,7 @@ namespace ZKEACMS.Currency
             {
                 item.Title = item.Title + " - " + item.Code;
             }
-            currencies.Insert(0, new CurrencyEntry { });
+            
             (filterContext.Controller as Controller)
                 .ViewData[ViewDataKeys.Currency] = new SelectList(currencies, "ID", "Title");
         }
