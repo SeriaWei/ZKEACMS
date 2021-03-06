@@ -26,7 +26,9 @@ INSERT INTO `ApplicationSetting` VALUES
 ('EnableResponsiveDesign','true',NULL,NULL,1,NULL,NULL,'2020-03-14 11:32:07.333',NULL,NULL,'2020-03-14 11:32:07.333'),
 ('ExpandAllPage','true',NULL,NULL,1,'admin','ZKEASOFT','2018-04-11 17:01:47.230','admin','ZKEASOFT','2018-04-11 17:01:47.233'),
 ('Favicon','~/favicon.ico',NULL,NULL,NULL,'admin','ZKEASOFT','2017-03-19 20:57:33.627','admin','ZKEASOFT','2017-03-19 20:57:33.627'),
-('OuterChainPicture','false',NULL,NULL,1,NULL,NULL,'2019-07-31 12:09:28.430',NULL,NULL,'2019-07-31 12:09:28.430');
+('OuterChainPicture','false',NULL,NULL,1,NULL,NULL,'2019-07-31 12:09:28.430',NULL,NULL,'2019-07-31 12:09:28.430'),
+('SiteInformation_Logo_Mini','/images/logo_min.png',NULL,NULL,1,'admin','ZKEASOFT','2021-03-06 22:16:20.370','admin','ZKEASOFT','2021-03-06 22:16:20.370'),
+('SiteInformation_SiteName','ZKEASOFT',NULL,NULL,1,'admin','ZKEASOFT','2021-03-06 22:16:20.310','admin','ZKEASOFT','2021-03-06 22:16:20.310');
 /*!40000 ALTER TABLE `ApplicationSetting` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `Article`;
@@ -130,6 +132,23 @@ INSERT INTO `ArticleDetailWidget` VALUES
 ('3aa8b53e7ad143ff818855a7abcb3fdd',NULL),
 ('e8fd1019bab045e5927ec30abaaa1aba',NULL);
 /*!40000 ALTER TABLE `ArticleDetailWidget` ENABLE KEYS */;
+
+DROP TABLE IF EXISTS `ArticleGallery`;
+CREATE TABLE `ArticleGallery` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`RawData` LONGTEXT CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
+);
+
 
 DROP TABLE IF EXISTS `ArticleListWidget`;
 CREATE TABLE `ArticleListWidget` (
@@ -1124,6 +1143,53 @@ CREATE TABLE `Comments` (
 );
 
 
+DROP TABLE IF EXISTS `Currency`;
+CREATE TABLE `Currency` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Code` VARCHAR(10) CHARACTER SET utf8mb4  NULL,
+	`Symbol` VARCHAR(10) CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
+);
+
+/*!40000 ALTER TABLE `Currency` DISABLE KEYS */;
+INSERT INTO `Currency` VALUES
+(1,'Australian Dollar',NULL,'AUD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(2,'Brazilian Real',NULL,'BRL','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(3,'Canadian Dollar',NULL,'CAD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(4,'Chinese Renmenbi',NULL,'CNY','￥',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(5,'Czech Koruna',NULL,'CZK','Kč',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(6,'Danish Krone',NULL,'DKK','kr',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(7,'Euro',NULL,'EUR','€',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(8,'Hong Kong Dollar',NULL,'HKD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(9,'Hungarian Forint',NULL,'HUF','HUF',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(10,'Indian Rupee',NULL,'INR','INR',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(11,'Israeli New Shekel',NULL,'ILS','₪',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(12,'Japanese Yen',NULL,'JPY','￥',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(13,'Malaysian Ringgit',NULL,'MYR','MYR',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(14,'Mexican Peso',NULL,'MXN','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(15,'New Taiwan Dollar',NULL,'TWD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(16,'New Zealand Dollar',NULL,'NZD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(17,'Norwegian Krone',NULL,'NOK','NOK',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(18,'Philippine Peso',NULL,'PHP','PHP',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(19,'Polish Zloty',NULL,'PLN','zł',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(20,'Pound Sterling',NULL,'GBP','£',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(21,'Russian Ruble',NULL,'RUB','RUB',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(22,'Singapore Dollar',NULL,'SGD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(23,'Swedish Krona',NULL,'SEK','SEK',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(24,'Swiss Franc',NULL,'CHF','CHF',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(25,'Thai Baht',NULL,'THB','฿',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(26,'United States Dollar',NULL,'USD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `Currency` ENABLE KEYS */;
+
 DROP TABLE IF EXISTS `DataArchived`;
 CREATE TABLE `DataArchived` (
 	`ID` VARCHAR(100) CHARACTER SET utf8mb4  NOT NULL,
@@ -1143,6 +1209,7 @@ CREATE TABLE `DataArchived` (
 /*!40000 ALTER TABLE `DataArchived` DISABLE KEYS */;
 INSERT INTO `DataArchived` VALUES
 ('Alipay.AopSdk.AspnetCore.AlipayOptions','{\"AppId\":null,\"Uid\":null,\"Gatewayurl\":null,\"PrivateKey\":null,\"AlipayPublicKey\":null,\"SignType\":\"RSA2\",\"CharSet\":\"UTF-8\",\"IsKeyFromFile\":false}',NULL,NULL,NULL,NULL,NULL,'2019-04-24 19:55:03.627',NULL,NULL,'2019-04-24 19:55:03.627'),
+('ZKEACMS.Currency.CurrencyOption','{\"CurrencyID\":4,\"Name\":\"Chinese Renmenbi\",\"Code\":\"CNY\",\"Symbol\":\"￥\"}',NULL,NULL,NULL,'admin','ZKEASOFT','2021-03-06 22:16:39.503','admin','ZKEASOFT','2021-03-06 22:16:43.467'),
 ('ZKEACMS.GlobalScripts.Models.LiveChatScript','{\"Location\":0,\"Script\":null}',NULL,NULL,NULL,NULL,NULL,'2019-04-07 16:38:35.293',NULL,NULL,'2019-04-07 16:38:35.293'),
 ('ZKEACMS.GlobalScripts.Models.StatisticsScript','{\"Location\":0,\"Script\":null}',NULL,NULL,NULL,NULL,NULL,'2019-04-07 16:38:36.007',NULL,NULL,'2019-04-07 16:38:36.007'),
 ('ZKEACMS.Message.Models.MessageNotificationConfig','{\"MessageNotifyEmails\":null,\"CommentNotifyEmails\":null}',NULL,NULL,NULL,'admin','ZKEASOFT','2018-08-15 15:25:53.917','admin','ZKEASOFT','2018-08-15 15:25:53.917'),
@@ -1268,7 +1335,7 @@ CREATE TABLE `DBVersion` (
 
 /*!40000 ALTER TABLE `DBVersion` DISABLE KEYS */;
 INSERT INTO `DBVersion` VALUES
-(1,3,3,7,0);
+(1,3,4,0,0);
 /*!40000 ALTER TABLE `DBVersion` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ExtendField`;
@@ -1287,6 +1354,82 @@ CREATE TABLE `ExtendField` (
 	`LastUpdateDate` DATETIME  NULL,
 	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
 	PRIMARY KEY (`ID`)
+);
+
+
+DROP TABLE IF EXISTS `FluidContentGroup`;
+CREATE TABLE `FluidContentGroup` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Icon` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
+);
+
+
+DROP TABLE IF EXISTS `FluidContentTemplate`;
+CREATE TABLE `FluidContentTemplate` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`ApplyTo` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`Template` LONGTEXT CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(500) CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL
+);
+
+
+DROP TABLE IF EXISTS `FluidContentType`;
+CREATE TABLE `FluidContentType` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`ContentSchema` LONGTEXT CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(500) CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	`GroupID` INT  NULL,
+	`RoleID` INT  NULL,
+	`Icon` VARCHAR(100) CHARACTER SET utf8mb4  NULL
+);
+
+
+DROP TABLE IF EXISTS `FluidContentValue`;
+CREATE TABLE `FluidContentValue` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`ContentTypeID` INT  NULL,
+	`Title` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`Content` LONGTEXT CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(500) CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	`ContentID` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CultureID` INT  NULL,
+	`Url` VARCHAR(200) CHARACTER SET utf8mb4  NULL,
+	`SEOTitle` VARCHAR(200) CHARACTER SET utf8mb4  NULL,
+	`SEOKeyWord` VARCHAR(200) CHARACTER SET utf8mb4  NULL,
+	`SEODescription` VARCHAR(200) CHARACTER SET utf8mb4  NULL
 );
 
 
@@ -1508,6 +1651,7 @@ INSERT INTO `Language` VALUES
 ('Align Right Bottom','zh-CN','右下对齐',NULL,NULL),
 ('Align Right Top','zh-CN','右上对齐',NULL,NULL),
 ('Align Top','zh-CN','顶部对齐',NULL,NULL),
+('AliPay','zh-CN','支付宝支付',NULL,NULL),
 ('Alipay Setting','en-GB','Alipay',NULL,NULL),
 ('Alipay Setting','en-US','Alipay',NULL,NULL),
 ('Alipay Setting','zh-CN','支付宝集成设置',NULL,NULL),
@@ -1516,16 +1660,19 @@ INSERT INTO `Language` VALUES
 ('AlipayOptions@AlipayPublicKey','zh-CN','应用公钥','AlipayOptions','EntityProperty'),
 ('AlipayOptions@AppId','en-GB','App','AlipayOptions','EntityProperty'),
 ('AlipayOptions@AppId','en-US','App','AlipayOptions','EntityProperty'),
-('AlipayOptions@AppId','zh-CN','AppId','AlipayOptions','EntityProperty'),
+('AlipayOptions@AppId','zh-CN','AppId',NULL,NULL),
+('AlipayOptions@Environment','zh-CN','环境',NULL,NULL),
 ('AlipayOptions@Gatewayurl','en-GB','Gatewayurl','AlipayOptions','EntityProperty'),
 ('AlipayOptions@Gatewayurl','en-US','Gatewayurl','AlipayOptions','EntityProperty'),
 ('AlipayOptions@Gatewayurl','zh-CN','支付宝网关','AlipayOptions','EntityProperty'),
+('AlipayOptions@IsEnable','zh-CN','是否启用',NULL,NULL),
 ('AlipayOptions@IsKeyFromFile','en-GB','Is Key From File','AlipayOptions','EntityProperty'),
 ('AlipayOptions@IsKeyFromFile','en-US','Is Key From File','AlipayOptions','EntityProperty'),
 ('AlipayOptions@IsKeyFromFile','zh-CN','IsKeyFromFile','AlipayOptions','EntityProperty'),
 ('AlipayOptions@PrivateKey','en-GB','Private Key','AlipayOptions','EntityProperty'),
 ('AlipayOptions@PrivateKey','en-US','Private Key','AlipayOptions','EntityProperty'),
-('AlipayOptions@PrivateKey','zh-CN','应用私钥','AlipayOptions','EntityProperty'),
+('AlipayOptions@PrivateKey','zh-CN','应用私钥',NULL,NULL),
+('AlipayOptions@PublicKey','zh-CN','应用公钥',NULL,NULL),
 ('AlipayOptions@SignType','en-GB','Sign Type','AlipayOptions','EntityProperty'),
 ('AlipayOptions@SignType','en-US','Sign Type','AlipayOptions','EntityProperty'),
 ('AlipayOptions@SignType','zh-CN','SignType','AlipayOptions','EntityProperty'),
@@ -1569,6 +1716,7 @@ INSERT INTO `Language` VALUES
 ('Article Detail','en-GB','Article Content',NULL,NULL),
 ('Article Detail','en-US','Article Content',NULL,NULL),
 ('Article Detail','zh-CN','文章内容',NULL,NULL),
+('Article Gallery','zh-CN','文章组',NULL,NULL),
 ('Article keywords','en-GB','Article keywords',NULL,NULL),
 ('Article keywords','en-US','Article keywords',NULL,NULL),
 ('Article keywords','zh-CN','文章关键字',NULL,NULL),
@@ -1653,6 +1801,8 @@ INSERT INTO `Language` VALUES
 ('ArticleEntity@Title','en-US','Title','ArticleEntity','EntityProperty'),
 ('ArticleEntity@Title','zh-CN','标题','ArticleEntity','EntityProperty'),
 ('ArticleEntity@Url','zh-CN','英文名','ArticleEntity','EntityProperty'),
+('ArticleGalleryWidget@ArticleGalleryId','zh-CN','文章组',NULL,NULL),
+('ArticleGalleryWidget@DetailPageUrl','zh-CN','详细页面',NULL,NULL),
 ('ArticleListWidget@ActionType','zh-CN','ActionType','ArticleListWidget','EntityProperty'),
 ('ArticleListWidget@ArticleCategoryID','zh-CN','ArticleCategoryID','ArticleListWidget','EntityProperty'),
 ('ArticleListWidget@ArticleTypeID','zh-CN','文章类别','ArticleListWidget','EntityProperty'),
@@ -1687,6 +1837,7 @@ INSERT INTO `Language` VALUES
 ('ArticleListWidget@ViewModelTypeName','zh-CN','ViewModelTypeName','ArticleListWidget','EntityProperty'),
 ('ArticleListWidget@WidgetName','zh-CN','组件名称','ArticleListWidget','EntityProperty'),
 ('ArticleListWidget@ZoneID','zh-CN','区域','ArticleListWidget','EntityProperty'),
+('Articles','zh-CN','文章',NULL,NULL),
 ('ArticleSpecialDetailWidget@ArticleId','zh-CN','文章ID','ArticleSpecialDetailWidget','EntityProperty'),
 ('ArticleSpecialDetailWidget@ArticleName','zh-CN','文章英文名','ArticleSpecialDetailWidget','EntityProperty'),
 ('ArticleSpecialDetailWidget@AssemblyName','zh-CN','Assembly Name','ArticleSpecialDetailWidget','EntityProperty'),
@@ -2139,6 +2290,7 @@ INSERT INTO `Language` VALUES
 ('Confirm Password','en-US','Confirm Password',NULL,NULL),
 ('Confirm Password','zh-CN','确认密码',NULL,NULL),
 ('Contact','zh-CN','联系人',NULL,NULL),
+('Contact Info','zh-CN','联系人信息',NULL,NULL),
 ('Contact/Consignee','zh-CN','联系人/收货人',NULL,NULL),
 ('contain','zh-CN','容纳',NULL,NULL),
 ('Container','en-GB','Container',NULL,NULL),
@@ -2153,6 +2305,7 @@ INSERT INTO `Language` VALUES
 ('Content Category','en-GB','Content Category',NULL,NULL),
 ('Content Category','en-US','Content Category',NULL,NULL),
 ('Content Category','zh-CN','内容类型',NULL,NULL),
+('Content Group','zh-CN','内容分组',NULL,NULL),
 ('ContentField@FieldType','zh-CN','字段类型','ContentField','EntityProperty'),
 ('ContentField@Name','zh-CN','属性名','ContentField','EntityProperty'),
 ('ContentField@Order','zh-CN','订单','ContentField','EntityProperty'),
@@ -2237,6 +2390,8 @@ INSERT INTO `Language` VALUES
 ('Copy from page','zh-CN','从现有页面复制',NULL,NULL),
 ('cover','zh-CN','覆盖',NULL,NULL),
 ('Create page from template','zh-CN','从模板中快速创建页面',NULL,NULL),
+('CreatebyName','zh-CN','创建人',NULL,NULL),
+('CreateDate','zh-CN','创建日期',NULL,NULL),
 ('Crosshair','zh-CN','十字',NULL,NULL),
 ('Culture@CreatebyName','zh-CN','创建人','Culture','EntityProperty'),
 ('Culture@CreateDate','zh-CN','创建日期','Culture','EntityProperty'),
@@ -2265,6 +2420,8 @@ INSERT INTO `Language` VALUES
 ('CultureSetting@IsShowDefault','en-GB','Is Show Default','CultureSetting','EntityProperty'),
 ('CultureSetting@IsShowDefault','en-US','Is Show Default','CultureSetting','EntityProperty'),
 ('CultureSetting@IsShowDefault','zh-CN','无内容时使用默认语言？','CultureSetting','EntityProperty'),
+('Currency','zh-CN','货币',NULL,NULL),
+('CurrencyOption@CurrencyID','zh-CN','货币',NULL,NULL),
 ('Current','zh-CN','当前',NULL,NULL),
 ('Current password error.','zh-CN','当前密码错误',NULL,NULL),
 ('Custom','zh-CN','自定义',NULL,NULL),
@@ -2406,6 +2563,7 @@ INSERT INTO `Language` VALUES
 ('Enterprise','en-US','Enterprise',NULL,NULL),
 ('Enterprise','zh-CN','企业版',NULL,NULL),
 ('Enterprise','zh-TW','企業版',NULL,NULL),
+('Environment','zh-CN','环境',NULL,NULL),
 ('Equals','en-GB','Equals',NULL,NULL),
 ('Equals','en-US','Equals',NULL,NULL),
 ('Equals','zh-CN','等于',NULL,NULL),
@@ -2603,6 +2761,7 @@ INSERT INTO `Language` VALUES
 ('Grid System','zh-CN','栅格列说明',NULL,NULL),
 ('Groove','zh-CN','凹槽',NULL,NULL),
 ('Group','zh-CN','组',NULL,NULL),
+('GroupID','zh-CN','分组',NULL,NULL),
 ('Have account?','en-GB','Have account?',NULL,NULL),
 ('Have account?','en-US','Have account?',NULL,NULL),
 ('Have account?','zh-CN','已有账号？',NULL,NULL),
@@ -2694,6 +2853,7 @@ INSERT INTO `Language` VALUES
 ('HtmlWidget@ViewModelTypeName','zh-CN','ViewModelTypeName','HtmlWidget','EntityProperty'),
 ('HtmlWidget@WidgetName','zh-CN','组件名称','HtmlWidget','EntityProperty'),
 ('HtmlWidget@ZoneID','zh-CN','区域','HtmlWidget','EntityProperty'),
+('Icon','zh-CN','图标',NULL,NULL),
 ('Image Border','en-GB','Image Border',NULL,NULL),
 ('Image Border','en-US','Image Border',NULL,NULL),
 ('Image Border','zh-CN','图片边框',NULL,NULL),
@@ -2770,6 +2930,7 @@ INSERT INTO `Language` VALUES
 ('Invalid Email for {0}.','zh-CN','{0}的邮件格式不正确',NULL,NULL),
 ('Invalid Number for {0}.','zh-CN','{0}不是一个有效的数字',NULL,NULL),
 ('Invalid value for {0}.','zh-CN','{0}的格式不正确',NULL,NULL),
+('IsEnable','zh-CN','是否启用',NULL,NULL),
 ('IsTemplate','zh-CN','保存为模板',NULL,NULL),
 ('Italic','zh-CN','斜体',NULL,NULL),
 ('JavaScript','en-GB','JavaScript',NULL,NULL),
@@ -2817,6 +2978,8 @@ INSERT INTO `Language` VALUES
 ('LanguageEntity@Module','zh-CN','模块','LanguageEntity','EntityProperty'),
 ('Large','zh-CN','大',NULL,NULL),
 ('Last-Modified','zh-CN','修改时间',NULL,NULL),
+('LastUpdateByName','zh-CN','更新人',NULL,NULL),
+('LastUpdateDate','zh-CN','更新日期',NULL,NULL),
 ('Layout','en-GB','Layout',NULL,NULL),
 ('Layout','en-US','Layout',NULL,NULL),
 ('Layout','zh-CN','布局',NULL,NULL),
@@ -3484,6 +3647,10 @@ INSERT INTO `Language` VALUES
 ('Payment Information','zh-CN','支付信息',NULL,NULL),
 ('Payment Order','zh-CN','已支付订单',NULL,NULL),
 ('Payment Setting','zh-CN','支付集成设置',NULL,NULL),
+('PayPalOptions@ClientID','zh-CN','Client ID',NULL,NULL),
+('PayPalOptions@ClientSecretID','zh-CN','Client Secret ID',NULL,NULL),
+('PayPalOptions@Environment','zh-CN','环境',NULL,NULL),
+('PayPalOptions@IsEnable','zh-CN','是否启用',NULL,NULL),
 ('Pending pages','zh-CN','有未处理完的页面',NULL,NULL),
 ('Phone','en-GB','Phone',NULL,NULL),
 ('Phone','en-US','Phone',NULL,NULL),
@@ -3533,6 +3700,7 @@ INSERT INTO `Language` VALUES
 ('Preview: Preview the pending page','en-US','Preview: Preview the page',NULL,NULL),
 ('Preview: Preview the pending page','zh-CN','预览：查看最新修改版本',NULL,NULL),
 ('Previous:','zh-CN','上一篇:',NULL,NULL),
+('Price','zh-CN','价格',NULL,NULL),
 ('Product','en-GB','Product',NULL,NULL),
 ('Product','en-US','Product',NULL,NULL),
 ('Product','zh-CN','产品',NULL,NULL),
@@ -3542,6 +3710,7 @@ INSERT INTO `Language` VALUES
 ('Product Content','en-GB','Product Content',NULL,NULL),
 ('Product Content','en-US','Product Content',NULL,NULL),
 ('Product Content','zh-CN','产品内容',NULL,NULL),
+('Product Gallery','zh-CN','产品组',NULL,NULL),
 ('Product keywords','en-GB','Product keywords',NULL,NULL),
 ('Product keywords','en-US','Product keywords',NULL,NULL),
 ('Product keywords','zh-CN','产品关键字',NULL,NULL),
@@ -3691,6 +3860,8 @@ INSERT INTO `Language` VALUES
 ('ProductEntity@Title','en-US','Title','ProductEntity','EntityProperty'),
 ('ProductEntity@Title','zh-CN','标题','ProductEntity','EntityProperty'),
 ('ProductEntity@Url','zh-CN','英文名','ProductEntity','EntityProperty'),
+('ProductGalleryWidget@DetailPageUrl','zh-CN','详细页面',NULL,NULL),
+('ProductGalleryWidget@ProductGalleryId','zh-CN','产品组',NULL,NULL),
 ('ProductImage@ActionType','zh-CN','ActionType','ProductImage','EntityProperty'),
 ('ProductImage@CreateBy','zh-CN','CreateBy','ProductImage','EntityProperty'),
 ('ProductImage@CreatebyName','zh-CN','创建人','ProductImage','EntityProperty'),
@@ -3738,6 +3909,7 @@ INSERT INTO `Language` VALUES
 ('ProductListWidget@ViewModelTypeName','zh-CN','ViewModelTypeName','ProductListWidget','EntityProperty'),
 ('ProductListWidget@WidgetName','zh-CN','组件名称','ProductListWidget','EntityProperty'),
 ('ProductListWidget@ZoneID','zh-CN','区域','ProductListWidget','EntityProperty'),
+('Products','zh-CN','产品',NULL,NULL),
 ('Property','en-GB','Property',NULL,NULL),
 ('Property','en-US','Property',NULL,NULL),
 ('Property','zh-CN','属性',NULL,NULL),
@@ -3839,6 +4011,7 @@ INSERT INTO `Language` VALUES
 ('RoleEntity@Title','en-GB','Title','RoleEntity','EntityProperty'),
 ('RoleEntity@Title','en-US','Title','RoleEntity','EntityProperty'),
 ('RoleEntity@Title','zh-CN','标题','RoleEntity','EntityProperty'),
+('RoleID','zh-CN','角色',NULL,NULL),
 ('Row','en-GB','Row',NULL,NULL),
 ('Row','en-US','Row',NULL,NULL),
 ('Row','zh-CN','行',NULL,NULL),
@@ -4100,6 +4273,7 @@ INSERT INTO `Language` VALUES
 ('SectionWidget@ViewModelTypeName','zh-CN','ViewModelTypeName','SectionWidget','EntityProperty'),
 ('SectionWidget@WidgetName','zh-CN','组件名称','SectionWidget','EntityProperty'),
 ('SectionWidget@ZoneID','zh-CN','区域','SectionWidget','EntityProperty'),
+('Secure Payment','zh-CN','安全支付',NULL,NULL),
 ('Security','zh-CN','安全',NULL,NULL),
 ('Select','zh-CN','选择',NULL,NULL),
 ('Select All','zh-CN','全选',NULL,NULL),
@@ -4115,7 +4289,10 @@ INSERT INTO `Language` VALUES
 ('Shadow','zh-CN','阴影',NULL,NULL),
 ('Shipped','zh-CN','已发货',NULL,NULL),
 ('Shipped orders','zh-CN','已发货订单',NULL,NULL),
+('Shipping','zh-CN','运费',NULL,NULL),
 ('Shipping Address','zh-CN','收货地址',NULL,NULL),
+('Shipping Option','zh-CN','物流选项',NULL,NULL),
+('ShippingOption','zh-CN','物流选项',NULL,NULL),
 ('Shop','zh-CN','商城',NULL,NULL),
 ('Sign in','en-GB','Sign in',NULL,NULL),
 ('Sign in','en-US','Sign in',NULL,NULL),
@@ -4302,7 +4479,9 @@ INSERT INTO `Language` VALUES
 ('Subscription_Unsubscribing_Title','en-US','You are unsubscribing',NULL,NULL),
 ('Subscription_Unsubscribing_Title','zh-CN','您正在取消订阅',NULL,NULL),
 ('SubscriptionSetting@IsEnable','zh-CN','是否启用？',NULL,NULL),
+('Subtotal','zh-CN','小计',NULL,NULL),
 ('Success','zh-CN','成功',NULL,NULL),
+('Summary','zh-CN','摘要',NULL,NULL),
 ('Switch Template','zh-CN','切换模板',NULL,NULL),
 ('Switching Theme...','zh-CN','切换主题中...',NULL,NULL),
 ('sw-resize','zh-CN','向左下改变大小',NULL,NULL),
@@ -4330,6 +4509,9 @@ INSERT INTO `Language` VALUES
 ('Tag','en-GB','Tag',NULL,NULL),
 ('Tag','en-US','Tag',NULL,NULL),
 ('Tag','zh-CN','标签',NULL,NULL),
+('Tax','zh-CN','税',NULL,NULL),
+('Tax Rate','zh-CN','税率',NULL,NULL),
+('TaxRate','zh-CN','税率',NULL,NULL),
 ('TemplateFile@Content','zh-CN','模板代码','TemplateFile','EntityProperty'),
 ('TemplateFile@Id','zh-CN','Id','TemplateFile','EntityProperty'),
 ('TemplateFile@LastUpdateTime','en-US','Last Update Time','TemplateFile','EntityProperty'),
@@ -4705,6 +4887,17 @@ INSERT INTO `Language` VALUES
 ('WeChat','en-US','WeChat',NULL,NULL),
 ('WeChat','zh-CN','微信',NULL,NULL),
 ('Wechat Config','zh-CN','配置微信登录',NULL,NULL),
+('WeChatPay','zh-CN','微信支付',NULL,NULL),
+('WeChatPay Setting','zh-CN','微信支付集成设置',NULL,NULL),
+('WeChatPayOptions@AppId','zh-CN','AppId',NULL,NULL),
+('WeChatPayOptions@AppSecret','zh-CN','应用密钥',NULL,NULL),
+('WeChatPayOptions@Certificate','zh-CN','API证书',NULL,NULL),
+('WeChatPayOptions@CertificatePassword','zh-CN','证书密码',NULL,NULL),
+('WeChatPayOptions@IsEnable','zh-CN','是否启用',NULL,NULL),
+('WeChatPayOptions@Key','zh-CN','API密钥',NULL,NULL),
+('WeChatPayOptions@MchId','zh-CN','商户ID',NULL,NULL),
+('WeChatPayOptions@RsaPublicKey','zh-CN','RSA公钥',NULL,NULL),
+('WeChatPayOptions@V3Key','zh-CN','APIv3密钥',NULL,NULL),
 ('WeiBo','en-GB','WeiBo',NULL,NULL),
 ('WeiBo','en-US','WeiBo',NULL,NULL),
 ('WeiBo','zh-CN','微博',NULL,NULL),
@@ -4981,6 +5174,10 @@ CREATE TABLE `Order` (
 	`Refund` DECIMAL (18,4)  NULL,
 	`RefundDate` DATETIME  NULL,
 	`RefundReason` VARCHAR(500) CHARACTER SET utf8mb4  NULL,
+	`ShippingOption` INT  NULL,
+	`SubTotal` DECIMAL (19,4)  NULL,
+	`Tax` DECIMAL (19,4)  NULL,
+	`Shipping` DECIMAL (19,4)  NULL,
 	PRIMARY KEY (`ID`)
 );
 
@@ -5004,6 +5201,7 @@ CREATE TABLE `OrderItem` (
 	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
 	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
 	`LastUpdateDate` DATETIME  NULL,
+	`BasketID` INT  NULL,
 	PRIMARY KEY (`ID`)
 );
 
@@ -5050,64 +5248,65 @@ CREATE TABLE `Permission` (
 
 /*!40000 ALTER TABLE `Permission` DISABLE KEYS */;
 INSERT INTO `Permission` VALUES
-('ApplicationSetting_Manage',1,'管理系统设置',NULL,'用户/安全',NULL,'admin','ZKEASOFT','2016-08-01 14:12:07.567','admin','ZKEASOFT','2020-03-17 21:48:04.643'),
-('ApplicationSetting_View',1,'查看系统设置',NULL,'用户/安全',NULL,'admin','ZKEASOFT','2016-08-01 13:37:46.647','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('Article_Manage',1,'管理文章',NULL,'文章',NULL,'admin','ZKEASOFT','2016-08-01 13:18:40.493','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('Article_Publish',1,'发布文章',NULL,'文章',NULL,'admin','ZKEASOFT','2017-05-25 12:36:10.820','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('Article_View',1,'查看文章',NULL,'文章',NULL,'admin','ZKEASOFT','2016-08-01 13:17:59.120','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('ArticleType_Manage',1,'管理文章类别',NULL,'文章',NULL,'admin','ZKEASOFT','2016-08-01 13:22:24.887','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('ArticleType_View',1,'查看文章类别',NULL,'文章',NULL,'admin','ZKEASOFT','2016-08-01 13:19:54.500','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('Carousel_Manage',1,'管理焦点图',NULL,'焦点图',NULL,'admin','ZKEASOFT','2016-08-01 13:45:46.190','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('Carousel_View',1,'查看焦点图',NULL,'焦点图',NULL,'admin','ZKEASOFT','2016-08-01 13:37:56.097','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('Comments_Manage',1,'管理回复',NULL,'留言评论',NULL,'admin','ZKEASOFT','2017-12-03 17:09:48.053','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('Comments_View',1,'查看回复',NULL,'留言评论',NULL,'admin','ZKEASOFT','2017-12-03 17:09:48.050','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('EventViewer_Manage',1,'查看错误日志',NULL,'设置',NULL,'admin','ZKEASOFT','2017-07-11 15:43:52.147','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('Form_Manage',1,'管理表单',NULL,'自定义表单',NULL,'admin','ZKEASOFT','2017-10-12 15:11:51.843','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('Form_View',1,'查看表单',NULL,'自定义表单',NULL,'admin','ZKEASOFT','2017-10-12 15:11:51.830','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('FormData_Export',1,'导出表单数据',NULL,'自定义表单',NULL,'admin','ZKEASOFT','2017-10-12 15:11:51.853','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('FormData_Manage',1,'管理表单数据',NULL,'自定义表单',NULL,'admin','ZKEASOFT','2017-10-12 15:11:51.850','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('FormData_View',1,'查看表单数据',NULL,'自定义表单',NULL,'admin','ZKEASOFT','2017-10-12 15:11:51.843','admin','ZKEASOFT','2020-03-17 21:48:04.647'),
-('Language_Manage',1,'翻译',NULL,'设置',NULL,'admin','ZKEASOFT','2017-11-17 11:47:13.093','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('Layout_Manage',1,'管理布局',NULL,'布局',NULL,'admin','ZKEASOFT','2016-08-01 12:43:52.697','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('Layout_View',1,'查看布局',NULL,'布局',NULL,'admin','ZKEASOFT','2016-08-01 12:37:56.690','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('LiveChatScript_Manage',1,'设置在线客服代码',NULL,'设置',NULL,'admin','ZKEASOFT','2019-04-07 16:39:16.730','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('Media_Manage',1,'管理媒体库',NULL,'媒体库',NULL,'admin','ZKEASOFT','2016-08-01 14:12:07.553','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('Media_View',1,'查看媒体库',NULL,'媒体库',NULL,'admin','ZKEASOFT','2016-08-01 13:37:56.090','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('Message_Manage',1,'管理留言',NULL,'留言板',NULL,'admin','ZKEASOFT','2017-03-19 21:01:14.980','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('Message_View',1,'查看留言',NULL,'留言板',NULL,'admin','ZKEASOFT','2017-03-19 21:01:14.960','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('MessageNotification_Manage',1,'管理通知邮箱',NULL,'留言评论',NULL,'admin','ZKEASOFT','2018-08-15 15:25:42.620','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('Navigation_Manage',1,'管理导航',NULL,'导航',NULL,'admin','ZKEASOFT','2016-08-01 13:40:38.230','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('Navigation_View',1,'查看导航',NULL,'导航',NULL,'admin','ZKEASOFT','2016-08-01 13:38:21.943','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('Order_Manage',1,'Manage Order',NULL,'Shop',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.680','admin','ZKEASOFT','2020-03-17 21:48:04.680'),
-('Order_Refund',1,'Refund',NULL,'Shop',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.680','admin','ZKEASOFT','2020-03-17 21:48:04.680'),
-('Order_View',1,'View Order',NULL,'Shop',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.680','admin','ZKEASOFT','2020-03-17 21:48:04.680'),
-('Order_ViewOrderPayment',1,'View Transactions',NULL,'Shop',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.680','admin','ZKEASOFT','2020-03-17 21:48:04.680'),
-('Order_ViewOrderRefund',1,'View Refund',NULL,'Shop',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.680','admin','ZKEASOFT','2020-03-17 21:48:04.680'),
-('Page_Manage',1,'管理页面',NULL,'页面',NULL,'admin','ZKEASOFT','2016-08-01 13:41:08.463','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('Page_View',1,'查看页面',NULL,'页面',NULL,'admin','ZKEASOFT','2016-08-01 12:37:56.683','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('Payment_Config_Manage',1,'Payment Setting',NULL,'Shop',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.680','admin','ZKEASOFT','2020-03-17 21:48:04.680'),
-('Plugin_View',1,'插件',NULL,'设置',NULL,'admin','ZKEASOFT','2019-04-07 16:39:16.727','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('Product_Manage',1,'Manage Product',NULL,'Product',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.677','admin','ZKEASOFT','2020-03-17 21:48:04.677'),
-('Product_Publish',1,'Publish Product',NULL,'Product',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.677','admin','ZKEASOFT','2020-03-17 21:48:04.677'),
-('Product_View',1,'View Product',NULL,'Product',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.657','admin','ZKEASOFT','2020-03-17 21:48:04.657'),
-('ProductCategory_Manage',1,'Manage Product Category',NULL,'Product',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.677','admin','ZKEASOFT','2020-03-17 21:48:04.677'),
-('ProductCategory_View',1,'View Product Category',NULL,'Product',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.677','admin','ZKEASOFT','2020-03-17 21:48:04.677'),
-('ProductCategoryTag_Manage',1,'Manage Product Tag',NULL,'Product',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.677','admin','ZKEASOFT','2020-03-17 21:48:04.677'),
-('ProductCategoryTag_View',1,'View Product Tag',NULL,'Product',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.677','admin','ZKEASOFT','2020-03-17 21:48:04.677'),
-('RobotsSetting',1,'Robots.txt',NULL,'设置',NULL,'admin','ZKEASOFT','2018-08-12 22:51:30.340','admin','ZKEASOFT','2020-03-17 21:48:04.650'),
-('Role_Manage',1,'管理角色',NULL,'用户/安全',NULL,'admin','ZKEASOFT','2016-08-01 14:12:07.567','admin','ZKEASOFT','2020-03-17 21:48:04.653'),
-('Role_View',1,'查看角色',NULL,'用户/安全',NULL,'admin','ZKEASOFT','2016-08-01 13:37:46.660','admin','ZKEASOFT','2020-03-17 21:48:04.653'),
-('SMTPSetting',1,'邮箱设置',NULL,'设置',NULL,'admin','ZKEASOFT','2018-06-12 19:13:49.497','admin','ZKEASOFT','2020-03-17 21:48:04.653'),
-('StatisticsScript_Manage',1,'设置访客统计代码',NULL,'设置',NULL,'admin','ZKEASOFT','2019-04-07 16:39:16.730','admin','ZKEASOFT','2020-03-17 21:48:04.653'),
-('Template_Manage',1,'管理模板',NULL,'页面布局',NULL,'admin','ZKEASOFT','2019-05-21 21:39:09.307','admin','ZKEASOFT','2020-03-17 21:48:04.653'),
-('Template_View',1,'管理模板',NULL,'页面布局',NULL,'admin','ZKEASOFT','2019-05-21 21:39:09.303','admin','ZKEASOFT','2020-03-17 21:48:04.653'),
-('TemplateImporter_Import',1,'Import Html Template',NULL,'Setting',NULL,'admin','ZKEASOFT','2020-03-14 11:41:54.510','admin','ZKEASOFT','2020-03-17 21:48:04.653'),
-('Theme_Manage',1,'管理主题',NULL,'主题',NULL,'admin','ZKEASOFT','2016-08-01 13:42:48.600','admin','ZKEASOFT','2020-03-17 21:48:04.653'),
-('Theme_View',1,'查看主题',NULL,'主题',NULL,'admin','ZKEASOFT','2016-08-01 13:37:56.083','admin','ZKEASOFT','2020-03-17 21:48:04.653'),
-('UrlRedirect_Manage',1,'管理URL 重定向',NULL,'URL 重定向',NULL,'admin','ZKEASOFT','2017-08-14 14:55:58.170','admin','ZKEASOFT','2020-03-17 21:48:04.653'),
-('UrlRedirect_View',1,'查看URL 重定向',NULL,'URL 重定向',NULL,'admin','ZKEASOFT','2017-08-14 14:55:58.120','admin','ZKEASOFT','2020-03-17 21:48:04.653'),
-('User_Manage',1,'管理用户',NULL,'用户/安全',NULL,'admin','ZKEASOFT','2016-08-01 14:12:07.567','admin','ZKEASOFT','2020-03-17 21:48:04.653'),
-('User_View',1,'查看用户',NULL,'用户/安全',NULL,'admin','ZKEASOFT','2016-08-01 13:37:46.647','admin','ZKEASOFT','2020-03-17 21:48:04.653');
+('ApplicationSetting_Manage',1,'管理系统设置',NULL,'用户/安全',NULL,'admin','ZKEASOFT','2016-08-01 14:12:07.567','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('ApplicationSetting_View',1,'查看系统设置',NULL,'用户/安全',NULL,'admin','ZKEASOFT','2016-08-01 13:37:46.647','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Article_Manage',1,'管理文章',NULL,'文章',NULL,'admin','ZKEASOFT','2016-08-01 13:18:40.493','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Article_Publish',1,'发布文章',NULL,'文章',NULL,'admin','ZKEASOFT','2017-05-25 12:36:10.820','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Article_View',1,'查看文章',NULL,'文章',NULL,'admin','ZKEASOFT','2016-08-01 13:17:59.120','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('ArticleType_Manage',1,'管理文章类别',NULL,'文章',NULL,'admin','ZKEASOFT','2016-08-01 13:22:24.887','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('ArticleType_View',1,'查看文章类别',NULL,'文章',NULL,'admin','ZKEASOFT','2016-08-01 13:19:54.500','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Carousel_Manage',1,'管理焦点图',NULL,'焦点图',NULL,'admin','ZKEASOFT','2016-08-01 13:45:46.190','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Carousel_View',1,'查看焦点图',NULL,'焦点图',NULL,'admin','ZKEASOFT','2016-08-01 13:37:56.097','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Comments_Manage',1,'管理回复',NULL,'留言评论',NULL,'admin','ZKEASOFT','2017-12-03 17:09:48.053','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Comments_View',1,'查看回复',NULL,'留言评论',NULL,'admin','ZKEASOFT','2017-12-03 17:09:48.050','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Config_Currency',1,'Currency',NULL,'Setting',NULL,'admin','ZKEASOFT','2021-03-06 22:16:30.727','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('EventViewer_Manage',1,'查看错误日志',NULL,'设置',NULL,'admin','ZKEASOFT','2017-07-11 15:43:52.147','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Form_Manage',1,'管理表单',NULL,'自定义表单',NULL,'admin','ZKEASOFT','2017-10-12 15:11:51.843','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Form_View',1,'查看表单',NULL,'自定义表单',NULL,'admin','ZKEASOFT','2017-10-12 15:11:51.830','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('FormData_Export',1,'导出表单数据',NULL,'自定义表单',NULL,'admin','ZKEASOFT','2017-10-12 15:11:51.853','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('FormData_Manage',1,'管理表单数据',NULL,'自定义表单',NULL,'admin','ZKEASOFT','2017-10-12 15:11:51.850','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('FormData_View',1,'查看表单数据',NULL,'自定义表单',NULL,'admin','ZKEASOFT','2017-10-12 15:11:51.843','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Language_Manage',1,'翻译',NULL,'设置',NULL,'admin','ZKEASOFT','2017-11-17 11:47:13.093','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Layout_Manage',1,'管理布局',NULL,'布局',NULL,'admin','ZKEASOFT','2016-08-01 12:43:52.697','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Layout_View',1,'查看布局',NULL,'布局',NULL,'admin','ZKEASOFT','2016-08-01 12:37:56.690','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('LiveChatScript_Manage',1,'设置在线客服代码',NULL,'设置',NULL,'admin','ZKEASOFT','2019-04-07 16:39:16.730','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Media_Manage',1,'管理媒体库',NULL,'媒体库',NULL,'admin','ZKEASOFT','2016-08-01 14:12:07.553','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Media_View',1,'查看媒体库',NULL,'媒体库',NULL,'admin','ZKEASOFT','2016-08-01 13:37:56.090','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Message_Manage',1,'管理留言',NULL,'留言板',NULL,'admin','ZKEASOFT','2017-03-19 21:01:14.980','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Message_View',1,'查看留言',NULL,'留言板',NULL,'admin','ZKEASOFT','2017-03-19 21:01:14.960','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('MessageNotification_Manage',1,'管理通知邮箱',NULL,'留言评论',NULL,'admin','ZKEASOFT','2018-08-15 15:25:42.620','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Navigation_Manage',1,'管理导航',NULL,'导航',NULL,'admin','ZKEASOFT','2016-08-01 13:40:38.230','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Navigation_View',1,'查看导航',NULL,'导航',NULL,'admin','ZKEASOFT','2016-08-01 13:38:21.943','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Order_Manage',1,'Manage Order',NULL,'Shop',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.680','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Order_Refund',1,'Refund',NULL,'Shop',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.680','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Order_View',1,'View Order',NULL,'Shop',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.680','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Order_ViewOrderPayment',1,'View Transactions',NULL,'Shop',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.680','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Order_ViewOrderRefund',1,'View Refund',NULL,'Shop',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.680','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Page_Manage',1,'管理页面',NULL,'页面',NULL,'admin','ZKEASOFT','2016-08-01 13:41:08.463','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Page_View',1,'查看页面',NULL,'页面',NULL,'admin','ZKEASOFT','2016-08-01 12:37:56.683','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Payment_Config_Manage',1,'Payment Setting',NULL,'Shop',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.680','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Plugin_View',1,'插件',NULL,'设置',NULL,'admin','ZKEASOFT','2019-04-07 16:39:16.727','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Product_Manage',1,'Manage Product',NULL,'Product',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.677','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Product_Publish',1,'Publish Product',NULL,'Product',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.677','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('Product_View',1,'View Product',NULL,'Product',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.657','admin','ZKEASOFT','2021-03-06 22:16:30.723'),
+('ProductCategory_Manage',1,'Manage Product Category',NULL,'Product',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.677','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('ProductCategory_View',1,'View Product Category',NULL,'Product',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.677','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('ProductCategoryTag_Manage',1,'Manage Product Tag',NULL,'Product',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.677','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('ProductCategoryTag_View',1,'View Product Tag',NULL,'Product',NULL,'admin','ZKEASOFT','2020-03-17 21:48:04.677','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('RobotsSetting',1,'Robots.txt',NULL,'设置',NULL,'admin','ZKEASOFT','2018-08-12 22:51:30.340','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('Role_Manage',1,'管理角色',NULL,'用户/安全',NULL,'admin','ZKEASOFT','2016-08-01 14:12:07.567','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('Role_View',1,'查看角色',NULL,'用户/安全',NULL,'admin','ZKEASOFT','2016-08-01 13:37:46.660','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('SMTPSetting',1,'邮箱设置',NULL,'设置',NULL,'admin','ZKEASOFT','2018-06-12 19:13:49.497','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('StatisticsScript_Manage',1,'设置访客统计代码',NULL,'设置',NULL,'admin','ZKEASOFT','2019-04-07 16:39:16.730','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('Template_Manage',1,'管理模板',NULL,'页面布局',NULL,'admin','ZKEASOFT','2019-05-21 21:39:09.307','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('Template_View',1,'管理模板',NULL,'页面布局',NULL,'admin','ZKEASOFT','2019-05-21 21:39:09.303','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('TemplateImporter_Import',1,'Import Html Template',NULL,'Setting',NULL,'admin','ZKEASOFT','2020-03-14 11:41:54.510','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('Theme_Manage',1,'管理主题',NULL,'主题',NULL,'admin','ZKEASOFT','2016-08-01 13:42:48.600','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('Theme_View',1,'查看主题',NULL,'主题',NULL,'admin','ZKEASOFT','2016-08-01 13:37:56.083','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('UrlRedirect_Manage',1,'管理URL 重定向',NULL,'URL 重定向',NULL,'admin','ZKEASOFT','2017-08-14 14:55:58.170','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('UrlRedirect_View',1,'查看URL 重定向',NULL,'URL 重定向',NULL,'admin','ZKEASOFT','2017-08-14 14:55:58.120','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('User_Manage',1,'管理用户',NULL,'用户/安全',NULL,'admin','ZKEASOFT','2016-08-01 14:12:07.567','admin','ZKEASOFT','2021-03-06 22:16:30.727'),
+('User_View',1,'查看用户',NULL,'用户/安全',NULL,'admin','ZKEASOFT','2016-08-01 13:37:46.647','admin','ZKEASOFT','2021-03-06 22:16:30.727');
 /*!40000 ALTER TABLE `Permission` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `PersistKey`;
@@ -5272,6 +5471,23 @@ INSERT INTO `ProductDetailWidget` VALUES
 ('94624262dc00460cbbc1e0f51711e712',NULL);
 /*!40000 ALTER TABLE `ProductDetailWidget` ENABLE KEYS */;
 
+DROP TABLE IF EXISTS `ProductGallery`;
+CREATE TABLE `ProductGallery` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`RawData` LONGTEXT CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
+);
+
+
 DROP TABLE IF EXISTS `ProductImage`;
 CREATE TABLE `ProductImage` (
 	`ID` INT AUTO_INCREMENT  NOT NULL,
@@ -5353,7 +5569,7 @@ CREATE TABLE `Roles` (
 
 /*!40000 ALTER TABLE `Roles` DISABLE KEYS */;
 INSERT INTO `Roles` VALUES
-(1,'超级管理员','超级管理员',1,NULL,NULL,NULL,'admin','ZKEASOFT','2020-03-17 21:48:05.240');
+(1,'超级管理员','超级管理员',1,NULL,NULL,NULL,'admin','ZKEASOFT','2021-03-06 22:16:30.963');
 /*!40000 ALTER TABLE `Roles` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ScriptWidget`;
@@ -5716,6 +5932,26 @@ INSERT INTO `SectionWidget` VALUES
 ('f41174cfa4d247f4974c47f4d2b000fd',NULL,NULL),
 ('f6f11ba2fec844de883acf0a1fe3eb89',NULL,NULL);
 /*!40000 ALTER TABLE `SectionWidget` ENABLE KEYS */;
+
+DROP TABLE IF EXISTS `ShippingOption`;
+CREATE TABLE `ShippingOption` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Price` DECIMAL (19,4)  NULL,
+	`Rule` LONGTEXT CHARACTER SET utf8mb4  NULL,
+	`ContentID` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CultureID` INT  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
+);
+
 
 DROP TABLE IF EXISTS `StyleSheetWidget`;
 CREATE TABLE `StyleSheetWidget` (
