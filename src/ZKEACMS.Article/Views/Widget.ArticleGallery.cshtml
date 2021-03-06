@@ -5,28 +5,33 @@
         Model.DetailPageUrl = Url.Content(Model.DetailPageUrl);
     }
 }
-<div class="article-list">
+<div class="article-gallery">
     @if (Model.Articles != null)
     {
-        <ul class="media-list">
+        <div class="row">
             @foreach (var item in Model.Articles)
             {
-                <li class="media">
-                    <div class="media-left">
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <div class="thumbnail">
                         <a target="_blank" href="@Url.PostUrl(Model.DetailPageUrl,item)">
                             <img class="media-object" src="@Url.ImageContent(item.ImageThumbUrl)" alt="@item.Title">
                         </a>
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading">
-                            <a target="_blank" href="@Url.PostUrl(Model.DetailPageUrl,item)">
-                                @item.Title
-                            </a>
-                        </h4>
-                        @item.Summary
-                    </div>
-                </li>
+                        <div class="caption">
+                            <h4>
+                                <a target="_blank" href="@Url.PostUrl(Model.DetailPageUrl, item)">
+                                    @item.Title
+                                </a>
+                            </h4>
+                            @if (item.Summary.IsNotNullAndWhiteSpace())
+                            {
+                                <p class="text-muted small">
+                                    @item.Summary
+                                </p>
+                            }
+                        </div>
+                    </div>                    
+                </div>
             }
-        </ul>
+        </div>
     }
 </div>
