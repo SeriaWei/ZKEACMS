@@ -11,7 +11,7 @@
         <div class="row">
             @foreach (var item in Model.Articles)
             {
-                <div class="col-xs-6 col-sm-4 col-md-3">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="thumbnail">
                         <a target="_blank" href="@Url.PostUrl(Model.DetailPageUrl,item)">
                             <img class="media-object" src="@Url.ImageContent(item.ImageThumbUrl)" alt="@item.Title">
