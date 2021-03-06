@@ -102,6 +102,7 @@ ALTER TABLE [Order] ADD ShippingOption int null;
 ALTER TABLE [Order] ADD SubTotal money null;
 ALTER TABLE [Order] ADD Tax money null;
 ALTER TABLE [Order] ADD Shipping money null;
+ALTER TABLE [OrderItem] ADD BasketID int null;
 
 CREATE TABLE [ShippingOption] (
   [ID] INTEGER NOT NULL
@@ -251,3 +252,73 @@ INSERT INTO [Language] (LanKey,CultureName,LanValue) values('Currency','zh-CN','
 
 DELETE FROM [Language] WHERE LanKey = 'CurrencyOption@CurrencyID' AND CultureName = 'zh-CN';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values('CurrencyOption@CurrencyID','zh-CN','货币');
+
+DELETE FROM [Language] WHERE LanKey = 'WeChatPay Setting' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('WeChatPay Setting','zh-CN','微信支付集成设置');
+
+DELETE FROM [Language] WHERE LanKey = 'Environment' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('Environment','zh-CN','环境');
+
+DELETE FROM [Language] WHERE LanKey = 'IsEnable' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('IsEnable','zh-CN','是否启用');
+
+DELETE FROM [Language] WHERE LanKey = 'AliPay' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('AliPay','zh-CN','支付宝支付');
+
+DELETE FROM [Language] WHERE LanKey = 'WeChatPay' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('WeChatPay','zh-CN','微信支付');
+
+
+DELETE FROM [Language] WHERE LanKey = 'AlipayOptions@Environment' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('AlipayOptions@Environment','zh-CN','环境');
+
+DELETE FROM [Language] WHERE LanKey = 'AlipayOptions@IsEnable' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('AlipayOptions@IsEnable','zh-CN','是否启用');
+
+DELETE FROM [Language] WHERE LanKey = 'AlipayOptions@AppId' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('AlipayOptions@AppId','zh-CN','AppId');
+
+DELETE FROM [Language] WHERE LanKey = 'AlipayOptions@PublicKey' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('AlipayOptions@PublicKey','zh-CN','应用公钥');
+
+DELETE FROM [Language] WHERE LanKey = 'AlipayOptions@PrivateKey' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('AlipayOptions@PrivateKey','zh-CN','应用私钥');
+
+DELETE FROM [Language] WHERE LanKey = 'WeChatPayOptions@IsEnable' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('WeChatPayOptions@IsEnable','zh-CN','是否启用');
+
+DELETE FROM [Language] WHERE LanKey = 'WeChatPayOptions@AppId' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('WeChatPayOptions@AppId','zh-CN','AppId');
+
+DELETE FROM [Language] WHERE LanKey = 'WeChatPayOptions@MchId' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('WeChatPayOptions@MchId','zh-CN','商户ID');
+
+DELETE FROM [Language] WHERE LanKey = 'WeChatPayOptions@Key' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('WeChatPayOptions@Key','zh-CN','API密钥');
+
+DELETE FROM [Language] WHERE LanKey = 'WeChatPayOptions@V3Key' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('WeChatPayOptions@V3Key','zh-CN','APIv3密钥');
+
+DELETE FROM [Language] WHERE LanKey = 'WeChatPayOptions@Certificate' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('WeChatPayOptions@Certificate','zh-CN','API证书');
+
+DELETE FROM [Language] WHERE LanKey = 'WeChatPayOptions@CertificatePassword' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('WeChatPayOptions@CertificatePassword','zh-CN','证书密码');
+
+DELETE FROM [Language] WHERE LanKey = 'WeChatPayOptions@RsaPublicKey' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('WeChatPayOptions@RsaPublicKey','zh-CN','RSA公钥');
+
+DELETE FROM [Language] WHERE LanKey = 'WeChatPayOptions@AppSecret' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('WeChatPayOptions@AppSecret','zh-CN','应用密钥');
+
+DELETE FROM [Language] WHERE LanKey = 'PayPalOptions@Environment' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('PayPalOptions@Environment','zh-CN','环境');
+
+DELETE FROM [Language] WHERE LanKey = 'PayPalOptions@IsEnable' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('PayPalOptions@IsEnable','zh-CN','是否启用');
+
+DELETE FROM [Language] WHERE LanKey = 'PayPalOptions@ClientID' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('PayPalOptions@ClientID','zh-CN','Client ID');
+
+DELETE FROM [Language] WHERE LanKey = 'PayPalOptions@ClientSecretID' AND CultureName = 'zh-CN';
+INSERT INTO [Language] (LanKey,CultureName,LanValue) values('PayPalOptions@ClientSecretID','zh-CN','Client Secret ID');
