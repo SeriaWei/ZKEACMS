@@ -1,4 +1,4 @@
--- Script Date: 2021/3/6 星期六 22:17  - ErikEJ.SqlCeScripting version 3.5.2.56
+-- Script Date: 2021/3/7 星期日 14:12  - ErikEJ.SqlCeScripting version 3.5.2.56
 SELECT 1;
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
@@ -57,7 +57,7 @@ CREATE TABLE [Subscription] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Subscrip__3214EC272D632E05] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Subscrip__3214EC27209588C3] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ShippingOption] (
   [ID] INTEGER NOT NULL
@@ -74,7 +74,7 @@ CREATE TABLE [ShippingOption] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Shipping__3214EC2731F0FC7E] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Shipping__3214EC274EB1A3D5] PRIMARY KEY ([ID])
 );
 CREATE TABLE [SectionTemplate] (
   [TemplateName] nvarchar(100) NOT NULL
@@ -145,13 +145,13 @@ CREATE TABLE [Roles] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Roles__3214EC27688E0407] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Roles__3214EC277B5764B6] PRIMARY KEY ([ID])
 );
 CREATE TABLE [UserRoleRelation] (
   [ID] INTEGER NOT NULL
 , [RoleID] int NULL
 , [UserID] nvarchar(50) NULL
-, CONSTRAINT [PK__UserRole__3214EC278F167B0C] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__UserRole__3214EC2779F772E0] PRIMARY KEY ([ID])
 , FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 , FOREIGN KEY ([UserID]) REFERENCES [Users] ([UserID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
@@ -189,7 +189,7 @@ CREATE TABLE [ProductGallery] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__ProductG__3214EC27987C341E] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__ProductG__3214EC2759F550A8] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ProductCategoryTag] (
   [ID] INTEGER NOT NULL
@@ -266,7 +266,7 @@ CREATE TABLE [PersistKey] (
 , [CreationDate] datetime NULL
 , [ActivationDate] datetime NULL
 , [ExpirationDate] datetime NULL
-, CONSTRAINT [PK__PersistK__3214EC27D2D1997A] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__PersistK__3214EC275F09A61D] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Permission] (
   [PermissionKey] nvarchar(100) NOT NULL
@@ -488,7 +488,7 @@ CREATE TABLE [FluidContentGroup] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__FluidCon__3214EC2785880A53] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__FluidCon__3214EC27C2078F30] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ExtendField] (
   [ID] INTEGER NOT NULL
@@ -512,7 +512,7 @@ CREATE TABLE [DBVersion] (
 , [Minor] int NULL
 , [Revision] int NULL
 , [Build] int NULL
-, CONSTRAINT [PK__DBVersio__3214EC2714BAF695] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__DBVersio__3214EC27A29083E6] PRIMARY KEY ([ID])
 );
 CREATE TABLE [DataDictionary] (
   [ID] INTEGER NOT NULL
@@ -561,7 +561,7 @@ CREATE TABLE [Currency] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Currency__3214EC270F067BBF] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Currency__3214EC2751EB9475] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Comments] (
   [ID] INTEGER NOT NULL
@@ -1011,7 +1011,7 @@ CREATE TABLE [ArticleGallery] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__ArticleG__3214EC2704956A0A] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__ArticleG__3214EC2798E8405D] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ArticleDetailWidget] (
   [ID] nvarchar(100) NOT NULL
@@ -1961,6 +1961,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('commit','en-US','Comment',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('commit','zh-CN','评论',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Company News','zh-CN','公司新闻',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Complete','zh-CN','完成',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Completed updating the index','zh-CN','完成更新索引',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Confirm Password','en-GB','Confirm Password',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Confirm Password','en-US','Confirm Password',NULL,NULL);
@@ -3963,6 +3964,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shadow','en-GB','Shadow',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shadow','en-US','Shadow',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shadow','zh-CN','阴影',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shiped','zh-CN','已发货',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shipped','zh-CN','已发货',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shipped orders','zh-CN','已发货订单',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shipping','zh-CN','运费',NULL,NULL);

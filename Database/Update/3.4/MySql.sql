@@ -332,3 +332,9 @@ INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('PayPalOptions
 
 DELETE FROM `Language` WHERE `LanKey` = 'PayPalOptions@ClientSecretID' AND `CultureName` = 'zh-CN';
 INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('PayPalOptions@ClientSecretID','zh-CN','Client Secret ID');
+
+DELETE FROM `Language` WHERE `LanKey` = 'Complete' AND `CultureName` = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Complete','zh-CN','完成');
+
+DELETE FROM `Language` WHERE `LanKey` = 'Shiped' AND `CultureName` = 'zh-CN';
+INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('Shiped','zh-CN','已发货');
