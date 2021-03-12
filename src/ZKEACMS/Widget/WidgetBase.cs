@@ -17,6 +17,7 @@ namespace ZKEACMS.Widget
     {
         public static Dictionary<string, Type> KnownWidgetModel { get; } = new Dictionary<string, Type>();
         public static Dictionary<string, Type> KnownWidgetService { get; } = new Dictionary<string, Type>();
+        private HashSet<string> availableZones = new HashSet<string>();
         [Key]
         public virtual string ID { get; set; }
         public virtual string WidgetName { get; set; }
@@ -82,7 +83,7 @@ namespace ZKEACMS.Widget
                 });
             }
         }
-        
+
         public Type GetViewModelType()
         {
             string key = $"{AssemblyName},{ViewModelTypeName}";
@@ -129,9 +130,21 @@ namespace ZKEACMS.Widget
             widget.IsTemplate = IsTemplate;
             widget.Thumbnail = Thumbnail;
             widget.IsSystem = IsSystem;
-            
+
             widget.ExtendData = ExtendData;
             return widget;
+        }
+        public void SetZone(string zoneCode)
+        {
+            if (ZoneID.IsNullOrEmpty())
+            {
+                ZoneID = zoneCode;
+            }
+            availableZones.Add(zoneCode);
+        }
+        public bool IsInZone(string zoneCode)
+        {
+            return ZoneID == zoneCode || availableZones.Contains(zoneCode);
         }
     }
 }

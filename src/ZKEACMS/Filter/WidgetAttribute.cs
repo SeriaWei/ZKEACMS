@@ -137,6 +137,7 @@ namespace ZKEACMS.Filter
                     UserAgent = filterContext.HttpContext.Request.Headers["User-Agent"]
                 };
                 var rules = ruleService.GetMatchRule(ruleWorkContext);
+                var ruleDic = rules.ToDictionary(m => m.RuleID, m => m);
                 var rulesID = rules.Select(m => m.RuleID).ToArray();
                 if (rules.Any())
                 {
@@ -155,19 +156,21 @@ namespace ZKEACMS.Filter
                             });
                             WidgetViewModelPart part = new WidgetViewModelPart(widget, viewModel);
                             logger.LogInformation("{0}.Display(): {1}ms", widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
-                            var zone = layout.Zones.FirstOrDefault(z => z.ZoneName == rules.First(m => m.RuleID == widget.RuleID).ZoneName);
-                            if (part != null && zone != null)
+                            if (part != null)
                             {
-                                part.Widget.ZoneID = zone.HeadingCode;
-                                if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID ?? UnknownZone))
+                                var availableZones = layout.Zones.Where(z => ruleDic[widget.RuleID.Value].ZoneNames.Contains(z.ZoneName));
+                                foreach (var zone in availableZones)
                                 {
-                                    layout.ZoneWidgets[part.Widget.ZoneID ?? UnknownZone].TryAdd(part);
+                                    part.Widget.SetZone(zone.HeadingCode);
+                                    if (layout.ZoneWidgets.ContainsKey(zone.HeadingCode ?? UnknownZone))
+                                    {
+                                        layout.ZoneWidgets[zone.HeadingCode ?? UnknownZone].TryAdd(part);
+                                    }
+                                    else
+                                    {
+                                        layout.ZoneWidgets.Add(zone.HeadingCode ?? UnknownZone, new WidgetCollection { part });
+                                    }
                                 }
-                                else
-                                {
-                                    layout.ZoneWidgets.Add(part.Widget.ZoneID ?? UnknownZone, new WidgetCollection { part });
-                                }
-
                             }
                             partDriver.Dispose();
                         }
