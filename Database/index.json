@@ -28,6 +28,10 @@
         {
             "Version": "3.4",
             "Resolved": "Update/3.4/package.zip"
+        },
+        {
+            "Version": "3.4.1",
+            "Resolved": "Update/3.4.1/package.zip"
         }
     ]
 }
