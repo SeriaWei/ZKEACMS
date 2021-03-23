@@ -65,6 +65,7 @@ namespace ZKEACMS
         public const string ArticleCategory = "ViewDataKey_ArticleType";
         public const string ProductCategory = "ViewDataKey_ProductCategory";
         public const string ProductListTemplate = "ViewDataKey_ProductListTemplate";
+        public const string Currency = "ViewDataKey_Currency";
     }
     public class ReView
     {
@@ -84,6 +85,8 @@ namespace ZKEACMS
         public const string SelectPage = "/admin/page/select";
         public const string SelectMedia = "/admin/Media/Select";
         public const string StyleEditor = "/admin/StyleEditor/Edit";
+        public const string SelectArticle = "/admin/article/select";
+        public const string SelectProduct = "/admin/product/select";
     }
 
     public enum MediaType
@@ -139,6 +142,8 @@ namespace ZKEACMS
         public const string SelectMediaClass = "select select-media";
         public const string SelectVideoClass = "select select-video";
         public const string SelectPageClass = "select select-page";
+        public const string SelectArticleClass = "select select-article";
+        public const string SelectProductClass = "select select-product";
         public const string StyleEditor = "select custom-style-target";
         public const string HtmlEditorClass = "html";
         public const string DynamicHtmlEditorClass = "dy-editor";

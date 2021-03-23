@@ -124,5 +124,11 @@ namespace ZKEACMS.Product.Controllers
             }
             return View(new ProductTagViewModel { ProductTags = tags });
         }
+
+        [DefaultAuthorize(Policy = PermissionKeys.ViewProduct)]
+        public IActionResult Select()
+        {
+            return View();
+        }
     }
 }

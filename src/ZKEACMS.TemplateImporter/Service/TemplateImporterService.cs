@@ -301,7 +301,7 @@ namespace ZKEACMS.TemplateImporter.Service
                     scriptWidget.StyleClass = "full";
                     _widgetActivator.Create(scriptWidget).AddWidget(scriptWidget);
                 }
-                _pageService.Publish(page);
+
             }
             #endregion
             return CreateTheme(themeName, cssFiles);
@@ -405,11 +405,10 @@ namespace ZKEACMS.TemplateImporter.Service
             };
 
             var theme = _themeService.Get(themeEntity.ID);
-            if (theme != null)
+            if (theme == null)
             {
-                _themeService.Remove(theme);
+                _themeService.Add(themeEntity);
             }
-            _themeService.Add(themeEntity);
             _themeService.ChangeTheme(themeEntity.ID);
             return themeEntity;
         }

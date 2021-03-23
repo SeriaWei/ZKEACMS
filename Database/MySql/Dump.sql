@@ -272,6 +272,23 @@ INSERT INTO `ArticleDetailWidget` VALUES
 ('ad2e89beefd542709124bd4e81eedf58',NULL);
 /*!40000 ALTER TABLE `ArticleDetailWidget` ENABLE KEYS */;
 
+DROP TABLE IF EXISTS `ArticleGallery`;
+CREATE TABLE `ArticleGallery` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`RawData` LONGTEXT CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
+);
+
+
 DROP TABLE IF EXISTS `ArticleListWidget`;
 CREATE TABLE `ArticleListWidget` (
 	`ID` VARCHAR(100) CHARACTER SET utf8mb4  NOT NULL,
@@ -2029,6 +2046,53 @@ CREATE TABLE `Comments` (
 );
 
 
+DROP TABLE IF EXISTS `Currency`;
+CREATE TABLE `Currency` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Code` VARCHAR(10) CHARACTER SET utf8mb4  NULL,
+	`Symbol` VARCHAR(10) CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
+);
+
+/*!40000 ALTER TABLE `Currency` DISABLE KEYS */;
+INSERT INTO `Currency` VALUES
+(1,'Australian Dollar',NULL,'AUD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(2,'Brazilian Real',NULL,'BRL','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(3,'Canadian Dollar',NULL,'CAD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(4,'Chinese Renmenbi',NULL,'CNY','￥',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(5,'Czech Koruna',NULL,'CZK','Kč',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(6,'Danish Krone',NULL,'DKK','kr',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(7,'Euro',NULL,'EUR','€',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(8,'Hong Kong Dollar',NULL,'HKD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(9,'Hungarian Forint',NULL,'HUF','HUF',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(10,'Indian Rupee',NULL,'INR','INR',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(11,'Israeli New Shekel',NULL,'ILS','₪',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(12,'Japanese Yen',NULL,'JPY','￥',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(13,'Malaysian Ringgit',NULL,'MYR','MYR',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(14,'Mexican Peso',NULL,'MXN','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(15,'New Taiwan Dollar',NULL,'TWD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(16,'New Zealand Dollar',NULL,'NZD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(17,'Norwegian Krone',NULL,'NOK','NOK',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(18,'Philippine Peso',NULL,'PHP','PHP',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(19,'Polish Zloty',NULL,'PLN','zł',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(20,'Pound Sterling',NULL,'GBP','£',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(21,'Russian Ruble',NULL,'RUB','RUB',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(22,'Singapore Dollar',NULL,'SGD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(23,'Swedish Krona',NULL,'SEK','SEK',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(24,'Swiss Franc',NULL,'CHF','CHF',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(25,'Thai Baht',NULL,'THB','฿',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+(26,'United States Dollar',NULL,'USD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `Currency` ENABLE KEYS */;
+
 DROP TABLE IF EXISTS `DataArchived`;
 CREATE TABLE `DataArchived` (
 	`ID` VARCHAR(100) CHARACTER SET utf8mb4  NOT NULL,
@@ -2171,7 +2235,7 @@ CREATE TABLE `DBVersion` (
 
 /*!40000 ALTER TABLE `DBVersion` DISABLE KEYS */;
 INSERT INTO `DBVersion` VALUES
-(1,3,3,6,0);
+(1,3,4,0,0);
 /*!40000 ALTER TABLE `DBVersion` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ExtendField`;
@@ -2190,6 +2254,82 @@ CREATE TABLE `ExtendField` (
 	`LastUpdateDate` DATETIME  NULL,
 	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
 	PRIMARY KEY (`ID`)
+);
+
+
+DROP TABLE IF EXISTS `FluidContentGroup`;
+CREATE TABLE `FluidContentGroup` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Icon` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
+);
+
+
+DROP TABLE IF EXISTS `FluidContentTemplate`;
+CREATE TABLE `FluidContentTemplate` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`ApplyTo` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`Template` LONGTEXT CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(500) CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL
+);
+
+
+DROP TABLE IF EXISTS `FluidContentType`;
+CREATE TABLE `FluidContentType` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`ContentSchema` LONGTEXT CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(500) CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	`GroupID` INT  NULL,
+	`RoleID` INT  NULL,
+	`Icon` VARCHAR(100) CHARACTER SET utf8mb4  NULL
+);
+
+
+DROP TABLE IF EXISTS `FluidContentValue`;
+CREATE TABLE `FluidContentValue` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`ContentTypeID` INT  NULL,
+	`Title` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`Content` LONGTEXT CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(500) CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	`ContentID` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CultureID` INT  NULL,
+	`Url` VARCHAR(200) CHARACTER SET utf8mb4  NULL,
+	`SEOTitle` VARCHAR(200) CHARACTER SET utf8mb4  NULL,
+	`SEOKeyWord` VARCHAR(200) CHARACTER SET utf8mb4  NULL,
+	`SEODescription` VARCHAR(200) CHARACTER SET utf8mb4  NULL
 );
 
 
@@ -2403,6 +2543,7 @@ INSERT INTO `Language` VALUES
 ('Align Right Bottom','zh-CN','右下对齐',NULL,NULL),
 ('Align Right Top','zh-CN','右上对齐',NULL,NULL),
 ('Align Top','zh-CN','顶部对齐',NULL,NULL),
+('AliPay','zh-CN','支付宝支付',NULL,NULL),
 ('Alipay Setting','en-GB','Alipay',NULL,NULL),
 ('Alipay Setting','en-US','Alipay',NULL,NULL),
 ('Alipay Setting','zh-CN','支付宝集成设置',NULL,NULL),
@@ -2411,16 +2552,19 @@ INSERT INTO `Language` VALUES
 ('AlipayOptions@AlipayPublicKey','zh-CN','应用公钥','AlipayOptions','EntityProperty'),
 ('AlipayOptions@AppId','en-GB','App','AlipayOptions','EntityProperty'),
 ('AlipayOptions@AppId','en-US','App','AlipayOptions','EntityProperty'),
-('AlipayOptions@AppId','zh-CN','AppId','AlipayOptions','EntityProperty'),
+('AlipayOptions@AppId','zh-CN','AppId',NULL,NULL),
+('AlipayOptions@Environment','zh-CN','环境',NULL,NULL),
 ('AlipayOptions@Gatewayurl','en-GB','Gatewayurl','AlipayOptions','EntityProperty'),
 ('AlipayOptions@Gatewayurl','en-US','Gatewayurl','AlipayOptions','EntityProperty'),
 ('AlipayOptions@Gatewayurl','zh-CN','支付宝网关','AlipayOptions','EntityProperty'),
+('AlipayOptions@IsEnable','zh-CN','是否启用',NULL,NULL),
 ('AlipayOptions@IsKeyFromFile','en-GB','Is Key From File','AlipayOptions','EntityProperty'),
 ('AlipayOptions@IsKeyFromFile','en-US','Is Key From File','AlipayOptions','EntityProperty'),
 ('AlipayOptions@IsKeyFromFile','zh-CN','IsKeyFromFile','AlipayOptions','EntityProperty'),
 ('AlipayOptions@PrivateKey','en-GB','Private Key','AlipayOptions','EntityProperty'),
 ('AlipayOptions@PrivateKey','en-US','Private Key','AlipayOptions','EntityProperty'),
-('AlipayOptions@PrivateKey','zh-CN','应用私钥','AlipayOptions','EntityProperty'),
+('AlipayOptions@PrivateKey','zh-CN','应用私钥',NULL,NULL),
+('AlipayOptions@PublicKey','zh-CN','应用公钥',NULL,NULL),
 ('AlipayOptions@SignType','en-GB','Sign Type','AlipayOptions','EntityProperty'),
 ('AlipayOptions@SignType','en-US','Sign Type','AlipayOptions','EntityProperty'),
 ('AlipayOptions@SignType','zh-CN','SignType','AlipayOptions','EntityProperty'),
@@ -2464,6 +2608,7 @@ INSERT INTO `Language` VALUES
 ('Article Detail','en-GB','Article Content',NULL,NULL),
 ('Article Detail','en-US','Article Content',NULL,NULL),
 ('Article Detail','zh-CN','文章内容',NULL,NULL),
+('Article Gallery','zh-CN','文章组',NULL,NULL),
 ('Article keywords','en-GB','Article keywords',NULL,NULL),
 ('Article keywords','en-US','Article keywords',NULL,NULL),
 ('Article keywords','zh-CN','文章关键字',NULL,NULL),
@@ -2548,6 +2693,8 @@ INSERT INTO `Language` VALUES
 ('ArticleEntity@Title','en-US','Title','ArticleEntity','EntityProperty'),
 ('ArticleEntity@Title','zh-CN','标题','ArticleEntity','EntityProperty'),
 ('ArticleEntity@Url','zh-CN','英文名','ArticleEntity','EntityProperty'),
+('ArticleGalleryWidget@ArticleGalleryId','zh-CN','文章组',NULL,NULL),
+('ArticleGalleryWidget@DetailPageUrl','zh-CN','详细页面',NULL,NULL),
 ('ArticleListWidget@ActionType','zh-CN','ActionType','ArticleListWidget','EntityProperty'),
 ('ArticleListWidget@ArticleCategoryID','zh-CN','ArticleCategoryID','ArticleListWidget','EntityProperty'),
 ('ArticleListWidget@ArticleTypeID','zh-CN','文章类别','ArticleListWidget','EntityProperty'),
@@ -2582,6 +2729,7 @@ INSERT INTO `Language` VALUES
 ('ArticleListWidget@ViewModelTypeName','zh-CN','ViewModelTypeName','ArticleListWidget','EntityProperty'),
 ('ArticleListWidget@WidgetName','zh-CN','组件名称','ArticleListWidget','EntityProperty'),
 ('ArticleListWidget@ZoneID','zh-CN','区域','ArticleListWidget','EntityProperty'),
+('Articles','zh-CN','文章',NULL,NULL),
 ('ArticleSpecialDetailWidget@ArticleId','zh-CN','文章ID','ArticleSpecialDetailWidget','EntityProperty'),
 ('ArticleSpecialDetailWidget@ArticleName','zh-CN','文章英文名','ArticleSpecialDetailWidget','EntityProperty'),
 ('ArticleSpecialDetailWidget@AssemblyName','zh-CN','Assembly Name','ArticleSpecialDetailWidget','EntityProperty'),
@@ -2818,6 +2966,7 @@ INSERT INTO `Language` VALUES
 ('Cancel','en-US','Cancel',NULL,NULL),
 ('Cancel','zh-CN','取消',NULL,NULL),
 ('Capitalize','zh-CN','首字母大写',NULL,NULL),
+('Captcha','zh-CN','验证码',NULL,NULL),
 ('Carousel','en-GB','Carousel',NULL,NULL),
 ('Carousel','en-US','Carousel',NULL,NULL),
 ('Carousel','zh-CN','焦点图',NULL,NULL),
@@ -3015,11 +3164,13 @@ INSERT INTO `Language` VALUES
 ('commit','en-US','Comment',NULL,NULL),
 ('commit','zh-CN','评论',NULL,NULL),
 ('Company News','zh-CN','公司新闻',NULL,NULL),
+('Complete','zh-CN','完成',NULL,NULL),
 ('Completed updating the index','zh-CN','完成更新索引',NULL,NULL),
 ('Confirm Password','en-GB','Confirm Password',NULL,NULL),
 ('Confirm Password','en-US','Confirm Password',NULL,NULL),
 ('Confirm Password','zh-CN','确认密码',NULL,NULL),
 ('Contact','zh-CN','联系人',NULL,NULL),
+('Contact Info','zh-CN','联系人信息',NULL,NULL),
 ('Contact/Consignee','zh-CN','联系人/收货人',NULL,NULL),
 ('contain','zh-CN','容纳',NULL,NULL),
 ('Container','en-GB','Container',NULL,NULL),
@@ -3034,6 +3185,7 @@ INSERT INTO `Language` VALUES
 ('Content Category','en-GB','Content Category',NULL,NULL),
 ('Content Category','en-US','Content Category',NULL,NULL),
 ('Content Category','zh-CN','内容类型',NULL,NULL),
+('Content Group','zh-CN','内容分组',NULL,NULL),
 ('ContentField@FieldType','zh-CN','字段类型','ContentField','EntityProperty'),
 ('ContentField@Name','zh-CN','属性名','ContentField','EntityProperty'),
 ('ContentField@Order','zh-CN','订单','ContentField','EntityProperty'),
@@ -3116,6 +3268,8 @@ INSERT INTO `Language` VALUES
 ('Copy from page','zh-CN','从现有页面复制',NULL,NULL),
 ('cover','zh-CN','覆盖',NULL,NULL),
 ('Create page from template','zh-CN','从模板中快速创建页面',NULL,NULL),
+('CreatebyName','zh-CN','创建人',NULL,NULL),
+('CreateDate','zh-CN','创建日期',NULL,NULL),
 ('Crosshair','zh-CN','十字',NULL,NULL),
 ('Culture@CreatebyName','zh-CN','创建人','Culture','EntityProperty'),
 ('Culture@CreateDate','zh-CN','创建日期','Culture','EntityProperty'),
@@ -3144,6 +3298,8 @@ INSERT INTO `Language` VALUES
 ('CultureSetting@IsShowDefault','en-GB','Is Show Default','CultureSetting','EntityProperty'),
 ('CultureSetting@IsShowDefault','en-US','Is Show Default','CultureSetting','EntityProperty'),
 ('CultureSetting@IsShowDefault','zh-CN','无内容时使用默认语言？','CultureSetting','EntityProperty'),
+('Currency','zh-CN','货币',NULL,NULL),
+('CurrencyOption@CurrencyID','zh-CN','货币',NULL,NULL),
 ('Current','zh-CN','当前',NULL,NULL),
 ('Current password error.','zh-CN','当前密码错误',NULL,NULL),
 ('Custom','zh-CN','自定义',NULL,NULL),
@@ -3151,6 +3307,7 @@ INSERT INTO `Language` VALUES
 ('Custom Rule','en-GB','Rule',NULL,NULL),
 ('Custom Rule','en-US','Rule',NULL,NULL),
 ('Custom Rule','zh-CN','定义条件',NULL,NULL),
+('Custom Validation','zh-CN','自定义验证',NULL,NULL),
 ('Customer','zh-CN','前端用户',NULL,NULL),
 ('Danger','zh-CN','危险',NULL,NULL),
 ('Dashed','zh-CN','虚线',NULL,NULL),
@@ -3284,10 +3441,12 @@ INSERT INTO `Language` VALUES
 ('Enterprise','en-US','Enterprise',NULL,NULL),
 ('Enterprise','zh-CN','企业版',NULL,NULL),
 ('Enterprise','zh-TW','企業版',NULL,NULL),
+('Environment','zh-CN','环境',NULL,NULL),
 ('Equals','en-GB','Equals',NULL,NULL),
 ('Equals','en-US','Equals',NULL,NULL),
 ('Equals','zh-CN','等于',NULL,NULL),
 ('e-resize','zh-CN','向右改变大小',NULL,NULL),
+('Error Message','zh-CN','错误信息',NULL,NULL),
 ('Error!','zh-CN','错误！',NULL,NULL),
 ('Everything goes well.','zh-CN','一切都很好。',NULL,NULL),
 ('Example','zh-CN','示例',NULL,NULL),
@@ -3374,6 +3533,7 @@ INSERT INTO `Language` VALUES
 ('Form','en-GB','Form',NULL,NULL),
 ('Form','en-US','Form',NULL,NULL),
 ('Form','zh-CN','表单',NULL,NULL),
+('Form Control Size','zh-CN','输入框尺寸',NULL,NULL),
 ('Form Data','en-GB','Form Data',NULL,NULL),
 ('Form Data','en-US','Form Data',NULL,NULL),
 ('Form Data','zh-CN','表单数据',NULL,NULL),
@@ -3479,6 +3639,7 @@ INSERT INTO `Language` VALUES
 ('Grid System','zh-CN','栅格列说明',NULL,NULL),
 ('Groove','zh-CN','凹槽',NULL,NULL),
 ('Group','zh-CN','组',NULL,NULL),
+('GroupID','zh-CN','分组',NULL,NULL),
 ('Have account?','en-GB','Have account?',NULL,NULL),
 ('Have account?','en-US','Have account?',NULL,NULL),
 ('Have account?','zh-CN','已有账号？',NULL,NULL),
@@ -3543,6 +3704,7 @@ INSERT INTO `Language` VALUES
 ('HtmlWidget@ViewModelTypeName','zh-CN','ViewModelTypeName','HtmlWidget','EntityProperty'),
 ('HtmlWidget@WidgetName','zh-CN','组件名称','HtmlWidget','EntityProperty'),
 ('HtmlWidget@ZoneID','zh-CN','区域','HtmlWidget','EntityProperty'),
+('Icon','zh-CN','图标',NULL,NULL),
 ('Image Border','en-GB','Image Border',NULL,NULL),
 ('Image Border','en-US','Image Border',NULL,NULL),
 ('Image Border','zh-CN','图片边框',NULL,NULL),
@@ -3607,6 +3769,7 @@ INSERT INTO `Language` VALUES
 ('Information','en-US','Information',NULL,NULL),
 ('Information','zh-CN','基本信息',NULL,NULL),
 ('Input keywords to search','zh-CN','输入关键字搜索',NULL,NULL),
+('Input option','zh-CN','输入选项内容',NULL,NULL),
 ('Inset','zh-CN','内嵌',NULL,NULL),
 ('Install','zh-CN','安装',NULL,NULL),
 ('Install Theme','en-GB','Install',NULL,NULL),
@@ -3618,6 +3781,7 @@ INSERT INTO `Language` VALUES
 ('Invalid Email for {0}.','zh-CN','{0}的邮件格式不正确',NULL,NULL),
 ('Invalid Number for {0}.','zh-CN','{0}不是一个有效的数字',NULL,NULL),
 ('Invalid value for {0}.','zh-CN','{0}的格式不正确',NULL,NULL),
+('IsEnable','zh-CN','是否启用',NULL,NULL),
 ('IsTemplate','zh-CN','保存为模板',NULL,NULL),
 ('Italic','zh-CN','斜体',NULL,NULL),
 ('JavaScript','en-GB','JavaScript',NULL,NULL),
@@ -3663,7 +3827,10 @@ INSERT INTO `Language` VALUES
 ('LanguageEntity@LanValue','en-US','Lan Value','LanguageEntity','EntityProperty'),
 ('LanguageEntity@LanValue','zh-CN','翻译值','LanguageEntity','EntityProperty'),
 ('LanguageEntity@Module','zh-CN','模块','LanguageEntity','EntityProperty'),
+('Large','zh-CN','大',NULL,NULL),
 ('Last-Modified','zh-CN','修改时间',NULL,NULL),
+('LastUpdateByName','zh-CN','更新人',NULL,NULL),
+('LastUpdateDate','zh-CN','更新日期',NULL,NULL),
 ('Layout','en-GB','Layout',NULL,NULL),
 ('Layout','en-US','Layout',NULL,NULL),
 ('Layout','zh-CN','布局',NULL,NULL),
@@ -3823,6 +3990,7 @@ INSERT INTO `Language` VALUES
 ('MediaEntity@Status','zh-CN','状态','MediaEntity','EntityProperty'),
 ('MediaEntity@Title','zh-CN','标题','MediaEntity','EntityProperty'),
 ('MediaEntity@Url','zh-CN','Url','MediaEntity','EntityProperty'),
+('Medium','zh-CN','中等',NULL,NULL),
 ('Memory Cache','zh-CN','内存缓存',NULL,NULL),
 ('Message','en-GB','Message',NULL,NULL),
 ('Message','en-US','Message',NULL,NULL),
@@ -4329,6 +4497,10 @@ INSERT INTO `Language` VALUES
 ('Payment Information','zh-CN','支付信息',NULL,NULL),
 ('Payment Order','zh-CN','已支付订单',NULL,NULL),
 ('Payment Setting','zh-CN','支付集成设置',NULL,NULL),
+('PayPalOptions@ClientID','zh-CN','Client ID',NULL,NULL),
+('PayPalOptions@ClientSecretID','zh-CN','Client Secret ID',NULL,NULL),
+('PayPalOptions@Environment','zh-CN','环境',NULL,NULL),
+('PayPalOptions@IsEnable','zh-CN','是否启用',NULL,NULL),
 ('Pending pages','zh-CN','有未处理完的页面',NULL,NULL),
 ('Phone','en-GB','Phone',NULL,NULL),
 ('Phone','en-US','Phone',NULL,NULL),
@@ -4338,6 +4510,7 @@ INSERT INTO `Language` VALUES
 ('Picture','en-US','Image',NULL,NULL),
 ('Picture','zh-CN','图片',NULL,NULL),
 ('Pixel Script','zh-CN','访客统计代码',NULL,NULL),
+('Placeholder','zh-CN','占位文字',NULL,NULL),
 ('Please contact administrator.','zh-CN','请联系管理员。',NULL,NULL),
 ('Please enter the refund amount','zh-CN','请输入退款金额',NULL,NULL),
 ('Please enter your account information','zh-CN','请输入您的用户信息以找回密码',NULL,NULL),
@@ -4377,6 +4550,7 @@ INSERT INTO `Language` VALUES
 ('Preview: Preview the pending page','en-US','Preview: Preview the page',NULL,NULL),
 ('Preview: Preview the pending page','zh-CN','预览：查看最新修改版本',NULL,NULL),
 ('Previous:','zh-CN','上一篇:',NULL,NULL),
+('Price','zh-CN','价格',NULL,NULL),
 ('Product','en-GB','Product',NULL,NULL),
 ('Product','en-US','Product',NULL,NULL),
 ('Product','zh-CN','产品',NULL,NULL),
@@ -4386,6 +4560,7 @@ INSERT INTO `Language` VALUES
 ('Product Content','en-GB','Product Content',NULL,NULL),
 ('Product Content','en-US','Product Content',NULL,NULL),
 ('Product Content','zh-CN','产品内容',NULL,NULL),
+('Product Gallery','zh-CN','产品组',NULL,NULL),
 ('Product keywords','en-GB','Product keywords',NULL,NULL),
 ('Product keywords','en-US','Product keywords',NULL,NULL),
 ('Product keywords','zh-CN','产品关键字',NULL,NULL),
@@ -4535,6 +4710,8 @@ INSERT INTO `Language` VALUES
 ('ProductEntity@Title','en-US','Title','ProductEntity','EntityProperty'),
 ('ProductEntity@Title','zh-CN','标题','ProductEntity','EntityProperty'),
 ('ProductEntity@Url','zh-CN','英文名','ProductEntity','EntityProperty'),
+('ProductGalleryWidget@DetailPageUrl','zh-CN','详细页面',NULL,NULL),
+('ProductGalleryWidget@ProductGalleryId','zh-CN','产品组',NULL,NULL),
 ('ProductImage@ActionType','zh-CN','ActionType','ProductImage','EntityProperty'),
 ('ProductImage@CreateBy','zh-CN','CreateBy','ProductImage','EntityProperty'),
 ('ProductImage@CreatebyName','zh-CN','创建人','ProductImage','EntityProperty'),
@@ -4582,6 +4759,7 @@ INSERT INTO `Language` VALUES
 ('ProductListWidget@ViewModelTypeName','zh-CN','ViewModelTypeName','ProductListWidget','EntityProperty'),
 ('ProductListWidget@WidgetName','zh-CN','组件名称','ProductListWidget','EntityProperty'),
 ('ProductListWidget@ZoneID','zh-CN','区域','ProductListWidget','EntityProperty'),
+('Products','zh-CN','产品',NULL,NULL),
 ('Property','en-GB','Property',NULL,NULL),
 ('Property','en-US','Property',NULL,NULL),
 ('Property','zh-CN','属性',NULL,NULL),
@@ -4626,6 +4804,7 @@ INSERT INTO `Language` VALUES
 ('Refund successfull!','zh-CN','退款成功！',NULL,NULL),
 ('Refunded','zh-CN','已退款',NULL,NULL),
 ('Refunding','zh-CN','退款中',NULL,NULL),
+('Regular expression','zh-CN','正则表达式',NULL,NULL),
 ('Reinstall to update the theme','en-GB','Reinstall to update the theme',NULL,NULL),
 ('Reinstall to update the theme','en-US','Reinstall to update the theme',NULL,NULL),
 ('Reinstall to update the theme','zh-CN','若主题有更新，重复安装即可更新',NULL,NULL),
@@ -4636,6 +4815,8 @@ INSERT INTO `Language` VALUES
 ('repeat-y','zh-CN','垂直重复',NULL,NULL),
 ('Reply','zh-CN','回复',NULL,NULL),
 ('Report issue','zh-CN','反馈问题',NULL,NULL),
+('Required Message','zh-CN','必填项提示信息',NULL,NULL),
+('Required?','zh-CN','必填？',NULL,NULL),
 ('Reset failed?','zh-CN','重置失败？',NULL,NULL),
 ('Reset password','zh-CN','重置密码',NULL,NULL),
 ('Revert','en-GB','Revert',NULL,NULL),
@@ -4680,6 +4861,7 @@ INSERT INTO `Language` VALUES
 ('RoleEntity@Title','en-GB','Title','RoleEntity','EntityProperty'),
 ('RoleEntity@Title','en-US','Title','RoleEntity','EntityProperty'),
 ('RoleEntity@Title','zh-CN','标题','RoleEntity','EntityProperty'),
+('RoleID','zh-CN','角色',NULL,NULL),
 ('Row','en-GB','Row',NULL,NULL),
 ('Row','en-US','Row',NULL,NULL),
 ('Row','zh-CN','行',NULL,NULL),
@@ -4941,6 +5123,7 @@ INSERT INTO `Language` VALUES
 ('SectionWidget@ViewModelTypeName','zh-CN','ViewModelTypeName','SectionWidget','EntityProperty'),
 ('SectionWidget@WidgetName','zh-CN','组件名称','SectionWidget','EntityProperty'),
 ('SectionWidget@ZoneID','zh-CN','区域','SectionWidget','EntityProperty'),
+('Secure Payment','zh-CN','安全支付',NULL,NULL),
 ('Security','zh-CN','安全',NULL,NULL),
 ('Select','zh-CN','选择',NULL,NULL),
 ('Select All','zh-CN','全选',NULL,NULL),
@@ -4954,9 +5137,13 @@ INSERT INTO `Language` VALUES
 ('Shadow','en-GB','Shadow',NULL,NULL),
 ('Shadow','en-US','Shadow',NULL,NULL),
 ('Shadow','zh-CN','阴影',NULL,NULL),
+('Shiped','zh-CN','已发货',NULL,NULL),
 ('Shipped','zh-CN','已发货',NULL,NULL),
 ('Shipped orders','zh-CN','已发货订单',NULL,NULL),
+('Shipping','zh-CN','运费',NULL,NULL),
 ('Shipping Address','zh-CN','收货地址',NULL,NULL),
+('Shipping Option','zh-CN','物流选项',NULL,NULL),
+('ShippingOption','zh-CN','物流选项',NULL,NULL),
 ('Shop','zh-CN','商城',NULL,NULL),
 ('Sign in','en-GB','Sign in',NULL,NULL),
 ('Sign in','en-US','Sign in',NULL,NULL),
@@ -4991,6 +5178,7 @@ INSERT INTO `Language` VALUES
 ('SiteSearchWidget@ZoneID','zh-CN','区域','SiteSearchWidget','EntityProperty'),
 ('Size','zh-CN','大小',NULL,NULL),
 ('SM Screen','zh-CN','小屏幕',NULL,NULL),
+('Small','zh-CN','小',NULL,NULL),
 ('Small Caps','zh-CN','小字体',NULL,NULL),
 ('SMTP Config','en-GB','SMTP',NULL,NULL),
 ('SMTP Config','en-US','SMTP',NULL,NULL),
@@ -5139,7 +5327,9 @@ INSERT INTO `Language` VALUES
 ('Subscription_Unsubscribing_Title','en-US','You are unsubscribing',NULL,NULL),
 ('Subscription_Unsubscribing_Title','zh-CN','您正在取消订阅',NULL,NULL),
 ('SubscriptionSetting@IsEnable','zh-CN','是否启用？',NULL,NULL),
+('Subtotal','zh-CN','小计',NULL,NULL),
 ('Success','zh-CN','成功',NULL,NULL),
+('Summary','zh-CN','摘要',NULL,NULL),
 ('Switch Template','zh-CN','切换模板',NULL,NULL),
 ('Switching Theme...','zh-CN','切换主题中...',NULL,NULL),
 ('sw-resize','zh-CN','向左下改变大小',NULL,NULL),
@@ -5167,6 +5357,9 @@ INSERT INTO `Language` VALUES
 ('Tag','en-GB','Tag',NULL,NULL),
 ('Tag','en-US','Tag',NULL,NULL),
 ('Tag','zh-CN','标签',NULL,NULL),
+('Tax','zh-CN','税',NULL,NULL),
+('Tax Rate','zh-CN','税率',NULL,NULL),
+('TaxRate','zh-CN','税率',NULL,NULL),
 ('TemplateFile@Content','zh-CN','模板代码','TemplateFile','EntityProperty'),
 ('TemplateFile@Id','zh-CN','Id','TemplateFile','EntityProperty'),
 ('TemplateFile@LastUpdateTime','en-US','Last Update Time','TemplateFile','EntityProperty'),
@@ -5542,6 +5735,17 @@ INSERT INTO `Language` VALUES
 ('WeChat','en-US','WeChat',NULL,NULL),
 ('WeChat','zh-CN','微信',NULL,NULL),
 ('Wechat Config','zh-CN','配置微信登录',NULL,NULL),
+('WeChatPay','zh-CN','微信支付',NULL,NULL),
+('WeChatPay Setting','zh-CN','微信支付集成设置',NULL,NULL),
+('WeChatPayOptions@AppId','zh-CN','AppId',NULL,NULL),
+('WeChatPayOptions@AppSecret','zh-CN','应用密钥',NULL,NULL),
+('WeChatPayOptions@Certificate','zh-CN','API证书',NULL,NULL),
+('WeChatPayOptions@CertificatePassword','zh-CN','证书密码',NULL,NULL),
+('WeChatPayOptions@IsEnable','zh-CN','是否启用',NULL,NULL),
+('WeChatPayOptions@Key','zh-CN','API密钥',NULL,NULL),
+('WeChatPayOptions@MchId','zh-CN','商户ID',NULL,NULL),
+('WeChatPayOptions@RsaPublicKey','zh-CN','RSA公钥',NULL,NULL),
+('WeChatPayOptions@V3Key','zh-CN','APIv3密钥',NULL,NULL),
 ('WeiBo','en-GB','WeiBo',NULL,NULL),
 ('WeiBo','en-US','WeiBo',NULL,NULL),
 ('WeiBo','zh-CN','微博',NULL,NULL),
@@ -5818,6 +6022,10 @@ CREATE TABLE `Order` (
 	`Refund` DECIMAL (18,4)  NULL,
 	`RefundDate` DATETIME  NULL,
 	`RefundReason` VARCHAR(500) CHARACTER SET utf8mb4  NULL,
+	`ShippingOption` INT  NULL,
+	`SubTotal` DECIMAL (19,4)  NULL,
+	`Tax` DECIMAL (19,4)  NULL,
+	`Shipping` DECIMAL (19,4)  NULL,
 	PRIMARY KEY (`ID`)
 );
 
@@ -5841,6 +6049,7 @@ CREATE TABLE `OrderItem` (
 	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
 	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
 	`LastUpdateDate` DATETIME  NULL,
+	`BasketID` INT  NULL,
 	PRIMARY KEY (`ID`)
 );
 
@@ -6087,6 +6296,23 @@ CREATE TABLE `ProductDetailWidget` (
 	PRIMARY KEY (`ID`),
 	KEY `FK_ProductDetailWidget_Widget` (`ID`),
 	CONSTRAINT `FK_ProductDetailWidget_Widget` FOREIGN KEY (`ID`) REFERENCES `CMS_WidgetBase` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+
+DROP TABLE IF EXISTS `ProductGallery`;
+CREATE TABLE `ProductGallery` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`RawData` LONGTEXT CHARACTER SET utf8mb4  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
 );
 
 
@@ -6478,6 +6704,26 @@ INSERT INTO `SectionWidget` VALUES
 ('f41174cfa4d247f4974c47f4d2b000fd',NULL,NULL),
 ('f6f11ba2fec844de883acf0a1fe3eb89',NULL,NULL);
 /*!40000 ALTER TABLE `SectionWidget` ENABLE KEYS */;
+
+DROP TABLE IF EXISTS `ShippingOption`;
+CREATE TABLE `ShippingOption` (
+	`ID` INT AUTO_INCREMENT  NOT NULL,
+	`Title` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Description` VARCHAR(255) CHARACTER SET utf8mb4  NULL,
+	`Price` DECIMAL (19,4)  NULL,
+	`Rule` LONGTEXT CHARACTER SET utf8mb4  NULL,
+	`ContentID` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CultureID` INT  NULL,
+	`Status` INT  NULL,
+	`CreateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`CreatebyName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`CreateDate` DATETIME  NULL,
+	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
+);
+
 
 DROP TABLE IF EXISTS `StyleSheetWidget`;
 CREATE TABLE `StyleSheetWidget` (

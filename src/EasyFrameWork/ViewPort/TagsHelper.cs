@@ -6,7 +6,6 @@ using System.Reflection;
 
 namespace Easy.ViewPort
 {
-
     public class TagsHelper
     {
         private readonly string _key;

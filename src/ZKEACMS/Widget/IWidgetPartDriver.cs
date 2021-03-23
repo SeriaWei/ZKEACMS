@@ -15,7 +15,7 @@ namespace ZKEACMS.Widget
         void UpdateWidget(WidgetBase widget);
         void Publish(WidgetBase widget);
         WidgetBase GetWidget(WidgetBase widget);
-        WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext);
+        object Display(WidgetDisplayContext widgetDisplayContext);
         WidgetPackage PackWidget(WidgetBase widget);
         void InstallWidget(WidgetPackage pack);
     }

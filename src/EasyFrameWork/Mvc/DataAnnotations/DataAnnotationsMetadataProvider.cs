@@ -92,42 +92,44 @@ namespace Easy.Mvc.DataAnnotations
                                 v.DisplayName = () => descriptor.DisplayName;
                             }
                             string encodeError = Convert.ToBase64String(JsonConvert.SerializeObject(new Mapping(v.Name, v.Property)).ToByte());
-                            if (v is RangeValidator)
+                            if (v is RangeValidator rangeValid)
                             {
-                                RangeValidator valid = (RangeValidator)v;
-                                RangeAttribute range = new RangeAttribute(valid.Min, valid.Max);
+                                RangeAttribute range = new RangeAttribute(rangeValid.Min, rangeValid.Max);
                                 range.ErrorMessage = encodeError;
 
                                 context.ValidationMetadata.ValidatorMetadata.Add(range);
                             }
-                            else if (v is RegularValidator)
+                            else if (v is RegularValidator regularValid)
                             {
-                                RegularValidator valid = (RegularValidator)v;
-                                RegularExpressionAttribute regular = new RegularExpressionAttribute(valid.Expression);
+                                RegularExpressionAttribute regular = new RegularExpressionAttribute(regularValid.Expression);
                                 regular.ErrorMessage = encodeError;
                                 context.ValidationMetadata.ValidatorMetadata.Add(regular);
                             }
-                            else if (v is RemoteValidator)
+                            else if (v is RemoteValidator remoteValid)
                             {
-                                RemoteValidator valid = (RemoteValidator)v;
-                                RemoteAttribute remote = new RemoteAttribute(valid.Action, valid.Controller, valid.Area);
+                                RemoteAttribute remote = new RemoteAttribute(remoteValid.Action, remoteValid.Controller, remoteValid.Area);
                                 remote.ErrorMessage = encodeError;
                                 context.ValidationMetadata.ValidatorMetadata.Add(remote);
                             }
                             else if (v is RequiredValidator)
                             {
-                                RequiredValidator valid = (RequiredValidator)v;
                                 RequiredAttribute required = new RequiredAttribute();
                                 required.ErrorMessage = encodeError;
                                 context.ValidationMetadata.ValidatorMetadata.Add(required);
                             }
-                            else if (v is StringLengthValidator)
+                            else if (v is StringLengthValidator stringLengthValid)
                             {
-                                StringLengthValidator valid = (StringLengthValidator)v;
-                                StringLengthAttribute stringLength = new StringLengthAttribute(valid.Max);
+                                StringLengthAttribute stringLength = new StringLengthAttribute(stringLengthValid.Max);
                                 stringLength.ErrorMessage = encodeError;
                                 context.ValidationMetadata.ValidatorMetadata.Add(stringLength);
                             }
+                            else
+                            {
+                                CustomValidationHandler customValidationHandler = new CustomValidationHandler(v.Validate);
+                                customValidationHandler.ErrorMessage = encodeError;
+                                context.ValidationMetadata.ValidatorMetadata.Add(customValidationHandler);
+                            }
+                            //todo: CompareAttribute
                         });
 
                     }

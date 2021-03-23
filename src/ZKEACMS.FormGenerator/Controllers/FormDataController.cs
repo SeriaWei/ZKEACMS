@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Authorization;
 using System.Net;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Primitives;
+using ZKEACMS.Filter;
+using Easy;
 
 namespace ZKEACMS.FormGenerator.Controllers
 {
@@ -23,38 +25,24 @@ namespace ZKEACMS.FormGenerator.Controllers
     public class FormDataController : BasicController<FormData, int, IFormDataService>
     {
         private const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-
-        public FormDataController(IFormDataService service) : base(service)
+        private readonly ILocalize _localize;
+        public FormDataController(IFormDataService service, ILocalize localize) : base(service)
         {
+            _localize = localize;
         }
-        [HttpPost, AllowAnonymous]
-        public IActionResult Submit(string next, string FormId)
-        {
-            var pathArray = next.Split("?");
 
-            Dictionary<string, StringValues> queryDic = null;
-            if (pathArray.Length > 1)
-            {
-                queryDic= QueryHelpers.ParseQuery(pathArray[1]);
-            }
-            else
-            {
-                queryDic = new Dictionary<string, StringValues>();
-            }            
-            queryDic.Remove("status");
-            queryDic.Remove("msg");
+        [HttpPost, AllowAnonymous, RenderRefererPage]
+        public IActionResult Submit(string FormId)
+        {
             var result = Service.SaveForm(Request.Form, FormId);
-            if (result.HasViolation)
+            ModelState.Merge(result);
+            if (!result.HasViolation)
             {
-                queryDic.Add("status", "error");
-                queryDic.Add("msg", WebUtility.UrlEncode(result.ErrorMessage));
+                TempData["Message"] = _localize.Get("Form have submited");
             }
-            else
-            {
-                queryDic.Add("status", "complete");
-            }
-            return Redirect(QueryHelpers.AddQueryString(pathArray[0], queryDic.ToDictionary(m => m.Key, m => m.Value.ToString())));
+            return View(result.Result.Form);
         }
+
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageFormData)]
         public override IActionResult Delete(int id)
         {

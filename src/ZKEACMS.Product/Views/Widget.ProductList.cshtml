@@ -28,12 +28,12 @@
                                 <div class="pull-left price">
                                     @if (item.RebatePrice.HasValue)
                                     {
-                                        <del class="text-muted"><small><small>￥</small>@Html.Raw(Regex.Replace((item.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</small></del>
-                                        <strong><small>￥</small>@Html.Raw(Regex.Replace((item.RebatePrice ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</strong>
+                                        <del class="text-muted"><small><small>@Html.CurrencySymbol()</small>@Html.Raw(Regex.Replace((item.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</small></del>
+                                        <strong><small>@Html.CurrencySymbol()</small>@Html.Raw(Regex.Replace((item.RebatePrice ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</strong>
                                     }
                                     else
                                     {
-                                        <strong><small>￥</small>@Html.Raw(Regex.Replace((item.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</strong>
+                                        <strong><small>@Html.CurrencySymbol()</small>@Html.Raw(Regex.Replace((item.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</strong>
                                     }
                                 </div>
                             </div>

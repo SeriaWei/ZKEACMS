@@ -16,7 +16,7 @@ namespace ZKEACMS.Common.Service
         {
         }
 
-        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
+        public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             HtmlContentBuilder htmlContentBuilder = new HtmlContentBuilder();
             htmlContentBuilder.AppendHtmlLine("<!-- head:{0} -->".FormatWith(widgetDisplayContext.Widget.ID));

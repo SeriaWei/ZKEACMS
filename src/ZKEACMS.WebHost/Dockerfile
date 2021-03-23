@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.0
+FROM zkeasoft/cms-runtime:5.0
 ARG source
 WORKDIR /zkeacms
 EXPOSE 80

@@ -101,14 +101,14 @@ namespace ZKEACMS.Widget
             widgetBase.Thumbnail = null;
             widgetBase.RuleID = null;
 
-            var widgetPart = service.Display(new WidgetDisplayContext
+            object viewModel = service.Display(new WidgetDisplayContext
             {
                 PageLayout = pageLayout,
                 Widget = widgetBase,
                 ActionContext = actionContext
             });
             service.AddWidget(widgetBase);
-            return widgetPart;
+            return new WidgetViewModelPart(widgetBase, viewModel);
         }
         public void RemoveCache(string pageId)
         {

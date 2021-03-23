@@ -25,6 +25,20 @@ namespace ZKEACMS.FormGenerator
         {
             yield return new RouteDescriptor
             {
+                RouteName = "EditTemplate",
+                Template = "Admin/FormGenerator/EditTemplate/{template}",
+                Defaults = new { controller = "EditTemplate", action = "TemplateView" },
+                Priority = 11
+            };
+            yield return new RouteDescriptor
+            {
+                RouteName = "PreviewTemplate",
+                Template = "Admin/FormGenerator/PreviewTemplate/{template}",
+                Defaults = new { controller = "PreviewTemplate", action = "TemplateView" },
+                Priority = 11
+            };
+            yield return new RouteDescriptor
+            {
                 RouteName = "FormData",
                 Template = "FormDataHandle/Submit",
                 Defaults = new { controller = "FormData", action = "Submit" },
@@ -117,6 +131,7 @@ namespace ZKEACMS.FormGenerator
             serviceCollection.TryAddTransient<IFormService, FormService>();
             serviceCollection.TryAddTransient<IFormDataService, FormDataService>();
             serviceCollection.TryAddTransient<IFormDataItemService, FormDataItemService>();
+            serviceCollection.TryAddTransient<IFormDataApiService, FormDataApiService>();
 
             serviceCollection.ConfigureMetaData<Form, FormMetaData>();
             serviceCollection.ConfigureMetaData<FormData, FormDataMetaData>();

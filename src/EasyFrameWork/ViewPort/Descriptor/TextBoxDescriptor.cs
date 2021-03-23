@@ -81,11 +81,6 @@ namespace Easy.ViewPort.Descriptor
             });
             return this;
         }
-        public TextBoxDescriptor PlaceHolder(string info)
-        {
-            this.AddProperty("placeholder", info);
-            return this;
-        }
 
         public TextBoxDescriptor Email()
         {

@@ -38,7 +38,7 @@
                             <div class="clearfix">
                                 <div class="text-right">
                                     <span class="price">
-                                        @L("￥")
+                                        @Html.CurrencySymbol()
                                         @Html.Raw(Regex.Replace(item.Price.ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))
                                         x <span class="quantity">@item.Quantity</span>
                                     </span>
@@ -72,7 +72,7 @@
                         <div class="text-right">
                             @L("Total")
                             <span class="price">
-                                @L("￥")<span class="total -price">@Model.Total.ToString("F2")</span>
+                                @Html.CurrencySymbol()<span class="total -price">@Model.Total.ToString("F2")</span>
                             </span>
                         </div>
                     </div>

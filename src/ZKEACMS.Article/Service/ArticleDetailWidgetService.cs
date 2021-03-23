@@ -49,7 +49,7 @@ namespace ZKEACMS.Article.Service
             DismissRelatedPageUrls();
         }
 
-        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
+        public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             var actionContext = widgetDisplayContext.ActionContext;
             int articleId = actionContext.RouteData.GetPost();
@@ -91,7 +91,7 @@ namespace ZKEACMS.Article.Service
             }
 
 
-            return widgetDisplayContext.ToWidgetViewModelPart(viewModel);
+            return viewModel;
         }
 
         public string[] GetRelatedPageUrls()

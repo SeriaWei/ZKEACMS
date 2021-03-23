@@ -56,7 +56,7 @@ namespace ZKEACMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _userService.Login(model.UserID, model.PassWord, UserType.Administrator, Request.HttpContext.Connection.RemoteIpAddress.ToString());
+                var user = _userService.Login(model.UserID, model.PassWord, UserType.Administrator, Request.HttpContext.Connection.RemoteIpAddress?.ToString());
                 if (user != null)
                 {
 
@@ -145,25 +145,31 @@ namespace ZKEACMS.Controllers
             return View();
         }
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<ActionResult> SignIn(string email, string password, string ReturnUrl)
+        public async Task<ActionResult> SignIn(CustomerSignInViewModel model, string ReturnUrl)
         {
-            var user = _userService.Login(email, password, UserType.Customer, Request.HttpContext.Connection.RemoteIpAddress.ToString());
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                user.AuthenticationType = CustomerAuthorizeAttribute.CustomerAuthenticationScheme;
-                var identity = new ClaimsIdentity(user);
-                identity.AddClaim(new Claim(ClaimTypes.Name, user.UserID));
-                await HttpContext.SignInAsync(CustomerAuthorizeAttribute.CustomerAuthenticationScheme, new ClaimsPrincipal(identity));
-
-                if (ReturnUrl.IsNullOrEmpty() || !Url.IsLocalUrl(ReturnUrl))
+                var user = _userService.Login(model.Email, model.PassWord, UserType.Customer, Request.HttpContext.Connection.RemoteIpAddress.ToString());
+                if (user != null)
                 {
-                    return RedirectToAction("Index", "Account");
+                    user.AuthenticationType = CustomerAuthorizeAttribute.CustomerAuthenticationScheme;
+                    var identity = new ClaimsIdentity(user);
+                    identity.AddClaim(new Claim(ClaimTypes.Name, user.UserID));
+                    await HttpContext.SignInAsync(CustomerAuthorizeAttribute.CustomerAuthenticationScheme, new ClaimsPrincipal(identity));
+
+                    if (ReturnUrl.IsNullOrEmpty() || !Url.IsLocalUrl(ReturnUrl))
+                    {
+                        return RedirectToAction("Index", "Account");
+                    }
+                    return Redirect(ReturnUrl);
                 }
-                return Redirect(ReturnUrl);
+                else
+                {
+                    ModelState.AddModelError("PassWord", _localize.Get("User name password is incorrect"));
+                }
             }
-            ViewBag.Errormessage = _localize.Get("User name password is incorrect");
             ViewBag.ReturnUrl = ReturnUrl;
-            return View();
+            return View(model);
         }
 
         public async Task<ActionResult> SignOut(string returnurl)

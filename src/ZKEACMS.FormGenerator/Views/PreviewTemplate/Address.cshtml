@@ -1,0 +1,24 @@
+﻿<label class="control-label" ng-if="field.DisplayName" ng-bind="field.DisplayName"></label>
+<span class="text-muted" ng-if="field.Description">
+    <span ng-bind="field.Description"></span>
+</span>
+<div class="input-group" ng-class="'size-' + field.Size" style="display:block;">
+    <div class="row">
+        <div class="col-md-4">
+            <select class="form-control">
+                <option>@L("-- Province --")</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <select class="form-control">
+                <option>@L("-- City --")</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <select class="form-control">
+                <option>@L("-- District --")</option>
+            </select>
+        </div>
+    </div>
+</div>
+<button type="button" class="close" ng-click="removeField(field)" ng-if="Fields.length>1"><span aria-hidden="true">&times;</span></button>

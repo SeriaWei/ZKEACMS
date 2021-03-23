@@ -67,7 +67,7 @@ namespace ZKEACMS.Article.Service
             return widget;
         }
 
-        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
+        public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             var currentWidget = widgetDisplayContext.Widget as ArticleListWidget;
             var categoryEntity = _articleTypeService.Get(currentWidget.ArticleTypeID);
@@ -109,14 +109,14 @@ namespace ZKEACMS.Article.Service
                 articles = _articleService.Get().Where(filter).OrderByDescending(m => m.PublishDate).ToList();
             }
 
-            return widgetDisplayContext.ToWidgetViewModelPart(new ArticleListWidgetViewModel
+            return new ArticleListWidgetViewModel
             {
                 Articles = articles,
                 Widget = currentWidget,
                 Pagin = pagin,
                 CategoryTitle = categoryEntity == null ? "" : categoryEntity.Title,
                 IsPageable = currentWidget.IsPageable
-            });
+            };
         }
     }
 }

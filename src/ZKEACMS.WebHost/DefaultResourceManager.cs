@@ -27,6 +27,9 @@ namespace ZKEACMS.WebHost
             script("jQueryUi")
                 .Include($"{LibraryPath}/jquery-ui/jquery-ui.js", $"{LibraryPath}/jquery-ui/jquery-ui.min.js");
 
+            script("jQueryUi-sortable")
+                .Include($"{LibraryPath}/jquery-ui/jquery-ui-sortalbe.js", $"{LibraryPath}/jquery-ui/jquery-ui-sortalbe.min.js");
+
             script("Easy")
                 .Include($"{ScriptPath}/EasyPlug/Easy.js", $"{ScriptPath}/EasyPlug/Easy.min.js").RequiredAtHead();
 
@@ -66,6 +69,7 @@ namespace ZKEACMS.WebHost
             script("dataTable")
                 .Include($"{LibraryPath}/datatables/media/js/jquery.dataTables.js", $"{LibraryPath}/datatables/media/js/jquery.dataTables.min.js")
                 .Include($"{LibraryPath}/datatables/media/js/dataTables.bootstrap.js", $"{LibraryPath}/datatables/media/js/dataTables.bootstrap.min.js")
+                .Include($"{ScriptPath}/moment.js", $"{ScriptPath}/moment.min.js")
                 .Include($"{ScriptPath}/dataTable.js", $"{ScriptPath}/dataTable.min.js");
 
             script("datepicker")
@@ -94,6 +98,13 @@ namespace ZKEACMS.WebHost
                 .Include($"{LibraryPath}/codemirror/mode/css/css.js")
                 .Include($"{LibraryPath}/codemirror/mode/htmlmixed/htmlmixed.js")
                 .Include($"{LibraryPath}/codemirror/addon/format/autoformat.js", $"{LibraryPath}/codemirror/addon/format/autoformat.min.js");
+
+            script("captcha")
+                .Include($"{ScriptPath}/captcha.js", $"{ScriptPath}/captcha.min.js");
+
+            script("list-editor")
+                .Include($"{LibraryPath}/jquery-ui/jquery-ui-sortable.js", $"{LibraryPath}/jquery-ui/jquery-ui-sortable.min.js")
+                .Include($"{ScriptPath}/list-editor.js", $"{ScriptPath}/list-editor.min.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
@@ -149,6 +160,9 @@ namespace ZKEACMS.WebHost
             style("codemirror").Include($"{LibraryPath}/codemirror/lib/codemirror.css")
                 .Include($"{LibraryPath}/codemirror/theme/monokai.css")
                 .Include($"{LibraryPath}/codemirror/addon/hint/show-hint.css");
+
+            style("captcha")
+                .Include($"{StylePath}/captcha.css", $"{StylePath}/captcha.min.css");
         }
     }
 }

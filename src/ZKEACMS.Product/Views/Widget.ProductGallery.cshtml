@@ -1,0 +1,49 @@
+@using System.Text.RegularExpressions
+@model ZKEACMS.Product.ViewModel.ProductGalleryWidgetViewModel
+
+<div class="productlist">
+    <div class="row">
+        @foreach (var item in Model.Products)
+        {
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="thumbnail">
+                    <a target="_blank" href="@Url.PostUrl(Model.DetailPageUrl, item)">
+                        <img alt="@item.Title" title="@item.Title" src="@Url.ImageContent(item.ImageThumbUrl)" />
+                    </a>
+                    <div class="caption">
+                        <h4>
+                            <a target="_blank" href="@Url.PostUrl(Model.DetailPageUrl, item)">
+                                @item.Title
+                            </a>
+                        </h4>
+                        @if (item.Description.IsNotNullAndWhiteSpace())
+                        {
+                            <p class="text-muted small">
+                                @item.Description
+                            </p>
+                        }
+                        @if (item.RebatePrice.HasValue || item.Price.HasValue)
+                        {
+                            <div class="clearfix">
+                                <div class="pull-left price">
+                                    @if (item.RebatePrice.HasValue)
+                                    {
+                                        <del class="text-muted"><small><small>@Html.CurrencySymbol()</small>@Html.Raw(Regex.Replace((item.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</small></del>
+                                        <strong><small>@Html.CurrencySymbol()</small>@Html.Raw(Regex.Replace((item.RebatePrice ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</strong>
+                                    }
+                                    else
+                                    {
+                                        <strong><small>@Html.CurrencySymbol()</small>@Html.Raw(Regex.Replace((item.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</strong>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+

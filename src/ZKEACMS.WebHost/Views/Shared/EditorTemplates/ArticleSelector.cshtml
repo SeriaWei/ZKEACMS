@@ -1,0 +1,13 @@
+@model ZKEACMS.Article.Models.ArticleItem
+@{
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
+}
+
+@Html.HiddenFor(m => m.ArticleID)
+<div class="input-group">
+    @Html.TextBoxFor(m => m.Title, descriptor?.ToHtmlProperties())
+    <div class="input-group-addon">
+        <span class="glyphicon glyphicon-search"></span>
+    </div>
+</div>
+@Html.ValidationMessageFor(m => m.Title)

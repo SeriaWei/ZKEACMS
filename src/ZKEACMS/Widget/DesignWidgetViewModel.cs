@@ -8,11 +8,10 @@ namespace ZKEACMS.Widget
 {
     public class DesignWidgetViewModel : WidgetViewModelPart
     {
-        public DesignWidgetViewModel(WidgetViewModelPart widgetPart, string pageId)
+        public DesignWidgetViewModel(WidgetViewModelPart widgetPart, string pageId) 
+            : base(widgetPart.Widget, widgetPart.ViewModel)
         {
             PageID = pageId;
-            ViewModel = widgetPart.ViewModel;
-            Widget = widgetPart.Widget;
         }
         public string PageID { get; set; }
     }

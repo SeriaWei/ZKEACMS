@@ -61,16 +61,17 @@ body {
     margin-bottom: 10px;
 }
 
-    .form-input input {
+    .form-input input,
+    .form-input .captcha-container .image-captcha > img {
         border-radius: 0;
     }
 
-.info-bar {
-    margin: 0 -3rem;
-    background: #f2f2f2;
-    position: relative;
-    padding: .5rem 3rem;
-}
+    .info-bar {
+        margin: 0 -3rem;
+        background: #f2f2f2;
+        position: relative;
+        padding: .5rem 3rem;
+    }
 
     .info-bar p {
         margin-bottom: 0;

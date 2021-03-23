@@ -45,7 +45,7 @@ namespace ZKEACMS.Article.Service
             DismissRelatedPageUrls();
         }
 
-        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
+        public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             ArticleTypeWidget currentWidget = widgetDisplayContext.Widget as ArticleTypeWidget;
             var types = _articleTypeService.Get(m => m.ParentID == currentWidget.ArticleTypeID);
@@ -73,11 +73,11 @@ namespace ZKEACMS.Article.Service
                     layout.Page.MetaDescription = articleType.SEODescription;
                 }
             }
-            return widgetDisplayContext.ToWidgetViewModelPart(new ArticleTypeWidgetViewModel
+            return new ArticleTypeWidgetViewModel
             {
                 ArticleTypes = types,
                 ArticleTypeID = ac
-            });
+            };
         }
 
         public string[] GetRelatedPageUrls()

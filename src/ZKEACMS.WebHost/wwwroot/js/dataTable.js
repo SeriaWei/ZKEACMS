@@ -41,7 +41,7 @@
                     columnSetting.searchOpeartor = searchOpeartor;
                     columnSetting.dataType = dataType;
                     columnSetting.format = format;
-
+                    
                     if (option && data != null) {
                         var dataIn = data.toString();
                         columnSetting.option = option;
@@ -51,6 +51,9 @@
                                 break;
                             }
                         }
+                    }
+                    if (data && columnSetting.dataType == "DateTime" && columnSetting.format) {
+                        data = moment(data).format(columnSetting.format)
                     }
                     if (!template) {
                         return htmlEncode(data);

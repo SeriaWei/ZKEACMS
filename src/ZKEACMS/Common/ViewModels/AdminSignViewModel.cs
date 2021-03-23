@@ -9,6 +9,7 @@ namespace ZKEACMS.Common.ViewModels
     {
         public string UserID { get; set; }
         public string PassWord { get; set; }
+        public string Captcha { get; set; }
     }
     class AdminSignViewModelMetaData : ViewMetaData<AdminSignViewModel>
     {
@@ -16,6 +17,7 @@ namespace ZKEACMS.Common.ViewModels
         {
             ViewConfig(m => m.UserID).AsTextBox().Required();
             ViewConfig(m => m.PassWord).AsPassWord().Required();
+            ViewConfig(m => m.Captcha).AsImageCaptcha();
         }
     }
 }

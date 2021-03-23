@@ -13,6 +13,10 @@ namespace Easy.ViewPort.Descriptor
             this.TagType = HTMLEnumerate.HTMLTagTypes.ListEditor;
             this.TemplateName = "ListEditor";
         }
-        
+        public ListEditorDescriptor Sortable()
+        {
+            this.AddClass("sortable");
+            return this;
+        }
     }
 }

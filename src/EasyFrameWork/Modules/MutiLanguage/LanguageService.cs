@@ -93,12 +93,12 @@ namespace Easy.Modules.MutiLanguage
         {
             return _cacheManager.GetOrAdd("AllLanguageEntry", factory =>
             {
-                ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>> result = new ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>();
+                ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>> result = new ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>(StringComparer.OrdinalIgnoreCase);
                 foreach (var item in Get())
                 {
                     if (!result.TryGetValue(item.LanKey, out ConcurrentDictionary<string, LanguageEntity> cultureDic))
                     {
-                        cultureDic = new ConcurrentDictionary<string, LanguageEntity>();
+                        cultureDic = new ConcurrentDictionary<string, LanguageEntity>(StringComparer.OrdinalIgnoreCase);
                         cultureDic.TryAdd(item.CultureName, item);
                         result.TryAdd(item.LanKey, cultureDic);
                     }

@@ -1,0 +1,37 @@
+@model ZKEACMS.Article.ViewModel.ArticleGalleryWidgetViewModel
+@{
+    if (!Model.DetailPageUrl.IsNullOrEmpty())
+    {
+        Model.DetailPageUrl = Url.Content(Model.DetailPageUrl);
+    }
+}
+<div class="article-gallery">
+    @if (Model.Articles != null)
+    {
+        <div class="row">
+            @foreach (var item in Model.Articles)
+            {
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="thumbnail">
+                        <a target="_blank" href="@Url.PostUrl(Model.DetailPageUrl,item)">
+                            <img src="@Url.ImageContent(item.ImageThumbUrl)" alt="@item.Title">
+                        </a>
+                        <div class="caption">
+                            <h4>
+                                <a target="_blank" href="@Url.PostUrl(Model.DetailPageUrl, item)">
+                                    @item.Title
+                                </a>
+                            </h4>
+                            @if (item.Summary.IsNotNullAndWhiteSpace())
+                            {
+                                <p class="text-muted small">
+                                    @item.Summary
+                                </p>
+                            }
+                        </div>
+                    </div>                    
+                </div>
+            }
+        </div>
+    }
+</div>

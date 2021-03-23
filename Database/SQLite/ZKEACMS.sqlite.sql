@@ -1,4 +1,4 @@
--- Script Date: 2020/12/17 星期四 20:52  - ErikEJ.SqlCeScripting version 3.5.2.56
+-- Script Date: 2021/3/23 星期二 20:00  - ErikEJ.SqlCeScripting version 3.5.2.56
 SELECT 1;
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
@@ -57,7 +57,24 @@ CREATE TABLE [Subscription] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Subscrip__3214EC273AE000DC] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Subscrip__3214EC27ADEA4AD8] PRIMARY KEY ([ID])
+);
+CREATE TABLE [ShippingOption] (
+  [ID] INTEGER NOT NULL
+, [Title] nvarchar(255) NULL
+, [Description] nvarchar(255) NULL
+, [Price] money NULL
+, [Rule] ntext NULL
+, [ContentID] nvarchar(100) NULL
+, [CultureID] int NULL
+, [Status] int NULL
+, [CreateBy] nvarchar(50) NULL
+, [CreatebyName] nvarchar(100) NULL
+, [CreateDate] datetime NULL
+, [LastUpdateBy] nvarchar(50) NULL
+, [LastUpdateByName] nvarchar(100) NULL
+, [LastUpdateDate] datetime NULL
+, CONSTRAINT [PK__Shipping__3214EC271BCF1CEC] PRIMARY KEY ([ID])
 );
 CREATE TABLE [SectionTemplate] (
   [TemplateName] nvarchar(100) NOT NULL
@@ -128,13 +145,13 @@ CREATE TABLE [Roles] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Roles__3214EC27B6F6D751] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Roles__3214EC27B277EE67] PRIMARY KEY ([ID])
 );
 CREATE TABLE [UserRoleRelation] (
   [ID] INTEGER NOT NULL
 , [RoleID] int NULL
 , [UserID] nvarchar(50) NULL
-, CONSTRAINT [PK__UserRole__3214EC27D2251DAA] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__UserRole__3214EC27FC427DCC] PRIMARY KEY ([ID])
 , FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 , FOREIGN KEY ([UserID]) REFERENCES [Users] ([UserID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
@@ -159,6 +176,20 @@ CREATE TABLE [ProductImage] (
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
 , CONSTRAINT [PK_ProductImage] PRIMARY KEY ([ID])
+);
+CREATE TABLE [ProductGallery] (
+  [ID] INTEGER NOT NULL
+, [Title] nvarchar(255) NULL
+, [Description] nvarchar(255) NULL
+, [RawData] ntext NULL
+, [Status] int NULL
+, [CreateBy] nvarchar(50) NULL
+, [CreatebyName] nvarchar(100) NULL
+, [CreateDate] datetime NULL
+, [LastUpdateBy] nvarchar(50) NULL
+, [LastUpdateByName] nvarchar(100) NULL
+, [LastUpdateDate] datetime NULL
+, CONSTRAINT [PK__ProductG__3214EC270CD9141D] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ProductCategoryTag] (
   [ID] INTEGER NOT NULL
@@ -235,7 +266,7 @@ CREATE TABLE [PersistKey] (
 , [CreationDate] datetime NULL
 , [ActivationDate] datetime NULL
 , [ExpirationDate] datetime NULL
-, CONSTRAINT [PK__PersistK__3214EC27FFEE96DE] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__PersistK__3214EC27E220DC20] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Permission] (
   [PermissionKey] nvarchar(100) NOT NULL
@@ -289,6 +320,7 @@ CREATE TABLE [OrderItem] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
+, [BasketID] int NULL
 , CONSTRAINT [PK_OrderItem] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Order] (
@@ -318,6 +350,10 @@ CREATE TABLE [Order] (
 , [Refund] numeric(18,4) NULL
 , [RefundDate] datetime NULL
 , [RefundReason] nvarchar(500) NULL
+, [ShippingOption] int NULL
+, [SubTotal] money NULL
+, [Tax] money NULL
+, [Shipping] money NULL
 , CONSTRAINT [PK_Order] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Navigation] (
@@ -390,6 +426,70 @@ CREATE TABLE [FormData] (
 , [LastUpdateDate] datetime NULL
 , CONSTRAINT [PK_FormData_1] PRIMARY KEY ([ID])
 );
+CREATE TABLE [FluidContentValue] (
+  [ID] INTEGER NOT NULL
+, [ContentTypeID] int NULL
+, [Title] nvarchar(100) NULL
+, [Content] ntext NULL
+, [Description] nvarchar(500) NULL
+, [Status] int NULL
+, [CreateBy] nvarchar(50) NULL
+, [CreatebyName] nvarchar(100) NULL
+, [CreateDate] datetime NULL
+, [LastUpdateBy] nvarchar(50) NULL
+, [LastUpdateByName] nvarchar(100) NULL
+, [LastUpdateDate] datetime NULL
+, [ContentID] nvarchar(100) NULL
+, [CultureID] int NULL
+, [Url] nvarchar(200) NULL
+, [SEOTitle] nvarchar(200) NULL
+, [SEOKeyWord] nvarchar(200) NULL
+, [SEODescription] nvarchar(200) NULL
+);
+CREATE TABLE [FluidContentType] (
+  [ID] INTEGER NOT NULL
+, [Title] nvarchar(100) NULL
+, [ContentSchema] ntext NULL
+, [Description] nvarchar(500) NULL
+, [Status] int NULL
+, [CreateBy] nvarchar(50) NULL
+, [CreatebyName] nvarchar(100) NULL
+, [CreateDate] datetime NULL
+, [LastUpdateBy] nvarchar(50) NULL
+, [LastUpdateByName] nvarchar(100) NULL
+, [LastUpdateDate] datetime NULL
+, [GroupID] int NULL
+, [RoleID] int NULL
+, [Icon] nvarchar(100) NULL
+);
+CREATE TABLE [FluidContentTemplate] (
+  [ID] INTEGER NOT NULL
+, [Title] nvarchar(100) NULL
+, [ApplyTo] nvarchar(100) NULL
+, [Template] ntext NULL
+, [Description] nvarchar(500) NULL
+, [Status] int NULL
+, [CreateBy] nvarchar(50) NULL
+, [CreatebyName] nvarchar(100) NULL
+, [CreateDate] datetime NULL
+, [LastUpdateBy] nvarchar(50) NULL
+, [LastUpdateByName] nvarchar(100) NULL
+, [LastUpdateDate] datetime NULL
+);
+CREATE TABLE [FluidContentGroup] (
+  [ID] INTEGER NOT NULL
+, [Title] nvarchar(255) NULL
+, [Icon] nvarchar(100) NULL
+, [Description] nvarchar(255) NULL
+, [Status] int NULL
+, [CreateBy] nvarchar(50) NULL
+, [CreatebyName] nvarchar(100) NULL
+, [CreateDate] datetime NULL
+, [LastUpdateBy] nvarchar(50) NULL
+, [LastUpdateByName] nvarchar(100) NULL
+, [LastUpdateDate] datetime NULL
+, CONSTRAINT [PK__FluidCon__3214EC27AE16430A] PRIMARY KEY ([ID])
+);
 CREATE TABLE [ExtendField] (
   [ID] INTEGER NOT NULL
 , [Title] nvarchar(255) NULL
@@ -412,7 +512,7 @@ CREATE TABLE [DBVersion] (
 , [Minor] int NULL
 , [Revision] int NULL
 , [Build] int NULL
-, CONSTRAINT [PK__DBVersio__3214EC271CE34057] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__DBVersio__3214EC27ECE10D55] PRIMARY KEY ([ID])
 );
 CREATE TABLE [DataDictionary] (
   [ID] INTEGER NOT NULL
@@ -447,6 +547,21 @@ CREATE TABLE [DataArchived] (
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
 , CONSTRAINT [PK_DataArchived] PRIMARY KEY ([ID])
+);
+CREATE TABLE [Currency] (
+  [ID] INTEGER NOT NULL
+, [Title] nvarchar(255) NULL
+, [Description] nvarchar(255) NULL
+, [Code] nvarchar(10) NULL
+, [Symbol] nvarchar(10) NULL
+, [Status] int NULL
+, [CreateBy] nvarchar(50) NULL
+, [CreatebyName] nvarchar(100) NULL
+, [CreateDate] datetime NULL
+, [LastUpdateBy] nvarchar(50) NULL
+, [LastUpdateByName] nvarchar(100) NULL
+, [LastUpdateDate] datetime NULL
+, CONSTRAINT [PK__Currency__3214EC27D37159C8] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Comments] (
   [ID] INTEGER NOT NULL
@@ -885,6 +1000,20 @@ CREATE TABLE [ArticleListWidget] (
 , CONSTRAINT [PK_ArticleListWidget] PRIMARY KEY ([ID])
 , FOREIGN KEY ([ID]) REFERENCES [CMS_WidgetBase] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
+CREATE TABLE [ArticleGallery] (
+  [ID] INTEGER NOT NULL
+, [Title] nvarchar(255) NULL
+, [Description] nvarchar(255) NULL
+, [RawData] ntext NULL
+, [Status] int NULL
+, [CreateBy] nvarchar(50) NULL
+, [CreatebyName] nvarchar(100) NULL
+, [CreateDate] datetime NULL
+, [LastUpdateBy] nvarchar(50) NULL
+, [LastUpdateByName] nvarchar(100) NULL
+, [LastUpdateDate] datetime NULL
+, CONSTRAINT [PK__ArticleG__3214EC27EDD8CD99] PRIMARY KEY ([ID])
+);
 CREATE TABLE [ArticleDetailWidget] (
   [ID] nvarchar(100) NOT NULL
 , [CustomerClass] nvarchar(255) NULL
@@ -1171,6 +1300,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Align Right Bottom','zh-CN','右下对齐',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Align Right Top','zh-CN','右上对齐',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Align Top','zh-CN','顶部对齐',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AliPay','zh-CN','支付宝支付',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Alipay Setting','en-GB','Alipay',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Alipay Setting','en-US','Alipay',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Alipay Setting','zh-CN','支付宝集成设置',NULL,NULL);
@@ -1179,16 +1309,19 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@AlipayPublicKey','zh-CN','应用公钥','AlipayOptions','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@AppId','en-GB','App','AlipayOptions','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@AppId','en-US','App','AlipayOptions','EntityProperty');
-INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@AppId','zh-CN','AppId','AlipayOptions','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@AppId','zh-CN','AppId',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@Environment','zh-CN','环境',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@Gatewayurl','en-GB','Gatewayurl','AlipayOptions','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@Gatewayurl','en-US','Gatewayurl','AlipayOptions','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@Gatewayurl','zh-CN','支付宝网关','AlipayOptions','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@IsEnable','zh-CN','是否启用',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@IsKeyFromFile','en-GB','Is Key From File','AlipayOptions','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@IsKeyFromFile','en-US','Is Key From File','AlipayOptions','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@IsKeyFromFile','zh-CN','IsKeyFromFile','AlipayOptions','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@PrivateKey','en-GB','Private Key','AlipayOptions','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@PrivateKey','en-US','Private Key','AlipayOptions','EntityProperty');
-INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@PrivateKey','zh-CN','应用私钥','AlipayOptions','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@PrivateKey','zh-CN','应用私钥',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@PublicKey','zh-CN','应用公钥',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@SignType','en-GB','Sign Type','AlipayOptions','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@SignType','en-US','Sign Type','AlipayOptions','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('AlipayOptions@SignType','zh-CN','SignType','AlipayOptions','EntityProperty');
@@ -1232,6 +1365,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Article Detail','en-GB','Article Content',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Article Detail','en-US','Article Content',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Article Detail','zh-CN','文章内容',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Article Gallery','zh-CN','文章组',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Article keywords','en-GB','Article keywords',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Article keywords','en-US','Article keywords',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Article keywords','zh-CN','文章关键字',NULL,NULL);
@@ -1316,6 +1450,8 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ArticleEntity@Title','en-US','Title','ArticleEntity','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ArticleEntity@Title','zh-CN','标题','ArticleEntity','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ArticleEntity@Url','zh-CN','英文名','ArticleEntity','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ArticleGalleryWidget@ArticleGalleryId','zh-CN','文章组',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ArticleGalleryWidget@DetailPageUrl','zh-CN','详细页面',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ArticleListWidget@ActionType','zh-CN','ActionType','ArticleListWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ArticleListWidget@ArticleCategoryID','zh-CN','ArticleCategoryID','ArticleListWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ArticleListWidget@ArticleTypeID','zh-CN','文章类别','ArticleListWidget','EntityProperty');
@@ -1350,6 +1486,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ArticleListWidget@ViewModelTypeName','zh-CN','ViewModelTypeName','ArticleListWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ArticleListWidget@WidgetName','zh-CN','组件名称','ArticleListWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ArticleListWidget@ZoneID','zh-CN','区域','ArticleListWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Articles','zh-CN','文章',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ArticleSpecialDetailWidget@ArticleId','zh-CN','文章ID','ArticleSpecialDetailWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ArticleSpecialDetailWidget@ArticleName','zh-CN','文章英文名','ArticleSpecialDetailWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ArticleSpecialDetailWidget@AssemblyName','zh-CN','Assembly Name','ArticleSpecialDetailWidget','EntityProperty');
@@ -1586,6 +1723,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Cancel','en-US','Cancel',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Cancel','zh-CN','取消',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Capitalize','zh-CN','首字母大写',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Captcha','zh-CN','验证码',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Carousel','en-GB','Carousel',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Carousel','en-US','Carousel',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Carousel','zh-CN','焦点图',NULL,NULL);
@@ -1783,11 +1921,13 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('commit','en-US','Comment',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('commit','zh-CN','评论',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Company News','zh-CN','公司新闻',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Complete','zh-CN','完成',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Completed updating the index','zh-CN','完成更新索引',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Confirm Password','en-GB','Confirm Password',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Confirm Password','en-US','Confirm Password',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Confirm Password','zh-CN','确认密码',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Contact','zh-CN','联系人',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Contact Info','zh-CN','联系人信息',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Contact/Consignee','zh-CN','联系人/收货人',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('contain','zh-CN','容纳',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Container','en-GB','Container',NULL,NULL);
@@ -1802,6 +1942,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Content Category','en-GB','Content Category',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Content Category','en-US','Content Category',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Content Category','zh-CN','内容类型',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Content Group','zh-CN','内容分组',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ContentField@FieldType','zh-CN','字段类型','ContentField','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ContentField@Name','zh-CN','属性名','ContentField','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ContentField@Order','zh-CN','订单','ContentField','EntityProperty');
@@ -1884,6 +2025,8 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Copy from page','zh-CN','从现有页面复制',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('cover','zh-CN','覆盖',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Create page from template','zh-CN','从模板中快速创建页面',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('CreatebyName','zh-CN','创建人',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('CreateDate','zh-CN','创建日期',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Crosshair','zh-CN','十字',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Culture@CreatebyName','zh-CN','创建人','Culture','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Culture@CreateDate','zh-CN','创建日期','Culture','EntityProperty');
@@ -1912,6 +2055,8 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('CultureSetting@IsShowDefault','en-GB','Is Show Default','CultureSetting','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('CultureSetting@IsShowDefault','en-US','Is Show Default','CultureSetting','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('CultureSetting@IsShowDefault','zh-CN','无内容时使用默认语言？','CultureSetting','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Currency','zh-CN','货币',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('CurrencyOption@CurrencyID','zh-CN','货币',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Current','zh-CN','当前',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Current password error.','zh-CN','当前密码错误',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Custom','zh-CN','自定义',NULL,NULL);
@@ -1919,6 +2064,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Custom Rule','en-GB','Rule',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Custom Rule','en-US','Rule',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Custom Rule','zh-CN','定义条件',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Custom Validation','zh-CN','自定义验证',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Customer','zh-CN','前端用户',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Danger','zh-CN','危险',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Dashed','zh-CN','虚线',NULL,NULL);
@@ -2052,10 +2198,12 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Enterprise','en-US','Enterprise',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Enterprise','zh-CN','企业版',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Enterprise','zh-TW','企業版',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Environment','zh-CN','环境',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Equals','en-GB','Equals',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Equals','en-US','Equals',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Equals','zh-CN','等于',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('e-resize','zh-CN','向右改变大小',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Error Message','zh-CN','错误信息',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Error!','zh-CN','错误！',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Everything goes well.','zh-CN','一切都很好。',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Example','zh-CN','示例',NULL,NULL);
@@ -2142,6 +2290,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Form','en-GB','Form',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Form','en-US','Form',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Form','zh-CN','表单',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Form Control Size','zh-CN','输入框尺寸',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Form Data','en-GB','Form Data',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Form Data','en-US','Form Data',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Form Data','zh-CN','表单数据',NULL,NULL);
@@ -2247,6 +2396,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Grid System','zh-CN','栅格列说明',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Groove','zh-CN','凹槽',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Group','zh-CN','组',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('GroupID','zh-CN','分组',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Have account?','en-GB','Have account?',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Have account?','en-US','Have account?',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Have account?','zh-CN','已有账号？',NULL,NULL);
@@ -2311,6 +2461,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HtmlWidget@ViewModelTypeName','zh-CN','ViewModelTypeName','HtmlWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HtmlWidget@WidgetName','zh-CN','组件名称','HtmlWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('HtmlWidget@ZoneID','zh-CN','区域','HtmlWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Icon','zh-CN','图标',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Image Border','en-GB','Image Border',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Image Border','en-US','Image Border',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Image Border','zh-CN','图片边框',NULL,NULL);
@@ -2375,6 +2526,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Information','en-US','Information',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Information','zh-CN','基本信息',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Input keywords to search','zh-CN','输入关键字搜索',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Input option','zh-CN','输入选项内容',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Inset','zh-CN','内嵌',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Install','zh-CN','安装',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Install Theme','en-GB','Install',NULL,NULL);
@@ -2386,6 +2538,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Invalid Email for {0}.','zh-CN','{0}的邮件格式不正确',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Invalid Number for {0}.','zh-CN','{0}不是一个有效的数字',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Invalid value for {0}.','zh-CN','{0}的格式不正确',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('IsEnable','zh-CN','是否启用',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('IsTemplate','zh-CN','保存为模板',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Italic','zh-CN','斜体',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('JavaScript','en-GB','JavaScript',NULL,NULL);
@@ -2431,7 +2584,10 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('LanguageEntity@LanValue','en-US','Lan Value','LanguageEntity','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('LanguageEntity@LanValue','zh-CN','翻译值','LanguageEntity','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('LanguageEntity@Module','zh-CN','模块','LanguageEntity','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Large','zh-CN','大',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Last-Modified','zh-CN','修改时间',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('LastUpdateByName','zh-CN','更新人',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('LastUpdateDate','zh-CN','更新日期',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Layout','en-GB','Layout',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Layout','en-US','Layout',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Layout','zh-CN','布局',NULL,NULL);
@@ -2591,6 +2747,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('MediaEntity@Status','zh-CN','状态','MediaEntity','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('MediaEntity@Title','zh-CN','标题','MediaEntity','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('MediaEntity@Url','zh-CN','Url','MediaEntity','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Medium','zh-CN','中等',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Memory Cache','zh-CN','内存缓存',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Message','en-GB','Message',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Message','en-US','Message',NULL,NULL);
@@ -3097,6 +3254,10 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Payment Information','zh-CN','支付信息',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Payment Order','zh-CN','已支付订单',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Payment Setting','zh-CN','支付集成设置',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('PayPalOptions@ClientID','zh-CN','Client ID',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('PayPalOptions@ClientSecretID','zh-CN','Client Secret ID',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('PayPalOptions@Environment','zh-CN','环境',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('PayPalOptions@IsEnable','zh-CN','是否启用',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Pending pages','zh-CN','有未处理完的页面',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Phone','en-GB','Phone',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Phone','en-US','Phone',NULL,NULL);
@@ -3106,6 +3267,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Picture','en-US','Image',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Picture','zh-CN','图片',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Pixel Script','zh-CN','访客统计代码',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Placeholder','zh-CN','占位文字',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Please contact administrator.','zh-CN','请联系管理员。',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Please enter the refund amount','zh-CN','请输入退款金额',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Please enter your account information','zh-CN','请输入您的用户信息以找回密码',NULL,NULL);
@@ -3145,6 +3307,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Preview: Preview the pending page','en-US','Preview: Preview the page',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Preview: Preview the pending page','zh-CN','预览：查看最新修改版本',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Previous:','zh-CN','上一篇:',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Price','zh-CN','价格',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Product','en-GB','Product',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Product','en-US','Product',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Product','zh-CN','产品',NULL,NULL);
@@ -3154,6 +3317,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Product Content','en-GB','Product Content',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Product Content','en-US','Product Content',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Product Content','zh-CN','产品内容',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Product Gallery','zh-CN','产品组',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Product keywords','en-GB','Product keywords',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Product keywords','en-US','Product keywords',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Product keywords','zh-CN','产品关键字',NULL,NULL);
@@ -3303,6 +3467,8 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductEntity@Title','en-US','Title','ProductEntity','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductEntity@Title','zh-CN','标题','ProductEntity','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductEntity@Url','zh-CN','英文名','ProductEntity','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductGalleryWidget@DetailPageUrl','zh-CN','详细页面',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductGalleryWidget@ProductGalleryId','zh-CN','产品组',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductImage@ActionType','zh-CN','ActionType','ProductImage','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductImage@CreateBy','zh-CN','CreateBy','ProductImage','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductImage@CreatebyName','zh-CN','创建人','ProductImage','EntityProperty');
@@ -3350,6 +3516,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductListWidget@ViewModelTypeName','zh-CN','ViewModelTypeName','ProductListWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductListWidget@WidgetName','zh-CN','组件名称','ProductListWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductListWidget@ZoneID','zh-CN','区域','ProductListWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Products','zh-CN','产品',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Property','en-GB','Property',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Property','en-US','Property',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Property','zh-CN','属性',NULL,NULL);
@@ -3394,6 +3561,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Refund successfull!','zh-CN','退款成功！',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Refunded','zh-CN','已退款',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Refunding','zh-CN','退款中',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Regular expression','zh-CN','正则表达式',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Reinstall to update the theme','en-GB','Reinstall to update the theme',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Reinstall to update the theme','en-US','Reinstall to update the theme',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Reinstall to update the theme','zh-CN','若主题有更新，重复安装即可更新',NULL,NULL);
@@ -3404,6 +3572,8 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('repeat-y','zh-CN','垂直重复',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Reply','zh-CN','回复',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Report issue','zh-CN','反馈问题',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Required Message','zh-CN','必填项提示信息',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Required?','zh-CN','必填？',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Reset failed?','zh-CN','重置失败？',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Reset password','zh-CN','重置密码',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Revert','en-GB','Revert',NULL,NULL);
@@ -3448,6 +3618,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('RoleEntity@Title','en-GB','Title','RoleEntity','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('RoleEntity@Title','en-US','Title','RoleEntity','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('RoleEntity@Title','zh-CN','标题','RoleEntity','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('RoleID','zh-CN','角色',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Row','en-GB','Row',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Row','en-US','Row',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Row','zh-CN','行',NULL,NULL);
@@ -3709,6 +3880,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('SectionWidget@ViewModelTypeName','zh-CN','ViewModelTypeName','SectionWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('SectionWidget@WidgetName','zh-CN','组件名称','SectionWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('SectionWidget@ZoneID','zh-CN','区域','SectionWidget','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Secure Payment','zh-CN','安全支付',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Security','zh-CN','安全',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Select','zh-CN','选择',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Select All','zh-CN','全选',NULL,NULL);
@@ -3722,9 +3894,13 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shadow','en-GB','Shadow',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shadow','en-US','Shadow',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shadow','zh-CN','阴影',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shiped','zh-CN','已发货',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shipped','zh-CN','已发货',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shipped orders','zh-CN','已发货订单',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shipping','zh-CN','运费',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shipping Address','zh-CN','收货地址',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shipping Option','zh-CN','物流选项',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ShippingOption','zh-CN','物流选项',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Shop','zh-CN','商城',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Sign in','en-GB','Sign in',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Sign in','en-US','Sign in',NULL,NULL);
@@ -3759,6 +3935,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('SiteSearchWidget@ZoneID','zh-CN','区域','SiteSearchWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Size','zh-CN','大小',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('SM Screen','zh-CN','小屏幕',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Small','zh-CN','小',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Small Caps','zh-CN','小字体',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('SMTP Config','en-GB','SMTP',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('SMTP Config','en-US','SMTP',NULL,NULL);
@@ -3907,7 +4084,9 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Subscription_Unsubscribing_Title','en-US','You are unsubscribing',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Subscription_Unsubscribing_Title','zh-CN','您正在取消订阅',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('SubscriptionSetting@IsEnable','zh-CN','是否启用？',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Subtotal','zh-CN','小计',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Success','zh-CN','成功',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Summary','zh-CN','摘要',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Switch Template','zh-CN','切换模板',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Switching Theme...','zh-CN','切换主题中...',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('sw-resize','zh-CN','向左下改变大小',NULL,NULL);
@@ -3935,6 +4114,9 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Tag','en-GB','Tag',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Tag','en-US','Tag',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Tag','zh-CN','标签',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Tax','zh-CN','税',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Tax Rate','zh-CN','税率',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('TaxRate','zh-CN','税率',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('TemplateFile@Content','zh-CN','模板代码','TemplateFile','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('TemplateFile@Id','zh-CN','Id','TemplateFile','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('TemplateFile@LastUpdateTime','en-US','Last Update Time','TemplateFile','EntityProperty');
@@ -4310,6 +4492,17 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeChat','en-US','WeChat',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeChat','zh-CN','微信',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('Wechat Config','zh-CN','配置微信登录',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeChatPay','zh-CN','微信支付',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeChatPay Setting','zh-CN','微信支付集成设置',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeChatPayOptions@AppId','zh-CN','AppId',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeChatPayOptions@AppSecret','zh-CN','应用密钥',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeChatPayOptions@Certificate','zh-CN','API证书',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeChatPayOptions@CertificatePassword','zh-CN','证书密码',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeChatPayOptions@IsEnable','zh-CN','是否启用',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeChatPayOptions@Key','zh-CN','API密钥',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeChatPayOptions@MchId','zh-CN','商户ID',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeChatPayOptions@RsaPublicKey','zh-CN','RSA公钥',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeChatPayOptions@V3Key','zh-CN','APIv3密钥',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeiBo','en-GB','WeiBo',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeiBo','en-US','WeiBo',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('WeiBo','zh-CN','微博',NULL,NULL);
@@ -4507,7 +4700,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('页头','en-US','Header',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('须要处理','zh-CN','须要处理',NULL,NULL);
 INSERT INTO [Forms] ([ID],[Title],[FieldsData],[NotificationReceiver],[Status],[Description],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES ('5ed56d90ac154e73befa6fbc981ae3ae','问卷调查','[{"ID":"f05da60a6e3b448fadbf7c5c040a7d5c","Name":"Label","DisplayName":"一个简单的问卷调查","Value":null,"Description":"欢迎您使用ZKEACMS，这是一个自定义表单","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null},{"ID":"41481e6eefa048feae380460b0cd5661","Name":"SingleLine","DisplayName":"姓名","Value":null,"Description":"","Placeholder":"","IsRequired":true,"Size":4,"Column":"col-md-6","FieldOptions":null,"AdditionalSettings":null},{"ID":"bfd1418684a64890a7099f764baa24b3","Name":"Number","DisplayName":"电话","Value":null,"Description":"","Placeholder":"","IsRequired":true,"Size":4,"Column":"col-md-6","FieldOptions":null,"AdditionalSettings":null},{"ID":"7e635c8fdd124b6b94f037d3bf112bc0","Name":"Email","DisplayName":"邮箱地址","Value":null,"Description":"","Placeholder":"","IsRequired":true,"Size":4,"Column":"col-md-4","FieldOptions":null,"AdditionalSettings":null},{"ID":"4d61bb5f733c47778975cc6cfbc84123","Name":"SingleLine","DisplayName":"QQ","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-4","FieldOptions":null,"AdditionalSettings":null},{"ID":"b85aeb9beaf64f509726f16ba582ec3c","Name":"SingleLine","DisplayName":"微信","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-4","FieldOptions":null,"AdditionalSettings":null},{"ID":"a2aea72c496e4a458265f7ceadb3653a","Name":"Address","DisplayName":"省份地址","Value":null,"Description":"","Placeholder":null,"IsRequired":true,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null},{"ID":"0932ca1f1f7f4af098d51e4b1ac18b94","Name":"SingleLine","DisplayName":"详细地址","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null},{"ID":"572c61930769464d97f3d31771ecf65e","Name":"Radio","DisplayName":"您从哪里了解到ZKEACMS","Value":null,"Description":"","Placeholder":null,"IsRequired":true,"Size":4,"Column":"col-md-12","FieldOptions":[{"DisplayText":"搜索引擎","Value":"70a915caf7a84e9086d5dbdf26ed3053"},{"DisplayText":"博客园","Value":"419a7d1d91974282af5c26688fbe0e8c"},{"DisplayText":"朋友介绍","Value":"227f6d2f6b39479aaf2d5b79dbefdc5c"},{"DisplayText":"其它论坛","Value":"ef50fb3bccf74d6487320e53781fb1ec"}],"AdditionalSettings":null},{"ID":"845830a5c8be4b81866a8cef83049899","Name":"Checkbox","DisplayName":"您一般使用ZKEACMS做什么","Value":null,"Description":"","Placeholder":null,"IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":[{"DisplayText":"网站","Value":"5f0fbb9faa0343e0958a896fe3cead4f"},{"DisplayText":"博客","Value":"65902e51d35142019c4aab8badff9e35"},{"DisplayText":"其它","Value":"944343b3ed904b94a9db6950dbdcccf3"}],"AdditionalSettings":null},{"ID":"2fe6e4baf01e4cb897986991c920df56","Name":"Dropdown","DisplayName":"您觉得ZKEACMS怎么样","Value":null,"Description":"","Placeholder":null,"IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":[{"DisplayText":"很不错","Value":"fc3929826e364318b7a3436d991fb097"},{"DisplayText":"还可以","Value":"619e09c2864b41ae81f4f90e7cab92ba"},{"DisplayText":"有待提高","Value":"fd1279a07150490f9a1f69c85298e22c"},{"DisplayText":"不怎么样","Value":"ef19983754504a9482232dd6be01f34d"}],"AdditionalSettings":null},{"ID":"2868de2d8e9b4d269da891342e6dc95b","Name":"Paragraph","DisplayName":"您的意见或建议","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null}]',NULL,NULL,'',NULL,NULL,NULL,'admin','ZKEASOFT','2017-10-15 18:07:58.013');
-INSERT INTO [DBVersion] ([ID],[Major],[Minor],[Revision],[Build]) VALUES (1,3,3,6,0);
+INSERT INTO [DBVersion] ([ID],[Major],[Minor],[Revision],[Build]) VALUES (1,3,4,0,0);
 INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (1,'RecordStatus','Active','1',1,0,1,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (2,'RecordStatus','Inactive','2',2,0,1,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (3,'ArticleCategory','News','1',1,0,1,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL);
@@ -4592,6 +4785,32 @@ INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[I
 INSERT INTO [DataArchived] ([ID],[Data],[Title],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES ('ZKEACMS.GlobalScripts.Models.LiveChatScript','{"Location":0,"Script":null}',NULL,NULL,NULL,NULL,NULL,'2019-05-07 21:19:17.490',NULL,NULL,'2019-05-07 21:19:17.490');
 INSERT INTO [DataArchived] ([ID],[Data],[Title],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES ('ZKEACMS.GlobalScripts.Models.StatisticsScript','{"Location":0,"Script":null}',NULL,NULL,NULL,NULL,NULL,'2019-05-07 21:19:17.603',NULL,NULL,'2019-05-07 21:19:17.603');
 INSERT INTO [DataArchived] ([ID],[Data],[Title],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES ('ZKEACMS.Shop.AliPayConfigOptions','{"AppId":"2016082000296332","Uid":"2088102172250345","Gatewayurl":"https://openapi.alipaydev.com/gateway.do","PrivateKey":"MIIEowIBAAKCAQEAtlGrLGZsH3qj0UFh8p/P5X89l780lHoc26ulyPUMD2mkVS3ZyBl71lSdjqtf/TTqA3+zFIPlv3DRZIF7IiUEm2cU+x2E6huUTUr1ELO+Xyvs+3goIVCn9zCijMklRl3yrR9e136qIX81FmD33BJHk3y9qLLS/wa362kXraCMkhI7R+neHE9SPZyo0xYnmGX8z69dRBQnbuWDhMGb3tWM2EvLpVCg4AoaHLozW1ZMG5e4+qYrOQ81tUl1/oWQB4znd63k9SHAHLNc9KPllws+WKYKWwL9kbwk3OuOWX9T5NZTjU/gC8iVWbgzN9kLWg8UwBD0p0oJukXoZl7HJ1D9SwIDAQABAoIBAQCzobWwcl2XimL7WpshzRmtuXc7GvW4ULQ8L1uRqvat/N0f26QWhh1AaHAwUGOr+8WRmvEbhnUH8SUuDHEAjE6EusSuQkBh1LiCixb31ND9vi6o+ZM4d9p2L2IIqmpicVAYCK+OTMtdY5MvsGylVRFWnHHVVBOVl84AULQ2qte1Vj0DPfExhGEC/Esn6w68nFrKgmnvPEhCX864uMlkhdxrbuRr0FqSjbr7ApNAsreu248IFO8w8Bu8hReDdLm/tD/wXvDLj28NM3XHj7y6OEjmToNP/D2pCK0qLlhBlF+FDMWhTFnreNRsVR7a7msEANPjikxWERJI0Pl0tqcOPXo5AoGBAOKhGX4ym7OSNB8GZGYGHiR2tOU14xdJUkPrQa8XJTcW2Lrh4DjEbu1o9gNUmniU92mnXVFwX/bQrB5zRwcWucK0mSBGkcrIt+f2GrtGkeVr5UpW+uqjvPzvpLUn1hO5jnIVhZLc7+dQGY822bN3VyZJrkHUV/AQHj6waICEY7BdAoGBAM3ye6gheERozivEBNcayE0qdu3EQicSVadR8rNQw8spudOlWTRCQIyNVcOEbq5X4+Uzm3n4pLqTNaeosU1ayI84w38o/0A8uEGzKIKunzqZ2tnIqr55XSscbA4B0UXvmJsVZ3NX3pFWRQgIAHky3zq0alW7q/XrhtMnfyPHpCnHAoGARG14EQ6ezJ18d1GqxtNaDpB5FiwrIUDWQgOqlX9bkUKoteS1mu5UwAJNJbxJ19bCzXfnSUuw7gkbryYHcDCAbjWxdnlYU+4++R7p+1nXe3oUhVm18Vr3GTgSd1BL5zDDvdaZujpThXg9/2wEV5fVDI56uw2ub6GuQCdrpkJTB1ECgYA4A6jQbPIKITtaOgFbBCTQoCkiuEuJ1vnG/Yn2bZQjUOEDCKj/hrmJwPM/r2hvMOaCM4wpG5CqUlm4lTBMKtH76mN51Yu/TASNkg4FpTsXtDsLGwIdtmK51AwrryDdVbJ7E9JEU/TsMLur2IlQbZ67l9CIKvg1de8AxXBWKfmjhwKBgBQYQf3m0Ouiyz0iWxDEpbxZNaAaAM9mB+lI7dnJnmXU7uk9ysWd5Xg+YY+3tqqXVR/GVlXsPNJpqQDgrkG5GTqrt+YjA5tT+wuu0PMQICIhsVuYGBjtZcQqq564JM2OoMALpVUvulOiT3U3QUQ2bSgjlYFccSBkH6gjhFncFVJP","AlipayPublicKey":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4gYZ2vzwi6QcwE6L/fDPqNI7ZFIBxnV2DJVsLW57dr2XZ6QihsGrU7i32kpDshFTS1d5l+rMzfDOxudkNlbQgGkdw7Yu/BENNpOWf/pAz9iz0EMQHxOFapXklEls17fPKksQf1cfGweVJ64wQVPr2c386CA3ckMFxGyAdl+UfIUH3rVhzmo2d0xRe2Gp3eJLXB1LiDPDDWKy3MkJwos6VWF/+hO9Wsx/paNCvfwCKKlaAF2yeEU6MEG+XTDpIQUNyMnF9PYWh98lxfSWoOC2NbZRm/7TBFPvzjWDtkTJLW7N3etOTAz1VL6vmg2CCG6OpX/zs8fJ9RJeCHexAaozGwIDAQAB","SignType":"RSA2","CharSet":"UTF-8","IsKeyFromFile":false}',NULL,NULL,NULL,NULL,NULL,'2018-04-03 09:48:09.593',NULL,NULL,'2018-04-03 09:48:09.593');
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (1,'Australian Dollar',NULL,'AUD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (2,'Brazilian Real',NULL,'BRL','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (3,'Canadian Dollar',NULL,'CAD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (4,'Chinese Renmenbi',NULL,'CNY','￥',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (5,'Czech Koruna',NULL,'CZK','Kč',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (6,'Danish Krone',NULL,'DKK','kr',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (7,'Euro',NULL,'EUR','€',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (8,'Hong Kong Dollar',NULL,'HKD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (9,'Hungarian Forint',NULL,'HUF','HUF',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (10,'Indian Rupee',NULL,'INR','INR',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (11,'Israeli New Shekel',NULL,'ILS','₪',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (12,'Japanese Yen',NULL,'JPY','￥',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (13,'Malaysian Ringgit',NULL,'MYR','MYR',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (14,'Mexican Peso',NULL,'MXN','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (15,'New Taiwan Dollar',NULL,'TWD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (16,'New Zealand Dollar',NULL,'NZD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (17,'Norwegian Krone',NULL,'NOK','NOK',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (18,'Philippine Peso',NULL,'PHP','PHP',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (19,'Polish Zloty',NULL,'PLN','zł',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (20,'Pound Sterling',NULL,'GBP','£',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (21,'Russian Ruble',NULL,'RUB','RUB',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (22,'Singapore Dollar',NULL,'SGD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (23,'Swedish Krona',NULL,'SEK','SEK',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (24,'Swiss Franc',NULL,'CHF','CHF',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (25,'Thai Baht',NULL,'THB','฿',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [Currency] ([ID],[Title],[Description],[Code],[Symbol],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (26,'United States Dollar',NULL,'USD','$',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO [CMS_WidgetBase] ([ID],[WidgetName],[Title],[Position],[LayoutId],[PageId],[ZoneId],[PartialView],[AssemblyName],[ServiceTypeName],[ViewModelTypeName],[FormView],[StyleClass],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate],[Description],[Status],[IsTemplate],[Thumbnail],[IsSystem],[ExtendData],[RuleID]) VALUES ('00f62c5acfe840e0bee3ca2979f0f025','图片右',NULL,9,NULL,NULL,NULL,'Widget.Section','ZKEACMS.SectionWidget','ZKEACMS.SectionWidget.Service.SectionWidgetService','ZKEACMS.SectionWidget.Models.SectionWidget','SectionWidgetForm',NULL,'admin','ZKEASOFT','2016-03-09 14:13:55.010','admin','ZKEASOFT','2016-06-29 14:13:22.937',NULL,NULL,1,'~/images/template%20(6).png',1,NULL,NULL);
 INSERT INTO [CMS_WidgetBase] ([ID],[WidgetName],[Title],[Position],[LayoutId],[PageId],[ZoneId],[PartialView],[AssemblyName],[ServiceTypeName],[ViewModelTypeName],[FormView],[StyleClass],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate],[Description],[Status],[IsTemplate],[Thumbnail],[IsSystem],[ExtendData],[RuleID]) VALUES ('03c0002864334a168ea2ea3c1d96c829','文章列表',NULL,1,NULL,'207ca2a6d2824accb05f70911ebf8fc6','ZONE-1','Widget.ArticleList-Snippet','ZKEACMS.Article','ZKEACMS.Article.Service.ArticleListWidgetService','ZKEACMS.Article.Models.ArticleListWidget',NULL,NULL,'admin','ZKEASOFT','2018-04-03 10:02:47.000','admin','ZKEASOFT','2020-04-05 10:13:02.523',NULL,NULL,0,NULL,0,NULL,NULL);
 INSERT INTO [CMS_WidgetBase] ([ID],[WidgetName],[Title],[Position],[LayoutId],[PageId],[ZoneId],[PartialView],[AssemblyName],[ServiceTypeName],[ViewModelTypeName],[FormView],[StyleClass],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate],[Description],[Status],[IsTemplate],[Thumbnail],[IsSystem],[ExtendData],[RuleID]) VALUES ('0706d53d78d641139316c70a33dc5aad','文章列表',NULL,1,NULL,'ed466c962c4b4c98b8f22edfde977ce0','ZONE-1','Widget.ArticleList-Snippet','ZKEACMS.Article','ZKEACMS.Article.Service.ArticleListWidgetService','ZKEACMS.Article.Models.ArticleListWidget',NULL,NULL,'admin','ZKEASOFT','2020-04-05 10:14:26.010','admin','ZKEASOFT','2020-04-05 10:14:26.010',NULL,NULL,0,NULL,0,NULL,NULL);

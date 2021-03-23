@@ -72,8 +72,8 @@ namespace ZKEACMS.Page
             ViewConfig(m => m.LayoutId).AsTextBox().SetTemplate("LayoutChooser");
             ViewConfig(m => m.Script).AsHidden();
             ViewConfig(m => m.Style).AsHidden();
-            ViewConfig(m => m.Scripts).AsListEditor();
-            ViewConfig(m => m.Styles).AsListEditor();
+            ViewConfig(m => m.Scripts).AsListEditor().Sortable();
+            ViewConfig(m => m.Styles).AsListEditor().Sortable();
             
             ViewConfig(m => m.ParentId).AsHidden();
             ViewConfig(m => m.ID).AsHidden();

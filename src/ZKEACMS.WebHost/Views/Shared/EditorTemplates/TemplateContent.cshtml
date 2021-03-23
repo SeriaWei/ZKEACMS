@@ -2,8 +2,6 @@
 @{
     Style.Reqiured("codemirror").AtHead();
     Script.Reqiured("codemirror").AtFoot();
-    //string value = Html.Raw(Model).ToString();
-    //value = System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(value);
     string name = ViewData.TemplateInfo.GetFullHtmlFieldName("");
     var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
 
@@ -16,15 +14,18 @@
 @using (Script.AtFoot())
 {
     <script type="text/javascript">
-        var editor = CodeMirror.fromTextArea(document.getElementById('@name'), {
-            lineNumbers: true,
-            mode: "htmlmixed",
-            theme: 'monokai',
-            lineWrapping: true,
-            autofocus: true,
-            tabSize: 2,
-            extraKeys: { "Ctrl-J": "autocomplete" },
-            autoCloseTags: true
-        });
+        (function () {
+            var editor = CodeMirror.fromTextArea(document.getElementById('@name'), {
+                lineNumbers: true,
+                mode: "htmlmixed",
+                theme: 'monokai',
+                lineWrapping: true,
+                autofocus: true,
+                tabSize: 2,
+                extraKeys: { "Ctrl-J": "autocomplete" },
+                autoCloseTags: true
+            });
+            editor.setSize("100%", 400);
+        })();
     </script>
 }

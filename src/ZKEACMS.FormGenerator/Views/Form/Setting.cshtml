@@ -53,7 +53,7 @@
                      ondragleave="angular.element(this).scope().dragLeave(event)"
                      ondrop="angular.element(this).scope().drop(event)">
                     <div class="form-group clearfix" ng-class="{required:field.IsRequired,ondrop:field.onDrop,active:field==fieldInfo}"
-                         ng-include="'/Plugins/ZKEACMS.FormGenerator/DisplayTemplate/' + field.Name + '.html'"
+                         ng-include="'/Admin/FormGenerator/PreviewTemplate/' + field.Name + ''"
                          ng-click="editTemplate(field)">
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-include="'/Plugins/ZKEACMS.FormGenerator/EditorTemplate/' + fieldInfo.Name + '.html'"></div>
+                    <div ng-include="'/Admin/FormGenerator/EditTemplate/' + fieldInfo.Name + ''"></div>
                 </form>
             </div>
         </div>

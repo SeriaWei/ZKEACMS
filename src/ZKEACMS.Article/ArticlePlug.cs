@@ -45,6 +45,13 @@ namespace ZKEACMS.Article
                     },
                     new AdminMenu
                     {
+                        Title = "Article Gallery",
+                        Url = "~/admin/articlegallery",
+                        Icon = "glyphicon-th",
+                        PermissionKey = PermissionKeys.ViewArticle
+                    },
+                    new AdminMenu
+                    {
                         Title = "Article Category",
                         Url = "~/admin/articletype",
                         Icon = "glyphicon-th-list",
@@ -126,13 +133,24 @@ namespace ZKEACMS.Article
                 PartialView = "Widget.ArticleType",
                 Thumbnail = "~/Plugins/ZKEACMS.Article/Content/Image/Widget.ArticleType.png",
                 Order = 5
+            }; ;
+            yield return new WidgetTemplateEntity<ArticleGalleryWidgetService>
+            {
+                Title = "Article Gallery",
+                GroupName = groupName,
+                PartialView = "Widget.ArticleGallery",
+                Thumbnail = "~/Plugins/ZKEACMS.Article/Content/Image/Widget.ArticleGallery.png",
+                Order = 6
             };
         }
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IArticleService, ArticleService>();
+            serviceCollection.AddTransient<IArticleGalleryService, ArticleGalleryService>();
+            serviceCollection.AddTransient<IArticleApiService, ArticleApiService>();
             serviceCollection.AddTransient<IArticleTypeService, ArticleTypeService>();
+            serviceCollection.AddTransient<IArticleTypeApiService, ArticleTypeApiService>();
             serviceCollection.AddTransient<IRouteDataProvider, ArticleRouteDataProvider>();
             serviceCollection.AddTransient<IRouteDataProvider, ArticleTypeRouteDataProvider>();
             serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
@@ -159,9 +177,8 @@ namespace ZKEACMS.Article
             serviceCollection.ConfigureMetaData<ArticleSummaryWidget, ArticleSummaryWidgetMetaData>();
             serviceCollection.ConfigureMetaData<ArticleTopWidget, ArticleTopWidgetMetaData>();
             serviceCollection.ConfigureMetaData<ArticleTypeWidget, ArticleTypeWidgetMetaData>();
-
-            //add by roc
             serviceCollection.ConfigureMetaData<ArticleSpecialDetailWidget, ArticleSpecialDetailWidgetMetaData>();
+            serviceCollection.ConfigureMetaData<ArticleGalleryWidget, ArticleGalleryWidgetMetaData>();
         }
     }
 }

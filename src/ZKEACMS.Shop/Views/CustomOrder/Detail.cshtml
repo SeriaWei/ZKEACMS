@@ -44,7 +44,7 @@
                     <h4>@item.Title</h4>
                     <p>@item.Description</p>
                     <p>
-                        @L("￥")
+                        @Html.CurrencySymbol()
                         @item.Price.ToString("F2")
                         x
                         @item.Quantity
@@ -54,7 +54,7 @@
                 {
                     <td width="200" align="center" style="vertical-align:middle" rowspan="@Model.OrderItems.Count">
                         @L("Total:")
-                        @L("￥")
+                        @Html.CurrencySymbol()
                         @Model.Order.Total.ToString("F2")
                     </td>
                 }

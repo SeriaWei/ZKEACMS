@@ -1,0 +1,5 @@
+﻿<h4 class="control-label" ng-if="field.DisplayName" ng-bind="field.DisplayName"></h4>
+<p class="text-muted" ng-if="field.Description">
+    <span ng-bind="field.Description"></span>
+</p>
+<button type="button" class="close" ng-click="removeField(field)" ng-if="Fields.length>1"><span aria-hidden="true">&times;</span></button>

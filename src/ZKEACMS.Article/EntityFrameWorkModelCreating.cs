@@ -19,8 +19,8 @@ namespace ZKEACMS.Article
             modelBuilder.Entity<ArticleSummaryWidget>();
             modelBuilder.Entity<ArticleTopWidget>();
             modelBuilder.Entity<ArticleTypeWidget>();
-
             modelBuilder.Entity<ArticleSpecialDetailWidget>();
+            modelBuilder.Entity<ArticleGallery>();
         }
     }
 }

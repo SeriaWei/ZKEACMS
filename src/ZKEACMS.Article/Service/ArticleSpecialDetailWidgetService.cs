@@ -20,7 +20,7 @@ namespace ZKEACMS.Article.Service
             _articleService = articleService;
         }
 
-        public override WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
+        public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             var viewModel = new ArticleDetailViewModel();
             var articleWidget = widgetDisplayContext.Widget as ArticleSpecialDetailWidget;
@@ -51,7 +51,7 @@ namespace ZKEACMS.Article.Service
             }
             viewModel.Current = article;
 
-            return widgetDisplayContext.ToWidgetViewModelPart(viewModel);
+            return viewModel;
         }
     }
 }

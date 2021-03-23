@@ -192,8 +192,8 @@ namespace ZKEACMS.Controllers
             }
             if (widgetPart == null)
             {
-                HtmlWidget errorWidget= new HtmlWidget { PartialView = "Widget.HTML", HTML = "<h1 class='text-danger'><hr/>Error<hr/></h1>" };
-                widgetPart = new WidgetViewModelPart { ViewModel = errorWidget, Widget = errorWidget };
+                HtmlWidget errorWidget = new HtmlWidget { PartialView = "Widget.HTML", HTML = "<h1 class='text-danger'><hr/>Error<hr/></h1>" };
+                widgetPart = new WidgetViewModelPart(errorWidget, errorWidget);
             }
             return PartialView("AppendWidget", new DesignWidgetViewModel(widgetPart, widget.PageID));
         }

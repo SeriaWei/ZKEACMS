@@ -1,0 +1,18 @@
+@using ZKEACMS.Article.Models
+@model ArticleGallery
+@{
+    Style.Reqiured("dataTable").AtHead();
+    Script.Reqiured("dataTable").AtFoot();
+
+    Script.Reqiured("datepicker").AtFoot();
+    Style.Reqiured("datepicker").AtHead();
+}
+
+<div class="grid-component">
+    @Html.SearchTerms(Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticle))
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid delete-able="Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticle)" edit-able="Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.ManageArticle)"></grid>
+        </div>
+    </div>    
+</div>

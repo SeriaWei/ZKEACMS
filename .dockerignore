@@ -4,3 +4,5 @@
 .vscode
 bin
 obj
+node_modules
+Release

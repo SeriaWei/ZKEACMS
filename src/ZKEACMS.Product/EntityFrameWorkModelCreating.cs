@@ -20,6 +20,7 @@ namespace ZKEACMS.Product
             modelBuilder.Entity<ProductTag>();
             modelBuilder.Entity<ProductCategoryTag>();
             modelBuilder.Entity<ProductImage>();
+            modelBuilder.Entity<ProductGallery>();
         }
     }
 }

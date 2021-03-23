@@ -160,13 +160,13 @@ namespace ZKEACMS.Widget
         }
 
         /// <summary>
-        /// Display the specified widget.
+        /// Display the specified widget. Return object will pass into widget template.
         /// </summary>
         /// <returns>The widget view model</returns>
         /// <param name="widgetDisplayContext">WidgetDisplayContext.</param>
-        public virtual WidgetViewModelPart Display(WidgetDisplayContext widgetDisplayContext)
+        public virtual object Display(WidgetDisplayContext widgetDisplayContext)
         {
-            return widgetDisplayContext.ToWidgetViewModelPart();
+            return widgetDisplayContext.Widget;
         }
 
 

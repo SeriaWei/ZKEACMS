@@ -1,0 +1,31 @@
+@using ZKEACMS.Product.Models
+@model ProductEntity
+@{
+    Style.Reqiured("dataTable").AtHead();
+    Script.Reqiured("dataTable").AtFoot();
+
+    Script.Reqiured("datepicker").AtFoot();
+    Style.Reqiured("datepicker").AtHead();
+    Layout = Layouts.PopUp;
+    string select = "<label class=\"radio-inline\"><input class=\"select\" type=\"radio\" name=\"select\" value=\"{{id}}\" data-title=\"{{title}}\" />" + L("Select") +"</label>";
+}
+
+<div class="grid-component">
+    @Html.SearchTerms(false)
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid delete-able="false" edit-able="true" edit-template="@select"></grid>
+        </div>
+    </div>
+</div>
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            $(document).on("click", ".select", function () {
+                Set({ value: $(this).data("title"), additional: { ProductID: $(this).val() } });
+            });
+        });
+    </script>
+}

@@ -17,14 +17,12 @@
             }
         </label>
     }
-    @Html.DropDownList(Model.ID, items, L("-- Select --").Text, Model.Attributes)
-    <span class="field-validation-valid" data-valmsg-for="@Model.ID" data-valmsg-replace="true"></span>
     @if (Model.Description.IsNotNullAndWhiteSpace())
     {
-        <dl>
-            <dd>
-                @Model.Description
-            </dd>
-        </dl>
+        <span class="text-muted">
+            <span>@Model.Description</span>
+        </span>
     }
+    @Html.DropDownList(Model.ID, items, L("-- Select --").Text, Model.Attributes)
+    @Html.ValidationMessage(Model.ID)
 </div>
