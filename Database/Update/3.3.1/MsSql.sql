@@ -1,0 +1,1 @@
+ALTER TABLE [CMS_Page] ADD [BodyStyle] NVARCHAR(MAX);
