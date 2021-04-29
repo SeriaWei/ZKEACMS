@@ -1,4 +1,4 @@
--- Script Date: 2021/3/7 星期日 14:12  - ErikEJ.SqlCeScripting version 3.5.2.56
+-- Script Date: 2021/4/29 星期四 18:32  - ErikEJ.SqlCeScripting version 3.5.2.56
 SELECT 1;
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
@@ -57,7 +57,7 @@ CREATE TABLE [Subscription] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Subscrip__3214EC27209588C3] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Subscrip__3214EC27B0CFFF54] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ShippingOption] (
   [ID] INTEGER NOT NULL
@@ -74,7 +74,7 @@ CREATE TABLE [ShippingOption] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Shipping__3214EC274EB1A3D5] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Shipping__3214EC277ECE4E69] PRIMARY KEY ([ID])
 );
 CREATE TABLE [SectionTemplate] (
   [TemplateName] nvarchar(100) NOT NULL
@@ -145,13 +145,13 @@ CREATE TABLE [Roles] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Roles__3214EC277B5764B6] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Roles__3214EC270052F237] PRIMARY KEY ([ID])
 );
 CREATE TABLE [UserRoleRelation] (
   [ID] INTEGER NOT NULL
 , [RoleID] int NULL
 , [UserID] nvarchar(50) NULL
-, CONSTRAINT [PK__UserRole__3214EC2779F772E0] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__UserRole__3214EC27511FF5FE] PRIMARY KEY ([ID])
 , FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 , FOREIGN KEY ([UserID]) REFERENCES [Users] ([UserID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
@@ -189,7 +189,7 @@ CREATE TABLE [ProductGallery] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__ProductG__3214EC2759F550A8] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__ProductG__3214EC2739F5B26A] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ProductCategoryTag] (
   [ID] INTEGER NOT NULL
@@ -266,7 +266,7 @@ CREATE TABLE [PersistKey] (
 , [CreationDate] datetime NULL
 , [ActivationDate] datetime NULL
 , [ExpirationDate] datetime NULL
-, CONSTRAINT [PK__PersistK__3214EC275F09A61D] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__PersistK__3214EC27CCED2A26] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Permission] (
   [PermissionKey] nvarchar(100) NOT NULL
@@ -445,6 +445,7 @@ CREATE TABLE [FluidContentValue] (
 , [SEOTitle] nvarchar(200) NULL
 , [SEOKeyWord] nvarchar(200) NULL
 , [SEODescription] nvarchar(200) NULL
+, CONSTRAINT [PK_FluidContentValue] PRIMARY KEY ([ID])
 );
 CREATE TABLE [FluidContentType] (
   [ID] INTEGER NOT NULL
@@ -461,6 +462,7 @@ CREATE TABLE [FluidContentType] (
 , [GroupID] int NULL
 , [RoleID] int NULL
 , [Icon] nvarchar(100) NULL
+, CONSTRAINT [PK_FluidContentType] PRIMARY KEY ([ID])
 );
 CREATE TABLE [FluidContentTemplate] (
   [ID] INTEGER NOT NULL
@@ -475,6 +477,7 @@ CREATE TABLE [FluidContentTemplate] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
+, CONSTRAINT [PK_FluidContentTemplate] PRIMARY KEY ([ID])
 );
 CREATE TABLE [FluidContentGroup] (
   [ID] INTEGER NOT NULL
@@ -488,7 +491,7 @@ CREATE TABLE [FluidContentGroup] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__FluidCon__3214EC27C2078F30] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__FluidCon__3214EC27ED714307] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ExtendField] (
   [ID] INTEGER NOT NULL
@@ -512,7 +515,7 @@ CREATE TABLE [DBVersion] (
 , [Minor] int NULL
 , [Revision] int NULL
 , [Build] int NULL
-, CONSTRAINT [PK__DBVersio__3214EC27A29083E6] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__DBVersio__3214EC279B4434D0] PRIMARY KEY ([ID])
 );
 CREATE TABLE [DataDictionary] (
   [ID] INTEGER NOT NULL
@@ -561,7 +564,7 @@ CREATE TABLE [Currency] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Currency__3214EC2751EB9475] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Currency__3214EC27BBEC2D2E] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Comments] (
   [ID] INTEGER NOT NULL
@@ -1011,7 +1014,7 @@ CREATE TABLE [ArticleGallery] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__ArticleG__3214EC2798E8405D] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__ArticleG__3214EC27E0B70C6E] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ArticleDetailWidget] (
   [ID] nvarchar(100) NOT NULL

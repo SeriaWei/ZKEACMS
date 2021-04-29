@@ -1387,7 +1387,8 @@ CREATE TABLE `FluidContentTemplate` (
 	`CreateDate` DATETIME  NULL,
 	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
 	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
-	`LastUpdateDate` DATETIME  NULL
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
 );
 
 
@@ -1406,7 +1407,8 @@ CREATE TABLE `FluidContentType` (
 	`LastUpdateDate` DATETIME  NULL,
 	`GroupID` INT  NULL,
 	`RoleID` INT  NULL,
-	`Icon` VARCHAR(100) CHARACTER SET utf8mb4  NULL
+	`Icon` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	PRIMARY KEY (`ID`)
 );
 
 
@@ -1429,7 +1431,8 @@ CREATE TABLE `FluidContentValue` (
 	`Url` VARCHAR(200) CHARACTER SET utf8mb4  NULL,
 	`SEOTitle` VARCHAR(200) CHARACTER SET utf8mb4  NULL,
 	`SEOKeyWord` VARCHAR(200) CHARACTER SET utf8mb4  NULL,
-	`SEODescription` VARCHAR(200) CHARACTER SET utf8mb4  NULL
+	`SEODescription` VARCHAR(200) CHARACTER SET utf8mb4  NULL,
+	PRIMARY KEY (`ID`)
 );
 
 
