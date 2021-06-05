@@ -1,14 +1,16 @@
 ﻿@using ZKEACMS.Common.Models
+@using Microsoft.Extensions.Options
+@using Easy.Options
 @inject IAdminMenuProvider adminMenuProvider
 @{
     Style.Reqiured("bootStrap").AtHead();
     Style.Reqiured("admin").AtHead();
     Script.Reqiured("admin").AtFoot();
     List<AdminMenu> menus = adminMenuProvider.GetAdminMenus().ToList();
-
 }
+@inject IOptions<CultureOption> cultureOption
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="@cultureOption.Value.Code">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
@@ -26,7 +28,6 @@
     @ScriptAtHead()
 </head>
 <body>
-
     <div id="wrap">
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">

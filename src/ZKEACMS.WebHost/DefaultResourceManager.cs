@@ -113,8 +113,8 @@ namespace ZKEACMS.WebHost
                 .Include($"{LibraryPath}/bootstrap/dist/css/bootstrap.css", $"{LibraryPath}/bootstrap/dist/css/bootstrap.min.css")
                 .Include($"{LibraryPath}/bootstrap/dist/css/bootstrap-theme.css", $"{LibraryPath}/bootstrap/dist/css/bootstrap-theme.min.css");
 
-            style("Site")
-                .Include($"{StylePath}/site.css", $"{StylePath}/site.min.css").RequiredAtFoot();
+            //style("Site")
+            //    .Include($"{StylePath}/site.css", $"{StylePath}/site.min.css").RequiredAtFoot();
 
             style("jQueryUi")
                 .Include($"{LibraryPath}/jquery-ui/themes/base/jquery-ui.css", $"{LibraryPath}/jquery-ui/themes/base/jquery-ui.min.css");
