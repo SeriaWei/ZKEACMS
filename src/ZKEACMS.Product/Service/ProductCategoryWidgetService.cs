@@ -66,9 +66,7 @@ namespace ZKEACMS.Product.Service
                 var layout = widgetDisplayContext.PageLayout;
                 if (layout != null && layout.Page != null)
                 {
-                    layout.Page.Title = productCategory.SEOTitle;
-                    layout.Page.MetaKeyWorlds = productCategory.SEOKeyWord;
-                    layout.Page.MetaDescription = productCategory.SEODescription;
+                    layout.Page.ConfigSEO(productCategory.SEOTitle, productCategory.SEOKeyWord, productCategory.SEODescription);
                 }
             }
             return new ProductCategoryWidgetViewModel

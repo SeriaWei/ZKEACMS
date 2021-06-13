@@ -59,6 +59,21 @@ namespace ZKEACMS.Page
         public List<PageAsset> Styles { get; set; }
         [NotMapped]
         public List<PageAsset> Scripts { get; set; }
+        public void ConfigSEO(string title,string keywords,string description)
+        {
+            if (title.IsNotNullAndWhiteSpace())
+            {
+                Title = title;
+            }
+            if (keywords.IsNotNullAndWhiteSpace())
+            {
+                MetaKeyWorlds = keywords;
+            }
+            if (description.IsNotNullAndWhiteSpace())
+            {
+                MetaDescription = description;
+            }
+        }
     }
     class PageMetaData : ViewMetaData<PageEntity>
     {

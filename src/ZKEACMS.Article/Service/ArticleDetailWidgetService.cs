@@ -84,9 +84,7 @@ namespace ZKEACMS.Article.Service
                 var layout = widgetDisplayContext.PageLayout;
                 if (layout != null && layout.Page != null)
                 {
-                    layout.Page.MetaKeyWorlds = viewModel.Current.MetaKeyWords;
-                    layout.Page.MetaDescription = viewModel.Current.MetaDescription;
-                    layout.Page.Title = viewModel.Current.Title;
+                    layout.Page.ConfigSEO(viewModel.Current.Title, viewModel.Current.MetaKeyWords, viewModel.Current.MetaDescription);
                 }
             }
 
