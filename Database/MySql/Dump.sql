@@ -1335,7 +1335,7 @@ CREATE TABLE `DBVersion` (
 
 /*!40000 ALTER TABLE `DBVersion` DISABLE KEYS */;
 INSERT INTO `DBVersion` VALUES
-(1,3,4,0,0);
+(1,3,4,2,0);
 /*!40000 ALTER TABLE `DBVersion` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ExtendField`;
@@ -2179,6 +2179,7 @@ INSERT INTO `Language` VALUES
 ('CarouselWidget@WidgetName','zh-CN','组件名称','CarouselWidget','EntityProperty'),
 ('CarouselWidget@ZoneID','zh-CN','区域','CarouselWidget','EntityProperty'),
 ('Case Sensitivity','zh-CN','大小写',NULL,NULL),
+('CaseItem@BackgroundImage','zh-CN','背景图',NULL,NULL),
 ('Cell phone','en-GB','Cell phone',NULL,NULL),
 ('Cell phone','en-US','Cell phone',NULL,NULL),
 ('Cell phone','zh-CN','手机',NULL,NULL),
@@ -2604,6 +2605,7 @@ INSERT INTO `Language` VALUES
 ('Field Name','zh-CN','属性名',NULL,NULL),
 ('Field Setting','zh-CN','字段设置',NULL,NULL),
 ('Fields','zh-CN','选择字段',NULL,NULL),
+('File','zh-CN','文件',NULL,NULL),
 ('File Cache','zh-CN','文件缓存',NULL,NULL),
 ('Fixed','zh-CN','固定',NULL,NULL),
 ('Fixed Width','zh-CN','定宽',NULL,NULL),
@@ -4299,6 +4301,10 @@ INSERT INTO `Language` VALUES
 ('Shipping Option','zh-CN','物流选项',NULL,NULL),
 ('ShippingOption','zh-CN','物流选项',NULL,NULL),
 ('Shop','zh-CN','商城',NULL,NULL),
+('Showcase','zh-CN','展示橱窗',NULL,NULL),
+('ShowCaseWidget@CaseItems','zh-CN','展示项',NULL,NULL),
+('ShowCaseWidget@Header','zh-CN','大标题',NULL,NULL),
+('ShowCaseWidget@MoreLink','zh-CN','查看更多链接',NULL,NULL),
 ('Sign in','en-GB','Sign in',NULL,NULL),
 ('Sign in','en-US','Sign in',NULL,NULL),
 ('Sign in','zh-CN','立即登录',NULL,NULL),
