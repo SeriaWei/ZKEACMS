@@ -1,4 +1,8 @@
-﻿(function ($) {
+﻿/* http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
+
+(function ($) {
     $(document).on("click", ".comments-box .reply", function () {
         var content = $(this).closest(".comments-box").find("#CommentContent");
         content.val(content.val() + "@" + $(this).data("reply-to") + " ").focus();

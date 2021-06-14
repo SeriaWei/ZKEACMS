@@ -1,4 +1,8 @@
-﻿"use strict";
+﻿/*! http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
+
+"use strict";
 
 $(function () {
     $(document).on("click", ".input-group .glyphicon.glyphicon-search", function () {

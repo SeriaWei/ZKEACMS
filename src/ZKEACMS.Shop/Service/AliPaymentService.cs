@@ -1,3 +1,7 @@
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using Alipay.AopSdk.AspnetCore;
 using Alipay.AopSdk.Core.Domain;
 using Alipay.AopSdk.Core.Request;

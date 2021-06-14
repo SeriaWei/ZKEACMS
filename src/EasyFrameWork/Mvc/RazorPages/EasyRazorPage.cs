@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ 
- * Copyright 2018 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+
 using Microsoft.AspNetCore.Mvc.Razor;
 using Easy.Mvc.Resource;
 using Microsoft.AspNetCore.Html;

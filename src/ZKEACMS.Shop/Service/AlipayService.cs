@@ -1,4 +1,7 @@
-//https://github.com/dotnetcore/Alipay.AopSdk.Core/blob/master/Alipay.AopSdk.AspnetCore/AlipayService.cs
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using Alipay.AopSdk.AspnetCore;
 using Alipay.AopSdk.Core;
 using Alipay.AopSdk.Core.Util;

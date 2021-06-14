@@ -1,4 +1,8 @@
-﻿$(function () {
+﻿/*! http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
+
+$(function () {
     $(document).on("submit", ".form-widget form", function () {
         if ($("input[type=checkbox].required-one", this).length > 0) {
             if ($("input[type=checkbox].required-one:checked", this).length == 0) {

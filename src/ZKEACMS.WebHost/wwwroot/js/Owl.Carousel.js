@@ -1,4 +1,8 @@
-﻿$(document).ready(function () {
+﻿/*! http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
+
+$(document).ready(function () {
     $('.owl-carousel').each(function () {
         var time = 4;
         var $progressBar,

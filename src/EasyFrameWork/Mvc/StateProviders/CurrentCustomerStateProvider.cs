@@ -1,4 +1,8 @@
-﻿using Easy.Extend;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using Easy.Extend;
 using Easy.Models;
 using Easy.Modules.User.Service;
 using Microsoft.AspNetCore.Http;

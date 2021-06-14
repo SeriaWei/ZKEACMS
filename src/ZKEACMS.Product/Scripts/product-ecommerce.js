@@ -1,4 +1,8 @@
-﻿$(".product-ecommerce").each(function () {
+﻿/*! http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
+
+$(".product-ecommerce").each(function () {
     var ecommerce = $(this);
     $(".tag-grop", ecommerce).each(function () {
         $("input[type=radio]:first", this).prop("checked", true);

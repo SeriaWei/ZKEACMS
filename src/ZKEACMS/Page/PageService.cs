@@ -1,7 +1,6 @@
 /* http://www.zkea.net/ 
- * Copyright 2018 ZKEASOFT 
- * http://www.zkea.net/licenses 
- */
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
 
 using Easy;
 using Easy.Extend;

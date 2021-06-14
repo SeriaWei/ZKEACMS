@@ -1,3 +1,7 @@
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using Easy.LINQ;
 using Easy.MetaData;
 using Easy.Models;

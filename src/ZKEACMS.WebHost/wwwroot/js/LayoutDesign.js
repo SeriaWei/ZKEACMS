@@ -1,4 +1,8 @@
-﻿$(function () {
+﻿/*! http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
+
+$(function () {
     var container = $("#containers");
     if (container.children().size() > 0 && container.children(".container").size() === 0 && container.children(".container-fluid").size() === 0) {
         var containerItem = $('<div class="container"></div>');

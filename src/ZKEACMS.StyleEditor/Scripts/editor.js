@@ -1,4 +1,8 @@
-﻿function updateDisplay() {
+﻿/*! http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
+
+function updateDisplay() {
 
     var width = document.getElementById("width").value;
     var height = document.getElementById("height").value;
