@@ -14,6 +14,7 @@ using System.Linq;
 using Easy.Extend;
 using System.Collections.Concurrent;
 using Easy.Cache;
+using Easy.RepositoryPattern;
 
 namespace ZKEACMS.Article.Service
 {
@@ -37,12 +38,18 @@ namespace ZKEACMS.Article.Service
             _allRelatedUrlCache.TryRemove(ArticleDetailWidgetRelatedPageUrls, out var urls);
         }
 
-        public override void AddWidget(WidgetBase widget)
+        public override ServiceResult<ArticleDetailWidget> Add(ArticleDetailWidget item)
         {
-            base.AddWidget(widget);
+            var result = base.Add(item);
             DismissRelatedPageUrls();
+            return result;
         }
-
+        public override ServiceResult<ArticleDetailWidget> Update(ArticleDetailWidget item)
+        {
+            var result = base.Update(item);
+            DismissRelatedPageUrls();
+            return result;
+        }
         public override void DeleteWidget(string widgetId)
         {
             base.DeleteWidget(widgetId);
