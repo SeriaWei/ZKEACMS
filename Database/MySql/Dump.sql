@@ -83,7 +83,7 @@ INSERT INTO `Article` VALUES
 <pre>docker pull zkeasoft/zkeacms:mysql</pre>
 <p>链接MySql运行。</p>
 <pre>docker run -p 808:80 --link=mysql zkeacms:mysql</pre>',1,'/themes/blog/images/docker.jpg',NULL,1,'2017-11-19 23:41:19.000','zkeacms-docker-image','admin','ZKEASOFT','2017-11-19 23:41:19.000','admin','ZKEASOFT','2020-04-05 10:15:45.580'),
-(2,'SQL中的 XACT_ABORT{ ON | OFF }','SQL Server（从 2008 开始），可以通过设置XACT_ABORT来指定当 SQL Server 语句出现运行时错误时， Transact-SQL 是否自动回滚当前事务。','SQL,XACT_ABORT','SQL Server（从 2008 开始），可以通过设置XACT_ABORT来指定当 SQL Server 语句出现运行时错误时， Transact-SQL 是否自动回滚当前事务。',13,5,NULL,'<p>SQL Server（从 2008 开始），可以通过设置XACT_ABORT来指定当 SQL Server 语句出现运行时错误时， Transact-SQL 是否自动回滚当前事务。</p>
+(2,'SQL中的 XACT_ABORT{ ON | OFF }','SQL Server（从 2008 开始），可以通过设置XACT_ABORT来指定当 SQL Server 语句出现运行时错误时， Transact-SQL 是否自动回滚当前事务。','SQL,XACT_ABORT','SQL Server（从 2008 开始），可以通过设置XACT_ABORT来指定当 SQL Server 语句出现运行时错误时， Transact-SQL 是否自动回滚当前事务。',14,5,NULL,'<p>SQL Server（从 2008 开始），可以通过设置XACT_ABORT来指定当 SQL Server 语句出现运行时错误时， Transact-SQL 是否自动回滚当前事务。</p>
 <h3>XACT_ABORT</h3>
 <p>语法：</p>
 <pre>SET XACT_ABORT { ON | OFF }</pre>
@@ -2235,7 +2235,7 @@ CREATE TABLE `DBVersion` (
 
 /*!40000 ALTER TABLE `DBVersion` DISABLE KEYS */;
 INSERT INTO `DBVersion` VALUES
-(1,3,4,0,0);
+(1,3,4,2,0);
 /*!40000 ALTER TABLE `DBVersion` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ExtendField`;
@@ -2287,7 +2287,8 @@ CREATE TABLE `FluidContentTemplate` (
 	`CreateDate` DATETIME  NULL,
 	`LastUpdateBy` VARCHAR(50) CHARACTER SET utf8mb4  NULL,
 	`LastUpdateByName` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
-	`LastUpdateDate` DATETIME  NULL
+	`LastUpdateDate` DATETIME  NULL,
+	PRIMARY KEY (`ID`)
 );
 
 
@@ -2306,7 +2307,8 @@ CREATE TABLE `FluidContentType` (
 	`LastUpdateDate` DATETIME  NULL,
 	`GroupID` INT  NULL,
 	`RoleID` INT  NULL,
-	`Icon` VARCHAR(100) CHARACTER SET utf8mb4  NULL
+	`Icon` VARCHAR(100) CHARACTER SET utf8mb4  NULL,
+	PRIMARY KEY (`ID`)
 );
 
 
@@ -2329,7 +2331,8 @@ CREATE TABLE `FluidContentValue` (
 	`Url` VARCHAR(200) CHARACTER SET utf8mb4  NULL,
 	`SEOTitle` VARCHAR(200) CHARACTER SET utf8mb4  NULL,
 	`SEOKeyWord` VARCHAR(200) CHARACTER SET utf8mb4  NULL,
-	`SEODescription` VARCHAR(200) CHARACTER SET utf8mb4  NULL
+	`SEODescription` VARCHAR(200) CHARACTER SET utf8mb4  NULL,
+	PRIMARY KEY (`ID`)
 );
 
 
@@ -3055,6 +3058,7 @@ INSERT INTO `Language` VALUES
 ('CarouselWidget@WidgetName','zh-CN','组件名称','CarouselWidget','EntityProperty'),
 ('CarouselWidget@ZoneID','zh-CN','区域','CarouselWidget','EntityProperty'),
 ('Case Sensitivity','zh-CN','大小写',NULL,NULL),
+('CaseItem@BackgroundImage','zh-CN','背景图',NULL,NULL),
 ('Cell phone','en-GB','Cell phone',NULL,NULL),
 ('Cell phone','en-US','Cell phone',NULL,NULL),
 ('Cell phone','zh-CN','手机',NULL,NULL),
@@ -3257,7 +3261,7 @@ INSERT INTO `Language` VALUES
 ('ContentValue@Status','zh-CN','状态','ContentValue','EntityProperty'),
 ('ContentValue@Title','en-US','Title','ContentValue','EntityProperty'),
 ('ContentValue@Title','zh-CN','标题','ContentValue','EntityProperty'),
-('ContentValue@Url','zh-CN','Url','ContentValue','EntityProperty'),
+('ContentValue@Url','zh-CN','英文名','ContentValue','EntityProperty'),
 ('Context Menu','en-GB','Menu',NULL,NULL),
 ('Context Menu','en-US','Menu',NULL,NULL),
 ('Context Menu','zh-CN','右键菜单',NULL,NULL),
@@ -3478,6 +3482,7 @@ INSERT INTO `Language` VALUES
 ('Field Name','zh-CN','属性名',NULL,NULL),
 ('Field Setting','zh-CN','字段设置',NULL,NULL),
 ('Fields','zh-CN','选择字段',NULL,NULL),
+('File','zh-CN','文件',NULL,NULL),
 ('File Cache','zh-CN','文件缓存',NULL,NULL),
 ('Fixed','zh-CN','固定',NULL,NULL),
 ('Fixed Width','zh-CN','定宽',NULL,NULL),
@@ -3644,6 +3649,32 @@ INSERT INTO `Language` VALUES
 ('Have account?','en-US','Have account?',NULL,NULL),
 ('Have account?','zh-CN','已有账号？',NULL,NULL),
 ('Have your say...','zh-CN','说说你的看法...',NULL,NULL),
+('HeadWidget@AssemblyName','en-US','Assembly Name','HeadWidget','EntityProperty'),
+('HeadWidget@AssemblyName','zh-CN','Assembly Name','HeadWidget','EntityProperty'),
+('HeadWidget@Content','en-US','内容','HeadWidget','EntityProperty'),
+('HeadWidget@Content','zh-CN','内容','HeadWidget','EntityProperty'),
+('HeadWidget@IsSystem','en-US','Is System','HeadWidget','EntityProperty'),
+('HeadWidget@IsSystem','zh-CN','Is System','HeadWidget','EntityProperty'),
+('HeadWidget@IsTemplate','en-US','保存为模板','HeadWidget','EntityProperty'),
+('HeadWidget@IsTemplate','zh-CN','保存为模板','HeadWidget','EntityProperty'),
+('HeadWidget@PartialView','en-US','显示模板','HeadWidget','EntityProperty'),
+('HeadWidget@PartialView','zh-CN','显示模板','HeadWidget','EntityProperty'),
+('HeadWidget@Position','en-US','Position','HeadWidget','EntityProperty'),
+('HeadWidget@Position','zh-CN','排序','HeadWidget','EntityProperty'),
+('HeadWidget@ServiceTypeName','en-US','Service Type Name','HeadWidget','EntityProperty'),
+('HeadWidget@ServiceTypeName','zh-CN','Service Type Name','HeadWidget','EntityProperty'),
+('HeadWidget@StyleClass','en-US','自定义样式','HeadWidget','EntityProperty'),
+('HeadWidget@StyleClass','zh-CN','自定义样式','HeadWidget','EntityProperty'),
+('HeadWidget@Thumbnail','en-US','缩略图','HeadWidget','EntityProperty'),
+('HeadWidget@Thumbnail','zh-CN','缩略图','HeadWidget','EntityProperty'),
+('HeadWidget@Title','en-US','标题','HeadWidget','EntityProperty'),
+('HeadWidget@Title','zh-CN','标题','HeadWidget','EntityProperty'),
+('HeadWidget@ViewModelTypeName','en-US','View Model Type Name','HeadWidget','EntityProperty'),
+('HeadWidget@ViewModelTypeName','zh-CN','View Model Type Name','HeadWidget','EntityProperty'),
+('HeadWidget@WidgetName','en-US','组件名称','HeadWidget','EntityProperty'),
+('HeadWidget@WidgetName','zh-CN','组件名称','HeadWidget','EntityProperty'),
+('HeadWidget@ZoneID','en-US','区域','HeadWidget','EntityProperty'),
+('HeadWidget@ZoneID','zh-CN','区域','HeadWidget','EntityProperty'),
 ('Height(px)','zh-CN','高(px)',NULL,NULL),
 ('Help','zh-CN','帮助',NULL,NULL),
 ('Hidden','zh-CN','隐藏',NULL,NULL),
@@ -5145,6 +5176,10 @@ INSERT INTO `Language` VALUES
 ('Shipping Option','zh-CN','物流选项',NULL,NULL),
 ('ShippingOption','zh-CN','物流选项',NULL,NULL),
 ('Shop','zh-CN','商城',NULL,NULL),
+('Showcase','zh-CN','展示橱窗',NULL,NULL),
+('ShowCaseWidget@CaseItems','zh-CN','展示项',NULL,NULL),
+('ShowCaseWidget@Header','zh-CN','大标题',NULL,NULL),
+('ShowCaseWidget@MoreLink','zh-CN','查看更多链接',NULL,NULL),
 ('Sign in','en-GB','Sign in',NULL,NULL),
 ('Sign in','en-US','Sign in',NULL,NULL),
 ('Sign in','zh-CN','立即登录',NULL,NULL),

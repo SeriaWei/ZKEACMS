@@ -3,7 +3,7 @@
 @{
     Layout = null;
     string returnUrl = Url.Action("Index", "Page", new { Model.PageID });
-    var noZoneWidgets = Model.Widgets.Where(m => Model.Zones.All(n => n.HeadingCode != m.ZoneID));
+    var noZoneWidgets = Model.Widgets.Where(m => Model.Zones.All(n => !m.IsInZone(n.HeadingCode)));
 }
 
 @if (noZoneWidgets.Any())
@@ -60,7 +60,7 @@
                     {
                         <div class="panel panel-success panel-relative">
                             <ul data-zoneid="@item.HeadingCode" class="fullRowList widgets connectedSortable">
-                                @foreach (var widget in Model.Widgets.Where(m => m.ZoneID == item.HeadingCode).OrderBy(m => m.Position).ThenBy(m => m.WidgetName))
+                                @foreach (var widget in Model.Widgets.Where(m => m.IsInZone(item.HeadingCode)).OrderBy(m => m.Position).ThenBy(m => m.WidgetName))
                                 {
                                     <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID" data-position="@(widget.LayoutID.IsNotNullAndWhiteSpace()||widget.RuleID.HasValue?widget.Position:0)">
                                         @if (widget.LayoutID.IsNotNullAndWhiteSpace())

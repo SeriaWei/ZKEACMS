@@ -13,7 +13,7 @@
             }
             <img alt="@Model.AltText"
                  src="@Url.PathContent(Model.ImageUrl)"
-                 style="@(Model.Width.HasValue ? $"width:{Model.Width}px;" : string.Empty)@(Model.Height.HasValue ? $"height:{Model.Height}px;" : string.Empty)" />
+                 style="object-fit:cover;@(Model.Width.HasValue ? $"width:{Model.Width}px;" : string.Empty)@(Model.Height.HasValue ? $"height:{Model.Height}px;" : string.Empty)" />
         </picture>
     }
     else
@@ -30,7 +30,7 @@
                 }
                 <img alt="@Model.AltText"
                      src="@Url.PathContent(Model.ImageUrl)"
-                     style="@(Model.Width.HasValue ? $"width:{Model.Width}px;" : string.Empty)@(Model.Height.HasValue ? $"height:{Model.Height}px;" : string.Empty)" />
+                     style="object-fit:cover;@(Model.Width.HasValue ? $"width:{Model.Width}px;" : string.Empty)@(Model.Height.HasValue ? $"height:{Model.Height}px;" : string.Empty)" />
             </picture>
         </a>
     }

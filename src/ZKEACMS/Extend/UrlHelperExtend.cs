@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright 2021 ZKEASOFT 
+ * http://www.zkea.net/licenses 
+ */
 
 using Easy.Extend;
 using Microsoft.AspNetCore.Mvc;
@@ -73,15 +76,15 @@ namespace ZKEACMS
         }
         public static string CategoryUrl(this IUrlHelper helper, string id)
         {
-            string url = helper.ActionContext.RouteData.GetPath();
+            string path = helper.ActionContext.RouteData.GetPath();
             string currentCategory = helper.ActionContext.RouteData.GetCategory().ToString();
             if (currentCategory != id)
             {
-                return $"{url}{(url.EndsWith("/") ? "" : "/")}{StringKeys.PathFormat(StringKeys.RouteValue_Category)}{id}";
+                return $"{path.TrimEnd('/')}/{StringKeys.PathFormat(StringKeys.RouteValue_Category)}{id}";
             }
             else
             {
-                return url;
+                return path;
             }
         }
 
@@ -91,15 +94,15 @@ namespace ZKEACMS
             {
                 return helper.CategoryUrl(articleType.ID);
             }
-            string url = helper.ActionContext.RouteData.GetPath();
+            string path = helper.ActionContext.RouteData.GetPath();
             string currentCategory = helper.ActionContext.RouteData.GetCategoryUrl();
             if (currentCategory != articleType.Url)
             {
-                return $"{url}{(url.EndsWith("/") ? "" : "/")}{articleType.Url}";
+                return $"{path.TrimEnd('/')}/{articleType.Url}";
             }
             else
             {
-                return url;
+                return path;
             }
         }
         public static string ProductCategoryUrl(this IUrlHelper helper, Product.Models.ProductCategory productCategory)
@@ -108,39 +111,40 @@ namespace ZKEACMS
             {
                 return helper.CategoryUrl(productCategory.ID);
             }
-            string url = helper.ActionContext.RouteData.GetPath();
+            string path = helper.ActionContext.RouteData.GetPath();
             string currentCategory = helper.ActionContext.RouteData.GetCategoryUrl();
             if (currentCategory != productCategory.Url)
             {
-                return $"{url}{(url.EndsWith("/") ? "" : "/")}{productCategory.Url}";
+                return $"{path.TrimEnd('/')}/{productCategory.Url}";
             }
             else
             {
-                return url;
+                return path;
             }
         }
         public static string Page(this IUrlHelper helper, int pageIndex)
         {
             var category = helper.ActionContext.RouteData.GetCategory();
+            string path = helper.ActionContext.RouteData.GetPath();
             if (category > 0)
             {
                 if (pageIndex > 0)
                 {
-                    return $"{helper.ActionContext.RouteData.GetPath()}/{helper.ActionContext.RouteData.GetCategoryUrl() ?? (StringKeys.PathFormat(StringKeys.RouteValue_Category) + category)}/{StringKeys.PathFormat(StringKeys.RouteValue_Page)}{pageIndex}";
+                    return $"{path.TrimEnd('/')}/{helper.ActionContext.RouteData.GetCategoryUrl() ?? (StringKeys.PathFormat(StringKeys.RouteValue_Category) + category)}/{StringKeys.PathFormat(StringKeys.RouteValue_Page)}{pageIndex}";
                 }
                 else
                 {
-                    return $"{helper.ActionContext.RouteData.GetPath()}/{helper.ActionContext.RouteData.GetCategoryUrl() ?? (StringKeys.PathFormat(StringKeys.RouteValue_Category) + category)}";
+                    return $"{path.TrimEnd('/')}/{helper.ActionContext.RouteData.GetCategoryUrl() ?? (StringKeys.PathFormat(StringKeys.RouteValue_Category) + category)}";
                 }
             }
             if (pageIndex > 0)
             {
-                return $"{helper.ActionContext.RouteData.GetPath()}/{StringKeys.PathFormat(StringKeys.RouteValue_Page)}{pageIndex}";
+                return $"{path.TrimEnd('/')}/{StringKeys.PathFormat(StringKeys.RouteValue_Page)}{pageIndex}";
             }
-            return $"{helper.ActionContext.RouteData.GetPath()}";
+            return path;
         }
 
-        public static string[] ToArray(this IUrlHelper url , string path)
+        public static string[] ToArray(this IUrlHelper url, string path)
         {
             string p = url.PathContent(path);
             if (p == "/") return null;

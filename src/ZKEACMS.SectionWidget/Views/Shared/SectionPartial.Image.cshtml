@@ -4,13 +4,13 @@
 @if (Model.Href.IsNotNullAndWhiteSpace())
 {
     <a href="@Url.PathContent(Model.Href)" target="@Html.SmartLinkTarget(Model.Href)">
-        <img src="@Url.Content(Model.ImageSrc)" alt="@Model.ImageAlt" title="@Model.ImageTitle" style="@(Model.Width.HasValue ? "width:" + Model.Width.Value + "px;" : string.Empty)@(Model.Height.HasValue ? "height:" + Model.Height.Value + "px;" : string.Empty);" />
+        <img src="@Url.Content(Model.ImageSrc)" alt="@Model.ImageAlt" title="@Model.ImageTitle" style="object-fit:cover;@(Model.Width.HasValue ? "width:" + Model.Width.Value + "px;" : string.Empty)@(Model.Height.HasValue ? "height:" + Model.Height.Value + "px;" : string.Empty);" />
     </a>
 
 }
 else
 {
-    <img src="@Url.Content(Model.ImageSrc)" alt="@Model.ImageAlt" title="@Model.ImageTitle" style="@(Model.Width.HasValue ? "width:" + Model.Width.Value + "px;" : string.Empty)@(Model.Height.HasValue ? "height:" + Model.Height.Value + "px;" : string.Empty);" />
+    <img src="@Url.Content(Model.ImageSrc)" alt="@Model.ImageAlt" title="@Model.ImageTitle" style="object-fit:cover;@(Model.Width.HasValue ? "width:" + Model.Width.Value + "px;" : string.Empty)@(Model.Height.HasValue ? "height:" + Model.Height.Value + "px;" : string.Empty);" />
 }
 
 

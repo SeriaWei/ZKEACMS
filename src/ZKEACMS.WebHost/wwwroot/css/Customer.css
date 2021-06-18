@@ -188,7 +188,7 @@ body {
 }
 
 .customer-center section.main {
-    padding: 1rem;
+    padding: 15px;
     background: #fff;
 }
 
@@ -199,6 +199,18 @@ body {
     width: 80px;
     text-align: right;
     margin-right: 10px;
+}
+
+.social a {
+    text-decoration: none;
+}
+
+    .social a:hover {
+        text-decoration: none;
+    }
+
+.social img {
+    height: 32px;
 }
 
 @media screen and (max-width:425px) {

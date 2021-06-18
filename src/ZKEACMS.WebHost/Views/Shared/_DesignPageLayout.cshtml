@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Hosting
+@using Microsoft.Extensions.Options
+@using Easy.Options
 @model LayoutEntity
 @{
     if (Model == null)
@@ -8,16 +10,11 @@
     }
     CMSApplicationContext appContext = ApplicationContext as CMSApplicationContext;
 }
+@inject IOptions<CultureOption> cultureOption
 <!DOCTYPE html>
-<!--[if lt IE 7 ]><html class="ie ie6" lang="zh"> <![endif]-->
-<!--[if IE 7 ]><html class="ie ie7" lang="zh"> <![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="zh"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!-->
-<html class="not-ie" lang="zh">
-<!--<![endif]-->
+<html lang="@cultureOption.Value.Code">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="cache-control" content="no-store">
     <meta http-equiv="expires" content="-1">

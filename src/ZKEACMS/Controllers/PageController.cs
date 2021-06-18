@@ -216,14 +216,15 @@ namespace ZKEACMS.Controllers
             });
             if (rules.Any())
             {
+                var ruleDic = rules.ToDictionary(m => m.RuleID, m => m);
                 var rulesID = rules.Select(m => m.RuleID).ToArray();
                 var ruleWidgets = widgetBasePartService.GetAllByRule(rulesID);
                 ruleWidgets.Each(widget =>
                 {
-                    var zone = layout.Zones.FirstOrDefault(z => z.ZoneName == rules.First(m => m.RuleID == widget.RuleID).ZoneName);
-                    if (zone != null)
+                    var availableZones = layout.Zones.Where(z => ruleDic[widget.RuleID.Value].ZoneNames.Contains(z.ZoneName));
+                    foreach (var item in availableZones)
                     {
-                        widget.ZoneID = zone.HeadingCode;
+                        widget.SetZone(item.HeadingCode);
                     }
                 });
                 viewModel.Widgets = viewModel.Widgets.Concat(ruleWidgets);
