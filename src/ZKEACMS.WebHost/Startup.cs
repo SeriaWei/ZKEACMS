@@ -22,11 +22,13 @@ namespace ZKEACMS.WebHost
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            WebHostEnvironment = env;
         }
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment WebHostEnvironment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -38,7 +40,7 @@ namespace ZKEACMS.WebHost
                 Assembly = mvcBuilderType.Assembly,
                 PluginType = mvcBuilderType
             });
-            services.UseZKEACMS(Configuration);
+            services.UseZKEACMS(Configuration, WebHostEnvironment);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, IHttpContextAccessor httpContextAccessor)

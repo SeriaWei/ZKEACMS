@@ -37,7 +37,7 @@ namespace ZKEACMS
         private const string ControllerTypeNameSuffix = "Controller";
 
         public Assembly Assembly { get; set; }
-
+        public IWebHostEnvironment WebHostEnvironment { get; private set; }
         public abstract IEnumerable<RouteDescriptor> RegistRoute();
         public abstract IEnumerable<AdminMenu> AdminMenu();
         public abstract IEnumerable<PermissionDescriptor> RegistPermission();
@@ -91,6 +91,10 @@ namespace ZKEACMS
         }
         public virtual void Setup(params object[] args)
         {
+            if (args != null && args.Length > 0)
+            {
+                WebHostEnvironment = args.FirstOrDefault(m => m is IWebHostEnvironment) as IWebHostEnvironment;
+            }
             var pluginType = this.GetType();
             if (!pluginPathCache.ContainsKey(pluginType))
             {

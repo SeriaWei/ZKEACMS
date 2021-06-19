@@ -59,7 +59,7 @@ namespace ZKEACMS
 {
     public static class Builder
     {
-        public static void UseZKEACMS(this IServiceCollection services, IConfiguration configuration)
+        public static void UseZKEACMS(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             //添加session
             services.AddDistributedMemoryCache();
@@ -258,7 +258,7 @@ namespace ZKEACMS
             services.UseEasyFrameWork(configuration);
             foreach (IPluginStartup item in services.LoadAvailablePlugins())
             {
-                item.Setup(new object[] { services, mvcBuilder });
+                item.Setup(new object[] { services, mvcBuilder, webHostEnvironment });
             }
 
             foreach (KeyValuePair<string, Type> item in WidgetBase.KnownWidgetService)
