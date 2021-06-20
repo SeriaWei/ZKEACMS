@@ -8,6 +8,7 @@ using Easy.RepositoryPattern;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using ZKEACMS.Captcha;
 using ZKEACMS.Distribution.Service;
 using ZKEACMS.WidgetTemplate;
 
@@ -32,7 +33,7 @@ namespace ZKEACMS.Distribution
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
-            
+
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
@@ -49,6 +50,7 @@ namespace ZKEACMS.Distribution
         {
             serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
             serviceCollection.AddTransient<IPersistKeyService, PersistKeyService>();
+            serviceCollection.AddScoped<ICaptchaCodeStorageProvider, CookieCaptchaCodeProvider>();
             serviceCollection.AddDataProtection().EnableDistribution();
         }
     }
