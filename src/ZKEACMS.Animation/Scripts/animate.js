@@ -22,10 +22,11 @@
         animation.prototype.init = function () {
             this.elements = [];
             var matchedElements = document.querySelectorAll(this.default.selector);
+            var docHeight = document.body.clientHeight;
             for (let i = 0; i < matchedElements.length; i++) {
                 const element = matchedElements[i];
                 var rec = element.getBoundingClientRect();
-                if (rec.top > window.innerHeight) {
+                if (rec.top > window.innerHeight && (element.offsetTop + element.clientHeight + 50) < docHeight) {
                     element.dataset.offsetTop = rec.top;
                     element.style.setProperty("animation-play-state", "paused");
                     element.classList.add(this.default.animated, this.default.animation);
