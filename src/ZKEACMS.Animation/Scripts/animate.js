@@ -5,7 +5,7 @@
 (function () {
     this.animation = (function () {
         function animation(options) {
-            this.default = { selector: ".widget:not(.footer)", animated: "animate__animated", animation: "animate__fadeInUp" };
+            this.default = { selector: ".widget:not(.no-animate)", animated: "animate__animated", animation: "animate__fadeInUp" };
             Object.assign(this.default, options);
         }
         animation.prototype.doAnimate = function () {
