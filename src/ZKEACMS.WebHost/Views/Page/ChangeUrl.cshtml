@@ -1,0 +1,89 @@
+@model PageEntity
+@{
+    Script.Reqiured("validate").AtFoot();
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @L("Page")
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+        <div class="form-horizontal">
+            @Html.HiddenFor(m => m.ID)
+            @Html.HiddenFor(m => m.Url)
+            @Html.Hidden("OldUrl", Model.Url)
+            <div class="form-group">
+                <div class="col-md-12 col-lg-2">
+                    <label class="control-label" for="PageName">
+                        @Html.DisplayNameFor(m => m.PageName)
+                    </label>
+                </div>
+                <div class="col-md-12 col-lg-10">
+                    <input type="text" id="PageName" class="form-control" disabled value="@Model.PageName" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12 col-lg-2">
+                    <label class="control-label" for="Title">
+                        @Html.DisplayNameFor(m => m.Title)
+                    </label>
+                </div>
+                <div class="col-md-12 col-lg-10">
+                    <input type="text" id="Title" class="form-control" disabled value="@Model.Title" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12 col-lg-2">
+                    <label class="control-label" for="PageUrl">
+                        @Html.DisplayNameFor(m => m.PageUrl)
+                    </label>
+                </div>
+                <div class="col-md-12 col-lg-10">
+                    @Html.EditorFor(m => m.PageUrl)
+                    @Html.ValidationMessageFor(m => m.PageUrl)
+                </div>
+            </div>
+        </div>
+            <div class="toolBar">
+                @if (Authorizer.Authorize(PermissionKeys.ManagePage))
+                {
+                    <input type="submit" value="@L("Save")" class="btn btn-primary" data-value="@ActionType.Update" />
+                }
+                <a href="@Url.Action("Edit","Page",new { ID = Model.ID })" class="btn btn-default">@L("Cancel")</a>
+            </div>
+        }
+    </div>
+</div>
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $(function () {
+            var url = $("#Url");
+            url.data("url", url.val().substring(0, url.val().lastIndexOf("/") + 1));
+        });
+
+        $(document).on("keyup", "#PageUrl", function () {
+            var url = $("#Url");
+            var parentUrl = url.data("url");
+            if (!parentUrl) {
+                parentUrl = "~/";
+            } else {
+                parentUrl = parentUrl.toLowerCase();
+            }
+            var thisUrl = $(this).val().toLowerCase();
+            var replaceValue = ["/", " ", "?", "`", "~", "!", "@@", "#", "$", "%", "^", "&", "*", "(", ")", "+", "[", "]", "{", "}", "\\", "|", ";", ":", "'", "\"", ",", ".", "<", ">"];
+            for (var i = 0; i < replaceValue.length; i++) {
+                thisUrl = thisUrl.replaceAll(replaceValue[i], "-");
+            }
+            $(this).val(thisUrl);
+            url.val(parentUrl + thisUrl);
+        });
+        $("form").on("submit", function () { $("#PageUrl").trigger("keyup"); });
+    </script>
+
+
+
+}

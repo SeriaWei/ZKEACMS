@@ -17,6 +17,7 @@ using ZKEACMS.WidgetTemplate;
 using Easy.RepositoryPattern;
 using ZKEACMS.Route;
 using System.Collections.Concurrent;
+using ZKEACMS.Article.EventHandler;
 
 namespace ZKEACMS.Article
 {
@@ -154,8 +155,10 @@ namespace ZKEACMS.Article
             serviceCollection.AddTransient<IRouteDataProvider, ArticleRouteDataProvider>();
             serviceCollection.AddTransient<IRouteDataProvider, ArticleTypeRouteDataProvider>();
             serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
-            serviceCollection.AddTransient<IArticleListWidgetService, ArticleListWidgetService>();
+            serviceCollection.AddTransient<IArticleListWidgetDataService, ArticleListWidgetDataService>();
             serviceCollection.AddTransient<IArticleUrlService, ArticleUrlService>();
+
+            serviceCollection.RegistEvent<UpdateDetailPageUrlOnPageUrlChangedEventHandler>(Event.Events.OnPageUrlChanged);
 
             serviceCollection.Configure<ArticleListWidget>(option =>
             {

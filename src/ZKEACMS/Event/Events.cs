@@ -24,6 +24,7 @@ namespace ZKEACMS.Event
         public const string OnPagePublishing = "ZKEACMS.Events.OnPagePublishing";
         public const string OnPagePublished = "ZKEACMS.Events.OnPagePublished";
         public const string OnPageDeleted = "ZKEACMS.Events.OnPageDeleted";
+        public const string OnPageUrlChanged = "ZKEACMS.Events.OnPageUrlChanged";
         #endregion
 
         #region Widget

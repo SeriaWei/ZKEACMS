@@ -10,7 +10,8 @@ using ZKEACMS.Product.Models;
 
 namespace ZKEACMS.Product.Service
 {
-    public interface IProductListWidgetService : IService<ProductListWidget>
+    public interface IProductListWidgetDataService : IService<ProductListWidget>
     {
+        void UpdateDetailPageUrl(string oldUrl, string newUrl);
     }
 }

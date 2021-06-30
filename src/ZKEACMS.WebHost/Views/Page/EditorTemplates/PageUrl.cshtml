@@ -18,8 +18,12 @@
 @inject IHostOptionProvider hostOptionProvider
 
 <div class="input-group clearfix">
-    <div class="input-group-addon" style="max-width:600px;overflow:hidden;text-overflow:ellipsis;">        
-        @(hostOptionProvider.GetOrigin() + "/" + path)       
+    <div class="input-group-addon" style="max-width:600px;overflow:hidden;text-overflow:ellipsis;">
+        @(hostOptionProvider.GetOrigin() + "/" + path)
     </div>
     @Html.TextBox("", Model, descriptor?.ToHtmlProperties())
+    @if (pageModel != null && Authorizer.Authorize(PermissionKeys.ManagePage))
+    {
+        <a class="input-group-addon" href="@Url.Action("ChangeUrl","Page",new { ID = pageModel.ID })">@L("Edit")</a>
+    }
 </div>

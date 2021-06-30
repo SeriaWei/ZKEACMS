@@ -11,5 +11,6 @@ namespace ZKEACMS.Event
     public class EventArg
     {
         public string Name { get; set; }
+        public object Data { get; set; }
     }
 }

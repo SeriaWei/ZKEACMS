@@ -22,14 +22,17 @@ using ZKEACMS.Widget;
 using ZKEACMS.Rule;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.Extensions.DependencyInjection;
+using ZKEACMS.Event;
 
 namespace ZKEACMS.Controllers
 {
     public class PageController : BasicController<PageEntity, string, IPageService>
     {
-        public PageController(IPageService service)
+        private readonly IEventManager _eventManager;
+        public PageController(IPageService service, IEventManager eventManager)
             : base(service)
         {
+            _eventManager = eventManager;
         }
 
         [Widget]
@@ -110,6 +113,8 @@ namespace ZKEACMS.Controllers
             ViewBag.Page = page;
             return View(page);
         }
+
+
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Edit(PageEntity entity)
         {
@@ -196,7 +201,7 @@ namespace ZKEACMS.Controllers
         {
             ILayoutService layoutService = HttpContext.RequestServices.GetService<ILayoutService>();
             IWidgetBasePartService widgetBasePartService = HttpContext.RequestServices.GetService<IWidgetBasePartService>();
-            IRuleService ruleService= HttpContext.RequestServices.GetService<IRuleService>();
+            IRuleService ruleService = HttpContext.RequestServices.GetService<IRuleService>();
             var page = Service.Get(context.PageID);
             var layout = layoutService.GetByPage(page);
             var viewModel = new LayoutZonesViewModel
@@ -250,6 +255,29 @@ namespace ZKEACMS.Controllers
         {
             Service.Publish(Service.Get(ID));
             return Redirect(ReturnUrl);
+        }
+        [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
+        public IActionResult ChangeUrl(string ID)
+        {
+            return View(Service.Get(ID));
+        }
+
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
+        public IActionResult ChangeUrl(string ID, string Url, string OldUrl)
+        {
+            if (!OldUrl.Equals(Url))
+            {
+                var page = Service.Get(ID);
+                page.Url = Url;
+                Service.UpdateRange(page);
+
+                _eventManager.Trigger(new EventArg
+                {
+                    Name = Event.Events.OnPageUrlChanged,
+                    Data = OldUrl
+                }, page);
+            }
+            return RedirectView(ID, true);
         }
     }
 }

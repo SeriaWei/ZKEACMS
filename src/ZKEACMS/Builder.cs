@@ -218,6 +218,9 @@ namespace ZKEACMS
             services.RegistEvent<RemoveOldVersionOnPagePublishedEventHandler>(Events.OnPagePublished);
             services.RegistEvent<RemoveCacheOnPageDeletedEventHandler>(Events.OnPageDeleted);
             services.RegistEvent<WidgetChangedTriggerPageEventHandler>(Events.OnWidgetAdded, Events.OnWidgetUpdated, Events.OnWidgetDeleted, Events.OnWidgetBasePartUpdated);
+            services.RegistEvent<UpdatePageUrlOnPageUrlChangedEventHandler>(Events.OnPageUrlChanged);
+            services.RegistEvent<RemoveCacheOnPageUrlChangedEventHandler>(Events.OnPageUrlChanged);
+            services.RegistEvent<UpdateNavOnPageUrlChangeEventHandler>(Events.OnPageUrlChanged);
 
             services.AddScoped<IImageCaptchaService, ImageCaptchaService>();
             services.AddScoped<IImageGenerator, DefaultImageGenerator>();
