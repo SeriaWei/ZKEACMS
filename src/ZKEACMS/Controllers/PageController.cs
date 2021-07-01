@@ -20,19 +20,21 @@ using ZKEACMS.Page;
 using ZKEACMS.Setting;
 using ZKEACMS.Widget;
 using ZKEACMS.Rule;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.Extensions.DependencyInjection;
 using ZKEACMS.Event;
+using Easy;
 
 namespace ZKEACMS.Controllers
 {
     public class PageController : BasicController<PageEntity, string, IPageService>
     {
         private readonly IEventManager _eventManager;
-        public PageController(IPageService service, IEventManager eventManager)
+        private readonly ILocalize _localize;
+        public PageController(IPageService service, IEventManager eventManager, ILocalize localize)
             : base(service)
         {
             _eventManager = eventManager;
+            _localize = localize;
         }
 
         [Widget]
@@ -268,6 +270,12 @@ namespace ZKEACMS.Controllers
             if (!OldUrl.Equals(Url))
             {
                 var page = Service.Get(ID);
+                if (Service.Count(m => m.ID != ID && m.Url == Url && m.IsPublishedPage == false) > 0)
+                {
+                    ModelState.AddModelError("PageUrl", _localize.Get("URL already exists"));
+                    page.Url = Url;
+                    return View(page);
+                }
                 page.Url = Url;
                 Service.UpdateRange(page);
 
