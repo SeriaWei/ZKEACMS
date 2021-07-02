@@ -202,8 +202,17 @@ namespace ZKEACMS.Page
                 item.ReferencePageID = item.ID;
                 PublishAsNew(item);
             });
-            
             _eventManager.Trigger(Events.OnPagePublished, item);
+
+            PageEntity publishedPage = Get(m => m.ReferencePageID == pageId && m.IsPublishedPage == true && m.Url != item.Url).FirstOrDefault();
+            if (publishedPage != null)
+            {
+                _eventManager.Trigger(new EventArg
+                {
+                    Name = Events.OnPageUrlChanged,
+                    Data = publishedPage.Url
+                }, item);
+            }
         }
 
 

@@ -25,7 +25,7 @@ namespace ZKEACMS.Page
             if (page != null && e.Data != null)
             {
                 string oldPageUrl = e.Data.ToString();
-                var pages = _pageService.Get(m => m.Url.StartsWith(oldPageUrl));
+                var pages = _pageService.Get(m => m.Url == oldPageUrl || m.Url.StartsWith(oldPageUrl + "/"));
                 foreach (var item in pages)
                 {
                     item.Url = page.Url + item.Url.Substring(oldPageUrl.Length);

@@ -28,13 +28,10 @@ namespace ZKEACMS.Controllers
 {
     public class PageController : BasicController<PageEntity, string, IPageService>
     {
-        private readonly IEventManager _eventManager;
-        private readonly ILocalize _localize;
-        public PageController(IPageService service, IEventManager eventManager, ILocalize localize)
+        public PageController(IPageService service)
             : base(service)
         {
-            _eventManager = eventManager;
-            _localize = localize;
+
         }
 
         [Widget]
@@ -262,30 +259,6 @@ namespace ZKEACMS.Controllers
         public IActionResult ChangeUrl(string ID)
         {
             return View(Service.Get(ID));
-        }
-
-        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
-        public IActionResult ChangeUrl(string ID, string Url, string OldUrl)
-        {
-            if (!OldUrl.Equals(Url))
-            {
-                var page = Service.Get(ID);
-                if (Service.Count(m => m.ID != ID && m.Url == Url && m.IsPublishedPage == false) > 0)
-                {
-                    ModelState.AddModelError("PageUrl", _localize.Get("URL already exists"));
-                    page.Url = Url;
-                    return View(page);
-                }
-                page.Url = Url;
-                Service.UpdateRange(page);
-
-                _eventManager.Trigger(new EventArg
-                {
-                    Name = Event.Events.OnPageUrlChanged,
-                    Data = OldUrl
-                }, page);
-            }
-            return RedirectView(ID, true);
         }
     }
 }

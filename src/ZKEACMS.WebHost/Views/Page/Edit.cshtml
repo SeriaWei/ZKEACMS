@@ -88,8 +88,28 @@
         $(".toolBar .delete").click(function () {
             return confirm("@L("Do you want to delete?")");
         });
-        $("#PageUrl").prop("readonly", true);
+        $(function () {
+            var url = $("#Url");
+            url.data("url", url.val().substring(0, url.val().lastIndexOf("/")+1));
+        });
         
+        $(document).on("keyup", "#PageUrl", function () {
+            var url = $("#Url");
+            var parentUrl = url.data("url");
+            if (!parentUrl) {
+                parentUrl = "~/";
+            }else{
+                parentUrl = parentUrl.toLowerCase();
+            }
+            var thisUrl = $(this).val().toLowerCase();
+            var replaceValue = ["/", " ", "?", "`", "~", "!", "@@", "#", "$", "%", "^", "&", "*", "(", ")", "+", "[", "]", "{", "}", "\\", "|", ";", ":", "'", "\"", ",", ".", "<", ">"];
+            for (var i = 0; i < replaceValue.length; i++) {
+                thisUrl = thisUrl.replaceAll(replaceValue[i], "-");
+            }
+            $(this).val(thisUrl);
+            url.val(parentUrl + thisUrl);
+        });
+        $("form").on("submit", function () { $("#PageUrl").trigger("keyup"); });
         var retainLatest = true;
         $(document).on("click", ".revert", function () {
             var id = $(this).data("id");

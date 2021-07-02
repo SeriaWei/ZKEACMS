@@ -27,7 +27,7 @@ namespace ZKEACMS.Common.Service
             if (page != null && e.Data != null)
             {
                 string oldPageUrl = e.Data.ToString();
-                var navs = _navigationService.Get(m => m.Url.StartsWith(oldPageUrl));
+                var navs = _navigationService.Get(m => m.Url == oldPageUrl || m.Url.StartsWith(oldPageUrl + "/"));
                 foreach (var item in navs)
                 {
                     item.Url = page.Url + item.Url.Substring(oldPageUrl.Length);

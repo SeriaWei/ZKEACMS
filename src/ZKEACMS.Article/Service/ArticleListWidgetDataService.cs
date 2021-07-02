@@ -23,7 +23,7 @@ namespace ZKEACMS.Article.Service
 
         public void UpdateDetailPageUrl(string oldUrl, string newUrl)
         {
-            var widgets = Get(m => m.DetailPageUrl.StartsWith(oldUrl));
+            var widgets = Get(m => m.DetailPageUrl == oldUrl || m.DetailPageUrl.StartsWith(oldUrl + "/"));
             foreach (var item in widgets)
             {
                 item.DetailPageUrl = newUrl + item.DetailPageUrl.Substring(oldUrl.Length);
