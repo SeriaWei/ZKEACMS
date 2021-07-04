@@ -28,5 +28,9 @@ namespace ZKEACMS.Extend
         {
             return descriptor.AddClass(StringKeys.UrlPart).SetTemplate("UrlPart").RegularExpression(RegularExpression.LetterNumberOrLine);
         }
+        public static TextBoxDescriptor InnerUrl(this TextBoxDescriptor descriptor)
+        {
+            return descriptor.RegularExpression(@"^~\/([A-Za-z0-9_-]|\/)+$");
+        }
     }
 }
