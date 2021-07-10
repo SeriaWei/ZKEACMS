@@ -1,0 +1,27 @@
+﻿@model ZKEACMS.Article.ViewModel.ArticleListWidgetViewModel
+<div class="article-list C">
+    @if (Model.Articles != null)
+    {
+        <ul>
+            @foreach (var item in Model.Articles)
+            {
+                <li>
+                    <h4>
+                        <a target="_blank" href="@Url.PostUrl(Model.Widget.DetailPageUrl,item))">
+                            @item.Title
+                        </a>
+                        <span class="small text-muted">
+                            <span class="text-muted publish-date">
+                                @((item.PublishDate ?? DateTime.Now).ToString("d"))
+                            </span>
+                        </span>
+                    </h4>
+                </li>
+            }
+        </ul>
+        @if (Model.IsPageable)
+        {
+            await Html.Pagin(Model.Pagin);
+        }
+    }
+</div>

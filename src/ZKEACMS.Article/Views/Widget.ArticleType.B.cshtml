@@ -1,0 +1,11 @@
+﻿@model ZKEACMS.Article.ViewModel.ArticleTypeWidgetViewModel
+
+<div class="article-category clearfix B">
+    @if (Model.ArticleTypes != null)
+    {
+        foreach (var item in Model.ArticleTypes)
+        {
+            <a href="@Url.ArticleTypeUrl(item)" class="@(item.ID == Model.ArticleTypeID ? "active" : "")">@item.Title</a>
+        }
+    }
+</div>
