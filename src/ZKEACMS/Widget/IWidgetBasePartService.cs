@@ -23,5 +23,10 @@ namespace ZKEACMS.Widget
         WidgetViewModelPart ApplyTemplate(Layout.LayoutEntity pageLayout, WidgetBase widget, ActionContext actionContext);
         void RemoveCache(string pageId);
         void ClearCache();
+        IEnumerable<TWidget> GetAllWidgets<TWidgetService, TWidget>() 
+            where TWidgetService : SimpleWidgetService<TWidget>
+            where TWidget : SimpleWidgetBase, new();
+
+        void UpdateWidgets<TWidget>(params TWidget[] widgets) where TWidget : SimpleWidgetBase, new();
     }
 }

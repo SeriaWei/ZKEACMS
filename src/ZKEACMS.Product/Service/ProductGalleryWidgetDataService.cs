@@ -16,9 +16,6 @@ namespace ZKEACMS.Product.Service
 {
     public class ProductGalleryWidgetDataService : IProductGalleryWidgetDataService
     {
-        const string Assembly = "ZKEACMS.Product";
-        const string WidgetServiceType = "ZKEACMS.Product.Service.ProductGalleryWidgetService";
-
         private readonly IWidgetBasePartService _widgetBasePartService;
         public ProductGalleryWidgetDataService(IWidgetBasePartService widgetBasePartService)
         {
@@ -27,27 +24,22 @@ namespace ZKEACMS.Product.Service
 
         public void UpdateDetailPageUrl(string oldUrl, string newUrl)
         {
-            var widgets = _widgetBasePartService.Get(m => m.AssemblyName == Assembly && m.ServiceTypeName == WidgetServiceType);
-            List<WidgetBasePart> needUpdateWidgets = new List<WidgetBasePart>();
+            var widgets = _widgetBasePartService.GetAllWidgets<ProductGalleryWidgetService, ProductGalleryWidget>();
+            List<ProductGalleryWidget> needUpdateWidgets = new List<ProductGalleryWidget>();
             foreach (var item in widgets)
             {
-                if (item.ExtendData.IsNullOrEmpty()) continue;
+                if (item.DetailPageUrl.IsNullOrEmpty()) continue;
 
-                var listWidget = JsonConvert.DeserializeObject<ProductGalleryWidget>(item.ExtendData);
-                if (listWidget.DetailPageUrl.IsNullOrEmpty()) continue;
-
-                if (listWidget.DetailPageUrl.Equals(oldUrl, StringComparison.OrdinalIgnoreCase) ||
-                    listWidget.DetailPageUrl.StartsWith(oldUrl + "/", StringComparison.OrdinalIgnoreCase))
+                if (item.DetailPageUrl.Equals(oldUrl, StringComparison.OrdinalIgnoreCase) ||
+                    item.DetailPageUrl.StartsWith(oldUrl + "/", StringComparison.OrdinalIgnoreCase))
                 {
-                    listWidget.DetailPageUrl = newUrl + listWidget.DetailPageUrl.Substring(oldUrl.Length);
-                    item.CopyTo(listWidget);
-                    item.ExtendData = JsonConvert.SerializeObject(listWidget);
+                    item.DetailPageUrl = newUrl + item.DetailPageUrl.Substring(oldUrl.Length);
                     needUpdateWidgets.Add(item);
                 }
             }
             if (needUpdateWidgets.Any())
             {
-                _widgetBasePartService.UpdateRange(needUpdateWidgets.ToArray());
+                _widgetBasePartService.UpdateWidgets(needUpdateWidgets.ToArray());
             }
         }
     }
