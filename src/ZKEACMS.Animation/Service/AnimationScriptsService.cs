@@ -29,7 +29,7 @@ namespace ZKEACMS.Animation.Service
 
         public void Handle(object entity, EventArg e)
         {
-            if (_applicationSettingService.Get("Animation_Widget_FadeInUp", "true") == "true")
+            if (_applicationSettingService.Get("Animation_Widget_FadeInUp", "false") == "true")
             {
                 CMSApplicationContext applicationContext = _applicationContextAccessor.Current;
                 HtmlContentBuilder styleBuilder = new HtmlContentBuilder();
