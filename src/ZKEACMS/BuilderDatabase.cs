@@ -5,6 +5,7 @@
 
 using Easy;
 using Easy.RepositoryPattern;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -33,6 +34,8 @@ namespace ZKEACMS
             services.AddScoped<IConnectionHolder, TransientConnectionHolder>();
             services.AddDbContextOptions<CMSDbContext>();
             services.AddDbContext<CMSDbContext>();
+            services.AddScoped<DbContextBase>((provider) => provider.GetService<CMSDbContext>());
+            services.AddScoped<DbContext>((provider) => provider.GetService<CMSDbContext>());
             services.AddScoped<EasyDbContext>((provider) => provider.GetService<CMSDbContext>());
             DatabaseOption databaseOption = configuration.GetSection("Database").Get<DatabaseOption>();
             DataTableAttribute.IsLowerCaseTableNames = databaseOption.IsLowerCaseTableNames;

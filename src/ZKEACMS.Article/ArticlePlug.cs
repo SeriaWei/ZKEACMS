@@ -155,8 +155,12 @@ namespace ZKEACMS.Article
             serviceCollection.AddTransient<IRouteDataProvider, ArticleRouteDataProvider>();
             serviceCollection.AddTransient<IRouteDataProvider, ArticleTypeRouteDataProvider>();
             serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
-            serviceCollection.AddTransient<IArticleListWidgetDataService, ArticleListWidgetDataService>();
             serviceCollection.AddTransient<IArticleUrlService, ArticleUrlService>();
+
+            serviceCollection.AddTransient<IArticleListWidgetDataService, ArticleListWidgetDataService>();
+            serviceCollection.AddTransient<IArticleGalleryWidgetDataService, ArticleGalleryWidgetDataService>();
+            serviceCollection.AddTransient<IArticleSummaryWidgetDataService, ArticleSummaryWidgetDataService>();
+            serviceCollection.AddTransient<IArticleTopWidgetDataService, ArticleTopWidgetDataService>();
 
             serviceCollection.RegistEvent<UpdateDetailPageUrlOnPageUrlChangedEventHandler>(Event.Events.OnPageUrlChanged);
 

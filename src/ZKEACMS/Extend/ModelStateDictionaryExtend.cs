@@ -21,5 +21,9 @@ namespace ZKEACMS
                 modelState.AddModelError(item.ParameterName, item.ErrorMessage);
             }
         }
+        public static void AddUnknownError(this ModelStateDictionary modelState, string message)
+        {
+            modelState.AddModelError("Unknown", message);
+        }
     }
 }

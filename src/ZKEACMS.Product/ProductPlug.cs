@@ -156,7 +156,9 @@ namespace ZKEACMS.Product
             serviceCollection.AddTransient<IProductTagService, ProductTagService>();
             serviceCollection.AddTransient<IProductImageService, ProductImageService>();
             serviceCollection.AddTransient<IProductUrlService, ProductUrlService>();
+
             serviceCollection.AddTransient<IProductListWidgetDataService, ProductListWidgetDataService>();
+            serviceCollection.AddTransient<IProductGalleryWidgetDataService, ProductGalleryWidgetDataService>();
 
             serviceCollection.RegistEvent<UpdateDetailPageUrlOnPageUrlChangedEventHandler>(Event.Events.OnPageUrlChanged);
 

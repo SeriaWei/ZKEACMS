@@ -110,7 +110,7 @@ namespace ZKEACMS.Controllers
             }
             ViewBag.OldVersions = Service.Get(m => m.ReferencePageID == page.ID && m.IsPublishedPage == true).OrderBy(m => m.PublishDate);
             ViewBag.Page = page;
-            return View(page);
+            return View("Edit", page);
         }
 
 
@@ -144,7 +144,12 @@ namespace ZKEACMS.Controllers
             }
             else if (entity.ActionType == ActionType.Publish)
             {
-                Service.Publish(entity);
+                var result = Service.Publish(entity);
+                if (result.HasViolation)
+                {
+                    ModelState.AddUnknownError(result.ErrorMessage);
+                    return View(entity);
+                }
                 return RedirectView(entity.ID, false);
             }
             return RedirectToAction("Index", new { PageID = entity.ID });
@@ -246,13 +251,18 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public JsonResult Publish(string id)
         {
-            Service.Publish(Service.Get(id));
-            return Json(true);
+            var result = Service.Publish(Service.Get(id));
+            return Json(result);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
-        public RedirectResult PublishPage(string ID, string ReturnUrl)
+        public IActionResult PublishPage(string ID, string ReturnUrl)
         {
-            Service.Publish(Service.Get(ID));
+            var result = Service.Publish(Service.Get(ID));
+            if (result.HasViolation)
+            {
+                ModelState.AddUnknownError(result.ErrorMessage);
+                return Edit(ID);
+            }
             return Redirect(ReturnUrl);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]

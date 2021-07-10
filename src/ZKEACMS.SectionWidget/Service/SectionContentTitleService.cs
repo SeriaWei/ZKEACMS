@@ -11,12 +11,12 @@ using System.Linq;
 
 namespace ZKEACMS.SectionWidget.Service
 {
-    public class SectionContentTitleService : ServiceBase<SectionContentTitle, CMSDbContext>, ISectionContentService
+    public class SectionContentTitleService : ServiceBase<SectionContentTitle, CMSDbContext>, ISectionContentService, ISectionContentTitleService
     {
         public SectionContentTitleService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
         }
-        
+
         public SectionContentBase.Types ContentType
         {
             get { return SectionContentBase.Types.Title; }
@@ -46,6 +46,16 @@ namespace ZKEACMS.SectionWidget.Service
         public void UpdateContent(SectionContent content)
         {
             Update(content as SectionContentTitle);
+        }
+
+        public void UpdateDetailPageUrl(string oldUrl, string newUrl)
+        {
+            var contents = Get(m => m.Href == oldUrl || m.Href.StartsWith(oldUrl + "/"));
+            foreach (var item in contents)
+            {
+                item.Href = newUrl + item.Href.Substring(oldUrl.Length);
+            }
+            UpdateRange(contents.ToArray());
         }
     }
 }

@@ -3,13 +3,12 @@
     Script.Reqiured("validate").AtFoot();
     List<PageEntity> oldVersions = (ViewBag.OldVersions as IEnumerable<PageEntity>).ToList();
 }
-
 <div class="panel panel-default">
     <div class="panel-heading">
         @L("Page")
     </div>
     <div class="panel-body">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Edit", "Page"))
         {
             @Html.EditorForModel()
             <div class="toolBar">
@@ -53,7 +52,8 @@
                                 {
                                     <span class="badge">@L("Current")</span>
                                 }
-                                else {
+                                else
+                                {
                                     @(++index)
                                 }
                             </td>
@@ -92,7 +92,7 @@
             var url = $("#Url");
             url.data("url", url.val().substring(0, url.val().lastIndexOf("/")+1));
         });
-        
+
         $(document).on("keyup", "#PageUrl", function () {
             var url = $("#Url");
             var parentUrl = url.data("url");
@@ -139,6 +139,8 @@
             retainLatest = $(this).prop("checked");
         });
         $("#versions").appendTo($(".form-horizontal"));
-    </script>    
-    
+    </script>
+
+
+
 }

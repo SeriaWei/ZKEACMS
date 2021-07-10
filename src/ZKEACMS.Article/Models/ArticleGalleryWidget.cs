@@ -27,7 +27,7 @@ namespace ZKEACMS.Article.Models
         {
             base.ViewConfigure();
 
-            ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector();
+            ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector().InnerUrl();
 
             ViewConfig(m => m.ArticleGalleryId).AsDropDownList()
                 .Order(NextOrder())

@@ -65,6 +65,17 @@ img {
         top: -10px;
     }
 
+.alert .field-validation-error {
+    position: static;
+    background: none;
+    margin: 0;
+    color: inherit;
+}
+
+    .alert .field-validation-error:before {
+        display: none;
+    }
+
 @media (min-width: 1440px) {
     .form-horizontal {
         width: 85%;
@@ -708,8 +719,8 @@ div.dataTables_wrapper div.dataTables_processing {
 }
 
 div.dataTables_wrapper div.dataTables_paginate ul.pagination {
-    margin:4px 0 0;
-    float:right;
+    margin: 4px 0 0;
+    float: right;
 }
 
 .tag-selector .panel:last-child {
@@ -758,6 +769,7 @@ a.pack-theme {
 .dataTable tfoot .search {
     display: none;
 }
-.select2-container--default .select2-selection--single{
-    border-color:#ccc;
+
+.select2-container--default .select2-selection--single {
+    border-color: #ccc;
 }

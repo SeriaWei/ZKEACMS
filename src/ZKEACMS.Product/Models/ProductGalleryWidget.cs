@@ -27,7 +27,7 @@ namespace ZKEACMS.Product.Models
         {
             base.ViewConfigure();
 
-            ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector();
+            ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector().InnerUrl();
 
             ViewConfig(m => m.ProductGalleryId).AsDropDownList()
                 .Order(NextOrder())
