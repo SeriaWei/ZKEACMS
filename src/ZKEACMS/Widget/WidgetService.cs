@@ -61,15 +61,22 @@ namespace ZKEACMS.Widget
 
         public override ServiceResult<T> Update(T item)
         {
-            ServiceResult<T> result = null;
-            BeginTransaction(() =>
-            {
-                var basePart = WidgetBasePartService.Get(item.ID);
-                item.CopyTo(basePart);
-                WidgetBasePartService.Update(basePart);
-                result = base.Update(item);
-            });
-            return result;
+            return BeginTransaction(() =>
+             {
+                 var basePart = WidgetBasePartService.Get(item.ID);
+                 item.CopyTo(basePart);
+                 var baseResult = WidgetBasePartService.Update(basePart);
+                 if (baseResult.HasViolation)
+                 {
+                     ServiceResult<T> result = new ServiceResult<T>();
+                     foreach (var item in baseResult.RuleViolations)
+                     {
+                         result.AddRuleViolation(item.ParameterName, item.ErrorMessage);
+                     }
+                     return result;
+                 }
+                 return base.Update(item);
+             });
         }
         public override ServiceResult<T> UpdateRange(params T[] items)
         {
@@ -79,13 +86,21 @@ namespace ZKEACMS.Widget
             {
                 item.CopyTo(baseParts.FirstOrDefault(m => m.ID == item.ID));
             }
-            ServiceResult<T> result = null;
-            BeginTransaction(() =>
-            {
-                WidgetBasePartService.UpdateRange(baseParts.ToArray());
-                result = base.UpdateRange(items);
-            });
-            return result;
+
+            return BeginTransaction(() =>
+             {
+                 var baseResult = WidgetBasePartService.UpdateRange(baseParts.ToArray());
+                 if (baseResult.HasViolation)
+                 {
+                     ServiceResult<T> result = new ServiceResult<T>();
+                     foreach (var item in baseResult.RuleViolations)
+                     {
+                         result.AddRuleViolation(item.ParameterName, item.ErrorMessage);
+                     }
+                     return result;
+                 }
+                 return base.UpdateRange(items);
+             });
         }
         public override T GetSingle(Expression<Func<T, bool>> filter)
         {

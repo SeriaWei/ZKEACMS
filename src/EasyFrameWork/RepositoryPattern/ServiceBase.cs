@@ -72,7 +72,14 @@ namespace Easy.RepositoryPattern
                     try
                     {
                         var result = action.Invoke();
-                        transaction.Commit();
+                        if (result is ServiceResult sResult && sResult.HasViolation)
+                        {
+                            transaction.Rollback();
+                        }
+                        else
+                        {
+                            transaction.Commit();
+                        }                        
                         return result;
                     }
                     catch
@@ -382,7 +389,7 @@ namespace Easy.RepositoryPattern
             isWaitingSave = true;
         }
     }
-    public abstract class ServiceBase<T> : ServiceBase<T, DbContext> 
+    public abstract class ServiceBase<T> : ServiceBase<T, DbContext>
         where T : class
     {
         public ServiceBase(IApplicationContext applicationContext, DbContext dbContext) : base(applicationContext, dbContext)

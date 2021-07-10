@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Easy.RepositoryPattern
 {
-    public class ServiceResult<T>
+    public class ServiceResult
     {
         public ServiceResult()
         {
@@ -49,6 +49,10 @@ namespace Easy.RepositoryPattern
                 return msg;
             }
         }
+    }
+    public class ServiceResult<T> : ServiceResult
+    {
+
         public T Result { get; set; }
     }
 }
