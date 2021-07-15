@@ -240,7 +240,7 @@ $(function () {
             if (start > 0) {
                 url = "/admin/media/appendfile";
             }
-            var end = start + 1048000;
+            var end = start + 1000000;
             if (end > file.size) {
                 end = file.size;
             }
