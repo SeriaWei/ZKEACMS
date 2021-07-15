@@ -59,7 +59,7 @@ $(function () {
                         }
                     } else {
                         target.val(selectValue);
-                    }                    
+                    }
                     box.close();
                     target.trigger("change");
                 });
@@ -187,22 +187,26 @@ $(function () {
 
 
 
-    $("input.select-image").popover({
-        trigger: "focus",
-        html: true,
-        title: "图片预览",
-        content: function () {
-            var url = $(this).val();
-            if (url) {
-                if (url.indexOf("~") === 0) {
-                    url = url.replace("~", location.origin);
+
+    function popoverImage(ele) {
+        $("input.select-image", ele).popover({
+            trigger: "focus",
+            html: true,
+            title: "图片预览",
+            content: function () {
+                var url = $(this).val();
+                if (url) {
+                    if (url.indexOf("~") === 0) {
+                        url = url.replace("~", location.origin);
+                    }
+                    return "<div style='width:244px;'><img src='" + url + "'/></div>";
                 }
-                return "<div style='width:244px;'><img src='" + url + "'/></div>";
-            }
-            return null;
-        },
-        placement: "bottom"
-    }).on("change", function () {
+                return null;
+            },
+            placement: "bottom"
+        }).trigger("change").parent().addClass("loading");
+    }
+    $(document).on("change", "input.select-image", function () {
         var url = $(this).val();
         if (url && url.indexOf("~/") != 0 && url.indexOf("/") != 0 && url.replace("http://", "").replace("https://", "").indexOf(window.location.hostname) != 0) {
             if ($(this).siblings(".image-local").length == 0) {
@@ -211,7 +215,11 @@ $(function () {
         } else {
             $(this).siblings(".image-local").remove();
         }
-    }).trigger("change").parent().addClass("loading");
+    });
+    $(document).on("list.added", function (e) {
+        popoverImage(e.target);
+    });
+    popoverImage(document);
 
     $(document).on("click", ".image-local .upload-external", function () {
         var group = $(this).closest(".input-group");
@@ -227,6 +235,52 @@ $(function () {
     });
 
     if (document.addEventListener) {
+        function sliceUpload(target, file, start, result) {
+            var url = "/admin/media/upload";
+            if (start > 0) {
+                url = "/admin/media/appendfile";
+            }
+            var end = start + 1048000;
+            if (end > file.size) {
+                end = file.size;
+            }
+            target.parentNode.classList.add("processing");
+            target.value = "...";
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url);
+            if (end == file.size) {
+                xhr.onload = function (data) {
+                    target.parentNode.classList.remove("processing");
+                    var result = JSON.parse(data.target.response);
+                    if (result.id) {
+                        target.value = "~" + result.url;
+                        $(target).blur().focus();
+                    }
+                }
+            }
+            else {
+                xhr.onload = function (e) {
+                    var result = JSON.parse(e.target.response);
+                    if (result) {
+                        sliceUpload(target, file, end, result);
+                    }
+                }
+            }
+            xhr.onerror = function () {
+                target.parentNode.classList.remove("processing");
+                target.value = "Error!";
+            }
+            var formData = new FormData();
+            formData.append('file', file.slice(start, end),file.name);
+            formData.append("folder", "Images");
+            formData.append("size", file.size);
+            if (result) {
+                formData.append("id", result.id);
+                formData.append("position", start);
+            }
+            xhr.send(formData);
+        }
         document.addEventListener("paste", function (e) {
             if (e.target.className && e.target.className.indexOf("select-image") >= 0) {
                 var target = e.target;
@@ -240,30 +294,7 @@ $(function () {
                     for (var i = 0; i < cbData.items.length; i++) {
                         if (cbData.items[i].type.indexOf('image') !== -1) {
                             var file = cbData.items[i].getAsFile();
-                            if (file.size > 1048000) {
-                                continue;
-                            }
-                            target.parentNode.className = target.parentNode.className + " processing";
-                            target.value = "图片上传中...";
-                            var xhr = new XMLHttpRequest();
-                            xhr.open("POST", "/admin/media/Upload");
-                            xhr.onload = function (data) {
-                                target.parentNode.className = target.parentNode.className.replace(" processing", "");
-                                var result = JSON.parse(data.target.response);
-                                if (result.id) {
-                                    target.value = "~" + result.url;
-                                    $(target).blur().focus();
-                                }
-                            }
-                            xhr.onerror = function () {
-                                target.parentNode.className = target.parentNode.className.replace(" processing", "");
-                                target.value = "图片上传失败";
-                            }
-                            var formData = new FormData();
-                            formData.append('file', file);
-                            formData.append("folder", "图片");
-                            formData.append("size", file.size);
-                            xhr.send(formData);
+                            sliceUpload(target, file, 0);
                             break;
                         }
                     }
