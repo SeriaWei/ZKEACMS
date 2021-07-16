@@ -1,4 +1,4 @@
-/* https://github.com/SeriaWei/mssql2mysql */
+﻿/* https://github.com/SeriaWei/mssql2mysql */
 
 
 CREATE DATABASE  IF NOT EXISTS `ZKEACMS` /*!40100 DEFAULT CHARACTER SET latin1 */;
