@@ -1,4 +1,4 @@
-DELETE FROM `Language` WHERE `LanKey` = 'ProductCategory@SEOTitle' AND `CultureName` = 'en-US';
+﻿DELETE FROM `Language` WHERE `LanKey` = 'ProductCategory@SEOTitle' AND `CultureName` = 'en-US';
 INSERT INTO `Language` (`LanKey`,`CultureName`,`LanValue`) values('ProductCategory@SEOTitle','en-US','SEO Title');
 
 DELETE FROM `Language` WHERE `LanKey` = 'ProductCategory@SEOTitle' AND `CultureName` = 'zh-CN';

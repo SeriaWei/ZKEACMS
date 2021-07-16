@@ -1,4 +1,4 @@
-DELETE FROM [Language] WHERE LanKey = N'ProductCategory@SEOTitle' AND CultureName = N'en-US';
+﻿DELETE FROM [Language] WHERE LanKey = N'ProductCategory@SEOTitle' AND CultureName = N'en-US';
 INSERT INTO [Language] (LanKey,CultureName,LanValue) values(N'ProductCategory@SEOTitle',N'en-US',N'SEO Title');
 
 DELETE FROM [Language] WHERE LanKey = N'ProductCategory@SEOTitle' AND CultureName = N'zh-CN';

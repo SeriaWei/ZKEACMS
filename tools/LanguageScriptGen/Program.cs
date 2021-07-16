@@ -44,7 +44,7 @@ namespace LanguageScriptGen
                 {
                     Directory.CreateDirectory("Script");
                 }
-                File.WriteAllText(Path.Combine("Script", item.Key.Replace(".tpl", ".sql")), sqlBuilder.ToString());
+                File.WriteAllText(Path.Combine("Script", item.Key.Replace(".tpl", ".sql")), sqlBuilder.ToString(), Encoding.UTF8);
             }
         }
     }
