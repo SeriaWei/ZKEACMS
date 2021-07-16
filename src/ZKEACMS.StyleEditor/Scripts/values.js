@@ -39,6 +39,52 @@ $(function () {
     });
 
     if (document.addEventListener) {
+        function sliceUpload(target, file, start, result) {
+            var url = "/admin/media/upload";
+            if (start > 0) {
+                url = "/admin/media/appendfile";
+            }
+            var end = start + 1000000;
+            if (end > file.size) {
+                end = file.size;
+            }
+            target.parentNode.classList.add("processing");
+            target.value = "...";
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url);
+            if (end == file.size) {
+                xhr.onload = function (data) {
+                    target.parentNode.classList.remove("processing");
+                    var result = JSON.parse(data.target.response);
+                    if (result.id) {
+                        target.value = "~" + result.url;
+                        $(target).blur().focus();
+                    }
+                }
+            }
+            else {
+                xhr.onload = function (e) {
+                    var result = JSON.parse(e.target.response);
+                    if (result) {
+                        sliceUpload(target, file, end, result);
+                    }
+                }
+            }
+            xhr.onerror = function () {
+                target.parentNode.classList.remove("processing");
+                target.value = "Error!";
+            }
+            var formData = new FormData();
+            formData.append('file', file.slice(start, end),file.name);
+            formData.append("folder", "Images");
+            formData.append("size", file.size);
+            if (result) {
+                formData.append("id", result.id);
+                formData.append("position", start);
+            }
+            xhr.send(formData);
+        }
         document.querySelector("#background-image").addEventListener("paste", function (e) {
             var target = e.target;
             var cbData;
@@ -50,27 +96,8 @@ $(function () {
             if (cbData && cbData.items) {
                 for (var i = 0; i < cbData.items.length; i++) {
                     if (cbData.items[i].type.indexOf('image') !== -1) {
-                        target.parentNode.className = target.parentNode.className + " processing";
-                        target.value = "图片上传中...";
                         var file = cbData.items[i].getAsFile();
-                        var xhr = new XMLHttpRequest();
-                        xhr.open("POST", "/admin/media/Upload");
-                        xhr.onload = function (data) {
-                            target.parentNode.className = target.parentNode.className.replace(" processing", "");
-                            var result = JSON.parse(data.target.response);
-                            if (result.id) {
-                                target.value = result.url;
-                                updateDisplay();
-                            }
-                        }
-                        xhr.onerror = function () {
-                            target.parentNode.className = target.parentNode.className.replace(" processing", "");
-                            target.value = "图片上传失败";
-                        }
-                        var formData = new FormData();
-                        formData.append('file', file);
-                        formData.append("folder", "图片");
-                        xhr.send(formData);
+                        sliceUpload(target, file, 0);
                         break;
                     }
                 }
