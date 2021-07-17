@@ -1,8 +1,8 @@
 /* http://www.zkea.net/ 
- * Copyright 2018 ZKEASOFT 
- * http://www.zkea.net/licenses 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * https://github.com/aspnet/Mvc/blob/dev/src/Microsoft.AspNetCore.Mvc.Core/ModelBinding/Binders/ComplexTypeModelBinder.cs
- */
+ * http://www.zkea.net/licenses */
+
 using Easy;
 using Easy.MetaData;
 using Microsoft.AspNetCore.Mvc.ModelBinding;

@@ -1,4 +1,8 @@
-﻿angular.module("fieldSetting", []).controller("setting", ['$scope', '$filter', function ($scope, $filter) {
+﻿/*! http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
+
+angular.module("fieldSetting", []).controller("setting", ['$scope', '$filter', function ($scope, $filter) {
     $scope.templates = [
         {
             Name: "Label",

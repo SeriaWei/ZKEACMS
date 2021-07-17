@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyModel;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.DependencyModel.Resolution;
 using System;
 using System.Collections.Generic;

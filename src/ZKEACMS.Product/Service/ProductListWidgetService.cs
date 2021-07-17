@@ -1,5 +1,5 @@
 /* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy.RepositoryPattern;
@@ -19,7 +19,7 @@ using ZKEACMS.Page;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductListWidgetService : WidgetService<ProductListWidget>, IProductListWidgetService
+    public class ProductListWidgetService : WidgetService<ProductListWidget>
     {
         private readonly IProductService _productService;
         private readonly IProductCategoryService _productCategoryService;
@@ -116,5 +116,6 @@ namespace ZKEACMS.Product.Service
                 DetailPageUrl = currentWidget.DetailPageUrl
             };
         }
+
     }
 }

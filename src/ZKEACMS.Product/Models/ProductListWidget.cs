@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,7 +37,7 @@ namespace ZKEACMS.Product.Models
             base.ViewConfigure();
             ViewConfig(m => m.ProductCategoryID).AsDropDownList().SetTemplate("ProductCategoryTree").Required().Order(NextOrder());
 
-            ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector();
+            ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector().InnerUrl();
             ViewConfig(m => m.IsPageable).AsCheckBox().Order(NextOrder());
             ViewConfig(m => m.PageSize).AsTextBox().Order(NextOrder()).Range(1, 50);
             ViewConfig(m => m.Columns).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary);

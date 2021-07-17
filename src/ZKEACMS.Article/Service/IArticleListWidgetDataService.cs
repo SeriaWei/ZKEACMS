@@ -1,5 +1,5 @@
 ﻿/* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy.RepositoryPattern;
@@ -10,7 +10,8 @@ using ZKEACMS.Article.Models;
 
 namespace ZKEACMS.Article.Service
 {
-    public interface IArticleListWidgetService : IService<ArticleListWidget>
+    public interface IArticleListWidgetDataService : IService<ArticleListWidget>
     {
+        void UpdateDetailPageUrl(string oldUrl, string newUrl);
     }
 }

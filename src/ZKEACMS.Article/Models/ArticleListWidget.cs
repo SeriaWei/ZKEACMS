@@ -1,5 +1,5 @@
 /* http://www.zkea.net/ 
- * Copyright 2017 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy;
@@ -34,7 +34,7 @@ namespace ZKEACMS.Article.Models
 
             ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).SetTemplate("ArticleTypeTree").Required();
 
-            ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector();
+            ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector().InnerUrl();
 
             ViewConfig(m => m.IsPageable).AsCheckBox().Order(NextOrder());
             ViewConfig(m => m.PageSize).AsTextBox().Order(NextOrder()).Range(1, 50);

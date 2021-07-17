@@ -1,5 +1,5 @@
 /* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using System;
@@ -15,6 +15,7 @@ using ZKEACMS.WidgetTemplate;
 using Easy.RepositoryPattern;
 using ZKEACMS.Route;
 using System.Collections.Concurrent;
+using ZKEACMS.Product.EventHandler;
 
 namespace ZKEACMS.Product
 {
@@ -155,7 +156,11 @@ namespace ZKEACMS.Product
             serviceCollection.AddTransient<IProductTagService, ProductTagService>();
             serviceCollection.AddTransient<IProductImageService, ProductImageService>();
             serviceCollection.AddTransient<IProductUrlService, ProductUrlService>();
-            serviceCollection.AddTransient<IProductListWidgetService, ProductListWidgetService>();
+
+            serviceCollection.AddTransient<IProductListWidgetDataService, ProductListWidgetDataService>();
+            serviceCollection.AddTransient<IProductGalleryWidgetDataService, ProductGalleryWidgetDataService>();
+
+            serviceCollection.RegistEvent<UpdateDetailPageUrlOnPageUrlChangedEventHandler>(Event.Events.OnPageUrlChanged);
 
             serviceCollection.Configure<ProductListWidget>(option =>
             {

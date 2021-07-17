@@ -1,8 +1,6 @@
-﻿/*!
- * http://www.zkea.net/
- * Copyright 2020 ZKEASOFT
- * http://www.zkea.net/licenses
- */
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
 
 using Easy;
 using Easy.Extend;

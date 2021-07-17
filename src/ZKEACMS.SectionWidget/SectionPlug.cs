@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
 using System;
@@ -13,6 +16,7 @@ using ZKEACMS.SectionWidget.Models;
 using Easy;
 using ZKEACMS.WidgetTemplate;
 using Easy.RepositoryPattern;
+using ZKEACMS.SectionWidget.EventHandler;
 
 namespace ZKEACMS.SectionWidget
 {
@@ -85,14 +89,19 @@ namespace ZKEACMS.SectionWidget
             serviceCollection.AddTransient<ISectionWidgetService, SectionWidgetService>();
             serviceCollection.AddTransient<ISectionTemplateService, SectionTemplateService>();
 
+            serviceCollection.AddTransient<ISectionContentTitleService, SectionContentTitleService>();
+            serviceCollection.AddTransient<ISectionContentCallToActionService, SectionContentCallToActionService>();
+            serviceCollection.AddTransient<ISectionContentImageService, SectionContentImageService>();
+
             serviceCollection.ConfigureMetaData<SectionContentCallToAction, SectionContentCallToActionMetaData>();
             serviceCollection.ConfigureMetaData<SectionContentImage, SectionContentImageMetaData>();
             serviceCollection.ConfigureMetaData<SectionContentParagraph, SectionContentParagraphMetaData>();
             serviceCollection.ConfigureMetaData<SectionContentTitle, SectionContentTitleMetaData>();
             serviceCollection.ConfigureMetaData<SectionContentVideo, SectionContentVideoMetaData>();
             serviceCollection.ConfigureMetaData<SectionGroup, SectionGroupMetaData>();
-            serviceCollection.ConfigureMetaData<Models.SectionWidget, SectionWidgetMetaData>();            
+            serviceCollection.ConfigureMetaData<Models.SectionWidget, SectionWidgetMetaData>();
 
+            serviceCollection.RegistEvent<UpdateLinkOnPageUrlChangedEventHandler>(Event.Events.OnPageUrlChanged);
         }
 
     }

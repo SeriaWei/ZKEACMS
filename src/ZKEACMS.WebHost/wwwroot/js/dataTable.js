@@ -1,4 +1,8 @@
-﻿$(document).ready(function () {
+﻿/*! http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
+
+$(document).ready(function () {
     function htmlEncode(val) {
         if (typeof val == "string") {
             return (val || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");

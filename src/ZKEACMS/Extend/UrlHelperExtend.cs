@@ -1,7 +1,6 @@
 /* http://www.zkea.net/ 
- * Copyright 2021 ZKEASOFT 
- * http://www.zkea.net/licenses 
- */
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
 
 using Easy.Extend;
 using Microsoft.AspNetCore.Mvc;

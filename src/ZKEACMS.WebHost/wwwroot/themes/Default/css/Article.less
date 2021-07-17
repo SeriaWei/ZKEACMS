@@ -2,33 +2,122 @@
 
 .article-list {
     .media {
-        .media-left {
+        .media-left,
+        .media-right {
             width: 230px;
-            max-width:230px;
+            max-width: 230px;
         }
     }
 
     .media-body {
         width: auto;
     }
+
+    ul.article-list-snippet {
+        margin: 0;
+        padding: 0;
+    }
+
+    ul.article-list-snippet li {
+        list-style: none;
+        border: 1px solid #ddd;
+        margin-bottom: 30px;
+        background-color: #fff;
+    }
+
+    ul.article-list-snippet li img {
+        width: 100%;
+    }
+
+    ul.article-list-snippet li article {
+        padding: 0 20px 20px 20px;
+        border-top: 1px solid #f2f2f2;
+    }
+
+    ul.article-list-snippet li .summary {
+        margin-top: 20px;
+    }
+
+    ul.article-list-snippet li .author {
+        margin-right: 10px;
+    }
 }
+
 .panel-body > .article-category {
     margin: -15px;
 }
-@media all and (max-width:@screen-xs){
+
+.article-tops {
+    .more {
+        list-style: none;
+    }
+
+    ul, ol {
+        margin-bottom: 0;
+    }
+
+    &.C {
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+    }
+}
+
+.article-category {
+    &.B {
+        border: 1px solid @color-gallery;
+        background: @color-faint;
+
+        a {
+            float: left;
+            padding: 15px;
+            display: block;
+            color: @color-night;
+
+            &.active {
+                background: #fff;
+            }
+        }
+    }
+}
+
+@media all and (max-width:@screen-xs) {
     .article-list {
         .media {
-            .media-left {
-                display:block;
+            .media-left,
+            .media-right {
+                display: block;
                 width: 100%;
-                max-width:none;
-                padding-right:0;
-                margin-bottom:@margin-base;
+                max-width: none;
+                padding-right: 0;
+                margin-bottom: @margin-base;
             }
         }
 
         .media-body {
             width: auto;
+        }
+    }
+}
+
+.post-list {
+    .post-item {
+        margin-bottom: 4rem;
+    }
+
+    h4 {
+        margin-bottom: 2rem;
+    }
+
+    .thumbnail {
+        height: 230px;
+        overflow: hidden;
+        padding: 0;
+
+        img {
+            height: 100%;
+            max-width: none;
         }
     }
 }

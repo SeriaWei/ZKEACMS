@@ -1,4 +1,8 @@
-﻿$(function () {
+﻿/*! http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
+
+$(function () {
     $(".zone").sortable({
         items: ">div:not(.zoneName)",
         placeholder: "sorting",

@@ -32,13 +32,13 @@ body.mce-content-body {
     right: 0;
     z-index: 10;
 }
+
 .widget-design .affix {
     position: static;
 }
 
 img {
     max-width: 100%;
-    width: auto;
     height: auto;
 }
 
@@ -97,7 +97,7 @@ p:last-child {
 }
 
 .bs-callout-danger {
-    border-top-color: @color-danger;
+    border-color: @color-danger;
 }
 
 .bs-callout-danger .pull-left h4 {
@@ -105,7 +105,7 @@ p:last-child {
 }
 
 .bs-callout-warning {
-    border-top-color: @color-warning;
+    border-color: @color-warning;
 }
 
 .bs-callout-warning .pull-left h4 {
@@ -113,7 +113,7 @@ p:last-child {
 }
 
 .bs-callout-info {
-    border-top-color: @color-info;
+    border-color: @color-info;
 }
 
 .bs-callout-info .pull-left h4 {
@@ -121,7 +121,7 @@ p:last-child {
 }
 
 .bs-callout-success {
-    border-top-color: @color-success;
+    border-color: @color-success;
 }
 
 .bs-callout-success .pull-left h4 {
@@ -265,4 +265,28 @@ p:last-child {
     position: absolute;
     left: 10px;
     top: -10px;
+}
+
+figure.image {
+    display: inline-block;
+    border: 1px solid @color-border;
+    margin: 0 2px 0 1px;
+    background: @color-background;
+}
+
+figure.align-left {
+    float: left;
+}
+
+figure.align-right {
+    float: right;
+}
+
+figure.image img {
+    margin: 8px 8px 0 8px;
+}
+
+figure.image figcaption {
+    margin: 6px 8px 6px 8px;
+    text-align: center;
 }

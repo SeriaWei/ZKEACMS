@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "Content/animate.min.css",
+    "inputFiles": [
+      "Content/animate.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/animate.min.js",
+    "inputFiles": [
+      "Scripts/animate.js"
+    ]
+  }
+]

@@ -1,4 +1,8 @@
-﻿var ZKEACMS = ZKEACMS || {};
+﻿/*! http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
+
+var ZKEACMS = ZKEACMS || {};
 ZKEACMS.Basket = {
     Add: function (product, callBack) {
         $.post("/Basket/Add", product, function (data) {

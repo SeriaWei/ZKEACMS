@@ -1,13 +1,14 @@
 /* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Easy.RepositoryPattern
 {
-    public class ServiceResult<T>
+    public class ServiceResult
     {
         public ServiceResult()
         {
@@ -48,6 +49,10 @@ namespace Easy.RepositoryPattern
                 return msg;
             }
         }
+    }
+    public class ServiceResult<T> : ServiceResult
+    {
+
         public T Result { get; set; }
     }
 }

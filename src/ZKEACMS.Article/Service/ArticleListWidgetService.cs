@@ -1,5 +1,5 @@
 /* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy;
@@ -19,7 +19,7 @@ using Easy.Extend;
 
 namespace ZKEACMS.Article.Service
 {
-    public class ArticleListWidgetService : WidgetService<ArticleListWidget>, IArticleListWidgetService
+    public class ArticleListWidgetService : WidgetService<ArticleListWidget>
     {
         private readonly IArticleTypeService _articleTypeService;
         private readonly IArticleService _articleService;
@@ -118,5 +118,6 @@ namespace ZKEACMS.Article.Service
                 IsPageable = currentWidget.IsPageable
             };
         }
+
     }
 }

@@ -1,7 +1,6 @@
 /* http://www.zkea.net/ 
- * Copyright 2018 ZKEASOFT 
- * http://www.zkea.net/licenses 
- */
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
 
 using Easy;
 using Easy.Extend;
@@ -191,20 +190,39 @@ namespace ZKEACMS.Page
             return result;
         }
 
-        public void Publish(PageEntity item)
+        public ServiceResult<PageEntity> Publish(PageEntity item)
         {
-            _eventManager.Trigger(Events.OnPagePublishing, item);
-            string pageId = item.ID;
-            BeginTransaction(() =>
+            var result = new ServiceResult<PageEntity>();
+            result.Result = item;
+            try
             {
-                item.IsPublish = true;
-                item.PublishDate = DateTime.Now;
-                base.Update(item);
-                item.ReferencePageID = item.ID;
-                PublishAsNew(item);
-            });
-            
-            _eventManager.Trigger(Events.OnPagePublished, item);
+                _eventManager.Trigger(Events.OnPagePublishing, item);
+                string pageId = item.ID;
+                BeginTransaction(() =>
+                {
+                    item.IsPublish = true;
+                    item.PublishDate = DateTime.Now;
+                    base.Update(item);
+                    item.ReferencePageID = item.ID;
+                    PublishAsNew(item);
+                });
+                _eventManager.Trigger(Events.OnPagePublished, item);
+
+                PageEntity publishedPage = Get(m => m.ReferencePageID == pageId && m.IsPublishedPage == true && m.Url != item.Url).FirstOrDefault();
+                if (publishedPage != null)
+                {
+                    _eventManager.Trigger(new EventArg
+                    {
+                        Name = Events.OnPageUrlChanged,
+                        Data = publishedPage.Url
+                    }, item);
+                }
+            }
+            catch(Exception ex)
+            {
+                result.AddRuleViolation("Title", ex.Message);
+            }
+            return result;
         }
 
 

@@ -1,4 +1,8 @@
-﻿using Easy.Mvc;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using Easy.Mvc;
 using Easy.Mvc.Attribute;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;

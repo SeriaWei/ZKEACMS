@@ -1,5 +1,5 @@
 ﻿/* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy;
@@ -16,9 +16,9 @@ namespace ZKEACMS.Product.Service
     {
         private readonly IProductService _productService;
         private readonly IProductCategoryService _productCategoryService;
-        private readonly IProductListWidgetService _productListWidgetService;
+        private readonly IProductListWidgetDataService _productListWidgetService;
 
-        public ProductUrlService(IProductListWidgetService productListWidgetService,
+        public ProductUrlService(IProductListWidgetDataService productListWidgetService,
             IProductService productService,
             IProductCategoryService productCategoryService)
         {

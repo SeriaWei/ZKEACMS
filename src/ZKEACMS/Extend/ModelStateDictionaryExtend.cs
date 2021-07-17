@@ -1,5 +1,5 @@
 ﻿/* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy.RepositoryPattern;
@@ -20,6 +20,10 @@ namespace ZKEACMS
             {
                 modelState.AddModelError(item.ParameterName, item.ErrorMessage);
             }
+        }
+        public static void AddUnknownError(this ModelStateDictionary modelState, string message)
+        {
+            modelState.AddModelError("Unknown", message);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿/* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy;
@@ -15,11 +15,11 @@ namespace ZKEACMS.Article.Service
     public class ArticleUrlService : IArticleUrlService
     {
         private readonly IArticleService _articleService;
-        private readonly IArticleListWidgetService _articleListWidgetService;
+        private readonly IArticleListWidgetDataService _articleListWidgetService;
         private readonly IArticleTypeService _articleTypeService;
 
         public ArticleUrlService(IArticleService articleService,
-            IArticleListWidgetService articleListWidgetService,
+            IArticleListWidgetDataService articleListWidgetService,
             IArticleTypeService articleTypeService)
         {
             _articleService = articleService;

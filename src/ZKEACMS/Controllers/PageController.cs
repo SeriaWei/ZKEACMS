@@ -1,5 +1,5 @@
 /* http://www.zkea.net/ 
- * Copyright 2016 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy.Constant;
@@ -20,8 +20,9 @@ using ZKEACMS.Page;
 using ZKEACMS.Setting;
 using ZKEACMS.Widget;
 using ZKEACMS.Rule;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.Extensions.DependencyInjection;
+using ZKEACMS.Event;
+using Easy;
 
 namespace ZKEACMS.Controllers
 {
@@ -30,6 +31,7 @@ namespace ZKEACMS.Controllers
         public PageController(IPageService service)
             : base(service)
         {
+
         }
 
         [Widget]
@@ -108,8 +110,10 @@ namespace ZKEACMS.Controllers
             }
             ViewBag.OldVersions = Service.Get(m => m.ReferencePageID == page.ID && m.IsPublishedPage == true).OrderBy(m => m.PublishDate);
             ViewBag.Page = page;
-            return View(page);
+            return View("Edit", page);
         }
+
+
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Edit(PageEntity entity)
         {
@@ -140,7 +144,12 @@ namespace ZKEACMS.Controllers
             }
             else if (entity.ActionType == ActionType.Publish)
             {
-                Service.Publish(entity);
+                var result = Service.Publish(entity);
+                if (result.HasViolation)
+                {
+                    ModelState.AddUnknownError(result.ErrorMessage);
+                    return View(entity);
+                }
                 return RedirectView(entity.ID, false);
             }
             return RedirectToAction("Index", new { PageID = entity.ID });
@@ -196,7 +205,7 @@ namespace ZKEACMS.Controllers
         {
             ILayoutService layoutService = HttpContext.RequestServices.GetService<ILayoutService>();
             IWidgetBasePartService widgetBasePartService = HttpContext.RequestServices.GetService<IWidgetBasePartService>();
-            IRuleService ruleService= HttpContext.RequestServices.GetService<IRuleService>();
+            IRuleService ruleService = HttpContext.RequestServices.GetService<IRuleService>();
             var page = Service.Get(context.PageID);
             var layout = layoutService.GetByPage(page);
             var viewModel = new LayoutZonesViewModel
@@ -242,14 +251,24 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public JsonResult Publish(string id)
         {
-            Service.Publish(Service.Get(id));
-            return Json(true);
+            var result = Service.Publish(Service.Get(id));
+            return Json(result);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
-        public RedirectResult PublishPage(string ID, string ReturnUrl)
+        public IActionResult PublishPage(string ID, string ReturnUrl)
         {
-            Service.Publish(Service.Get(ID));
+            var result = Service.Publish(Service.Get(ID));
+            if (result.HasViolation)
+            {
+                ModelState.AddUnknownError(result.ErrorMessage);
+                return Edit(ID);
+            }
             return Redirect(ReturnUrl);
+        }
+        [DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
+        public IActionResult ChangeUrl(string ID)
+        {
+            return View(Service.Get(ID));
         }
     }
 }

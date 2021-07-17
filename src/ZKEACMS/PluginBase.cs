@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using Easy.Mvc.Plugin;
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
@@ -34,7 +37,7 @@ namespace ZKEACMS
         private const string ControllerTypeNameSuffix = "Controller";
 
         public Assembly Assembly { get; set; }
-
+        public IWebHostEnvironment WebHostEnvironment { get; private set; }
         public abstract IEnumerable<RouteDescriptor> RegistRoute();
         public abstract IEnumerable<AdminMenu> AdminMenu();
         public abstract IEnumerable<PermissionDescriptor> RegistPermission();
@@ -88,6 +91,10 @@ namespace ZKEACMS
         }
         public virtual void Setup(params object[] args)
         {
+            if (args != null && args.Length > 0)
+            {
+                WebHostEnvironment = args.FirstOrDefault(m => m is IWebHostEnvironment) as IWebHostEnvironment;
+            }
             var pluginType = this.GetType();
             if (!pluginPathCache.ContainsKey(pluginType))
             {

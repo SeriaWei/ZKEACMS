@@ -1,4 +1,8 @@
-﻿$(function () {
+﻿/*! http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
+
+$(function () {
     function search(input) {
         var value = $.trim(input.val());
         if (value) {
