@@ -59,7 +59,7 @@ $(function () {
                     var result = JSON.parse(data.target.response);
                     if (result.id) {
                         target.value = "~" + result.url;
-                        $(target).blur().focus();
+                        updateDisplay();
                     }
                 }
             }
