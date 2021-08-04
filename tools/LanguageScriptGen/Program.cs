@@ -34,6 +34,7 @@ namespace LanguageScriptGen
                     return m.Value;
                 }))
                 {
+                    Console.WriteLine("{0}: {1}", item.Key, lan.LanKey);
                     lan.LanValue = lan.LanValue.Replace("'", "''");
                     var context = new TemplateContext(lan);
                     string sql = item.Value.Render(context);

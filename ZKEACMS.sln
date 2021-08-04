@@ -56,7 +56,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKEACMS.Animation", "src\ZK
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKEACMS.PinNav", "src\ZKEACMS.PinNav\ZKEACMS.PinNav.csproj", "{FA927FFA-E697-4735-98F0-960BD235FF38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguageScriptGen", "tools\LanguageScriptGen\LanguageScriptGen.csproj", "{A5118CFF-A25A-458E-A37E-60164EB88148}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LanguageScriptGen", "tools\LanguageScriptGen\LanguageScriptGen.csproj", "{A5118CFF-A25A-458E-A37E-60164EB88148}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
