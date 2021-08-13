@@ -19,11 +19,8 @@ namespace ZKEACMS.SpiderLog.Service
     public class SearchEngineManager : ISearchEngineManager
     {
         private readonly ISearchEngineService _searchEngineService;
-        private static ConcurrentDictionary<string, LogWritter> _loggerWriters;
-        static SearchEngineManager()
-        {
-            _loggerWriters = new ConcurrentDictionary<string, LogWritter>();
-        }
+        private static ConcurrentDictionary<string, LogWritter> _loggerWriters = new ConcurrentDictionary<string, LogWritter>();
+        private static Dictionary<string, LogWritter> _loggerWritersDic = new Dictionary<string, LogWritter>();
 
         public SearchEngineManager(ISearchEngineService searchEngineService)
         {
@@ -37,12 +34,24 @@ namespace ZKEACMS.SpiderLog.Service
 
         public void Log(string name, DateTime dateTime, string url)
         {
-            var writer = _loggerWriters.GetOrAdd(name, key =>
-            {
-                string filePath = GetLogFilePath(key);
-                return new LogWritter(filePath);
-            });
+            var writer = _loggerWriters.GetOrAdd(name, CreateLogWritter);
             writer.WriteLog(dateTime.ToString("u") + "\t" + url);
+        }
+
+        private LogWritter CreateLogWritter(string name)
+        {
+            lock (_loggerWritersDic)
+            {
+                LogWritter logWritter;
+                if (!_loggerWritersDic.TryGetValue(name, out logWritter))
+                {
+                    string filePath = GetLogFilePath(name);
+                    logWritter = new LogWritter(filePath);
+                    _loggerWritersDic.TryAdd(name, logWritter);
+                }
+                return logWritter;
+            }
+
         }
 
         public IEnumerable<SearchEngineVisitLog> GetSearchEngineVisitLogs()
