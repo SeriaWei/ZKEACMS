@@ -2,6 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy.Extend;
 using Ganss.XSS;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace ZKEACMS.Safety
 
         public string Sanitize(string html)
         {
+            if (html.IsNullOrEmpty()) return html;
+
             return _sanitizer.Sanitize(html);
         }
     }
