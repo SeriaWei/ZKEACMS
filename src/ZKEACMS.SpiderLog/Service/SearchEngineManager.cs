@@ -44,5 +44,22 @@ namespace ZKEACMS.SpiderLog.Service
             });
             writer.WriteLog(dateTime.ToString("s") + "\t" + url);
         }
+
+        public IEnumerable<SearchEngineVisitTime> GetSearchEngineVisitTimes()
+        {
+            string logFolder = Path.Combine(PluginBase.GetPath<SpiderLogPlug>(), "Logs");
+            foreach (var item in _searchEngineService.Get())
+            {
+                var logFile = new FileInfo(Path.Combine(logFolder, item.Name + ".log"));
+                if (logFile.Exists)
+                {
+                    yield return new SearchEngineVisitTime
+                    {
+                        Name = item.Name,
+                        LastVisitAt = logFile.LastWriteTime
+                    };
+                }
+            }
+        }
     }
 }

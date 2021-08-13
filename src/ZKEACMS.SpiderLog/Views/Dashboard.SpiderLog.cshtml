@@ -1,0 +1,20 @@
+@using ZKEACMS.SpiderLog.Models
+@model IEnumerable<SearchEngineVisitTime>
+
+<div class="panel panel-default">
+    <div class="panel-heading">@L("Spider")</div>
+    <table class="panel-body table table-condensed">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.LastVisitAt
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+

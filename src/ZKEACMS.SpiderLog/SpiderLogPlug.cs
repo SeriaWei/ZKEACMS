@@ -12,6 +12,7 @@ using Easy.RepositoryPattern;
 using Easy;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.SpiderLog.Service;
+using ZKEACMS.Dashboard;
 
 namespace ZKEACMS.SpiderLog
 {
@@ -51,6 +52,7 @@ namespace ZKEACMS.SpiderLog
         {
             serviceCollection.TryAddSingleton<ISearchEngineService, SearchEngineService>();
             serviceCollection.TryAddScoped<ISearchEngineManager, SearchEngineManager>();
+            serviceCollection.AddTransient<IDashboardPartDriveService, DashboardSpiderLogService>();
 
             serviceCollection.RegistEvent<SearchEngineRequestHandler>(Event.Events.OnPageExecuted);
         }
