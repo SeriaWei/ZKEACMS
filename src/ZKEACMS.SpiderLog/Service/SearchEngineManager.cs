@@ -71,7 +71,10 @@ namespace ZKEACMS.SpiderLog.Service
         }
         public string ReadLogContent(string name)
         {
-            string filePath = GetLogFilePath(name);
+            var engine = _searchEngineService.Get(name);
+            if (engine == null) return string.Empty;
+
+            string filePath = GetLogFilePath(engine.Name);
             if (!File.Exists(filePath)) return string.Empty;
 
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))

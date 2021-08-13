@@ -14,5 +14,6 @@ namespace ZKEACMS.SpiderLog.Service
     public interface ISearchEngineService
     {
         IEnumerable<SearchEngine> Get();
+        SearchEngine Get(string name);
     }
 }
