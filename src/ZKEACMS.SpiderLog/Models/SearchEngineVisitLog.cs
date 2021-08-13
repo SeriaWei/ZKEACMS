@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.SpiderLog.Models
 {
-    public class SearchEngineVisitTime
+    public class SearchEngineVisitLog
     {
         public string Name { get; set; }
         public DateTime LastVisitAt { get; set; }

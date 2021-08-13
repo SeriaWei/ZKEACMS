@@ -39,21 +39,20 @@ namespace ZKEACMS.SpiderLog.Service
         {
             var writer = _loggerWriters.GetOrAdd(name, key =>
             {
-                string filePath = Path.Combine(PluginBase.GetPath<SpiderLogPlug>(), "Logs", key + ".log");
+                string filePath = GetLogFilePath(key);
                 return new LogWritter(filePath);
             });
-            writer.WriteLog(dateTime.ToString("s") + "\t" + url);
+            writer.WriteLog(dateTime.ToString("u") + "\t" + url);
         }
 
-        public IEnumerable<SearchEngineVisitTime> GetSearchEngineVisitTimes()
+        public IEnumerable<SearchEngineVisitLog> GetSearchEngineVisitLogs()
         {
-            string logFolder = Path.Combine(PluginBase.GetPath<SpiderLogPlug>(), "Logs");
             foreach (var item in _searchEngineService.Get())
             {
-                var logFile = new FileInfo(Path.Combine(logFolder, item.Name + ".log"));
+                var logFile = new FileInfo(GetLogFilePath(item.Name));
                 if (logFile.Exists)
                 {
-                    yield return new SearchEngineVisitTime
+                    yield return new SearchEngineVisitLog
                     {
                         Name = item.Name,
                         LastVisitAt = logFile.LastWriteTime
@@ -61,5 +60,28 @@ namespace ZKEACMS.SpiderLog.Service
                 }
             }
         }
+        public string ReadLogContent(string name)
+        {
+            string filePath = GetLogFilePath(name);
+            if (!File.Exists(filePath)) return string.Empty;
+
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                using (StreamReader reader = new StreamReader(fileStream, Encoding.UTF8))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
+
+        private string GetLogsFolder()
+        {
+            return Path.Combine(PluginBase.GetPath<SpiderLogPlug>(), "Logs");
+        }
+        private string GetLogFilePath(string name)
+        {
+            return Path.Combine(GetLogsFolder(), $"{name}.log");
+        }
+
     }
 }

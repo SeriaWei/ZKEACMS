@@ -1,12 +1,15 @@
 @using ZKEACMS.SpiderLog.Models
-@model IEnumerable<SearchEngineVisitTime>
+@model IEnumerable<SearchEngineVisitLog>
 
 <div class="panel panel-default">
-    <div class="panel-heading">@L("Spider")</div>
-    <table class="panel-body table table-condensed">
+    <div class="panel-heading">@L("Search Engine / Spiders")</div>
+    <table class="panel-body table table-bordered table-hover">
         @foreach (var item in Model)
         {
             <tr>
+                <td width="80">
+                    <a href="@Url.Action("Read","SpiderLog",new { Id = item.Name })" target="_blank">@L("Log")</a>
+                </td>
                 <td>
                     @item.Name
                 </td>
