@@ -33,7 +33,7 @@ namespace ZKEACMS.Notification
         public void ResetPassword(UserEntity user)
         {
             var dataProtector = _dataProtectionProvider.CreateProtector("ResetPassword");
-            _notificationManager.Send(new RazorEmailNotice
+            _notificationManager.Send(new RazorEmailMessage
             {
                 Subject = _localize.Get("Reset password"),
                 To = new string[] { user.Email },

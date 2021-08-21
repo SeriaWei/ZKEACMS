@@ -35,7 +35,7 @@ namespace ZKEACMS.Message.EventHandler
                 MessageNotificationConfig notifyConfig = _applicationSettingService.Get<MessageNotificationConfig>();
                 if (notifyConfig.CommentNotifyEmails.IsNotNullAndWhiteSpace())
                 {
-                    _notificationManager.Send(new RazorEmailNotice
+                    _notificationManager.Send(new RazorEmailMessage
                     {
                         Subject = _localize.Get("New comment"),
                         To = notifyConfig.CommentNotifyEmails.Split(new char[] { '\r', '\n', ',', ';' }, StringSplitOptions.RemoveEmptyEntries),

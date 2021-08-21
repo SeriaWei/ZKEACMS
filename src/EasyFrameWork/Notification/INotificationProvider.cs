@@ -8,9 +8,9 @@ using System.Text;
 
 namespace Easy.Notification
 {
-    public interface INotifyService
+    public interface INotificationProvider
     {
         Type SupportType { get; }
-        void Send(Notice notice);
+        void Send(Message notice);
     }
 }

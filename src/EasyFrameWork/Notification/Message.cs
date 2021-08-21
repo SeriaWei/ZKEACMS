@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Easy.Notification
 {
-    public abstract class Notice : EditorEntity
+    public abstract class Message
     {
 
     }

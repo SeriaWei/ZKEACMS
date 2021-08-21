@@ -24,6 +24,7 @@ using Easy.RepositoryPattern;
 using Easy.RuleEngine;
 using Easy.RuleEngine.RuleProviders;
 using Easy.RuleEngine.Scripting;
+using EasyFrameWork.Notification.Queue;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -69,8 +70,10 @@ namespace Easy
 
             services.AddTransient<IViewRenderService, ViewRenderService>();
             services.AddTransient<INotificationManager, NotificationManager>();
-            services.AddTransient<INotifyService, EmailNotifyService>();
-            services.AddTransient<INotifyService, RazorEmailNotifyService>();
+            services.AddTransient<INotificationProvider, EmailNotificationProvider>();
+            services.AddTransient<INotificationProvider, RazorEmailNotificationProvider>();
+            services.AddTransient<IEmailNotification, EmailNotificationProvider>();
+            services.AddTransient<IEmailQueue>(provider => null);
             services.AddTransient<IPluginLoader, Loader>();
             services.AddTransient<IRuleManager, RuleManager>();
             services.AddTransient<IRuleProvider, CommonMethodsRuleProvider>();

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Easy.Notification
 {
-    public class RazorEmailNotice : EmailNotice
+    public class RazorEmailMessage : EmailMessage
     {
         public object Model { get; set; }
         /// <summary>

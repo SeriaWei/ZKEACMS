@@ -6,8 +6,8 @@
     <PackageId>ZKEACMS.GlobalScripts</PackageId>
     <Copyright>深圳市纸壳软件科技有限公司 纸壳CMS</Copyright>
     <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS.Core</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>CMS.GlobalScripts</PackageTags>
     <Description>GlobalScripts plugin for ZKEACMS</Description>

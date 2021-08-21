@@ -2,21 +2,22 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <AssemblyName>ZKEACMS.Message</AssemblyName>
-    <PackageId>ZKEACMS.Message</PackageId>
-    <Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>
+    <AssemblyName>ZKEACMS.Mail</AssemblyName>
+    <PackageId>ZKEACMS.Mail</PackageId>
+    <Copyright>深圳市纸壳软件科技有限公司 纸壳CMS</Copyright>
     <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>CMS.Message</PackageTags>
-    <Description>Message plugin for ZKEACMS</Description>
-    <Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
+    <PackageTags>CMS.Mail</PackageTags>
+    <Description>Session plugin for ZKEACMS</Description>
+    <Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Threading.Channels" Version="5.0.0" />
+  </ItemGroup> 
   
   <ItemGroup>
-    <PackageReference Include="CommonMark.NET" Version="0.15.1" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
-  
 </Project>
