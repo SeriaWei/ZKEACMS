@@ -1,18 +1,15 @@
 ﻿/* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
- 
+
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
-using System;
-using System.Collections.Generic;
+using Easy.Notification.Queue;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Easy.RepositoryPattern;
-using Easy;
+using System;
+using System.Collections.Generic;
 using ZKEACMS.WidgetTemplate;
-using EasyFrameWork.Notification.Queue;
-using ZKEACMS.Mail.Queue;
 
 namespace ZKEACMS.Mail
 {

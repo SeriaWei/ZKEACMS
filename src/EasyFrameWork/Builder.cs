@@ -24,7 +24,7 @@ using Easy.RepositoryPattern;
 using Easy.RuleEngine;
 using Easy.RuleEngine.RuleProviders;
 using Easy.RuleEngine.Scripting;
-using EasyFrameWork.Notification.Queue;
+using Easy.Notification.Queue;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

@@ -10,7 +10,7 @@ using System.Net;
 using Easy.Extend;
 using Microsoft.Extensions.Logging;
 using System.IO;
-using EasyFrameWork.Notification.Queue;
+using Easy.Notification.Queue;
 
 namespace Easy.Notification
 {

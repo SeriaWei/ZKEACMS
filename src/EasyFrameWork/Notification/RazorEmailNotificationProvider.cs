@@ -3,7 +3,7 @@
  * http://www.zkea.net/licenses */
 
 using Easy.Mvc.RazorPages;
-using EasyFrameWork.Notification.Queue;
+using Easy.Notification.Queue;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

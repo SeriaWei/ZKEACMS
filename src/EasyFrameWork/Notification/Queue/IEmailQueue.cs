@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EasyFrameWork.Notification.Queue
+namespace Easy.Notification.Queue
 {
     public interface IEmailQueue
     {

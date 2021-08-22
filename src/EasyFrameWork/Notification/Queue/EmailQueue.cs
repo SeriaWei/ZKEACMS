@@ -4,7 +4,6 @@
  
 
 using Easy.Notification;
-using EasyFrameWork.Notification.Queue;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,7 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace ZKEACMS.Mail.Queue
+namespace Easy.Notification.Queue
 {
     public class EmailQueue : IEmailQueue
     {

@@ -4,7 +4,7 @@
 
 
 using Easy.Notification;
-using EasyFrameWork.Notification.Queue;
+using Easy.Notification.Queue;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
