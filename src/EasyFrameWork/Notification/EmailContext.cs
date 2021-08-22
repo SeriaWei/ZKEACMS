@@ -11,8 +11,14 @@ using System.Threading.Tasks;
 
 namespace Easy.Notification
 {
-    public interface IEmailNotification
+    public class EmailContext
     {
-        void Send(EmailMessage email);
+        public EmailContext(EmailMessage emailMessage)
+        {
+            EmailMessage = emailMessage;
+            RetryCount = 0;
+        }
+        public EmailMessage EmailMessage { get; set; }
+        public int RetryCount { get; set; }
     }
 }

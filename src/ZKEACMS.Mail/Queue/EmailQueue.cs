@@ -1,4 +1,9 @@
-﻿using Easy.Notification;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+ 
+
+using Easy.Notification;
 using EasyFrameWork.Notification.Queue;
 using System;
 using System.Collections.Generic;
@@ -12,17 +17,17 @@ namespace ZKEACMS.Mail.Queue
 {
     public class EmailQueue : IEmailQueue
     {
-        private Channel<EmailMessage> _channel;
+        private Channel<EmailContext> _channel;
         public EmailQueue()
         {
-            _channel = Channel.CreateUnbounded<EmailMessage>();
+            _channel = Channel.CreateUnbounded<EmailContext>();
         }
-        public async Task Push(EmailMessage emailMessage)
+        public async Task Send(EmailContext emailContext)
         {
-            await _channel.Writer.WriteAsync(emailMessage);
+            await _channel.Writer.WriteAsync(emailContext);
         }
 
-        public async Task<EmailMessage> Receive(CancellationToken cancellationToken = default)
+        public async Task<EmailContext> Receive(CancellationToken cancellationToken = default)
         {
             return await _channel.Reader.ReadAsync(cancellationToken);
         }

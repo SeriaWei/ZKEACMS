@@ -1,4 +1,9 @@
-﻿using Easy.Notification;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+
+using Easy.Notification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +15,7 @@ namespace EasyFrameWork.Notification.Queue
 {
     public interface IEmailQueue
     {
-        Task Push(EmailMessage emailMessage);
-        Task<EmailMessage> Receive(CancellationToken cancellationToken = default);
+        Task Send(EmailContext emailMessage);
+        Task<EmailContext> Receive(CancellationToken cancellationToken = default);
     }
 }

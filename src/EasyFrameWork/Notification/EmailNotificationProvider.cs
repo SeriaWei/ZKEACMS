@@ -19,8 +19,8 @@ namespace Easy.Notification
         private readonly ISmtpProvider _smtpProvider;
         private readonly IEmailQueue _emailQueue;
         private readonly ILogger<EmailNotificationProvider> _logger;
-        public EmailNotificationProvider(ISmtpProvider smtpProvider, 
-            ILogger<EmailNotificationProvider> logger, 
+        public EmailNotificationProvider(ISmtpProvider smtpProvider,
+            ILogger<EmailNotificationProvider> logger,
             IEmailQueue emailQueue)
         {
             _smtpProvider = smtpProvider;
@@ -29,12 +29,12 @@ namespace Easy.Notification
         }
         public virtual Type SupportType => typeof(EmailMessage);
 
-        public virtual void Send(Message notice)
+        public virtual void Send(Message message)
         {
-            var email = notice as EmailMessage;
+            var email = message as EmailMessage;
             if (_emailQueue != null)
             {
-                _emailQueue.Push(email);
+                _emailQueue.Send(new EmailContext(email));
             }
             else
             {
@@ -48,19 +48,13 @@ namespace Easy.Notification
             SetAttachments(email, mailMessage);
             SetEmailFrom(email, mailMessage);
             SmtpClient client = GetSmtpClient();
-            try
+
+            using (client)
             {
-                using (client)
+                using (mailMessage)
                 {
-                    using (mailMessage)
-                    {
-                        client.Send(mailMessage);
-                    }
+                    client.Send(mailMessage);
                 }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
             }
         }
 
