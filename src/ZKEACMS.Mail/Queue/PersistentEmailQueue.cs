@@ -37,14 +37,14 @@ namespace ZKEACMS.Mail.Queue
             }
         }
 
-        public async Task<EmailContext> Receive(CancellationToken cancellationToken = default)
+        public Task<EmailContext> Receive(CancellationToken cancellationToken = default)
         {
-            Monitor.Exit(lockReceive);
+            Monitor.Enter(lockReceive);
             try
             {
                 if (CanReceive())
                 {
-                    return await ReceiveFromFile();
+                    return Task.FromResult(ReceiveFromFile());
                 }
 
                 Monitor.Enter(lockObj);
@@ -52,7 +52,7 @@ namespace ZKEACMS.Mail.Queue
                 {
                     if (Monitor.Wait(lockObj))
                     {
-                        return await ReceiveFromFile();
+                        return Task.FromResult(ReceiveFromFile());
                     }
                 }
                 finally
@@ -67,24 +67,25 @@ namespace ZKEACMS.Mail.Queue
             }
         }
 
-        private async Task<EmailContext> ReceiveFromFile()
+        private EmailContext ReceiveFromFile()
         {
             string fileName = stack.Pop();
             string path = Path.Combine(Folder, fileName);
             if (!File.Exists(path)) return null;
 
-            string fileJson = await File.ReadAllTextAsync(path, Encoding.UTF8);
+            string fileJson = File.ReadAllText(path, Encoding.UTF8);
             File.Delete(path);
             return JsonSerializer.Deserialize<EmailContext>(fileJson);
         }
 
-        public async Task Send(EmailContext emailMessage)
+        public Task Send(EmailContext emailMessage)
         {
             Monitor.Enter(lockObj);
             try
             {
-                await SaveToFile(emailMessage);
-                Monitor.PulseAll(lockObj);
+                SaveToFile(emailMessage);
+                Monitor.Pulse(lockObj);
+                return Task.CompletedTask;
             }
             finally
             {
@@ -92,12 +93,12 @@ namespace ZKEACMS.Mail.Queue
             }
         }
 
-        private async Task SaveToFile(EmailContext emailMessage)
+        private void SaveToFile(EmailContext emailMessage)
         {
             string fileName = $"{Guid.NewGuid()}.json";
             stack.Push(fileName);
             byte[] data = JsonSerializer.SerializeToUtf8Bytes(emailMessage);
-            await File.WriteAllBytesAsync(Path.Combine(Folder, fileName), data);
+            File.WriteAllBytes(Path.Combine(Folder, fileName), data);
         }
 
         private bool CanReceive()

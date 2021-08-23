@@ -32,31 +32,35 @@ namespace ZKEACMS.Mail
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
+            await Task.Run(async delegate
             {
-                var mailMessage = await _emailQueue.Receive(stoppingToken);
-
-                using (var scopeService = _serviceProvider.CreateScope())
+                while (!stoppingToken.IsCancellationRequested)
                 {
-                    var emailNotification = scopeService.ServiceProvider.GetService<IEmailNotification>();
-                    if (mailMessage == null) continue;
+                    var mailMessage = await _emailQueue.Receive(stoppingToken);
 
-                    mailMessage.RetryCount++;
-                    try
+                    using (var scopeService = _serviceProvider.CreateScope())
                     {
-                        emailNotification.Send(mailMessage.EmailMessage);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, ex.Message);
+                        var emailNotification = scopeService.ServiceProvider.GetService<IEmailNotification>();
+                        if (mailMessage == null) continue;
 
-                        //todo:Retry
-                        //if (mailMessage.RetryCount < 5)
-                        //    await _emailQueue.Send(mailMessage);
-                    }
+                        mailMessage.RetryCount++;
+                        try
+                        {
+                            emailNotification.Send(mailMessage.EmailMessage);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, ex.Message);
 
+                            //todo:Retry
+                            //if (mailMessage.RetryCount < 5)
+                            //    await _emailQueue.Send(mailMessage);
+                        }
+
+                    }
                 }
-            }
+            });
+
         }
     }
 }

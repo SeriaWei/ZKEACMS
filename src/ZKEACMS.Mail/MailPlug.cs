@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
+using ZKEACMS.Mail.Queue;
 using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS.Mail
@@ -47,7 +48,7 @@ namespace ZKEACMS.Mail
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.Replace(new ServiceDescriptor(typeof(IEmailQueue), typeof(EmailQueue), ServiceLifetime.Singleton));
+            serviceCollection.Replace(new ServiceDescriptor(typeof(IEmailQueue), typeof(PersistentEmailQueue), ServiceLifetime.Singleton));
 
             serviceCollection.AddHostedService<SendEmailBackgroundService>();
         }
