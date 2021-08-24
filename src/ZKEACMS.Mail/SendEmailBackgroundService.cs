@@ -32,35 +32,31 @@ namespace ZKEACMS.Mail
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await Task.Run(async delegate
+            while (!stoppingToken.IsCancellationRequested)
             {
-                while (!stoppingToken.IsCancellationRequested)
+                var mailMessage = await _emailQueue.Receive(stoppingToken);
+                if (mailMessage == null) continue;
+
+                using (var scopeService = _serviceProvider.CreateScope())
                 {
-                    var mailMessage = await _emailQueue.Receive(stoppingToken);
+                    var emailNotification = scopeService.ServiceProvider.GetService<IEmailNotification>();
 
-                    using (var scopeService = _serviceProvider.CreateScope())
+                    mailMessage.RetryCount++;
+                    try
                     {
-                        var emailNotification = scopeService.ServiceProvider.GetService<IEmailNotification>();
-                        if (mailMessage == null) continue;
-
-                        mailMessage.RetryCount++;
-                        try
-                        {
-                            emailNotification.Send(mailMessage.EmailMessage);
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogError(ex, ex.Message);
-
-                            //todo:Retry
-                            //if (mailMessage.RetryCount < 5)
-                            //    await _emailQueue.Send(mailMessage);
-                        }
-
+                        emailNotification.Send(mailMessage.EmailMessage);
                     }
-                }
-            });
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, ex.Message);
 
+                        //todo:Retry
+                        //if (mailMessage.RetryCount < 5)
+                        //    await _emailQueue.Send(mailMessage);
+                    }
+
+                }
+            }
         }
     }
 }

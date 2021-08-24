@@ -18,8 +18,7 @@ namespace ZKEACMS.Mail.Queue
     public class PersistentEmailQueue : IEmailQueue
     {
         private Stack<string> stack = new Stack<string>();
-        private object lockObj = new object();
-        private object lockReceive = new object();
+        private Stack<BlockedEmailQueueReader> queueReaders = new Stack<BlockedEmailQueueReader>();
         private const string Folder = "EmailQueue";
         public PersistentEmailQueue()
         {
@@ -37,68 +36,61 @@ namespace ZKEACMS.Mail.Queue
             }
         }
 
-        public Task<EmailContext> Receive(CancellationToken cancellationToken = default)
+        public async Task<EmailContext> Receive(CancellationToken cancellationToken = default)
         {
-            Monitor.Enter(lockReceive);
-            try
-            {
-                if (CanReceive())
-                {
-                    return Task.FromResult(ReceiveFromFile());
-                }
+            var result = await ReceiveFromFileAsync();
+            if (result != null) return result;
 
-                Monitor.Enter(lockObj);
-                try
-                {
-                    if (Monitor.Wait(lockObj))
-                    {
-                        return Task.FromResult(ReceiveFromFile());
-                    }
-                }
-                finally
-                {
-                    Monitor.Exit(lockObj);
-                }
-                return null;
-            }
-            finally
-            {
-                Monitor.Exit(lockReceive);
-            }
+            BlockedEmailQueueReader queueReader = new BlockedEmailQueueReader(this);
+            queueReaders.Push(queueReader);
+            return await queueReader.Task;
         }
 
-        private EmailContext ReceiveFromFile()
+        public async Task<EmailContext> ReceiveFromFileAsync()
         {
-            string fileName = stack.Pop();
-            string path = Path.Combine(Folder, fileName);
-            if (!File.Exists(path)) return null;
+            string path;
+            lock (stack)
+            {
+                if (!CanReceive()) return null;
 
-            string fileJson = File.ReadAllText(path, Encoding.UTF8);
+                string fileName = stack.Pop();
+                path = Path.Combine(Folder, fileName);
+                if (!File.Exists(path)) return null;
+            }
+            string fileJson = await File.ReadAllTextAsync(path, Encoding.UTF8);
             File.Delete(path);
             return JsonSerializer.Deserialize<EmailContext>(fileJson);
+
+
         }
 
-        public Task Send(EmailContext emailMessage)
+        public async Task Send(EmailContext emailMessage)
         {
-            Monitor.Enter(lockObj);
-            try
+            await SaveToFile(emailMessage);
+            BlockedEmailQueueReader reader;
+            lock (queueReaders)
             {
-                SaveToFile(emailMessage);
-                Monitor.Pulse(lockObj);
-                return Task.CompletedTask;
+                queueReaders.TryPop(out reader);
             }
-            finally
+            if (reader != null)
             {
-                Monitor.Exit(lockObj);
+                bool success = await reader.TryDequeueAsync();
+                if (!success)
+                {
+                    queueReaders.Push(reader);
+                }
             }
         }
 
-        private void SaveToFile(EmailContext emailMessage)
+        private async Task SaveToFile(EmailContext emailMessage)
         {
             string fileName = $"{Guid.NewGuid()}.json";
-            stack.Push(fileName);
             byte[] data = JsonSerializer.SerializeToUtf8Bytes(emailMessage);
-            File.WriteAllBytes(Path.Combine(Folder, fileName), data);
+            await File.WriteAllBytesAsync(Path.Combine(Folder, fileName), data);
+            lock (stack)
+            {
+                stack.Push(fileName);
+            }
         }
 
         private bool CanReceive()
