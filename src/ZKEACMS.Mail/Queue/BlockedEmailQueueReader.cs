@@ -7,22 +7,29 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.Mail.Queue
 {
-    public class BlockedEmailQueueReader : TaskCompletionSource<EmailContext>
+    public class BlockedEmailQueueReader
     {
         private readonly PersistentEmailQueue _emailQueue;
+        private EmailContext emailContext;
         public BlockedEmailQueueReader(PersistentEmailQueue emailQueue)
         {
             _emailQueue = emailQueue;
+            Task = new Task<EmailContext>(GetCurrentContext);
         }
+
         public async Task<bool> TryDequeueAsync()
         {
-            var emailContext = await _emailQueue.ReceiveFromFileAsync();
+            emailContext = await _emailQueue.ReceiveFromFileAsync();
             if (emailContext == null) return false;
-            await System.Threading.Tasks.Task.Factory.StartNew(state =>
-            {
-                SetResult(state as EmailContext);
-            }, emailContext);
+            
+            Task.Start();
             return true;
+        }
+
+        public Task<EmailContext> Task { get; private set; }
+        EmailContext GetCurrentContext()
+        {
+            return emailContext;
         }
     }
 }

@@ -17,8 +17,8 @@ namespace ZKEACMS.Mail.Queue
 {
     public class PersistentEmailQueue : IEmailQueue
     {
-        private Stack<string> stack = new Stack<string>();
-        private Stack<BlockedEmailQueueReader> queueReaders = new Stack<BlockedEmailQueueReader>();
+        private Stack<string> _stack = new Stack<string>();
+        private Stack<BlockedEmailQueueReader> _queueReaders = new Stack<BlockedEmailQueueReader>();
         private const string Folder = "EmailQueue";
         public PersistentEmailQueue()
         {
@@ -31,7 +31,7 @@ namespace ZKEACMS.Mail.Queue
             {
                 foreach (var item in files)
                 {
-                    stack.Push(Path.GetFileName(item));
+                    _stack.Push(Path.GetFileName(item));
                 }
             }
         }
@@ -42,42 +42,40 @@ namespace ZKEACMS.Mail.Queue
             if (result != null) return result;
 
             BlockedEmailQueueReader queueReader = new BlockedEmailQueueReader(this);
-            queueReaders.Push(queueReader);
+            _queueReaders.Push(queueReader);
             return await queueReader.Task;
         }
 
         public async Task<EmailContext> ReceiveFromFileAsync()
         {
             string path;
-            lock (stack)
+            lock (_stack)
             {
-                if (!CanReceive()) return null;
+                if (_stack.Count == 0) return null;
 
-                string fileName = stack.Pop();
+                string fileName = _stack.Pop();
                 path = Path.Combine(Folder, fileName);
                 if (!File.Exists(path)) return null;
             }
             string fileJson = await File.ReadAllTextAsync(path, Encoding.UTF8);
             File.Delete(path);
             return JsonSerializer.Deserialize<EmailContext>(fileJson);
-
-
         }
 
         public async Task Send(EmailContext emailMessage)
         {
             await SaveToFile(emailMessage);
             BlockedEmailQueueReader reader;
-            lock (queueReaders)
+            lock (_queueReaders)
             {
-                queueReaders.TryPop(out reader);
+                _queueReaders.TryPop(out reader);
             }
             if (reader != null)
             {
                 bool success = await reader.TryDequeueAsync();
                 if (!success)
                 {
-                    queueReaders.Push(reader);
+                    _queueReaders.Push(reader);
                 }
             }
         }
@@ -87,15 +85,10 @@ namespace ZKEACMS.Mail.Queue
             string fileName = $"{Guid.NewGuid()}.json";
             byte[] data = JsonSerializer.SerializeToUtf8Bytes(emailMessage);
             await File.WriteAllBytesAsync(Path.Combine(Folder, fileName), data);
-            lock (stack)
+            lock (_stack)
             {
-                stack.Push(fileName);
+                _stack.Push(fileName);
             }
-        }
-
-        private bool CanReceive()
-        {
-            return stack.Count > 0;
         }
     }
 }
