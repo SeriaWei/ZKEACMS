@@ -13,12 +13,14 @@ namespace Easy.Notification
 {
     public class EmailContext
     {
-        public EmailContext(EmailMessage emailMessage)
+        public EmailContext(EmailMessage emailMessage, SmtpSetting smtpSetting)
         {
             EmailMessage = emailMessage;
+            SmtpSetting = smtpSetting;
             RetryCount = 0;
         }
         public EmailMessage EmailMessage { get; set; }
+        public SmtpSetting SmtpSetting { get; set; }
         public int RetryCount { get; set; }
     }
 }

@@ -22,6 +22,11 @@ namespace ZKEACMS.SMTP
         public SmtpClient GetSmtpClient()
         {
             var setting = GetSmtpSetting();
+            return GetSmtpClient(setting);
+        }
+
+        public SmtpClient GetSmtpClient(SmtpSetting setting)
+        {
             if (setting.Host.IsNullOrWhiteSpace() || setting.Email.IsNullOrWhiteSpace())
             {
                 return null;

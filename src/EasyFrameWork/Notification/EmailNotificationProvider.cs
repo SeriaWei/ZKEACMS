@@ -34,7 +34,7 @@ namespace Easy.Notification
             var email = message as EmailMessage;
             if (_emailQueue != null)
             {
-                _emailQueue.Send(new EmailContext(email));
+                _emailQueue.Send(new EmailContext(email, _smtpProvider.GetSmtpSetting()));
             }
             else
             {
@@ -44,23 +44,37 @@ namespace Easy.Notification
         public void Send(EmailMessage email)
         {
             MailMessage mailMessage = ConvertToMailMessage(email);
-            SetRecipient(email, mailMessage);
-            SetAttachments(email, mailMessage);
-            SetEmailFrom(email, mailMessage);
             SmtpClient client = GetSmtpClient();
 
-            using (client)
+            try
             {
-                using (mailMessage)
-                {
-                    client.Send(mailMessage);
-                }
+                client.Send(mailMessage);
+            }
+            finally
+            {
+                mailMessage.Dispose();
+                client.Dispose();
             }
         }
 
-        private SmtpClient GetSmtpClient()
+        public void Send(EmailContext emailContext)
         {
-            SmtpClient client = _smtpProvider.GetSmtpClient();
+            MailMessage mailMessage = ConvertToMailMessage(emailContext.EmailMessage);
+            SmtpClient client = GetSmtpClient(emailContext.SmtpSetting);
+
+            try
+            {
+                client.Send(mailMessage);
+            }
+            finally
+            {
+                mailMessage.Dispose();
+                client.Dispose();
+            }
+        }
+        private SmtpClient GetSmtpClient(SmtpSetting setting = null)
+        {
+            SmtpClient client = setting == null ? _smtpProvider.GetSmtpClient() : _smtpProvider.GetSmtpClient(setting);
             if (client == null)
             {//If SMTP server is not ready save email to temp
                 string tempEmlPath = Path.Combine(Directory.GetCurrentDirectory(), "Temp", "emails");
@@ -134,7 +148,13 @@ namespace Easy.Notification
             mailMessage.IsBodyHtml = email.IsHtml;
             mailMessage.SubjectEncoding = Encoding.UTF8;
             mailMessage.BodyEncoding = Encoding.UTF8;
+
+            SetRecipient(email, mailMessage);
+            SetAttachments(email, mailMessage);
+            SetEmailFrom(email, mailMessage);
+
             return mailMessage;
         }
+
     }
 }

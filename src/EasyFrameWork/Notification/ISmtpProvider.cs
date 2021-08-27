@@ -13,5 +13,6 @@ namespace Easy.Notification
     {
         SmtpClient GetSmtpClient();
         SmtpSetting GetSmtpSetting();
+        SmtpClient GetSmtpClient(SmtpSetting smtpSetting);
     }
 }

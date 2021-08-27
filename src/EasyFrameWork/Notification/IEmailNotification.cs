@@ -14,5 +14,6 @@ namespace Easy.Notification
     public interface IEmailNotification
     {
         void Send(EmailMessage email);
+        void Send(EmailContext emailContext);
     }
 }
