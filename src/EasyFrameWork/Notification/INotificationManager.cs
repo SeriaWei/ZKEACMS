@@ -10,6 +10,6 @@ namespace Easy.Notification
 {
     public interface INotificationManager
     {
-        void Send(Notice notice);
+        void Send(Message notice);
     }
 }

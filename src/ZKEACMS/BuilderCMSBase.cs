@@ -78,7 +78,7 @@ namespace ZKEACMS
             services.AddTransient<IEventViewerService, EventViewerService>();
             services.AddTransient<IDBContextProvider, DefaultDBContextProvider>();
 
-
+            services.AddTransient<Safety.IHtmlSanitizer, Safety.DefaultHtmlSanitizer>();
             services.AddTransient<IStorage, WebStorage>();
             services.AddTransient<ICurrencyService, CurrencyService>();
             services.AddScoped<ITemplateService, TemplateService>();

@@ -6,15 +6,15 @@
     <PackageId>ZKEACMS.Swagger</PackageId>
     <Copyright>深圳市纸壳软件科技有限公司 纸壳CMS</Copyright>
     <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS.Core</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>CMS.Swagger</PackageTags>
     <Description>Session plugin for ZKEACMS</Description>
     <Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
   </ItemGroup> 
   
   <ItemGroup>

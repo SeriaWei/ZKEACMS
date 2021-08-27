@@ -13,6 +13,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Collections.Concurrent;
+using Easy.Constant;
 
 namespace ZKEACMS.Product.Service
 {
@@ -73,7 +74,7 @@ namespace ZKEACMS.Product.Service
             }
             return new ProductCategoryWidgetViewModel
             {
-                Categorys = _productCategoryService.Get(m => m.ParentID == currentWidget.ProductCategoryID),
+                Categorys = _productCategoryService.Get(m => m.Status == (int)RecordStatus.Active && m.ParentID == currentWidget.ProductCategoryID),
                 CurrentCategory = cate
             };
         }

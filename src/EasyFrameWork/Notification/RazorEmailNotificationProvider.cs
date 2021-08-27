@@ -3,6 +3,7 @@
  * http://www.zkea.net/licenses */
 
 using Easy.Mvc.RazorPages;
+using Easy.Notification.Queue;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,21 +11,21 @@ using System.Text;
 
 namespace Easy.Notification
 {
-    public class RazorEmailNotifyService : EmailNotifyService
+    public class RazorEmailNotificationProvider : EmailNotificationProvider
     {
         private readonly IViewRenderService _viewRenderService;
-        public RazorEmailNotifyService(IViewRenderService viewRenderService, ISmtpProvider smtpProvider, ILogger<EmailNotifyService> logger)
-            : base(smtpProvider, logger)
+        public RazorEmailNotificationProvider(IViewRenderService viewRenderService, ISmtpProvider smtpProvider, ILogger<EmailNotificationProvider> logger, IEmailQueue emailQueue)
+            : base(smtpProvider, logger, emailQueue)
         {
             _viewRenderService = viewRenderService;
         }
-        public override Type SupportType => typeof(RazorEmailNotice);
-        public override void Send(Notice notice)
+        public override Type SupportType => typeof(RazorEmailMessage);
+        public override void Send(Message notice)
         {
-            RazorEmailNotice razorEmailNotice = notice as RazorEmailNotice;
+            RazorEmailMessage razorEmailNotice = notice as RazorEmailMessage;
             razorEmailNotice.IsHtml = true;
             razorEmailNotice.Content = _viewRenderService.Render(razorEmailNotice.TemplatePath, razorEmailNotice.Model);
-            base.Send(razorEmailNotice);
+            base.Send(razorEmailNotice as Message);
         }
     }
 }

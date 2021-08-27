@@ -1,44 +1,16 @@
 {
-    "ProductCategory@SEOTitle": [
+    "ProductCategoryTag@ProductCategoryId": [
         {
             "Culture": "en-US",
-            "LanValue": "SEO Title"
+            "LanValue": "Product Category"
         },
         {
             "Culture": "zh-CN",
-            "LanValue": "SEO标题"
+            "LanValue": "产品类别"
         },
         {
             "Culture": "zh-TW",
-            "LanValue": "SEO標題"
-        }
-    ],
-    "ProductCategory@SEOKeyWord": [
-        {
-            "Culture": "en-US",
-            "LanValue": "SEO Key Word"
-        },
-        {
-            "Culture": "zh-CN",
-            "LanValue": "SEO关键字"
-        },
-        {
-            "Culture": "zh-TW",
-            "LanValue": "SEO關鍵字"
-        }
-    ],
-    "ProductCategory@SEODescription": [
-        {
-            "Culture": "en-US",
-            "LanValue": "SEO Description"
-        },
-        {
-            "Culture": "zh-CN",
-            "LanValue": "SEO描述"
-        },
-        {
-            "Culture": "zh-TW",
-            "LanValue": "SEO描述"
+            "LanValue": "產品類別"
         }
     ]
 }

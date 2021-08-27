@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Easy.Notification
 {
-    public class EmailNotice : Notice
+    public class EmailMessage : Message
     {
         public string Subject { get; set; }
         public string Content { get; set; }
@@ -18,6 +18,6 @@ namespace Easy.Notification
         public string[] To { get; set; }
         public string[] Cc { get; set; }
         public string[] Bcc { get; set; }
-        public string[] Attachments { get; set; }
+        public List<Attachment> Attachments { get; set; }
     }
 }

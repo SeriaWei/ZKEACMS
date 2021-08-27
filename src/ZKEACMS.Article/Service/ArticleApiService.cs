@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZKEACMS.Article.Models;
+using ZKEACMS.Safety;
 
 namespace ZKEACMS.Article.Service
 {
@@ -18,12 +19,17 @@ namespace ZKEACMS.Article.Service
         private readonly IArticleService _articleService;
         private readonly IArticleTypeService _articleTypeService;
         private readonly IAuthorizer _authorizer;
+        private readonly IHtmlSanitizer _htmlSanitizer;
 
-        public ArticleApiService(IArticleService articleService, IAuthorizer authorizer, IArticleTypeService articleTypeService)
+        public ArticleApiService(IArticleService articleService,
+            IAuthorizer authorizer,
+            IArticleTypeService articleTypeService,
+            IHtmlSanitizer htmlSanitizer)
         {
             _articleService = articleService;
             _authorizer = authorizer;
             _articleTypeService = articleTypeService;
+            _htmlSanitizer = htmlSanitizer;
         }
 
         public ArticleEntity Get(int id)
@@ -53,7 +59,8 @@ namespace ZKEACMS.Article.Service
         {
             var validResult = ValidArticleType(article);
             if (validResult.HasViolation) return validResult;
-
+            
+            article.ArticleContent = _htmlSanitizer.Sanitize(article.ArticleContent);
             return _articleService.Add(article);
         }
 
@@ -62,6 +69,7 @@ namespace ZKEACMS.Article.Service
             var validResult = ValidArticleType(article);
             if (validResult.HasViolation) return validResult;
 
+            article.ArticleContent = _htmlSanitizer.Sanitize(article.ArticleContent);
             return _articleService.Update(article);
         }
 

@@ -2,6 +2,8 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy.Constant;
+using Easy.Extend;
 using Easy.Mvc.Authorize;
 using Easy.RepositoryPattern;
 using System;
@@ -10,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZKEACMS.Product.Models;
+using ZKEACMS.Safety;
 
 namespace ZKEACMS.Product.Service
 {
@@ -18,12 +21,17 @@ namespace ZKEACMS.Product.Service
         private readonly IProductService _productService;
         private readonly IProductCategoryService _productCategoryService;
         private readonly IAuthorizer _authorizer;
+        private readonly IHtmlSanitizer _htmlSanitizer;
 
-        public ProductApiService(IProductService productService, IAuthorizer authorizer, IProductCategoryService productCategoryService)
+        public ProductApiService(IProductService productService,
+            IAuthorizer authorizer,
+            IProductCategoryService productCategoryService,
+            IHtmlSanitizer htmlSanitizer)
         {
             _productService = productService;
             _authorizer = authorizer;
             _productCategoryService = productCategoryService;
+            _htmlSanitizer = htmlSanitizer;
         }
 
         public ProductEntity Get(int id)
@@ -54,6 +62,14 @@ namespace ZKEACMS.Product.Service
             var validResult = ValidProductType(product);
             if (validResult.HasViolation) return validResult;
 
+            if (product.ProductImages != null)
+            {
+                foreach (var item in product.ProductImages)
+                {
+                    item.ActionType = ActionType.Create;
+                }
+            }
+            product.ProductContent = _htmlSanitizer.Sanitize(product.ProductContent);
             return _productService.Add(product);
         }
 
@@ -62,6 +78,17 @@ namespace ZKEACMS.Product.Service
             var validResult = ValidProductType(product);
             if (validResult.HasViolation) return validResult;
 
+            if (product.ProductImages != null)
+            {
+                foreach (var item in product.ProductImages)
+                {
+                    if (item.ActionType == null)
+                    {
+                        item.ActionType = ActionType.Create;
+                    }
+                }
+            }
+            product.ProductContent = _htmlSanitizer.Sanitize(product.ProductContent);
             return _productService.Update(product);
         }
 

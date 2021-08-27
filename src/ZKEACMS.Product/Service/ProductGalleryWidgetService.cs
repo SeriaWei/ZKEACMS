@@ -45,7 +45,10 @@ namespace ZKEACMS.Product.Service
                     .Select(m => m.Product.ProductID)
                     .ToArray();
 
-                viewModel.Products = _productService.Get(m => productIds.Contains(m.ID) && m.IsPublish).OrderBy(m => Array.IndexOf(productIds, m.ID)).ToList();
+                viewModel.Products = _productService
+                    .Get(m => productIds.Contains(m.ID) && m.IsPublish && m.Status == (int)RecordStatus.Active)
+                    .OrderBy(m => Array.IndexOf(productIds, m.ID))
+                    .ToList();
             }
             return viewModel;
         }

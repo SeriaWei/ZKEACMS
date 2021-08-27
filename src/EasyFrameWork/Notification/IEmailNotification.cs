@@ -1,16 +1,18 @@
-/* http://www.zkea.net/ 
+﻿/* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Easy.Notification
 {
-    public interface INotifyService
+    public interface IEmailNotification
     {
-        Type SupportType { get; }
-        void Send(Notice notice);
+        void Send(EmailMessage email);
     }
 }

@@ -1,0 +1,110 @@
+[
+    {
+        "Name": "Googlebot",
+        "Regex": "\\w*Googlebot\\w*"
+    },
+    {
+        "Name": "Microsoftbot",
+        "Regex": "\\w*msnbot\\w*"
+    },
+    {
+        "Name": "Bingbot",
+        "Regex": "\\w*bingbot\\w*"
+    },
+    {
+        "Name": "Yahoobot",
+        "Regex": "\\w*Yahoo! Slurp\\w*"
+    },
+    {
+        "Name": "ArchitextSpider",
+        "Regex": "\\w*ArchitextSpider\\w*"
+    },
+    {
+        "Name": "Lycosbot",
+        "Regex": "\\w*Lycos\\w*"
+    },
+    {
+        "Name": "IBMbot",
+        "Regex": "\\w*ibm\\w*"
+    },
+    {
+        "Name": "AOLbot",
+        "Regex": "\\w*aolbuild\\w*"
+    },
+    {
+        "Name": "Applebot",
+        "Regex": "\\w*Applebot\\w*"
+    },
+    {
+        "Name": "SemrushBot",
+        "Regex": "\\w*SemrushBot\\w*"
+    },
+    {
+        "Name": "DuckDuckBot",
+        "Regex": "\\w*DuckDuckBot\\w*"
+    },
+    {
+        "Name": "Facebookbot",
+        "Regex": "\\w*facebot\\w*"
+    },
+    {
+        "Name": "Facebookhitbot",
+        "Regex": "\\w*facebookexternalhit\\w*"
+    },
+    {
+        "Name": "AlexaCrawler",
+        "Regex": "\\w*ia_archiver\\w*"
+    },
+    {
+        "Name": "Ahrefsbot",
+        "Regex": "\\w*AhrefsBot\\w*"
+    },
+    {
+        "Name": "Soso",
+        "Regex": "\\w*Sosospider\\w*"
+    },
+    {
+        "Name": "SosoImagebot",
+        "Regex": "\\w*Sosoimagespider\\w*"
+    },
+    {
+        "Name": "YahooChinabot",
+        "Regex": "\\w*Yahoo! Slurp China\\w*"
+    },
+    {
+        "Name": "Sogoubot",
+        "Regex": "\\w*Sogou web spider\\w*"
+    },
+    {
+        "Name": "Baidu",
+        "Regex": "\\w*Baiduspider\\w*"
+    },
+    {
+        "Name": "360bot",
+        "Regex": "\\w*360Spider\\w*"
+    },
+    {
+        "Name": "AskJeevesbot",
+        "Regex": "\\w*Ask Jeeves\\w*"
+    },
+    {
+        "Name": "YandexBot",
+        "Regex": "\\w*YandexBot\\w*"
+    },
+    {
+        "Name": "Exabot",
+        "Regex": "\\w*Exabot\\w*"
+    },
+    {
+        "Name": "Site7x24",
+        "Regex": "\\w*Site24x7\\w*"
+    },
+    {
+        "Name": "PetalBot",
+        "Regex": "\\w*PetalBot\\w*"
+    },
+    {
+        "Name": "OpenSiteExplorer",
+        "Regex": "\\w*opensiteexplorer\\w*"
+    }
+]

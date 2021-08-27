@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using Easy.Extend;
 using ZKEACMS.Page;
+using Easy.Constant;
 
 namespace ZKEACMS.Product.Service
 {
@@ -91,12 +92,12 @@ namespace ZKEACMS.Product.Service
             Expression<Func<ProductEntity, bool>> filter = null;
             if (cate != 0)
             {
-                filter = m => m.IsPublish && m.ProductCategoryID == cate;
+                filter = m => m.Status == (int)RecordStatus.Active && m.IsPublish && m.ProductCategoryID == cate;
             }
             else
             {
                 var ids = _productCategoryService.Get(m => m.ID == currentWidget.ProductCategoryID || m.ParentID == currentWidget.ProductCategoryID).Select(m => m.ID).ToList();
-                filter = m => m.IsPublish && ids.Contains(m.ProductCategoryID);
+                filter = m => m.Status == (int)RecordStatus.Active && m.IsPublish && ids.Contains(m.ProductCategoryID);
             }
             if (currentWidget.IsPageable)
             {
