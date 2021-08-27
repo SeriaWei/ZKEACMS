@@ -41,7 +41,7 @@ namespace ZKEACMS.Mail.Queue
             var result = await ReceiveFromFileAsync();
             if (result != null) return result;
 
-            BlockedEmailQueueReader queueReader = new BlockedEmailQueueReader(this);
+            BlockedEmailQueueReader queueReader = new BlockedEmailQueueReader(this, cancellationToken);
             _queueReaders.Push(queueReader);
             return await queueReader.Task;
         }
