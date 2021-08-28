@@ -1335,7 +1335,7 @@ CREATE TABLE `DBVersion` (
 
 /*!40000 ALTER TABLE `DBVersion` DISABLE KEYS */;
 INSERT INTO `DBVersion` VALUES
-(1,3,4,3,0);
+(1,3,4,4,0);
 /*!40000 ALTER TABLE `DBVersion` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ExtendField`;
@@ -3761,6 +3761,9 @@ INSERT INTO `Language` VALUES
 ('ProductCategory@Url','en-GB','Url','ProductCategory','EntityProperty'),
 ('ProductCategory@Url','en-US','Url','ProductCategory','EntityProperty'),
 ('ProductCategory@Url','zh-CN','英文名','ProductCategory','EntityProperty'),
+('ProductCategoryTag@ProductCategoryId','en-US','Product Category',NULL,NULL),
+('ProductCategoryTag@ProductCategoryId','zh-CN','产品类别',NULL,NULL),
+('ProductCategoryTag@ProductCategoryId','zh-TW','產品類別',NULL,NULL),
 ('ProductCategoryWidget@ActionType','zh-CN','ActionType','ProductCategoryWidget','EntityProperty'),
 ('ProductCategoryWidget@AssemblyName','zh-CN','AssemblyName','ProductCategoryWidget','EntityProperty'),
 ('ProductCategoryWidget@CreateBy','zh-CN','CreateBy','ProductCategoryWidget','EntityProperty'),
