@@ -32,33 +32,36 @@ namespace ZKEACMS.SpiderLog.Service
             return _searchEngineService.Get().FirstOrDefault(m => m.IsMatch(userAgent));
         }
 
-        public void Log(string name, DateTime dateTime, string url)
+        public void Log(string name, string host, string url)
         {
-            var writer = _loggerWriters.GetOrAdd(name, CreateLogWritter);
-            writer.WriteLog(dateTime.ToString("u") + "\t" + url);
+            string key = MakeKey(name, host);
+            Tuple<string, string> nameHost = new Tuple<string, string>(name, host);
+            var writer = _loggerWriters.GetOrAdd(key, (k, targ) => CreateLogWritter(targ.Item1, targ.Item2), nameHost);
+            writer.WriteLog(DateTime.Now.ToString("u") + "\t" + url);
         }
 
-        private LogWritter CreateLogWritter(string name)
+        private LogWritter CreateLogWritter(string name, string host)
         {
             lock (_loggerWritersDic)
             {
                 LogWritter logWritter;
-                if (!_loggerWritersDic.TryGetValue(name, out logWritter))
+                string key = MakeKey(name, host);
+                if (!_loggerWritersDic.TryGetValue(key, out logWritter))
                 {
-                    string filePath = GetLogFilePath(name);
+                    string filePath = GetLogFilePath(name, host);
                     logWritter = new LogWritter(filePath);
-                    _loggerWritersDic.TryAdd(name, logWritter);
+                    _loggerWritersDic.TryAdd(key, logWritter);
                 }
                 return logWritter;
             }
 
         }
 
-        public IEnumerable<SearchEngineVisitLog> GetSearchEngineVisitLogs()
+        public IEnumerable<SearchEngineVisitLog> GetSearchEngineVisitLogs(string host)
         {
             foreach (var item in _searchEngineService.Get())
             {
-                var logFile = new FileInfo(GetLogFilePath(item.Name));
+                var logFile = new FileInfo(GetLogFilePath(item.Name, host));
                 if (logFile.Exists)
                 {
                     yield return new SearchEngineVisitLog
@@ -69,12 +72,12 @@ namespace ZKEACMS.SpiderLog.Service
                 }
             }
         }
-        public string ReadLogContent(string name)
+        public string ReadLogContent(string name, string host)
         {
             var engine = _searchEngineService.Get(name);
             if (engine == null) return string.Empty;
 
-            string filePath = GetLogFilePath(engine.Name);
+            string filePath = GetLogFilePath(engine.Name, host);
             if (!File.Exists(filePath)) return string.Empty;
 
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -90,10 +93,13 @@ namespace ZKEACMS.SpiderLog.Service
         {
             return Path.Combine(PluginBase.GetPath<SpiderLogPlug>(), "Logs");
         }
-        private string GetLogFilePath(string name)
+        private string GetLogFilePath(string name, string host)
         {
-            return Path.Combine(GetLogsFolder(), $"{name}.log");
+            return Path.Combine(GetLogsFolder(), host.ToLower(), $"{name}.log");
         }
-
+        private string MakeKey(string name, string host)
+        {
+            return $"{name}-{host}";
+        }
     }
 }

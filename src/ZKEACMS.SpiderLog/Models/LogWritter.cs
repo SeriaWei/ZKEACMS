@@ -26,6 +26,10 @@ namespace ZKEACMS.SpiderLog.Models
         private void CreateWriter()
         {
             bool append = LogFileSize < MaxFileSize;
+            if (!LogFileInfo.Directory.Exists)
+            {
+                LogFileInfo.Directory.Create();
+            }
             _writer = new StreamWriter(FilePath, append, Encoding.UTF8);
         }
         private void NewWriter()

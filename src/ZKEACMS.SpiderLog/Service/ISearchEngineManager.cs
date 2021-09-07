@@ -14,8 +14,8 @@ namespace ZKEACMS.SpiderLog.Service
     public interface ISearchEngineManager
     {
         SearchEngine Get(string userAgent);
-        void Log(string name, DateTime dateTime, string url);
-        IEnumerable<SearchEngineVisitLog> GetSearchEngineVisitLogs();
-        string ReadLogContent(string name);
+        void Log(string name, string host, string url);
+        IEnumerable<SearchEngineVisitLog> GetSearchEngineVisitLogs(string host);
+        string ReadLogContent(string name, string host);
     }
 }

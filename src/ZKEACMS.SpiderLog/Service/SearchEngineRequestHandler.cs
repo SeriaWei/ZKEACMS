@@ -34,7 +34,7 @@ namespace ZKEACMS.SpiderLog.Service
             var searchEngine = _searchEngineManager.Get(userAgent);
             if (searchEngine == null) return;
 
-            _searchEngineManager.Log(searchEngine.Name, DateTime.Now, _httpContextAccessor.HttpContext.Request.GetAbsoluteUrl());
+            _searchEngineManager.Log(searchEngine.Name, _httpContextAccessor.HttpContext.Request.Host.Host, _httpContextAccessor.HttpContext.Request.GetAbsoluteUrl());
         }
     }
 }

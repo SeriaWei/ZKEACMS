@@ -3,6 +3,7 @@
  * http://www.zkea.net/licenses */
 
 using Easy.Mvc.Authorize;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,16 @@ namespace ZKEACMS.SpiderLog.Controllers
     public class SpiderLogController : Controller
     {
         private readonly ISearchEngineManager _searchEngineManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public SpiderLogController(ISearchEngineManager searchEngineManager)
+        public SpiderLogController(ISearchEngineManager searchEngineManager, IHttpContextAccessor httpContextAccessor)
         {
             _searchEngineManager = searchEngineManager;
+            _httpContextAccessor = httpContextAccessor;
         }
         public IActionResult Read(string Id)
         {
-            return Content(_searchEngineManager.ReadLogContent(Id));
+            return Content(_searchEngineManager.ReadLogContent(Id, _httpContextAccessor.HttpContext.Request.Host.Host));
         }
     }
 }
