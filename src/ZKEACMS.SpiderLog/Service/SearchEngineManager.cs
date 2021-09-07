@@ -95,7 +95,23 @@ namespace ZKEACMS.SpiderLog.Service
         }
         private string GetLogFilePath(string name, string host)
         {
-            return Path.Combine(GetLogsFolder(), host.ToLower(), $"{name}.log");
+            return Path.Combine(GetLogsFolder(), SafePathName(host.ToLower()), $"{SafePathName(name)}.log");
+        }
+        private string SafePathName(string name)
+        {
+            HashSet<char> replacedChar = new HashSet<char>();
+            foreach (var item in Path.GetInvalidFileNameChars())
+            {
+                name = name.Replace(item, '-');
+                replacedChar.Add(item);
+            }
+            foreach (var item in Path.GetInvalidPathChars())
+            {
+                if (replacedChar.Contains(item)) continue;
+
+                name = name.Replace(item, '-');
+            }
+            return name;
         }
         private string MakeKey(string name, string host)
         {
