@@ -69,12 +69,29 @@ namespace ZKEACMS.Controllers
         [ViewDataZones]
         public ActionResult Create(QueryContext context)
         {
-            var template = _widgetTemplateService.Get(context.WidgetTemplateID);
-            var widget = template.ToWidget(HttpContext.RequestServices);
+            WidgetBase widget = null;
+            IWidgetPartDriver widgetPartDriver = null;
+            if (context.WidgetTemplateID.IsNotNullAndWhiteSpace())
+            {
+                var template = _widgetTemplateService.Get(context.WidgetTemplateID);
+                widget = template.ToWidget(HttpContext.RequestServices);
+            }
+            else if (context.WidgetID.IsNotNullAndWhiteSpace())
+            {
+                var widgetBasePart = _widgetService.Get(context.WidgetID);
+                widgetPartDriver = _widgetActivator.Create(widgetBasePart);
+                widget = widgetPartDriver.GetWidget(widgetBasePart.ToWidgetBase());
+                widget.IsTemplate = false;
+                widget.IsSystem = false;
+                widget.Thumbnail = null;
+                widget.RuleID = null;
+            }
+            if (widget == null) return BadRequest();
+
             widget.PageID = context.PageID;
             widget.LayoutID = context.LayoutID;
             widget.ZoneID = context.ZoneID;
-            widget.FormView = template.FormView;
+            widget.RuleID = context.RuleID;
             if (widget.PageID.IsNotNullAndWhiteSpace())
             {
                 widget.Position = _widgetService.GetAllByPage(_pageService.Get(context.PageID)).Count(m => m.ZoneID == context.ZoneID) + 1;
@@ -85,10 +102,15 @@ namespace ZKEACMS.Controllers
             }
             SetDataSource(widget);
             ViewBag.ReturnUrl = context.ReturnUrl;
-            if (template.FormView.IsNotNullAndWhiteSpace())
+            if (widgetPartDriver != null)
             {
-                return View(template.FormView, widget);
+                widgetPartDriver.AddWidget(widget);
+                return RedirectToAction("Edit", new { ID = widget.ID, ReturnUrl = context.ReturnUrl });
             }
+
+            if (widget.FormView.IsNotNullAndWhiteSpace())
+                return View(widget.FormView, widget);
+
             return View(widget);
         }
         [HttpPost, ViewDataZones]
