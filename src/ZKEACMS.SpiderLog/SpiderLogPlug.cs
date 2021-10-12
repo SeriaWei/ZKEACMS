@@ -52,7 +52,7 @@ namespace ZKEACMS.SpiderLog
         {
             serviceCollection.TryAddSingleton<ISearchEngineService, SearchEngineService>();
             serviceCollection.TryAddScoped<ISearchEngineManager, SearchEngineManager>();
-            serviceCollection.TryAddSingleton<ISpiderLogDatabase, SpiderLogDatabase>();
+            serviceCollection.TryAddSingleton<ISpiderLogData, SpiderLogData>();
             serviceCollection.AddTransient<IDashboardPartDriveService, DashboardSpiderLogService>();
 
             serviceCollection.RegistEvent<SearchEngineRequestHandler>(Event.Events.OnPageExecuted);

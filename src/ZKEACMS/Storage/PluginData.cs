@@ -15,7 +15,7 @@ namespace ZKEACMS.Storage
     public abstract class PluginData<T> : IDisposable where T : PluginBase
     {
         private LiteDatabase Database;
-        PluginData()
+        public PluginData()
         {
             Database = new LiteDatabase(Path.Combine(PluginBase.GetPath<T>(), "Data.db"));
         }

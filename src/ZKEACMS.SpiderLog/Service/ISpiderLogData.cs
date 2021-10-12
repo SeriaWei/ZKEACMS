@@ -7,7 +7,7 @@ using ZKEACMS.SpiderLog.Models;
 
 namespace ZKEACMS.SpiderLog.Service
 {
-    public interface ISpiderLogDatabase
+    public interface ISpiderLogData
     {
         IEnumerable<SearchEngineVisitLog> GetAll(string host, string name);
         SearchEngineVisitLog GetLastVisit(string host, string name);

@@ -20,9 +20,9 @@ namespace ZKEACMS.SpiderLog.Service
     public class SearchEngineManager : ISearchEngineManager
     {
         private readonly ISearchEngineService _searchEngineService;
-        private readonly ISpiderLogDatabase _spiderLogDatabase;
+        private readonly ISpiderLogData _spiderLogDatabase;
 
-        public SearchEngineManager(ISearchEngineService searchEngineService, ISpiderLogDatabase spiderLogDatabase)
+        public SearchEngineManager(ISearchEngineService searchEngineService, ISpiderLogData spiderLogDatabase)
         {
             _searchEngineService = searchEngineService;
             _spiderLogDatabase = spiderLogDatabase;

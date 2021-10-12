@@ -12,7 +12,7 @@ using ZKEACMS.Storage;
 
 namespace ZKEACMS.SpiderLog.Service
 {
-    public class SpiderLogDatabase : PluginData<SpiderLogPlug>, ISpiderLogDatabase
+    public class SpiderLogData : PluginData<SpiderLogPlug>, ISpiderLogData
     {
         public void WriteLog(SearchEngineVisitLog visitLog)
         {
