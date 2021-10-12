@@ -26,7 +26,7 @@ namespace ZKEACMS.SpiderLog.Service
 
         public DashboardPart Create()
         {
-            var logs = _searchEngineManager.GetSearchEngineVisitLogs(_httpContextAccessor.HttpContext.Request.Host.Host).OrderByDescending(m => m.LastVisitAt).ToList();
+            var logs = _searchEngineManager.GetSearchEngineVisitLogs(_httpContextAccessor.HttpContext.Request.Host.Host).OrderByDescending(m => m.VisitAt).ToList();
             if (logs.Count == 0) return null;
 
             return new DashboardPart("Dashboard.SpiderLog", logs, 30);

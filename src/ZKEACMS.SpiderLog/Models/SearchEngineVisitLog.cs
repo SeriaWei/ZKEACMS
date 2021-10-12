@@ -13,6 +13,8 @@ namespace ZKEACMS.SpiderLog.Models
     public class SearchEngineVisitLog
     {
         public string Name { get; set; }
-        public DateTime LastVisitAt { get; set; }
+        public string Host { get; set; }
+        public string Url { get; set; }
+        public DateTime VisitAt { get; set; }
     }
 }

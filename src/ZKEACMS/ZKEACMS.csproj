@@ -30,6 +30,7 @@
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.37" />
     <PackageReference Include="HtmlSanitizer" Version="6.0.441" />
+    <PackageReference Include="LiteDB" Version="5.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.10" />
