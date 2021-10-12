@@ -3,17 +3,23 @@
  * http://www.zkea.net/licenses */
 
 
+using Easy.Notification;
+using LiteDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Easy.Notification
+namespace ZKEACMS.Mail.Queue
 {
-    public interface IEmailNotification
+    public class EmailContextQueueItem : EmailContext
     {
-        void Send(EmailMessage email);
-        Task SendAsync(EmailContext emailContext);
+        public EmailContextQueueItem() : base(null, null)
+        {
+
+        }
+
+        public ObjectId Id { get; set; }
     }
 }

@@ -11,6 +11,7 @@ using Easy.Extend;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Easy.Notification.Queue;
+using System.Threading.Tasks;
 
 namespace Easy.Notification
 {
@@ -57,14 +58,14 @@ namespace Easy.Notification
             }
         }
 
-        public void Send(EmailContext emailContext)
+        public async Task SendAsync(EmailContext emailContext)
         {
             MailMessage mailMessage = ConvertToMailMessage(emailContext.EmailMessage);
             SmtpClient client = GetSmtpClient(emailContext.SmtpSetting);
 
             try
             {
-                client.Send(mailMessage);
+                await client.SendMailAsync(mailMessage);
             }
             finally
             {

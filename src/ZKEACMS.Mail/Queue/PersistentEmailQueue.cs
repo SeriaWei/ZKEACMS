@@ -4,6 +4,7 @@
 
 using Easy.Notification;
 using Easy.Notification.Queue;
+using LiteDB;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,30 +13,18 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using ZKEACMS.Storage;
 
 namespace ZKEACMS.Mail.Queue
 {
-    public class PersistentEmailQueue : IEmailQueue
+    public class PersistentEmailQueue : PluginData<MailPlug>, IEmailQueue
     {
-        private Stack<string> _stack = new Stack<string>();
         private Stack<BlockedEmailQueueReader> _queueReaders = new Stack<BlockedEmailQueueReader>();
-        private const string Folder = "EmailQueue";
-        public PersistentEmailQueue()
-        {
-            if (!Directory.Exists(Folder))
-            {
-                Directory.CreateDirectory(Folder);
-            }
-            string[] files = Directory.GetFiles(Folder, "*.json");
-            if (files.Length > 0)
-            {
-                foreach (var item in files)
-                {
-                    _stack.Push(Path.GetFileName(item));
-                }
-            }
-        }
 
+        private ILiteCollection<T> GetMailCollection<T>() where T : EmailContext
+        {
+            return GetCollection<T>("Emails");
+        }
         public async Task<EmailContext> Receive(CancellationToken cancellationToken = default)
         {
             var result = await ReceiveFromFileAsync();
@@ -48,23 +37,19 @@ namespace ZKEACMS.Mail.Queue
 
         public async Task<EmailContext> ReceiveFromFileAsync()
         {
-            string path;
-            lock (_stack)
-            {
-                if (_stack.Count == 0) return null;
+            var collection = GetMailCollection<EmailContextQueueItem>();
+            if (collection.Count() == 0) return null;
 
-                string fileName = _stack.Pop();
-                path = Path.Combine(Folder, fileName);
-                if (!File.Exists(path)) return null;
-            }
-            string fileJson = await File.ReadAllTextAsync(path, Encoding.UTF8);
-            File.Delete(path);
-            return JsonSerializer.Deserialize<EmailContext>(fileJson);
+            var result = collection.Find(m => m.RetryCount < 10, 0, 1).FirstOrDefault();
+            if (result == null) return null;
+
+            collection.Delete(result.Id);
+            return await Task.FromResult(result);
         }
 
         public async Task Send(EmailContext emailMessage)
         {
-            await SaveToFile(emailMessage);
+            GetMailCollection<EmailContext>().Insert(emailMessage);
             BlockedEmailQueueReader reader;
             lock (_queueReaders)
             {
@@ -77,17 +62,6 @@ namespace ZKEACMS.Mail.Queue
                 {
                     _queueReaders.Push(reader);
                 }
-            }
-        }
-
-        private async Task SaveToFile(EmailContext emailMessage)
-        {
-            string fileName = $"{Guid.NewGuid()}.json";
-            byte[] data = JsonSerializer.SerializeToUtf8Bytes(emailMessage);
-            await File.WriteAllBytesAsync(Path.Combine(Folder, fileName), data);
-            lock (_stack)
-            {
-                _stack.Push(fileName);
             }
         }
     }
