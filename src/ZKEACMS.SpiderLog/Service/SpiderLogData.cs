@@ -16,7 +16,10 @@ namespace ZKEACMS.SpiderLog.Service
     {
         public void WriteLog(SearchEngineVisitLog visitLog)
         {
-            GetCollection<SearchEngineVisitLog>(visitLog.Name).Insert(visitLog);
+            var collection = GetCollection<SearchEngineVisitLog>(visitLog.Name);
+            collection.EnsureIndex(m => m.Host);
+            collection.EnsureIndex(m => m.VisitAt);
+            collection.Insert(visitLog);
         }
         public SearchEngineVisitLog GetLastVisit(string host, string name)
         {
