@@ -81,7 +81,10 @@ namespace ZKEACMS.Theme
 
         public void SetPreview(string id)
         {
-            _cookie.SetValue(PreViewCookieName, id, true, true);
+            var theme = GetAllThemes().FirstOrDefault(m => m.ID.Equals(id, StringComparison.OrdinalIgnoreCase));
+            if (theme == null) throw new Exception("Theme not found.");
+
+            _cookie.SetValue(PreViewCookieName, theme.ID, true, true);
         }
 
         public void CancelPreview()
