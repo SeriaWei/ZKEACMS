@@ -2,6 +2,8 @@ name: Docker
 on:
   push:
     branches: [ master ]
+  release:
+    types: [published, created, edited]
 
 jobs:
   build:
@@ -13,7 +15,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        
+      - name: Docker tag from github.ref
+        uses: yuya-takeyama/docker-tag-from-github-ref-action@v1.0.0
       - name: Log into registry
         uses: docker/login-action@v1
         with:
@@ -24,4 +27,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: zkeasoft/zkeacms:latest
+          tags: zkeasoft/zkeacms:${{ steps.docker-tag.outputs.tag }}
