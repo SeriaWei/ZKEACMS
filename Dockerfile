@@ -16,7 +16,7 @@ RUN sqlite-exec -d /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/Database
 RUN cp -f /build/Database/SQLite/appsettings.json /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/appsettings.json
 
 # Build runtime image
-FROM zkeasoft/cms-runtime:5.0
+FROM zkeasoft/cms-runtime:5.11
 WORKDIR /zkeacms
 COPY --from=builder /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput .
 EXPOSE 80
