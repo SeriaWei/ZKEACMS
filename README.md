@@ -1,4 +1,6 @@
-﻿# ZKEACMS Build With .Net 5
+[![Auto Build](https://github.com/SeriaWei/ZKEACMS/actions/workflows/build.yml/badge.svg)](https://github.com/SeriaWei/ZKEACMS/actions/workflows/build.yml)
+
+# ZKEACMS Build With .Net 5
 
 ZKEACMS is a visual design, **WYSIWYG** Content Management System.
 
