@@ -25,9 +25,9 @@ namespace ZKEACMS.SpiderLog.Controllers
             _searchEngineManager = searchEngineManager;
             _httpContextAccessor = httpContextAccessor;
         }
-        public IActionResult Read(string Id)
+        public IActionResult VisitLog(string Id)
         {
-            return Content(_searchEngineManager.ReadLogContent(Id, _httpContextAccessor.HttpContext.Request.Host.Host));
+            return View(_searchEngineManager.GetVisitLogs(Id, _httpContextAccessor.HttpContext.Request.Host.Host));
         }
     }
 }

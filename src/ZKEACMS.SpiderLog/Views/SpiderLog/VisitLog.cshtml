@@ -1,0 +1,26 @@
+@using ZKEACMS.SpiderLog.Models
+@model IEnumerable<SearchEngineVisitLog>
+@{
+    var first = Model.FirstOrDefault();
+}
+
+@if (first != null)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">@first.Name</div>
+        <table class="panel-body table table-bordered table-hover">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="@item.Url" target="_blank">@item.Url</a>
+                    </td>
+                    <td>
+                        @item.VisitAt.ToString("yyyy/MM/dd HH:mm:ss")
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+

@@ -44,8 +44,7 @@ namespace ZKEACMS.SpiderLog.Service
             });
         }
 
-
-        public IEnumerable<SearchEngineVisitLog> GetSearchEngineVisitLogs(string host)
+        public IEnumerable<SearchEngineVisitLog> GetLastVisitLogs(string host)
         {
             foreach (var item in _searchEngineService.Get())
             {
@@ -56,17 +55,13 @@ namespace ZKEACMS.SpiderLog.Service
                 }
             }
         }
-        public string ReadLogContent(string name, string host)
+
+        public IEnumerable<SearchEngineVisitLog> GetVisitLogs(string name, string host)
         {
             var engine = _searchEngineService.Get(name);
-            if (engine == null) return string.Empty;
+            if (engine == null) return Enumerable.Empty<SearchEngineVisitLog>();
 
-            StringBuilder builder = new StringBuilder();
-            foreach (var item in _spiderLogDatabase.GetAll(host, name))
-            {
-                builder.AppendLine("{0}\t{1}".FormatWith(item.Url,item.VisitAt.ToString("u")));
-            }            
-            return builder.ToString();
+            return _spiderLogDatabase.GetAll(host, name);
         }
     }
 }

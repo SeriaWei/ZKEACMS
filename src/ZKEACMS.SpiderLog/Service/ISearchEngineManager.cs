@@ -15,7 +15,7 @@ namespace ZKEACMS.SpiderLog.Service
     {
         SearchEngine Get(string userAgent);
         void Log(string name, string host, string url);
-        IEnumerable<SearchEngineVisitLog> GetSearchEngineVisitLogs(string host);
-        string ReadLogContent(string name, string host);
+        IEnumerable<SearchEngineVisitLog> GetLastVisitLogs(string host);
+        IEnumerable<SearchEngineVisitLog> GetVisitLogs(string name, string host);
     }
 }
