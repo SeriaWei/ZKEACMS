@@ -41,7 +41,8 @@ namespace ZKEACMS.SpiderLog.Service
                 .Where(m => m.Host == host)
                 .OrderByDescending(m => m.VisitAt)
                 .Limit(1000)
-                .ToEnumerable();
+                .ToEnumerable()
+                .ToArray();
         }
     }
 }

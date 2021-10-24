@@ -2,6 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using LiteDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace ZKEACMS.SpiderLog.Models
 {
     public class SearchEngineVisitLog
     {
+        public ObjectId Id { get; set; }
         public string Name { get; set; }
         public string Host { get; set; }
         public string Url { get; set; }
