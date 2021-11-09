@@ -162,3 +162,4 @@ node_modules
 
 # ZKEACMS App Data
 App_Data/
+*.db
