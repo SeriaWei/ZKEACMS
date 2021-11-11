@@ -14,7 +14,7 @@
     <Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup> 
   
   <ItemGroup>
