@@ -1,22 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <AssemblyName>ZKEACMS.Message</AssemblyName>
-    <PackageId>ZKEACMS.Message</PackageId>
-    <Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>
-    <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>CMS.Message</PackageTags>
-    <Description>Message plugin for ZKEACMS</Description>
-    <Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="CommonMark.NET" Version="0.15.1" />
-    <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
-  </ItemGroup>
-  
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+		<AssemblyName>ZKEACMS.Message</AssemblyName>
+		<PackageId>ZKEACMS.Message</PackageId>
+		<Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>
+		<PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/SeriaWei/ZKEACMS</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>CMS.Message</PackageTags>
+		<Description>Message plugin for ZKEACMS</Description>
+		<Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommonMark.NET" Version="0.15.1" />
+		<ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" >
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</ProjectReference>
+	</ItemGroup>
+
 </Project>

@@ -20,18 +20,10 @@ namespace Easy.Mvc.Plugin
         public string BasePath { get; set; }
         public bool TryResolveAssemblyPaths(CompilationLibrary library, List<string> assemblies)
         {
-            List<string> files = new List<string>();
-            foreach (var item in library.Assemblies)
+            string filePath = Path.Combine(BasePath, library.Name + ".dll");
+            if (File.Exists(filePath))
             {
-                string filePath = Path.Combine(BasePath, Path.GetFileName(item));
-                if (File.Exists(filePath))
-                {
-                    files.Add(filePath);
-                }
-            }
-            if (files.Count == library.Assemblies.Count)
-            {
-                assemblies.AddRange(files);
+                assemblies.Add(filePath);
                 return true;
             }
             return false;

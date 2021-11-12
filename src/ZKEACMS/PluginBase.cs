@@ -269,7 +269,7 @@ namespace ZKEACMS
                 }
             }
             var knownIdentifiers = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            var attributes = GetViewAttributesLegacy(Assembly);
+            var attributes = new RazorCompiledItemLoader().LoadItems(Assembly);
             foreach (var item in attributes)
             {
                 var descriptor = new CompiledViewDescriptor(item);
@@ -284,44 +284,6 @@ namespace ZKEACMS
                     feature.ViewDescriptors.Add(descriptor);
                 }
             }
-        }
-
-
-        protected virtual IEnumerable<RazorCompiledItem> GetViewAttributesLegacy(Assembly assembly)
-        {
-            if (assembly == null)
-            {
-                throw new ArgumentNullException(nameof(assembly));
-            }
-
-            var featureAssembly = GetViewAssembly(assembly);
-            if (featureAssembly != null)
-            {
-                return new RazorCompiledItemLoader().LoadItems(featureAssembly);
-            }
-
-            return Enumerable.Empty<RazorCompiledItem>();
-        }
-
-        protected virtual Assembly GetViewAssembly(Assembly assembly)
-        {
-            if (assembly.IsDynamic || string.IsNullOrEmpty(assembly.Location))
-            {
-                return null;
-            }
-            string[] viewAssemblySuffixes = new string[] { ".Views", ".PrecompiledViews" };
-            for (var i = 0; i < viewAssemblySuffixes.Length; i++)
-            {
-                var fileName = $"{assembly.GetName().Name}{viewAssemblySuffixes[i]}.dll";
-                var filePath = Path.Combine(Path.GetDirectoryName(assembly.Location), fileName);
-
-                if (File.Exists(filePath))
-                {
-                    return Assembly.LoadFile(filePath);
-                }
-            }
-
-            return null;
         }
         #endregion
     }

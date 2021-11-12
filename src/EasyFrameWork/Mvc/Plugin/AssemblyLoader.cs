@@ -85,7 +85,9 @@ namespace Easy.Mvc.Plugin
                     }
                 }
             }
-            List<CompilationLibrary> dependencyCompilationLibrary = DependencyContext.Load(assembly)
+            var dependencyContext = DependencyContext.Load(assembly);
+
+            List<CompilationLibrary> dependencyCompilationLibrary = dependencyContext
                 .CompileLibraries.Where(de => PluginInfos.All(m => m.Name != de.Name) && de.Name != currentName && !CompileLibraries.Contains(de.Name))
                 .ToList();
 
@@ -93,7 +95,6 @@ namespace Easy.Mvc.Plugin
             {
                 LoadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToDictionary(m => m.GetName().Name);
             }
-
             dependencyCompilationLibrary.Each(libaray =>
             {
                 foreach (var item in libaray.ResolveReferencePaths(new DependencyAssemblyResolver(Path.GetDirectoryName(assembly.Location))))
