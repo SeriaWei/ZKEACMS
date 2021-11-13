@@ -56,8 +56,7 @@ namespace ZKEACMS
                 {
                     return null;
                 }
-            })
-            .SetCompatibilityVersion(CompatibilityVersion.Latest);
+            });
 
             services.AddRazorPages();
             services.AddHealthChecks();
