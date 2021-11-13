@@ -17,7 +17,7 @@ namespace ZKEACMS.Captcha
         public static void ConfigCaptcha(this IServiceCollection services)
         {
             services.AddScoped<IImageCaptchaService, ImageCaptchaService>();
-            services.AddScoped<IImageGenerator, DefaultImageGenerator>();
+            services.AddSingleton<IImageGenerator, DefaultImageGenerator>();
             services.AddScoped<ICaptchaCodeStorageProvider, SessionCaptchaCodeStorageProvider>();
         }
     }

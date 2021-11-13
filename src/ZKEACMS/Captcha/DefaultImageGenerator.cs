@@ -14,12 +14,24 @@ using System.Numerics;
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Formats.Jpeg;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ZKEACMS.Captcha
 {
     public class DefaultImageGenerator : IImageGenerator
     {
-        public string[] FontFamilies { get; set; } = new string[] { "Arial", "Verdana", "Times New Roman" };
+        public DefaultImageGenerator()
+        {
+            FontFamily[] fontFamilies = SystemFonts.FamiliesByCulture(new System.Globalization.CultureInfo("en-US")).ToArray();
+            List<string> familyNames = new List<string>();
+            for (int i = 0; i < fontFamilies.Length && i < 10; i++)
+            {
+                familyNames.Add(fontFamilies[i].Name);
+            }
+            FontFamilies = familyNames.ToArray();
+        }
+        public string[] FontFamilies { get; set; }
         public Color[] TextColor { get; set; } = new Color[] { Color.Blue, Color.Black, Color.Red, Color.Brown, Color.Gray, Color.Green };
         public Color[] DrawLinesColor { get; set; } = new Color[] { Color.Blue, Color.Black, Color.Red, Color.Brown, Color.Gray, Color.Green };
         public float MinLineThickness { get; set; } = 0.7f;
@@ -47,7 +59,9 @@ namespace ZKEACMS.Captcha
                 imgText.Mutate(ctx => ctx.BackgroundColor(Color.Transparent));
 
                 string fontName = FontFamilies[random.Next(0, FontFamilies.Length)];
+
                 Font font = SystemFonts.CreateFont(fontName, FontSize, FontStyle);
+
 
                 foreach (char c in text)
                 {
