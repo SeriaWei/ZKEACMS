@@ -18,7 +18,7 @@ namespace Easy.Mvc.Plugin
         public Assembly Assembly { get; set; }
         public string CurrentPluginPath { get; set; }
         public IWebHostEnvironment HostingEnvironment { get; set; }
-        public List<CompilationLibrary> Dependency { get; set; }
+        public List<Assembly> Dependencies { get; set; }
 
         public virtual void ConfigureApplication(IApplicationBuilder app, IWebHostEnvironment env)
         {

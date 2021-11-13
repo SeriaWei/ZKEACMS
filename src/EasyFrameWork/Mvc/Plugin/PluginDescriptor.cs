@@ -14,7 +14,7 @@ namespace Easy.Mvc.Plugin
     {
         public Type PluginType { get; set; }
         public Assembly Assembly { get; set; }
-        public List<CompilationLibrary> Dependency { get; set; }
+        public List<Assembly> Dependencies { get; set; }
         public string CurrentPluginPath { get; set; }
     }
 }

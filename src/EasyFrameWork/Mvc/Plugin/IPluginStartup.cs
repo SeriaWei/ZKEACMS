@@ -17,7 +17,7 @@ namespace Easy.Mvc.Plugin
     public interface IPluginStartup
     {
         Assembly Assembly { get; set; }
-        List<CompilationLibrary> Dependency { get; set; }
+        List<Assembly> Dependencies { get; set; }
         string CurrentPluginPath { get; set; }
         void Setup(params object[] args);
         void ConfigureServices(IServiceCollection services);

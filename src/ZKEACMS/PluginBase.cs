@@ -67,7 +67,7 @@ namespace ZKEACMS
             get;
             set;
         }
-        public List<CompilationLibrary> Dependency { get; set; }
+        public List<Assembly> Dependencies { get; set; }
         public IEnumerable<TypeInfo> Types => Assembly.DefinedTypes;
         public override string Name => Assembly.GetName().Name;
 
@@ -242,16 +242,14 @@ namespace ZKEACMS
         {
             if (Assembly.IsDynamic)
             {
-                return Enumerable.Empty<string>();
+                yield break;
             }
 
-            if (Dependency.Count > 0)
+            yield return Assembly.Location;
+            foreach (var item in Dependencies)
             {
-                return Dependency.SelectMany(library => library.ResolveReferencePaths(new DependencyAssemblyResolver(Path.GetDirectoryName(Assembly.Location))))
-                    .Concat(new[] { Assembly.Location });
+                yield return item.Location;
             }
-
-            return new[] { Assembly.Location };
         }
         #region Viewfeature
         public virtual void PopulateFeature(IEnumerable<ApplicationPart> parts, ViewsFeature feature)
