@@ -16,29 +16,30 @@ using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ZKEACMS.Captcha
 {
     public class DefaultImageGenerator : IImageGenerator
     {
-        public DefaultImageGenerator()
+        public DefaultImageGenerator(IWebHostEnvironment webHostEnvironment)
         {
-            FontFamily[] fontFamilies = SystemFonts.FamiliesByCulture(new System.Globalization.CultureInfo("en-US")).ToArray();
-            List<string> familyNames = new List<string>();
-            for (int i = 0; i < fontFamilies.Length && i < 10; i++)
+            string fontDir = Path.Combine(webHostEnvironment.WebRootPath, "fonts");
+            var fontCollection = new FontCollection();
+            foreach (var item in Directory.GetFiles(fontDir, "*.ttf"))
             {
-                familyNames.Add(fontFamilies[i].Name);
+                fontCollection.Install(item);
             }
-            FontFamilies = familyNames.ToArray();
+            FontFamilies = fontCollection.Families.ToArray();
         }
-        public string[] FontFamilies { get; set; }
+        public FontFamily[] FontFamilies { get; set; }
         public Color[] TextColor { get; set; } = new Color[] { Color.Blue, Color.Black, Color.Red, Color.Brown, Color.Gray, Color.Green };
         public Color[] DrawLinesColor { get; set; } = new Color[] { Color.Blue, Color.Black, Color.Red, Color.Brown, Color.Gray, Color.Green };
         public float MinLineThickness { get; set; } = 0.7f;
         public float MaxLineThickness { get; set; } = 2.0f;
         public ushort Width { get; set; } = 200;
         public ushort Height { get; set; } = 70;
-        public ushort NoiseRate { get; set; } = 600;
+        public ushort NoiseRate { get; set; } = 300;
         public Color[] NoiseRateColor { get; set; } = new Color[] { Color.Red, Color.Blue, Color.Green, Color.Brown, Color.Gray };
         public byte FontSize { get; set; } = 40;
         public FontStyle FontStyle { get; set; } = FontStyle.Regular;
@@ -57,11 +58,8 @@ namespace ZKEACMS.Captcha
                 Random random = new Random();
                 byte startWith = (byte)random.Next(5, 10);
                 imgText.Mutate(ctx => ctx.BackgroundColor(Color.Transparent));
-
-                string fontName = FontFamilies[random.Next(0, FontFamilies.Length)];
-
-                Font font = SystemFonts.CreateFont(fontName, FontSize, FontStyle);
-
+                FontFamily fontFamily = FontFamilies[random.Next(0, FontFamilies.Length)];
+                Font font = new Font(fontFamily, FontSize, FontStyle);
 
                 foreach (char c in text)
                 {

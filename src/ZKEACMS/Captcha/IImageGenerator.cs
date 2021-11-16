@@ -11,7 +11,7 @@ namespace ZKEACMS.Captcha
 {
     public interface IImageGenerator
     {
-        string[] FontFamilies { get; set; }
+        FontFamily[] FontFamilies { get; set; }
         Color[] TextColor { get; set; }
         Color[] DrawLinesColor { get; set; }
         float MinLineThickness { get; set; }
