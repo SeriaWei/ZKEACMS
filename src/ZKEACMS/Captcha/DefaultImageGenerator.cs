@@ -33,15 +33,15 @@ namespace ZKEACMS.Captcha
             FontFamilies = fontCollection.Families.ToArray();
         }
         public FontFamily[] FontFamilies { get; set; }
-        public Color[] TextColor { get; set; } = new Color[] { Color.Blue, Color.Black, Color.Red, Color.Brown, Color.Gray, Color.Green };
-        public Color[] DrawLinesColor { get; set; } = new Color[] { Color.Blue, Color.Black, Color.Red, Color.Brown, Color.Gray, Color.Green };
+        public Color[] TextColor { get; set; } = new Color[] { Color.Blue, Color.Black, Color.Red, Color.Brown, Color.Green };
+        public Color[] DrawLinesColor { get; set; } = new Color[] { Color.LightBlue, Color.LightCoral, Color.LightCyan, Color.LightGray, Color.LightPink, Color.LightSalmon, Color.LightSeaGreen, Color.LightSkyBlue, Color.LightSlateGray, Color.LightSteelBlue };
         public float MinLineThickness { get; set; } = 0.7f;
         public float MaxLineThickness { get; set; } = 2.0f;
         public ushort Width { get; set; } = 200;
         public ushort Height { get; set; } = 70;
         public ushort NoiseRate { get; set; } = 300;
-        public Color[] NoiseRateColor { get; set; } = new Color[] { Color.Red, Color.Blue, Color.Green, Color.Brown, Color.Gray };
-        public byte FontSize { get; set; } = 40;
+        public Color[] NoiseRateColor { get; set; } = new Color[] { Color.LightBlue, Color.LightCoral, Color.LightCyan, Color.LightGray, Color.LightPink, Color.LightSalmon, Color.LightSeaGreen, Color.LightSkyBlue, Color.LightSlateGray, Color.LightSteelBlue };
+        public byte FontSize { get; set; } = 45;
         public FontStyle FontStyle { get; set; } = FontStyle.Regular;
         public EncoderTypes EncoderType { get; set; } = EncoderTypes.Jpeg;
         public IImageEncoder Encoder { get { return GetEncoder(EncoderType); } }
@@ -79,7 +79,7 @@ namespace ZKEACMS.Captcha
                 {
                     int x0 = random.Next(0, random.Next(0, 30));
                     int y0 = random.Next(10, img.Height);
-                    int x1 = random.Next(70, img.Width);
+                    int x1 = random.Next(img.Width / 2, img.Width);
                     int y1 = random.Next(0, img.Height);
                     img.Mutate(ctx =>
                             ctx.DrawLines(TextColor[random.Next(0, TextColor.Length)],
