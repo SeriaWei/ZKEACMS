@@ -134,9 +134,9 @@ namespace Easy
             builder.UseMiddleware<PluginStaticFileMiddleware>();
             return builder;
         }
-        public static void UseFileLog(this ILoggerFactory loggerFactory, IWebHostEnvironment env, IHttpContextAccessor httpContextAccessor)
+        public static void AddFileLog(this ILoggingBuilder loggingBuilder)
         {
-            loggerFactory.AddProvider(new FileLoggerProvider(env, httpContextAccessor));
+            loggingBuilder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, FileLoggerProvider>());
         }
     }
 }
