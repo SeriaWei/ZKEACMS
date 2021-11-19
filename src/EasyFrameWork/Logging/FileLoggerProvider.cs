@@ -5,24 +5,21 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Easy.Logging
 {
     public sealed class FileLoggerProvider : ILoggerProvider
     {
-        private readonly IWebHostEnvironment _environment;
+        private readonly string _contentRootPath;
         private readonly IHttpContextAccessor _httpContextAccessor;
         public FileLoggerProvider(IWebHostEnvironment environment, IHttpContextAccessor httpContextAccessor)
         {
-            _environment = environment;
+            _contentRootPath = environment.ContentRootPath;
             _httpContextAccessor = httpContextAccessor;
         }
         public ILogger CreateLogger(string categoryName)
         {
-            return new FileLogger(_environment, _httpContextAccessor);
+            return new FileLogger(_httpContextAccessor, _contentRootPath, categoryName);
         }
 
         public void Dispose()
