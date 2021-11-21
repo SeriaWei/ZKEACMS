@@ -230,7 +230,7 @@ namespace ZKEACMS.Controllers
         }
 
         [HttpPost]
-        public IActionResult DownLoadExternalImage(string[] images)
+        public async Task<IActionResult> DownLoadExternalImage(string[] images)
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
 
@@ -257,7 +257,8 @@ namespace ZKEACMS.Controllers
                             }
                             else
                             {
-                                string url = _storage.SaveFile(_webClient.OpenRead(item), fileName);
+                                Stream requestStream = await _webClient.GetStreamAsync(item);
+                                string url = _storage.SaveFile(requestStream, fileName);
                                 Service.Add(new MediaEntity
                                 {
                                     ParentID = parentId,
@@ -292,15 +293,9 @@ namespace ZKEACMS.Controllers
             return sBuilder.ToString();
         }
 
-        public IActionResult Proxy(string url)
+        public async Task<IActionResult> Proxy(string url)
         {
-            return File(_webClient.OpenRead(url), "image/jpeg");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            _webClient.Dispose();
-            base.Dispose(disposing);
+            return File(await _webClient.GetStreamAsync(url), "image/jpeg");
         }
     }
 }

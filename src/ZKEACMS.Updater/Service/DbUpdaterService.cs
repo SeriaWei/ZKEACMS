@@ -230,7 +230,8 @@ namespace ZKEACMS.Updater.Service
                 _logger.LogInformation("Getting release versions. {0}", source);
                 try
                 {
-                    releaseVersion = JsonSerializer.Deserialize<ReleaseVersion>(_webClient.DownloadString(source));
+                    string result = _webClient.DownloadStringAsync(source).GetAwaiter().GetResult();
+                    releaseVersion = JsonSerializer.Deserialize<ReleaseVersion>(result);
                     break;
                 }
                 catch (Exception ex)
@@ -294,7 +295,7 @@ namespace ZKEACMS.Updater.Service
 
             string packageUrl = $"{availableSource}/{versionInfo.Resolved}";
             _logger.LogInformation("Getting update scripts for version {0} from {1}", versionInfo.Version, packageUrl);
-            byte[] packageByte = _webClient.DownloadData(packageUrl);
+            byte[] packageByte = _webClient.DownloadDataAsync(packageUrl).GetAwaiter().GetResult();
             try
             {
                 string file = Path.Combine(PluginBase.GetPath<UpdaterPlug>(), "DbScripts", $"package.{versionInfo.Version}.zip");
