@@ -22,9 +22,10 @@ namespace ZKEACMS.Common.Service
     {
         private readonly IThemeService _themeService;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly string _themeName = "themes";
-        private readonly string _viewName = "Views";
+        private readonly string _themeFolderName = "themes";
+        private readonly string _viewFolderName = "Views";
         private readonly string _cshtml = "*.cshtml";
+        private readonly string _viewImportsFileName = "_ViewImports.cshtml";
         private readonly string _templateFilesCacheKey = "TemplateFilesCacheKey";
         private readonly ICacheManager<List<TemplateFile>> _cacheMgr;
         public TemplateService(IWebHostEnvironment hostingEnvironment, IThemeService themeService, ICacheManager<List<TemplateFile>> cacheManager)
@@ -41,7 +42,7 @@ namespace ZKEACMS.Common.Service
             {
                 foreach (var item in themes)
                 {
-                    string path = _webHostEnvironment.MapWebRootPath(_themeName, item.ID);
+                    string path = _webHostEnvironment.MapWebRootPath(_themeFolderName, item.ID);
                     if (ExtFile.ExistDirectory(path))
                     {
                         list.Add(item.ID);
@@ -63,7 +64,7 @@ namespace ZKEACMS.Common.Service
         {
             var theme = _themeService.GetCurrentTheme();
             string themeName = theme?.ID;
-            string[] paths = new string[] { "~", _themeName, themeName, _viewName, "" };
+            string[] paths = new string[] { "~", _themeFolderName, themeName, _viewFolderName, "" };
             TemplateFile model = new TemplateFile()
             {
                 ThemeName = themeName,
@@ -110,6 +111,7 @@ namespace ZKEACMS.Common.Service
                     }
                 }
                 ExtFile.WriteFile(model.Path, model.Content);
+                EnsureHasViewImports(model.Path);
                 _cacheMgr.Remove(_templateFilesCacheKey);
                 result.Result = GetTemplateFiles().First(m => m.RelativePath == model.RelativePath);
             }
@@ -123,7 +125,7 @@ namespace ZKEACMS.Common.Service
         public void Delete(int id)
         {
             var model = Get(id);
-            if (model.Name != "_ViewImports.cshtml")
+            if (model.Name != _viewImportsFileName)
             {
                 ExtFile.DeleteFile(model.Path);
                 _cacheMgr.Remove(_templateFilesCacheKey);
@@ -158,7 +160,7 @@ namespace ZKEACMS.Common.Service
                 foreach (var item in themes)
                 {
                     List<string> temFiles = new List<string>();
-                    string path = _webHostEnvironment.MapWebRootPath(_themeName, item, _viewName);
+                    string path = _webHostEnvironment.MapWebRootPath(_themeFolderName, item, _viewFolderName);
                     var fs = ExtFile.GetFiles(path, _cshtml);
                     if (fs != null && fs.Length > 0) temFiles.AddRange(fs);
                     dic.Add(item, temFiles);
@@ -191,6 +193,45 @@ namespace ZKEACMS.Common.Service
             string p = path.Substring(len);
             p = p.Replace("\\", "/");
             return "~" + p;
+        }
+
+        private void EnsureHasViewImports(string viewPath)
+        {
+            FileInfo fileInfo = new FileInfo(viewPath);
+            DirectoryInfo viewsFolder = fileInfo.Directory;
+            while (!viewsFolder.Name.Equals(_viewFolderName))
+            {
+                viewsFolder = viewsFolder.Parent;
+            }
+            string viewImportsFile = Path.Combine(viewsFolder.FullName, _viewImportsFileName);
+            if (File.Exists(viewImportsFile)) return;
+
+            using (FileStream fs = new FileStream(viewImportsFile, FileMode.Create, FileAccess.ReadWrite))
+            {
+                using (StreamWriter writer = new StreamWriter(fs, Encoding.UTF8))
+                {
+                    writer.WriteLine("@inherits Easy.Mvc.RazorPages.EasyRazorPage<TModel>");
+                    writer.WriteLine("@using ZKEACMS.WebHost");
+                    writer.WriteLine("@using Easy.Extend");
+                    writer.WriteLine("@using Easy.Mvc.Extend");
+                    writer.WriteLine("@using ZKEACMS");
+                    writer.WriteLine("@using ZKEACMS.Common.Service");
+                    writer.WriteLine("@using ZKEACMS.Dashboard");
+                    writer.WriteLine("@using ZKEACMS.DataArchived");
+                    writer.WriteLine("@using ZKEACMS.ExtendField");
+                    writer.WriteLine("@using ZKEACMS.Layout");
+                    writer.WriteLine("@using ZKEACMS.Media");
+                    writer.WriteLine("@using ZKEACMS.Page");
+                    writer.WriteLine("@using ZKEACMS.Setting");
+                    writer.WriteLine("@using ZKEACMS.Theme");
+                    writer.WriteLine("@using ZKEACMS.Widget");
+                    writer.WriteLine("@using ZKEACMS.WidgetTemplate");
+                    writer.WriteLine("@using ZKEACMS.Zone");
+                    writer.WriteLine("@using Easy.Constant");
+                    writer.WriteLine("@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers");
+                    writer.WriteLine("@addTagHelper *, EasyFrameWork");
+                }
+            }
         }
     }
 }
