@@ -60,7 +60,7 @@ namespace ZKEACMS.Common.Service
             return file;
         }
 
-        public TemplateFile GetDefaultTemplateFile(string templateName)
+        public virtual TemplateFile GetDefaultTemplateFile(string templateName)
         {
             var theme = _themeService.GetCurrentTheme();
             string themeName = theme?.ID;

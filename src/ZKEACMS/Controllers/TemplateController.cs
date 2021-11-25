@@ -29,13 +29,10 @@ namespace ZKEACMS.Controllers
     public class TemplateController : Controller
     {
         private readonly ITemplateService _tempService;
-        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IWidgetTemplateService _widgetTemplateService;
-        public TemplateController(ITemplateService templateService, IWebHostEnvironment webHostEnvironment,
-            IWidgetTemplateService widgetTemplateService)
+        public TemplateController(ITemplateService templateService, IWidgetTemplateService widgetTemplateService)
         {
             _tempService = templateService;
-            _webHostEnvironment = webHostEnvironment;
             _widgetTemplateService = widgetTemplateService;
         }
 
