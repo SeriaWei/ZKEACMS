@@ -77,20 +77,7 @@ namespace ZKEACMS.Common.Service
             {
                 model.RelativePath = string.Join("/", "~", _themeFolderName, themeName, _viewFolderName, templateName);
                 model.Name = templateName;
-                using (ZipArchive archive = ZipFile.OpenRead(Path.Combine(_webHostEnvironment.ContentRootPath, "Templates.zip")))
-                {
-                    foreach (ZipArchiveEntry entry in archive.Entries)
-                    {
-                        if (entry.Name == templateName)
-                        {
-                            using (StreamReader reader = new StreamReader(entry.Open()))
-                            {
-                                model.Content = reader.ReadToEnd();
-                            }
-                            break;
-                        }
-                    }
-                }
+                model.Content = GetTemplateContent(templateName);
             }
             else
             {
@@ -99,6 +86,24 @@ namespace ZKEACMS.Common.Service
                 model.Name = newTemplateName;
             }
             return model;
+        }
+
+        protected virtual string GetTemplateContent(string templateName)
+        {
+            using (ZipArchive archive = ZipFile.OpenRead(Path.Combine(_webHostEnvironment.ContentRootPath, "Templates.zip")))
+            {
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    if (entry.Name == templateName)
+                    {
+                        using (StreamReader reader = new StreamReader(entry.Open()))
+                        {
+                            return reader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+            return string.Empty;
         }
 
         public virtual ServiceResult<TemplateFile> CreateOrUpdate(TemplateFile model)
