@@ -20,11 +20,10 @@ namespace ZKEACMS.Common.Service
 {
     public class TemplateService : ITemplateService
     {
-        private readonly IThemeService _themeService;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        protected readonly IThemeService _themeService;
+        protected readonly IWebHostEnvironment _webHostEnvironment;
         private readonly string _themeFolderName = "themes";
         private readonly string _viewFolderName = "Views";
-        private readonly string _cshtml = "*.cshtml";
         private readonly string _viewImportsFileName = "_ViewImports.cshtml";
         private readonly string _templateFilesCacheKey = "TemplateFilesCacheKey";
         private readonly ICacheManager<List<TemplateFile>> _cacheMgr;
@@ -34,7 +33,7 @@ namespace ZKEACMS.Common.Service
             _themeService = themeService;
             _cacheMgr = cacheManager;
         }
-        public List<string> GetThemeNames()
+        public virtual List<string> GetThemeNames()
         {
             List<string> list = new List<string>();
             var themes = _themeService.GetAllThemes();
@@ -52,7 +51,12 @@ namespace ZKEACMS.Common.Service
             return list;
         }
 
-        public TemplateFile Get(int id)
+        protected virtual string[] GetSupportFileExtensions()
+        {
+            return new string[] { ".cshtml" };
+        }
+
+        public virtual TemplateFile Get(int id)
         {
             List<TemplateFile> templateFiles = GetTemplateFiles();
             var file = templateFiles.FirstOrDefault(m => m.Id == id);
@@ -64,16 +68,14 @@ namespace ZKEACMS.Common.Service
         {
             var theme = _themeService.GetCurrentTheme();
             string themeName = theme?.ID;
-            string[] paths = new string[] { "~", _themeFolderName, themeName, _viewFolderName, "" };
             TemplateFile model = new TemplateFile()
             {
                 ThemeName = themeName,
-                RelativePath = string.Join("/", paths),
                 LastUpdateTime = DateTime.Now
             };
             if (templateName.IsNotNullAndWhiteSpace())
             {
-                model.RelativePath += templateName;
+                model.RelativePath = string.Join("/", "~", _themeFolderName, themeName, _viewFolderName, templateName);
                 model.Name = templateName;
                 using (ZipArchive archive = ZipFile.OpenRead(Path.Combine(_webHostEnvironment.ContentRootPath, "Templates.zip")))
                 {
@@ -90,15 +92,22 @@ namespace ZKEACMS.Common.Service
                     }
                 }
             }
+            else
+            {
+                string newTemplateName = "NewTemplate" + GetSupportFileExtensions().FirstOrDefault();
+                model.RelativePath = string.Join("/", "~", _themeFolderName, themeName, _viewFolderName, newTemplateName);
+                model.Name = newTemplateName;
+            }
             return model;
         }
 
-        public ServiceResult<TemplateFile> CreateOrUpdate(TemplateFile model)
+        public virtual ServiceResult<TemplateFile> CreateOrUpdate(TemplateFile model)
         {
             string name = model.Name;
             string relativePath = model.RelativePath;
             ServiceResult<TemplateFile> result = new ServiceResult<TemplateFile>();
-            if (name.EndsWith(_cshtml.Substring(1)))
+            string ext = Path.GetExtension(name);
+            if (GetSupportFileExtensions().Contains(ext))
             {
                 relativePath = relativePath.TrimStart('~');
                 model.Path = _webHostEnvironment.MapWebRootPath(relativePath.Split('/'));
@@ -153,38 +162,41 @@ namespace ZKEACMS.Common.Service
         {
             return _cacheMgr.GetOrAdd(_templateFilesCacheKey, key =>
             {
-                var templateFiles = new List<TemplateFile>();
+                var allTemplateFiles = new List<TemplateFile>();
                 List<string> themes = GetThemeNames();
 
-                Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
-                foreach (var item in themes)
+                Dictionary<string, List<string>> themeTemplateFiles = new Dictionary<string, List<string>>();
+                foreach (var theme in themes)
                 {
-                    List<string> temFiles = new List<string>();
-                    string path = _webHostEnvironment.MapWebRootPath(_themeFolderName, item, _viewFolderName);
-                    var fs = ExtFile.GetFiles(path, _cshtml);
-                    if (fs != null && fs.Length > 0) temFiles.AddRange(fs);
-                    dic.Add(item, temFiles);
+                    List<string> templateFiles = new List<string>();
+                    string path = _webHostEnvironment.MapWebRootPath(_themeFolderName, theme, _viewFolderName);
+                    foreach (var extension in GetSupportFileExtensions())
+                    {
+                        var fs = ExtFile.GetFiles(path, "*" + extension);
+                        if (fs != null && fs.Length > 0) templateFiles.AddRange(fs);
+                    }
+                    themeTemplateFiles.Add(theme, templateFiles);
                 }
 
                 int index = _webHostEnvironment.WebRootPath.Length;
                 int id = 0;
-                foreach (var d in dic)
+                foreach (var theme in themeTemplateFiles)
                 {
-                    foreach (var item in d.Value)
+                    foreach (var item in theme.Value)
                     {
                         TemplateFile file = new TemplateFile()
                         {
                             Id = ++id,
-                            ThemeName = d.Key,
+                            ThemeName = theme.Key,
                             Name = Path.GetFileName(item),
                             Path = item,
                             RelativePath = GetRelativePath(item, index),
                             LastUpdateTime = File.GetLastWriteTime(item)
                         };
-                        templateFiles.Add(file);
+                        allTemplateFiles.Add(file);
                     }
                 }
-                return templateFiles;
+                return allTemplateFiles;
             });
         }
 
@@ -197,6 +209,8 @@ namespace ZKEACMS.Common.Service
 
         private void EnsureHasViewImports(string viewPath)
         {
+            if (!viewPath.EndsWith(".cshtml")) return;
+
             FileInfo fileInfo = new FileInfo(viewPath);
             DirectoryInfo viewsFolder = fileInfo.Directory;
             while (!viewsFolder.Name.Equals(_viewFolderName))
