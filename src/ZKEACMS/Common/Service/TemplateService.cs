@@ -68,16 +68,25 @@ namespace ZKEACMS.Common.Service
         {
             var theme = _themeService.GetCurrentTheme();
             string themeName = theme?.ID;
-            TemplateFile model = new TemplateFile()
+            TemplateFile model = new TemplateFile
             {
                 ThemeName = themeName,
-                LastUpdateTime = DateTime.Now
+                LastUpdateTime = DateTime.Now,
+                ThemeViewsFolder = GetThemeViewsFolder(themeName)
             };
             if (templateName.IsNotNullAndWhiteSpace())
             {
-                model.RelativePath = string.Join("/", "~", _themeFolderName, themeName, _viewFolderName, templateName);
-                model.Name = templateName;
-                model.Content = GetTemplateContent(templateName);
+                foreach (var extension in GetSupportFileExtensions())
+                {
+                    string fileName = $"{templateName}{extension}";
+                    model.RelativePath = string.Join("/", "~", _themeFolderName, themeName, _viewFolderName, fileName);
+                    model.Name = fileName;
+                    model.Content = GetTemplateContent(fileName);
+                    if (model.Content.IsNotNullAndWhiteSpace())
+                    {
+                        break;
+                    }
+                }
             }
             else
             {
@@ -189,10 +198,11 @@ namespace ZKEACMS.Common.Service
                 {
                     foreach (var item in theme.Value)
                     {
-                        TemplateFile file = new TemplateFile()
+                        TemplateFile file = new TemplateFile
                         {
                             Id = ++id,
                             ThemeName = theme.Key,
+                            ThemeViewsFolder = GetThemeViewsFolder(theme.Key),
                             Name = Path.GetFileName(item),
                             Path = item,
                             RelativePath = GetRelativePath(item, index),
@@ -204,7 +214,10 @@ namespace ZKEACMS.Common.Service
                 return allTemplateFiles;
             });
         }
-
+        protected virtual string GetThemeViewsFolder(string themeName)
+        {
+            return string.Join("/", "~", _themeFolderName, themeName, _viewFolderName);
+        }
         private string GetRelativePath(string path, int len)
         {
             string p = path.Substring(len);

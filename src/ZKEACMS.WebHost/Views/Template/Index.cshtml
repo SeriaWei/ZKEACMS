@@ -16,7 +16,7 @@
                 <ul class="dropdown-menu" style="max-height:400px;overflow:auto;">
                     @foreach (var item in Model)
                     {
-                        <li><a href="@Url.Action("Create","Template",new { template = $"{item.PartialView}.cshtml" })">@item.Title</a></li>
+                        <li><a href="@Url.Action("Create","Template",new { template = $"{item.PartialView}" })">@item.Title</a></li>
                     }
                 </ul>
             </div>
