@@ -12,6 +12,7 @@ namespace ZKEACMS.Common.Service
 {
     public interface ITemplateService
     {
+        string[] GetAvailableTemplates();
         List<string> GetThemeNames();
         TemplateFile Get(int id);
         TemplateFile GetDefaultTemplateFile(string temaplateName);

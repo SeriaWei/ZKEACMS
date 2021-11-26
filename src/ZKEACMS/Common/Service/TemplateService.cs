@@ -33,6 +33,19 @@ namespace ZKEACMS.Common.Service
             _themeService = themeService;
             _cacheMgr = cacheManager;
         }
+        public virtual string[] GetAvailableTemplates()
+        {
+            List<string> templates = new List<string>();
+            using (ZipArchive archive = ZipFile.OpenRead(Path.Combine(_webHostEnvironment.ContentRootPath, "Templates.zip")))
+            {
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    int index = entry.Name.LastIndexOf('.');
+                    templates.Add(entry.Name.Substring(0, index));
+                }
+            }
+            return templates.OrderBy(m => m).ToArray();
+        }
         public virtual List<string> GetThemeNames()
         {
             List<string> list = new List<string>();
