@@ -40,7 +40,7 @@
     "Regex": "\\w*Baiduspider\\w*"
   },
   {
-    "Name": "360bot",
+    "Name": "Sobot",
     "Regex": "\\w*360Spider\\w*"
   },
   {
