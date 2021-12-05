@@ -154,10 +154,11 @@ namespace ZKEACMS
                 var pagePath = request.Query["CurrentPagePath"];
                 return html.Hidden("CurrentPagePath", pagePath.Count > 0 ? pagePath : request.Path);
             }
-            else
+            else if (request.Method.Equals("POST", StringComparison.OrdinalIgnoreCase))
             {
                 return html.Hidden("CurrentPagePath", request.Form["CurrentPagePath"]);
             }
+            return html.Hidden("CurrentPagePath", request.Path);
         }
 
         public static string CurrencySymbol(this IHtmlHelper html)
