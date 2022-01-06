@@ -22,9 +22,9 @@ namespace ZKEACMS.Common.Service
     {
         protected readonly IThemeService _themeService;
         protected readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly string _themeFolderName = "themes";
-        private readonly string _viewFolderName = "Views";
-        private readonly string _viewImportsFileName = "_ViewImports.cshtml";
+        private const string _themeFolderName = "themes";
+        private const string _viewFolderName = "Views";
+        private const string _viewImportsFileName = "_ViewImports.cshtml";
         private readonly string _templateFilesCacheKey = "TemplateFilesCacheKey";
         private readonly ICacheManager<List<TemplateFile>> _cacheMgr;
         public TemplateService(IWebHostEnvironment hostingEnvironment, IThemeService themeService, ICacheManager<List<TemplateFile>> cacheManager)
@@ -238,7 +238,7 @@ namespace ZKEACMS.Common.Service
             return "~" + p;
         }
 
-        private void EnsureHasViewImports(string viewPath)
+        public static void EnsureHasViewImports(string viewPath)
         {
             if (!viewPath.EndsWith(".cshtml")) return;
 

@@ -11,11 +11,14 @@ using Easy.Extend;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using ZKEACMS.Common.Service;
 
 namespace ZKEACMS.PackageManger
 {
     public class FilePackageInstaller : IPackageInstaller
     {
+        private readonly string _viewFolderName = "Views";
+        private readonly string _viewImportsFileName = "_ViewImports.cshtml";
         public FilePackageInstaller(IWebHostEnvironment hostingEnvironment)
         {
             HostingEnvironment = hostingEnvironment;
@@ -63,6 +66,7 @@ namespace ZKEACMS.PackageManger
                             Directory.CreateDirectory(directory);
                         }
                         File.WriteAllBytes(filePath, file.Content);
+                        TemplateService.EnsureHasViewImports(filePath);
                     });
                 }
             }
