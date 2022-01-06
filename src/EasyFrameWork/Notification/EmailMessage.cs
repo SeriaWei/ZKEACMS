@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Easy.Notification
 {
-    public class EmailMessage : Message
+    public sealed class EmailMessage : Message
     {
         public string Subject { get; set; }
         public string Content { get; set; }

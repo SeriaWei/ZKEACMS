@@ -32,7 +32,7 @@ namespace Easy.Notification
 
         public virtual void Send(Message message)
         {
-            var email = message as EmailMessage;
+            var email = (EmailMessage)message;
             if (_emailQueue != null)
             {
                 _emailQueue.Send(new EmailContext(email, _smtpProvider.GetSmtpSetting()));

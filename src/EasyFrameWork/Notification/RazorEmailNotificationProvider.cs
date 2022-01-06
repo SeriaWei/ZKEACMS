@@ -25,7 +25,19 @@ namespace Easy.Notification
             RazorEmailMessage razorEmailNotice = notice as RazorEmailMessage;
             razorEmailNotice.IsHtml = true;
             razorEmailNotice.Content = _viewRenderService.Render(razorEmailNotice.TemplatePath, razorEmailNotice.Model);
-            base.Send(razorEmailNotice as Message);
+            EmailMessage emailMessage = new EmailMessage
+            {
+                Subject = razorEmailNotice.Subject,
+                From = razorEmailNotice.From,
+                To = razorEmailNotice.To,
+                Cc = razorEmailNotice.Cc,
+                Bcc = razorEmailNotice.Bcc,
+                Content = razorEmailNotice.Content,
+                Attachments = razorEmailNotice.Attachments,
+                DisplayName = razorEmailNotice.DisplayName,
+                IsHtml = razorEmailNotice.IsHtml
+            };
+            base.Send(emailMessage as Message);
         }
     }
 }
