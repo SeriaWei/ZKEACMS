@@ -17,8 +17,6 @@ namespace ZKEACMS.PackageManger
 {
     public class FilePackageInstaller : IPackageInstaller
     {
-        private readonly string _viewFolderName = "Views";
-        private readonly string _viewImportsFileName = "_ViewImports.cshtml";
         public FilePackageInstaller(IWebHostEnvironment hostingEnvironment)
         {
             HostingEnvironment = hostingEnvironment;
