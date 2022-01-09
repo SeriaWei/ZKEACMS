@@ -151,8 +151,8 @@ namespace ZKEACMS.SectionWidget.Service
                     Directory.CreateDirectory(directory);
                 }
                 File.WriteAllBytes(file.FilePath, file.Content);
-
-                TemplateService.EnsureHasViewImports(file.FilePath);
+                
+                TemplateService.EnsureHasViewImports(file.FilePath, "@using ZKEACMS.SectionWidget", "@using ZKEACMS.SectionWidget.Models", "@using ZKEACMS.SectionWidget.Service");
             }
             pack.Widget = null;
             var widget = JsonConvert.DeserializeObject<Models.SectionWidget>(JObject.Parse(pack.Content.ToString()).GetValue("Widget").ToString(), new SectionContentJsonConverter());

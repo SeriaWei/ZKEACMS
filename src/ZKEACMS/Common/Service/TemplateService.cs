@@ -238,7 +238,7 @@ namespace ZKEACMS.Common.Service
             return "~" + p;
         }
 
-        public static void EnsureHasViewImports(string viewPath)
+        public static void EnsureHasViewImports(string viewPath, params string[] addtionalUsing)
         {
             if (!viewPath.EndsWith(".cshtml")) return;
 
@@ -256,7 +256,6 @@ namespace ZKEACMS.Common.Service
                 using (StreamWriter writer = new StreamWriter(fs, Encoding.UTF8))
                 {
                     writer.WriteLine("@inherits Easy.Mvc.RazorPages.EasyRazorPage<TModel>");
-                    writer.WriteLine("@using ZKEACMS.WebHost");
                     writer.WriteLine("@using Easy.Extend");
                     writer.WriteLine("@using Easy.Mvc.Extend");
                     writer.WriteLine("@using ZKEACMS");
@@ -273,6 +272,13 @@ namespace ZKEACMS.Common.Service
                     writer.WriteLine("@using ZKEACMS.WidgetTemplate");
                     writer.WriteLine("@using ZKEACMS.Zone");
                     writer.WriteLine("@using Easy.Constant");
+                    if(addtionalUsing != null)
+                    {
+                        foreach (var item in addtionalUsing)
+                        {
+                            writer.WriteLine(item);
+                        }
+                    }
                     writer.WriteLine("@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers");
                     writer.WriteLine("@addTagHelper *, EasyFrameWork");
                 }
