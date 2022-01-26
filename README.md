@@ -36,6 +36,9 @@ Change the culture code to `en-US` to use english in `appsettings.json`
 }
 ```
 ## Publish / Release
+|Nuget|Version|
+|---|---|
+|ZKEACMS.Publisher|[![NuGet Badge](https://buildstats.info/nuget/ZKEACMS.Publisher?includePreReleases=true)](https://www.nuget.org/packages/ZKEACMS.Publisher)|
 
 Use `Publish.cmd` or `Publish.sh` to publish the project.
 You can also use the command line below to publish:
