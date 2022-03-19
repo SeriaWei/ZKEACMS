@@ -28,7 +28,7 @@ namespace ZKEACMS.Captcha
             var fontCollection = new FontCollection();
             foreach (var item in Directory.GetFiles(fontDir, "*.ttf"))
             {
-                fontCollection.Install(item);
+                fontCollection.Add(item);
             }
             FontFamilies = fontCollection.Families.ToArray();
         }
@@ -65,13 +65,13 @@ namespace ZKEACMS.Captcha
                 {
                     var location = new PointF(startWith + position, random.Next(6, 13));
                     imgText.Mutate(ctx => ctx.DrawText(c.ToString(), font, TextColor[random.Next(0, TextColor.Length)], location));
-                    position += TextMeasurer.Measure(c.ToString(), new RendererOptions(font, location)).Width;
+                    position += TextMeasurer.Measure(c.ToString(), new TextOptions(font)).Width;
                 }
 
                 AffineTransformBuilder rotation = GetRotation();
                 imgText.Mutate(ctx => ctx.Transform(rotation));
 
-                ushort size = (ushort)TextMeasurer.Measure(text, new RendererOptions(font)).Width;
+                ushort size = (ushort)TextMeasurer.Measure(text, new TextOptions(font)).Width;
                 var img = new Image<Rgba32>(size + 10 + 5, Height);
                 img.Mutate(ctx => ctx.BackgroundColor(Color.White));
 
