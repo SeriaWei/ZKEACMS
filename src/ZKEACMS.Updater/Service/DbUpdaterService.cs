@@ -227,6 +227,7 @@ namespace ZKEACMS.Updater.Service
             {
                 availableSource = item;
                 string source = $"{availableSource}/index.json";
+                _webClient.SetHeader("Referer", availableSource);
                 _logger.LogInformation("Getting release versions. {0}", source);
                 try
                 {
