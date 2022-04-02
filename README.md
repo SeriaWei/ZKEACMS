@@ -21,7 +21,9 @@ Try it on our demo site:
 
 **Create Page**
 
-[http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)
+How to create a new page:
+
+[http://www.zkea.net/zkeacms/videos/view/create-page.html](http://www.zkea.net/zkeacms/videos/view/create-page.html)
 
 **Multi-tenant demo**
 
