@@ -29,7 +29,7 @@ namespace ZKEACMS.Redirection
             {
                 return true;
             }
-            UrlRedirect redirect = httpContext.RequestServices.GetService<IUrlRedirectService>().GetByPath(path);
+            UrlRedirect redirect = httpContext.RequestServices.GetService<IUrlRedirectService>().GetMatchedRedirection(path);
 
             return redirect != null;
         }

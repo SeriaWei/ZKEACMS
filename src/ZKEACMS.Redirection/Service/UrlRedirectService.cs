@@ -163,7 +163,7 @@ namespace ZKEACMS.Redirection.Service
             }).ToList());
         }
 
-        public UrlRedirect GetByPath(string path)
+        public UrlRedirect GetMatchedRedirection(string path)
         {
             return GetAll().FirstOrDefault(m => m.IsMatch(path));
         }
