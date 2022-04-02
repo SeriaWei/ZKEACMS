@@ -103,11 +103,11 @@ namespace ZKEACMS.Redirection.Controllers
             {
                 if (redirec.IsPermanent)
                 {
-                    return RedirectPermanent(redirec.DestinationURL);
+                    return RedirectPermanent(redirec.GetDestinationURL(path));
                 }
                 else
                 {
-                    return Redirect(redirec.DestinationURL);
+                    return Redirect(redirec.GetDestinationURL(path));
                 }
             }
             return this.NotFoundResult();

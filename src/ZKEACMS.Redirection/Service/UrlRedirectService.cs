@@ -155,7 +155,12 @@ namespace ZKEACMS.Redirection.Service
         }
         public IEnumerable<UrlRedirect> GetAll()
         {
-            return _cacheManager.GetOrAdd(CacheKey, key => Get(m => m.Status == (int)RecordStatus.Active).ToList());
+            return _cacheManager.GetOrAdd(CacheKey, key => Get(m => m.Status == (int)RecordStatus.Active)
+            .Select(m =>
+            {
+                m.ParsePattern();
+                return m;
+            }).ToList());
         }
 
         public UrlRedirect GetByPath(string path)
