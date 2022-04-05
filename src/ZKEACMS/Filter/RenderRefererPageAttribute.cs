@@ -67,7 +67,7 @@ namespace ZKEACMS.Filter
         private void RenderRefererPage(ActionExecutedContext filterContext, ViewResult viewResult)
         {
             base.OnActionExecuted(filterContext);
-            if (viewResult.StatusCode == (int)HttpStatusCode.OK)
+            if (viewResult.StatusCode is null || viewResult.StatusCode == (int)HttpStatusCode.OK)
             {
                 filterContext.RouteData.Values["controller"] = "page";
                 filterContext.RouteData.Values["path"] = GetPagePath(filterContext);
