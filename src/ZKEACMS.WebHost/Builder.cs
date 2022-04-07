@@ -38,7 +38,7 @@ namespace ZKEACMS.WebHost
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
-            return null;
+            return Enumerable.Empty<WidgetTemplateEntity>();
         }
 
         protected override void InitScript(Func<string, ResourceHelper> script)
