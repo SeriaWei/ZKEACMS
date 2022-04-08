@@ -125,6 +125,7 @@ namespace ZKEACMS.Theme
                     return entry;
                 }) as ThemeEntity;
             }
+            if (theme is null) throw new Exception("No available theme were found!");
             return theme;
         }
 
