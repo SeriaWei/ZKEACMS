@@ -204,7 +204,7 @@ namespace Easy.ViewPort.jsTree
         {
             Node node = new Node();
             node.id = valueProperty(data);
-            node.text = textProperty(data);
+            node.text = System.Net.WebUtility.HtmlEncode(textProperty(data));
             node.state = new State { opened = _expandAll };
             node.a_attr = data;
             node.children = new List<Node>();
