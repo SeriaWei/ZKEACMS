@@ -10,5 +10,7 @@ namespace ZKEACMS
         public const string ExpandAllPage = "ExpandAllPage";
         public const string ExecuteScriptWhenChangeTheme = "ExecuteScriptWhenChangeTheme";
         public const string UseImageCaptcha = "UseImageCaptcha";
+        public const string EnableSignMeUp = "EnableSignMeUp";
+        public const string EnableCustomerAccount = "EnableCustomerAccount";
     }
 }

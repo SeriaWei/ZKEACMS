@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ZKEACMS.Route;
 
 namespace ZKEACMS
 {
@@ -55,6 +56,7 @@ namespace ZKEACMS
                 RouteName = "AccountAdmin",
                 Template = "account/{action}",
                 Defaults = new { controller = "account", action = "index"},
+                Constraints = new { action = new AccountRouteConstraint() },
                 Priority = 11
              }
         };
