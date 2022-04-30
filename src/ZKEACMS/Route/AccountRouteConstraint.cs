@@ -22,7 +22,7 @@ namespace ZKEACMS.Route
 
             IApplicationSettingService applicationSettingService = httpContext.RequestServices.GetService<IApplicationSettingService>();
             bool enableCustomerAccount = applicationSettingService.Get(SettingKeys.EnableCustomerAccount, "true") == "true";
-            if (!enableCustomerAccount) return false;
+            if (!enableCustomerAccount && !IsAdminActions(httpContext, values[routeKey].ToString())) return false;
 
             if (IsSignUpActions(values[routeKey].ToString()))
             {
@@ -33,8 +33,17 @@ namespace ZKEACMS.Route
         }
         private bool IsSignUpActions(string action)
         {
-            return action.Equals("SignUp", StringComparison.OrdinalIgnoreCase)||
+            return action.Equals("SignUp", StringComparison.OrdinalIgnoreCase) ||
                 action.Equals("SignUpSuccess", StringComparison.OrdinalIgnoreCase);
+        }
+        private bool IsAdminActions(HttpContext httpContext, string action)
+        {
+            if (action.Equals("Forgotten", StringComparison.OrdinalIgnoreCase))
+            {
+                return httpContext.Request.Query["userType"].ToString().Equals("Administrator", StringComparison.OrdinalIgnoreCase);
+            }
+            return action.Equals("Login", StringComparison.OrdinalIgnoreCase) ||
+                action.Equals("Logout", StringComparison.OrdinalIgnoreCase);
         }
     }
 }
