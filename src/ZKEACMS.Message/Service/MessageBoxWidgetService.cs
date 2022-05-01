@@ -5,6 +5,7 @@
 using Easy;
 using Easy.Constant;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using ZKEACMS.Message.Models;
 using ZKEACMS.Widget;
 
@@ -21,8 +22,9 @@ namespace ZKEACMS.Message.Service
 
         public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
-            return _messageService.Get(m => m.Status == (int)RecordStatus.Active);
-
+            return _messageService.Get(m => m.Status == (int)RecordStatus.Active)
+                .OrderByDescending(m => m.CreateDate)
+                .ToList();
         }
     }
 }
