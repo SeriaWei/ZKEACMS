@@ -12,5 +12,6 @@ namespace ZKEACMS
         public const string UseImageCaptcha = "UseImageCaptcha";
         public const string EnableSignMeUp = "EnableSignMeUp";
         public const string EnableCustomerAccount = "EnableCustomerAccount";
+        public const string MessageNeedToBeReviewed = "MessageNeedToBeReviewed";
     }
 }
