@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<PackageType>Template</PackageType>
+		<PackageVersion>1.0</PackageVersion>
+		<PackageId>ZKEACMS.Plugin</PackageId>
+		<Title>ZKEACMS plugin template</Title>
+		<Authors>ZKEASOFT</Authors>
+		<Description>Templates to use when creating an plugin for ZKEACMS.</Description>
+		<PackageTags>ZKEACMS;ZKEACMS.Plugin;Plugin</PackageTags>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<IncludeContentInPack>true</IncludeContentInPack>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<ContentTargetFolders>content</ContentTargetFolders>
+		<NoWarn>$(NoWarn);NU5128</NoWarn>
+		<NoDefaultExcludes>true</NoDefaultExcludes>
+		<PackageIcon>icon.png</PackageIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
+		<Compile Remove="**\*" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Images\icon.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+</Project>
