@@ -4,8 +4,11 @@
 
 using Easy;
 using Easy.Constant;
+using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using ZKEACMS.Message.Models;
+using ZKEACMS.Message.ViewModel;
 using ZKEACMS.Widget;
 
 namespace ZKEACMS.Message.Service
@@ -21,8 +24,19 @@ namespace ZKEACMS.Message.Service
 
         public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
-            return _messageService.Get(m => m.Status == (int)RecordStatus.Active);
-
+            int page = widgetDisplayContext.ActionContext.RouteData.GetPage();
+            Pagination pagination = new Pagination()
+            {
+                PageIndex = page,
+                PageSize = 20,
+                OrderByDescending = "CreateDate"
+            };
+            var messages = _messageService.Get(m => m.Status == (int)RecordStatus.Active, pagination);
+            return new MessageBoxWidgetViewModel
+            {
+                Messages = messages,
+                Pagination = pagination
+            };
         }
     }
 }

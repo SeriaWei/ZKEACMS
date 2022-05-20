@@ -27,7 +27,7 @@ namespace ZKEACMS.Redirection
                 Template = "{*path}",
                 Defaults = new { controller = "UrlRedirection", action = "RedirectTo" },
                 Constraints = new { path = new RedirectRouteConstraint() },
-                Priority = 0
+                Priority = int.MaxValue
             };
         }
 

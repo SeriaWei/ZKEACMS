@@ -31,9 +31,11 @@ namespace ZKEACMS.FormGenerator.Controllers
             _localize = localize;
         }
 
-        [HttpPost, AllowAnonymous, RenderRefererPage]
+        [HttpPost, AllowAnonymous, ValidateAntiForgeryToken, RenderRefererPage]
         public IActionResult Submit(string FormId)
         {
+            if (FormId.IsNullOrWhiteSpace()) return BadRequest();
+
             var result = Service.SaveForm(Request.Form, FormId);
             ModelState.Merge(result);
             if (!result.HasViolation)

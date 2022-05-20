@@ -75,7 +75,9 @@ namespace Easy.Mvc.Extend
         }
         public static string GetReferer(this HttpRequest request)
         {
-            return request.Headers["Referer"].ToString();
+            string uri = request.Headers["Referer"].ToString();
+            if (uri.IsNotNullAndWhiteSpace() && !Uri.TryCreate(uri, UriKind.Absolute, out _)) return null;
+            return uri;
         }
     }
 }

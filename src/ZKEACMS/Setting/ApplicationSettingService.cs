@@ -64,7 +64,7 @@ namespace ZKEACMS.Setting
                 DbContext.Attach(entity).State = EntityState.Detached;
                 _settingCache.TryAdd(entity.SettingKey, entity);
             }
-            return null;
+            return entity;
         }
         public string Get(string settingKey, string defaultValue)
         {
