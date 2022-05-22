@@ -157,7 +157,7 @@ namespace Easy.ViewPort.jsTree
             {
                 builder.AppendFormat(".on('{0}',{1})", item.Key, item.Value);
             }
-            string source = "{'url' : '" + _sourceUrl + "','data' : function (node) {return { 'id' : node.id };}}";
+            string source = "{'url' : '" + _sourceUrl + "','data' : function (node) {return { 'id' : node.id, 't': new Date().getTime() };}}";
             if (nodes != null && nodes.Count > 0)
             {
                 source = Newtonsoft.Json.JsonConvert.SerializeObject(nodes);
