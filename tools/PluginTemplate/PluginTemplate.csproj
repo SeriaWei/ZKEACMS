@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<PackageType>Template</PackageType>
-		<PackageVersion>1.0</PackageVersion>
+		<PackageVersion>1.0.1</PackageVersion>
 		<PackageId>ZKEACMS.Plugin</PackageId>
 		<Title>ZKEACMS plugin template</Title>
 		<Authors>ZKEASOFT</Authors>
@@ -15,6 +15,9 @@
 		<NoWarn>$(NoWarn);NU5128</NoWarn>
 		<NoDefaultExcludes>true</NoDefaultExcludes>
 		<PackageIcon>icon.png</PackageIcon>
+		<PackageProjectUrl>https://www.zkea.net</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/SeriaWei/ZKEACMS</RepositoryUrl>
+		<PackageLicense>http://www.zkea.net/licenses</PackageLicense>
 	</PropertyGroup>
 
 	<ItemGroup>
