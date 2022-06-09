@@ -14,7 +14,6 @@ namespace Easy.Net.Http
         public string ContentType { get; set; }
         public string ContentEncoding { get; set; }
         public Type ResponseType { get; }
-
         public HttpRequest(string path, HttpMethod method, Type responseType)
         {
             this.Path = path;
@@ -23,7 +22,9 @@ namespace Easy.Net.Http
             this.ContentEncoding = "identity";
         }
 
-        public HttpRequest(string path, HttpMethod method) : this(path, method, typeof(void)) { }
+        public HttpRequest(string path, HttpMethod method) : this(path, method, typeof(void))
+        {
+        }
 
         public T Clone<T>() where T : HttpRequest
         {

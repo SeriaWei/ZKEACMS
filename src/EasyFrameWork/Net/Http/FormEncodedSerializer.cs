@@ -14,7 +14,7 @@ namespace Easy.Net.Http
     {
         public string GetContentTypeRegexPattern()
         {
-            return "application/x-www-form-urlencoded";
+            return MimeContentType.Form;
         }
 
         public object Decode(HttpContent content, Type responseType)
@@ -24,12 +24,12 @@ namespace Easy.Net.Http
 
         public HttpContent Encode(HttpRequest request)
         {
-            if (!(request.Body is IDictionary))
+            if (!(request.Body is IEnumerable<KeyValuePair<string, string>>))
             {
-                throw new IOException("Request requestBody must be Map<string, string> when Content-Type is application/x-www-form-urlencoded");
+                throw new IOException("Request requestBody must be IEnumerable<KeyValuePair<string, string>> when Content-Type is application/x-www-form-urlencoded");
             }
 
-            return new FormUrlEncodedContent((Dictionary<string, string>)request.Body);
+            return new FormUrlEncodedContent(request.Body as IEnumerable<KeyValuePair<string, string>>);
         }
     }
 }

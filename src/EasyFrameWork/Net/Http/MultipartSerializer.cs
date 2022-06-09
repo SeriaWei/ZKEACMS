@@ -16,7 +16,7 @@ namespace Easy.Net.Http
     {
         public string GetContentTypeRegexPattern()
         {
-            return "^multipart/.*$";
+            return MimeContentType.MultipartRegex;
         }
 
         public object Decode(HttpContent content, Type responseType)

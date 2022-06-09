@@ -13,7 +13,7 @@ namespace Easy.Net.Http
 
         public string GetContentTypeRegexPattern()
         {
-            return "^text/.*$";
+            return MimeContentType.TextRegex;
         }
 
         public HttpContent Encode(HttpRequest request)

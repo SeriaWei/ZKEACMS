@@ -13,7 +13,7 @@ namespace Easy.Net.Http
     {
         public string GetContentTypeRegexPattern()
         {
-            return "application/json";
+            return MimeContentType.Json;
         }
 
         public object Decode(HttpContent content, Type responseType)
@@ -37,7 +37,7 @@ namespace Easy.Net.Http
                 ms.Position = 0;
                 using (var sr = new StreamReader(ms))
                 {
-                    return new StringContent(sr.ReadToEnd(), System.Text.Encoding.UTF8, "application/json");
+                    return new StringContent(sr.ReadToEnd(), System.Text.Encoding.UTF8, MimeContentType.Json);
                 }
             }
         }

@@ -15,9 +15,9 @@ namespace Easy.Net.Http
     public class JsonPartContent : StringContent
     {
         public JsonPartContent(string partName, object json) :
-            base(serializeJson(json), System.Text.Encoding.UTF8, "application/json")
+            base(serializeJson(json), System.Text.Encoding.UTF8, MimeContentType.Json)
         {
-            Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            Headers.ContentType = new MediaTypeHeaderValue(MimeContentType.Json);
             // Need to ensure values are quoted
             Headers.Add("Content-Disposition", "form-data; name=\"" + partName + "\"; filename=\"" + partName + ".json\"");
         }

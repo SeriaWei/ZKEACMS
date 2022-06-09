@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace Easy.Net.Http
 {
-    public class HttpClient
+    public class ApiClient : IDisposable
     {
         public Encoder Encoder { get; }
 
         protected Environment Environment;
-        private System.Net.Http.HttpClient _client;
+        private HttpClient _client;
         private List<IInjector> _injectors;
 
-        public HttpClient(Environment environment)
+        public ApiClient(Environment environment)
         {
             this.Environment = environment;
             this._injectors = new List<IInjector>();
@@ -32,7 +32,10 @@ namespace Easy.Net.Http
         {
             return "Mozilla/5.0 (Windows NT 10.0; Win64; x64)";
         }
-
+        public void EnableGzip()
+        {
+            AddInjector(new GzipInjector());
+        }
         public void AddInjector(IInjector injector)
         {
             if (injector != null)
@@ -46,11 +49,12 @@ namespace Easy.Net.Http
             _client.Timeout = timeout;
         }
 
-        public virtual async Task<HttpResponse> Execute<T>(T req) where T: HttpRequest
+        public virtual async Task<HttpResponse> Execute<T>(T req) where T : HttpRequest
         {
             var request = req.Clone<T>();
 
-            foreach (var injector in _injectors) {
+            foreach (var injector in _injectors)
+            {
                 injector.Inject(request);
             }
 
@@ -61,7 +65,7 @@ namespace Easy.Net.Http
                 request.Content = Encoder.SerializeRequest(request);
             }
 
-			var response = await _client.SendAsync(request);
+            var response = await _client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
@@ -74,9 +78,14 @@ namespace Easy.Net.Http
             }
             else
             {
-				var responseBody = await response.Content.ReadAsStringAsync();
-				throw new HttpException(response.StatusCode, response.Headers, responseBody);
+                var responseBody = await response.Content.ReadAsStringAsync();
+                throw new HttpException(response.StatusCode, response.Headers, responseBody);
             }
+        }
+
+        public void Dispose()
+        {
+            _client.Dispose();
         }
     }
 }
