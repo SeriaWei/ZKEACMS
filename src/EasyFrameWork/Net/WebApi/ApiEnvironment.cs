@@ -2,10 +2,10 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-namespace Easy.Net.Http
+namespace Easy.Net.WebApi
 {
-    public interface Environment
+    public class ApiEnvironment
     {
-        string BaseUrl();
+        public string BaseUrl { get; set; }
     }
 }

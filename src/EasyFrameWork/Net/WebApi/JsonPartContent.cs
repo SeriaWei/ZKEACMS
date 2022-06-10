@@ -10,7 +10,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Easy.Net.Http
+namespace Easy.Net.WebApi
 {
     public class JsonPartContent : StringContent
     {

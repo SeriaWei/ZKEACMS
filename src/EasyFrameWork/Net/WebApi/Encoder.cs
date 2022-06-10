@@ -11,7 +11,7 @@ using System.Net.Http;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Easy.Net.Http
+namespace Easy.Net.WebApi
 {
     public class Encoder
     {
@@ -49,15 +49,7 @@ namespace Easy.Net.Http
                 throw new IOException($"Unable to serialize request with Content-Type {request.ContentType}. Supported encodings are {GetSupportedContentTypes()}");
             }
 
-            var content = serializer.Encode(request);
-
-            if ("gzip".Equals(request.ContentEncoding))
-            {
-                var source = content.ReadAsStringAsync().Result;
-                content = new ByteArrayContent(Gzip(source));
-            }
-
-            return content;
+            return serializer.Encode(request);
         }
 
         public object DeserializeResponse(HttpContent content, Type responseType)
@@ -110,21 +102,6 @@ namespace Easy.Net.Http
             return String.Join(", ", contentTypes);
         }
 
-        private static byte[] Gzip(string source)
-        {
-            var bytes = Encoding.UTF8.GetBytes(source);
-
-            using (var msi = new MemoryStream(bytes))
-            using (var mso = new MemoryStream())
-            {
-                using (var gs = new GZipStream(mso, CompressionMode.Compress))
-                {
-                    msi.CopyTo(gs);
-                }
-
-                return mso.ToArray();
-            }
-        }
 
         private static string Gunzip(byte[] source)
         {

@@ -9,7 +9,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Easy.Net.Http
+namespace Easy.Net.WebApi
 {
     public class GzipInjector : IInjector
     {

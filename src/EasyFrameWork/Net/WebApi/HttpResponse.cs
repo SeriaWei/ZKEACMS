@@ -6,7 +6,7 @@ using System;
 using System.Net;
 using System.Net.Http.Headers;
 
-namespace Easy.Net.Http
+namespace Easy.Net.WebApi
 {
     public class HttpResponse
     {

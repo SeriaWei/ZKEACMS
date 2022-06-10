@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.IO;
 
-namespace Easy.Net.Http
+namespace Easy.Net.WebApi
 {
     public class JsonSerializer : ISerializer
     {

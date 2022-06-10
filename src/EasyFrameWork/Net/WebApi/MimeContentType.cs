@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Easy.Net.Http
+namespace Easy.Net.WebApi
 {
     public class MimeContentType
     {

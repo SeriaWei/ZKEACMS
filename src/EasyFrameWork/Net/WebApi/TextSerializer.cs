@@ -1,7 +1,11 @@
-﻿using System;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using System;
 using System.Net.Http;
 
-namespace Easy.Net.Http
+namespace Easy.Net.WebApi
 {
     public class TextSerializer : ISerializer
     {

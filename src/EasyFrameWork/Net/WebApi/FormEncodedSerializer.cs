@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 
-namespace Easy.Net.Http
+namespace Easy.Net.WebApi
 {
     public class FormEncodedSerializer : ISerializer
     {

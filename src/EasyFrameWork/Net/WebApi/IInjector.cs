@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Easy.Net.Http
+namespace Easy.Net.WebApi
 {
 	public interface IInjector
     {
