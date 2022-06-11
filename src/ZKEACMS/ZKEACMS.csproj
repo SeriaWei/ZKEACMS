@@ -28,15 +28,15 @@
 		<ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
-		<PackageReference Include="HtmlSanitizer" Version="7.1.488" />
+		<PackageReference Include="HtmlAgilityPack" Version="1.11.43" />
+		<PackageReference Include="HtmlSanitizer" Version="7.1.512" />
 		<PackageReference Include="LiteDB" Version="5.0.11" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.4" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.5" />
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
-		<PackageReference Include="SixLabors.ImageSharp" Version="2.1.1" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="2.1.2" />
 		<PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta14" />
 		<PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />
 	</ItemGroup>
