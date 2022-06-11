@@ -21,7 +21,7 @@ namespace Easy.Net.WebApi
 
         public object Decode(HttpContent content, Type responseType)
         {
-            throw new IOException("Unable to deserialize Content-Type: multipart/form-data.");
+            return content.ReadAsByteArrayAsync().Result;
         }
 
         private string GetMimeMapping(string filename)

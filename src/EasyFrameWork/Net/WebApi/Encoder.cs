@@ -60,21 +60,20 @@ namespace Easy.Net.WebApi
             }
             var contentType = content.Headers.ContentType.ToString();
             contentType = contentType.ToLower();
-            ISerializer serializer = GetSerializer(contentType);
-            if (serializer == null)
-            {
-                throw new IOException($"Unable to deserialize response with Content-Type {contentType}. Supported encodings are {GetSupportedContentTypes()}");
-            }
+            ISerializer serializer = GetSerializer(contentType);            
 
-            var contentEncoding = content.Headers.ContentEncoding.FirstOrDefault();
+            bool isZip = content.Headers.ContentEncoding.Contains("gzip", StringComparer.OrdinalIgnoreCase);
 
-            if ("gzip".Equals(contentEncoding))
+            if (isZip)
             {
                 var buf = content.ReadAsByteArrayAsync().Result;
-                content = new StringContent(Gunzip(buf), Encoding.UTF8);
+                content = new ByteArrayContent(UnZip(buf));
             }
-
-            return serializer.Decode(content, responseType);
+            if (serializer != null)
+            {
+                return serializer.Decode(content, responseType);
+            }
+            return content.ReadAsByteArrayAsync().Result;
         }
 
         private ISerializer GetSerializer(string contentType)
@@ -103,7 +102,7 @@ namespace Easy.Net.WebApi
         }
 
 
-        private static string Gunzip(byte[] source)
+        private static byte[] UnZip(byte[] source)
         {
             using (var msi = new MemoryStream(source))
             using (var mso = new MemoryStream())
@@ -113,7 +112,7 @@ namespace Easy.Net.WebApi
                     CopyTo(gs, mso);
                 }
 
-                return Encoding.UTF8.GetString(mso.ToArray());
+                return mso.ToArray();
             }
         }
 

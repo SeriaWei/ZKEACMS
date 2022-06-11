@@ -12,5 +12,6 @@ namespace Easy.Net.WebApi
         public const string Form = "application/x-www-form-urlencoded";
         public const string MultipartRegex = "^multipart/.*$";
         public const string TextRegex = "^text/.*$";
+        public const string BinaryContent = "BinaryContent";
     }
 }
