@@ -7,7 +7,7 @@
     if (Model.Value.IsNotNullAndWhiteSpace())
     {
 
-        string[] dist = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(Model.Value);
+        string[] dist = Easy.Serializer.JsonConverter.Deserialize<string[]>(Model.Value);
         if (dist.Length > 0 && dist[0].IsNotNullAndWhiteSpace())
         {
             province = dist[0];

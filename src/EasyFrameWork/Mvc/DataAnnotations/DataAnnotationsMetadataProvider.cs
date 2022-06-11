@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Easy.MetaData;
 using Easy.Extend;
 using Easy.ViewPort.Validator;
-using Newtonsoft.Json;
+using Easy.Serializer;
 
 namespace Easy.Mvc.DataAnnotations
 {
@@ -92,7 +92,7 @@ namespace Easy.Mvc.DataAnnotations
                             {
                                 v.DisplayName = () => descriptor.DisplayName;
                             }
-                            string encodeError = Convert.ToBase64String(JsonConvert.SerializeObject(new Mapping(v.Name, v.Property)).ToByte());
+                            string encodeError = Convert.ToBase64String(JsonConverter.Serialize(new Mapping(v.Name, v.Property)).ToByte());
                             if (v is RangeValidator rangeValid)
                             {
                                 RangeAttribute range = new RangeAttribute(rangeValid.Min, rangeValid.Max);

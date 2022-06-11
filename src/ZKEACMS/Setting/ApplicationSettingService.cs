@@ -11,7 +11,6 @@ using Easy.Constant;
 using Easy.Extend;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using ZKEACMS.DataArchived;
 
 namespace ZKEACMS.Setting

@@ -6,9 +6,9 @@ using Easy;
 using Easy.Cache;
 using Easy.Extend;
 using Easy.RepositoryPattern;
+using Easy.Serializer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -131,7 +131,7 @@ namespace ZKEACMS.Widget
             string assemblyName = serviceType.Assembly.GetName().Name;
             return Get(m => m.AssemblyName == assemblyName && m.ServiceTypeName == serviceTypeName).Select(m =>
             {
-                TWidget widget = JsonConvert.DeserializeObject<TWidget>(m.ExtendData);
+                TWidget widget = JsonConverter.Deserialize<TWidget>(m.ExtendData);
                 m.CopyTo(widget);
                 return widget;
             }).ToList();
@@ -142,7 +142,7 @@ namespace ZKEACMS.Widget
             BeginBulkSave();
             foreach (var item in widgets)
             {
-                item.ExtendData = JsonConvert.SerializeObject(item);
+                item.ExtendData = JsonConverter.Serialize(item);
                 Update(item.ToWidgetBasePart());
             }
             SaveChanges();

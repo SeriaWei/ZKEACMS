@@ -11,6 +11,7 @@ using Easy.Extend;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Easy.Serializer;
 
 namespace Easy.ViewPort.jsTree
 {
@@ -160,12 +161,12 @@ namespace Easy.ViewPort.jsTree
             string source = "{'url' : '" + _sourceUrl + "','data' : function (node) {return { 'id' : node.id, 't': new Date().getTime() };}}";
             if (nodes != null && nodes.Count > 0)
             {
-                source = Newtonsoft.Json.JsonConvert.SerializeObject(nodes);
+                source = JsonConverter.Serialize(nodes);
             }
             builder.AppendFormat(".jstree({{'core':{{data:{0},'check_callback':{1}}}", source, _check_callback.IsNullOrEmpty() ? "false" : _check_callback);
             if (_plugins.Count > 0)
             {
-                builder.AppendFormat(",'plugins':{0}", Newtonsoft.Json.JsonConvert.SerializeObject(_plugins));
+                builder.AppendFormat(",'plugins':{0}", JsonConverter.Serialize(_plugins));
             }
             if (contextMenu.Count > 0)
             {

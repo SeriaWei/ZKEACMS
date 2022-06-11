@@ -5,9 +5,9 @@
 using Easy;
 using Easy.Extend;
 using Easy.RepositoryPattern;
+using Easy.Serializer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +73,7 @@ namespace ZKEACMS.Page
                     page.Styles.Clear();
                     if (page.Style.StartsWith("["))
                     {
-                        foreach (var item in JsonConvert.DeserializeObject<string[]>(page.Style))
+                        foreach (var item in JsonConverter.Deserialize<string[]>(page.Style))
                         {
                             page.Styles.Add(new PageAsset { Url = item });
                         }
@@ -88,7 +88,7 @@ namespace ZKEACMS.Page
                     page.Scripts.Clear();
                     if (page.Script.StartsWith("["))
                     {
-                        foreach (var item in JsonConvert.DeserializeObject<string[]>(page.Script))
+                        foreach (var item in JsonConverter.Deserialize<string[]>(page.Script))
                         {
                             page.Scripts.Add(new PageAsset { Url = item });
                         }
@@ -104,8 +104,8 @@ namespace ZKEACMS.Page
         {
             if (page != null)
             {
-                page.Style = JsonConvert.SerializeObject(page.Styles.RemoveDeletedItems().Select(m => m.Url));
-                page.Script = JsonConvert.SerializeObject(page.Scripts.RemoveDeletedItems().Select(m => m.Url));
+                page.Style = JsonConverter.Serialize(page.Styles.RemoveDeletedItems().Select(m => m.Url));
+                page.Script = JsonConverter.Serialize(page.Scripts.RemoveDeletedItems().Select(m => m.Url));
             }
         }
 

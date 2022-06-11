@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Easy.Extend;
-using Newtonsoft.Json;
 using System.Text;
 using Easy;
+using Newtonsoft.Json;
 
 namespace ZKEACMS.FormGenerator.Models
 {
@@ -84,7 +84,7 @@ namespace ZKEACMS.FormGenerator.Models
             }
             else if (Name == "Address" && Value.IsNotNullAndWhiteSpace())
             {
-                valueContent.Append(string.Join(" ", JsonConvert.DeserializeObject<string[]>(Value)));
+                valueContent.Append(string.Join(" ", Easy.Serializer.JsonConverter.Deserialize<string[]>(Value)));
             }
             else
             {

@@ -17,7 +17,6 @@ using ZKEACMS.Shop.Service;
 using Easy.Mvc.Extend;
 using ZKEACMS.Setting;
 using Easy.Extend;
-using Newtonsoft.Json;
 using Easy.Mvc.Authorize;
 using ZKEACMS.DataArchived;
 using Easy.Mvc.ViewResult;

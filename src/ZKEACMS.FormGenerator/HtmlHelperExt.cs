@@ -4,13 +4,13 @@
 
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ZKEACMS.FormGenerator.Models;
 using Easy.Extend;
+using Easy.Serializer;
 
 namespace ZKEACMS.FormGenerator
 {
@@ -25,7 +25,7 @@ namespace ZKEACMS.FormGenerator
             }
             else if (field.Name == "Address" && field.Value.IsNotNullAndWhiteSpace())
             {
-                htmlContentBuilder.Append(string.Join(" ", JsonConvert.DeserializeObject<string[]>(field.Value)));
+                htmlContentBuilder.Append(string.Join(" ", JsonConverter.Deserialize<string[]>(field.Value)));
             }
             else
             {

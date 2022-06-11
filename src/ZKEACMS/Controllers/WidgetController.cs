@@ -17,10 +17,10 @@ using Easy;
 using Easy.Mvc;
 using ZKEACMS.Common.Models;
 using System.IO;
-using Newtonsoft.Json;
 using ZKEACMS.PackageManger;
 using ZKEACMS.Page;
 using Easy.Modules.DataDictionary;
+using Easy.Serializer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Easy.Mvc.Extend;
@@ -314,7 +314,7 @@ namespace ZKEACMS.Controllers
                 var installer = _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
                 if (installer is WidgetPackageInstaller)
                 {
-                    var widgetPackage = JsonConvert.DeserializeObject<WidgetPackage>(package.Content.ToString());
+                    var widgetPackage = JsonConverter.Deserialize<WidgetPackage>(package.Content.ToString());
                     widgetPackage.Content = package.Content;
                     _widgetActivator.Create(widgetPackage.Widget).InstallWidget(widgetPackage);
                 }

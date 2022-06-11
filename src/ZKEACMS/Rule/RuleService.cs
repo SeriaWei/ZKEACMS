@@ -11,9 +11,9 @@ using System.Text;
 using Easy.Extend;
 using ZKEACMS.Extend;
 using System.Linq;
-using Newtonsoft.Json;
 using ZKEACMS.Widget;
 using Easy.RuleEngine;
+using Easy.Serializer;
 
 namespace ZKEACMS.Rule
 {
@@ -38,7 +38,7 @@ namespace ZKEACMS.Rule
         private Rule Init(Rule item)
         {
             item.RuleItemList = item.RuleItemList.RemoveDeletedItems().ToList();
-            item.RuleItems = JsonConvert.SerializeObject(item.RuleItemList);
+            item.RuleItems = JsonConverter.Serialize(item.RuleItemList);
             StringBuilder expressionBuilder = new StringBuilder();
             foreach (var ruleItem in item.RuleItemList)
             {
@@ -109,7 +109,7 @@ namespace ZKEACMS.Rule
             var rule = base.Get(primaryKey);
             if (rule.RuleItems.IsNotNullAndWhiteSpace())
             {
-                rule.RuleItemList = JsonConvert.DeserializeObject<List<RuleItem>>(rule.RuleItems);
+                rule.RuleItemList = JsonConverter.Deserialize<List<RuleItem>>(rule.RuleItems);
             }
             return rule;
         }
