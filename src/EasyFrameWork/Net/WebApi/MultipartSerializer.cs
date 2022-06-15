@@ -12,14 +12,14 @@ using System.Collections.Generic;
 
 namespace Easy.Net.WebApi
 {
-    public class MultipartSerializer : ISerializer
+    public class MultipartSerializer : IRequestSerializer
     {
         public string GetContentTypeRegexPattern()
         {
             return MimeContentType.MultipartRegex;
         }
 
-        public object Decode(HttpContent content, Type responseType)
+        public object DeserializeResponse(HttpContent content, Type responseType)
         {
             return content.ReadAsByteArrayAsync().Result;
         }
@@ -43,7 +43,7 @@ namespace Easy.Net.WebApi
             }
         }
 
-        public HttpContent Encode(HttpRequest request)
+        public HttpContent SerializeRequest(HttpRequest request)
         {
             if (!(request.Body is IDictionary))
             {

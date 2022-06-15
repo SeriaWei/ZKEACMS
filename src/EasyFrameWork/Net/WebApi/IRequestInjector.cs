@@ -6,7 +6,7 @@ using System;
 
 namespace Easy.Net.WebApi
 {
-	public interface IInjector
+	public interface IRequestInjector
     {
         void Inject(HttpRequest request);
     }

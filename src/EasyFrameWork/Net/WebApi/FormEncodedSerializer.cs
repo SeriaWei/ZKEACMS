@@ -10,19 +10,19 @@ using System.Net.Http;
 
 namespace Easy.Net.WebApi
 {
-    public class FormEncodedSerializer : ISerializer
+    public class FormEncodedSerializer : IRequestSerializer
     {
         public string GetContentTypeRegexPattern()
         {
             return MimeContentType.Form;
         }
 
-        public object Decode(HttpContent content, Type responseType)
+        public object DeserializeResponse(HttpContent content, Type responseType)
         {
             throw new IOException($"Unable to deserialize Content-Type: {this.GetContentTypeRegexPattern()}.");
         }
 
-        public HttpContent Encode(HttpRequest request)
+        public HttpContent SerializeRequest(HttpRequest request)
         {
             if (!(request.Body is IEnumerable<KeyValuePair<string, string>>))
             {
