@@ -45,21 +45,22 @@ namespace Easy.Net.WebApi
 
         public HttpContent SerializeRequest(HttpRequest request)
         {
-            if (!(request.Body is IDictionary))
+            if (!(request.Body is IEnumerable<KeyValuePair<string, object>>))
             {
-                throw new IOException("Request requestBody must be Map<String, Object> when Content-Type is multipart/*");
+                throw new IOException("Request requestBody must be IEnumerable<KeyValuePair<string, object>> when Content-Type is multipart/*");
             }
 
             var boundary = "CustomBoundary8d0f01e6b3b5daf";
             MultipartFormDataContent form = new MultipartFormDataContent(boundary);
-            var body = (Dictionary<string, object>)request.Body;
+            var body = request.Body as IEnumerable<KeyValuePair<string, object>>;
 
             foreach (KeyValuePair<string, object> item in body)
             {
                 if (item.Value is FileStream)
                 {
                     var file = (FileStream)item.Value;
-                    try {
+                    try
+                    {
                         MemoryStream memoryStream = new MemoryStream();
                         file.CopyTo(memoryStream);
                         var fileContent = new ByteArrayContent(memoryStream.ToArray());
@@ -70,7 +71,9 @@ namespace Easy.Net.WebApi
                         fileContent.Headers.Add("Content-Type", mimeType);
 
                         form.Add(fileContent, (string)item.Key);
-                    } finally {
+                    }
+                    finally
+                    {
                         file.Dispose();
                     }
                 }
