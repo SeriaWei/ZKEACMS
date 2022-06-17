@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ 
- * Copyright 2018 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,23 +11,18 @@ namespace Easy.Notification
 {
     public class NotificationManager : INotificationManager
     {
-        private readonly IEnumerable<INotifyService> _notifyService;
-        public NotificationManager(IEnumerable<INotifyService> notifyService)
+        private readonly IEnumerable<INotificationProvider> _notifyService;
+        public NotificationManager(IEnumerable<INotificationProvider> notifyService)
         {
             _notifyService = notifyService;
         }
-        public void Send(Notice notice)
+        public void Send(Message notice)
         {
             Type noticeType = notice.GetType();
-            var notifies = _notifyService.Where(m => m.SupportType == noticeType);
-            if (notifies.Any())
+            foreach (var item in _notifyService.Where(m => m.SupportType == noticeType))
             {
-                foreach (var item in notifies)
-                {
-                    item.Send(notice);
-                }
+                item.Send(notice);
             }
-            else throw new Exception($"INotifyService for {noticeType} is not exists");
         }
     }
 }

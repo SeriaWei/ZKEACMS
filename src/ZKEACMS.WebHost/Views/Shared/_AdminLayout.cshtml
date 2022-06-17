@@ -1,6 +1,7 @@
 ﻿@using ZKEACMS.Common.Models
 @using Microsoft.Extensions.Options
 @using Easy.Options
+@using Microsoft.AspNetCore.Mvc.ModelBinding
 @inject IAdminMenuProvider adminMenuProvider
 @{
     Style.Reqiured("bootStrap").AtHead();
@@ -145,6 +146,13 @@
 
             </div>
             <div id="main-body">
+                @if (ViewContext.ModelState.GetFieldValidationState("Unknown") == ModelValidationState.Invalid)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        @Html.ValidationMessage("Unknown")
+                    </div>
+                }
                 @RenderBody()
             </div>
         </div>

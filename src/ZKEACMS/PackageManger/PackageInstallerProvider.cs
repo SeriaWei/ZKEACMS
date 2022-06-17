@@ -1,7 +1,8 @@
 /* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
-using Newtonsoft.Json;
+
+using Easy.Serializer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +27,7 @@ namespace ZKEACMS.PackageManger
         {
             StreamReader reader = new StreamReader(stream);
             string content = reader.ReadToEnd();
-            package = JsonConvert.DeserializeObject<T>(content);
+            package = JsonConverter.Deserialize<T>(content);
             package.Content = content;
             return CreateInstaller(package.PackageInstaller);
         }

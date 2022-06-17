@@ -28,13 +28,10 @@
     }
     @StyleAtHead()
     @ScriptAtHead()
-    @if (theme != null && ApplicationContext.HostingEnvironment.IsDevelopment())
+    @if (theme != null)
     {
-        <link type="text/css" async rel="stylesheet" href="@Url.Content(theme.UrlDebugger)" />
-    }
-    else
-    {
-        <link type="text/css" async rel="stylesheet" href="@Url.Content(theme.Url)" />
+        string themeFile = ApplicationContext.HostingEnvironment.IsDevelopment() ? theme.UrlDebugger : theme.Url;
+        <link type="text/css" async rel="stylesheet" href="@Url.Content(themeFile)" />
     }
 </head>
 <body>

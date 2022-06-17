@@ -5,8 +5,9 @@
     Style.Reqiured("Customer").AtHead();
     Script.Reqiured("validate").AtFoot();
     var returnUrl = ViewBag.ReturnUrl ?? ViewContext.HttpContext.Request.Query["ReturnUrl"];
+    bool enableSignMeUp = applicationSettingService.Get(SettingKeys.EnableSignMeUp, "true") == "true";
 }
-
+@inject IApplicationSettingService applicationSettingService
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -45,9 +46,12 @@
             </div>
         </div>
         <div class="login-panel-footer clearfix">
-            <div class="pull-left">
-                <a href="@Url.Action("SignUp", new { ReturnUrl = returnUrl })">@L("Sign up")</a>
-            </div>
+            @if (enableSignMeUp)
+            {
+                <div class="pull-left">
+                    <a href="@Url.Action("SignUp", new { ReturnUrl = returnUrl })">@L("Sign up")</a>
+                </div>
+            }
             <div class="pull-right">
                 <a href="@Url.Action("Forgotten", new { ReturnUrl = returnUrl })">@L("Forgot your password?")</a>
             </div>

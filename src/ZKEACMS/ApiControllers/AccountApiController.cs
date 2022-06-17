@@ -1,7 +1,6 @@
 ﻿/* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
-
 
 using Easy.Constant;
 using Easy.Modules.User.Service;
@@ -13,7 +12,7 @@ using ZKEACMS.Common.ViewModels;
 namespace ZKEACMS.ApiControllers
 {
     [ApiController]
-    [Route("api/acount")]
+    [Route("api/account")]
     public class AccountApiController : ControllerBase
     {
         public readonly IUserService _userService;

@@ -1,6 +1,10 @@
-﻿using Easy.Extend;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using Easy.Extend;
+using Easy.Serializer;
 using Microsoft.Extensions.Localization;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -26,7 +30,7 @@ namespace Easy.Mvc.DataAnnotations
             {
                 if (_viewConfigure != null)
                 {
-                    var mapping = JsonConvert.DeserializeObject<Mapping>(Encoding.UTF8.GetString(Convert.FromBase64String(name)));
+                    var mapping = JsonConverter.Deserialize<Mapping>(Encoding.UTF8.GetString(Convert.FromBase64String(name)));
                     var descriptor = _viewConfigure.GetViewPortDescriptor(mapping.Property);
                     if (descriptor != null)
                     {

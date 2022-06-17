@@ -1,8 +1,6 @@
-﻿/*!
- * http://www.zkea.net/
- * Copyright 2020 ZKEASOFT
- * http://www.zkea.net/licenses
- */
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
 
 
 using Easy;
@@ -38,7 +36,7 @@ namespace ZKEACMS.Message.EventHandler
                 MessageNotificationConfig notifyConfig = _applicationSettingService.Get<MessageNotificationConfig>();
                 if (notifyConfig.MessageNotifyEmails.IsNotNullAndWhiteSpace())
                 {
-                    _notificationManager.Send(new RazorEmailNotice
+                    _notificationManager.Send(new RazorEmailMessage
                     {
                         Subject = _localize.Get("New message"),
                         To = notifyConfig.MessageNotifyEmails.Split(new char[] { '\r', '\n', ',', ';' }, StringSplitOptions.RemoveEmptyEntries),

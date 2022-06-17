@@ -1,4 +1,8 @@
-﻿using Easy.Extend;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using Easy.Extend;
 using System;
 using System.Collections.Generic;
 using System.IO;

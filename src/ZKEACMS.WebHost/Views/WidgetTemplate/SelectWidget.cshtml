@@ -3,7 +3,7 @@
     Style.Reqiured("Layout").AtFoot();
 }
 <div class="panel panel-default">
-    <div class="panel-heading">        
+    <div class="panel-heading">
         <div class="form-inline">
             <div class="form-group">
                 <label for="exampleInputName2">@L("Search")</label>
@@ -15,25 +15,47 @@
         </div>
     </div>
     <div class="panel-body template-list">
-        @using (Html.BeginForm("RedirectToWidget", "WidgetTemplate", new { Model.PageID, Model.LayoutID, Model.ZoneID,Model.RuleID, Model.ReturnUrl }))
+        @using (Html.BeginForm("RedirectToWidget", "WidgetTemplate", new { Model.PageID, Model.LayoutID, Model.ZoneID, Model.RuleID, Model.ReturnUrl }))
         {
-            foreach (var item in Model.WidgetTemplates.GroupBy(m => m.GroupName).OrderBy(m => m.Key))
-            {
-                foreach (WidgetTemplateEntity template in item.OrderBy(m => m.Order))
+            <div class="row">
+                @foreach (var template in Model.PredefinedTemplates)
                 {
                     <div class="col-lg-2 col-md-3 col-sm-4 thumb-item">
                         <div>
-                            <input id="template-@template.ID" type="radio" name="WidgetTemplateID" value="@template.ID" />
-                            <label for="template-@template.ID" class="thumbnail">
-                                <img src="@Url.Content(template.Thumbnail)" />
-                                <span>
-                                    @L(template.Title)
-                                </span>
-                            </label>
+                            <input type="radio" name="WidgetID" value="@template.ID" />
+                            <div class="thumbnail">
+                                <div class="img" for="template-@template.ID">
+                                    <img src="@Url.Content(template.Thumbnail.IsNullOrWhiteSpace() ? "~/images/template.png" : template.Thumbnail)" alt="@template.WidgetName" />
+                                </div>
+                                <label>
+                                    @template.WidgetName
+                                </label>
+                            </div>
                         </div>
                     </div>
                 }
-            }
+            </div>
+            <div class="row">
+                @foreach (var item in Model.WidgetTemplates.GroupBy(m => m.GroupName).OrderBy(m => m.Key))
+                {
+                    foreach (WidgetTemplateEntity template in item.OrderBy(m => m.Order))
+                    {
+                        <div class="col-lg-2 col-md-3 col-sm-4 thumb-item">
+                            <div>
+                                <input type="radio" name="WidgetTemplateID" value="@template.ID" />
+                                <div class="thumbnail">
+                                    <div class="img" for="template-@template.ID">
+                                        <img src="@Url.Content(template.Thumbnail)" alt="@template.Title" />
+                                    </div>
+                                    <label>
+                                        @L(template.Title)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
             <div class="toolBar">
                 <input id="design" type="submit" class="btn btn-primary" value="@L("Next")" />
                 @if (Model.CanPasteWidget)
@@ -52,8 +74,12 @@
 {
     <script type="text/javascript">
         $(function () {
-            $("input[type=radio]:first").attr("checked", "checked");
-            $(document).on("dblclick", function () { $("form").submit(); });
+            $(".template-list input[type=radio]:first").prop("checked", true);
+            $(document).on("dblclick", ".template-list .thumbnail" ,function () { $("form").submit(); });
+            $(document).on("click", ".template-list .thumbnail", function () {
+                $(".template-list input[type=radio]").prop("checked", false);
+                $("input[type=radio]", $(this).closest(".thumb-item")).prop("checked", true);
+            });
             $(document).on("keyup", "#search", function () {
                 var keyWord = $(this).val();
                 if (keyWord) {

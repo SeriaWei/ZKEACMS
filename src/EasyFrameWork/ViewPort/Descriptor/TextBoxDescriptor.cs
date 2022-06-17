@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using Easy.ViewPort.Validator;
 using System;
 
@@ -27,7 +30,7 @@ namespace Easy.ViewPort.Descriptor
 
         public TextBoxDescriptor FormatAsDateTime()
         {
-            FormatDate("yyyy/MM/dd hh:mm");
+            FormatDate("yyyy/MM/dd HH:mm");
             FormatDateForJavaScript("YYYY/MM/DD HH:mm:ss");
             return this;
         }

@@ -1,0 +1,30 @@
+@using ZKEACMS.SpiderLog.Models
+@model IEnumerable<SearchEngineVisitLog>
+@{ 
+    int index = 0;
+}
+<div class="panel panel-default">
+    <div class="panel-heading">@L("Search Engine / Spiders")</div>
+    <table class="panel-body table table-bordered table-hover">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td width="40" align="center">
+                    @(++index)
+                </td>
+                <td>
+                    <a href="@Url.Action("VisitLog","SpiderLog",new { Id = item.Name })" target="_blank">
+                        @item.Name
+                    </a>
+                </td>
+                <td>
+                    <a href="@item.Url" target="_blank">@item.Url</a>
+                </td>
+                <td>
+                    @item.VisitAt.ToString("yyyy/MM/dd HH:mm:ss")
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+

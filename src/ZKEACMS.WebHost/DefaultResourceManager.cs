@@ -1,8 +1,6 @@
-/*!
- * http://www.zkea.net/
- * Copyright 2017 ZKEASOFT
- * http://www.zkea.net/licenses
- */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
 
 using Easy.Mvc.Resource;
 using System;
@@ -105,6 +103,10 @@ namespace ZKEACMS.WebHost
             script("list-editor")
                 .Include($"{LibraryPath}/jquery-ui/jquery-ui-sortable.js", $"{LibraryPath}/jquery-ui/jquery-ui-sortable.min.js")
                 .Include($"{ScriptPath}/list-editor.js", $"{ScriptPath}/list-editor.min.js");
+
+            script("Antiforgery")
+                .Include("~/js/antiforgery/tokenset.js")
+                .RequiredAtFoot();
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)

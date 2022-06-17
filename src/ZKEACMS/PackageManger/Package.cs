@@ -1,12 +1,13 @@
 /* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Easy.Extend;
-using Newtonsoft.Json;
+using Easy.Serializer;
 
 namespace ZKEACMS.PackageManger
 {
@@ -21,7 +22,7 @@ namespace ZKEACMS.PackageManger
         public object Content { get; set; }
         public virtual byte[] ToFilePackage()
         {
-            return JsonConvert.SerializeObject(this).ToByte();
+            return JsonConverter.Serialize(this).ToByte();
         }
     }
 }

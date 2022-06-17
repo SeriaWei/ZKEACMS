@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ 
- * Copyright 2018 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +17,7 @@ namespace Easy.Mvc.Plugin
     public interface IPluginStartup
     {
         Assembly Assembly { get; set; }
-        List<CompilationLibrary> Dependency { get; set; }
+        List<Assembly> Dependencies { get; set; }
         string CurrentPluginPath { get; set; }
         void Setup(params object[] args);
         void ConfigureServices(IServiceCollection services);

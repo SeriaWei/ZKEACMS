@@ -1,6 +1,11 @@
-﻿var ZKEACMS = ZKEACMS || {};
+﻿/*! http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
+
+var ZKEACMS = ZKEACMS || {};
 ZKEACMS.Basket = {
     Add: function (product, callBack) {
+        Object.assign(product, ZKEACMS.AntiToken);
         $.post("/Basket/Add", product, function (data) {
             if (data.location) {
                 window.location = data.location;
@@ -12,6 +17,7 @@ ZKEACMS.Basket = {
         });
     },
     Update: function (basket, callBack) {
+        Object.assign(basket, ZKEACMS.AntiToken);
         $.post("/Basket/Update", basket, function (data) {
             if (data.location) {
                 window.location = data.location;
@@ -23,7 +29,7 @@ ZKEACMS.Basket = {
         });
     },
     Remove: function (basketId, callBack) {
-        $.post("/Basket/Remove", { basketId: basketId }, function (data) {
+        $.post("/Basket/Remove", Object.assign({ basketId: basketId }, ZKEACMS.AntiToken), function (data) {
             if (data.location) {
                 window.location = data.location;
             } else {
@@ -34,14 +40,14 @@ ZKEACMS.Basket = {
         });
     },
     Get: function (callBack) {
-        $.post("/Basket/GetBaskets", function (data) {
+        $.post("/Basket/GetBaskets", Object.assign({}, ZKEACMS.AntiToken), function (data) {
             if (callBack) {
                 callBack.call(data);
             }
         });
     },
     ShowBasket: function () {
-        $.post("/Basket/Index", function (data) {
+        $.post("/Basket/Index", Object.assign({}, ZKEACMS.AntiToken), function (data) {
             if (data.location) {
                 window.location = data.location;
             } else {
@@ -119,7 +125,7 @@ $(function () {
         });
     });
     $(document).on("click", ".basket .ckeck-out", function () {
-        $.post("/Basket/CheckOut", function (data) {
+        $.post("/Basket/CheckOut", Object.assign({}, ZKEACMS.AntiToken), function (data) {
             if (data.location) {
                 window.location = data.location;
             } else {

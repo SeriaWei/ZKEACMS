@@ -1,4 +1,8 @@
-﻿.field-item {
+﻿/*! http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+.field-item {
     background: url(images/fields.png) no-repeat 10px 0;
     padding: 6px 5px 7px 50px;
     list-style: none;

@@ -8,40 +8,24 @@
         @using (Html.BeginForm())
         {
             @Html.EditorForModel()
-            <div class="toolBar">
+                <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManageTemplate))
                 {
-                    <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Update" />
+                            <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Update" />
                 }
-                <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
-            </div>
+                    <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
+                </div>
         }
     </div>
 </div>
 
 @using (Script.AtFoot())
 {
-    <script type="text/javascript">
-        $(function () {
-            var relatePath = $('#RelativePath');
-            var path = relatePath.val();
-            if (path.indexOf(".cshtml") > 0) {
-                var ps = path.split('/');
-                ps.pop();
-                path = ps.join('/') + "/";
-            }
-            relatePath.data("base", path);
-            $('#Name').keyup(function () {
-                var input = $(this);
-                var value = $.trim(input.val());
-                setRelativePath(value);
+        <script type="text/javascript">
+            $(function () {
+                $('#Name').keyup(function () {
+                    $('#RelativePath').val($("#ThemeViewsFolder").val()+"/"+$(this).val());
+                });
             });
-
-        });
-
-        function setRelativePath(name) {
-            var input_path = $('#RelativePath');
-            input_path.val(input_path.data("base") + name);
-        }
-    </script>
+        </script>
 }

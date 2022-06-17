@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS builder
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS builder
 WORKDIR /build
 # Copy all files
 COPY . ./
@@ -16,7 +16,7 @@ RUN sqlite-exec -d /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/Database
 RUN cp -f /build/Database/SQLite/appsettings.json /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput/appsettings.json
 
 # Build runtime image
-FROM zkeasoft/cms-runtime:5.0
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /zkeacms
 COPY --from=builder /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput .
 EXPOSE 80

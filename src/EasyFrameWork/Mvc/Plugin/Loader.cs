@@ -1,12 +1,12 @@
 /* http://www.zkea.net/ 
- * Copyright 2017 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy.Extend;
+using Easy.Serializer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,9 +20,9 @@ namespace Easy.Mvc.Plugin
         public const string PluginFolder = "Plugins";
         private const string PluginInfoFile = "zkea.plugin";
 #if DEBUG
-        private readonly string[] AltDevelopmentPath = new[] { "bin", "Debug", "net5.0" };
+        private readonly string[] AltDevelopmentPath = new[] { "bin", "Debug", "net6.0" };
 #else
-        private readonly string[] AltDevelopmentPath = new[] { "bin", "Release", "net5.0" };
+        private readonly string[] AltDevelopmentPath = new[] { "bin", "Release", "net6.0" };
 #endif
         private readonly static List<AssemblyLoader> Loaders = new List<AssemblyLoader>();
         private readonly static Dictionary<string, Assembly> LoadedAssemblies = new Dictionary<string, Assembly>();
@@ -77,7 +77,7 @@ namespace Easy.Mvc.Plugin
                     string pluginInfo = Path.Combine(item.FullName, PluginInfoFile);
                     if (File.Exists(pluginInfo))
                     {
-                        var plugin = JsonConvert.DeserializeObject<PluginInfo>(File.ReadAllText(pluginInfo));
+                        var plugin = JsonConverter.Deserialize<PluginInfo>(File.ReadAllText(pluginInfo));
                         plugin.RelativePath = item.FullName;
                         yield return plugin;
                     }
@@ -91,7 +91,7 @@ namespace Easy.Mvc.Plugin
             GetPlugins().Where(m => m.ID == pluginId).Each(m =>
             {
                 m.Enable = false;
-                File.WriteAllText(m.RelativePath.CombinePath(PluginInfoFile), JsonConvert.SerializeObject(m));
+                File.WriteAllText(m.RelativePath.CombinePath(PluginInfoFile), JsonConverter.Serialize(m));
             });
         }
 
@@ -100,7 +100,7 @@ namespace Easy.Mvc.Plugin
             GetPlugins().Where(m => m.ID == pluginId).Each(m =>
             {
                 m.Enable = true;
-                File.WriteAllText(m.RelativePath.CombinePath(PluginInfoFile), JsonConvert.SerializeObject(m));
+                File.WriteAllText(m.RelativePath.CombinePath(PluginInfoFile), JsonConverter.Serialize(m));
             });
         }
 

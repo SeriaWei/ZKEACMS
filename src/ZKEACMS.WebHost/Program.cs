@@ -1,13 +1,19 @@
-/*!
- * http://www.zkea.net/
- * Copyright 2018 ZKEASOFT
- * 深圳市纸壳软件有限公司
- * http://www.zkea.net/licenses
- */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
 
+using Easy;
+using Easy.Mvc.Plugin;
+using Easy.Mvc.Resource;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System;
 
 namespace ZKEACMS.WebHost
 {
@@ -15,21 +21,41 @@ namespace ZKEACMS.WebHost
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            WebApplication app = BuildApplication(args);
+            ConfigureApplication(app);
+            app.Run();
         }
 
-        public static IHostBuilder CreateWebHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                    webBuilder.ConfigureLogging((hostingContext, logging) =>
-                    {
-                        logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                        logging.AddConsole();
-                        logging.AddDebug();
-                        logging.AddEventSourceLogger();
-                    });
-                });
+        private static WebApplication BuildApplication(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+            builder.Logging.AddFileLog();
+            builder.Services.ConfigureResource<DefaultResourceManager>();
+            builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<MvcRazorRuntimeCompilationOptions>, CompilationOptionsSetup>());
+            Type mvcBuilderType = typeof(Builder);
+            PluginActivtor.LoadedPlugins.Add(new PluginDescriptor
+            {
+                Assembly = mvcBuilderType.Assembly,
+                PluginType = mvcBuilderType
+            });
+            builder.Services.UseZKEACMS(builder.Configuration, builder.Environment);
+
+            var app = builder.Build();
+            return app;
+        }
+        private static void ConfigureApplication(WebApplication app)
+        {
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithReExecute("/Error/Code/{0}");
+            }
+
+            app.UseZKEACMS(app.Environment, app.Services.GetService<IHttpContextAccessor>());
+        }
     }
 }

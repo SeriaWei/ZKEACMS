@@ -1,8 +1,12 @@
 @model String
 @{
-    Style.Reqiured("captcha").AtHead();
-    Script.Reqiured("captcha").AtFoot();
+    bool useImageCaptcha = applicationSettingService.Get(SettingKeys.UseImageCaptcha, "true") == "true";
+    if (useImageCaptcha)
+    {
+        Style.Reqiured("captcha").AtHead();
+        Script.Reqiured("captcha").AtFoot();
 
+    }
     var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
     Dictionary<string, object> properties;
     if (descriptor != null)
@@ -16,17 +20,25 @@
         properties["placeholder"] = L("Captcha").Text;
     }
 }
-<table class="captcha-container">
-    <tbody>
-        <tr>
-            <td>
-                @Html.TextBox("", Model, properties)
-            </td>
-            <td>
-                <a class="image-captcha" href="javascript:void(0)" data-captcha="@Url.Action("Image", "Captcha")">
-                    <img src="@Url.Action("Image", "Captcha")" />
-                </a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+@inject IApplicationSettingService applicationSettingService
+@if (useImageCaptcha)
+{
+    <table class="captcha-container">
+        <tbody>
+            <tr>
+                <td>
+                    @Html.TextBox("", Model, properties)
+                </td>
+                <td>
+                    <a class="image-captcha" href="javascript:void(0)" data-captcha="@Url.Action("Image", "Captcha")">
+                        <img src="@Url.Action("Image", "Captcha")" />
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+else
+{
+    @Html.Hidden("","Captcha")
+}

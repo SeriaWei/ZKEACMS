@@ -1,4 +1,6 @@
-﻿# ZKEACMS Build With .Net 5
+[![Auto Build](https://github.com/SeriaWei/ZKEACMS/actions/workflows/build.yml/badge.svg)](https://github.com/SeriaWei/ZKEACMS/actions/workflows/build.yml)
+
+# ZKEACMS Build With .Net 6
 
 ZKEACMS is a visual design, **WYSIWYG** Content Management System.
 
@@ -19,7 +21,9 @@ Try it on our demo site:
 
 **Create Page**
 
-[http://www.zkea.net/zkeacms/createpage](http://www.zkea.net/zkeacms/createpage)
+How to create a new page:
+
+[http://www.zkea.net/zkeacms/videos/view/create-page.html](http://www.zkea.net/zkeacms/videos/view/create-page.html)
 
 **Multi-tenant demo**
 
@@ -34,6 +38,9 @@ Change the culture code to `en-US` to use english in `appsettings.json`
 }
 ```
 ## Publish / Release
+|Nuget|Version|
+|---|---|
+|ZKEACMS.Publisher|[![NuGet Badge](https://buildstats.info/nuget/ZKEACMS.Publisher?includePreReleases=true)](https://www.nuget.org/packages/ZKEACMS.Publisher)|
 
 Use `Publish.cmd` or `Publish.sh` to publish the project.
 You can also use the command line below to publish:
@@ -55,7 +62,7 @@ $ docker run -d -p 5000:80 zkeasoft/zkeacms:ent
 ```
 
 ## Development
-* [.Net SDK 5](https://dotnet.microsoft.com/download)
+* [.Net 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
 * Microsoft Sql Server 2012+ / MySql 5.6+ / SQLite 3
 * Microsoft Visual Studio 2019 / Visual Studio Code
 

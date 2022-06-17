@@ -1,5 +1,5 @@
 /* http://www.zkea.net/ 
- * Copyright 2018 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy.Notification;
@@ -22,6 +22,11 @@ namespace ZKEACMS.SMTP
         public SmtpClient GetSmtpClient()
         {
             var setting = GetSmtpSetting();
+            return GetSmtpClient(setting);
+        }
+
+        public SmtpClient GetSmtpClient(SmtpSetting setting)
+        {
             if (setting.Host.IsNullOrWhiteSpace() || setting.Email.IsNullOrWhiteSpace())
             {
                 return null;

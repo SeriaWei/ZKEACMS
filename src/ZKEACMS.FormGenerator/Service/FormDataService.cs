@@ -1,5 +1,5 @@
 /* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using DocumentFormat.OpenXml;
@@ -7,8 +7,8 @@ using Easy;
 using Easy.DataTransfer;
 using Easy.Extend;
 using Easy.RepositoryPattern;
+using Easy.Serializer;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -95,7 +95,7 @@ namespace ZKEACMS.FormGenerator.Service
                     }
                     else if (values.Count > 1)
                     {
-                        item.Value = JsonConvert.SerializeObject(values);
+                        item.Value = JsonConverter.Serialize(values);
                     }
 
                 }

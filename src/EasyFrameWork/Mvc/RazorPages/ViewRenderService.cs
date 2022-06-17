@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ 
- * Copyright 2018 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+
 using Easy.Mvc.Plugin;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;

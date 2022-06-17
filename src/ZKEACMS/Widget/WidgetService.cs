@@ -1,11 +1,13 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using Easy;
 using Easy.Extend;
 using Easy.RepositoryPattern;
 using Easy.Zip;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,30 +38,44 @@ namespace ZKEACMS.Widget
         }
         public override ServiceResult<T> Add(T item)
         {
-            ServiceResult<T> result = null;
-            BeginTransaction(() =>
-            {
-                var id = Guid.NewGuid().ToString("N");
-                var basePart = item.ToWidgetBasePart();
-                basePart.ID = id;
-                WidgetBasePartService.Add(basePart);
-                item.ID = basePart.ID;
-                result = base.Add(item);
-            });
-            return result;
+            return BeginTransaction(() =>
+             {
+                 var id = Guid.NewGuid().ToString("N");
+                 var basePart = item.ToWidgetBasePart();
+                 basePart.ID = id;
+                 var baseResult = WidgetBasePartService.Add(basePart);
+                 if (baseResult.HasViolation)
+                 {
+                     ServiceResult<T> result = new ServiceResult<T>();
+                     foreach (var item in baseResult.RuleViolations)
+                     {
+                         result.AddRuleViolation(item.ParameterName, item.ErrorMessage);
+                     }
+                     return result;
+                 }
+                 item.ID = basePart.ID;
+                 return base.Add(item);
+             });
         }
 
         public override ServiceResult<T> Update(T item)
         {
-            ServiceResult<T> result = null;
-            BeginTransaction(() =>
-            {
-                var basePart = WidgetBasePartService.Get(item.ID);
-                item.CopyTo(basePart);
-                WidgetBasePartService.Update(basePart);
-                result = base.Update(item);
-            });
-            return result;
+            return BeginTransaction(() =>
+             {
+                 var basePart = WidgetBasePartService.Get(item.ID);
+                 item.CopyTo(basePart);
+                 var baseResult = WidgetBasePartService.Update(basePart);
+                 if (baseResult.HasViolation)
+                 {
+                     ServiceResult<T> result = new ServiceResult<T>();
+                     foreach (var item in baseResult.RuleViolations)
+                     {
+                         result.AddRuleViolation(item.ParameterName, item.ErrorMessage);
+                     }
+                     return result;
+                 }
+                 return base.Update(item);
+             });
         }
         public override ServiceResult<T> UpdateRange(params T[] items)
         {
@@ -69,13 +85,21 @@ namespace ZKEACMS.Widget
             {
                 item.CopyTo(baseParts.FirstOrDefault(m => m.ID == item.ID));
             }
-            ServiceResult<T> result = null;
-            BeginTransaction(() =>
-            {
-                WidgetBasePartService.UpdateRange(baseParts.ToArray());
-                result = base.UpdateRange(items);
-            });
-            return result;
+
+            return BeginTransaction(() =>
+             {
+                 var baseResult = WidgetBasePartService.UpdateRange(baseParts.ToArray());
+                 if (baseResult.HasViolation)
+                 {
+                     ServiceResult<T> result = new ServiceResult<T>();
+                     foreach (var item in baseResult.RuleViolations)
+                     {
+                         result.AddRuleViolation(item.ParameterName, item.ErrorMessage);
+                     }
+                     return result;
+                 }
+                 return base.UpdateRange(items);
+             });
         }
         public override T GetSingle(Expression<Func<T, bool>> filter)
         {
@@ -147,7 +171,7 @@ namespace ZKEACMS.Widget
 
         public virtual WidgetBase GetWidget(WidgetBase widget)
         {
-            T result = base.Get(widget.ID);
+            T result = Get().FirstOrDefault(m => m.ID == widget.ID);
             if (result != null)
             {
                 widget.CopyTo(result);
@@ -210,7 +234,8 @@ namespace ZKEACMS.Widget
         {
             widget.IsTemplate = false;
             widget.IsSystem = false;
-            Add((T)widget);
+            var publishResult = Add((T)widget);
+            if (publishResult.HasViolation) throw new Exception(widget.WidgetName + " " + publishResult.ErrorMessage);
         }
 
         #region PackWidget

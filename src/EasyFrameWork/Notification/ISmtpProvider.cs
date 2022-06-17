@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ 
- * Copyright 2018 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+
 using System;
 using System.Collections.Generic;
 using System.Net.Mail;
@@ -12,5 +13,6 @@ namespace Easy.Notification
     {
         SmtpClient GetSmtpClient();
         SmtpSetting GetSmtpSetting();
+        SmtpClient GetSmtpClient(SmtpSetting smtpSetting);
     }
 }

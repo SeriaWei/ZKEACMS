@@ -1,5 +1,5 @@
 /* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy.RepositoryPattern;
@@ -16,10 +16,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using Easy.Extend;
 using ZKEACMS.Page;
+using Easy.Constant;
 
 namespace ZKEACMS.Product.Service
 {
-    public class ProductListWidgetService : WidgetService<ProductListWidget>, IProductListWidgetService
+    public class ProductListWidgetService : WidgetService<ProductListWidget>
     {
         private readonly IProductService _productService;
         private readonly IProductCategoryService _productCategoryService;
@@ -91,12 +92,12 @@ namespace ZKEACMS.Product.Service
             Expression<Func<ProductEntity, bool>> filter = null;
             if (cate != 0)
             {
-                filter = m => m.IsPublish && m.ProductCategoryID == cate;
+                filter = m => m.Status == (int)RecordStatus.Active && m.IsPublish && m.ProductCategoryID == cate;
             }
             else
             {
                 var ids = _productCategoryService.Get(m => m.ID == currentWidget.ProductCategoryID || m.ParentID == currentWidget.ProductCategoryID).Select(m => m.ID).ToList();
-                filter = m => m.IsPublish && ids.Contains(m.ProductCategoryID);
+                filter = m => m.Status == (int)RecordStatus.Active && m.IsPublish && ids.Contains(m.ProductCategoryID);
             }
             if (currentWidget.IsPageable)
             {
@@ -116,5 +117,6 @@ namespace ZKEACMS.Product.Service
                 DetailPageUrl = currentWidget.DetailPageUrl
             };
         }
+
     }
 }

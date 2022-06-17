@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "Content/pin-nav.min.css",
+    "inputFiles": [
+      "Content/pin-nav.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/pin-nav.min.js",
+    "inputFiles": [
+      "Scripts/pin-nav.js"
+    ]
+  }
+]

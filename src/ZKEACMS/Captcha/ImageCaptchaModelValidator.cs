@@ -1,5 +1,5 @@
 ﻿/* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy.ViewPort.Validator;
@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZKEACMS.Setting;
 
 namespace ZKEACMS.Captcha
 {
@@ -20,6 +21,9 @@ namespace ZKEACMS.Captcha
         }
         public override bool Validate(object value)
         {
+            bool useImageCaptcha = Easy.ServiceLocator.GetService<IApplicationSettingService>().Get(SettingKeys.UseImageCaptcha, "true") == "true";
+            if (!useImageCaptcha) return true;
+
             return Easy.ServiceLocator.GetService<IImageCaptchaService>().ValidateCode(value?.ToString());
         }
     }

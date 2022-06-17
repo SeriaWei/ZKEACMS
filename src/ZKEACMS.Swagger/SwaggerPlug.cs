@@ -1,8 +1,7 @@
 ﻿/* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
- * http://www.zkea.net/licenses 
- *
- */
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
 using Microsoft.AspNetCore.Builder;

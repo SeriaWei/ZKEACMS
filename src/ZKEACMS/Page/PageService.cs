@@ -1,14 +1,13 @@
 /* http://www.zkea.net/ 
- * Copyright 2018 ZKEASOFT 
- * http://www.zkea.net/licenses 
- */
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
 
 using Easy;
 using Easy.Extend;
 using Easy.RepositoryPattern;
+using Easy.Serializer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,7 +73,7 @@ namespace ZKEACMS.Page
                     page.Styles.Clear();
                     if (page.Style.StartsWith("["))
                     {
-                        foreach (var item in JsonConvert.DeserializeObject<string[]>(page.Style))
+                        foreach (var item in JsonConverter.Deserialize<string[]>(page.Style))
                         {
                             page.Styles.Add(new PageAsset { Url = item });
                         }
@@ -89,7 +88,7 @@ namespace ZKEACMS.Page
                     page.Scripts.Clear();
                     if (page.Script.StartsWith("["))
                     {
-                        foreach (var item in JsonConvert.DeserializeObject<string[]>(page.Script))
+                        foreach (var item in JsonConverter.Deserialize<string[]>(page.Script))
                         {
                             page.Scripts.Add(new PageAsset { Url = item });
                         }
@@ -105,8 +104,8 @@ namespace ZKEACMS.Page
         {
             if (page != null)
             {
-                page.Style = JsonConvert.SerializeObject(page.Styles.RemoveDeletedItems().Select(m => m.Url));
-                page.Script = JsonConvert.SerializeObject(page.Scripts.RemoveDeletedItems().Select(m => m.Url));
+                page.Style = JsonConverter.Serialize(page.Styles.RemoveDeletedItems().Select(m => m.Url));
+                page.Script = JsonConverter.Serialize(page.Scripts.RemoveDeletedItems().Select(m => m.Url));
             }
         }
 
@@ -191,20 +190,39 @@ namespace ZKEACMS.Page
             return result;
         }
 
-        public void Publish(PageEntity item)
+        public ServiceResult<PageEntity> Publish(PageEntity item)
         {
-            _eventManager.Trigger(Events.OnPagePublishing, item);
-            string pageId = item.ID;
-            BeginTransaction(() =>
+            var result = new ServiceResult<PageEntity>();
+            result.Result = item;
+            try
             {
-                item.IsPublish = true;
-                item.PublishDate = DateTime.Now;
-                base.Update(item);
-                item.ReferencePageID = item.ID;
-                PublishAsNew(item);
-            });
-            
-            _eventManager.Trigger(Events.OnPagePublished, item);
+                _eventManager.Trigger(Events.OnPagePublishing, item);
+                string pageId = item.ID;
+                BeginTransaction(() =>
+                {
+                    item.IsPublish = true;
+                    item.PublishDate = DateTime.Now;
+                    base.Update(item);
+                    item.ReferencePageID = item.ID;
+                    PublishAsNew(item);
+                });
+                _eventManager.Trigger(Events.OnPagePublished, item);
+
+                PageEntity publishedPage = Get(m => m.ReferencePageID == pageId && m.IsPublishedPage == true && m.Url != item.Url).FirstOrDefault();
+                if (publishedPage != null)
+                {
+                    _eventManager.Trigger(new EventArg
+                    {
+                        Name = Events.OnPageUrlChanged,
+                        Data = publishedPage.Url
+                    }, item);
+                }
+            }
+            catch(Exception ex)
+            {
+                result.AddRuleViolation("Title", ex.Message);
+            }
+            return result;
         }
 
 

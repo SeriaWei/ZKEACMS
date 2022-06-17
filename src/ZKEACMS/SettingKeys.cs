@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 namespace ZKEACMS
 {
     public class SettingKeys
@@ -6,5 +9,9 @@ namespace ZKEACMS
         public const string Favicon = "Favicon";
         public const string ExpandAllPage = "ExpandAllPage";
         public const string ExecuteScriptWhenChangeTheme = "ExecuteScriptWhenChangeTheme";
+        public const string UseImageCaptcha = "UseImageCaptcha";
+        public const string EnableSignMeUp = "EnableSignMeUp";
+        public const string EnableCustomerAccount = "EnableCustomerAccount";
+        public const string MessageNeedToBeReviewed = "MessageNeedToBeReviewed";
     }
 }

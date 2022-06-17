@@ -1,0 +1,62 @@
+@using ZKEACMS.SpiderLog.Models
+@model IEnumerable<SearchEngineVisitLog>
+@{
+    var first = Model.FirstOrDefault();
+}
+
+@if (first != null)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">@first.Name</div>
+        <table class="panel-body table table-bordered table-hover logs">
+            @foreach (var item in Model)
+            {
+                <tr data-href="#@item.Url">
+                    <td width="40" align="center">
+                        <a href="@item.Url" target="_blank" class="glyphicon glyphicon-eye-open"></a>
+                    </td>
+                    <td>
+                        <a href="#@item.Url" class="filter">@item.Url</a>
+                    </td>
+                    <td width="180">
+                        @item.VisitAt.ToString("yyyy/MM/dd HH:mm:ss")
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        if (window.location.hash) {
+            var logTable = $(".logs");
+            var target = window.location.hash;
+            logTable.find("tr").each(function () {
+                if ($(this).data("href") != target) {
+                    $(this).addClass("hide");
+                }
+            });
+        }
+
+        $(function () {
+            $(document).on("click", ".filter", function () {
+                var logTable = $(".logs");
+                if (window.location.hash) {
+                    logTable.find("tr").removeClass("hide");
+                    window.location.hash = '';
+                    return false;
+                } else {
+                    var target = $(this).attr("href");
+                    logTable.find("tr").each(function () {
+                        if ($(this).data("href") != target) {
+                            $(this).addClass("hide");
+                        }
+                    });
+                    return true;
+                }
+            });
+        });
+    </script>
+}

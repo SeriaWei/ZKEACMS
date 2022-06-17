@@ -1,4 +1,4 @@
-/* https://github.com/SeriaWei/mssql2mysql */
+﻿/* https://github.com/SeriaWei/mssql2mysql */
 
 
 CREATE DATABASE  IF NOT EXISTS `ZKEACMS_Blog` /*!40100 DEFAULT CHARACTER SET latin1 */;
@@ -2235,7 +2235,7 @@ CREATE TABLE `DBVersion` (
 
 /*!40000 ALTER TABLE `DBVersion` DISABLE KEYS */;
 INSERT INTO `DBVersion` VALUES
-(1,3,4,2,0);
+(1,3,5,4,0);
 /*!40000 ALTER TABLE `DBVersion` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ExtendField`;
@@ -4618,6 +4618,15 @@ INSERT INTO `Language` VALUES
 ('ProductCategory@ParentID','en-GB','Parent','ProductCategory','EntityProperty'),
 ('ProductCategory@ParentID','en-US','Parent','ProductCategory','EntityProperty'),
 ('ProductCategory@ParentID','zh-CN','ParentID','ProductCategory','EntityProperty'),
+('ProductCategory@SEODescription','en-US','SEO Description',NULL,NULL),
+('ProductCategory@SEODescription','zh-CN','SEO描述',NULL,NULL),
+('ProductCategory@SEODescription','zh-TW','SEO描述',NULL,NULL),
+('ProductCategory@SEOKeyWord','en-US','SEO Key Word',NULL,NULL),
+('ProductCategory@SEOKeyWord','zh-CN','SEO关键字',NULL,NULL),
+('ProductCategory@SEOKeyWord','zh-TW','SEO關鍵字',NULL,NULL),
+('ProductCategory@SEOTitle','en-US','SEO Title',NULL,NULL),
+('ProductCategory@SEOTitle','zh-CN','SEO标题',NULL,NULL),
+('ProductCategory@SEOTitle','zh-TW','SEO標題',NULL,NULL),
 ('ProductCategory@Status','en-GB','Status','ProductCategory','EntityProperty'),
 ('ProductCategory@Status','en-US','Status','ProductCategory','EntityProperty'),
 ('ProductCategory@Status','zh-CN','状态','ProductCategory','EntityProperty'),
@@ -4627,6 +4636,9 @@ INSERT INTO `Language` VALUES
 ('ProductCategory@Url','en-GB','Url','ProductCategory','EntityProperty'),
 ('ProductCategory@Url','en-US','Url','ProductCategory','EntityProperty'),
 ('ProductCategory@Url','zh-CN','英文名','ProductCategory','EntityProperty'),
+('ProductCategoryTag@ProductCategoryId','en-US','Product Category',NULL,NULL),
+('ProductCategoryTag@ProductCategoryId','zh-CN','产品类别',NULL,NULL),
+('ProductCategoryTag@ProductCategoryId','zh-TW','產品類別',NULL,NULL),
 ('ProductCategoryWidget@ActionType','zh-CN','ActionType','ProductCategoryWidget','EntityProperty'),
 ('ProductCategoryWidget@AssemblyName','zh-CN','AssemblyName','ProductCategoryWidget','EntityProperty'),
 ('ProductCategoryWidget@CreateBy','zh-CN','CreateBy','ProductCategoryWidget','EntityProperty'),

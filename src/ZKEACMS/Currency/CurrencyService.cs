@@ -1,8 +1,8 @@
-﻿using Easy;
-/* http://www.zkea.net/ 
- * Copyright 2021 ZKEASOFT 
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
 using System;

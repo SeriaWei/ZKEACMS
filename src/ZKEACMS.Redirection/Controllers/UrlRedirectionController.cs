@@ -1,5 +1,6 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
-
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
 
 using Easy.Constant;
 using Easy.Extend;
@@ -97,16 +98,16 @@ namespace ZKEACMS.Redirection.Controllers
                 return RedirectPermanent($"~/{(path ?? "").Trim()}.html");
             }
             path = $"~/{(path ?? "").TrimEnd('/')}";
-            var redirec = Service.GetByPath(path);
+            var redirec = Service.GetMatchedRedirection(path);
             if (redirec != null)
             {
                 if (redirec.IsPermanent)
                 {
-                    return RedirectPermanent(redirec.DestinationURL);
+                    return RedirectPermanent(redirec.GetDestinationURL(path));
                 }
                 else
                 {
-                    return Redirect(redirec.DestinationURL);
+                    return Redirect(redirec.GetDestinationURL(path));
                 }
             }
             return this.NotFoundResult();

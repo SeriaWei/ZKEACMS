@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+
 using Easy.Modules.MutiLanguage;
 using Easy.Modules.Role;
 using Easy.Modules.User.Models;

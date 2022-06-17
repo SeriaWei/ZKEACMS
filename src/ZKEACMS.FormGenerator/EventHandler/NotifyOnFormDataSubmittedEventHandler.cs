@@ -1,5 +1,5 @@
 ﻿/* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy;
@@ -30,7 +30,7 @@ namespace ZKEACMS.FormGenerator.EventHandler
 
             if (formData != null && formData.Form.NotificationReceiver.IsNotNullAndWhiteSpace())
             {
-                _notificationManager.Send(new RazorEmailNotice
+                _notificationManager.Send(new RazorEmailMessage
                 {
                     Subject = _localize.Get("New form data"),
                     To = formData.Form.NotificationReceiver.Split(new char[] { '\r', '\n', ',', ';' }, StringSplitOptions.RemoveEmptyEntries),

@@ -107,7 +107,7 @@
 </div><!-- /.modal -->
 @using (Script.AtFoot())
 {
-    <script type="text/javascript">
+<script type="text/javascript">
         function Create(node) {
             var parent = node.reference.attr("id");
             window.location.href = '@Url.Action("Create", "Page")' + '?ParentID=' + parent;
@@ -137,7 +137,10 @@
             var id = node.reference.attr("id");
             Easy.ShowMessageBox("@L("Notice")", "@L("Do you want to publish?")", function () {
                 Easy.Block();
-                $.post('@Url.Action("Publish")', { id: id }, function () {
+                $.post('@Url.Action("Publish")', { id: id }, function (data) {
+                    if (data.errorMessage) {
+                        Easy.ShowMessageBox("@L("Notice")",data.errorMessage);
+                    }
                     $(".jstree").jstree().refresh();
                     Easy.UnBlock();
                 });
@@ -186,7 +189,7 @@
         if (!location.hash) {
             location.hash = '@(pageId)';
         }
-    </script>
+</script>
     <script type="text/javascript">
         $(function () {
             $(".jstree").css("max-height", $(window).height() - 200).css("overflow", "auto");

@@ -1,0 +1,58 @@
+[
+  {
+    "Name": "Googlebot",
+    "Regex": "\\w*Googlebot\\w*"
+  },
+  {
+    "Name": "Bingbot",
+    "Regex": "\\w*bingbot\\w*"
+  },
+  {
+    "Name": "IBMbot",
+    "Regex": "\\w*ibm\\w*"
+  },
+  {
+    "Name": "AOLbot",
+    "Regex": "\\w*aolbuild\\w*"
+  },
+  {
+    "Name": "Applebot",
+    "Regex": "\\w*Applebot\\w*"
+  },
+  {
+    "Name": "SemrushBot",
+    "Regex": "\\w*SemrushBot\\w*"
+  },
+  {
+    "Name": "Facebookhitbot",
+    "Regex": "\\w*facebookexternalhit\\w*"
+  },
+  {
+    "Name": "Ahrefsbot",
+    "Regex": "\\w*AhrefsBot\\w*"
+  },
+  {
+    "Name": "Sogoubot",
+    "Regex": "\\w*Sogou web spider\\w*"
+  },
+  {
+    "Name": "Baidu",
+    "Regex": "\\w*Baiduspider\\w*"
+  },
+  {
+    "Name": "Sobot",
+    "Regex": "\\w*360Spider\\w*"
+  },
+  {
+    "Name": "YandexBot",
+    "Regex": "\\w*YandexBot\\w*"
+  },
+  {
+    "Name": "PetalBot",
+    "Regex": "\\w*PetalBot\\w*"
+  },
+  {
+    "Name": "OpenSiteExplorer",
+    "Regex": "\\w*opensiteexplorer\\w*"
+  }
+]

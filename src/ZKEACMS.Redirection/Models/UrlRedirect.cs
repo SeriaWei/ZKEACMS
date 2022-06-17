@@ -1,3 +1,7 @@
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using Easy.LINQ;
 using Easy.MetaData;
 using Easy.Models;
@@ -42,6 +46,22 @@ namespace ZKEACMS.Redirection.Models
             {
                 _regex = new Regex(InComingUrl, RegexOptions.Compiled | RegexOptions.IgnoreCase);
             }
+        }
+        public string GetDestinationURL(string inComingUrl)
+        {
+            if (IsPattern ?? false && IsPatternDestination())
+            {
+                return _regex.Replace(inComingUrl, DestinationURL);
+            }
+            return DestinationURL;
+        }
+        private bool IsPatternDestination()
+        {
+            for (int i = 0; i < DestinationURL.Length; i++)
+            {
+                if (i < (DestinationURL.Length - 1) && DestinationURL[i] == '$' && char.IsDigit(DestinationURL[i + 1])) return true;
+            }
+            return false;
         }
     }
     class UrlRedirectMetaData : ViewMetaData<UrlRedirect>

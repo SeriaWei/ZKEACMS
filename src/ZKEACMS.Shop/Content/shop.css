@@ -1,4 +1,7 @@
-﻿.basket {
+﻿/*! http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+.basket {
   position: fixed;
   right: -320px;
   top: 0;
@@ -35,7 +38,7 @@
   padding: 1rem 1.7rem;
   background: #353535;
   text-shadow: none;
-  opacity: .8;
+  opacity: 0.8;
 }
 .basket .close:focus,
 .basket .close:hover {

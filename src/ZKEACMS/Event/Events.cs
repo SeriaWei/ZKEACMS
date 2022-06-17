@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,6 +24,7 @@ namespace ZKEACMS.Event
         public const string OnPagePublishing = "ZKEACMS.Events.OnPagePublishing";
         public const string OnPagePublished = "ZKEACMS.Events.OnPagePublished";
         public const string OnPageDeleted = "ZKEACMS.Events.OnPageDeleted";
+        public const string OnPageUrlChanged = "ZKEACMS.Events.OnPageUrlChanged";
         #endregion
 
         #region Widget

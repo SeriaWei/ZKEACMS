@@ -1,5 +1,5 @@
 /* http://www.zkea.net/ 
- * Copyright 2016 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using ZKEACMS.Common.Models;

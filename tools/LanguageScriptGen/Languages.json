@@ -1,0 +1,16 @@
+{
+    "ProductCategoryTag@ProductCategoryId": [
+        {
+            "Culture": "en-US",
+            "LanValue": "Product Category"
+        },
+        {
+            "Culture": "zh-CN",
+            "LanValue": "产品类别"
+        },
+        {
+            "Culture": "zh-TW",
+            "LanValue": "產品類別"
+        }
+    ]
+}

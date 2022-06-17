@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using System;
 using Easy.MetaData;
 using Easy.Models;
@@ -36,6 +39,7 @@ namespace ZKEACMS.WidgetTemplate
             widget.Description = Description;
             widget.PartialView = PartialView;
             widget.WidgetName = serviceProvider.GetService<ILocalize>().Get(Title);
+            widget.FormView = FormView;
             return serviceProvider.GetService<IWidgetActivator>().CreateWidgetViewModel(widget);
         }
     }

@@ -1,0 +1,27 @@
+﻿@model ZKEACMS.Article.Models.ArticleSummaryWidget
+<div class="article-summary">
+    <div class="bs-callout bs-callout-info">
+        @if (!Model.SubTitle.IsNullOrEmpty())
+        {
+            <div class="clearfix">
+                <div class="pull-left">
+                    @if (Model.SubTitle.IsNotNullAndWhiteSpace())
+                    {
+                        <h4>@Model.SubTitle</h4>
+                    }
+                </div>
+                <div class="pull-right">
+                    @if (!Model.DetailLink.IsNullOrEmpty())
+                    {
+                        <a href="@Url.Content(Model.DetailLink)">
+                            More »
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+        <div class="sumary">
+            @Html.Raw(Model.Summary)
+        </div>
+    </div>
+</div>

@@ -1,5 +1,5 @@
 ﻿/* http://www.zkea.net/ 
- * Copyright 2021 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy;
@@ -27,7 +27,7 @@ namespace ZKEACMS.Product.Models
         {
             base.ViewConfigure();
 
-            ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector();
+            ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector().InnerUrl();
 
             ViewConfig(m => m.ProductGalleryId).AsDropDownList()
                 .Order(NextOrder())

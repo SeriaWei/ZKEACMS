@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -8,7 +11,6 @@ using Easy.Constant;
 using Easy.Extend;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using ZKEACMS.DataArchived;
 
 namespace ZKEACMS.Setting
@@ -18,15 +20,12 @@ namespace ZKEACMS.Setting
         private readonly IDataArchivedService _dataArchivedService;
         private readonly ConcurrentDictionary<string, object> _settingCache;
         private const string ApplicationSetting = "ApplicationSetting";
-        private readonly ILocalize _localize;
         public ApplicationSettingService(IApplicationContext applicationContext,
             IDataArchivedService dataArchivedService,
-            ILocalize localize,
             ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
             CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
             _dataArchivedService = dataArchivedService;
-            _localize = localize;
             _settingCache = cacheManager.GetOrAdd(ApplicationSetting, new ConcurrentDictionary<string, object>());
         }
 
@@ -47,7 +46,7 @@ namespace ZKEACMS.Setting
                     return base.Add(item);
                 }
                 var result = new ServiceResult<ApplicationSetting>();
-                result.RuleViolations.Add(new RuleViolation("SettingKey", _localize.Get("The setting key is already exists")));
+                result.RuleViolations.Add(new RuleViolation("SettingKey", ApplicationContext.GetService<ILocalize>().Get("The setting key is already exists")));
                 return result;
             }
 
@@ -64,7 +63,7 @@ namespace ZKEACMS.Setting
                 DbContext.Attach(entity).State = EntityState.Detached;
                 _settingCache.TryAdd(entity.SettingKey, entity);
             }
-            return null;
+            return entity;
         }
         public string Get(string settingKey, string defaultValue)
         {

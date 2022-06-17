@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using Easy.Extend;
 using Easy.Mvc;
 using Easy.RepositoryPattern;
@@ -151,10 +154,11 @@ namespace ZKEACMS
                 var pagePath = request.Query["CurrentPagePath"];
                 return html.Hidden("CurrentPagePath", pagePath.Count > 0 ? pagePath : request.Path);
             }
-            else
+            else if (request.Method.Equals("POST", StringComparison.OrdinalIgnoreCase))
             {
                 return html.Hidden("CurrentPagePath", request.Form["CurrentPagePath"]);
             }
+            return html.Hidden("CurrentPagePath", request.Path);
         }
 
         public static string CurrencySymbol(this IHtmlHelper html)

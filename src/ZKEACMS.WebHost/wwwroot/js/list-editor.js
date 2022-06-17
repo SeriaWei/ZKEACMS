@@ -1,4 +1,8 @@
-﻿$(function () {
+﻿/*! http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
+
+$(function () {
     $("input,select,textarea", ".input-group-collection .Template").each(function () {
         if (!$(this).prop("disabled")) {
             $(this).prop("disabled", true);

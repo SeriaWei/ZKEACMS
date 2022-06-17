@@ -1,14 +1,14 @@
 ﻿/* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
- * http://www.zkea.net/licenses 
- *
- */
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
 using Easy.RepositoryPattern;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using ZKEACMS.Captcha;
 using ZKEACMS.Distribution.Service;
 using ZKEACMS.WidgetTemplate;
 
@@ -33,7 +33,7 @@ namespace ZKEACMS.Distribution
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
-            
+
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
@@ -50,6 +50,7 @@ namespace ZKEACMS.Distribution
         {
             serviceCollection.AddSingleton<IOnModelCreating, EntityFrameWorkModelCreating>();
             serviceCollection.AddTransient<IPersistKeyService, PersistKeyService>();
+            serviceCollection.AddScoped<ICaptchaCodeStorageProvider, CookieCaptchaCodeProvider>();
             serviceCollection.AddDataProtection().EnableDistribution();
         }
     }

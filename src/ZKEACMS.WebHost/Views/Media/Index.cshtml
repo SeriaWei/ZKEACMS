@@ -266,7 +266,7 @@
                             send: function (fileData) {
                                 var item = fileData.target;
                                 function sliceSend(start, url, result) {
-                                    var end = start + 1048000;
+                                    var end = start + 1000000;
                                     if (end > fileData.Data.size) {
                                         end = fileData.Data.size;
                                     }

@@ -1,4 +1,8 @@
-﻿using Easy.MetaData;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using Easy.MetaData;
 using Easy.RepositoryPattern;
 using Easy.Models;
 using System;

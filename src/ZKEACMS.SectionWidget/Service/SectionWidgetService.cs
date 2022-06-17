@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +18,9 @@ using System;
 using Newtonsoft.Json.Linq;
 using Easy.Mvc.Plugin;
 using Easy.RepositoryPattern;
+using ZKEACMS.Common.Service;
+using Microsoft.AspNetCore.Razor.Hosting;
+using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 
 namespace ZKEACMS.SectionWidget.Service
 {
@@ -131,9 +137,11 @@ namespace ZKEACMS.SectionWidget.Service
         public override void InstallWidget(WidgetPackage pack)
         {
             var pluginRootPath = PluginBase.GetPath<SectionPlug>();
-
-            pack.Files.Each(file =>
+            var templates = GetAvailableTemplates();
+            foreach (var file in pack.Files)
             {
+                if (templates.Contains(file.FileName)) continue;
+
                 var pathArray = file.FilePath.Replace("\\", "/").Split('/');
                 file.FilePath = Path.Combine(pluginRootPath, pathArray[pathArray.Length - 2], pathArray[pathArray.Length - 1]);
 
@@ -143,8 +151,9 @@ namespace ZKEACMS.SectionWidget.Service
                     Directory.CreateDirectory(directory);
                 }
                 File.WriteAllBytes(file.FilePath, file.Content);
-
-            });
+                
+                TemplateService.EnsureHasViewImports(file.FilePath, "@using ZKEACMS.SectionWidget", "@using ZKEACMS.SectionWidget.Models", "@using ZKEACMS.SectionWidget.Service");
+            }
             pack.Widget = null;
             var widget = JsonConvert.DeserializeObject<Models.SectionWidget>(JObject.Parse(pack.Content.ToString()).GetValue("Widget").ToString(), new SectionContentJsonConverter());
             if (_sectionTemplateService.Count(m => m.TemplateName == widget.Template.TemplateName) == 0)
@@ -162,6 +171,19 @@ namespace ZKEACMS.SectionWidget.Service
                 widget.Thumbnail = Helper.Url.Combine(Loader.PluginFolder, new DirectoryInfo(pluginRootPath).Name, "Thumbnail", Path.GetFileName(widget.Thumbnail));
             }
             AddWidget(widget);
+        }
+
+        private HashSet<string> GetAvailableTemplates()
+        {
+            HashSet<string> templates = new HashSet<string>();
+            var attributes = new RazorCompiledItemLoader().LoadItems(this.GetType().Assembly);
+            foreach (var item in attributes)
+            {
+                var descriptor = new CompiledViewDescriptor(item);
+                string name = Path.GetFileName(descriptor.RelativePath);
+                templates.Add(name);
+            }
+            return templates;
         }
     }
 }

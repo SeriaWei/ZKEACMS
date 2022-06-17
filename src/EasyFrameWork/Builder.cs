@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+
 using Easy.Cache;
 using Easy.Encrypt;
 using Easy.Extend;
@@ -23,6 +24,7 @@ using Easy.RepositoryPattern;
 using Easy.RuleEngine;
 using Easy.RuleEngine.RuleProviders;
 using Easy.RuleEngine.Scripting;
+using Easy.Notification.Queue;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -68,8 +70,10 @@ namespace Easy
 
             services.AddTransient<IViewRenderService, ViewRenderService>();
             services.AddTransient<INotificationManager, NotificationManager>();
-            services.AddTransient<INotifyService, EmailNotifyService>();
-            services.AddTransient<INotifyService, RazorEmailNotifyService>();
+            services.AddTransient<INotificationProvider, EmailNotificationProvider>();
+            services.AddTransient<INotificationProvider, RazorEmailNotificationProvider>();
+            services.AddTransient<IEmailNotification, EmailNotificationProvider>();
+            services.AddTransient<IEmailQueue>(provider => null);
             services.AddTransient<IPluginLoader, Loader>();
             services.AddTransient<IRuleManager, RuleManager>();
             services.AddTransient<IRuleProvider, CommonMethodsRuleProvider>();
@@ -77,7 +81,7 @@ namespace Easy
             services.AddTransient<IRuleProvider, DateRuleProvider>();
             services.AddTransient<IRuleProvider, MoneyRuleProvider>();
             services.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
-            services.AddTransient<IWebClient, WebClient>();
+            services.AddTransient<IWebClient, WebClient>().AddHttpClient();
 
             services.AddSingleton<ICacheProvider, DefaultCacheProvider>();
             services.AddScoped<ILocalize, Localize>();
@@ -130,9 +134,9 @@ namespace Easy
             builder.UseMiddleware<PluginStaticFileMiddleware>();
             return builder;
         }
-        public static void UseFileLog(this ILoggerFactory loggerFactory, IWebHostEnvironment env, IHttpContextAccessor httpContextAccessor)
+        public static void AddFileLog(this ILoggingBuilder loggingBuilder)
         {
-            loggerFactory.AddProvider(new FileLoggerProvider(env, httpContextAccessor));
+            loggingBuilder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, FileLoggerProvider>());
         }
     }
 }

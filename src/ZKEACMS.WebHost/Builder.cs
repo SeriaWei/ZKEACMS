@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +38,7 @@ namespace ZKEACMS.WebHost
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
         {
-            return null;
+            return Enumerable.Empty<WidgetTemplateEntity>();
         }
 
         protected override void InitScript(Func<string, ResourceHelper> script)

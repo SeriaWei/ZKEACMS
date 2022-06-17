@@ -1,6 +1,5 @@
 /* http://www.zkea.net/ 
- * Copyright 2017 ZKEASOFT 
- * 深圳市纸壳软件科技有限公司
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 

@@ -1,10 +1,12 @@
 /* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+
 using Easy;
 using Easy.Cache;
 using Easy.Extend;
 using Easy.RepositoryPattern;
+using Easy.Serializer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -118,6 +120,32 @@ namespace ZKEACMS.Widget
         public void ClearCache()
         {
             _pageWidgetCacheManage.Clear();
+        }
+
+        public IEnumerable<TWidget> GetAllWidgets<TWidgetService, TWidget>()
+            where TWidgetService : SimpleWidgetService<TWidget>
+            where TWidget : SimpleWidgetBase, new()
+        {
+            Type serviceType = typeof(TWidgetService);
+            string serviceTypeName = serviceType.FullName;
+            string assemblyName = serviceType.Assembly.GetName().Name;
+            return Get(m => m.AssemblyName == assemblyName && m.ServiceTypeName == serviceTypeName).Select(m =>
+            {
+                TWidget widget = JsonConverter.Deserialize<TWidget>(m.ExtendData);
+                m.CopyTo(widget);
+                return widget;
+            }).ToList();
+        }
+
+        public void UpdateWidgets<TWidget>(params TWidget[] widgets) where TWidget : SimpleWidgetBase, new()
+        {
+            BeginBulkSave();
+            foreach (var item in widgets)
+            {
+                item.ExtendData = JsonConverter.Serialize(item);
+                Update(item.ToWidgetBasePart());
+            }
+            SaveChanges();
         }
     }
 }

@@ -1,7 +1,7 @@
 /* http://www.zkea.net/ 
- * Copyright 2017 ZKEASOFT 
- * http://www.zkea.net/licenses 
- */
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using Easy;
 using Easy.Extend;
 using Easy.Mvc.Resource;
@@ -27,7 +27,7 @@ namespace ZKEACMS.Redirection
                 Template = "{*path}",
                 Defaults = new { controller = "UrlRedirection", action = "RedirectTo" },
                 Constraints = new { path = new RedirectRouteConstraint() },
-                Priority = 0
+                Priority = int.MaxValue
             };
         }
 

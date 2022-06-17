@@ -1,8 +1,6 @@
-/*!
- * http://www.zkea.net/
- * Copyright 2020 ZKEASOFT
- * http://www.zkea.net/licenses
- */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
 
 using Easy.Extend;
 using Easy.Mvc.Plugin;
@@ -229,10 +227,12 @@ namespace ZKEACMS.Updater.Service
             {
                 availableSource = item;
                 string source = $"{availableSource}/index.json";
+                _webClient.SetHeader("Referer", availableSource);
                 _logger.LogInformation("Getting release versions. {0}", source);
                 try
                 {
-                    releaseVersion = JsonSerializer.Deserialize<ReleaseVersion>(_webClient.DownloadString(source));
+                    string result = _webClient.DownloadStringAsync(source).GetAwaiter().GetResult();
+                    releaseVersion = JsonSerializer.Deserialize<ReleaseVersion>(result);
                     break;
                 }
                 catch (Exception ex)
@@ -296,7 +296,7 @@ namespace ZKEACMS.Updater.Service
 
             string packageUrl = $"{availableSource}/{versionInfo.Resolved}";
             _logger.LogInformation("Getting update scripts for version {0} from {1}", versionInfo.Version, packageUrl);
-            byte[] packageByte = _webClient.DownloadData(packageUrl);
+            byte[] packageByte = _webClient.DownloadDataAsync(packageUrl).GetAwaiter().GetResult();
             try
             {
                 string file = Path.Combine(PluginBase.GetPath<UpdaterPlug>(), "DbScripts", $"package.{versionInfo.Version}.zip");

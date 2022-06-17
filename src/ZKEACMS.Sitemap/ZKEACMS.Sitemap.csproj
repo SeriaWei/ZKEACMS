@@ -1,20 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <AssemblyName>ZKEACMS.Sitemap</AssemblyName>
-    <PackageId>ZKEACMS.Sitemap</PackageId>
-    <Copyright>深圳市纸壳软件科技有限公司 纸壳CMS</Copyright>
-    <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS.Core</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>CMS.Sitemap</PackageTags>
-    <Description>Session plugin for ZKEACMS</Description>
-    <Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+		<AssemblyName>ZKEACMS.Sitemap</AssemblyName>
+		<PackageId>ZKEACMS.Sitemap</PackageId>
+		<Copyright>深圳市纸壳软件科技有限公司 纸壳CMS</Copyright>
+		<PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/SeriaWei/ZKEACMS</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>CMS.Sitemap</PackageTags>
+		<Description>Session plugin for ZKEACMS</Description>
+		<Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" >
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</ProjectReference>
+	</ItemGroup>
 </Project>

@@ -1,8 +1,6 @@
-﻿/*!
- * http://www.zkea.net/
- * Copyright 2016 ZKEASOFT
- * http://www.zkea.net/licenses
- */
+﻿/*! http://www.zkea.net/
+ * Copyright (c) ZKEASOFT. All rights reserved.
+ * http://www.zkea.net/licenses */
 
 /*Easy通用JS插件包
 方法说明 以下方法均在Easy命名空间下

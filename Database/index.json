@@ -36,6 +36,14 @@
         {
             "Version": "3.4.2",
             "Resolved": "Update/3.4.2/package.zip"
+        },
+        {
+            "Version": "3.4.3",
+            "Resolved": "Update/3.4.3/package.zip"
+        },
+        {
+            "Version": "3.4.4",
+            "Resolved": "Update/3.4.4/package.zip"
         }
     ]
 }

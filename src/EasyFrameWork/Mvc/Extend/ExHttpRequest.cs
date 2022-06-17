@@ -1,8 +1,7 @@
-/* 
- * http://www.zkea.net/ 
- * Copyright 2016 ZKEASOFT 
- * http://www.zkea.net/licenses 
- */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using System;
 using Easy.Storage;
 using Easy.Extend;
@@ -76,7 +75,9 @@ namespace Easy.Mvc.Extend
         }
         public static string GetReferer(this HttpRequest request)
         {
-            return request.Headers["Referer"].ToString();
+            string uri = request.Headers["Referer"].ToString();
+            if (uri.IsNotNullAndWhiteSpace() && !Uri.TryCreate(uri, UriKind.Absolute, out _)) return null;
+            return uri;
         }
     }
 }

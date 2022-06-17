@@ -1,3 +1,7 @@
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
@@ -10,6 +14,6 @@ namespace ZKEACMS.Redirection.Service
     public interface IUrlRedirectService : IService<UrlRedirect>
     {
         IEnumerable<UrlRedirect> GetAll();
-        UrlRedirect GetByPath(string path);
+        UrlRedirect GetMatchedRedirection(string path);
     }
 }

@@ -1,8 +1,7 @@
-/*!
- * http://www.zkea.net/
- * Copyright 2017 ZKEASOFT
- * http://www.zkea.net/licenses
- */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using Easy.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -17,29 +16,31 @@ namespace ZKEACMS.Shop.Controllers
     [CustomLoginCheck]
     public class BasketController : Controller
     {
-        private CMSApplicationContext applicationContext;
         private readonly IBasketService _basketService;
-        public BasketController(IBasketService basketService, IApplicationContextAccessor applicationContextAccessor)
+        public BasketController(IBasketService basketService)
         {
             _basketService = basketService;
-            applicationContext = applicationContextAccessor.Current;
 
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Index()
         {
             return View(new BasketData(_basketService.Get()));
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Add(int productId, int? quantity, string tags)
         {
+            if (quantity.HasValue && quantity.Value < 1) return BadRequest();
+
             var basket = new Basket { ProductId = productId, Quantity = quantity ?? 1, Description = tags };
             _basketService.Add(basket);
             return Json(new AjaxResult { Status = AjaxStatus.Normal, Data = new BasketData(_basketService.Get()) });
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Update(int basketId, int quantity)
         {
+            if (quantity < 1) return BadRequest();
+
             var basket = _basketService.Get(basketId);
             if (basket != null)
             {
@@ -48,18 +49,18 @@ namespace ZKEACMS.Shop.Controllers
             }
             return Json(new AjaxResult { Status = AjaxStatus.Normal, Data = new BasketData(_basketService.Get()) });
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Remove(int basketId)
         {
             _basketService.Remove(basketId);
             return Json(new AjaxResult { Status = AjaxStatus.Normal, Data = new BasketData(_basketService.Get()) });
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public IActionResult GetBaskets()
         {
             return Json(new AjaxResult { Status = AjaxStatus.Normal, Data = new BasketData(_basketService.Get()) });
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public IActionResult CheckOut()
         {
             var basket = _basketService.Get();
@@ -69,7 +70,7 @@ namespace ZKEACMS.Shop.Controllers
             }
             return View("Index", new BasketData(basket));
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public IActionResult ConfirmOrder(Order order)
         {
             order = _basketService.CheckOut(order);

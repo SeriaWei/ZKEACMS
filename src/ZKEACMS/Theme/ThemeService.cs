@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using System.Collections.Generic;
 using System.Linq;
 using Easy.Extend;
@@ -78,7 +81,10 @@ namespace ZKEACMS.Theme
 
         public void SetPreview(string id)
         {
-            _cookie.SetValue(PreViewCookieName, id, true, true);
+            var theme = GetAllThemes().FirstOrDefault(m => m.ID.Equals(id, StringComparison.OrdinalIgnoreCase));
+            if (theme == null) throw new Exception("Theme not found.");
+
+            _cookie.SetValue(PreViewCookieName, theme.ID, true, true);
         }
 
         public void CancelPreview()
@@ -119,6 +125,7 @@ namespace ZKEACMS.Theme
                     return entry;
                 }) as ThemeEntity;
             }
+            if (theme is null) throw new Exception("No available theme were found!");
             return theme;
         }
 

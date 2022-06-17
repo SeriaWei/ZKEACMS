@@ -1,49 +1,36 @@
-﻿using Easy.Mvc;
-using Easy.Mvc.Attribute;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using Easy.Mvc;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
 using Easy.RepositoryPattern;
-using Easy.ViewPort.jsTree;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Threading.Tasks;
 using ZKEACMS.Common.Models;
 using ZKEACMS.Common.Service;
-using ZKEACMS.Common.ViewModels;
-using ZKEACMS.Theme;
-using ZKEACMS.Widget;
-using ZKEACMS.WidgetTemplate;
 
 namespace ZKEACMS.Controllers
 {
     [DefaultAuthorize(Policy = PermissionKeys.ViewTemplate)]
     public class TemplateController : Controller
     {
-        private readonly ITemplateService _tempService;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IWidgetTemplateService _widgetTemplateService;
-        public TemplateController(ITemplateService templateService, IWebHostEnvironment webHostEnvironment,
-            IWidgetTemplateService widgetTemplateService)
+        private readonly ITemplateService _templateService;
+        public TemplateController(ITemplateService templateService)
         {
-            _tempService = templateService;
-            _webHostEnvironment = webHostEnvironment;
-            _widgetTemplateService = widgetTemplateService;
+            _templateService = templateService;
         }
 
         [DefaultAuthorize(Policy = PermissionKeys.ViewTemplate)]
         public IActionResult Index()
         {
-            return View(_widgetTemplateService.Get());
+            return View(_templateService.GetAvailableTemplates());
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageTemplate)]
         public IActionResult Create(string template)
         {
-            var model = _tempService.GetDefaultTemplateFile(template);
+            var model = _templateService.GetDefaultTemplateFile(template);
             return View(model);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTemplate)]
@@ -51,7 +38,7 @@ namespace ZKEACMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = _tempService.CreateOrUpdate(model);
+                var result = _templateService.CreateOrUpdate(model);
                 if (result.HasViolation)
                 {
                     ModelState.AddModelError("Name", result.ErrorMessage);
@@ -72,11 +59,11 @@ namespace ZKEACMS.Controllers
             TemplateFile model = null;
             if (fileId > 0)
             {
-                model = _tempService.Get(fileId);
+                model = _templateService.Get(fileId);
             }
             else
             {
-                model = _tempService.GetDefaultTemplateFile(null);
+                model = _templateService.GetDefaultTemplateFile(null);
             }
             return View(model);
         }
@@ -86,7 +73,7 @@ namespace ZKEACMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = _tempService.CreateOrUpdate(model);
+                var result = _templateService.CreateOrUpdate(model);
                 if (result.HasViolation)
                 {
                     ModelState.AddModelError("Name", result.ErrorMessage);
@@ -112,7 +99,7 @@ namespace ZKEACMS.Controllers
                 if (query.Columns.Length > 1) themeName = query.Columns[1].Search.Value;
                 if (query.Columns.Length > 2) fileName = query.Columns[2].Search.Value;
             }
-            var list = _tempService.GetTemplateFiles(p, themeName, fileName);
+            var list = _templateService.GetTemplateFiles(p, themeName, fileName);
             return Json(new TableData(list, list.Count, query.Draw));
         }
 
@@ -121,7 +108,7 @@ namespace ZKEACMS.Controllers
         {
             try
             {
-                _tempService.Delete(id);
+                _templateService.Delete(id);
                 return Json(new AjaxResult { Status = AjaxStatus.Normal });
             }
             catch (Exception ex)

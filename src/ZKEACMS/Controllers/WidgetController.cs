@@ -1,4 +1,7 @@
-/* http://www.zkea.net/ Copyright 2016 ZKEASOFT http://www.zkea.net/licenses */
+/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +17,10 @@ using Easy;
 using Easy.Mvc;
 using ZKEACMS.Common.Models;
 using System.IO;
-using Newtonsoft.Json;
 using ZKEACMS.PackageManger;
 using ZKEACMS.Page;
 using Easy.Modules.DataDictionary;
+using Easy.Serializer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Easy.Mvc.Extend;
@@ -66,12 +69,29 @@ namespace ZKEACMS.Controllers
         [ViewDataZones]
         public ActionResult Create(QueryContext context)
         {
-            var template = _widgetTemplateService.Get(context.WidgetTemplateID);
-            var widget = template.ToWidget(HttpContext.RequestServices);
+            WidgetBase widget = null;
+            IWidgetPartDriver widgetPartDriver = null;
+            if (context.WidgetTemplateID.IsNotNullAndWhiteSpace())
+            {
+                var template = _widgetTemplateService.Get(context.WidgetTemplateID);
+                widget = template.ToWidget(HttpContext.RequestServices);
+            }
+            else if (context.WidgetID.IsNotNullAndWhiteSpace())
+            {
+                var widgetBasePart = _widgetService.Get(context.WidgetID);
+                widgetPartDriver = _widgetActivator.Create(widgetBasePart);
+                widget = widgetPartDriver.GetWidget(widgetBasePart.ToWidgetBase());
+                widget.IsTemplate = false;
+                widget.IsSystem = false;
+                widget.Thumbnail = null;
+                widget.RuleID = null;
+            }
+            if (widget == null) return BadRequest();
+
             widget.PageID = context.PageID;
             widget.LayoutID = context.LayoutID;
             widget.ZoneID = context.ZoneID;
-            widget.FormView = template.FormView;
+            widget.RuleID = context.RuleID;
             if (widget.PageID.IsNotNullAndWhiteSpace())
             {
                 widget.Position = _widgetService.GetAllByPage(_pageService.Get(context.PageID)).Count(m => m.ZoneID == context.ZoneID) + 1;
@@ -82,10 +102,15 @@ namespace ZKEACMS.Controllers
             }
             SetDataSource(widget);
             ViewBag.ReturnUrl = context.ReturnUrl;
-            if (template.FormView.IsNotNullAndWhiteSpace())
+            if (widgetPartDriver != null)
             {
-                return View(template.FormView, widget);
+                widgetPartDriver.AddWidget(widget);
+                return RedirectToAction("Edit", new { ID = widget.ID, ReturnUrl = context.ReturnUrl });
             }
+
+            if (widget.FormView.IsNotNullAndWhiteSpace())
+                return View(widget.FormView, widget);
+
             return View(widget);
         }
         [HttpPost, ViewDataZones]
@@ -289,7 +314,7 @@ namespace ZKEACMS.Controllers
                 var installer = _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
                 if (installer is WidgetPackageInstaller)
                 {
-                    var widgetPackage = JsonConvert.DeserializeObject<WidgetPackage>(package.Content.ToString());
+                    var widgetPackage = JsonConverter.Deserialize<WidgetPackage>(package.Content.ToString());
                     widgetPackage.Content = package.Content;
                     _widgetActivator.Create(widgetPackage.Widget).InstallWidget(widgetPackage);
                 }

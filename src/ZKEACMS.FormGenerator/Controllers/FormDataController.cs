@@ -1,5 +1,5 @@
 /* http://www.zkea.net/ 
- * Copyright 2016 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy.Mvc.Controllers;
@@ -31,9 +31,11 @@ namespace ZKEACMS.FormGenerator.Controllers
             _localize = localize;
         }
 
-        [HttpPost, AllowAnonymous, RenderRefererPage]
+        [HttpPost, AllowAnonymous, ValidateAntiForgeryToken, RenderRefererPage]
         public IActionResult Submit(string FormId)
         {
+            if (FormId.IsNullOrWhiteSpace()) return BadRequest();
+
             var result = Service.SaveForm(Request.Form, FormId);
             ModelState.Merge(result);
             if (!result.HasViolation)

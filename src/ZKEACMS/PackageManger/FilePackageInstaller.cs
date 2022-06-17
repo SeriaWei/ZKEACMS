@@ -1,15 +1,17 @@
 /* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Easy.Extend;
+using Easy.Serializer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
+using ZKEACMS.Common.Service;
 
 namespace ZKEACMS.PackageManger
 {
@@ -62,6 +64,7 @@ namespace ZKEACMS.PackageManger
                             Directory.CreateDirectory(directory);
                         }
                         File.WriteAllBytes(filePath, file.Content);
+                        TemplateService.EnsureHasViewImports(filePath);
                     });
                 }
             }
@@ -104,7 +107,7 @@ namespace ZKEACMS.PackageManger
 
         public object Install(string packageContent)
         {
-            Package package = JsonConvert.DeserializeObject(packageContent, CreatePackage().GetType()) as Package;
+            Package package = JsonConverter.Deserialize(packageContent, CreatePackage().GetType()) as Package;
             package.Content = packageContent;
             return Install(package);
         }

@@ -1,5 +1,5 @@
 /* http://www.zkea.net/ 
- * Copyright 2020 ZKEASOFT 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
 using Easy.RepositoryPattern;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using ZKEACMS.FormGenerator.Models;
 using Microsoft.EntityFrameworkCore;
 using Easy;
-using Newtonsoft.Json;
+using Easy.Serializer;
 
 namespace ZKEACMS.FormGenerator.Service
 {
@@ -23,12 +23,12 @@ namespace ZKEACMS.FormGenerator.Service
         public override ServiceResult<Form> Add(Form item)
         {
             item.ID = Guid.NewGuid().ToString("N");
-            item.FieldsData = JsonConvert.SerializeObject(item.FormFields);
+            item.FieldsData = JsonConverter.Serialize(item.FormFields);
             return base.Add(item);
         }
         public override ServiceResult<Form> Update(Form item)
         {
-            item.FieldsData = JsonConvert.SerializeObject(item.FormFields);
+            item.FieldsData = JsonConverter.Serialize(item.FormFields);
             return base.Update(item);
         }
         public override Form Get(params object[] primaryKey)
@@ -36,7 +36,7 @@ namespace ZKEACMS.FormGenerator.Service
             var form = base.Get(primaryKey);
             if (form != null)
             {
-                form.FormFields = JsonConvert.DeserializeObject<List<FormField>>(form.FieldsData);
+                form.FormFields = JsonConverter.Deserialize<List<FormField>>(form.FieldsData);
             }
             return form;
         }

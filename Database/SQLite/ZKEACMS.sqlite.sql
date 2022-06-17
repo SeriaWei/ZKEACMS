@@ -1,4 +1,4 @@
--- Script Date: 2021/6/18 星期五 19:42  - ErikEJ.SqlCeScripting version 3.5.2.56
+-- Script Date: 2022/4/30 22:41  - ErikEJ.SqlCeScripting version 3.5.2.56
 SELECT 1;
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
@@ -57,7 +57,7 @@ CREATE TABLE [Subscription] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Subscrip__3214EC27E4A670A7] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Subscrip__3214EC27629A8711] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ShippingOption] (
   [ID] INTEGER NOT NULL
@@ -74,7 +74,7 @@ CREATE TABLE [ShippingOption] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Shipping__3214EC2763AB4DC4] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Shipping__3214EC2720A6FF06] PRIMARY KEY ([ID])
 );
 CREATE TABLE [SectionTemplate] (
   [TemplateName] nvarchar(100) NOT NULL
@@ -145,13 +145,13 @@ CREATE TABLE [Roles] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Roles__3214EC271C264854] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Roles__3214EC27249C2D1E] PRIMARY KEY ([ID])
 );
 CREATE TABLE [UserRoleRelation] (
   [ID] INTEGER NOT NULL
 , [RoleID] int NULL
 , [UserID] nvarchar(50) NULL
-, CONSTRAINT [PK__UserRole__3214EC277A11E243] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__UserRole__3214EC2795B45029] PRIMARY KEY ([ID])
 , FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 , FOREIGN KEY ([UserID]) REFERENCES [Users] ([UserID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
@@ -189,7 +189,7 @@ CREATE TABLE [ProductGallery] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__ProductG__3214EC272BBA3530] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__ProductG__3214EC2760DC1B79] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ProductCategoryTag] (
   [ID] INTEGER NOT NULL
@@ -266,7 +266,7 @@ CREATE TABLE [PersistKey] (
 , [CreationDate] datetime NULL
 , [ActivationDate] datetime NULL
 , [ExpirationDate] datetime NULL
-, CONSTRAINT [PK__PersistK__3214EC279C6D605B] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__PersistK__3214EC2760563701] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Permission] (
   [PermissionKey] nvarchar(100) NOT NULL
@@ -491,7 +491,7 @@ CREATE TABLE [FluidContentGroup] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__FluidCon__3214EC2735E7D1DA] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__FluidCon__3214EC27F2E10302] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ExtendField] (
   [ID] INTEGER NOT NULL
@@ -515,7 +515,7 @@ CREATE TABLE [DBVersion] (
 , [Minor] int NULL
 , [Revision] int NULL
 , [Build] int NULL
-, CONSTRAINT [PK__DBVersio__3214EC2744765B47] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__DBVersio__3214EC275ADC9F81] PRIMARY KEY ([ID])
 );
 CREATE TABLE [DataDictionary] (
   [ID] INTEGER NOT NULL
@@ -564,7 +564,7 @@ CREATE TABLE [Currency] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Currency__3214EC27B52988E2] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Currency__3214EC27501A3406] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Comments] (
   [ID] INTEGER NOT NULL
@@ -1015,7 +1015,7 @@ CREATE TABLE [ArticleGallery] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__ArticleG__3214EC276EE6C317] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__ArticleG__3214EC27464330B2] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ArticleDetailWidget] (
   [ID] nvarchar(100) NOT NULL
@@ -3375,6 +3375,15 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@ParentID','en-GB','Parent','ProductCategory','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@ParentID','en-US','Parent','ProductCategory','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@ParentID','zh-CN','ParentID','ProductCategory','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@SEODescription','en-US','SEO Description',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@SEODescription','zh-CN','SEO描述',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@SEODescription','zh-TW','SEO描述',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@SEOKeyWord','en-US','SEO Key Word',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@SEOKeyWord','zh-CN','SEO关键字',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@SEOKeyWord','zh-TW','SEO關鍵字',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@SEOTitle','en-US','SEO Title',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@SEOTitle','zh-CN','SEO标题',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@SEOTitle','zh-TW','SEO標題',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@Status','en-GB','Status','ProductCategory','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@Status','en-US','Status','ProductCategory','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@Status','zh-CN','状态','ProductCategory','EntityProperty');
@@ -3384,6 +3393,9 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@Url','en-GB','Url','ProductCategory','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@Url','en-US','Url','ProductCategory','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategory@Url','zh-CN','英文名','ProductCategory','EntityProperty');
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategoryTag@ProductCategoryId','en-US','Product Category',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategoryTag@ProductCategoryId','zh-CN','产品类别',NULL,NULL);
+INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategoryTag@ProductCategoryId','zh-TW','產品類別',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategoryWidget@ActionType','zh-CN','ActionType','ProductCategoryWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategoryWidget@AssemblyName','zh-CN','AssemblyName','ProductCategoryWidget','EntityProperty');
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('ProductCategoryWidget@CreateBy','zh-CN','CreateBy','ProductCategoryWidget','EntityProperty');
@@ -4735,7 +4747,7 @@ INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VA
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('页头','en-US','Header',NULL,NULL);
 INSERT INTO [Language] ([LanKey],[CultureName],[LanValue],[Module],[LanType]) VALUES ('须要处理','zh-CN','须要处理',NULL,NULL);
 INSERT INTO [Forms] ([ID],[Title],[FieldsData],[NotificationReceiver],[Status],[Description],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES ('5ed56d90ac154e73befa6fbc981ae3ae','问卷调查','[{"ID":"f05da60a6e3b448fadbf7c5c040a7d5c","Name":"Label","DisplayName":"一个简单的问卷调查","Value":null,"Description":"欢迎您使用ZKEACMS，这是一个自定义表单","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null},{"ID":"41481e6eefa048feae380460b0cd5661","Name":"SingleLine","DisplayName":"姓名","Value":null,"Description":"","Placeholder":"","IsRequired":true,"Size":4,"Column":"col-md-6","FieldOptions":null,"AdditionalSettings":null},{"ID":"bfd1418684a64890a7099f764baa24b3","Name":"Number","DisplayName":"电话","Value":null,"Description":"","Placeholder":"","IsRequired":true,"Size":4,"Column":"col-md-6","FieldOptions":null,"AdditionalSettings":null},{"ID":"7e635c8fdd124b6b94f037d3bf112bc0","Name":"Email","DisplayName":"邮箱地址","Value":null,"Description":"","Placeholder":"","IsRequired":true,"Size":4,"Column":"col-md-4","FieldOptions":null,"AdditionalSettings":null},{"ID":"4d61bb5f733c47778975cc6cfbc84123","Name":"SingleLine","DisplayName":"QQ","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-4","FieldOptions":null,"AdditionalSettings":null},{"ID":"b85aeb9beaf64f509726f16ba582ec3c","Name":"SingleLine","DisplayName":"微信","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-4","FieldOptions":null,"AdditionalSettings":null},{"ID":"a2aea72c496e4a458265f7ceadb3653a","Name":"Address","DisplayName":"省份地址","Value":null,"Description":"","Placeholder":null,"IsRequired":true,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null},{"ID":"0932ca1f1f7f4af098d51e4b1ac18b94","Name":"SingleLine","DisplayName":"详细地址","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null},{"ID":"572c61930769464d97f3d31771ecf65e","Name":"Radio","DisplayName":"您从哪里了解到ZKEACMS","Value":null,"Description":"","Placeholder":null,"IsRequired":true,"Size":4,"Column":"col-md-12","FieldOptions":[{"DisplayText":"搜索引擎","Value":"70a915caf7a84e9086d5dbdf26ed3053"},{"DisplayText":"博客园","Value":"419a7d1d91974282af5c26688fbe0e8c"},{"DisplayText":"朋友介绍","Value":"227f6d2f6b39479aaf2d5b79dbefdc5c"},{"DisplayText":"其它论坛","Value":"ef50fb3bccf74d6487320e53781fb1ec"}],"AdditionalSettings":null},{"ID":"845830a5c8be4b81866a8cef83049899","Name":"Checkbox","DisplayName":"您一般使用ZKEACMS做什么","Value":null,"Description":"","Placeholder":null,"IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":[{"DisplayText":"网站","Value":"5f0fbb9faa0343e0958a896fe3cead4f"},{"DisplayText":"博客","Value":"65902e51d35142019c4aab8badff9e35"},{"DisplayText":"其它","Value":"944343b3ed904b94a9db6950dbdcccf3"}],"AdditionalSettings":null},{"ID":"2fe6e4baf01e4cb897986991c920df56","Name":"Dropdown","DisplayName":"您觉得ZKEACMS怎么样","Value":null,"Description":"","Placeholder":null,"IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":[{"DisplayText":"很不错","Value":"fc3929826e364318b7a3436d991fb097"},{"DisplayText":"还可以","Value":"619e09c2864b41ae81f4f90e7cab92ba"},{"DisplayText":"有待提高","Value":"fd1279a07150490f9a1f69c85298e22c"},{"DisplayText":"不怎么样","Value":"ef19983754504a9482232dd6be01f34d"}],"AdditionalSettings":null},{"ID":"2868de2d8e9b4d269da891342e6dc95b","Name":"Paragraph","DisplayName":"您的意见或建议","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null}]',NULL,NULL,'',NULL,NULL,NULL,'admin','ZKEASOFT','2017-10-15 18:07:58.013');
-INSERT INTO [DBVersion] ([ID],[Major],[Minor],[Revision],[Build]) VALUES (1,3,4,2,0);
+INSERT INTO [DBVersion] ([ID],[Major],[Minor],[Revision],[Build]) VALUES (1,3,5,4,0);
 INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (1,'RecordStatus','Active','1',1,0,1,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (2,'RecordStatus','Inactive','2',2,0,1,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (3,'ArticleCategory','News','1',1,0,1,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL);

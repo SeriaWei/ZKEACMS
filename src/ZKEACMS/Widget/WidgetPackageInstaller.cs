@@ -1,6 +1,7 @@
 /* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -35,7 +36,7 @@ namespace ZKEACMS.Widget
             {
                 if (widgetPackage.Widget != null)
                 {
-                    var widget = JsonConvert.DeserializeObject(JObject.Parse(package.Content.ToString()).GetValue("Widget").ToString(), widgetPackage.Widget.GetViewModelType()) as WidgetBase;
+                    var widget = Easy.Serializer.JsonConverter.Deserialize(JObject.Parse(package.Content.ToString()).GetValue("Widget").ToString(), widgetPackage.Widget.GetViewModelType()) as WidgetBase;
                     widget.PageID = null;
                     widget.LayoutID = null;
                     widget.ZoneID = null;
