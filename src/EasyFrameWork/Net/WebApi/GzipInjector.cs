@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Easy.Net.WebApi
 {
-    public class GzipInjector : IInjector
+    public class GzipInjector : IRequestInjector
     {
         public void Inject(HttpRequest request)
         {

@@ -9,10 +9,10 @@ using System.Net.Http.Headers;
 
 namespace Easy.Net.WebApi
 {
-	public interface ISerializer
+	public interface IRequestSerializer
     {
         string GetContentTypeRegexPattern();
-        HttpContent Encode(HttpRequest request);
-        object Decode(HttpContent content, Type responseType);
+        HttpContent SerializeRequest(HttpRequest request);
+        object DeserializeResponse(HttpContent content, Type responseType);
     }
 }

@@ -15,18 +15,18 @@ namespace Easy.Net.WebApi
 {
     public class Encoder
     {
-        private List<ISerializer> _serializers;
+        private List<IRequestSerializer> _serializers;
 
         public Encoder()
         {
-            _serializers = new List<ISerializer>();
-            RegisterSerializer(new JsonSerializer());
-            RegisterSerializer(new TextSerializer());
-            RegisterSerializer(new MultipartSerializer());
-            RegisterSerializer(new FormEncodedSerializer());
+            _serializers = new List<IRequestSerializer>();
+            AddSerializer(new JsonSerializer());
+            AddSerializer(new TextSerializer());
+            AddSerializer(new MultipartSerializer());
+            AddSerializer(new FormEncodedSerializer());
         }
 
-        public void RegisterSerializer(ISerializer serializer)
+        public void AddSerializer(IRequestSerializer serializer)
         {
             if (serializer != null)
             {
@@ -43,13 +43,13 @@ namespace Easy.Net.WebApi
 
             request.ContentType = request.ContentType.ToLower();
 
-            ISerializer serializer = GetSerializer(request.ContentType);
+            IRequestSerializer serializer = GetSerializer(request.ContentType);
             if (serializer == null)
             {
                 throw new IOException($"Unable to serialize request with Content-Type {request.ContentType}. Supported encodings are {GetSupportedContentTypes()}");
             }
 
-            return serializer.Encode(request);
+            return serializer.SerializeRequest(request);
         }
 
         public object DeserializeResponse(HttpContent content, Type responseType)
@@ -60,23 +60,23 @@ namespace Easy.Net.WebApi
             }
             var contentType = content.Headers.ContentType.ToString();
             contentType = contentType.ToLower();
-            ISerializer serializer = GetSerializer(contentType);            
+            IRequestSerializer serializer = GetSerializer(contentType);            
 
             bool isZip = content.Headers.ContentEncoding.Contains("gzip", StringComparer.OrdinalIgnoreCase);
 
             if (isZip)
             {
-                var buf = content.ReadAsByteArrayAsync().Result;
-                content = new ByteArrayContent(UnZip(buf));
+                var buff = content.ReadAsByteArrayAsync().Result;
+                content = new ByteArrayContent(UnZip(buff));
             }
             if (serializer != null)
             {
-                return serializer.Decode(content, responseType);
+                return serializer.DeserializeResponse(content, responseType);
             }
             return content.ReadAsByteArrayAsync().Result;
         }
 
-        private ISerializer GetSerializer(string contentType)
+        private IRequestSerializer GetSerializer(string contentType)
         {
             foreach (var serializer in _serializers)
             {

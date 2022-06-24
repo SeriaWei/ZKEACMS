@@ -7,10 +7,10 @@ using System.Net.Http;
 
 namespace Easy.Net.WebApi
 {
-    public class TextSerializer : ISerializer
+    public class TextSerializer : IRequestSerializer
     {
 
-        public object Decode(HttpContent content, Type responseType)
+        public object DeserializeResponse(HttpContent content, Type responseType)
         {
             return content.ReadAsStringAsync().Result;
         }
@@ -20,7 +20,7 @@ namespace Easy.Net.WebApi
             return MimeContentType.TextRegex;
         }
 
-        public HttpContent Encode(HttpRequest request)
+        public HttpContent SerializeRequest(HttpRequest request)
         {
             return new StringContent(request.Body.ToString());
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EasyFrameWork.Test.CMSApiClient
 {
-    public class AuthorizeInjector : IInjector
+    public class AuthorizeInjector : IRequestInjector
     {
         private JwtToken _jwtToken;
         private CMSApiEnvironment _environment;

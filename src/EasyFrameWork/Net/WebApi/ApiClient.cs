@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,12 +15,12 @@ namespace Easy.Net.WebApi
     public class ApiClient : IDisposable
     {
         private HttpClient _client;
-        private List<IInjector> _injectors;
+        private List<IRequestInjector> _injectors;
 
         public ApiClient()
         {
             Encoder = new Encoder();
-            _injectors = new List<IInjector>();
+            _injectors = new List<IRequestInjector>();
             _client = new HttpClient();
             _client.DefaultRequestHeaders.Add("User-Agent", GetUserAgent());
         }
@@ -36,11 +37,14 @@ namespace Easy.Net.WebApi
         {
             return "Mozilla/5.0 (Windows NT 10.0; Win64; x64)";
         }
-        public void EnableGzip()
+        public void UseGzip()
         {
-            AddInjector(new GzipInjector());
+            if(_injectors.All(m=>!(m is GzipInjector)))
+            {
+                AddInjector(new GzipInjector());
+            }            
         }
-        public void AddInjector(IInjector injector)
+        public void AddInjector(IRequestInjector injector)
         {
             if (injector != null)
             {

@@ -10,21 +10,21 @@ using Easy.Serializer;
 
 namespace Easy.Net.WebApi
 {
-    public class JsonSerializer : ISerializer
+    public class JsonSerializer : IRequestSerializer
     {
         public string GetContentTypeRegexPattern()
         {
             return MimeContentType.Json;
         }
 
-        public object Decode(HttpContent content, Type responseType)
+        public object DeserializeResponse(HttpContent content, Type responseType)
         {
             var jsonString = content.ReadAsStringAsync().Result;
 
             return JsonConverter.Deserialize(jsonString, responseType);
         }
 
-        public HttpContent Encode(HttpRequest request)
+        public HttpContent SerializeRequest(HttpRequest request)
         {
             return new StringContent(JsonConverter.Serialize(request.Body), System.Text.Encoding.UTF8, MimeContentType.Json);
         }
