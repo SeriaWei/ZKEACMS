@@ -100,7 +100,7 @@ namespace ZKEACMS.Product.Models
             ViewConfig(m => m.TargetFrom).AsHidden();
             ViewConfig(m => m.TargetUrl).AsHidden();
             ViewConfig(m => m.Title).AsTextBox().Required().Order(0).ShowInGrid().Search(Query.Operators.Contains);
-            ViewConfig(m => m.Url).AsTextBox().Order(1).MaxLength(100).UrlPart().Required();
+            ViewConfig(m => m.Url).AsTextBox().Order(1).MaxLength(100).UrlPart().Required().RandomText();
             ViewConfig(m => m.ImageUrl).AsTextBox().Required().MediaSelector();
             ViewConfig(m => m.ImageThumbUrl).AsTextBox().Required().MediaSelector();
             ViewConfig(m => m.PartNumber).AsTextBox().ShowInGrid().Search(Query.Operators.Contains);

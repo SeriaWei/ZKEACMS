@@ -32,5 +32,10 @@ namespace ZKEACMS.Extend
         {
             return descriptor.RegularExpression(@"^~\/([A-Za-z0-9_-]|\/)+$");
         }
+        public static TextBoxDescriptor RandomText(this TextBoxDescriptor descriptor)
+        {
+            return descriptor.SetTemplate("RandomText");
+        }
+
     }
 }

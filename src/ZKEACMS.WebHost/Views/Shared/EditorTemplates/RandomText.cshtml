@@ -1,0 +1,21 @@
+@model String
+@{
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
+    var fieldId = Html.Id("");
+}
+
+<div class="input-group">
+    @Html.TextBox("", Model, descriptor?.ToHtmlProperties())
+    <div class="input-group-addon">
+        <span class="glyphicon glyphicon-random"></span>
+    </div>
+</div>
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        $("#@fieldId").closest(".input-group").find(".glyphicon-random").click(function() {
+            $("#@fieldId").val(Math.random().toString(36).substring(2));
+        });
+    </script>
+}
