@@ -36,6 +36,7 @@ namespace ZKEACMS.Common.Models
         {
             base.ViewConfigure();
             ViewConfig(m => m.ID).AsHidden();
+            ViewConfig(m => m.CarouselItems).AsListEditor().Order(NextOrder());
             ViewConfig(m => m.CarouselID).AsDropDownList().Order(NextOrder()).DataSource(() =>
             {
                 var result = new Dictionary<string, string> { { "", "--- Select ---" } };
@@ -45,7 +46,6 @@ namespace ZKEACMS.Common.Models
                     return result;
                 }
             });
-            ViewConfig(m => m.CarouselItems).AsListEditor().Order(NextOrder());
             ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary).AsWidgetTemplateChooser();
         }
     }
