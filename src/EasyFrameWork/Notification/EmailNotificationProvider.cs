@@ -35,7 +35,13 @@ namespace Easy.Notification
             var email = (EmailMessage)message;
             if (_emailQueue != null)
             {
-                _emailQueue.Send(new EmailContext(email, _smtpProvider.GetSmtpSetting()));
+                var smtpSetting = _smtpProvider.GetSmtpSetting();
+                if (smtpSetting == null)
+                {
+                    _logger.LogError("SMTP Server is not ready, the email was dropped. For more information:{0}", "http://www.zkea.net/zkeacms/document/smtp-setting");
+                    return;
+                }
+                _emailQueue.Send(new EmailContext(email, smtpSetting));
             }
             else
             {
@@ -85,7 +91,7 @@ namespace Easy.Notification
                     DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory,
                     PickupDirectoryLocation = tempEmlPath
                 };
-                _logger.LogError("SMTP Server is not ready, the email have temporary saved to {0}. for more information: {1}",
+                _logger.LogError("SMTP Server is not ready, the email have temporary saved to {0}. For more information: {1}",
                 tempEmlPath, "http://www.zkea.net/zkeacms/document/smtp-setting");
             }
 
