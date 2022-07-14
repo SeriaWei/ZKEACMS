@@ -71,12 +71,12 @@ $(function () {
                 });
             }
         });
-    }).on("click", ".form-group select#ZoneID", function () {
+    }).on("click", ".form-group select#ZoneId", function () {
         var obj = $(this);
         if (obj.val() == "ZONE-X") {
             return;
         }
-        var url = "/admin/Layout/SelectZone?layoutId=" + $(".hide #LayoutID").val() + "&pageId=" + $(".hide #PageID").val() + "&zoneId=" + obj.val();
+        var url = "/admin/Layout/SelectZone?layoutId=" + $(".hide #LayoutId").val() + "&pageId=" + $(".hide #PageId").val() + "&zoneId=" + obj.val();
         window.top.Easy.ShowUrlWindow({
             url: url,
             width: 1000,
@@ -122,8 +122,8 @@ $(function () {
     }).on("submit", "form", function () {
         Easy.Block();
     });
-    $(".form-group select#ZoneID,.form-group select.select").on("mousedown", false);
-    $(".form-group select#ZoneID").each(function () {
+    $(".form-group select#ZoneId,.form-group select.select").on("mousedown", false);
+    $(".form-group select#ZoneId").each(function () {
         if ($(this).val() == "ZONE-X") {
             $(this).closest(".form-group").hide();
         }

@@ -25,10 +25,10 @@ namespace ZKEACMS.Widget
         public virtual string ID { get; set; }
         public virtual string WidgetName { get; set; }
         public virtual int? Position { get; set; }
-        public virtual string LayoutID { get; set; }
-        public virtual string PageID { get; set; }
+        public virtual string LayoutId { get; set; }
+        public virtual string PageId { get; set; }
         public virtual int? RuleID { get; set; }
-        public virtual string ZoneID { get; set; }
+        public virtual string ZoneId { get; set; }
         public virtual bool IsTemplate { get; set; }
         public virtual string Thumbnail { get; set; }
         public virtual bool IsSystem { get; set; }
@@ -117,8 +117,8 @@ namespace ZKEACMS.Widget
             widget.LastUpdateBy = LastUpdateBy;
             widget.LastUpdateByName = LastUpdateByName;
             widget.LastUpdateDate = LastUpdateDate;
-            widget.LayoutID = LayoutID;
-            widget.PageID = PageID;
+            widget.LayoutId = LayoutId;
+            widget.PageId = PageId;
             widget.RuleID = RuleID;
             widget.PartialView = PartialView;
             widget.Position = Position;
@@ -127,7 +127,7 @@ namespace ZKEACMS.Widget
             widget.Title = Title;
             widget.ViewModelTypeName = ViewModelTypeName;
             widget.WidgetName = WidgetName;
-            widget.ZoneID = ZoneID;
+            widget.ZoneId = ZoneId;
             widget.FormView = FormView;
             widget.StyleClass = StyleClass;
             widget.IsTemplate = IsTemplate;
@@ -139,15 +139,15 @@ namespace ZKEACMS.Widget
         }
         public void SetZone(string zoneCode)
         {
-            if (ZoneID.IsNullOrEmpty())
+            if (ZoneId.IsNullOrEmpty())
             {
-                ZoneID = zoneCode;
+                ZoneId = zoneCode;
             }
             availableZones.Add(zoneCode);
         }
         public bool IsInZone(string zoneCode)
         {
-            return ZoneID == zoneCode || availableZones.Contains(zoneCode);
+            return ZoneId == zoneCode || availableZones.Contains(zoneCode);
         }
     }
 }

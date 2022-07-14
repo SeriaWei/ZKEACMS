@@ -44,11 +44,11 @@ namespace ZKEACMS.Widget
 
         public IEnumerable<WidgetBase> GetByLayoutId(string layoutId)
         {
-            return Get(m => m.LayoutID == layoutId);
+            return Get(m => m.LayoutId == layoutId);
         }
         public IEnumerable<WidgetBase> GetByPageId(string pageId)
         {
-            return Get(m => m.PageID == pageId);
+            return Get(m => m.PageId == pageId);
         }
 
         public IEnumerable<WidgetBase> GetAllByPage(PageEntity page)
@@ -94,10 +94,10 @@ namespace ZKEACMS.Widget
             var service = _widgetActivator.Create(widgetBasePart);
             var widgetBase = service.GetWidget(widgetBasePart.ToWidgetBase());
 
-            widgetBase.PageID = widget.PageID;
-            widgetBase.ZoneID = widget.ZoneID;
+            widgetBase.PageId = widget.PageId;
+            widgetBase.ZoneId = widget.ZoneId;
             widgetBase.Position = widget.Position;
-            widgetBase.LayoutID = widget.LayoutID;
+            widgetBase.LayoutId = widget.LayoutId;
             widgetBase.IsTemplate = false;
             widgetBase.IsSystem = false;
             widgetBase.Thumbnail = null;

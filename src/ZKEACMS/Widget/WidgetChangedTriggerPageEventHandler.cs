@@ -32,12 +32,12 @@ namespace ZKEACMS.Widget
         public void Handle(object entity, EventArg e)
         {
             WidgetBase widget = entity as WidgetBase;
-            if (widget.PageID.IsNotNullAndWhiteSpace() && !_pages.Contains(widget.PageID))
+            if (widget.PageId.IsNotNullAndWhiteSpace() && !_pages.Contains(widget.PageId))
             {
-                _pages.Add(widget.PageID);
-                _pageService.MarkChanged(widget.PageID);
+                _pages.Add(widget.PageId);
+                _pageService.MarkChanged(widget.PageId);
             }
-            if (widget.LayoutID.IsNotNullAndWhiteSpace())
+            if (widget.LayoutId.IsNotNullAndWhiteSpace())
             {
                 _pageWidgetCacheManage.Clear();
             }

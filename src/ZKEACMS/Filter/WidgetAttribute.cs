@@ -117,13 +117,13 @@ namespace ZKEACMS.Filter
                         logger.LogInformation("{0}.Display(): {1}ms", widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
                         if (part != null)
                         {
-                            if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneID ?? UnknownZone))
+                            if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneId ?? UnknownZone))
                             {
-                                layout.ZoneWidgets[part.Widget.ZoneID ?? UnknownZone].TryAdd(part);
+                                layout.ZoneWidgets[part.Widget.ZoneId ?? UnknownZone].TryAdd(part);
                             }
                             else
                             {
-                                layout.ZoneWidgets.Add(part.Widget.ZoneID ?? UnknownZone, new WidgetCollection { part });
+                                layout.ZoneWidgets.Add(part.Widget.ZoneId ?? UnknownZone, new WidgetCollection { part });
                             }
                         }
                         partDriver.Dispose();

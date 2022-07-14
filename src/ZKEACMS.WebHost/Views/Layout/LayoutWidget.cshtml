@@ -43,7 +43,7 @@
     <script type="text/javascript">
         $(function () {            
             if (!location.hash) {
-                location.hash = '@ViewBag.LayoutID';
+                location.hash = '@ViewBag.LayoutId';
             }
             if (location.hash && location.hash != "#") {
                 $("li" + location.hash).trigger("click");

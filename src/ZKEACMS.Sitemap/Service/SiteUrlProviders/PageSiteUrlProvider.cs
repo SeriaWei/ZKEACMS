@@ -33,7 +33,7 @@ namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
             HashSet<string> distinct = new HashSet<string>();
             var widgetIds = _sitemapDbContext.ArticleDetailWidget.ToList().Select(m => m.ID).ToArray();
             widgetIds = widgetIds.Concat(_sitemapDbContext.ProductDetailWidget.ToList().Select(m => m.ID)).ToArray();
-            var pageIds = _widgetBasePartService.Get(m => widgetIds.Contains(m.ID)).Select(m => m.PageID);
+            var pageIds = _widgetBasePartService.Get(m => widgetIds.Contains(m.ID)).Select(m => m.PageId);
             var pages = _pageService.Get().Where(m => !pageIds.Contains(m.ID) && m.IsPublishedPage).OrderBy(m => m.ReferencePageID).ThenByDescending(m => m.PublishDate).ToList();
             foreach (var page in pages)
             {

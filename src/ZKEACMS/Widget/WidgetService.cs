@@ -242,9 +242,9 @@ namespace ZKEACMS.Widget
         public virtual WidgetPackage PackWidget(WidgetBase widget)
         {
             widget = GetWidget(widget);
-            widget.PageID = null;
-            widget.LayoutID = null;
-            widget.ZoneID = null;
+            widget.PageId = null;
+            widget.LayoutId = null;
+            widget.ZoneId = null;
             widget.IsSystem = false;
             widget.IsTemplate = true;
             return new WidgetPackageInstaller(ApplicationContext.HostingEnvironment).Pack(widget) as WidgetPackage;

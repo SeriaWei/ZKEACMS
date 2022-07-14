@@ -39,9 +39,9 @@ namespace ZKEACMS.Controllers
             return View(Service.GetWithFull());
         }
 
-        public IActionResult LayoutWidget(string LayoutID)
+        public IActionResult LayoutWidget(string layoutId)
         {
-            ViewBag.LayoutID = LayoutID;
+            ViewBag.LayoutId = layoutId;
             return View(Service.Get().ToList());
         }
         [HttpPost]
@@ -51,7 +51,7 @@ namespace ZKEACMS.Controllers
             var viewModel = new LayoutZonesViewModel
             {
                 Layout = layout,
-                LayoutID = ID,
+                LayoutId = ID,
                 Zones = _zoneService.GetByLayoutId(ID),
                 Widgets = _widgetService.GetByLayoutId(ID),
                 LayoutHtml = layout.Html
@@ -86,12 +86,12 @@ namespace ZKEACMS.Controllers
             return base.Edit(entity);
         }
         [ResponseCache(NoStore = true)]
-        public IActionResult Design(string ID, string PageID)
+        public IActionResult Design(string ID, string PageId)
         {
             LayoutEntity layout = null;
-            if (PageID.IsNotNullAndWhiteSpace())
+            if (PageId.IsNotNullAndWhiteSpace())
             {
-                var page = _pageService.Get(PageID);
+                var page = _pageService.Get(PageId);
                 layout = Service.GetByPage(page);
                 layout.Page = page;
             }

@@ -31,12 +31,12 @@ namespace ZKEACMS.Controllers
         {
             var viewModel = new WidgetTemplateViewModel
             {
-                PageID = context.PageID,
-                LayoutID = context.LayoutID,
-                ZoneID = context.ZoneID,
+                PageId = context.PageId,
+                LayoutId = context.LayoutId,
+                ZoneId = context.ZoneId,
                 RuleID = context.RuleID,
                 ReturnUrl = context.ReturnUrl,
-                CanPasteWidget = context.ZoneID.IsNotNullAndWhiteSpace() && _cookie.GetValue<string>(Const.CopyWidgetCookie).IsNotNullAndWhiteSpace(),
+                CanPasteWidget = context.ZoneId.IsNotNullAndWhiteSpace() && _cookie.GetValue<string>(Const.CopyWidgetCookie).IsNotNullAndWhiteSpace(),
                 WidgetTemplates = _widgetTemplateService.Get().OrderBy(m => m.Order).ToList(),
                 PredefinedTemplates = _widgetBasePartService.Get(m => m.IsTemplate == true).ToList()
             };
@@ -47,9 +47,9 @@ namespace ZKEACMS.Controllers
         {
             return RedirectToAction("Create", "Widget", new
             {
-                context.PageID,
-                context.LayoutID,
-                context.ZoneID,
+                context.PageId,
+                context.LayoutId,
+                context.ZoneId,
                 context.RuleID,
                 context.WidgetTemplateID,
                 context.WidgetID,

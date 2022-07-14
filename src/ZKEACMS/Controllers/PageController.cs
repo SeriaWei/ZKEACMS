@@ -152,7 +152,7 @@ namespace ZKEACMS.Controllers
                 }
                 return RedirectView(entity.ID, false);
             }
-            return RedirectToAction("Index", new { PageID = entity.ID });
+            return RedirectToAction("Index", new { PageId = entity.ID });
         }
         [EditWidget, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public IActionResult Design(string ID)
@@ -206,14 +206,14 @@ namespace ZKEACMS.Controllers
             ILayoutService layoutService = HttpContext.RequestServices.GetService<ILayoutService>();
             IWidgetBasePartService widgetBasePartService = HttpContext.RequestServices.GetService<IWidgetBasePartService>();
             IRuleService ruleService = HttpContext.RequestServices.GetService<IRuleService>();
-            var page = Service.Get(context.PageID);
+            var page = Service.Get(context.PageId);
             var layout = layoutService.GetByPage(page);
             var viewModel = new LayoutZonesViewModel
             {
                 Page = page,
                 Layout = layout,
-                PageID = context.PageID,
-                LayoutID = layout.ID,
+                PageId = context.PageId,
+                LayoutId = layout.ID,
                 Zones = layout.Zones,
                 Widgets = widgetBasePartService.GetAllByPage(page),
                 LayoutHtml = layout.Html

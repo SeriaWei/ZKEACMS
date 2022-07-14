@@ -2,7 +2,7 @@
 @model LayoutZonesViewModel
 @{
     Layout = null;
-    string returnUrl = Url.Action("Index", "Page", new { Model.PageID });
+    string returnUrl = Url.Action("Index", "Page", new { Model.PageId });
     var noZoneWidgets = Model.Widgets.Where(m => Model.Zones.All(n => !m.IsInZone(n.HeadingCode)));
 }
 
@@ -17,7 +17,7 @@
                 @foreach (var widget in noZoneWidgets.OrderBy(m => m.Position))
                 {
                     <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
-                        @if (widget.LayoutID.IsNotNullAndWhiteSpace())
+                        @if (widget.LayoutId.IsNotNullAndWhiteSpace())
                         {
                             <span class="badge">@L("Layout")</span>
                         }
@@ -62,10 +62,10 @@
                             <ul data-zoneid="@item.HeadingCode" class="fullRowList widgets connectedSortable">
                                 @foreach (var widget in Model.Widgets.Where(m => m.IsInZone(item.HeadingCode)).OrderBy(m => m.Position).ThenBy(m => m.WidgetName))
                                 {
-                                    <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID" data-position="@(widget.LayoutID.IsNotNullAndWhiteSpace()||widget.RuleID.HasValue?widget.Position:0)">
-                                        @if (widget.LayoutID.IsNotNullAndWhiteSpace())
+                                    <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID" data-position="@(widget.LayoutId.IsNotNullAndWhiteSpace()||widget.RuleID.HasValue?widget.Position:0)">
+                                        @if (widget.LayoutId.IsNotNullAndWhiteSpace())
                                         {
-                                            <a class="badge" href="@Url.Action("LayoutWidget","Layout",new{ LayoutId = widget.LayoutID })">@L("Layout")</a>
+                                            <a class="badge" href="@Url.Action("LayoutWidget","Layout",new{ layoutId = widget.LayoutId })">@L("Layout")</a>
                                         }
                                         @if (widget.RuleID.HasValue)
                                         {
@@ -83,7 +83,7 @@
                             <div class="panel-toolbar">
                                 @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                                 {
-                                    <a class="btn btn-black btn-xs" title="@L("Add Content")" href="@Url.Action("SelectWidget", "WidgetTemplate", new { Model.PageID, ZoneID = item.HeadingCode, ReturnUrl = returnUrl})">
+                                    <a class="btn btn-black btn-xs" title="@L("Add Content")" href="@Url.Action("SelectWidget", "WidgetTemplate", new QueryContext{ PageId = Model.PageId, ZoneId = item.HeadingCode, ReturnUrl = returnUrl})">
                                         <i class="glyphicon glyphicon-plus"></i>
                                         @L("Add Content") | @item.ZoneName
                                     </a>
@@ -112,19 +112,19 @@
         <div class="btn-group">
             @if (Authorizer.Authorize(PermissionKeys.ManagePage))
             {
-                <a class="btn btn-primary" href="@Url.Action("design", new {ID = Model.PageID})">
+                <a class="btn btn-primary" href="@Url.Action("design", new {ID = Model.PageId})">
                     <i class="glyphicon glyphicon-pencil"></i>
                     @L("Edit")
                 </a>
             }
-            <a class="btn btn-primary" href="@Url.Action("redirectview", "page", new { ID = Model.PageID})">
+            <a class="btn btn-primary" href="@Url.Action("redirectview", "page", new { ID = Model.PageId})">
                 <i class="glyphicon glyphicon-eye-open"></i>
                 @L("View Pending Page")
             </a>
             @if (Model.Page.PublishDate.HasValue)
             {
                 <a class="btn btn-primary"
-                   href="@Url.Action("redirectview", "page", new { ID = Model.PageID, preview = false})"
+                   href="@Url.Action("redirectview", "page", new { ID = Model.PageId, preview = false})"
                    target="_blank">
                     <i class="glyphicon glyphicon-eye-open"></i>
                     @L("View Published Page")
@@ -132,21 +132,21 @@
             }
             @if (Authorizer.Authorize(PermissionKeys.ManagePage))
             {
-                <a class="btn btn-primary" href="@Url.Action("edit", new {ID = Model.PageID})">
+                <a class="btn btn-primary" href="@Url.Action("edit", new {ID = Model.PageId})">
                     <i class="glyphicon glyphicon-record"></i>
                     @L("Property/History")
                 </a>
             }
             @if (Authorizer.Authorize(PermissionKeys.ManageLayout))
             {
-                <a class="btn btn-primary" href="@Url.Action("design", "layout", new { ID = Model.LayoutID, Model.PageID})">
+                <a class="btn btn-primary" href="@Url.Action("design", "layout", new { ID = Model.LayoutId, Model.PageId})">
                     <i class="glyphicon glyphicon-th"></i>
                     @L("Layout")
                 </a>
             }
             @if (Authorizer.Authorize(PermissionKeys.ManagePage))
             {
-                <a class="btn btn-primary publish-page" data-id="@Model.PageID" href="javascript:void(0)">
+                <a class="btn btn-primary publish-page" data-id="@Model.PageId" href="javascript:void(0)">
                     <i class="glyphicon glyphicon-open"></i>
                     @L("Publish")
                 </a>

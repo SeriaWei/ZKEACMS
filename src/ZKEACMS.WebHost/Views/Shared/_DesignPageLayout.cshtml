@@ -70,26 +70,26 @@
                 </div>
                 <div class="pull-right">
                     <div class="zk-btn-group">
-                        <a class="zk-btn zk-btn-primary" href="@Url.Action("RedirectView", "Page", new {Model.Page.ID})">
+                        <a class="zk-btn zk-btn-primary" href="@Url.Action("RedirectView", "Page", new { Model.Page.ID })">
                             <i class="glyphicon glyphicon-eye-open"></i>
                             @L("Preview")
                         </a>
                         <button class="zk-btn zk-btn-primary mobile-preview" data-toggle="modal" data-target="#mobile-frame">
                             <i class="glyphicon glyphicon-phone"></i>
                         </button>
-                        <a class="zk-btn zk-btn-primary" href="@Url.Action("Index", "Page", new {PageID = Model.Page.ID})">
+                        <a class="zk-btn zk-btn-primary" href="@Url.Action("Index", "Page", new { PageId = Model.Page.ID })">
                             <i class="glyphicon glyphicon-th-list"></i>
                             @L("Overview")
                         </a>
-                        <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Layout", new {Model.ID, PageID = Model.Page.ID})">
+                        <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Layout", new { Model.ID, PageId = Model.Page.ID })">
                             <i class="glyphicon glyphicon-th"></i>
                             @L("Edit Layout")
                         </a>
-                        <a class="zk-btn zk-btn-primary" href="@Url.Action("Edit", "Page", new { Model.Page.ID})">
+                        <a class="zk-btn zk-btn-primary" href="@Url.Action("Edit", "Page", new { Model.Page.ID })">
                             <i class="glyphicon glyphicon-record"></i>
                             @L("Property/History")
                         </a>
-                        <a class="zk-btn zk-btn-primary" href="@Url.Action("SelectWidget", "WidgetTemplate", new { pageId = Model.Page.ID})">
+                        <a class="zk-btn zk-btn-primary" href="@Url.Action("SelectWidget", "WidgetTemplate", new QueryContext{ PageId = Model.Page.ID })">
                             <i class="glyphicon glyphicon-plus"></i>
                             @L("Add Content")
                         </a>
@@ -97,7 +97,7 @@
                             <i class="glyphicon glyphicon-copy"></i>
                             @L("Upload Section")
                         </a>
-                        <a class="zk-btn zk-btn-primary" href="@Url.Action("PublishPage", "Page", new {Model.Page.ID, ReturnUrl = Model.Page.Url})">
+                        <a class="zk-btn zk-btn-primary" href="@Url.Action("PublishPage", "Page", new { Model.Page.ID, ReturnUrl = Model.Page.Url })">
                             <i class="glyphicon glyphicon-open"></i>
                             @L("Publish")
                         </a>

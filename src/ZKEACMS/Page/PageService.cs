@@ -135,7 +135,7 @@ namespace ZKEACMS.Page
                 using (var widgetService = _widgetActivator.Create(m))
                 {
                     m = widgetService.GetWidget(m);
-                    m.PageID = item.ID;
+                    m.PageId = item.ID;
                     widgetService.Publish(m);
                 }
             });
@@ -261,7 +261,7 @@ namespace ZKEACMS.Page
                         {
                             var widgetService = _widgetActivator.Create(m);
                             m = widgetService.GetWidget(m);
-                            m.PageID = page.ReferencePageID;
+                            m.PageId = page.ReferencePageID;
                             widgetService.Publish(m);
                         });
                     }
@@ -291,7 +291,7 @@ namespace ZKEACMS.Page
                     var allPageIds = allPages.Select(n => n.ID).ToArray();
                     allPages.AddRange(Get(m => allPageIds.Contains(m.ReferencePageID)));
                     allPageIds = allPages.Select(n => n.ID).ToArray();
-                    var widgets = _widgetService.Get(m => allPageIds.Contains(m.PageID));
+                    var widgets = _widgetService.Get(m => allPageIds.Contains(m.PageId));
                     widgets.Each(m =>
                     {
                         using (var widgetService = _widgetActivator.Create(m))

@@ -160,9 +160,9 @@ namespace ZKEACMS.SectionWidget.Service
             {
                 _sectionTemplateService.Add(widget.Template);
             }
-            widget.PageID = null;
-            widget.LayoutID = null;
-            widget.ZoneID = null;
+            widget.PageId = null;
+            widget.LayoutId = null;
+            widget.ZoneId = null;
             widget.IsSystem = false;
             widget.IsTemplate = true;
             widget.Description = "Install";

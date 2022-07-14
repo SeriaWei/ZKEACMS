@@ -38,7 +38,7 @@ namespace ZKEACMS.Article.Service
             var baseDetail = WidgetBasePartService.Get(m => m.ServiceTypeName == "ZKEACMS.Article.Service.ArticleDetailWidgetService").FirstOrDefault();
             if (baseDetail != null)
             {
-                var page = _pageService.Get(baseDetail.PageID);
+                var page = _pageService.Get(baseDetail.PageId);
                 if (page != null)
                 {
                     return page.Url;

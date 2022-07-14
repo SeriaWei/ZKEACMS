@@ -20,8 +20,8 @@ $(function () {
                     async: false,
                     data: {
                         ID: ui.item.data("id"),
-                        ZoneID: $("input.zoneId", this).val(),
-                        PageID: $("#pageId").val(),
+                        ZoneId: $("input.zoneId", this).val(),
+                        PageId: $("#pageId").val(),
                         AssemblyName: ui.item.data("assemblyname"),
                         ServiceTypeName: ui.item.data("servicetypename"),
                         Position: 1

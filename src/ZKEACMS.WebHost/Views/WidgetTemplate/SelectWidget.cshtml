@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="panel-body template-list">
-        @using (Html.BeginForm("RedirectToWidget", "WidgetTemplate", new { Model.PageID, Model.LayoutID, Model.ZoneID, Model.RuleID, Model.ReturnUrl }))
+        @using (Html.BeginForm("RedirectToWidget", "WidgetTemplate", new { Model.PageId, Model.LayoutId, Model.ZoneId, Model.RuleID, Model.ReturnUrl }))
         {
             <div class="row">
                 @foreach (var template in Model.PredefinedTemplates)
@@ -60,7 +60,7 @@
                 <input id="design" type="submit" class="btn btn-primary" value="@L("Next")" />
                 @if (Model.CanPasteWidget)
                 {
-                    <a class="btn btn-warning" href="@Url.Action("PasteAndRedirect", "Widget", new { Model.LayoutID, Model.PageID,Model.ZoneID,Model.ReturnUrl })">
+                    <a class="btn btn-warning" href="@Url.Action("PasteAndRedirect", "Widget", new { Model.LayoutId, Model.PageId,Model.ZoneId,Model.ReturnUrl })">
                         <i class="glyphicon glyphicon-paste"></i>
                         @L("Paste")
                     </a>
