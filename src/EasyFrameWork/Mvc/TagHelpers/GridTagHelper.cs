@@ -18,6 +18,7 @@ using Easy.LINQ;
 using Easy.ViewPort.Descriptor;
 using Easy.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Easy.Mvc.TagHelpers
 {
@@ -66,7 +67,7 @@ namespace Easy.Mvc.TagHelpers
                 }
             }
             var viewConfig = ServiceLocator.GetViewConfigure(ModelType);
-            var localize = ServiceLocator.GetService<ILocalize>();
+            var localize = ViewContext.HttpContext.RequestServices.GetService<ILocalize>();
             StringBuilder tableHeaderBuilder = new StringBuilder();
             StringBuilder tableSearchBuilder = new StringBuilder();
             if (viewConfig != null)
