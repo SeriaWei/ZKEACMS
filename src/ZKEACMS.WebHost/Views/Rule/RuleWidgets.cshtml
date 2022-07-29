@@ -12,7 +12,7 @@
             @foreach (var widget in Model.OrderBy(m => m.Position))
             {
                 <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
-                    @if (widget.LayoutID.IsNotNullAndWhiteSpace())
+                    @if (widget.LayoutId.IsNotNullAndWhiteSpace())
                     {
                         <span class="badge">@L("Layout")</span>
                     }
@@ -27,7 +27,7 @@
         </ul>
     </div>
     <div class="panel-footer">
-        <a class="btn btn-primary btn-sm" href="@Url.Action("SelectWidget", "WidgetTemplate", new { RuleID=ViewBag.RuleID, ReturnUrl = returnUrl+"#rule-"+ViewBag.RuleID})">
+        <a class="btn btn-primary btn-sm" href="@Url.Action("SelectWidget", "WidgetTemplate", new QueryContext{ RuleID=ViewBag.RuleID, ReturnUrl = returnUrl+"#rule-"+ViewBag.RuleID})">
             @L("Add Content")
         </a>
     </div>

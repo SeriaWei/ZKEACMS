@@ -226,7 +226,7 @@ namespace ZKEACMS.Layout
                 {
                     _layoutHtmlService.Remove(m => m.LayoutId == item.ID && m.PageId == null);
                     _zoneService.Remove(m => m.LayoutId == item.ID && m.PageId == null);
-                    var widgets = _widgetService.Get(m => m.LayoutID == item.ID);
+                    var widgets = _widgetService.Get(m => m.LayoutId == item.ID);
                     widgets.Each(m =>
                     {
                         using (var widgetService = _widgetActivator.Create(m))

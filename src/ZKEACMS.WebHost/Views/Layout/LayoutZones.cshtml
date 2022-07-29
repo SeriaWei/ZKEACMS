@@ -2,8 +2,8 @@
 @model ZKEACMS.Common.ViewModels.LayoutZonesViewModel
 @{
     Layout = null;
-    string returnUrl = Url.Action("LayoutWidget", "Layout", new { Model.LayoutID });
-    var noZoneWidgets = Model.Widgets.Where(m => Model.Zones.All(n => n.HeadingCode != m.ZoneID));
+    string returnUrl = Url.Action("LayoutWidget", "Layout", new { layoutId = Model.LayoutId });
+    var noZoneWidgets = Model.Widgets.Where(m => Model.Zones.All(n => n.HeadingCode != m.ZoneId));
 }
 
 @if (noZoneWidgets.Any())
@@ -51,7 +51,7 @@
                 {
                     <div class="panel panel-success  panel-relative">
                         <ul data-zoneid="@item.HeadingCode" class="fullRowList widgets connectedSortable">
-                            @foreach (var widget in Model.Widgets.Where(m => m.ZoneID == item.HeadingCode).OrderBy(m => m.Position).ThenBy(m => m.WidgetName))
+                            @foreach (var widget in Model.Widgets.Where(m => m.ZoneId == item.HeadingCode).OrderBy(m => m.Position).ThenBy(m => m.WidgetName))
                             {
                                 <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
                                     @if (Authorizer.Authorize(PermissionKeys.ManagePage))
@@ -64,7 +64,7 @@
                             }
                         </ul>
                         <div class="panel-toolbar">
-                            <a class="btn btn-black btn-xs" title="@L("Add Content")" href="@Url.Action("SelectWidget", "WidgetTemplate", new { Model.PageID, ZoneID = item.HeadingCode, LayoutID = item.LayoutId, ReturnUrl = returnUrl})">
+                            <a class="btn btn-black btn-xs" title="@L("Add Content")" href="@Url.Action("SelectWidget", "WidgetTemplate", new QueryContext{ PageId = Model.PageId, ZoneId = item.HeadingCode, LayoutId = item.LayoutId, ReturnUrl = returnUrl})">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 @L("Add Content") | @item.ZoneName
                             </a>

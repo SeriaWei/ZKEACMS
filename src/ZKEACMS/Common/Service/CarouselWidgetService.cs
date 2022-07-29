@@ -111,9 +111,13 @@ namespace ZKEACMS.Common.Service
         public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             var carouselWidget = widgetDisplayContext.Widget as CarouselWidget;
+            if (carouselWidget.CarouselItems == null)
+            {
+                carouselWidget.CarouselItems = new List<CarouselItemEntity>();
+            }
             if (carouselWidget.CarouselID.HasValue)
             {
-                carouselWidget.CarouselItems = _carouselItemService.Get(m => m.CarouselID == carouselWidget.CarouselID);
+                carouselWidget.CarouselItems = carouselWidget.CarouselItems.Concat(_carouselItemService.Get(m => m.CarouselID == carouselWidget.CarouselID));
             }
             carouselWidget.CarouselItems = carouselWidget.CarouselItems.Where(m => m.Status == (int)RecordStatus.Active);
             return carouselWidget;

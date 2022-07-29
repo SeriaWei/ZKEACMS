@@ -266,10 +266,10 @@ namespace ZKEACMS.TemplateImporter.Service
                         return $"url({ConvertToThemePath(themeName, evaluator.Groups[1].Value)})";
                     });
                     var styleWidget = _widgetCreatorManager.Create(section, themeName);
-                    styleWidget.PageID = page.ID;
+                    styleWidget.PageId = page.ID;
                     styleWidget.WidgetName = "Style";
                     styleWidget.Position = 0;
-                    styleWidget.ZoneID = "ZONE-0";
+                    styleWidget.ZoneId = "ZONE-0";
                     styleWidget.StyleClass = "full";
                     _widgetActivator.Create(styleWidget).AddWidget(styleWidget);
                 }
@@ -287,10 +287,10 @@ namespace ZKEACMS.TemplateImporter.Service
                             return $"url({ConvertToThemePath(themeName, evaluator.Groups[1].Value)})";
                         });
                         var widget = _widgetCreatorManager.Create(section, themeName);
-                        widget.PageID = page.ID;
+                        widget.PageId = page.ID;
                         widget.WidgetName = (widgetTitle ?? "Html Widget").Trim();
                         widget.Position = i;
-                        widget.ZoneID = "ZONE-1";
+                        widget.ZoneId = "ZONE-1";
                         widget.StyleClass = "full";
                         _widgetActivator.Create(widget).AddWidget(widget);
                     }
@@ -298,10 +298,10 @@ namespace ZKEACMS.TemplateImporter.Service
                 if (pageScripts.Length > 0)
                 {
                     var scriptWidget = _widgetCreatorManager.Create(pageScripts.ToString().Trim(), themeName);
-                    scriptWidget.PageID = page.ID;
+                    scriptWidget.PageId = page.ID;
                     scriptWidget.WidgetName = "JavaScript";
                     scriptWidget.Position = document.DocumentNode.ChildNodes.Count;
-                    scriptWidget.ZoneID = "ZONE-2";
+                    scriptWidget.ZoneId = "ZONE-2";
                     scriptWidget.StyleClass = "full";
                     _widgetActivator.Create(scriptWidget).AddWidget(scriptWidget);
                 }

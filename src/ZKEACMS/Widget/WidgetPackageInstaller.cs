@@ -36,10 +36,10 @@ namespace ZKEACMS.Widget
             {
                 if (widgetPackage.Widget != null)
                 {
-                    var widget = JsonConvert.DeserializeObject(JObject.Parse(package.Content.ToString()).GetValue("Widget").ToString(), widgetPackage.Widget.GetViewModelType()) as WidgetBase;
-                    widget.PageID = null;
-                    widget.LayoutID = null;
-                    widget.ZoneID = null;
+                    var widget = Easy.Serializer.JsonConverter.Deserialize(JObject.Parse(package.Content.ToString()).GetValue("Widget").ToString(), widgetPackage.Widget.GetViewModelType()) as WidgetBase;
+                    widget.PageId = null;
+                    widget.LayoutId = null;
+                    widget.ZoneId = null;
                     widget.IsSystem = false;
                     widget.IsTemplate = true;
                     return widget;

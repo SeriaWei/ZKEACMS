@@ -46,12 +46,12 @@ namespace ZKEACMS.Widget
             get; set;
         }
         [NotMapped]
-        public override string LayoutID
+        public override string LayoutId
         {
             get; set;
         }
         [NotMapped]
-        public override string PageID
+        public override string PageId
         {
             get; set;
         }
@@ -96,7 +96,7 @@ namespace ZKEACMS.Widget
             get; set;
         }
         [NotMapped]
-        public override string ZoneID
+        public override string ZoneId
         {
             get; set;
         }
@@ -180,12 +180,12 @@ namespace ZKEACMS.Widget
             get; set;
         }
         [NotMapped, JsonIgnore]
-        public override string LayoutID
+        public override string LayoutId
         {
             get; set;
         }
         [NotMapped, JsonIgnore]
-        public override string PageID
+        public override string PageId
         {
             get; set;
         }
@@ -225,7 +225,7 @@ namespace ZKEACMS.Widget
             get; set;
         }
         [NotMapped, JsonIgnore]
-        public override string ZoneID
+        public override string ZoneId
         {
             get; set;
         }

@@ -2,6 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,10 @@ namespace ZKEACMS.SpiderLog.Service
 {
     public class SpiderLogData : PluginData<SpiderLogPlug>, ISpiderLogData
     {
+        public SpiderLogData(ILogger<SpiderLogPlug> logger) : base(logger)
+        {
+        }
+
         public void WriteLog(SearchEngineVisitLog visitLog)
         {
             var collection = GetCollection<SearchEngineVisitLog>(visitLog.Name);

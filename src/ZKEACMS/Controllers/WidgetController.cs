@@ -17,10 +17,10 @@ using Easy;
 using Easy.Mvc;
 using ZKEACMS.Common.Models;
 using System.IO;
-using Newtonsoft.Json;
 using ZKEACMS.PackageManger;
 using ZKEACMS.Page;
 using Easy.Modules.DataDictionary;
+using Easy.Serializer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Easy.Mvc.Extend;
@@ -88,17 +88,17 @@ namespace ZKEACMS.Controllers
             }
             if (widget == null) return BadRequest();
 
-            widget.PageID = context.PageID;
-            widget.LayoutID = context.LayoutID;
-            widget.ZoneID = context.ZoneID;
+            widget.PageId = context.PageId;
+            widget.LayoutId = context.LayoutId;
+            widget.ZoneId = context.ZoneId;
             widget.RuleID = context.RuleID;
-            if (widget.PageID.IsNotNullAndWhiteSpace())
+            if (widget.PageId.IsNotNullAndWhiteSpace())
             {
-                widget.Position = _widgetService.GetAllByPage(_pageService.Get(context.PageID)).Count(m => m.ZoneID == context.ZoneID) + 1;
+                widget.Position = _widgetService.GetAllByPage(_pageService.Get(context.PageId)).Count(m => m.ZoneId == context.ZoneId) + 1;
             }
-            else if (context.LayoutID.IsNotNullAndWhiteSpace())
+            else if (context.LayoutId.IsNotNullAndWhiteSpace())
             {
-                widget.Position = _widgetService.GetByLayoutId(context.LayoutID).Count(m => m.ZoneID == context.ZoneID) + 1;
+                widget.Position = _widgetService.GetByLayoutId(context.LayoutId).Count(m => m.ZoneId == context.ZoneId) + 1;
             }
             SetDataSource(widget);
             ViewBag.ReturnUrl = context.ReturnUrl;
@@ -129,9 +129,9 @@ namespace ZKEACMS.Controllers
             {
                 return Redirect(ReturnUrl);
             }
-            if (!widget.PageID.IsNullOrEmpty())
+            if (!widget.PageId.IsNullOrEmpty())
             {
-                return RedirectToAction("Design", "Page", new { ID = widget.PageID });
+                return RedirectToAction("Design", "Page", new { ID = widget.PageId });
             }
             return RedirectToAction("LayoutWidget", "Layout");
         }
@@ -162,9 +162,9 @@ namespace ZKEACMS.Controllers
             {
                 return Redirect(ReturnUrl);
             }
-            if (!widget.PageID.IsNullOrEmpty())
+            if (!widget.PageId.IsNullOrEmpty())
             {
-                return RedirectToAction("Design", "Page", new { ID = widget.PageID });
+                return RedirectToAction("Design", "Page", new { ID = widget.PageId });
             }
             return RedirectToAction("LayoutWidget", "Layout");
         }
@@ -175,7 +175,7 @@ namespace ZKEACMS.Controllers
             foreach (var widget in widgets)
             {
                 var w = _widgetService.Get(widget.ID);
-                w.ZoneID = widget.ZoneID;
+                w.ZoneId = widget.ZoneId;
                 w.Position = widget.Position;
                 _widgetService.Update(w);
             }
@@ -201,13 +201,13 @@ namespace ZKEACMS.Controllers
         [HttpPost]
         public IActionResult AppendWidget(WidgetBase widget)
         {
-            if (widget == null || widget.PageID.IsNullOrWhiteSpace())
+            if (widget == null || widget.PageId.IsNullOrWhiteSpace())
             {
                 return NotFound();
             }
             //set design environment
             HttpContext.RequestServices.GetService<IApplicationContextAccessor>().Current.PageMode = Filter.PageViewMode.Design;
-            var page = HttpContext.RequestServices.GetService<IPageService>().Get(widget.PageID);
+            var page = HttpContext.RequestServices.GetService<IPageService>().Get(widget.PageId);
             WidgetViewModelPart widgetPart = null;
             if (page != null)
             {
@@ -220,7 +220,7 @@ namespace ZKEACMS.Controllers
                 HtmlWidget errorWidget = new HtmlWidget { PartialView = "Widget.HTML", HTML = "<h1 class='text-danger'><hr/>Error<hr/></h1>" };
                 widgetPart = new WidgetViewModelPart(errorWidget, errorWidget);
             }
-            return PartialView("AppendWidget", new DesignWidgetViewModel(widgetPart, widget.PageID));
+            return PartialView("AppendWidget", new DesignWidgetViewModel(widgetPart, widget.PageId));
         }
         [HttpPost]
         public JsonResult CancelTemplate(string Id)
@@ -229,7 +229,7 @@ namespace ZKEACMS.Controllers
             if (!widget.IsSystem)
             {
                 widget.IsTemplate = false;
-                if (widget.PageID.IsNotNullAndWhiteSpace() || widget.LayoutID.IsNotNullAndWhiteSpace())
+                if (widget.PageId.IsNotNullAndWhiteSpace() || widget.LayoutId.IsNotNullAndWhiteSpace())
                 {
                     _widgetService.Update(widget);
                 }
@@ -314,7 +314,7 @@ namespace ZKEACMS.Controllers
                 var installer = _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
                 if (installer is WidgetPackageInstaller)
                 {
-                    var widgetPackage = JsonConvert.DeserializeObject<WidgetPackage>(package.Content.ToString());
+                    var widgetPackage = JsonConverter.Deserialize<WidgetPackage>(package.Content.ToString());
                     widgetPackage.Content = package.Content;
                     _widgetActivator.Create(widgetPackage.Widget).InstallWidget(widgetPackage);
                 }
@@ -343,7 +343,7 @@ namespace ZKEACMS.Controllers
         public ActionResult PasteAndRedirect(WidgetBase widget, string ReturnUrl)
         {
             widget.ID = _cookie.GetValue<string>(Const.CopyWidgetCookie);
-            var page = HttpContext.RequestServices.GetService<IPageService>().Get(widget.PageID);
+            var page = HttpContext.RequestServices.GetService<IPageService>().Get(widget.PageId);
             var layout = HttpContext.RequestServices.GetService<Layout.ILayoutService>().GetByPage(page);
             layout.Page = page;
             var widgetPart = _widgetService.ApplyTemplate(layout, widget, ControllerContext);
@@ -356,7 +356,7 @@ namespace ZKEACMS.Controllers
                 return RedirectToAction("Edit", new { widgetPart.Widget.ID, ReturnUrl });
             }
             _cookie.GetValue<string>(Const.CopyWidgetCookie, true);
-            return RedirectToAction("SelectWidget", "WidgetTemplate", new { widget.PageID, widget.ZoneID, widget.LayoutID, ReturnUrl });
+            return RedirectToAction("SelectWidget", "WidgetTemplate", new { widget.PageId, widget.ZoneId, widget.LayoutId, ReturnUrl });
         }
 
         public IActionResult PlayVideo(string url)

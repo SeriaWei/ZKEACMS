@@ -26,8 +26,8 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.ServiceTypeName).AsHidden().Required();
             ViewConfig(m => m.ViewModelTypeName).AsHidden().Required();
             ViewConfig(m => m.PartialView).AsDropDownList().AsWidgetTemplateChooser();
-            ViewConfig(m => m.LayoutID).AsHidden();
-            ViewConfig(m => m.PageID).AsHidden();
+            ViewConfig(m => m.LayoutId).AsHidden();
+            ViewConfig(m => m.PageId).AsHidden();
             ViewConfig(m => m.RuleID).AsHidden();
             ViewConfig(m => m.ExtendData).AsHidden();
             ViewConfig(m => m.Status).AsHidden();
@@ -40,7 +40,7 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.WidgetName).AsTextBox().Order(NextOrder()).Required();
             ViewConfig(m => m.Title).AsTextBox().Order(NextOrder());
             ViewConfig(m => m.Position).AsTextBox().Order(NextOrder()).RegularExpression(RegularExpression.Integer).Required();
-            ViewConfig(m => m.ZoneID).AsDropDownList().Order(NextOrder()).DataSource(ViewDataKeys.Zones, SourceType.ViewData).Required();            
+            ViewConfig(m => m.ZoneId).AsDropDownList().Order(NextOrder()).DataSource(ViewDataKeys.Zones, SourceType.ViewData).Required();            
             ViewConfig(m => m.IsTemplate).AsCheckBox().Order(NextOrder());
             ViewConfig(m => m.Thumbnail).AsTextBox().Order(NextOrder()).MediaSelector();
             ViewConfig(m => m.StyleClass).AsTextBox().Order(NextOrder()).AddClass(StringKeys.StyleEditor).AddProperty("data-url", Urls.StyleEditor).AddProperty("data-width", "1024").MaxLength(1000);

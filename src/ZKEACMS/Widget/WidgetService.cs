@@ -8,7 +8,6 @@ using Easy.RepositoryPattern;
 using Easy.Zip;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -243,9 +242,9 @@ namespace ZKEACMS.Widget
         public virtual WidgetPackage PackWidget(WidgetBase widget)
         {
             widget = GetWidget(widget);
-            widget.PageID = null;
-            widget.LayoutID = null;
-            widget.ZoneID = null;
+            widget.PageId = null;
+            widget.LayoutId = null;
+            widget.ZoneId = null;
             widget.IsSystem = false;
             widget.IsTemplate = true;
             return new WidgetPackageInstaller(ApplicationContext.HostingEnvironment).Pack(widget) as WidgetPackage;

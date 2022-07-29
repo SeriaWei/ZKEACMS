@@ -43,7 +43,7 @@ namespace ZKEACMS.Product.Service
             var baseDetail = WidgetBasePartService.Get(m => m.ServiceTypeName == "ZKEACMS.Product.Service.ProductDetailWidgetService").FirstOrDefault();
             if (baseDetail != null)
             {
-                var page = _pageService.Get(baseDetail.PageID);
+                var page = _pageService.Get(baseDetail.PageId);
                 if (page != null)
                 {
                     return page.Url;

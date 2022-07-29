@@ -2,6 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy.Serializer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -24,7 +25,7 @@ namespace Easy.Mvc.Resource
             {
                 using (StreamReader reader = file.OpenText())
                 {
-                    var replacement = Newtonsoft.Json.JsonConvert.DeserializeObject<Replacement>(reader.ReadToEnd());
+                    var replacement = JsonConverter.Deserialize<Replacement>(reader.ReadToEnd());
                     if (replacement.Scripts != null)
                     {
                         foreach (var item in ResourceHelper.ScriptSource)

@@ -12,7 +12,7 @@
 {
     <script type="text/javascript">
         angular.module("fild", ["fieldSetting"]).controller("formgenerator", function ($scope) {
-            var obj = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+            var obj = @Html.Raw(Easy.Serializer.JsonConverter.Serialize(Model));
             
             for(var p in obj){
                 if(obj.hasOwnProperty(p) && p != 'FieldsData' && p != 'FormFields'){

@@ -87,7 +87,7 @@ namespace ZKEACMS.Product.Service
         {
             return _allRelatedUrlCache.GetOrAdd(ProductDetailWidgetRelatedPageUrls, fac =>
             {
-                var pages = WidgetBasePartService.Get(w => Get().Select(m => m.ID).Contains(w.ID)).Select(m => m.PageID).ToArray();
+                var pages = WidgetBasePartService.Get(w => Get().Select(m => m.ID).Contains(w.ID)).Select(m => m.PageId).ToArray();
                 return DbContext.Page.Where(p => pages.Contains(p.ID)).Select(m => m.Url.Replace("~/", "/")).Distinct().ToArray();
             }) as string[];
         }

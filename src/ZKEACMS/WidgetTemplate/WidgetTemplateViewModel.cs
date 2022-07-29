@@ -9,9 +9,9 @@ namespace ZKEACMS.WidgetTemplate
 {
     public class WidgetTemplateViewModel
     {
-        public string PageID { get; set; }
-        public string LayoutID { get; set; }
-        public string ZoneID { get; set; }
+        public string PageId { get; set; }
+        public string LayoutId { get; set; }
+        public string ZoneId { get; set; }
         public int? RuleID { get; set; }
         public bool CanPasteWidget { get; set; }
         public string ReturnUrl { get; set; }

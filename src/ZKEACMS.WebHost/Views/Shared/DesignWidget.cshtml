@@ -19,11 +19,11 @@
     <div class="widget widget-design @Model.Widget.CustomClass"
          id="widget_@Model.Widget.ID"
          data-widgetid="@Model.Widget.ID">
-        <div class="zoneToolbar @(Model.Widget.LayoutID.IsNullOrEmpty() ? "blue" : "green") @(Model.Widget.RuleID.HasValue ? "orange" : "")" title="@(Model.Widget.WidgetName)">
+        <div class="zoneToolbar @(Model.Widget.LayoutId.IsNullOrEmpty() ? "blue" : "green") @(Model.Widget.RuleID.HasValue ? "orange" : "")" title="@(Model.Widget.WidgetName)">
             <div class="tools">
-                @if (Model.Widget.LayoutID.IsNotNullAndWhiteSpace())
+                @if (Model.Widget.LayoutId.IsNotNullAndWhiteSpace())
                 {
-                    <a class="badge" href="@Url.Action("LayoutWidget","Layout",new{ LayoutId = Model.Widget.LayoutID })">@L("Layout")</a>
+                    <a class="badge" href="@Url.Action("LayoutWidget","Layout",new{ layoutId = Model.Widget.LayoutId })">@L("Layout")</a>
                 }
                 @if (Model.Widget.RuleID.HasValue)
                 {
@@ -32,7 +32,7 @@
                 <i class="glyphicon glyphicon-move sort-handle" title="@L("Drag")">
                     <span>@L("Drag")</span>
                 </i>
-                <a href="@Url.Action("Edit", "Widget", new { Model.Widget.ID, ReturnUrl = Url.Action("Design", "Page", new {ID = Model.PageID})})"
+                <a href="@Url.Action("Edit", "Widget", new { Model.Widget.ID, ReturnUrl = Url.Action("Design", "Page", new { ID = Model.PageId })})"
                    class="glyphicon glyphicon-wrench"
                    title="@L("Widget Setting")">
                     <span>@L("Widget Setting")</span>

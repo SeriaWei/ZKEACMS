@@ -26,14 +26,14 @@ namespace ZKEACMS.Widget
                 {
                     WidgetBase widget = result.Model as WidgetBase;
                     var zoneService = filterContext.HttpContext.RequestServices.GetService<IZoneService>();
-                    if (!widget.PageID.IsNullOrEmpty())
+                    if (!widget.PageId.IsNullOrEmpty())
                     {
                         var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>();
-                        (filterContext.Controller as Controller).ViewData[ViewDataKeys.Zones] = new SelectList(zoneService.GetByPage(pageService.Get(widget.PageID)), "HeadingCode", "ZoneName");
+                        (filterContext.Controller as Controller).ViewData[ViewDataKeys.Zones] = new SelectList(zoneService.GetByPage(pageService.Get(widget.PageId)), "HeadingCode", "ZoneName");
                     }
-                    else if (!widget.LayoutID.IsNullOrEmpty())
+                    else if (!widget.LayoutId.IsNullOrEmpty())
                     {
-                        (filterContext.Controller as Controller).ViewData[ViewDataKeys.Zones] = new SelectList(zoneService.GetByLayoutId(widget.LayoutID), "HeadingCode", "ZoneName");
+                        (filterContext.Controller as Controller).ViewData[ViewDataKeys.Zones] = new SelectList(zoneService.GetByLayoutId(widget.LayoutId), "HeadingCode", "ZoneName");
                     }
                     else
                     {

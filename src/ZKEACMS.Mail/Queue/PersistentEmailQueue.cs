@@ -5,6 +5,7 @@
 using Easy.Notification;
 using Easy.Notification.Queue;
 using LiteDB;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,6 +21,10 @@ namespace ZKEACMS.Mail.Queue
     public class PersistentEmailQueue : PluginData<MailPlug>, IEmailQueue
     {
         private Stack<BlockedEmailQueueReader> _queueReaders = new Stack<BlockedEmailQueueReader>();
+
+        public PersistentEmailQueue(ILogger<MailPlug> logger) : base(logger)
+        {
+        }
 
         private ILiteCollection<T> GetMailCollection<T>() where T : EmailContext
         {

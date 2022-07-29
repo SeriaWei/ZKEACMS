@@ -6,9 +6,9 @@ using Easy;
 using Easy.Cache;
 using Easy.Extend;
 using Easy.RepositoryPattern;
+using Easy.Serializer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,11 +44,11 @@ namespace ZKEACMS.Widget
 
         public IEnumerable<WidgetBase> GetByLayoutId(string layoutId)
         {
-            return Get(m => m.LayoutID == layoutId);
+            return Get(m => m.LayoutId == layoutId);
         }
         public IEnumerable<WidgetBase> GetByPageId(string pageId)
         {
-            return Get(m => m.PageID == pageId);
+            return Get(m => m.PageId == pageId);
         }
 
         public IEnumerable<WidgetBase> GetAllByPage(PageEntity page)
@@ -94,10 +94,10 @@ namespace ZKEACMS.Widget
             var service = _widgetActivator.Create(widgetBasePart);
             var widgetBase = service.GetWidget(widgetBasePart.ToWidgetBase());
 
-            widgetBase.PageID = widget.PageID;
-            widgetBase.ZoneID = widget.ZoneID;
+            widgetBase.PageId = widget.PageId;
+            widgetBase.ZoneId = widget.ZoneId;
             widgetBase.Position = widget.Position;
-            widgetBase.LayoutID = widget.LayoutID;
+            widgetBase.LayoutId = widget.LayoutId;
             widgetBase.IsTemplate = false;
             widgetBase.IsSystem = false;
             widgetBase.Thumbnail = null;
@@ -131,7 +131,7 @@ namespace ZKEACMS.Widget
             string assemblyName = serviceType.Assembly.GetName().Name;
             return Get(m => m.AssemblyName == assemblyName && m.ServiceTypeName == serviceTypeName).Select(m =>
             {
-                TWidget widget = JsonConvert.DeserializeObject<TWidget>(m.ExtendData);
+                TWidget widget = JsonConverter.Deserialize<TWidget>(m.ExtendData);
                 m.CopyTo(widget);
                 return widget;
             }).ToList();
@@ -142,7 +142,7 @@ namespace ZKEACMS.Widget
             BeginBulkSave();
             foreach (var item in widgets)
             {
-                item.ExtendData = JsonConvert.SerializeObject(item);
+                item.ExtendData = JsonConverter.Serialize(item);
                 Update(item.ToWidgetBasePart());
             }
             SaveChanges();

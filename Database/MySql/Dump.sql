@@ -23,12 +23,16 @@ CREATE TABLE `ApplicationSetting` (
 
 /*!40000 ALTER TABLE `ApplicationSetting` DISABLE KEYS */;
 INSERT INTO `ApplicationSetting` VALUES
+('Animation_Widget_FadeInUp','false',NULL,NULL,1,NULL,NULL,'2022-07-29 20:42:10.083',NULL,NULL,'2022-07-29 20:42:10.083'),
+('EnableCustomerAccount','true',NULL,NULL,1,NULL,NULL,'2022-07-29 20:42:31.003',NULL,NULL,'2022-07-29 20:42:31.003'),
 ('EnableResponsiveDesign','true',NULL,NULL,1,NULL,NULL,'2020-03-14 11:32:07.333',NULL,NULL,'2020-03-14 11:32:07.333'),
 ('ExpandAllPage','true',NULL,NULL,1,'admin','ZKEASOFT','2018-04-11 17:01:47.230','admin','ZKEASOFT','2018-04-11 17:01:47.233'),
 ('Favicon','~/favicon.ico',NULL,NULL,NULL,'admin','ZKEASOFT','2017-03-19 20:57:33.627','admin','ZKEASOFT','2017-03-19 20:57:33.627'),
 ('OuterChainPicture','false',NULL,NULL,1,NULL,NULL,'2019-07-31 12:09:28.430',NULL,NULL,'2019-07-31 12:09:28.430'),
+('PinNavigation','true',NULL,NULL,1,NULL,NULL,'2022-07-29 20:42:10.387',NULL,NULL,'2022-07-29 20:42:10.387'),
 ('SiteInformation_Logo_Mini','/images/logo_min.png',NULL,NULL,1,'admin','ZKEASOFT','2021-03-06 22:16:20.370','admin','ZKEASOFT','2021-03-06 22:16:20.370'),
-('SiteInformation_SiteName','ZKEASOFT',NULL,NULL,1,'admin','ZKEASOFT','2021-03-06 22:16:20.310','admin','ZKEASOFT','2021-03-06 22:16:20.310');
+('SiteInformation_SiteName','ZKEASOFT',NULL,NULL,1,'admin','ZKEASOFT','2021-03-06 22:16:20.310','admin','ZKEASOFT','2021-03-06 22:16:20.310'),
+('UseImageCaptcha','true',NULL,NULL,1,NULL,NULL,'2022-07-29 20:42:39.537',NULL,NULL,'2022-07-29 20:42:39.537');
 /*!40000 ALTER TABLE `ApplicationSetting` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `Article`;
@@ -1335,7 +1339,7 @@ CREATE TABLE `DBVersion` (
 
 /*!40000 ALTER TABLE `DBVersion` DISABLE KEYS */;
 INSERT INTO `DBVersion` VALUES
-(1,3,5,4,0);
+(1,3,5,5,0);
 /*!40000 ALTER TABLE `DBVersion` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ExtendField`;

@@ -1,7 +1,7 @@
 @using ZKEACMS.Common
 @using Easy.ViewPort.jsTree
 @{
-    string pageId = ViewContext.HttpContext.Request.Query["PageID"];
+    string pageId = ViewContext.HttpContext.Request.Query["PageId"];
     Script.Reqiured("jQueryUi").AtFoot();
     Script.Reqiured("jsTree").AtFoot();
     Style.Reqiured("jsTree").AtHead();
@@ -150,7 +150,7 @@
             location.hash = selected.node.id;
             var pageZones = $("#pageZones");
             pageZones.empty();
-            $.post("@Url.Action("PageZones", "Page")", { PageID: selected.node.id }, function (html) {
+            $.post("@Url.Action("PageZones", "Page")", { PageId: selected.node.id }, function (html) {
                 pageZones.html(html);
             }, "html");
         }
