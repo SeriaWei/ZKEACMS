@@ -107,6 +107,9 @@ namespace ZKEACMS.WebHost
             script("Antiforgery")
                 .Include("~/js/antiforgery/tokenset.js")
                 .RequiredAtFoot();
+
+            script("mammoth")
+                .Include($"{LibraryPath}/mammoth/mammoth.browser.js", $"{LibraryPath}/mammoth/mammoth.browser.min.js");
         }
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
