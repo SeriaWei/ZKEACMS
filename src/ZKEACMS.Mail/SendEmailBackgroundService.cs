@@ -44,7 +44,7 @@ namespace ZKEACMS.Mail
                     mailMessage.RetryCount++;
                     try
                     {
-                        await emailNotification.SendAsync(mailMessage);
+                        await emailNotification.SendEmailAsync(mailMessage);
                     }
                     catch (Exception ex)
                     {

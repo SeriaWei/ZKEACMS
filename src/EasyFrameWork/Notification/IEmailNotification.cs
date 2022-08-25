@@ -13,7 +13,7 @@ namespace Easy.Notification
 {
     public interface IEmailNotification
     {
-        void Send(EmailMessage email);
-        Task SendAsync(EmailContext emailContext);
+        void SendEmail(EmailMessage email);
+        Task SendEmailAsync(EmailContext emailContext);
     }
 }
