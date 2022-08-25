@@ -11,9 +11,10 @@ namespace Easy
 {
     public class IDGenerator
     {
+        private static IdGenerator idGenerator = new IdGenerator(0);
         public long CreateId()
         {
-            return new IdGenerator(0).CreateId();
+            return idGenerator.CreateId();
         }
         public string CreateStringId()
         {

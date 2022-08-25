@@ -175,17 +175,7 @@ namespace ZKEACMS.Controllers
             if (Request.Form.Files.Count > 0)
             {
                 string parentId = Service.GetImageFolder().ID;
-                string fileName = Path.GetFileName(Request.Form.Files[0].FileName);
-                if (fileName != "image.png")
-                {
-                    var old = Service.Get(Path.GetFileNameWithoutExtension(fileName));
-                    if (old != null)
-                    {
-                        Request.DeleteFile(old.Url);
-                        Service.Remove(old);
-                    }
-                }
-
+                
                 var url = Request.SaveImage();
 
                 var entity = new MediaEntity
@@ -193,7 +183,7 @@ namespace ZKEACMS.Controllers
                     ID = Path.GetFileNameWithoutExtension(url),
                     ParentID = parentId,
                     MediaType = (int)MediaType.Image,
-                    Title = fileName,
+                    Title = Path.GetFileName(url),
                     Status = (int)RecordStatus.Active,
                     Url = url
                 };
