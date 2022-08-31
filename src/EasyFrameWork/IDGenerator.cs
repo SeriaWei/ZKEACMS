@@ -24,12 +24,12 @@ namespace Easy
 
         private string ToShorter(long num)
         {
-            string chars = "0123456789abcdefghijklmnopqrstuvwxyz";
-            int r;
+            const string chars = "0123456789abcdefghijklmnopqrstuvwxyz";
+
             LinkedList<char> newNumber = new LinkedList<char>();
             while (num >= chars.Length)
             {
-                r = (int)(num % chars.Length);
+                int r = (int)(num % chars.Length);
                 newNumber.AddFirst(chars[r]);
                 num = num / chars.Length;
             }
