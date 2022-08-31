@@ -19,8 +19,22 @@ namespace Easy
         public string CreateStringId()
         {
             long id = CreateId();
-            byte[] bytes = BitConverter.GetBytes(id);
-            return Convert.ToBase64String(bytes).TrimEnd('=').Replace("/", "-").Replace("+", "_");
+            return ToShorter(id);
+        }
+
+        private string ToShorter(long num)
+        {
+            string chars = "0123456789abcdefghijklmnopqrstuvwxyz";
+            int r;
+            LinkedList<char> newNumber = new LinkedList<char>();
+            while (num >= chars.Length)
+            {
+                r = (int)(num % chars.Length);
+                newNumber.AddFirst(chars[r]);
+                num = num / chars.Length;
+            }
+            newNumber.AddFirst(chars[(int)num]);
+            return string.Join("", newNumber);
         }
     }
 }
