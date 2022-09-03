@@ -45,10 +45,10 @@ namespace Easy.Notification
             }
             else
             {
-                Send(email);
+                SendEmail(email);
             }
         }
-        public void Send(EmailMessage email)
+        public void SendEmail(EmailMessage email)
         {
             MailMessage mailMessage = ConvertToMailMessage(email);
             SmtpClient client = GetSmtpClient();
@@ -64,7 +64,7 @@ namespace Easy.Notification
             }
         }
 
-        public async Task SendAsync(EmailContext emailContext)
+        public async Task SendEmailAsync(EmailContext emailContext)
         {
             MailMessage mailMessage = ConvertToMailMessage(emailContext.EmailMessage);
             SmtpClient client = GetSmtpClient(emailContext.SmtpSetting);

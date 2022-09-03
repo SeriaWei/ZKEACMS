@@ -8,9 +8,9 @@
             'visualchars fullscreen image link media template codesample table charmap hr pagebreak',
             'nonbreaking anchor toc insertdatetime advlist lists wordcount',
             'imagetools textpattern help',
-            "filebrowser bootstrap pasteImage imagelocal"
+            "filebrowser bootstrap pasteImage imagelocal docx2html"
         ],
-        toolbar: 'styleselect | bold italic strikethrough forecolor backcolor | link image media | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent removeformat | bootstrap imagelocal filebrowser preview code',
+        toolbar: 'styleselect | bold italic strikethrough forecolor backcolor | link image media | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent removeformat | bootstrap imagelocal filebrowser docx2html | preview code',
         height: 600,
         relative_urls: false,
         image_advtab: true,

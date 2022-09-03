@@ -208,5 +208,11 @@
     "inputFiles": [
       "wwwroot/js/list-editor.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/tinymce/plugins/docx2html/plugin.min.js",
+    "inputFiles": [
+      "wwwroot/js/tinymce/plugins/docx2html/plugin.js"
+    ]
   }
 ]
