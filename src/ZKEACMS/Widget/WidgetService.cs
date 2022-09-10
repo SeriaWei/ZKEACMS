@@ -250,20 +250,29 @@ namespace ZKEACMS.Widget
             widget.IsTemplate = true;
             WidgetPackage package = new WidgetPackage(WidgetPackageInstaller.InstallerName);
             package.Widget = widget;
-            if (widget.Thumbnail.IsNotNullAndWhiteSpace() && (widget.Thumbnail.StartsWith("~/") || widget.Thumbnail.StartsWith("/")))
-            {
-                string filePath = ApplicationContext.As<CMSApplicationContext>().MapPath(widget.Thumbnail);
-                if (File.Exists(filePath))
-                {
-                    package.Files.Add(new PackageManger.FileInfo
-                    {
-                        FilePath = widget.Thumbnail,
-                        FileName = Path.GetFileName(widget.Thumbnail),
-                        Content = File.ReadAllBytes(filePath)
-                    });
-                }
-            }
+            AddFileToPackage(package, widget.Thumbnail);
             return package;
+        }
+
+        private void AddFileToPackage(WidgetPackage package, string filePath)
+        {
+            if (!IsLocalFile(filePath)) return;
+
+            string physicalPath = ApplicationContext.As<CMSApplicationContext>().MapPath(filePath);
+            System.IO.FileInfo fileInfo = new System.IO.FileInfo(physicalPath);
+            if (!fileInfo.Exists) return;
+
+            package.Files.Add(new PackageManger.FileInfo
+            {
+                FilePath = filePath,
+                FileName = fileInfo.Name,
+                Content = fileInfo.ReadAllBytes()
+            });
+        }
+
+        private static bool IsLocalFile(string filePath)
+        {
+            return filePath.IsNotNullAndWhiteSpace() && (filePath.StartsWith("~/") || filePath.StartsWith("/"));
         }
 
         public virtual void InstallWidget(WidgetPackage pack)
@@ -275,7 +284,6 @@ namespace ZKEACMS.Widget
                 widget.Description = "Install";
                 AddWidget(widget);
             }
-
         }
         #endregion
     }

@@ -29,6 +29,7 @@ namespace ZKEACMS.PackageManger
                 return "FilePackageInstaller";
             }
         }
+        public string[] AddtionalUsing { get; set; }
         public virtual string MapPath(string path)
         {
             if (HostingEnvironment.IsProduction())
@@ -64,7 +65,7 @@ namespace ZKEACMS.PackageManger
                         Directory.CreateDirectory(directory);
                     }
                     File.WriteAllBytes(filePath, file.Content);
-                    TemplateService.EnsureHasViewImports(filePath);
+                    TemplateService.EnsureHasViewImports(filePath, AddtionalUsing);
                 });
             }
 
