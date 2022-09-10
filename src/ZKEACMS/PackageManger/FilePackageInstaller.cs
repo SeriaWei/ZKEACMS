@@ -51,44 +51,39 @@ namespace ZKEACMS.PackageManger
         public virtual object Install(Package package)
         {
             var filePackage = package as FilePackage;
-            if (filePackage != null)
+            if (filePackage is null) throw new Exception("The package is not FilePackage!");
+
+            if (filePackage.Files != null)
             {
-                if (filePackage.Files != null)
+                filePackage.Files.ForEach(file =>
                 {
-                    filePackage.Files.ForEach(file =>
+                    string filePath = MapPath(file.FilePath);
+                    var directory = Path.GetDirectoryName(filePath);
+                    if (!Directory.Exists(directory))
                     {
-                        string filePath = MapPath(file.FilePath);
-                        var directory = Path.GetDirectoryName(filePath);
-                        if (!Directory.Exists(directory))
-                        {
-                            Directory.CreateDirectory(directory);
-                        }
-                        File.WriteAllBytes(filePath, file.Content);
-                        TemplateService.EnsureHasViewImports(filePath);
-                    });
-                }
+                        Directory.CreateDirectory(directory);
+                    }
+                    File.WriteAllBytes(filePath, file.Content);
+                    TemplateService.EnsureHasViewImports(filePath);
+                });
             }
+
             return package;
         }
 
         public virtual Package Pack(object obj)
         {
             FilePackage package = CreatePackage();
-            var directory = obj as DirectoryInfo;
-            if (directory != null)
+            if (obj is DirectoryInfo directory)
             {
                 CollectFiles(directory, package);
             }
-            else
+            else if (obj is IEnumerable<System.IO.FileInfo> files)
             {
-                var files = obj as IEnumerable<System.IO.FileInfo>;
-                if (files != null)
+                files.Each(file =>
                 {
-                    files.Each(file =>
-                    {
-                        package.Files.Add(new FileInfo { FileName = file.Name, FilePath = file.FullName.Replace(MapPath("~/"), "~/"), Content = File.ReadAllBytes(file.FullName) });
-                    });
-                }
+                    package.Files.Add(new FileInfo { FileName = file.Name, FilePath = file.FullName.Replace(MapPath("~/"), "~/"), Content = File.ReadAllBytes(file.FullName) });
+                });
             }
             return package;
         }
@@ -103,13 +98,6 @@ namespace ZKEACMS.PackageManger
             {
                 package.Files.Add(new FileInfo { FileName = file.Name, FilePath = file.FullName.Replace(MapPath("~/"), "~/"), Content = File.ReadAllBytes(file.FullName) });
             });
-        }
-
-        public object Install(string packageContent)
-        {
-            Package package = JsonConverter.Deserialize(packageContent, CreatePackage().GetType()) as Package;
-            package.Content = packageContent;
-            return Install(package);
         }
     }
 }

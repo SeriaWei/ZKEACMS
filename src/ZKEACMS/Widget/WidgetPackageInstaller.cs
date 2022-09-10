@@ -17,50 +17,47 @@ namespace ZKEACMS.Widget
 {
     public class WidgetPackageInstaller : FilePackageInstaller
     {
-        public WidgetPackageInstaller(IWebHostEnvironment hostingEnvironment) : base(hostingEnvironment)
+        private readonly IWidgetActivator _widgetActivator;
+        public const string InstallerName = "WidgetPackageInstaller";
+        public WidgetPackageInstaller(IWebHostEnvironment hostingEnvironment, IWidgetActivator widgetActivator) : base(hostingEnvironment)
         {
+            _widgetActivator = widgetActivator;
         }
 
         public override string PackageInstaller
         {
             get
             {
-                return "WidgetPackageInstaller";
+                return InstallerName;
             }
         }
         public override object Install(Package package)
         {
-            base.Install(package);
-            var widgetPackage = package as WidgetPackage;
-            if (widgetPackage != null)
-            {
-                if (widgetPackage.Widget != null)
-                {
-                    var widget = Easy.Serializer.JsonConverter.Deserialize(JObject.Parse(package.Content.ToString()).GetValue("Widget").ToString(), widgetPackage.Widget.GetViewModelType()) as WidgetBase;
-                    widget.PageId = null;
-                    widget.LayoutId = null;
-                    widget.ZoneId = null;
-                    widget.IsSystem = false;
-                    widget.IsTemplate = true;
-                    return widget;
-                }
-            }
+            var widgetPackage = Easy.Serializer.JsonConverter.Deserialize<WidgetPackage>(package.ToString());
+            widgetPackage.SetRowData(package.GetRowData());
+
+
+            if (widgetPackage.Widget == null) return null;
+
+            var widget = Easy.Serializer.JsonConverter.Deserialize(JObject.Parse(package.ToString()).GetValue("Widget").ToString(), widgetPackage.Widget.GetViewModelType()) as WidgetBase;
+            widget.PageId = null;
+            widget.LayoutId = null;
+            widget.ZoneId = null;
+            widget.IsSystem = false;
+            widget.IsTemplate = true;
+            widgetPackage.Widget = widget;
+            _widgetActivator.Create(widgetPackage.Widget).InstallWidget(widgetPackage);
             return null;
         }
         public override Package Pack(object obj)
         {
-            //obj is widget
-            var package = base.Pack(GetWidgetFiles());
-            (package as WidgetPackage).Widget = obj as WidgetBase;
+            var widget = obj as WidgetBase;
+            var package = _widgetActivator.Create(widget).PackWidget(widget);
             return package;
         }
         public override FilePackage CreatePackage()
         {
             return new WidgetPackage(PackageInstaller);
-        }
-        public virtual IEnumerable<System.IO.FileInfo> GetWidgetFiles()
-        {
-            return null;
         }
     }
 

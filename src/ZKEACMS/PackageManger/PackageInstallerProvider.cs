@@ -25,11 +25,14 @@ namespace ZKEACMS.PackageManger
 
         public IPackageInstaller CreateInstaller<T>(Stream stream, out T package) where T : Package
         {
-            StreamReader reader = new StreamReader(stream);
-            string content = reader.ReadToEnd();
-            package = JsonConverter.Deserialize<T>(content);
-            package.Content = content;
-            return CreateInstaller(package.PackageInstaller);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                stream.CopyTo(ms);
+                byte[] rowData = ms.ToArray();
+                package = JsonConverter.Deserialize<T>(Encoding.UTF8.GetString(ms.ToArray()));
+                package.SetRowData(rowData);
+                return CreateInstaller(package.PackageInstaller);
+            }
         }
     }
 }

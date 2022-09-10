@@ -226,6 +226,8 @@ namespace ZKEACMS.Controllers
         public JsonResult CancelTemplate(string Id)
         {
             var widget = _widgetService.Get(Id);
+            if (widget is null) return Json(Id);
+
             if (!widget.IsSystem)
             {
                 widget.IsTemplate = false;
@@ -281,7 +283,7 @@ namespace ZKEACMS.Controllers
         public FileResult Pack(string ID)
         {
             var widget = _widgetService.Get(ID);
-            var widgetPackage = _widgetActivator.Create(widget).PackWidget(widget) as WidgetPackage;
+            var widgetPackage = _packageInstallerProvider.CreateInstaller(WidgetPackageInstaller.InstallerName).Pack(widget) as WidgetPackage;
             return File(widgetPackage.ToFilePackage(), "Application/zip", widgetPackage.Widget.WidgetName + ".widget");
         }
         public FileResult PackDictionary(int ID, string[] filePath)
@@ -309,20 +311,9 @@ namespace ZKEACMS.Controllers
         {
             if (Request.Form.Files.Count > 0)
             {
-
                 Package package;
                 var installer = _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
-                if (installer is WidgetPackageInstaller)
-                {
-                    var widgetPackage = JsonConverter.Deserialize<WidgetPackage>(package.Content.ToString());
-                    widgetPackage.Content = package.Content;
-                    _widgetActivator.Create(widgetPackage.Widget).InstallWidget(widgetPackage);
-                }
-                else
-                {
-                    installer.Install(package.Content.ToString());
-                }
-
+                installer.Install(package);
             }
             return Redirect(returnUrl);
         }

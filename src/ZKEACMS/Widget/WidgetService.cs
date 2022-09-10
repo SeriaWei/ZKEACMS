@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Event;
 using ZKEACMS.Page;
+using ZKEACMS.PackageManger;
 
 namespace ZKEACMS.Widget
 {
@@ -247,16 +248,32 @@ namespace ZKEACMS.Widget
             widget.ZoneId = null;
             widget.IsSystem = false;
             widget.IsTemplate = true;
-            return new WidgetPackageInstaller(ApplicationContext.HostingEnvironment).Pack(widget) as WidgetPackage;
+            WidgetPackage package = new WidgetPackage(WidgetPackageInstaller.InstallerName);
+            package.Widget = widget;
+            if (widget.Thumbnail.IsNotNullAndWhiteSpace() && (widget.Thumbnail.StartsWith("~/") || widget.Thumbnail.StartsWith("/")))
+            {
+                string filePath = ApplicationContext.As<CMSApplicationContext>().MapPath(widget.Thumbnail);
+                if (File.Exists(filePath))
+                {
+                    package.Files.Add(new PackageManger.FileInfo
+                    {
+                        FilePath = widget.Thumbnail,
+                        FileName = Path.GetFileName(widget.Thumbnail),
+                        Content = File.ReadAllBytes(filePath)
+                    });
+                }
+            }
+            return package;
         }
 
         public virtual void InstallWidget(WidgetPackage pack)
         {
-            var widget = new WidgetPackageInstaller(ApplicationContext.HostingEnvironment).Install(pack);
+            var widget = pack.Widget;
             if (widget != null)
             {
-                (widget as WidgetBase).Description = "Install";
-                AddWidget(widget as WidgetBase);
+                new FilePackageInstaller(ApplicationContext.HostingEnvironment).Install(pack);
+                widget.Description = "Install";
+                AddWidget(widget);
             }
 
         }

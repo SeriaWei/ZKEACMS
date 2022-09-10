@@ -110,14 +110,12 @@ namespace ZKEACMS.SectionWidget.Service
             var sectionWidget = package.Widget as Models.SectionWidget;
             var pluginRootPath = PluginBase.GetPath<SectionPlug>();
             var cmsApplicationContext = ApplicationContext as CMSApplicationContext;
-            var rootPath = cmsApplicationContext.MapPath("~/");
 
             sectionWidget.Groups.Each(g =>
             {
                 sectionWidget.Template = _sectionTemplateService.Get(g.PartialView);
                 packFiles.Each(f =>
                 {
-
                     string file = cmsApplicationContext.MapPath(Path.Combine(pluginRootPath, f).FormatWith(sectionWidget.Template.TemplateName));
                     if (File.Exists(file))
                     {
@@ -130,7 +128,6 @@ namespace ZKEACMS.SectionWidget.Service
                         });
                     }
                 });
-
             });
             return package;
         }
@@ -155,7 +152,7 @@ namespace ZKEACMS.SectionWidget.Service
                 TemplateService.EnsureHasViewImports(file.FilePath, "@using ZKEACMS.SectionWidget", "@using ZKEACMS.SectionWidget.Models", "@using ZKEACMS.SectionWidget.Service");
             }
             pack.Widget = null;
-            var widget = JsonConvert.DeserializeObject<Models.SectionWidget>(JObject.Parse(pack.Content.ToString()).GetValue("Widget").ToString(), new SectionContentJsonConverter());
+            var widget = JsonConvert.DeserializeObject<Models.SectionWidget>(JObject.Parse(pack.ToString()).GetValue("Widget").ToString(), new SectionContentJsonConverter());
             if (_sectionTemplateService.Count(m => m.TemplateName == widget.Template.TemplateName) == 0)
             {
                 _sectionTemplateService.Add(widget.Template);

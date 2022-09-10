@@ -13,16 +13,28 @@ namespace ZKEACMS.PackageManger
 {
     public class Package
     {
+        private byte[] _rawData;
         public Package(string installer)
         {
             PackageInstaller = installer;
         }
         public virtual string PackageInstaller { get; set; }
-        public string Name { get; set; }
-        public object Content { get; set; }
+        public void SetRowData(byte[] rawData)
+        {
+            _rawData = rawData;
+        }
+        public byte[] GetRowData()
+        {
+            return _rawData;
+        }
         public virtual byte[] ToFilePackage()
         {
             return JsonConverter.Serialize(this).ToByte();
+        }
+
+        public override string ToString()
+        {
+            return Encoding.UTF8.GetString(_rawData);
         }
     }
 }
