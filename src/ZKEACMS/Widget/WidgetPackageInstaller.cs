@@ -36,7 +36,6 @@ namespace ZKEACMS.Widget
             var widgetPackage = Easy.Serializer.JsonConverter.Deserialize<WidgetPackage>(package.ToString());
             widgetPackage.SetRowData(package.GetRowData());
 
-
             if (widgetPackage.Widget == null) return null;
 
             var widget = Easy.Serializer.JsonConverter.Deserialize(JObject.Parse(package.ToString()).GetValue("Widget").ToString(), widgetPackage.Widget.GetViewModelType()) as WidgetBase;
