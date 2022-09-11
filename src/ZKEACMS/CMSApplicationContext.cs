@@ -14,6 +14,11 @@ using Microsoft.AspNetCore.Html;
 using Easy.Mvc.StateProviders;
 using ZKEACMS.Site;
 using ZKEACMS.Currency;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Easy.Extend;
+using System.IO;
+using System.Linq;
 
 namespace ZKEACMS
 {
@@ -46,14 +51,16 @@ namespace ZKEACMS
             }
             set { _requestUrl = new Uri(value.AbsoluteUri); }
         }
+
         public string MapPath(string path)
         {
             if (HttpContextAccessor.HttpContext != null)
             {
-                return HttpContextAccessor.HttpContext.Request.MapPath(path);
+                HostingEnvironment.MapPath(path);
             }
             return path;
         }
+
         public PageViewMode PageMode { get; set; }
         public bool IsDesignMode { get { return PageMode == PageViewMode.Design; } }
         /// <summary>

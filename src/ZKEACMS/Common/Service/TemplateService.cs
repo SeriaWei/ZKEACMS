@@ -54,7 +54,7 @@ namespace ZKEACMS.Common.Service
             {
                 foreach (var item in themes)
                 {
-                    string path = _webHostEnvironment.MapWebRootPath(_themeFolderName, item.ID);
+                    string path = _webHostEnvironment.MapPath(_themeFolderName, item.ID);
                     if (ExtFile.ExistDirectory(path))
                     {
                         list.Add(item.ID);
@@ -137,7 +137,7 @@ namespace ZKEACMS.Common.Service
             if (GetSupportFileExtensions().Contains(ext))
             {
                 relativePath = relativePath.TrimStart('~');
-                model.Path = _webHostEnvironment.MapWebRootPath(relativePath.Split('/'));
+                model.Path = _webHostEnvironment.MapPath(relativePath.Split('/'));
                 if (model.Id > 0)
                 {
                     var old = Get(model.Id);
@@ -196,7 +196,7 @@ namespace ZKEACMS.Common.Service
                 foreach (var theme in themes)
                 {
                     List<string> templateFiles = new List<string>();
-                    string path = _webHostEnvironment.MapWebRootPath(_themeFolderName, theme, _viewFolderName);
+                    string path = _webHostEnvironment.MapPath(_themeFolderName, theme, _viewFolderName);
                     foreach (var extension in GetSupportFileExtensions())
                     {
                         var fs = ExtFile.GetFiles(path, "*" + extension);

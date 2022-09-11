@@ -254,11 +254,11 @@ namespace ZKEACMS.Widget
             return package;
         }
 
-        private void AddFileToPackage(WidgetPackage package, string filePath)
+        protected virtual void AddFileToPackage(WidgetPackage package, string filePath)
         {
             if (!IsLocalFile(filePath)) return;
 
-            string physicalPath = ApplicationContext.As<CMSApplicationContext>().MapPath(filePath);
+            string physicalPath = ApplicationContext.HostingEnvironment.MapPath(filePath);
             System.IO.FileInfo fileInfo = new System.IO.FileInfo(physicalPath);
             if (!fileInfo.Exists) return;
 

@@ -188,7 +188,7 @@ namespace ZKEACMS.Theme
         private void ExecuteSql(string themeName, int type, DbConnection dbConnection, DbTransaction dbTransaction)
         {
             string folder = type == 1 ? "uninstall" : "install";
-            string path = _hostingEnvironment.MapWebRootPath(_themeName, themeName, _sqlName, folder);
+            string path = _hostingEnvironment.MapPath(_themeName, themeName, _sqlName, folder);
             var files = ExtFile.GetFiles(path, _sql);
             if (files != null && files.Length > 0)
             {

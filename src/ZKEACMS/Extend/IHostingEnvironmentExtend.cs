@@ -5,45 +5,31 @@
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
+using System.Linq;
 
 namespace ZKEACMS
 {
     public static class IWebHostEnvironmentExtend
     {
+        private static string[] ToPathArray(string path)
+        {
+            return path.TrimStart('~').TrimStart('/').Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
         public static string MapPath(this IWebHostEnvironment env, string path)
         {
-            return Path.Combine(env.ContentRootPath, path);
+            return env.MapPath(ToPathArray(path));
         }
 
         public static string MapPath(this IWebHostEnvironment env, params string[] paths)
         {
-            string path = env.ContentRootPath;
-            if (paths != null && paths.Length > 0)
+            if (env.IsDevelopment() && paths[0] == Easy.Mvc.Plugin.Loader.PluginFolder)
             {
-                foreach (var item in paths)
-                {
-                    path = Path.Combine(path, item);
-                }
+                return Path.Combine(new DirectoryInfo(env.ContentRootPath).Parent.FullName, Path.Combine(paths.Skip(1).ToArray()));
             }
-            return path;
-        }
-
-        public static string MapWebRootPath(this IWebHostEnvironment env, string path)
-        {
-            return Path.Combine(env.WebRootPath, path);
-        }
-
-        public static string MapWebRootPath(this IWebHostEnvironment env, params string[] paths)
-        {
-            string path = env.WebRootPath;
-            if (paths != null && paths.Length > 0)
-            {
-                foreach (var item in paths)
-                {
-                    path = Path.Combine(path, item);
-                }
-            }
-            return path;
+            return Path.Combine(env.WebRootPath, Path.Combine(paths));
         }
     }
 }

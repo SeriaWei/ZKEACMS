@@ -32,22 +32,7 @@ namespace ZKEACMS.PackageManger
         public string[] AddtionalUsing { get; set; }
         public virtual string MapPath(string path)
         {
-            if (HostingEnvironment.IsProduction())
-            {
-                return Path.Combine(HostingEnvironment.WebRootPath, path.Replace("~/", "").ToFilePath());
-            }
-            else
-            {
-                string[] pathArry = path.Replace("~/", "").Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
-                if (pathArry.Length > 0 && pathArry[0] == Easy.Mvc.Plugin.Loader.PluginFolder)
-                {
-                    return Path.Combine(new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent.FullName, Path.Combine(pathArry.Skip(1).ToArray()));
-                }
-                else
-                {
-                    return Path.Combine(HostingEnvironment.WebRootPath, path.Replace("~/", "").ToFilePath());
-                }
-            }
+            return HostingEnvironment.MapPath(path);
         }
         public virtual object Install(Package package)
         {

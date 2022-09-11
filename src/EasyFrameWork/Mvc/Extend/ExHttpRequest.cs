@@ -16,9 +16,13 @@ namespace Easy.Mvc.Extend
     {
         public static string MapPath(this HttpRequest request, string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentException($"\"{nameof(path)}\" can not be null.", nameof(path));
+            }
+
             var environment = request.HttpContext.RequestServices.GetService<IWebHostEnvironment>();
-            path = path.Replace("~/", "").Trim('/').Trim('\\');
-            return Path.Combine(environment.WebRootPath, path.ToFilePath());
+            return Path.Combine(environment.WebRootPath, path.TrimStart('~').TrimStart('/').ToFilePath());
         }
         /// <summary>
         /// 保存图片到UpLoad/Images

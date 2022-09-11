@@ -111,34 +111,18 @@ namespace ZKEACMS.SectionWidget.Service
             var sectionWidget = package.Widget as Models.SectionWidget;
             var pluginRootPath = PluginBase.GetPath<SectionPlug>();
 
-            sectionWidget.Groups.Each(g =>
+            sectionWidget.Groups.Each(group =>
             {
-                var template = _sectionTemplateService.Get(g.PartialView);
+                foreach (var item in group.SectionImages)
+                {
+                    AddFileToPackage(package, item.ImageSrc);
+                }
+                var template = _sectionTemplateService.Get(group.PartialView);
                 sectionWidget.Template = template;
 
-                var templateFileInfo = new System.IO.FileInfo(Path.Combine(pluginRootPath, "Views", $"{template.TemplateName}.cshtml"));
-                package.Files.Add(new PackageManger.FileInfo
-                {
-                    FileName = templateFileInfo.Name,
-                    FilePath = $"~/Plugins/ZKEACMS.SectionWidget/Views/{template.TemplateName}.cshtml".FormatWith(sectionWidget.Template.TemplateName),
-                    Content = templateFileInfo.ReadAllBytes()
-                });
-
-                var thumbnailFileInfo = new System.IO.FileInfo(Path.Combine(pluginRootPath, template.Thumbnail.ToFilePath()));
-                package.Files.Add(new PackageManger.FileInfo
-                {
-                    FileName = thumbnailFileInfo.Name,
-                    FilePath = $"~/Plugins/ZKEACMS.SectionWidget/{template.Thumbnail}",
-                    Content = thumbnailFileInfo.ReadAllBytes()
-                });
-
-                var xmlFileInfo = new System.IO.FileInfo(Path.Combine(pluginRootPath, template.ExampleData.ToFilePath()));
-                package.Files.Add(new PackageManger.FileInfo
-                {
-                    FileName = xmlFileInfo.Name,
-                    FilePath = $"~/Plugins/ZKEACMS.SectionWidget/{template.ExampleData}",
-                    Content = xmlFileInfo.ReadAllBytes()
-                });
+                AddFileToPackage(package, $"~/Plugins/ZKEACMS.SectionWidget/Views/{template.TemplateName}.cshtml".FormatWith(sectionWidget.Template.TemplateName));
+                AddFileToPackage(package, $"~/Plugins/ZKEACMS.SectionWidget/{template.Thumbnail}");
+                AddFileToPackage(package, $"~/Plugins/ZKEACMS.SectionWidget/{template.ExampleData}");
             });
             return package;
         }
