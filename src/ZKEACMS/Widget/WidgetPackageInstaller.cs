@@ -38,7 +38,10 @@ namespace ZKEACMS.Widget
 
             if (widgetPackage.Widget == null) return null;
 
-            var widget = System.Text.Json.JsonSerializer.Deserialize(JObject.Parse(package.ToString()).GetValue("Widget").ToString(), widgetPackage.Widget.GetViewModelType()) as WidgetBase;
+            var widget = JsonConvert.DeserializeObject(JObject.Parse(package.ToString()).GetValue("Widget").ToString(), widgetPackage.Widget.GetViewModelType(), new JsonSerializerSettings
+            {
+                ContractResolver = new SerializeAllPropertyContractResolver()
+            }) as WidgetBase;
             widget.PageId = null;
             widget.LayoutId = null;
             widget.ZoneId = null;

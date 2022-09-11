@@ -7,9 +7,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Easy.Extend;
 using Easy.Serializer;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace ZKEACMS.PackageManger
 {
@@ -35,7 +38,8 @@ namespace ZKEACMS.PackageManger
             {
                 using (GZipStream gzOut = new GZipStream(ms, CompressionMode.Compress))
                 {
-                    System.Text.Json.JsonSerializer.Serialize(gzOut, this, this.GetType());
+                    byte[] bytes = JsonConvert.SerializeObject(this, new JsonSerializerSettings { ContractResolver = new SerializeAllPropertyContractResolver() }).ToByte();
+                    gzOut.Write(bytes, 0, bytes.Length);
                 }
                 return ms.ToArray();
             }
