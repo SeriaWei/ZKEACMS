@@ -88,5 +88,12 @@ namespace ZKEACMS.Common.Service
             }
             return new NavigationWidgetViewModel(navs, currentWidget);
         }
+
+        public override WidgetPackage PackWidget(WidgetBase widget)
+        {
+            var package = base.PackWidget(widget);
+            AddFileToPackage(package, (widget as NavigationWidget).Logo);
+            return package;
+        }
     }
 }
