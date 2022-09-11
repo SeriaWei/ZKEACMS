@@ -31,12 +31,11 @@ namespace ZKEACMS.PackageManger
         }
         public virtual byte[] ToFilePackage()
         {
-            var bytes = JsonConverter.Serialize(this).ToByte();
             using (MemoryStream ms = new MemoryStream())
             {
                 using (GZipStream gzOut = new GZipStream(ms, CompressionMode.Compress))
                 {
-                    gzOut.Write(bytes, 0, bytes.Length);
+                    System.Text.Json.JsonSerializer.Serialize(gzOut, this, this.GetType());
                 }
                 return ms.ToArray();
             }
