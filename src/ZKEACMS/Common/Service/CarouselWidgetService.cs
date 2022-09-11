@@ -126,7 +126,10 @@ namespace ZKEACMS.Common.Service
         public override WidgetPackage PackWidget(WidgetBase widget)
         {
             var package = base.PackWidget(widget);
-            foreach (var item in (widget as CarouselWidget).CarouselItems)
+            var items = (widget as CarouselWidget).CarouselItems;
+            if (items == null) return package;
+
+            foreach (var item in items)
             {
                 AddFileToPackage(package, item.ImageUrl);
             }

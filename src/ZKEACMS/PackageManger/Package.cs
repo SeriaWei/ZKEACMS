@@ -4,6 +4,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using Easy.Extend;
@@ -29,7 +31,15 @@ namespace ZKEACMS.PackageManger
         }
         public virtual byte[] ToFilePackage()
         {
-            return JsonConverter.Serialize(this).ToByte();
+            var bytes = JsonConverter.Serialize(this).ToByte();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (GZipStream gzOut = new GZipStream(ms, CompressionMode.Compress))
+                {
+                    gzOut.Write(bytes, 0, bytes.Length);
+                }
+                return ms.ToArray();
+            }
         }
 
         public override string ToString()

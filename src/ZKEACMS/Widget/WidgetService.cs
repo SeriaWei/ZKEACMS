@@ -242,7 +242,6 @@ namespace ZKEACMS.Widget
         #region PackWidget
         public virtual WidgetPackage PackWidget(WidgetBase widget)
         {
-            widget = GetWidget(widget);
             widget.PageId = null;
             widget.LayoutId = null;
             widget.ZoneId = null;

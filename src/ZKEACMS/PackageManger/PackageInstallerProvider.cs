@@ -6,6 +6,7 @@ using Easy.Serializer;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 
@@ -25,14 +26,18 @@ namespace ZKEACMS.PackageManger
 
         public IPackageInstaller CreateInstaller<T>(Stream stream, out T package) where T : Package
         {
-            using (MemoryStream ms = new MemoryStream())
+            using (GZipStream gzip = new GZipStream(stream, CompressionMode.Decompress))
             {
-                stream.CopyTo(ms);
-                byte[] rowData = ms.ToArray();
-                package = JsonConverter.Deserialize<T>(Encoding.UTF8.GetString(ms.ToArray()));
-                package.SetRowData(rowData);
-                return CreateInstaller(package.PackageInstaller);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    gzip.CopyTo(ms);
+                    byte[] rowData = ms.ToArray();
+                    package = JsonConverter.Deserialize<T>(Encoding.UTF8.GetString(ms.ToArray()));
+                    package.SetRowData(rowData);
+                    return CreateInstaller(package.PackageInstaller);
+                }
             }
+
         }
     }
 }

@@ -52,7 +52,8 @@ namespace ZKEACMS.Widget
         public override Package Pack(object obj)
         {
             var widget = obj as WidgetBase;
-            var package = _widgetActivator.Create(widget).PackWidget(widget);
+            var widgetService = _widgetActivator.Create(widget);
+            var package = widgetService.PackWidget(widgetService.GetWidget(widget));
             return package;
         }
         public override FilePackage CreatePackage()
