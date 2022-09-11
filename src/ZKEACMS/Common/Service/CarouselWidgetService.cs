@@ -122,5 +122,15 @@ namespace ZKEACMS.Common.Service
             carouselWidget.CarouselItems = carouselWidget.CarouselItems.Where(m => m.Status == (int)RecordStatus.Active);
             return carouselWidget;
         }
+
+        public override WidgetPackage PackWidget(WidgetBase widget)
+        {
+            var package = base.PackWidget(widget);
+            foreach (var item in (widget as CarouselWidget).CarouselItems)
+            {
+                AddFileToPackage(package, item.ImageUrl);
+            }
+            return package;
+        }
     }
 }

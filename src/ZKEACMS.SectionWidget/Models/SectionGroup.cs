@@ -115,6 +115,24 @@ namespace ZKEACMS.SectionWidget.Models
         }
 
         [NotMapped]
+        public SectionContentVideo Video
+        {
+            get
+            {
+                return GetContent<SectionContentVideo>(SectionContentBase.Types.Video);
+            }
+        }
+
+        [NotMapped]
+        public IEnumerable<SectionContentVideo> Videos
+        {
+            get
+            {
+                return GetContents<SectionContentVideo>(SectionContentBase.Types.Video);
+            }
+        }
+
+        [NotMapped]
         public override string Description { get; set; }
         [NotMapped]
         public override int? Status { get; set; }

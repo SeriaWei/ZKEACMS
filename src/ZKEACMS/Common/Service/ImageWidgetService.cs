@@ -19,5 +19,13 @@ namespace ZKEACMS.Common.Service
 
         public override DbSet<ImageWidget> CurrentDbSet => DbContext.ImageWidget;
 
+        public override WidgetPackage PackWidget(WidgetBase widget)
+        {
+            var package = base.PackWidget(widget);
+            AddFileToPackage(package, (widget as ImageWidget).ImageUrl);
+            AddFileToPackage(package, (widget as ImageWidget).ImageUrlMd);
+            AddFileToPackage(package, (widget as ImageWidget).ImageUrlSm);
+            return package;
+        }
     }
 }

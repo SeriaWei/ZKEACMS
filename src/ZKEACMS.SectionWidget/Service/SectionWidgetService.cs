@@ -109,13 +109,16 @@ namespace ZKEACMS.SectionWidget.Service
         {
             var package = base.PackWidget(widget);
             var sectionWidget = package.Widget as Models.SectionWidget;
-            var pluginRootPath = PluginBase.GetPath<SectionPlug>();
 
             sectionWidget.Groups.Each(group =>
             {
                 foreach (var item in group.SectionImages)
                 {
                     AddFileToPackage(package, item.ImageSrc);
+                }
+                foreach (var item in group.Videos)
+                {
+                    AddFileToPackage(package, item.Thumbnail);
                 }
                 var template = _sectionTemplateService.Get(group.PartialView);
                 sectionWidget.Template = template;
