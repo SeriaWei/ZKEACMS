@@ -68,9 +68,9 @@ namespace ZKEACMS.Widget
                 return _customStyle;
             }
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public string DataSourceLink { get; set; }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public string DataSourceLinkTitle { get; set; }
         private void InitStyleClass()
         {
