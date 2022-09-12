@@ -23,6 +23,11 @@ tinymce.PluginManager.add('docx2html', function (editor) {
         document.head.appendChild(script);
     }
     function ConvertToHtml(displayResult) {
+        var fileInput = document.getElementById("form-docx2html-field-file");
+        if (fileInput.files.length == 0) {
+            return;
+        }
+        Easy.Block();
         var reader = new FileReader();
         reader.onload = function (loadEvent) {
             var arrayBuffer = loadEvent.target.result;
@@ -38,7 +43,6 @@ tinymce.PluginManager.add('docx2html', function (editor) {
                 .done();
 
         };
-        var fileInput = document.getElementById("form-docx2html-field-file");
         reader.readAsArrayBuffer(fileInput.files[0]);
     }
     editor.ui.registry.addButton('docx2html', {
@@ -68,7 +72,6 @@ tinymce.PluginManager.add('docx2html', function (editor) {
                         }
                     ],
                     onSubmit: function (api) {
-                        Easy.Block();
                         ConvertToHtml(function (result) {
                             Easy.UnBlock();
                             if (result.value) {
