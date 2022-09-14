@@ -95,7 +95,10 @@ namespace Easy.Reflection
                             {
                                 array.SetValue(value, item.Index.Value);
                             }
-                            //todo: Other types
+                            else if (valueArray is IList list)
+                            {
+                                list[item.Index.Value] = value;
+                            }
                         }
                     }
                     else
