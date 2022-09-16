@@ -67,6 +67,7 @@ namespace ZKEACMS.Widget
     public class DataDictionaryPackageInstaller : FilePackageInstaller
     {
         private readonly IDataDictionaryService _dataDictionaryService;
+        public const string InstallerName = "DataDictionaryPackageInstaller";
         public DataDictionaryPackageInstaller(IWebHostEnvironment hostingEnvironment, IDataDictionaryService dataDictionaryService) : base(hostingEnvironment)
         {
             _dataDictionaryService = dataDictionaryService;
@@ -76,7 +77,7 @@ namespace ZKEACMS.Widget
         {
             get
             {
-                return "DataDictionaryPackageInstaller";
+                return InstallerName;
             }
         }
         public override object Install(Package package)
@@ -97,15 +98,7 @@ namespace ZKEACMS.Widget
         }
         public override Package Pack(object obj)
         {
-            DataDictionaryPackage package = null;
-            if (OnPacking != null)
-            {
-                package = base.Pack(OnPacking()) as DataDictionaryPackage;
-            }
-            if (package == null)
-            {
-                package = CreatePackage() as DataDictionaryPackage;
-            }
+            DataDictionaryPackage package = CreatePackage() as DataDictionaryPackage;
             package.DataDictionary = obj as DataDictionaryEntity;
             return package;
         }
@@ -113,6 +106,5 @@ namespace ZKEACMS.Widget
         {
             return new DataDictionaryPackage(PackageInstaller);
         }
-        public Func<IEnumerable<System.IO.FileInfo>> OnPacking { get; set; }
     }
 }

@@ -17,9 +17,11 @@ namespace ZKEACMS.PackageManger
 {
     public class FilePackageInstaller : IPackageInstaller
     {
+        private HashSet<string> _additionalFiles;
         public FilePackageInstaller(IWebHostEnvironment hostingEnvironment)
         {
             HostingEnvironment = hostingEnvironment;
+            _additionalFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         }
         public IWebHostEnvironment HostingEnvironment;
         public virtual string PackageInstaller
@@ -60,30 +62,43 @@ namespace ZKEACMS.PackageManger
         public virtual Package Pack(object obj)
         {
             FilePackage package = CreatePackage();
-            if (obj is DirectoryInfo directory)
+            foreach (var item in _additionalFiles)
             {
-                CollectFiles(directory, package);
-            }
-            else if (obj is IEnumerable<System.IO.FileInfo> files)
-            {
-                files.Each(file =>
+                System.IO.FileInfo fileInfo = new System.IO.FileInfo(MapPath(item));
+                if (fileInfo.Exists)
                 {
-                    package.Files.Add(new FileInfo { FileName = file.Name, FilePath = file.FullName.Replace(MapPath("~/"), "~/"), Content = File.ReadAllBytes(file.FullName) });
-                });
+                    package.Files.Add(new FileInfo
+                    {
+                        FilePath = item,
+                        FileName = fileInfo.Name,
+                        Content = fileInfo.ReadAllBytes()
+                    });
+                }
             }
             return package;
+        }
+        public void IncludeFile(string relativeFilePath)
+        {
+            _additionalFiles.Add(relativeFilePath);
+        }
+        public void IncludeFilesInFolder(string relativePath)
+        {
+            DirectoryInfo folder = new DirectoryInfo(MapPath(relativePath));
+            if (folder.Exists)
+            {
+                foreach (var item in folder.GetFiles())
+                {
+                    _additionalFiles.Add(relativePath + "/" + item.Name);
+                }
+                foreach (var item in folder.GetDirectories())
+                {
+                    IncludeFilesInFolder(relativePath + "/" + item.Name);
+                }
+            }
         }
         public virtual FilePackage CreatePackage()
         {
             return new FilePackage(PackageInstaller);
-        }
-        public void CollectFiles(DirectoryInfo directory, FilePackage package)
-        {
-            directory.GetDirectories().Each(dir => CollectFiles(dir, package));
-            directory.GetFiles().Each(file =>
-            {
-                package.Files.Add(new FileInfo { FileName = file.Name, FilePath = file.FullName.Replace(MapPath("~/"), "~/"), Content = File.ReadAllBytes(file.FullName) });
-            });
         }
     }
 }

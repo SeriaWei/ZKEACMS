@@ -290,18 +290,13 @@ namespace ZKEACMS.Controllers
         {
             var dataDictionaryService = HttpContext.RequestServices.GetService<IDataDictionaryService>();
             var dataDictionary = dataDictionaryService.Get(ID);
-            var installer = new DataDictionaryPackageInstaller(HttpContext.RequestServices.GetService<IWebHostEnvironment>(), dataDictionaryService);
-            if (filePath != null && filePath.Any())
+            var installer = _packageInstallerProvider.CreateInstaller(DataDictionaryPackageInstaller.InstallerName) as  DataDictionaryPackageInstaller;
+            if (filePath != null)
             {
-                installer.OnPacking = () =>
+                foreach (var item in filePath)
                 {
-                    List<System.IO.FileInfo> files = new List<System.IO.FileInfo>();
-                    foreach (var item in filePath)
-                    {
-                        files.Add(new System.IO.FileInfo(Request.MapPath(item)));
-                    }
-                    return files;
-                };
+                    installer.IncludeFile(item);
+                }
             }
 
             return File(installer.Pack(dataDictionary).ToFilePackage(), "Application/zip", dataDictionary.Title + ".widget");
