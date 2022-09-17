@@ -18,7 +18,7 @@ namespace Easy.Reflection
         static Regex _arrayPropertyRegex = new Regex(@"([A-Za-z0-9_]+)\[(\d+)\]", RegexOptions.Compiled);
         public string Name { get; set; }
         public int? Index { get; set; }
-        static DeepProperty ParseProperty(string property)
+        public static DeepProperty ParseProperty(string property)
         {
             var match = _arrayPropertyRegex.Match(property);
             if (match.Success)
@@ -34,7 +34,7 @@ namespace Easy.Reflection
                 return new DeepProperty { Name = property };
             }
         }
-        static IEnumerable<DeepProperty> Generate(string descriptor)
+        public static IEnumerable<DeepProperty> ParseProperties(string descriptor)
         {
             var allProperties = descriptor.Split('.');
             foreach (var property in allProperties)
@@ -52,7 +52,7 @@ namespace Easy.Reflection
         {
             var target = targetObj;
             var typeInfo = target.GetType().GetTypeInfo();
-            var properties = Generate(propertyDescriptor).ToList(); ;
+            var properties = ParseProperties(propertyDescriptor).ToList();
             for (int i = 0; i < properties.Count; i++)
             {
                 var item = properties[i];
