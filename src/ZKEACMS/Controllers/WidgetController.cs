@@ -284,13 +284,13 @@ namespace ZKEACMS.Controllers
         {
             var widget = _widgetService.Get(ID);
             var widgetPackage = _packageInstallerProvider.CreateInstaller(WidgetPackageInstaller.InstallerName).Pack(widget) as WidgetPackage;
-            return File(widgetPackage.ToFilePackage(), "Application/zip", widgetPackage.Widget.WidgetName + ".widget");
+            return PackageResult(widgetPackage, widgetPackage.Widget.WidgetName);
         }
         public FileResult PackDictionary(int ID, string[] filePath)
         {
             var dataDictionaryService = HttpContext.RequestServices.GetService<IDataDictionaryService>();
             var dataDictionary = dataDictionaryService.Get(ID);
-            var installer = _packageInstallerProvider.CreateInstaller(DataDictionaryPackageInstaller.InstallerName) as  DataDictionaryPackageInstaller;
+            var installer = _packageInstallerProvider.CreateInstaller(DataDictionaryPackageInstaller.InstallerName) as DataDictionaryPackageInstaller;
             if (filePath != null)
             {
                 foreach (var item in filePath)
@@ -299,7 +299,11 @@ namespace ZKEACMS.Controllers
                 }
             }
 
-            return File(installer.Pack(dataDictionary).ToFilePackage(), "Application/zip", dataDictionary.Title + ".widget");
+            return PackageResult(installer.Pack(dataDictionary), dataDictionary.Title);
+        }
+        private FileContentResult PackageResult(Package package, string name)
+        {
+            return File(package.ToFilePackage(), "Application/zip", $"{name}.wgt");
         }
         [HttpPost]
         public ActionResult InstallWidgetTemplate(string returnUrl)
