@@ -190,7 +190,7 @@ $(function () {
 
     function popoverImage(ele) {
         $("input.select-image", ele).popover({
-            trigger: "focus",
+            trigger: "click",
             html: true,
             title: "图片预览",
             content: function () {
@@ -199,7 +199,7 @@ $(function () {
                     if (url.indexOf("~") === 0) {
                         url = url.replace("~", location.origin);
                     }
-                    return "<div style='width:244px;'><img src='" + url + "'/></div>";
+                    return '<div style="width:244px;"><img class="opacity-dotted" src="' + url + '"/></div>';
                 }
                 return null;
             },
