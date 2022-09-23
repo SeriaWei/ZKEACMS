@@ -190,7 +190,7 @@ $(function () {
 
     function popoverImage(ele) {
         $("input.select-image", ele).popover({
-            trigger: "click",
+            trigger: "focus",
             html: true,
             title: "图片预览",
             content: function () {
