@@ -71,7 +71,7 @@ namespace ZKEACMS.Controllers
             if (_hostingEnvironment.IsDevelopment())
             {
                 var package = _packageInstallerProvider.CreateInstaller(ThemePackageInstaller.InstallerName).Pack(id) as ThemePackage;
-                return File(package.ToFilePackage(), "Application/zip", package.Theme.Title + ".theme");
+                return File(package.ToFilePackage(), "Application/zip", package.Theme.Title + ".wgt");
             }
             return NotFound();
         }
