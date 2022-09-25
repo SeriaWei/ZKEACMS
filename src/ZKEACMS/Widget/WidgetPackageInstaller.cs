@@ -12,6 +12,7 @@ using System.Text;
 using ZKEACMS.PackageManger;
 using Microsoft.AspNetCore.Hosting;
 using Easy.Modules.DataDictionary;
+using Microsoft.Extensions.Logging;
 
 namespace ZKEACMS.Widget
 {
@@ -19,9 +20,13 @@ namespace ZKEACMS.Widget
     {
         private readonly IWidgetActivator _widgetActivator;
         public const string InstallerName = "WidgetPackageInstaller";
-        public WidgetPackageInstaller(IWebHostEnvironment hostingEnvironment, IWidgetActivator widgetActivator) : base(hostingEnvironment)
+        private readonly ILogger<WidgetPackageInstaller> _logger;
+        public WidgetPackageInstaller(IWebHostEnvironment hostingEnvironment, 
+            IWidgetActivator widgetActivator, 
+            ILogger<WidgetPackageInstaller> logger) : base(hostingEnvironment)
         {
             _widgetActivator = widgetActivator;
+            _logger = logger;
         }
 
         public override string PackageInstaller
@@ -36,9 +41,20 @@ namespace ZKEACMS.Widget
             var widgetPackage = Easy.Serializer.JsonConverter.Deserialize<WidgetPackage>(package.ToString());
             widgetPackage.SetRowData(package.GetRowData());
 
-            if (widgetPackage.Widget == null) return null;
+            if (widgetPackage.Widget == null)
+            {
+                _logger.LogError("Package is not correct.");
+                return null;
+            }
 
-            var widget = JsonConvert.DeserializeObject(JObject.Parse(package.ToString()).GetValue("Widget").ToString(), widgetPackage.Widget.GetViewModelType(), new JsonSerializerSettings
+            Type viewModelType = widgetPackage.Widget.GetViewModelType();
+            if (viewModelType == null)
+            {
+                _logger.LogError("Package is not supported.");
+                return null;
+            }
+
+            var widget = JsonConvert.DeserializeObject(JObject.Parse(package.ToString()).GetValue("Widget").ToString(), viewModelType, new JsonSerializerSettings
             {
                 ContractResolver = new SerializeAllPropertyContractResolver()
             }) as WidgetBase;
