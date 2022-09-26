@@ -53,7 +53,9 @@ namespace ZKEACMS.PackageManger
         }
         public T ConvertTo<T>() where T : Package
         {
-            return Easy.Serializer.JsonConverter.Deserialize<T>(this.ToString());
+            var package = Easy.Serializer.JsonConverter.Deserialize<T>(this.ToString());
+            package.SetRowData(this.GetRowData());
+            return package;
         }
     }
 }
