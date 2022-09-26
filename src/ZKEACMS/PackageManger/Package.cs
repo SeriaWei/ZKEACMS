@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.IO.Packaging;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -13,6 +14,7 @@ using Easy.Extend;
 using Easy.Serializer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using ZKEACMS.Widget;
 
 namespace ZKEACMS.PackageManger
 {
@@ -48,6 +50,10 @@ namespace ZKEACMS.PackageManger
         public override string ToString()
         {
             return Encoding.UTF8.GetString(_rawData);
+        }
+        public T ConvertTo<T>() where T : Package
+        {
+            return Easy.Serializer.JsonConverter.Deserialize<T>(this.ToString());
         }
     }
 }

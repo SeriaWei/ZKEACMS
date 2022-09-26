@@ -21,8 +21,8 @@ namespace ZKEACMS.Widget
         private readonly IWidgetActivator _widgetActivator;
         public const string InstallerName = "WidgetPackageInstaller";
         private readonly ILogger<WidgetPackageInstaller> _logger;
-        public WidgetPackageInstaller(IWebHostEnvironment hostingEnvironment, 
-            IWidgetActivator widgetActivator, 
+        public WidgetPackageInstaller(IWebHostEnvironment hostingEnvironment,
+            IWidgetActivator widgetActivator,
             ILogger<WidgetPackageInstaller> logger) : base(hostingEnvironment)
         {
             _widgetActivator = widgetActivator;
@@ -38,10 +38,8 @@ namespace ZKEACMS.Widget
         }
         public override object Install(Package package)
         {
-            var widgetPackage = Easy.Serializer.JsonConverter.Deserialize<WidgetPackage>(package.ToString());
-            widgetPackage.SetRowData(package.GetRowData());
-
-            if (widgetPackage.Widget == null)
+            var widgetPackage = package as WidgetPackage;
+            if (widgetPackage == null || widgetPackage.Widget == null)
             {
                 _logger.LogError("Package is not correct.");
                 return null;
@@ -74,9 +72,13 @@ namespace ZKEACMS.Widget
             var package = widgetService.PackWidget(widgetService.GetWidget(widget));
             return package;
         }
-        public override FilePackage CreatePackage()
+        public override FilePackage NewPackageOnPacking()
         {
             return new WidgetPackage(PackageInstaller);
+        }
+        public override Package CreatePackage(Package package)
+        {
+            return package.ConvertTo<WidgetPackage>();
         }
     }
 
@@ -114,13 +116,17 @@ namespace ZKEACMS.Widget
         }
         public override Package Pack(object obj)
         {
-            DataDictionaryPackage package = CreatePackage() as DataDictionaryPackage;
+            DataDictionaryPackage package = NewPackageOnPacking() as DataDictionaryPackage;
             package.DataDictionary = obj as DataDictionaryEntity;
             return package;
         }
-        public override FilePackage CreatePackage()
+        public override FilePackage NewPackageOnPacking()
         {
             return new DataDictionaryPackage(PackageInstaller);
+        }
+        public override Package CreatePackage(Package package)
+        {
+            return package.ConvertTo<DataDictionaryPackage>();
         }
     }
 }

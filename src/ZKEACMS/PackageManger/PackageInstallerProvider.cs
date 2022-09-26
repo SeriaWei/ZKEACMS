@@ -24,7 +24,7 @@ namespace ZKEACMS.PackageManger
             return _packageInstallers.FirstOrDefault(m => m.PackageInstaller == packageInstaller);
         }
 
-        public IPackageInstaller CreateInstaller<T>(Stream stream, out T package) where T : Package
+        public IPackageInstaller CreateInstaller(Stream stream, out Package package)
         {
             using (GZipStream gzip = new GZipStream(stream, CompressionMode.Decompress))
             {
@@ -32,9 +32,11 @@ namespace ZKEACMS.PackageManger
                 {
                     gzip.CopyTo(ms);
                     byte[] rowData = ms.ToArray();
-                    package = JsonConverter.Deserialize<T>(Encoding.UTF8.GetString(ms.ToArray()));
-                    package.SetRowData(rowData);
-                    return CreateInstaller(package.PackageInstaller);
+                    var packageBase = JsonConverter.Deserialize<Package>(Encoding.UTF8.GetString(ms.ToArray()));
+                    packageBase.SetRowData(rowData);
+                    var packageInstaller = CreateInstaller(packageBase.PackageInstaller);
+                    package = packageInstaller.CreatePackage(packageBase);
+                    return packageInstaller;
                 }
             }
 

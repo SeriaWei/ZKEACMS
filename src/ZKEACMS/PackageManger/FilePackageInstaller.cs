@@ -61,7 +61,7 @@ namespace ZKEACMS.PackageManger
 
         public virtual Package Pack(object obj)
         {
-            FilePackage package = CreatePackage();
+            FilePackage package = NewPackageOnPacking();
             foreach (var item in _additionalFiles)
             {
                 System.IO.FileInfo fileInfo = new System.IO.FileInfo(MapPath(item));
@@ -96,9 +96,14 @@ namespace ZKEACMS.PackageManger
                 }
             }
         }
-        public virtual FilePackage CreatePackage()
+        public virtual FilePackage NewPackageOnPacking()
         {
             return new FilePackage(PackageInstaller);
+        }
+
+        public virtual Package CreatePackage(Package package)
+        {
+            return package.ConvertTo<FilePackage>();
         }
     }
 }

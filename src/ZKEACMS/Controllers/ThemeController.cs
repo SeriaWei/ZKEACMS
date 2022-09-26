@@ -83,7 +83,7 @@ namespace ZKEACMS.Controllers
             {
                 try
                 {
-                    ThemePackage package;
+                    Package package;
                     var installer = _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
                     installer.Install(package);
                 }

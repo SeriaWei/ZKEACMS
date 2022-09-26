@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Easy.Serializer;
 using Microsoft.AspNetCore.Hosting;
 using ZKEACMS.PackageManger;
 
@@ -66,9 +67,13 @@ namespace ZKEACMS.Theme
             (package as ThemePackage).Theme = theme;
             return package;
         }
-        public override FilePackage CreatePackage()
+        public override FilePackage NewPackageOnPacking()
         {
             return new ThemePackage(PackageInstaller);
+        }
+        public override Package CreatePackage(Package package)
+        {
+            return package.ConvertTo<ThemePackage>();
         }
     }
 }
