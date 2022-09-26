@@ -249,8 +249,22 @@ namespace ZKEACMS.Widget
             widget.IsTemplate = true;
             WidgetPackage package = new WidgetPackage(WidgetPackageInstaller.InstallerName);
             package.Widget = widget;
+            HashSet<string> images = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            images.Add(widget.Thumbnail);
             AddFileToPackage(package, widget.Thumbnail);
+            foreach (var item in GetImagesInWidget(widget))
+            {
+                if (images.Contains(item)) continue;
+
+                images.Add(item);
+                AddFileToPackage(package, item);
+            }
             return package;
+        }
+
+        protected virtual IEnumerable<string> GetImagesInWidget(WidgetBase widget)
+        {
+            return Enumerable.Empty<string>();
         }
 
         protected virtual void AddFileToPackage(WidgetPackage package, string filePath)
@@ -269,6 +283,8 @@ namespace ZKEACMS.Widget
             });
         }
 
+        
+
         private static bool IsLocalFile(string filePath)
         {
             return filePath.IsNotNullAndWhiteSpace() && (filePath.StartsWith("~/") || filePath.StartsWith("/"));
@@ -285,5 +301,23 @@ namespace ZKEACMS.Widget
             }
         }
         #endregion
+
+        protected HashSet<string> ParseHtmlImageUrls(string html)
+        {
+            HashSet<string> result = new HashSet<string>();
+            if (html.IsNullOrWhiteSpace()) return result;
+
+            HtmlAgilityPack.HtmlDocument document = new HtmlAgilityPack.HtmlDocument();
+            document.LoadHtml(html);
+            var allImages = document.DocumentNode.SelectNodes("//img");
+            foreach (var item in allImages)
+            {
+                var src = item.GetAttributeValue("src", string.Empty);
+                if (src.IsNullOrWhiteSpace()) continue;
+
+                result.Add(src);
+            }
+            return result;
+        }
     }
 }
