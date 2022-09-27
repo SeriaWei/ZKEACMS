@@ -105,7 +105,7 @@ namespace ZKEACMS.SectionWidget.Service
             }
             return result;
         }
-        protected override IEnumerable<string> GetImagesInWidget(Models.SectionWidget widget)
+        protected override IEnumerable<string> GetFilesInWidget(Models.SectionWidget widget)
         {
             foreach (var group in widget.Groups)
             {

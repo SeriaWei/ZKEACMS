@@ -123,7 +123,7 @@ namespace ZKEACMS.Common.Service
             return carouselWidget;
         }
 
-        protected override IEnumerable<string> GetImagesInWidget(CarouselWidget widget)
+        protected override IEnumerable<string> GetFilesInWidget(CarouselWidget widget)
         {
             var items = widget.CarouselItems;
             if (items == null) Enumerable.Empty<string>();

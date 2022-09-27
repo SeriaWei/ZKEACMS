@@ -20,7 +20,7 @@ namespace ZKEACMS.Common.Service
 
         public override DbSet<ImageWidget> CurrentDbSet => DbContext.ImageWidget;
 
-        protected override IEnumerable<string> GetImagesInWidget(ImageWidget widget)
+        protected override IEnumerable<string> GetFilesInWidget(ImageWidget widget)
         {
             yield return widget.ImageUrl;
             yield return widget.ImageUrlMd;

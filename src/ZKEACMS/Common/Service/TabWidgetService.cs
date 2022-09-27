@@ -34,9 +34,9 @@ namespace ZKEACMS.Common.Service
             return base.Update(item);
         }
 
-        protected override IEnumerable<string> GetImagesInWidget(TabWidget widget)
+        protected override IEnumerable<string> GetFilesInWidget(TabWidget widget)
         {
-            return base.GetImagesInWidget(widget);
+            return base.GetFilesInWidget(widget);
         }
     }
 }

@@ -90,7 +90,7 @@ namespace ZKEACMS.Common.Service
             return new NavigationWidgetViewModel(navs, currentWidget);
         }
 
-        protected override IEnumerable<string> GetImagesInWidget(NavigationWidget widget)
+        protected override IEnumerable<string> GetFilesInWidget(NavigationWidget widget)
         {
             yield return widget.Logo;
         }
