@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Collections.Generic;
 
 namespace ZKEACMS.Common.Service
 {
@@ -89,11 +90,9 @@ namespace ZKEACMS.Common.Service
             return new NavigationWidgetViewModel(navs, currentWidget);
         }
 
-        public override WidgetPackage PackWidget(WidgetBase widget)
+        protected override IEnumerable<string> GetImagesInWidget(NavigationWidget widget)
         {
-            var package = base.PackWidget(widget);
-            AddFileToPackage(package, (widget as NavigationWidget).Logo);
-            return package;
+            yield return widget.Logo;
         }
     }
 }

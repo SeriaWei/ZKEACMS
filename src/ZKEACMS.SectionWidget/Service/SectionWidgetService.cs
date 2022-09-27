@@ -105,29 +105,32 @@ namespace ZKEACMS.SectionWidget.Service
             }
             return result;
         }
-        public override WidgetPackage PackWidget(WidgetBase widget)
+        protected override IEnumerable<string> GetImagesInWidget(Models.SectionWidget widget)
         {
-            var package = base.PackWidget(widget);
-            var sectionWidget = package.Widget as Models.SectionWidget;
-
-            sectionWidget.Groups.Each(group =>
+            foreach (var group in widget.Groups)
             {
                 foreach (var item in group.SectionImages)
                 {
-                    AddFileToPackage(package, item.ImageSrc);
+                    yield return item.ImageSrc;
                 }
                 foreach (var item in group.Videos)
                 {
-                    AddFileToPackage(package, item.Thumbnail);
+                    yield return item.Thumbnail;
+                }
+                foreach (var item in group.Paragraphs)
+                {
+                    foreach (var img in ParseHtmlImageUrls(item.HtmlContent))
+                    {
+                        yield return img;
+                    }
                 }
                 var template = _sectionTemplateService.Get(group.PartialView);
-                sectionWidget.Template = template;
+                widget.Template = template;
                 foreach (var item in GetTemplateFiles(template))
                 {
-                    AddFileToPackage(package, item);
+                    yield return item;
                 }
-            });
-            return package;
+            }
         }
         public override void InstallWidget(WidgetPackage pack)
         {
@@ -159,8 +162,8 @@ namespace ZKEACMS.SectionWidget.Service
         {
             HashSet<string> result = new HashSet<string>();
             result.Add($"~/Plugins/ZKEACMS.SectionWidget/Views/{template.TemplateName}.cshtml".FormatWith(template.TemplateName));
-            result.Add($"~/Plugins/ZKEACMS.SectionWidget/{template.Thumbnail}");
-            result.Add($"~/Plugins/ZKEACMS.SectionWidget/{template.ExampleData}");
+            result.Add($"~/Plugins/ZKEACMS.SectionWidget/{string.Join('/', template.Thumbnail.ToWebPath())}");
+            result.Add($"~/Plugins/ZKEACMS.SectionWidget/{string.Join('/', template.ExampleData.ToWebPath())}");
             return result;
         }
     }

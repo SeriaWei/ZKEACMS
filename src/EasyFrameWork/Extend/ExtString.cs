@@ -202,11 +202,19 @@ namespace Easy.Extend
         }
         public static string ToFilePath(this string path)
         {
-            return Path.Combine(path.Split(new char[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries));
+            return Path.Combine(path.SplitWithDirectorySeparatorChar());
         }
         public static string CombinePath(this string p, string path)
         {
-            return $"{p.TrimEnd(Path.DirectorySeparatorChar)}{ Path.DirectorySeparatorChar}{path.ToFilePath()}";
+            return $"{p.TrimEnd(Path.DirectorySeparatorChar)}{Path.DirectorySeparatorChar}{path.ToFilePath()}";
+        }
+        public static string[] SplitWithDirectorySeparatorChar(this string path)
+        {
+            return path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+        }
+        public static string ToWebPath(this string path)
+        {
+            return string.Join('/', path.SplitWithDirectorySeparatorChar());
         }
     }
 }

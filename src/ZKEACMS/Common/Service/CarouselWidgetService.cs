@@ -123,17 +123,15 @@ namespace ZKEACMS.Common.Service
             return carouselWidget;
         }
 
-        public override WidgetPackage PackWidget(WidgetBase widget)
+        protected override IEnumerable<string> GetImagesInWidget(CarouselWidget widget)
         {
-            var package = base.PackWidget(widget);
-            var items = (widget as CarouselWidget).CarouselItems;
-            if (items == null) return package;
+            var items = widget.CarouselItems;
+            if (items == null) Enumerable.Empty<string>();
 
             foreach (var item in items)
             {
-                AddFileToPackage(package, item.ImageUrl);
+                yield return item.ImageUrl;
             }
-            return package;
         }
     }
 }
