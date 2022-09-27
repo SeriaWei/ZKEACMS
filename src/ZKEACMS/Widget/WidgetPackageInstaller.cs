@@ -69,6 +69,7 @@ namespace ZKEACMS.Widget
             var widget = obj as WidgetBase;
             var widgetService = _widgetActivator.Create(widget);
             var package = widgetService.PackWidget(widgetService.GetWidget(widget));
+            IncludeAdditionalFilesToPackage(package);
             return package;
         }
         public override FilePackage NewPackageOnPacking()
