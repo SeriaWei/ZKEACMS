@@ -32,10 +32,11 @@ namespace ZKEACMS.PackageManger
                 {
                     gzip.CopyTo(ms);
                     byte[] rowData = ms.ToArray();
-                    var packageBase = JsonConverter.Deserialize<Package>(Encoding.UTF8.GetString(ms.ToArray()));
-                    packageBase.SetRowData(rowData);
+                    string json = Encoding.UTF8.GetString(ms.ToArray());
+                    var packageBase = JsonConverter.Deserialize<Package>(json);
                     var packageInstaller = CreateInstaller(packageBase.PackageInstaller);
-                    package = packageInstaller.CreatePackage(packageBase);
+                    package = JsonConverter.Deserialize(json, packageInstaller.GetPackageType()) as Package;
+                    package.SetRowData(rowData);
                     return packageInstaller;
                 }
             }

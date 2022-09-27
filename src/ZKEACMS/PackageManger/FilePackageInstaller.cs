@@ -101,9 +101,9 @@ namespace ZKEACMS.PackageManger
             return new FilePackage(PackageInstaller);
         }
 
-        public virtual Package CreatePackage(Package package)
+        public virtual Type GetPackageType()
         {
-            return package.ConvertTo<FilePackage>();
+            return typeof(FilePackage);
         }
     }
 }
