@@ -20,6 +20,7 @@ using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Event;
 using ZKEACMS.Page;
 using ZKEACMS.PackageManger;
+using AngleSharp;
 
 namespace ZKEACMS.Widget
 {
@@ -283,7 +284,7 @@ namespace ZKEACMS.Widget
             });
         }
 
-        
+
 
         private static bool IsLocalFile(string filePath)
         {
@@ -307,16 +308,21 @@ namespace ZKEACMS.Widget
             HashSet<string> result = new HashSet<string>();
             if (html.IsNullOrWhiteSpace()) return result;
 
-            HtmlAgilityPack.HtmlDocument document = new HtmlAgilityPack.HtmlDocument();
-            document.LoadHtml(html);
-            var allImages = document.DocumentNode.SelectNodes("//img");
-            foreach (var item in allImages)
+            using (var context = BrowsingContext.New(Configuration.Default))
             {
-                var src = item.GetAttributeValue("src", string.Empty);
-                if (src.IsNullOrWhiteSpace()) continue;
-
-                result.Add(src);
+                using (var doc = context.OpenAsync(request => request.Content(html)).Result)
+                {
+                    var allImages = doc.QuerySelectorAll("img");
+                    foreach (var item in allImages)
+                    {
+                        var src = item.GetAttribute("src");
+                        if (src.IsNullOrWhiteSpace()) continue;
+                        
+                        result.Add(src);
+                    }
+                }
             }
+
             return result;
         }
     }
