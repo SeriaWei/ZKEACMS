@@ -75,9 +75,7 @@ namespace Easy.Storage
             {
                 stream.CopyTo(fileStream);
             }
-            string webPath = string.Join("/", directory.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries));
-
-            return $"~/{webPath}/{fileName}";
+            return $"~/{directory.ToWebPath()}/{fileName}";
         }
 
         public virtual async Task<string> SaveFileAsync(Stream stream, string directory, string fileName)
@@ -92,9 +90,7 @@ namespace Easy.Storage
             {
                 await stream.CopyToAsync(fileStream);
             }
-            string webPath = string.Join("/", directory.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries));
-
-            return $"~/{webPath}/{fileName}";
+            return $"~/{directory.ToWebPath()}/{fileName}";
         }
         public virtual void DeleteDirectory(string path)
         {

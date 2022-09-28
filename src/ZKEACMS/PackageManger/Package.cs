@@ -40,7 +40,11 @@ namespace ZKEACMS.PackageManger
             {
                 using (GZipStream gzOut = new GZipStream(ms, CompressionMode.Compress))
                 {
-                    byte[] bytes = JsonConvert.SerializeObject(this, new JsonSerializerSettings { ContractResolver = new SerializeAllPropertyContractResolver() }).ToByte();
+                    byte[] bytes = JsonConvert.SerializeObject(this, new JsonSerializerSettings
+                    {
+                        ContractResolver = new SerializeAllPropertyContractResolver()
+                    }).ToByte();
+
                     gzOut.Write(bytes, 0, bytes.Length);
                 }
                 return ms.ToArray();
@@ -50,12 +54,6 @@ namespace ZKEACMS.PackageManger
         public override string ToString()
         {
             return Encoding.UTF8.GetString(_rawData);
-        }
-        public T ConvertTo<T>() where T : Package
-        {
-            var package = Easy.Serializer.JsonConverter.Deserialize<T>(this.ToString());
-            package.SetRowData(this.GetRowData());
-            return package;
         }
     }
 }

@@ -3,6 +3,7 @@
  * http://www.zkea.net/licenses */
 
 using System;
+using System.Collections.Generic;
 using Easy;
 using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Common.Models;
@@ -19,13 +20,11 @@ namespace ZKEACMS.Common.Service
 
         public override DbSet<ImageWidget> CurrentDbSet => DbContext.ImageWidget;
 
-        public override WidgetPackage PackWidget(WidgetBase widget)
+        protected override IEnumerable<string> GetFilesInWidget(ImageWidget widget)
         {
-            var package = base.PackWidget(widget);
-            AddFileToPackage(package, (widget as ImageWidget).ImageUrl);
-            AddFileToPackage(package, (widget as ImageWidget).ImageUrlMd);
-            AddFileToPackage(package, (widget as ImageWidget).ImageUrlSm);
-            return package;
+            yield return widget.ImageUrl;
+            yield return widget.ImageUrlMd;
+            yield return widget.ImageUrlSm;
         }
     }
 }

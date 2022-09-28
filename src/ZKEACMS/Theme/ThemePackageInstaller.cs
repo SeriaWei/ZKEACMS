@@ -71,9 +71,9 @@ namespace ZKEACMS.Theme
         {
             return new ThemePackage(PackageInstaller);
         }
-        public override Package CreatePackage(Package package)
+        public override Type GetPackageType()
         {
-            return package.ConvertTo<ThemePackage>();
+            return typeof(ThemePackage);
         }
     }
 }

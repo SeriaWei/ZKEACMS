@@ -8,6 +8,7 @@ using System;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
 using System.Linq;
+using Easy.Extend;
 
 namespace ZKEACMS
 {
@@ -15,7 +16,7 @@ namespace ZKEACMS
     {
         private static string[] ToPathArray(string path)
         {
-            return path.TrimStart('~').TrimStart('/').Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+            return path.TrimStart('~').TrimStart('/').SplitWithDirectorySeparatorChar();
         }
 
         public static string MapPath(this IWebHostEnvironment env, string path)

@@ -253,8 +253,9 @@ namespace ZKEACMS.Widget
             HashSet<string> images = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             images.Add(widget.Thumbnail);
             AddFileToPackage(package, widget.Thumbnail);
-            foreach (var item in GetImagesInWidget(widget))
+            foreach (var item in GetFilesInWidget((T)widget))
             {
+                if (item.IsNullOrWhiteSpace()) continue;
                 if (images.Contains(item)) continue;
 
                 images.Add(item);
@@ -263,12 +264,12 @@ namespace ZKEACMS.Widget
             return package;
         }
 
-        protected virtual IEnumerable<string> GetImagesInWidget(WidgetBase widget)
+        protected virtual IEnumerable<string> GetFilesInWidget(T widget)
         {
             return Enumerable.Empty<string>();
         }
 
-        protected virtual void AddFileToPackage(WidgetPackage package, string filePath)
+        private void AddFileToPackage(WidgetPackage package, string filePath)
         {
             if (!IsLocalFile(filePath)) return;
 
@@ -283,8 +284,6 @@ namespace ZKEACMS.Widget
                 Content = fileInfo.ReadAllBytes()
             });
         }
-
-
 
         private static bool IsLocalFile(string filePath)
         {

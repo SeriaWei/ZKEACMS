@@ -19,9 +19,9 @@ namespace ZKEACMS.Article.Service
         {
         }
 
-        protected override IEnumerable<string> GetImagesInWidget(WidgetBase widget)
+        protected override IEnumerable<string> GetFilesInWidget(ArticleSummaryWidget widget)
         {
-            return ParseHtmlImageUrls((widget as ArticleSummaryWidget).Summary);
+            return ParseHtmlImageUrls(widget.Summary);
         }
     }
 }

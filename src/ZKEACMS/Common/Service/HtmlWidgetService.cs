@@ -19,9 +19,9 @@ namespace ZKEACMS.Common.Service
 
         public override DbSet<HtmlWidget> CurrentDbSet => DbContext.HtmlWidget;
 
-        protected override IEnumerable<string> GetImagesInWidget(WidgetBase widget)
+        protected override IEnumerable<string> GetFilesInWidget(HtmlWidget widget)
         {
-            return ParseHtmlImageUrls((widget as HtmlWidget).HTML);
+            return ParseHtmlImageUrls(widget.HTML);
         }
     }
 }
