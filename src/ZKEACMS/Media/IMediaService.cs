@@ -11,5 +11,6 @@ namespace ZKEACMS.Media
     {
         IList<MediaEntity> GetPage(string parentId, Pagination pagin);
         MediaEntity GetImageFolder();
+        void AddMediaToImageFolder(MediaEntity entity);
     }
 }

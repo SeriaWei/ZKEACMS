@@ -80,6 +80,12 @@ namespace ZKEACMS.Media
             return base.Add(item);
         }
 
+        public void AddMediaToImageFolder(MediaEntity entity)
+        {
+            entity.ParentID = GetImageFolder().ID;
+            Add(entity);
+        }
+
         public MediaEntity GetImageFolder()
         {
             const string imageFolder = "Image";
