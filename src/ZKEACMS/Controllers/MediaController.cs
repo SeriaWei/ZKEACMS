@@ -171,7 +171,7 @@ namespace ZKEACMS.Controllers
         }
 
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
-        public IActionResult UploadBlob([FromForm]IFormCollection formData)
+        public IActionResult UploadBlob([FromForm] IFormCollection formData)
         {
             if (formData.Files.Count > 0)
             {
@@ -235,10 +235,8 @@ namespace ZKEACMS.Controllers
                 if (result.ContainsKey(imgUrl)) continue;
 
                 string ext = Path.GetExtension(imgUrl);
-                if (!Easy.Mvc.Common.IsImage(ext))
-                {
-                    ext = ".jpg";
-                }
+                if (!Easy.Mvc.Common.IsImage(ext)) continue;
+
                 try
                 {
                     string id = CreateIdByUrl(imgUrl);
