@@ -13,7 +13,11 @@ CREATE TABLE [dbo].[ApplicationSetting](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_ApplicationSetting] PRIMARY KEY CLUSTERED 
+(
+	[SettingKey] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -41,7 +45,11 @@ CREATE TABLE [dbo].[Article](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_Article] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -50,7 +58,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ArticleDetailWidget](
 	[ID] [nvarchar](100) NOT NULL,
-	[CustomerClass] [nvarchar](255) NULL
+	[CustomerClass] [nvarchar](255) NULL,
+ CONSTRAINT [PK_ArticleDetailWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -68,7 +80,11 @@ CREATE TABLE [dbo].[ArticleGallery](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -80,7 +96,11 @@ CREATE TABLE [dbo].[ArticleListWidget](
 	[ArticleTypeID] [int] NULL,
 	[DetailPageUrl] [nvarchar](255) NULL,
 	[IsPageable] [bit] NOT NULL,
-	[PageSize] [int] NULL
+	[PageSize] [int] NULL,
+ CONSTRAINT [PK_ArticleListWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -92,7 +112,11 @@ CREATE TABLE [dbo].[ArticleSummaryWidget](
 	[SubTitle] [nvarchar](255) NULL,
 	[Style] [nvarchar](255) NULL,
 	[DetailLink] [nvarchar](255) NULL,
-	[Summary] [nvarchar](max) NULL
+	[Summary] [nvarchar](max) NULL,
+ CONSTRAINT [PK_ArticleSummaryWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -105,7 +129,11 @@ CREATE TABLE [dbo].[ArticleTopWidget](
 	[Tops] [int] NULL,
 	[SubTitle] [nvarchar](255) NULL,
 	[MoreLink] [nvarchar](255) NULL,
-	[DetailPageUrl] [nvarchar](255) NULL
+	[DetailPageUrl] [nvarchar](255) NULL,
+ CONSTRAINT [PK_ArticleTopWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -127,7 +155,11 @@ CREATE TABLE [dbo].[ArticleType](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_ArticleType] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -137,7 +169,11 @@ GO
 CREATE TABLE [dbo].[ArticleTypeWidget](
 	[ID] [nvarchar](100) NOT NULL,
 	[ArticleTypeID] [int] NULL,
-	[TargetPage] [nvarchar](255) NULL
+	[TargetPage] [nvarchar](255) NULL,
+ CONSTRAINT [PK_ArticleTypeWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -160,7 +196,11 @@ CREATE TABLE [dbo].[Basket](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_Basket] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -178,7 +218,11 @@ CREATE TABLE [dbo].[Carousel](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_Carousel] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -199,7 +243,11 @@ CREATE TABLE [dbo].[CarouselItem](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_CarouselItem] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -208,7 +256,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[CarouselWidget](
 	[ID] [nvarchar](100) NOT NULL,
-	[CarouselID] [int] NULL
+	[CarouselID] [int] NULL,
+ CONSTRAINT [PK_CarouselWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -232,7 +284,11 @@ CREATE TABLE [dbo].[CMS_Layout](
 	[LastUpdateDate] [datetime] NULL,
 	[ImageUrl] [nvarchar](255) NULL,
 	[ImageThumbUrl] [nvarchar](255) NULL,
-	[Theme] [nvarchar](255) NULL
+	[Theme] [nvarchar](255) NULL,
+ CONSTRAINT [PK_CMS_Layout] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -249,7 +305,11 @@ CREATE TABLE [dbo].[CMS_LayoutHtml](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_CMS_LayoutHtml] PRIMARY KEY CLUSTERED 
+(
+	[LayoutHtmlId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -269,7 +329,11 @@ CREATE TABLE [dbo].[CMS_Media](
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
 	[LastUpdateDate] [datetime] NULL,
-	[Description] [nvarchar](500) NULL
+	[Description] [nvarchar](500) NULL,
+ CONSTRAINT [PK_CMS_Media] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -289,7 +353,11 @@ CREATE TABLE [dbo].[CMS_Message](
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
 	[LastUpdateDate] [datetime] NULL,
-	[Description] [nvarchar](200) NULL
+	[Description] [nvarchar](200) NULL,
+ CONSTRAINT [PK_CMS_Message] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -321,7 +389,11 @@ CREATE TABLE [dbo].[CMS_Page](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_CMS_Page] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -342,7 +414,11 @@ CREATE TABLE [dbo].[CMS_Redirection](
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
 	[LastUpdateDate] [datetime] NULL,
-	[IsPattern] [bit] NULL
+	[IsPattern] [bit] NULL,
+ CONSTRAINT [PK_CMS_Redirection] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -362,7 +438,11 @@ CREATE TABLE [dbo].[CMS_Rule](
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
 	[LastUpdateDate] [datetime] NULL,
-	[RuleItems] [nvarchar](max) NULL
+	[RuleItems] [nvarchar](max) NULL,
+ CONSTRAINT [PK_CMS_Rule] PRIMARY KEY CLUSTERED 
+(
+	[RuleID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -383,7 +463,11 @@ CREATE TABLE [dbo].[CMS_Theme](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_CMS_Theme] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -416,7 +500,11 @@ CREATE TABLE [dbo].[CMS_WidgetBase](
 	[Thumbnail] [nvarchar](200) NULL,
 	[IsSystem] [bit] NULL,
 	[ExtendData] [nvarchar](max) NULL,
-	[RuleID] [int] NULL
+	[RuleID] [int] NULL,
+ CONSTRAINT [PK_CMS_WidgetBase] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -437,7 +525,11 @@ CREATE TABLE [dbo].[CMS_Zone](
 	[LastUpdateDate] [datetime] NULL,
 	[Description] [nvarchar](max) NULL,
 	[Status] [int] NULL,
-	[HeadingCode] [nvarchar](100) NULL
+	[HeadingCode] [nvarchar](100) NULL,
+ CONSTRAINT [PK_CMS_Zone] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -461,7 +553,11 @@ CREATE TABLE [dbo].[Comments](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_Comments] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -480,7 +576,11 @@ CREATE TABLE [dbo].[Currency](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -498,7 +598,11 @@ CREATE TABLE [dbo].[DataArchived](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_DataArchived] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -522,7 +626,11 @@ CREATE TABLE [dbo].[DataDictionary](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_DataDictionary] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -534,7 +642,11 @@ CREATE TABLE [dbo].[DBVersion](
 	[Major] [int] NULL,
 	[Minor] [int] NULL,
 	[Revision] [int] NULL,
-	[Build] [int] NULL
+	[Build] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -554,7 +666,11 @@ CREATE TABLE [dbo].[ExtendField](
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
 	[LastUpdateDate] [datetime] NULL,
-	[Description] [nvarchar](255) NULL
+	[Description] [nvarchar](255) NULL,
+ CONSTRAINT [PK_ExtendField] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -572,7 +688,11 @@ CREATE TABLE [dbo].[FluidContentGroup](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -591,7 +711,11 @@ CREATE TABLE [dbo].[FluidContentTemplate](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_FluidContentTemplate] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -612,7 +736,11 @@ CREATE TABLE [dbo].[FluidContentType](
 	[LastUpdateDate] [datetime] NULL,
 	[GroupID] [int] NULL,
 	[RoleID] [int] NULL,
-	[Icon] [nvarchar](100) NULL
+	[Icon] [nvarchar](100) NULL,
+ CONSTRAINT [PK_FluidContentType] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -637,7 +765,11 @@ CREATE TABLE [dbo].[FluidContentValue](
 	[Url] [nvarchar](200) NULL,
 	[SEOTitle] [nvarchar](200) NULL,
 	[SEOKeyWord] [nvarchar](200) NULL,
-	[SEODescription] [nvarchar](200) NULL
+	[SEODescription] [nvarchar](200) NULL,
+ CONSTRAINT [PK_FluidContentValue] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -655,7 +787,11 @@ CREATE TABLE [dbo].[FormData](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_FormData_1] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -674,7 +810,11 @@ CREATE TABLE [dbo].[FormDataItem](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_FormData] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -693,7 +833,11 @@ CREATE TABLE [dbo].[Forms](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_Forms] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -702,7 +846,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[HtmlWidget](
 	[ID] [nvarchar](100) NOT NULL,
-	[HTML] [nvarchar](max) NULL
+	[HTML] [nvarchar](max) NULL,
+ CONSTRAINT [PK_HtmlWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -717,7 +865,11 @@ CREATE TABLE [dbo].[ImageWidget](
 	[AltText] [nvarchar](255) NULL,
 	[Link] [nvarchar](255) NULL,
 	[ImageUrlMd] [nvarchar](225) NULL,
-	[ImageUrlSm] [nvarchar](225) NULL
+	[ImageUrlSm] [nvarchar](225) NULL,
+ CONSTRAINT [PK_ImageWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -729,7 +881,12 @@ CREATE TABLE [dbo].[Language](
 	[CultureName] [nvarchar](10) NOT NULL,
 	[LanValue] [nvarchar](max) NULL,
 	[Module] [nvarchar](50) NULL,
-	[LanType] [nvarchar](50) NULL
+	[LanType] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Language] PRIMARY KEY CLUSTERED 
+(
+	[LanKey] ASC,
+	[CultureName] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -751,7 +908,11 @@ CREATE TABLE [dbo].[Navigation](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_Navigation] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -766,7 +927,11 @@ CREATE TABLE [dbo].[NavigationWidget](
 	[AlignClass] [nvarchar](50) NULL,
 	[IsTopFix] [bit] NULL,
 	[RootID] [nvarchar](100) NULL,
-	[ShowBasket] [bit] NULL
+	[ShowBasket] [bit] NULL,
+ CONSTRAINT [PK_NavigationWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -803,7 +968,11 @@ CREATE TABLE [dbo].[Order](
 	[ShippingOption] [int] NULL,
 	[SubTotal] [money] NULL,
 	[Tax] [money] NULL,
-	[Shipping] [money] NULL
+	[Shipping] [money] NULL,
+ CONSTRAINT [PK_Order] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -828,7 +997,11 @@ CREATE TABLE [dbo].[OrderItem](
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
 	[LastUpdateDate] [datetime] NULL,
-	[BasketID] [int] NULL
+	[BasketID] [int] NULL,
+ CONSTRAINT [PK_OrderItem] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -850,7 +1023,11 @@ CREATE TABLE [dbo].[PageView](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_PageView] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -869,7 +1046,12 @@ CREATE TABLE [dbo].[Permission](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK__Permission_PermissionKey_RoleId] PRIMARY KEY CLUSTERED 
+(
+	[PermissionKey] ASC,
+	[RoleId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -881,7 +1063,11 @@ CREATE TABLE [dbo].[PersistKey](
 	[XML] [nvarchar](max) NULL,
 	[CreationDate] [datetime] NULL,
 	[ActivationDate] [datetime] NULL,
-	[ExpirationDate] [datetime] NULL
+	[ExpirationDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -920,7 +1106,11 @@ CREATE TABLE [dbo].[Product](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_Product] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -942,7 +1132,11 @@ CREATE TABLE [dbo].[ProductCategory](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_ProductCategory] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -961,7 +1155,11 @@ CREATE TABLE [dbo].[ProductCategoryTag](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_ProductCategoryTag] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -971,7 +1169,11 @@ GO
 CREATE TABLE [dbo].[ProductCategoryWidget](
 	[ID] [nvarchar](100) NOT NULL,
 	[ProductCategoryID] [int] NULL,
-	[TargetPage] [nvarchar](255) NULL
+	[TargetPage] [nvarchar](255) NULL,
+ CONSTRAINT [PK_ProductCategoryWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -980,7 +1182,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ProductDetailWidget](
 	[ID] [nvarchar](100) NOT NULL,
-	[CustomerClass] [nvarchar](255) NULL
+	[CustomerClass] [nvarchar](255) NULL,
+ CONSTRAINT [PK_ProductDetailWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -998,7 +1204,11 @@ CREATE TABLE [dbo].[ProductGallery](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1017,7 +1227,11 @@ CREATE TABLE [dbo].[ProductImage](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_ProductImage] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1030,7 +1244,11 @@ CREATE TABLE [dbo].[ProductListWidget](
 	[ProductCategoryID] [int] NULL,
 	[DetailPageUrl] [nvarchar](255) NULL,
 	[Columns] [nvarchar](255) NULL,
-	[PageSize] [int] NULL
+	[PageSize] [int] NULL,
+ CONSTRAINT [PK_ProductListWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1041,7 +1259,11 @@ CREATE TABLE [dbo].[ProductTag](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[ProductId] [int] NULL,
 	[TagId] [int] NULL,
-	[Title] [nvarchar](50) NULL
+	[Title] [nvarchar](50) NULL,
+ CONSTRAINT [PK_ProductTag] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1058,7 +1280,11 @@ CREATE TABLE [dbo].[Roles](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1067,7 +1293,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ScriptWidget](
 	[ID] [nvarchar](100) NOT NULL,
-	[Script] [nvarchar](max) NULL
+	[Script] [nvarchar](max) NULL,
+ CONSTRAINT [PK_ScriptWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1085,7 +1315,11 @@ CREATE TABLE [dbo].[SectionContent](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_SectionContent] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1096,7 +1330,11 @@ CREATE TABLE [dbo].[SectionContentCallToAction](
 	[ID] [nvarchar](100) NOT NULL,
 	[SectionWidgetId] [nvarchar](100) NOT NULL,
 	[InnerText] [nvarchar](255) NULL,
-	[Href] [nvarchar](255) NULL
+	[Href] [nvarchar](255) NULL,
+ CONSTRAINT [PK_SectionContentCallToAction] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1111,7 +1349,11 @@ CREATE TABLE [dbo].[SectionContentImage](
 	[ImageTitle] [nvarchar](255) NULL,
 	[Href] [nvarchar](255) NULL,
 	[Width] [int] NULL,
-	[Height] [int] NULL
+	[Height] [int] NULL,
+ CONSTRAINT [PK_SectionContentImage] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1121,7 +1363,11 @@ GO
 CREATE TABLE [dbo].[SectionContentParagraph](
 	[ID] [nvarchar](100) NOT NULL,
 	[SectionWidgetId] [nvarchar](100) NOT NULL,
-	[HtmlContent] [nvarchar](max) NULL
+	[HtmlContent] [nvarchar](max) NULL,
+ CONSTRAINT [PK_SectionContentParagraph] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1133,7 +1379,11 @@ CREATE TABLE [dbo].[SectionContentTitle](
 	[SectionWidgetId] [nvarchar](100) NOT NULL,
 	[InnerText] [nvarchar](255) NULL,
 	[Href] [nvarchar](255) NULL,
-	[TitleLevel] [nvarchar](10) NULL
+	[TitleLevel] [nvarchar](10) NULL,
+ CONSTRAINT [PK_SectionContentTitle] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1148,7 +1398,11 @@ CREATE TABLE [dbo].[SectionContentVideo](
 	[Width] [int] NULL,
 	[Height] [int] NULL,
 	[Url] [nvarchar](256) NULL,
-	[Code] [nvarchar](max) NULL
+	[Code] [nvarchar](max) NULL,
+ CONSTRAINT [PK_SectionContentVideo] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1167,7 +1421,11 @@ CREATE TABLE [dbo].[SectionGroup](
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
 	[LastUpdateDate] [datetime] NULL,
-	[PercentWidth] [nvarchar](100) NULL
+	[PercentWidth] [nvarchar](100) NULL,
+ CONSTRAINT [PK_SectionGroup] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1186,7 +1444,11 @@ CREATE TABLE [dbo].[SectionTemplate](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_SectionTemplate] PRIMARY KEY CLUSTERED 
+(
+	[TemplateName] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1196,7 +1458,11 @@ GO
 CREATE TABLE [dbo].[SectionWidget](
 	[ID] [nvarchar](100) NOT NULL,
 	[SectionTitle] [nvarchar](255) NULL,
-	[IsHorizontal] [bit] NULL
+	[IsHorizontal] [bit] NULL,
+ CONSTRAINT [PK_SectionWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1217,7 +1483,11 @@ CREATE TABLE [dbo].[ShippingOption](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1226,7 +1496,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[StyleSheetWidget](
 	[ID] [nvarchar](100) NOT NULL,
-	[StyleSheet] [nvarchar](max) NULL
+	[StyleSheet] [nvarchar](max) NULL,
+ CONSTRAINT [PK_StyleSheetWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1247,7 +1521,11 @@ CREATE TABLE [dbo].[Subscription](
 	[CreateDate] [datetime] NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime] NULL
+	[LastUpdateDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1257,7 +1535,11 @@ GO
 CREATE TABLE [dbo].[UserRoleRelation](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[RoleID] [int] NULL,
-	[UserID] [nvarchar](50) NULL
+	[UserID] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1301,7 +1583,11 @@ CREATE TABLE [dbo].[Users](
 	[Status] [int] NULL,
 	[Description] [nvarchar](500) NULL,
 	[ResetToken] [nvarchar](50) NULL,
-	[ResetTokenDate] [datetime] NULL
+	[ResetTokenDate] [datetime] NULL,
+ CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[UserID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1313,448 +1599,12 @@ CREATE TABLE [dbo].[VideoWidget](
 	[Width] [int] NULL,
 	[Height] [int] NULL,
 	[Url] [nvarchar](255) NULL,
-	[Code] [nvarchar](500) NULL
+	[Code] [nvarchar](500) NULL,
+ CONSTRAINT [PK_VideoWidget] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[ApplicationSetting] ADD  CONSTRAINT [PK_ApplicationSetting] PRIMARY KEY CLUSTERED 
-(
-	[SettingKey] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[Article] ADD  CONSTRAINT [PK_Article] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[ArticleDetailWidget] ADD  CONSTRAINT [PK_ArticleDetailWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[ArticleGallery] ADD PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[ArticleListWidget] ADD  CONSTRAINT [PK_ArticleListWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[ArticleSummaryWidget] ADD  CONSTRAINT [PK_ArticleSummaryWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[ArticleTopWidget] ADD  CONSTRAINT [PK_ArticleTopWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[ArticleType] ADD  CONSTRAINT [PK_ArticleType] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[ArticleTypeWidget] ADD  CONSTRAINT [PK_ArticleTypeWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[Basket] ADD  CONSTRAINT [PK_Basket] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[Carousel] ADD  CONSTRAINT [PK_Carousel] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[CarouselItem] ADD  CONSTRAINT [PK_CarouselItem] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[CarouselWidget] ADD  CONSTRAINT [PK_CarouselWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[CMS_Layout] ADD  CONSTRAINT [PK_CMS_Layout] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[CMS_LayoutHtml] ADD  CONSTRAINT [PK_CMS_LayoutHtml] PRIMARY KEY CLUSTERED 
-(
-	[LayoutHtmlId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[CMS_Media] ADD  CONSTRAINT [PK_CMS_Media] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[CMS_Message] ADD  CONSTRAINT [PK_CMS_Message] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[CMS_Page] ADD  CONSTRAINT [PK_CMS_Page] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[CMS_Redirection] ADD  CONSTRAINT [PK_CMS_Redirection] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[CMS_Rule] ADD  CONSTRAINT [PK_CMS_Rule] PRIMARY KEY CLUSTERED 
-(
-	[RuleID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[CMS_Theme] ADD  CONSTRAINT [PK_CMS_Theme] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[CMS_WidgetBase] ADD  CONSTRAINT [PK_CMS_WidgetBase] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[CMS_Zone] ADD  CONSTRAINT [PK_CMS_Zone] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[Comments] ADD  CONSTRAINT [PK_Comments] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[Currency] ADD PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[DataArchived] ADD  CONSTRAINT [PK_DataArchived] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[DataDictionary] ADD  CONSTRAINT [PK_DataDictionary] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[DBVersion] ADD PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[ExtendField] ADD  CONSTRAINT [PK_ExtendField] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[FluidContentGroup] ADD PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[FluidContentTemplate] ADD  CONSTRAINT [PK_FluidContentTemplate] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[FluidContentType] ADD  CONSTRAINT [PK_FluidContentType] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[FluidContentValue] ADD  CONSTRAINT [PK_FluidContentValue] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[FormData] ADD  CONSTRAINT [PK_FormData_1] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[FormDataItem] ADD  CONSTRAINT [PK_FormData] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[Forms] ADD  CONSTRAINT [PK_Forms] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[HtmlWidget] ADD  CONSTRAINT [PK_HtmlWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[ImageWidget] ADD  CONSTRAINT [PK_ImageWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[Language] ADD  CONSTRAINT [PK_Language] PRIMARY KEY CLUSTERED 
-(
-	[LanKey] ASC,
-	[CultureName] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[Navigation] ADD  CONSTRAINT [PK_Navigation] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[NavigationWidget] ADD  CONSTRAINT [PK_NavigationWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[Order] ADD  CONSTRAINT [PK_Order] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[OrderItem] ADD  CONSTRAINT [PK_OrderItem] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[PageView] ADD  CONSTRAINT [PK_PageView] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[Permission] ADD  CONSTRAINT [PK__Permission_PermissionKey_RoleId] PRIMARY KEY CLUSTERED 
-(
-	[PermissionKey] ASC,
-	[RoleId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[PersistKey] ADD PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [PK_Product] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[ProductCategory] ADD  CONSTRAINT [PK_ProductCategory] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[ProductCategoryTag] ADD  CONSTRAINT [PK_ProductCategoryTag] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[ProductCategoryWidget] ADD  CONSTRAINT [PK_ProductCategoryWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[ProductDetailWidget] ADD  CONSTRAINT [PK_ProductDetailWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[ProductGallery] ADD PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[ProductImage] ADD  CONSTRAINT [PK_ProductImage] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[ProductListWidget] ADD  CONSTRAINT [PK_ProductListWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[ProductTag] ADD  CONSTRAINT [PK_ProductTag] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[Roles] ADD PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[ScriptWidget] ADD  CONSTRAINT [PK_ScriptWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[SectionContent] ADD  CONSTRAINT [PK_SectionContent] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[SectionContentCallToAction] ADD  CONSTRAINT [PK_SectionContentCallToAction] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[SectionContentImage] ADD  CONSTRAINT [PK_SectionContentImage] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[SectionContentParagraph] ADD  CONSTRAINT [PK_SectionContentParagraph] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[SectionContentTitle] ADD  CONSTRAINT [PK_SectionContentTitle] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[SectionContentVideo] ADD  CONSTRAINT [PK_SectionContentVideo] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[SectionGroup] ADD  CONSTRAINT [PK_SectionGroup] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[SectionTemplate] ADD  CONSTRAINT [PK_SectionTemplate] PRIMARY KEY CLUSTERED 
-(
-	[TemplateName] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[SectionWidget] ADD  CONSTRAINT [PK_SectionWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[ShippingOption] ADD PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[StyleSheetWidget] ADD  CONSTRAINT [PK_StyleSheetWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[Subscription] ADD PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[UserRoleRelation] ADD PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
-(
-	[UserID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-GO
-SET ANSI_PADDING ON
-GO
-ALTER TABLE [dbo].[VideoWidget] ADD  CONSTRAINT [PK_VideoWidget] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 INSERT [dbo].[ApplicationSetting] ([SettingKey], [Value], [Title], [Description], [Status], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'Animation_Widget_FadeInUp', N'false', NULL, NULL, 1, NULL, NULL, CAST(N'2022-07-29T20:42:10.083' AS DateTime), NULL, NULL, CAST(N'2022-07-29T20:42:10.083' AS DateTime))
 INSERT [dbo].[ApplicationSetting] ([SettingKey], [Value], [Title], [Description], [Status], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'EnableCustomerAccount', N'true', NULL, NULL, 1, NULL, NULL, CAST(N'2022-07-29T20:42:31.003' AS DateTime), NULL, NULL, CAST(N'2022-07-29T20:42:31.003' AS DateTime))
@@ -2520,7 +2370,7 @@ INSERT [dbo].[DataDictionary] ([ID], [DicName], [Title], [DicValue], [Order], [P
 SET IDENTITY_INSERT [dbo].[DataDictionary] OFF
 SET IDENTITY_INSERT [dbo].[DBVersion] ON 
 
-INSERT [dbo].[DBVersion] ([ID], [Major], [Minor], [Revision], [Build]) VALUES (1, 3, 5, 5, 0)
+INSERT [dbo].[DBVersion] ([ID], [Major], [Minor], [Revision], [Build]) VALUES (1, 3, 6, 0, 0)
 SET IDENTITY_INSERT [dbo].[DBVersion] OFF
 INSERT [dbo].[Forms] ([ID], [Title], [FieldsData], [NotificationReceiver], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'5ed56d90ac154e73befa6fbc981ae3ae', N'问卷调查', N'[{"ID":"f05da60a6e3b448fadbf7c5c040a7d5c","Name":"Label","DisplayName":"一个简单的问卷调查","Value":null,"Description":"欢迎您使用ZKEACMS，这是一个自定义表单","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null},{"ID":"41481e6eefa048feae380460b0cd5661","Name":"SingleLine","DisplayName":"姓名","Value":null,"Description":"","Placeholder":"","IsRequired":true,"Size":4,"Column":"col-md-6","FieldOptions":null,"AdditionalSettings":null},{"ID":"bfd1418684a64890a7099f764baa24b3","Name":"Number","DisplayName":"电话","Value":null,"Description":"","Placeholder":"","IsRequired":true,"Size":4,"Column":"col-md-6","FieldOptions":null,"AdditionalSettings":null},{"ID":"7e635c8fdd124b6b94f037d3bf112bc0","Name":"Email","DisplayName":"邮箱地址","Value":null,"Description":"","Placeholder":"","IsRequired":true,"Size":4,"Column":"col-md-4","FieldOptions":null,"AdditionalSettings":null},{"ID":"4d61bb5f733c47778975cc6cfbc84123","Name":"SingleLine","DisplayName":"QQ","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-4","FieldOptions":null,"AdditionalSettings":null},{"ID":"b85aeb9beaf64f509726f16ba582ec3c","Name":"SingleLine","DisplayName":"微信","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-4","FieldOptions":null,"AdditionalSettings":null},{"ID":"a2aea72c496e4a458265f7ceadb3653a","Name":"Address","DisplayName":"省份地址","Value":null,"Description":"","Placeholder":null,"IsRequired":true,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null},{"ID":"0932ca1f1f7f4af098d51e4b1ac18b94","Name":"SingleLine","DisplayName":"详细地址","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null},{"ID":"572c61930769464d97f3d31771ecf65e","Name":"Radio","DisplayName":"您从哪里了解到ZKEACMS","Value":null,"Description":"","Placeholder":null,"IsRequired":true,"Size":4,"Column":"col-md-12","FieldOptions":[{"DisplayText":"搜索引擎","Value":"70a915caf7a84e9086d5dbdf26ed3053"},{"DisplayText":"博客园","Value":"419a7d1d91974282af5c26688fbe0e8c"},{"DisplayText":"朋友介绍","Value":"227f6d2f6b39479aaf2d5b79dbefdc5c"},{"DisplayText":"其它论坛","Value":"ef50fb3bccf74d6487320e53781fb1ec"}],"AdditionalSettings":null},{"ID":"845830a5c8be4b81866a8cef83049899","Name":"Checkbox","DisplayName":"您一般使用ZKEACMS做什么","Value":null,"Description":"","Placeholder":null,"IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":[{"DisplayText":"网站","Value":"5f0fbb9faa0343e0958a896fe3cead4f"},{"DisplayText":"博客","Value":"65902e51d35142019c4aab8badff9e35"},{"DisplayText":"其它","Value":"944343b3ed904b94a9db6950dbdcccf3"}],"AdditionalSettings":null},{"ID":"2fe6e4baf01e4cb897986991c920df56","Name":"Dropdown","DisplayName":"您觉得ZKEACMS怎么样","Value":null,"Description":"","Placeholder":null,"IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":[{"DisplayText":"很不错","Value":"fc3929826e364318b7a3436d991fb097"},{"DisplayText":"还可以","Value":"619e09c2864b41ae81f4f90e7cab92ba"},{"DisplayText":"有待提高","Value":"fd1279a07150490f9a1f69c85298e22c"},{"DisplayText":"不怎么样","Value":"ef19983754504a9482232dd6be01f34d"}],"AdditionalSettings":null},{"ID":"2868de2d8e9b4d269da891342e6dc95b","Name":"Paragraph","DisplayName":"您的意见或建议","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null}]', NULL, NULL, N'', NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:07:58.013' AS DateTime))
 INSERT [dbo].[HtmlWidget] ([ID], [HTML]) VALUES (N'062018a8e5cf48b4a0d90296e7f4e965', N'<hr />')
@@ -6037,108 +5887,108 @@ INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ZoneEntity@Title', N'zh-CN', N'标题', N'ZoneEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ZoneEntity@ZoneName', N'zh-CN', N'ZoneName', N'ZoneEntity', N'EntityProperty')
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'ZoneID', N'zh-CN', N'区域', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'中等屏幕', N'zh-CN', N'MD Screen', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'主题管理', N'en-GB', N'Theme', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'主题管理', N'en-US', N'Theme', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'安全退出', N'en-GB', N'Sign out', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'安全退出', N'en-US', N'Sign out', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'保存修改', N'en-GB', N'Save', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'保存修改', N'en-US', N'Save', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'产品展示', N'en-GB', N'Product', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'产品展示', N'en-US', N'Product', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'登录', N'en-GB', N'Sign In', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'登录', N'en-US', N'Sign In', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'登录邮箱不能为空', N'en-GB', N'Please input your email address', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'登录邮箱不能为空', N'en-US', N'Please input your email address', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'分隔符', N'en-GB', N'Separator', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'分隔符', N'en-US', N'Separator', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'工具栏', N'en-GB', N'Toolbar', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'工具栏', N'en-US', N'Toolbar', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'间距', N'en-GB', N'Gap', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'间距', N'en-US', N'Gap', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'巨幕', N'en-GB', N'Jumbotron', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'巨幕', N'en-US', N'Jumbotron', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'密码不能为空', N'en-GB', N'Please input your password', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'密码不能为空', N'en-US', N'Please input your password', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'密码的长度应小于20', N'en-GB', N'The length of the password should be less than 20', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'密码的长度应小于20', N'en-US', N'The length of the password should be less than 20', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'模板代码', N'en-GB', N'Code', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'模板代码', N'en-US', N'Code', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'配置保存成功，但清空缓存时发生异常，请重试！', N'zh-CN', N'配置保存成功，但清空缓存时发生异常，请重试！', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'配置通知邮箱', N'en-GB', N'Notification', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'配置通知邮箱', N'en-US', N'Notification', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'请确认密码', N'en-GB', N'Please confirm your password', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'请确认密码', N'en-US', N'Please confirm your password', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'全局内容', N'en-GB', N'Layer', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'全局内容', N'en-US', N'Layer', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'商业授权', N'en-GB', N'Commercial', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'商业授权', N'en-US', N'Commercial', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'使用QQ登录', N'en-GB', N'Sign in with QQ', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'使用QQ登录', N'en-US', N'Sign in with QQ', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'使用帮助', N'en-GB', N'Help', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'使用帮助', N'en-US', N'Help', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'使用微博登录', N'en-GB', N'Sign in with weibo', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'使用微博登录', N'en-US', N'Sign in with weibo', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'保存修改', N'en-GB', N'Save', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'保存修改', N'en-US', N'Save', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'全局内容', N'en-GB', N'Layer', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'全局内容', N'en-US', N'Layer', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'分隔符', N'en-GB', N'Separator', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'分隔符', N'en-US', N'Separator', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'商业授权', N'en-GB', N'Commercial', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'商业授权', N'en-US', N'Commercial', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例三', N'en-GB', N'Image Caption', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例三', N'en-US', N'Image Caption', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例三（圆）', N'en-GB', N'Image Caption', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例三（圆）', N'en-US', N'Image Caption', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入的邮件格式不正确', N'en-GB', N'The email you entered is not formatted correctly', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入的邮件格式不正确', N'en-US', N'The email you entered is not formatted correctly', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入的邮箱格式不正确', N'en-GB', N'The email you entered is not formatted correctly', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入的邮箱格式不正确', N'en-US', N'The email you entered is not formatted correctly', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入您的密码', N'en-GB', N'Enter your password', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入您的密码', N'en-US', N'Enter your password', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入您注册时使用的邮箱地址', N'en-GB', N'Enter your email address', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入您注册时使用的邮箱地址', N'en-US', N'Enter your email address', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'说明文档', N'en-GB', N'Document', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'说明文档', N'en-US', N'Document', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例二', N'en-GB', N'Image Caption', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例二', N'en-US', N'Image Caption', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例二（圆）', N'en-GB', N'Image Caption', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例二（圆）', N'en-US', N'Image Caption', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例三', N'en-GB', N'Image Caption', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例三', N'en-US', N'Image Caption', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例三（圆）', N'en-GB', N'Image Caption', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图例三（圆）', N'en-US', N'Image Caption', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片右', N'en-GB', N'Image Right', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片右', N'en-US', N'Image Right', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片右（圆）', N'en-GB', N'Image Right', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片右（圆）', N'en-US', N'Image Right', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片左', N'en-GB', N'Image Left', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片左', N'en-US', N'Image Left', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片左（圆）', N'en-GB', N'Image Left', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片左（圆）', N'en-US', N'Image Left', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片左（平分）', N'en-GB', N'Image Left', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片左（平分）', N'en-US', N'Image Left', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片左（圆）', N'en-GB', N'Image Left', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'图片左（圆）', N'en-US', N'Image Left', NULL, NULL)
+GO
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'退出登录', N'en-GB', N'Sign Out', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'退出登录', N'en-US', N'Sign Out', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'文字二列', N'en-GB', N'Tow Column Text', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'文字二列', N'en-US', N'Tow Column Text', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'文字三列', N'en-GB', N'Three Column Text', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'文字三列', N'en-US', N'Three Column Text', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'姓名不能为空', N'en-GB', N'Username is required', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'姓名不能为空', N'en-US', N'Username is required', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'姓名的长度应小于50', N'en-GB', N'The length of the name should be less than 50', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'姓名的长度应小于50', N'en-US', N'The length of the name should be less than 50', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'字段名', N'en-GB', N'Display Name', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'字段名', N'en-US', N'Display Name', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'安全退出', N'en-GB', N'Sign out', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'安全退出', N'en-US', N'Sign out', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'密码不能为空', N'en-GB', N'Please input your password', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'密码不能为空', N'en-US', N'Please input your password', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'密码的长度应小于20', N'en-GB', N'The length of the password should be less than 20', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'密码的长度应小于20', N'en-US', N'The length of the password should be less than 20', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'须要处理', N'zh-CN', N'须要处理', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'选择类别，进行手动排序', N'en-GB', N'Click category to sort the products', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'选择类别，进行手动排序', N'en-US', N'Click category to sort the products', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'选中产品类别，创建标签', N'en-GB', N'Click product category then add tag', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'选中产品类别，创建标签', N'en-US', N'Click product category then add tag', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'页头', N'en-GB', N'Header', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'页头', N'en-US', N'Header', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'用户名', N'en-GB', N'User Name', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'用户名', N'en-US', N'User Name', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'邮箱的长度应小于200', N'en-GB', N'The length of the email should be less than 200', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'邮箱的长度应小于200', N'en-US', N'The length of the email should be less than 200', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'中等屏幕', N'zh-CN', N'MD Screen', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'主题管理', N'en-GB', N'Theme', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'主题管理', N'en-US', N'Theme', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'属性', N'en-GB', N'Property', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'属性', N'en-US', N'Property', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'属性', N'zh-CN', N'属性', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'工具栏', N'en-GB', N'Toolbar', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'工具栏', N'en-US', N'Toolbar', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'巨幕', N'en-GB', N'Jumbotron', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'巨幕', N'en-US', N'Jumbotron', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'文字三列', N'en-GB', N'Three Column Text', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'文字三列', N'en-US', N'Three Column Text', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'文字二列', N'en-GB', N'Tow Column Text', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'文字二列', N'en-US', N'Tow Column Text', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'模板代码', N'en-GB', N'Code', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'模板代码', N'en-US', N'Code', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'用户名', N'en-GB', N'User Name', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'用户名', N'en-US', N'User Name', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'登录', N'en-GB', N'Sign In', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'登录', N'en-US', N'Sign In', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'登录邮箱不能为空', N'en-GB', N'Please input your email address', NULL, NULL)
-GO
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'登录邮箱不能为空', N'en-US', N'Please input your email address', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'组件不能正确地显示在页面中，可能是因为您删除了原先的区域', N'zh-CN', N'组件不能正确地显示在页面中，可能是因为您删除了原先的区域', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'字段名', N'en-GB', N'Display Name', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'字段名', N'en-US', N'Display Name', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'自定义样式', N'en-GB', N'Style', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'自定义样式', N'en-US', N'Style', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'自适应', N'en-GB', N'Fluid', NULL, NULL)
 INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'自适应', N'en-US', N'Fluid', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'说明文档', N'en-GB', N'Document', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'说明文档', N'en-US', N'Document', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'请确认密码', N'en-GB', N'Please confirm your password', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'请确认密码', N'en-US', N'Please confirm your password', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入您注册时使用的邮箱地址', N'en-GB', N'Enter your email address', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入您注册时使用的邮箱地址', N'en-US', N'Enter your email address', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入您的密码', N'en-GB', N'Enter your password', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入您的密码', N'en-US', N'Enter your password', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入的邮件格式不正确', N'en-GB', N'The email you entered is not formatted correctly', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入的邮件格式不正确', N'en-US', N'The email you entered is not formatted correctly', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入的邮箱格式不正确', N'en-GB', N'The email you entered is not formatted correctly', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'输入的邮箱格式不正确', N'en-US', N'The email you entered is not formatted correctly', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'退出登录', N'en-GB', N'Sign Out', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'退出登录', N'en-US', N'Sign Out', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'选中产品类别，创建标签', N'en-GB', N'Click product category then add tag', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'选中产品类别，创建标签', N'en-US', N'Click product category then add tag', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'选择类别，进行手动排序', N'en-GB', N'Click category to sort the products', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'选择类别，进行手动排序', N'en-US', N'Click category to sort the products', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'邮箱的长度应小于200', N'en-GB', N'The length of the email should be less than 200', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'邮箱的长度应小于200', N'en-US', N'The length of the email should be less than 200', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'配置保存成功，但清空缓存时发生异常，请重试！', N'zh-CN', N'配置保存成功，但清空缓存时发生异常，请重试！', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'配置通知邮箱', N'en-GB', N'Notification', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'配置通知邮箱', N'en-US', N'Notification', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'间距', N'en-GB', N'Gap', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'间距', N'en-US', N'Gap', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'页头', N'en-GB', N'Header', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'页头', N'en-US', N'Header', NULL, NULL)
-INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'须要处理', N'zh-CN', N'须要处理', NULL, NULL)
+INSERT [dbo].[Language] ([LanKey], [CultureName], [LanValue], [Module], [LanType]) VALUES (N'组件不能正确地显示在页面中，可能是因为您删除了原先的区域', N'zh-CN', N'组件不能正确地显示在页面中，可能是因为您删除了原先的区域', NULL, NULL)
 INSERT [dbo].[Navigation] ([ID], [ParentId], [Url], [Title], [IsMobile], [Html], [Description], [Status], [DisplayOrder], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'1061019b1bcd4bf3aeb3df647c74c309', N'#', N'~/product', N'产品', 1, NULL, NULL, 1, 3, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T23:33:03.653' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:05:28.830' AS DateTime))
 INSERT [dbo].[Navigation] ([ID], [ParentId], [Url], [Title], [IsMobile], [Html], [Description], [Status], [DisplayOrder], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'6beb1a2a54b947179ec20dd331e375a2', N'#', N'~/index', N'首页', 0, NULL, NULL, 1, 1, N'admin', NULL, CAST(N'2015-09-01T09:55:20.483' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:05:28.820' AS DateTime))
 INSERT [dbo].[Navigation] ([ID], [ParentId], [Url], [Title], [IsMobile], [Html], [Description], [Status], [DisplayOrder], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'7b5bb24dea6d47618ed027190b4e5d94', N'#', N'~/contact', N'联系我们', 0, NULL, NULL, 1, 5, N'admin', N'ZKEASOFT', CAST(N'2017-03-19T21:06:21.360' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:05:28.833' AS DateTime))
@@ -6448,12 +6298,28 @@ INSERT [dbo].[SectionGroup] ([ID], [GroupName], [SectionWidgetId], [PartialView]
 INSERT [dbo].[SectionGroup] ([ID], [GroupName], [SectionWidgetId], [PartialView], [Order], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [PercentWidth]) VALUES (N'80cb176412cf457a81ae7a1f9fa33ef6', N'组1', N'7f77f09c3fcd4d498a4aa3b1c9508d7d', N'SectionTemplate.Default', 1, N'admin', N'ZKEASOFT', CAST(N'2017-10-15T17:03:17.247' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T17:03:17.247' AS DateTime), N'')
 INSERT [dbo].[SectionGroup] ([ID], [GroupName], [SectionWidgetId], [PartialView], [Order], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [PercentWidth]) VALUES (N'9', N'左', N'b568ff7f4a894870adaf9afadf787bf9', N'SectionTemplate.Default', 1, NULL, NULL, NULL, NULL, NULL, NULL, N'col-sm-6')
 INSERT [dbo].[SectionGroup] ([ID], [GroupName], [SectionWidgetId], [PartialView], [Order], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [PercentWidth]) VALUES (N'9ce2c15af93c4fd782e17a1e7e35963f', N'组1', N'7e7a1d5b8d644333a7b3341509fc960f', N'SectionTemplate.Default', 1, N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:11:36.780' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:11:36.780' AS DateTime), N'')
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.Banner', N'横幅广告', N'Thumbnail\SectionTemplate.Banner.png', N'Thumbnail\SectionTemplate.Banner.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.Brand', N'品牌', N'Thumbnail\SectionTemplate.Brand.png', N'Thumbnail\SectionTemplate.Brand.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.CalendarEvent', N'日历事件', N'Thumbnail\SectionTemplate.CalendarEvent.png', N'Thumbnail\SectionTemplate.CalendarEvent.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
 INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.Column', N'左右', N'Thumbnail\SectionTemplate.Column.png', N'Thumbnail\SectionTemplate.Column.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
 INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.Default', N'默认', N'Thumbnail\SectionTemplate.Default.png', N'Thumbnail\SectionTemplate.Default.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.GreyBox', N'背景灰', N'Thumbnail\SectionTemplate.GreyBox.png', N'Thumbnail\SectionTemplate.GreyBox.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.ImageBox', N'图片框', N'Thumbnail\SectionTemplate.ImageBox.png', N'Thumbnail\SectionTemplate.ImageBox.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.ImageGreyBox', N'图片框', N'Thumbnail\SectionTemplate.ImageGreyBox.png', N'Thumbnail\SectionTemplate.ImageGreyBox.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
 INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.ImageRight', N'图片右', N'Thumbnail\SectionTemplate.ImageRight.png', N'Thumbnail\SectionTemplate.ImageRight.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.JCarousel', N'滚动图', N'Thumbnail\SectionTemplate.JCarousel.png', N'Thumbnail\SectionTemplate.JCarousel.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.LeftThreeIcon', N'左三图标', N'Thumbnail\SectionTemplate.LeftThreeIcon.png', N'Thumbnail\SectionTemplate.LeftThreeIcon.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.LifeStyle', N'生活格调', N'Thumbnail\SectionTemplate.LifeStyle.png', N'Thumbnail\SectionTemplate.LifeStyle.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
 INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.LinkGroup', N'链接组', N'Thumbnail\SectionTemplate.LinkGroup.png', N'Thumbnail\SectionTemplate.LinkGroup.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
 INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.ListGroup', N'列表组', N'Thumbnail\SectionTemplate.ListGroup.png', N'Thumbnail\SectionTemplate.ListGroup.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
 INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.ListView', N'媒体列表', N'Thumbnail\SectionTemplate.ListView.png', N'Thumbnail\SectionTemplate.ListView.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.Portfolio', N'品牌案例', N'Thumbnail\SectionTemplate.Portfolio.png', N'Thumbnail\SectionTemplate.Portfolio.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.ProductHero', N'产品页头', N'Thumbnail\SectionTemplate.ProductHero.png', N'Thumbnail\SectionTemplate.ProductHero.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.Quote', N'引用', N'Thumbnail\SectionTemplate.Quote.png', N'Thumbnail\SectionTemplate.Quote.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.RightThreeIcon', N'右三图标', N'Thumbnail\SectionTemplate.RightThreeIcon.png', N'Thumbnail\SectionTemplate.RightThreeIcon.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.SalePrice', N'销售报价', N'Thumbnail\SectionTemplate.SalePrice.png', N'Thumbnail\SectionTemplate.SalePrice.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.ShortcutNav', N'快捷导航', N'Thumbnail\SectionTemplate.ShortcutNav.png', N'Thumbnail\SectionTemplate.ShortcutNav.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.Tab', N'标签页', N'Thumbnail\SectionTemplate.Tab.png', N'Thumbnail\SectionTemplate.Tab.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
 INSERT [dbo].[SectionTemplate] ([TemplateName], [Title], [Thumbnail], [ExampleData], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'SectionTemplate.Thumbnail', N'缩略图', N'Thumbnail\SectionTemplate.Thumbnail.png', N'Thumbnail\SectionTemplate.Thumbnail.xml', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
 INSERT [dbo].[SectionWidget] ([ID], [SectionTitle], [IsHorizontal]) VALUES (N'00f62c5acfe840e0bee3ca2979f0f025', NULL, NULL)
 INSERT [dbo].[SectionWidget] ([ID], [SectionTitle], [IsHorizontal]) VALUES (N'0f66ab8ff0df44e2b5e57fd8d8c5d8ff', NULL, NULL)

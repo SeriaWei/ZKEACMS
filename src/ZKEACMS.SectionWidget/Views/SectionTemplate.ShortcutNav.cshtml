@@ -1,0 +1,27 @@
+﻿@model SectionGroup
+@{
+
+}
+@using (Style.AtFoot())
+{
+    <link href="http://cdn.zkeasoft.com/BuilderDemo/Shortcut-Nav/shortcut-nav.min.css" rel="stylesheet" />
+}
+<div class="shortcut-nav">
+    @{
+        Html.RenderContent(Model.SectionTitle);
+        Html.RenderContent(Model.Paragraph);
+    }
+    <ul>
+        @foreach (var item in Model.SectionImages)
+        {
+            <li>
+                <a href="@Url.Content(item.Href??"~/")">
+                    <figure>
+                        <img src="@Url.Content(item.ImageSrc??"http://www.zkea.net/Content/Images/logo_min.png")" alt="@item.ImageAlt" />
+                    </figure>
+                    @item.ImageTitle
+                </a>
+            </li>
+        }
+    </ul>
+</div>

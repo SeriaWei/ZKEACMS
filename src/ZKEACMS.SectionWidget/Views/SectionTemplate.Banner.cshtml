@@ -1,0 +1,22 @@
+﻿@model SectionGroup
+@using (Style.AtHead())
+{
+    <link href="http://cdn.zkeasoft.com/BuilderDemo/banner/banners.min.css" rel="stylesheet" />
+}
+<div class="section section-banner">
+        <div class="banner-parallel">
+            <ul>
+                @foreach (var item in Model.SectionImages)
+                {
+                    <li>
+                        <a class="banner" href="@Url.PathContent(item.Href)" target="_self" style="background-image: url(@Url.PathContent(item.ImageSrc));">
+                            <div class="banner-title">
+                                <h4>@item.ImageTitle</h4>
+                            </div>
+                        </a>
+                    </li>
+                }
+            </ul>
+
+        </div>    
+</div>

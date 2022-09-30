@@ -1,6 +1,21 @@
 ﻿@model SectionGroup
-
-<div class="section-group-grey-box text-center" style="background-color: #f4f4f4; padding: 35px;">
+@using (Style.AtHead())
+{
+    <style>
+        .section-group-sale-price {
+            border-top: 10px solid #dab4b4;
+            background: #fafafa;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        .section-group-sale-price h3 {
+            background-color: #fff;
+            margin: 0;
+            padding: 20px 0;
+        }
+    </style>
+}
+<div class="section-group-sale-price text-center">
     @foreach (SectionContent content in Model.SectionContents.OrderBy(m => m.Order))
     {
         if (content.SectionContentType == (int)SectionContentBase.Types.CallToAction || content.SectionContentType == (int)SectionContentBase.Types.Image)

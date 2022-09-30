@@ -1,0 +1,23 @@
+﻿@model SectionGroup
+@{
+    if (Model.Paragraphs.Count() < 2)
+    {
+        return;
+    }
+}
+<div class="section-group-calendar-event">
+    <div class="container-fluid">
+        <div class="row">
+            <hr />
+        </div>
+        <div class="row">
+            <div class="col-xs-2 col-sm-2 col-md-1 bg-primary text-center">
+                @Html.Raw(Model.Paragraph.HtmlContent)
+            </div>
+            <div class="col-xs-10 col-sm-10 col-md-11">
+                @Html.Raw(Model.Paragraphs.ToArray()[1].HtmlContent)
+            </div>
+        </div>
+    </div>
+</div>
+
