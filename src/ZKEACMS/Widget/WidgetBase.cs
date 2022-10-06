@@ -13,6 +13,7 @@ using ZKEACMS.Common.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Easy;
+using Newtonsoft.Json;
 
 namespace ZKEACMS.Widget
 {
@@ -40,7 +41,7 @@ namespace ZKEACMS.Widget
         public virtual string ExtendData { get; set; }
         public virtual string StyleClass { get; set; }
         private string _customClass;
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public string CustomClass
         {
             get
@@ -54,7 +55,7 @@ namespace ZKEACMS.Widget
             }
         }
         private string _customStyle;
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public string CustomStyle
         {
             get
@@ -67,9 +68,9 @@ namespace ZKEACMS.Widget
                 return _customStyle;
             }
         }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public string DataSourceLink { get; set; }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public string DataSourceLinkTitle { get; set; }
         private void InitStyleClass()
         {

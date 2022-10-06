@@ -33,5 +33,10 @@ namespace ZKEACMS.Common.Service
             item.TabItems = item.TabItems.RemoveDeletedItems().ToList();
             return base.Update(item);
         }
+
+        protected override IEnumerable<string> GetFilesInWidget(TabWidget widget)
+        {
+            return base.GetFilesInWidget(widget);
+        }
     }
 }

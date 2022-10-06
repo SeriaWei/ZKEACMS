@@ -93,39 +93,47 @@ namespace ZKEACMS.Theme
         }
         public override ServiceResult<ThemeEntity> Add(ThemeEntity item)
         {
-            _cache.Clear();
+            ClearCache();
             return base.Add(item);
         }
         public override ServiceResult<ThemeEntity> Update(ThemeEntity item)
         {
-            _cache.Clear();
+            ClearCache();
             return base.Update(item);
         }
         public ThemeEntity GetCurrentTheme()
         {
-            var id = _cookie.GetValue<string>(PreViewCookieName);
-            ThemeEntity theme = null;
-            if (id.IsNotNullAndWhiteSpace() && (_httpContextAccessor.HttpContext.User?.Identity.IsAuthenticated ?? false))
+            ThemeEntity theme = GetPreviewTheme();
+            if (theme != null) return theme;
+
+            theme = _cache.GetOrAdd(CurrentThemeCacheKey, key =>
             {
-                theme = Get(id);
-                if (theme != null)
+                ThemeEntity entry = Get(m => m.IsActived == true && m.Status == (int)RecordStatus.Active).FirstOrDefault();
+                if (entry == null)
                 {
-                    theme.IsPreView = true;
-                    theme.UrlDebugger = VersionSource(theme.UrlDebugger);
-                    theme.Url = VersionSource(theme.Url);
+                    _logger.LogError("No available theme were found!");
+                    entry = Get(m => m.Status == (int)RecordStatus.Active).FirstOrDefault();
+                    entry.IsActived = true;
+                    Update(entry);
                 }
-            }
-            if (theme == null)
-            {
-                theme = _cache.GetOrAdd(CurrentThemeCacheKey, key =>
-                {
-                    ThemeEntity entry = Get(m => m.IsActived == true).FirstOrDefault();
-                    entry.UrlDebugger = VersionSource(entry.UrlDebugger);
-                    entry.Url = VersionSource(entry.Url);
-                    return entry;
-                }) as ThemeEntity;
-            }
-            if (theme is null) throw new Exception("No available theme were found!");
+                entry.UrlDebugger = VersionSource(entry.UrlDebugger);
+                entry.Url = VersionSource(entry.Url);
+                return entry;
+            }) as ThemeEntity;
+            return theme;
+        }
+
+        private ThemeEntity GetPreviewTheme()
+        {
+            var id = _cookie.GetValue<string>(PreViewCookieName);
+            if (id.IsNullOrEmpty() || !(_httpContextAccessor.HttpContext.User?.Identity.IsAuthenticated ?? false)) return null;
+
+            var theme = Get(id);
+            if (theme == null) return null;
+
+            theme.IsPreView = true;
+            theme.UrlDebugger = VersionSource(theme.UrlDebugger);
+            theme.Url = VersionSource(theme.Url);
             return theme;
         }
 
@@ -137,8 +145,13 @@ namespace ZKEACMS.Theme
 
         public void ChangeTheme(string id)
         {
+            if (id is null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
             ThemeEntity currentTheme = GetCurrentTheme();
-            if (id.IsNullOrEmpty() || currentTheme.ID == id)
+            if (currentTheme.ID == id)
             {
                 return;
             }
@@ -177,18 +190,20 @@ namespace ZKEACMS.Theme
 
             }
 
-            var activeTheme = Get(m => m.ID != id && m.IsActived);
-            activeTheme.Each(m => m.IsActived = false);
-            UpdateRange(activeTheme.ToArray());
-
-            theme.IsActived = true;
-            Update(theme);
+            BeginTransaction(() =>
+            {
+                var activeTheme = Get(m => m.ID != id && m.IsActived);
+                activeTheme.Each(m => m.IsActived = false);
+                UpdateRange(activeTheme.ToArray());
+                theme.IsActived = true;
+                Update(theme);
+            });
         }
 
         private void ExecuteSql(string themeName, int type, DbConnection dbConnection, DbTransaction dbTransaction)
         {
             string folder = type == 1 ? "uninstall" : "install";
-            string path = _hostingEnvironment.MapWebRootPath(_themeName, themeName, _sqlName, folder);
+            string path = _hostingEnvironment.MapPath(_themeName, themeName, _sqlName, folder);
             var files = ExtFile.GetFiles(path, _sql);
             if (files != null && files.Length > 0)
             {
@@ -263,6 +278,11 @@ namespace ZKEACMS.Theme
                     _versionMap.TryUpdate(map.Source, newValue, oldValue);
                 }
             }
+        }
+        private void ClearCache()
+        {
+            _cache.Clear();
+            _cacheMgr.Clear();
         }
     }
 }

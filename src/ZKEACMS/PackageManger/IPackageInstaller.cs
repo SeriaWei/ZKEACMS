@@ -13,7 +13,7 @@ namespace ZKEACMS.PackageManger
     {
         string PackageInstaller { get; }
         object Install(Package package);
-        object Install(string packageContent);
+        Type GetPackageType();
         Package Pack(object obj);
     }
 }

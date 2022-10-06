@@ -21,6 +21,7 @@ using Easy.RepositoryPattern;
 using ZKEACMS.Common.Service;
 using Microsoft.AspNetCore.Razor.Hosting;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
+using ZKEACMS.PackageManger;
 
 namespace ZKEACMS.SectionWidget.Service
 {
@@ -29,7 +30,7 @@ namespace ZKEACMS.SectionWidget.Service
         private readonly ISectionGroupService _sectionGroupService;
         private readonly ISectionContentProviderService _sectionContentProviderService;
         private readonly ISectionTemplateService _sectionTemplateService;
-        private readonly string[] packFiles = new[] { "Views/{0}.cshtml", "Thumbnail/{0}.png", "Thumbnail/{0}.xml" };
+
 
         public SectionWidgetService(IWidgetBasePartService widgetService, ISectionGroupService sectionGroupService,
             ISectionContentProviderService sectionContentProviderService, ISectionTemplateService sectionTemplateService,
@@ -39,7 +40,7 @@ namespace ZKEACMS.SectionWidget.Service
             _sectionGroupService = sectionGroupService;
             _sectionContentProviderService = sectionContentProviderService;
             _sectionTemplateService = sectionTemplateService;
-        }    
+        }
 
         public override WidgetBase GetWidget(WidgetBase widget)
         {
@@ -104,86 +105,66 @@ namespace ZKEACMS.SectionWidget.Service
             }
             return result;
         }
-        public override WidgetPackage PackWidget(WidgetBase widget)
+        protected override IEnumerable<string> GetFilesInWidget(Models.SectionWidget widget)
         {
-            var package = base.PackWidget(widget);
-            var sectionWidget = package.Widget as Models.SectionWidget;
-            var pluginRootPath = PluginBase.GetPath<SectionPlug>();
-            var cmsApplicationContext = ApplicationContext as CMSApplicationContext;
-            var rootPath = cmsApplicationContext.MapPath("~/");
-
-            sectionWidget.Groups.Each(g =>
+            foreach (var group in widget.Groups)
             {
-                sectionWidget.Template = _sectionTemplateService.Get(g.PartialView);
-                packFiles.Each(f =>
+                foreach (var item in group.SectionImages)
                 {
-
-                    string file = cmsApplicationContext.MapPath(Path.Combine(pluginRootPath, f).FormatWith(sectionWidget.Template.TemplateName));
-                    if (File.Exists(file))
+                    yield return item.ImageSrc;
+                }
+                foreach (var item in group.Videos)
+                {
+                    yield return item.Thumbnail;
+                }
+                foreach (var item in group.Paragraphs)
+                {
+                    foreach (var img in ParseHtmlImageUrls(item.HtmlContent))
                     {
-                        FileInfo fileInfo = new FileInfo(file);
-                        package.Files.Add(new PackageManger.FileInfo
-                        {
-                            FileName = fileInfo.Name,
-                            FilePath = "~/" + f.FormatWith(sectionWidget.Template.TemplateName),
-                            Content = File.ReadAllBytes(file)
-                        });
+                        yield return img;
                     }
-                });
-
-            });
-            return package;
+                }
+                var template = _sectionTemplateService.Get(group.PartialView);
+                widget.Template = template;
+                foreach (var item in GetTemplateFiles(template))
+                {
+                    yield return item;
+                }
+            }
         }
         public override void InstallWidget(WidgetPackage pack)
         {
-            var pluginRootPath = PluginBase.GetPath<SectionPlug>();
-            var templates = GetAvailableTemplates();
-            foreach (var file in pack.Files)
-            {
-                if (templates.Contains(file.FileName)) continue;
+            var widget = JsonConvert.DeserializeObject<Models.SectionWidget>(JObject.Parse(pack.ToString()).GetValue("Widget").ToString(), new SectionContentJsonConverter());
 
-                var pathArray = file.FilePath.Replace("\\", "/").Split('/');
-                file.FilePath = Path.Combine(pluginRootPath, pathArray[pathArray.Length - 2], pathArray[pathArray.Length - 1]);
-
-                var directory = Path.GetDirectoryName(file.FilePath);
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-                File.WriteAllBytes(file.FilePath, file.Content);
-                
-                TemplateService.EnsureHasViewImports(file.FilePath, "@using ZKEACMS.SectionWidget", "@using ZKEACMS.SectionWidget.Models", "@using ZKEACMS.SectionWidget.Service");
-            }
-            pack.Widget = null;
-            var widget = JsonConvert.DeserializeObject<Models.SectionWidget>(JObject.Parse(pack.Content.ToString()).GetValue("Widget").ToString(), new SectionContentJsonConverter());
             if (_sectionTemplateService.Count(m => m.TemplateName == widget.Template.TemplateName) == 0)
             {
                 _sectionTemplateService.Add(widget.Template);
             }
+            else
+            {
+                var templateFiles = GetTemplateFiles(widget.Template);
+                pack.Files = pack.Files.Where(m => !templateFiles.Contains(m.FilePath)).ToList();
+            }
+            var filePackageInstaller = new FilePackageInstaller(ApplicationContext.HostingEnvironment);
+            filePackageInstaller.AddtionalUsing = new string[] { "@using ZKEACMS.SectionWidget", "@using ZKEACMS.SectionWidget.Models", "@using ZKEACMS.SectionWidget.Service" };
+            filePackageInstaller.Install(pack);
+
             widget.PageId = null;
             widget.LayoutId = null;
             widget.ZoneId = null;
             widget.IsSystem = false;
             widget.IsTemplate = true;
             widget.Description = "Install";
-            if (!widget.Thumbnail.StartsWith("http://", StringComparison.OrdinalIgnoreCase) && !widget.Thumbnail.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-            {
-                widget.Thumbnail = Helper.Url.Combine(Loader.PluginFolder, new DirectoryInfo(pluginRootPath).Name, "Thumbnail", Path.GetFileName(widget.Thumbnail));
-            }
             AddWidget(widget);
         }
 
-        private HashSet<string> GetAvailableTemplates()
+        private HashSet<string> GetTemplateFiles(SectionTemplate template)
         {
-            HashSet<string> templates = new HashSet<string>();
-            var attributes = new RazorCompiledItemLoader().LoadItems(this.GetType().Assembly);
-            foreach (var item in attributes)
-            {
-                var descriptor = new CompiledViewDescriptor(item);
-                string name = Path.GetFileName(descriptor.RelativePath);
-                templates.Add(name);
-            }
-            return templates;
+            HashSet<string> result = new HashSet<string>();
+            result.Add($"~/Plugins/ZKEACMS.SectionWidget/Views/{template.TemplateName}.cshtml".FormatWith(template.TemplateName));
+            result.Add($"~/Plugins/ZKEACMS.SectionWidget/{string.Join('/', template.Thumbnail.ToWebPath())}");
+            result.Add($"~/Plugins/ZKEACMS.SectionWidget/{string.Join('/', template.ExampleData.ToWebPath())}");
+            return result;
         }
     }
 }

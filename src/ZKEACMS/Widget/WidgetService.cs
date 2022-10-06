@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Event;
 using ZKEACMS.Page;
+using ZKEACMS.PackageManger;
+using AngleSharp;
 
 namespace ZKEACMS.Widget
 {
@@ -241,25 +243,86 @@ namespace ZKEACMS.Widget
         #region PackWidget
         public virtual WidgetPackage PackWidget(WidgetBase widget)
         {
-            widget = GetWidget(widget);
             widget.PageId = null;
             widget.LayoutId = null;
             widget.ZoneId = null;
             widget.IsSystem = false;
             widget.IsTemplate = true;
-            return new WidgetPackageInstaller(ApplicationContext.HostingEnvironment).Pack(widget) as WidgetPackage;
+            WidgetPackage package = new WidgetPackage(WidgetPackageInstaller.InstallerName);
+            package.Widget = widget;
+            HashSet<string> images = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            images.Add(widget.Thumbnail);
+            AddFileToPackage(package, widget.Thumbnail);
+            foreach (var item in GetFilesInWidget((T)widget))
+            {
+                if (item.IsNullOrWhiteSpace()) continue;
+                if (images.Contains(item)) continue;
+
+                images.Add(item);
+                AddFileToPackage(package, item);
+            }
+            return package;
+        }
+
+        protected virtual IEnumerable<string> GetFilesInWidget(T widget)
+        {
+            return Enumerable.Empty<string>();
+        }
+
+        private void AddFileToPackage(WidgetPackage package, string filePath)
+        {
+            if (!IsLocalFile(filePath)) return;
+
+            string physicalPath = ApplicationContext.HostingEnvironment.MapPath(filePath);
+            System.IO.FileInfo fileInfo = new System.IO.FileInfo(physicalPath);
+            if (!fileInfo.Exists) return;
+
+            package.Files.Add(new PackageManger.FileInfo
+            {
+                FilePath = filePath,
+                FileName = fileInfo.Name,
+                Content = fileInfo.ReadAllBytes()
+            });
+        }
+
+        private static bool IsLocalFile(string filePath)
+        {
+            return filePath.IsNotNullAndWhiteSpace() && (filePath.StartsWith("~/") || filePath.StartsWith("/"));
         }
 
         public virtual void InstallWidget(WidgetPackage pack)
         {
-            var widget = new WidgetPackageInstaller(ApplicationContext.HostingEnvironment).Install(pack);
+            var widget = pack.Widget;
             if (widget != null)
             {
-                (widget as WidgetBase).Description = "Install";
-                AddWidget(widget as WidgetBase);
+                new FilePackageInstaller(ApplicationContext.HostingEnvironment).Install(pack);
+                widget.Description = "Install";
+                AddWidget(widget);
             }
-
         }
         #endregion
+
+        protected HashSet<string> ParseHtmlImageUrls(string html)
+        {
+            HashSet<string> result = new HashSet<string>();
+            if (html.IsNullOrWhiteSpace()) return result;
+
+            using (var context = BrowsingContext.New(Configuration.Default))
+            {
+                using (var doc = context.OpenAsync(request => request.Content(html)).Result)
+                {
+                    var allImages = doc.QuerySelectorAll("img");
+                    foreach (var item in allImages)
+                    {
+                        var src = item.GetAttribute("src");
+                        if (src.IsNullOrWhiteSpace()) continue;
+                        
+                        result.Add(src);
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 }

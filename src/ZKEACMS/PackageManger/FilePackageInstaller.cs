@@ -17,9 +17,11 @@ namespace ZKEACMS.PackageManger
 {
     public class FilePackageInstaller : IPackageInstaller
     {
+        private HashSet<string> _additionalFiles;
         public FilePackageInstaller(IWebHostEnvironment hostingEnvironment)
         {
             HostingEnvironment = hostingEnvironment;
+            _additionalFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         }
         public IWebHostEnvironment HostingEnvironment;
         public virtual string PackageInstaller
@@ -29,87 +31,83 @@ namespace ZKEACMS.PackageManger
                 return "FilePackageInstaller";
             }
         }
+        public string[] AddtionalUsing { get; set; }
         public virtual string MapPath(string path)
         {
-            if (HostingEnvironment.IsProduction())
-            {
-                return Path.Combine(HostingEnvironment.WebRootPath, path.Replace("~/", "").ToFilePath());
-            }
-            else
-            {
-                string[] pathArry = path.Replace("~/", "").Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
-                if (pathArry.Length > 0 && pathArry[0] == Easy.Mvc.Plugin.Loader.PluginFolder)
-                {
-                    return Path.Combine(new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent.FullName, Path.Combine(pathArry.Skip(1).ToArray()));
-                }
-                else
-                {
-                    return Path.Combine(HostingEnvironment.WebRootPath, path.Replace("~/", "").ToFilePath());
-                }
-            }
+            return HostingEnvironment.MapPath(path);
         }
         public virtual object Install(Package package)
         {
             var filePackage = package as FilePackage;
-            if (filePackage != null)
+            if (filePackage is null) throw new Exception("The package is not FilePackage!");
+
+            if (filePackage.Files != null)
             {
-                if (filePackage.Files != null)
+                filePackage.Files.ForEach(file =>
                 {
-                    filePackage.Files.ForEach(file =>
+                    string filePath = MapPath(file.FilePath);
+                    var directory = Path.GetDirectoryName(filePath);
+                    if (!Directory.Exists(directory))
                     {
-                        string filePath = MapPath(file.FilePath);
-                        var directory = Path.GetDirectoryName(filePath);
-                        if (!Directory.Exists(directory))
-                        {
-                            Directory.CreateDirectory(directory);
-                        }
-                        File.WriteAllBytes(filePath, file.Content);
-                        TemplateService.EnsureHasViewImports(filePath);
-                    });
-                }
+                        Directory.CreateDirectory(directory);
+                    }
+                    File.WriteAllBytes(filePath, file.Content);
+                    TemplateService.EnsureHasViewImports(filePath, AddtionalUsing);
+                });
             }
+
             return package;
         }
 
         public virtual Package Pack(object obj)
         {
-            FilePackage package = CreatePackage();
-            var directory = obj as DirectoryInfo;
-            if (directory != null)
+            FilePackage package = NewPackageOnPacking();
+            IncludeAdditionalFilesToPackage(package);
+            return package;
+        }
+        protected void IncludeAdditionalFilesToPackage(FilePackage package)
+        {
+            foreach (var item in _additionalFiles)
             {
-                CollectFiles(directory, package);
-            }
-            else
-            {
-                var files = obj as IEnumerable<System.IO.FileInfo>;
-                if (files != null)
+                System.IO.FileInfo fileInfo = new System.IO.FileInfo(MapPath(item));
+                if (fileInfo.Exists)
                 {
-                    files.Each(file =>
+                    package.Files.Add(new FileInfo
                     {
-                        package.Files.Add(new FileInfo { FileName = file.Name, FilePath = file.FullName.Replace(MapPath("~/"), "~/"), Content = File.ReadAllBytes(file.FullName) });
+                        FilePath = item,
+                        FileName = fileInfo.Name,
+                        Content = fileInfo.ReadAllBytes()
                     });
                 }
             }
-            return package;
         }
-        public virtual FilePackage CreatePackage()
+        public void IncludeFile(string relativeFilePath)
+        {
+            _additionalFiles.Add(relativeFilePath);
+        }
+        public void IncludeFilesInFolder(string relativePath)
+        {
+            DirectoryInfo folder = new DirectoryInfo(MapPath(relativePath));
+            if (folder.Exists)
+            {
+                foreach (var item in folder.GetFiles())
+                {
+                    _additionalFiles.Add(relativePath + "/" + item.Name);
+                }
+                foreach (var item in folder.GetDirectories())
+                {
+                    IncludeFilesInFolder(relativePath + "/" + item.Name);
+                }
+            }
+        }
+        public virtual FilePackage NewPackageOnPacking()
         {
             return new FilePackage(PackageInstaller);
         }
-        public void CollectFiles(DirectoryInfo directory, FilePackage package)
-        {
-            directory.GetDirectories().Each(dir => CollectFiles(dir, package));
-            directory.GetFiles().Each(file =>
-            {
-                package.Files.Add(new FileInfo { FileName = file.Name, FilePath = file.FullName.Replace(MapPath("~/"), "~/"), Content = File.ReadAllBytes(file.FullName) });
-            });
-        }
 
-        public object Install(string packageContent)
+        public virtual Type GetPackageType()
         {
-            Package package = JsonConverter.Deserialize(packageContent, CreatePackage().GetType()) as Package;
-            package.Content = packageContent;
-            return Install(package);
+            return typeof(FilePackage);
         }
     }
 }

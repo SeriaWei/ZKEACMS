@@ -12,6 +12,6 @@ namespace ZKEACMS.PackageManger
     public interface IPackageInstallerProvider
     {
         IPackageInstaller CreateInstaller(string packageInstaller);
-        IPackageInstaller CreateInstaller<T>(Stream stream,out T package) where T : Package;
+        IPackageInstaller CreateInstaller(Stream stream, out Package package);
     }
 }

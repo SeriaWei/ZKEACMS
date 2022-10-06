@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Easy.Serializer;
 using Microsoft.AspNetCore.Hosting;
 using ZKEACMS.PackageManger;
 
@@ -14,6 +15,7 @@ namespace ZKEACMS.Theme
 {
     public class ThemePackageInstaller : FilePackageInstaller
     {
+        public const string InstallerName = "ThemePackageInstaller";
         private const string ThemePath = "~/themes";
         private readonly IThemeService _themeService;
 
@@ -26,31 +28,16 @@ namespace ZKEACMS.Theme
         {
             get
             {
-                return "ThemePackageInstaller";
+                return InstallerName;
             }
-        }
-        private string ResetPath(string path)
-        {
-            return path.Replace("~/Themes", ThemePath);
         }
         public override object Install(Package package)
         {
-            var filePackage = package as FilePackage;
-            if (filePackage != null && filePackage.Files != null)
-            {
-                filePackage.Files.ForEach(file =>
-                {
-                    file.FilePath = ResetPath(file.FilePath);
-                });
-            }
             base.Install(package);
             var themePackage = package as ThemePackage;
             if (themePackage != null)
             {
                 var newTheme = themePackage.Theme;
-                newTheme.Url = ResetPath(newTheme.Url);
-                newTheme.UrlDebugger = ResetPath(newTheme.UrlDebugger);
-                newTheme.Thumbnail = ResetPath(newTheme.Thumbnail);
                 newTheme.IsActived = false;
                 if (_themeService.Count(m => m.ID == newTheme.ID) == 0)
                 {
@@ -71,20 +58,22 @@ namespace ZKEACMS.Theme
         }
         public override Package Pack(object obj)
         {
-            //obj is theme id
-            string path = Path.Combine(MapPath(ThemePath), obj.ToString());
-            if (Directory.Exists(path))
-            {
-                var theme = _themeService.Get(obj.ToString());
-                var package = base.Pack(new DirectoryInfo(path));
-                (package as ThemePackage).Theme = theme;
-                return package;
-            }
-            return null;
+            var theme = _themeService.Get(obj.ToString());
+            IncludeFile(theme.Thumbnail);
+            IncludeFile(theme.UrlDebugger);
+            IncludeFile(theme.Url);
+            IncludeFilesInFolder(ThemePath + '/' + obj.ToString());
+            var package = base.Pack(null);
+            (package as ThemePackage).Theme = theme;
+            return package;
         }
-        public override FilePackage CreatePackage()
+        public override FilePackage NewPackageOnPacking()
         {
             return new ThemePackage(PackageInstaller);
+        }
+        public override Type GetPackageType()
+        {
+            return typeof(ThemePackage);
         }
     }
 }

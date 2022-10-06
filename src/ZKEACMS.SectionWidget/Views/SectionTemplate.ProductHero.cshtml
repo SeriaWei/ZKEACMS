@@ -1,0 +1,51 @@
+﻿@model SectionGroup
+@{
+    var imgLg = Model.SectionImages.FirstOrDefault();
+    var imgMd = Model.SectionImages.Skip(1).Take(1).FirstOrDefault();
+    var imgSm = Model.SectionImages.Skip(2).Take(1).FirstOrDefault();
+    var megaTitle = Model.SectionTitles.Skip(1).Take(1).FirstOrDefault();
+}
+@using (Style.AtHead())
+{
+    <link href="http://cdn.zkeasoft.com/BuilderDemo/Header/header.min.css" rel="stylesheet" />
+}
+
+<section class="section section-header">
+    @if (Model.SectionTitle != null)
+    {
+        <h1 class="mega-title mobile-show">
+            @Model.SectionTitle.InnerText
+        </h1>
+    }
+    @if (imgLg != null)
+    {
+        <img src="@Url.PathContent(imgLg.ImageSrc)" class="visible-md visible-lg" alt="@imgLg.ImageAlt" />
+    }
+    @if (imgMd != null)
+    {
+        <img src="@Url.PathContent(imgMd.ImageSrc)" class="visible-sm" alt="@imgMd.ImageAlt" />
+    }
+    @if (imgSm != null)
+    {
+        <img src="@Url.PathContent(imgSm.ImageSrc)" class="visible-xs" alt="@imgSm.ImageAlt" />
+    }
+
+
+    <div class="header-content">
+        @if (Model.SectionTitle != null)
+        {
+            <h1 class="mega-title">@Model.SectionTitle.InnerText</h1>
+        }
+        <div class="copy-body">
+            <div class="copy-body-inner">
+                @if (megaTitle != null)
+                {
+                    <h3>@megaTitle.InnerText</h3>
+                }
+                @{
+                    Html.RenderContent(Model.Paragraph);
+                }
+            </div>
+        </div>
+    </div>
+</section>

@@ -15,34 +15,44 @@ namespace Easy.Reflection
 {
     public class DeepProperty
     {
+        static Regex _arrayPropertyRegex = new Regex(@"([A-Za-z0-9_]+)\[(\d+)\]", RegexOptions.Compiled);
         public string Name { get; set; }
         public int? Index { get; set; }
-        static int? TrimIndex(ref string property)
+        public static DeepProperty ParseProperty(string property)
         {
-            int? index = null;
-            property = Regex.Replace(property, @"([A-Za-z0-9_]+)\[(\d+)\]?", new MatchEvaluator(match =>
+            var match = _arrayPropertyRegex.Match(property);
+            if (match.Success)
             {
-                index = int.Parse(match.Groups[2].Value);
-                return match.Groups[1].Value;
-            }));
-            return index;
-        }
-        static IEnumerable<DeepProperty> Generate(string descriptor)
-        {
-            var deeps = descriptor.Split('.');
-            foreach (var property in deeps)
+                return new DeepProperty
+                {
+                    Name = match.Groups[1].Value,
+                    Index = int.Parse(match.Groups[2].Value)
+                };
+            }
+            else
             {
-                string p = property;
-                int? index = TrimIndex(ref p);
-                yield return new DeepProperty { Name = p, Index = index };
+                return new DeepProperty { Name = property };
             }
         }
-
-        public static void SetValue(object obj, string propertyDescriptor, object value)
+        public static IEnumerable<DeepProperty> ParseProperties(string descriptor)
         {
-            var typeInfo = obj.GetType().GetTypeInfo();
-            var properties = Generate(propertyDescriptor).ToList();
-            object lastObj = obj;
+            var allProperties = descriptor.Split('.');
+            foreach (var property in allProperties)
+            {
+                yield return ParseProperty(property);
+            }
+        }
+        /// <summary>
+        /// Set value to an object property.
+        /// </summary>
+        /// <param name="targetObj">Target object</param>
+        /// <param name="propertyDescriptor">Property descriptor. Entity.Name, Entity.Images[0].Src</param>
+        /// <param name="value">Value</param>
+        public static void SetValue(object targetObj, string propertyDescriptor, object value)
+        {
+            var target = targetObj;
+            var typeInfo = target.GetType().GetTypeInfo();
+            var properties = ParseProperties(propertyDescriptor).ToList();
             for (int i = 0; i < properties.Count; i++)
             {
                 var item = properties[i];
@@ -51,30 +61,50 @@ namespace Easy.Reflection
                     var pInfo = typeInfo.GetProperty(item.Name);
                     if (item.Index.HasValue)
                     {
-                        obj = pInfo.GetValue(obj);
-                        if (item.Index.HasValue)
+                        target = pInfo.GetValue(target);
+                        int index = 0;
+                        foreach (var objItem in (target as IEnumerable))
                         {
-                            int index = 0;
-                            foreach (var objItem in (obj as IEnumerable))
+                            if (index == item.Index)
                             {
-                                if (index == item.Index)
-                                {
-                                    obj = objItem;
-                                    break;
-                                }
-                                index++;
+                                target = objItem;
+                                break;
+                            }
+                            index++;
+                        }
+                    }
+                    else
+                    {
+                        target = pInfo.GetValue(target);
+                    }
+                    typeInfo = target.GetType().GetTypeInfo();
+                }
+                else
+                {
+                    if (item.Index.HasValue)
+                    {
+                        var property = typeInfo.GetProperty(item.Name);
+                        if (property.GetIndexParameters().Length > 0)
+                        {
+                            property.SetValue(target, value, new object[] { item.Index.Value });
+                        }
+                        else
+                        {
+                            var valueArray = property.GetValue(target);
+                            if (valueArray is Array array)
+                            {
+                                array.SetValue(value, item.Index.Value);
+                            }
+                            else if (valueArray is IList list)
+                            {
+                                list[item.Index.Value] = value;
                             }
                         }
                     }
                     else
                     {
-                        obj = pInfo.GetValue(obj);
+                        typeInfo.GetProperty(item.Name).SetValue(target, value);
                     }
-                    typeInfo = obj.GetType().GetTypeInfo();
-                }
-                else
-                {
-                    typeInfo.GetProperty(item.Name).SetValue(obj, value);
                 }
 
             }

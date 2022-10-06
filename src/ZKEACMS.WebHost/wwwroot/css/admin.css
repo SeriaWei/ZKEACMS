@@ -567,6 +567,10 @@ a.badge:hover {
     text-align: center;
 }
 
+    #media-list .thumbnail > a.img-link.confirm img{
+        background: url(../images/opacity-dotted.png);
+    }
+
     #media-list .thumbnail > a.img-link img {
         max-height: 100%;
         vertical-align: middle;
@@ -772,4 +776,7 @@ a.pack-theme {
 
 .select2-container--default .select2-selection--single {
     border-color: #ccc;
+}
+.opacity-dotted {
+    background: url(../images/opacity-dotted.png);
 }

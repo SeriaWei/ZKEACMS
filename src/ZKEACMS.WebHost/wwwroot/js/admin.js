@@ -199,7 +199,7 @@ $(function () {
                     if (url.indexOf("~") === 0) {
                         url = url.replace("~", location.origin);
                     }
-                    return "<div style='width:244px;'><img src='" + url + "'/></div>";
+                    return '<div style="width:244px;"><img class="opacity-dotted" src="' + url + '"/></div>';
                 }
                 return null;
             },

@@ -1,4 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using Newtonsoft.Json;
 using System;
 
 namespace Easy.Serializer
@@ -7,11 +11,6 @@ namespace Easy.Serializer
     {
         public static string Serialize(object obj)
         {
-            if (obj is null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
-
             return JsonConvert.SerializeObject(obj);
         }
         public static T Deserialize<T>(string json)

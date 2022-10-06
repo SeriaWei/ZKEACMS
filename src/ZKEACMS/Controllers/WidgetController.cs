@@ -25,6 +25,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Easy.Mvc.Extend;
 using Microsoft.Extensions.Options;
+using ZKEACMS.Zone;
 
 namespace ZKEACMS.Controllers
 {
@@ -38,11 +39,16 @@ namespace ZKEACMS.Controllers
         private readonly IWidgetActivator _widgetActivator;
         private readonly IPageService _pageService;
         private readonly ILocalize _localize;
+        private readonly IZoneService _zoneService;
 
-        public WidgetController(IWidgetBasePartService widgetService, IWidgetTemplateService widgetTemplateService,
-            ICookie cookie, IPackageInstallerProvider packageInstallerProvider, IWidgetActivator widgetActivator,
+        public WidgetController(IWidgetBasePartService widgetService,
+            IWidgetTemplateService widgetTemplateService,
+            ICookie cookie,
+            IPackageInstallerProvider packageInstallerProvider,
+            IWidgetActivator widgetActivator,
             IPageService pageService,
-            ILocalize localize)
+            ILocalize localize,
+            IZoneService zoneService)
         {
             _widgetService = widgetService;
             _widgetTemplateService = widgetTemplateService;
@@ -51,6 +57,7 @@ namespace ZKEACMS.Controllers
             _widgetActivator = widgetActivator;
             _pageService = pageService;
             _localize = localize;
+            _zoneService = zoneService;
         }
         private void SetDataSource(WidgetBase widget)
         {
@@ -69,25 +76,49 @@ namespace ZKEACMS.Controllers
         [ViewDataZones]
         public ActionResult Create(QueryContext context)
         {
-            WidgetBase widget = null;
-            IWidgetPartDriver widgetPartDriver = null;
+            ViewBag.ReturnUrl = context.ReturnUrl;
             if (context.WidgetTemplateID.IsNotNullAndWhiteSpace())
             {
-                var template = _widgetTemplateService.Get(context.WidgetTemplateID);
-                widget = template.ToWidget(HttpContext.RequestServices);
+                return CreateWidgetFromTemplate(context);
             }
             else if (context.WidgetID.IsNotNullAndWhiteSpace())
             {
-                var widgetBasePart = _widgetService.Get(context.WidgetID);
-                widgetPartDriver = _widgetActivator.Create(widgetBasePart);
-                widget = widgetPartDriver.GetWidget(widgetBasePart.ToWidgetBase());
-                widget.IsTemplate = false;
-                widget.IsSystem = false;
-                widget.Thumbnail = null;
-                widget.RuleID = null;
+                return CreateWidgetFromExistingWidget(context);
             }
+            return BadRequest();
+        }
+
+        private ActionResult CreateWidgetFromExistingWidget(QueryContext context)
+        {
+            var widgetBasePart = _widgetService.Get(context.WidgetID);
+            IWidgetPartDriver widgetPartDriver = _widgetActivator.Create(widgetBasePart);
+            WidgetBase widget = widgetPartDriver.GetWidget(widgetBasePart.ToWidgetBase());
             if (widget == null) return BadRequest();
 
+            SetDefaultValuesToWidget(context, widget);
+            widget.IsTemplate = false;
+            widget.IsSystem = false;
+            widget.Thumbnail = null;
+            widget.RuleID = null;
+            widgetPartDriver.AddWidget(widget);
+            return RedirectToAction("Edit", new { ID = widget.ID, ReturnUrl = context.ReturnUrl });
+        }
+
+        private ActionResult CreateWidgetFromTemplate(QueryContext context)
+        {
+            var template = _widgetTemplateService.Get(context.WidgetTemplateID);
+            WidgetBase widget = template.ToWidget(HttpContext.RequestServices);
+            if (widget == null) return BadRequest();
+
+            SetDefaultValuesToWidget(context, widget);
+            if (widget.FormView.IsNotNullAndWhiteSpace())
+                return View(widget.FormView, widget);
+
+            return View(widget);
+        }
+
+        private void SetDefaultValuesToWidget(QueryContext context, WidgetBase widget)
+        {
             widget.PageId = context.PageId;
             widget.LayoutId = context.LayoutId;
             widget.ZoneId = context.ZoneId;
@@ -100,19 +131,25 @@ namespace ZKEACMS.Controllers
             {
                 widget.Position = _widgetService.GetByLayoutId(context.LayoutId).Count(m => m.ZoneId == context.ZoneId) + 1;
             }
-            SetDataSource(widget);
-            ViewBag.ReturnUrl = context.ReturnUrl;
-            if (widgetPartDriver != null)
+            if (widget.ZoneId.IsNullOrEmpty())
             {
-                widgetPartDriver.AddWidget(widget);
-                return RedirectToAction("Edit", new { ID = widget.ID, ReturnUrl = context.ReturnUrl });
+                ZoneEntity firstZone = null;
+                if (widget.PageId.IsNotNullAndWhiteSpace())
+                {
+                    firstZone = _zoneService.GetByPage(_pageService.Get(widget.PageId)).FirstOrDefault();
+                }
+                else if (widget.LayoutId.IsNotNullAndWhiteSpace())
+                {
+                    firstZone = _zoneService.GetByLayoutId(widget.LayoutId).FirstOrDefault();
+                }
+                if (firstZone != null)
+                {
+                    widget.ZoneId = firstZone.HeadingCode;
+                }
             }
-
-            if (widget.FormView.IsNotNullAndWhiteSpace())
-                return View(widget.FormView, widget);
-
-            return View(widget);
+            SetDataSource(widget);
         }
+
         [HttpPost, ViewDataZones]
         public ActionResult Create(BasicWidget widget, string ReturnUrl)
         {
@@ -226,6 +263,8 @@ namespace ZKEACMS.Controllers
         public JsonResult CancelTemplate(string Id)
         {
             var widget = _widgetService.Get(Id);
+            if (widget is null) return Json(Id);
+
             if (!widget.IsSystem)
             {
                 widget.IsTemplate = false;
@@ -281,48 +320,36 @@ namespace ZKEACMS.Controllers
         public FileResult Pack(string ID)
         {
             var widget = _widgetService.Get(ID);
-            var widgetPackage = _widgetActivator.Create(widget).PackWidget(widget) as WidgetPackage;
-            return File(widgetPackage.ToFilePackage(), "Application/zip", widgetPackage.Widget.WidgetName + ".widget");
+            var widgetPackage = _packageInstallerProvider.CreateInstaller(WidgetPackageInstaller.InstallerName).Pack(widget) as WidgetPackage;
+            return PackageResult(widgetPackage, widgetPackage.Widget.WidgetName);
         }
         public FileResult PackDictionary(int ID, string[] filePath)
         {
             var dataDictionaryService = HttpContext.RequestServices.GetService<IDataDictionaryService>();
             var dataDictionary = dataDictionaryService.Get(ID);
-            var installer = new DataDictionaryPackageInstaller(HttpContext.RequestServices.GetService<IWebHostEnvironment>(), dataDictionaryService);
-            if (filePath != null && filePath.Any())
+            var installer = _packageInstallerProvider.CreateInstaller(DataDictionaryPackageInstaller.InstallerName) as DataDictionaryPackageInstaller;
+            if (filePath != null)
             {
-                installer.OnPacking = () =>
+                foreach (var item in filePath)
                 {
-                    List<System.IO.FileInfo> files = new List<System.IO.FileInfo>();
-                    foreach (var item in filePath)
-                    {
-                        files.Add(new System.IO.FileInfo(Request.MapPath(item)));
-                    }
-                    return files;
-                };
+                    installer.IncludeFile(item);
+                }
             }
 
-            return File(installer.Pack(dataDictionary).ToFilePackage(), "Application/zip", dataDictionary.Title + ".widget");
+            return PackageResult(installer.Pack(dataDictionary), dataDictionary.Title);
+        }
+        private FileContentResult PackageResult(Package package, string name)
+        {
+            return File(package.ToFilePackage(), "Application/zip", $"{name}.wgt");
         }
         [HttpPost]
         public ActionResult InstallWidgetTemplate(string returnUrl)
         {
             if (Request.Form.Files.Count > 0)
             {
-
                 Package package;
                 var installer = _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
-                if (installer is WidgetPackageInstaller)
-                {
-                    var widgetPackage = JsonConverter.Deserialize<WidgetPackage>(package.Content.ToString());
-                    widgetPackage.Content = package.Content;
-                    _widgetActivator.Create(widgetPackage.Widget).InstallWidget(widgetPackage);
-                }
-                else
-                {
-                    installer.Install(package.Content.ToString());
-                }
-
+                installer.Install(package);
             }
             return Redirect(returnUrl);
         }

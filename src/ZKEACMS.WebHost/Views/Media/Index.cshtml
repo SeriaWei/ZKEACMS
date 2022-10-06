@@ -99,9 +99,9 @@
         @{
             if (Model.Pagin.PageIndex >= 5)
             {
-                <li>
-                    <a>...</a>
-                </li>
+                    <li>
+                        <a>...</a>
+                    </li>
             }
             int start = Model.Pagin.PageIndex - 4;
             int end = Model.Pagin.PageIndex + 4;
@@ -111,15 +111,15 @@
             }
             for (; start < Model.Pagin.AllPage && start <= end; start++)
             {
-                <li class="@(start == Model.Pagin.PageIndex ? "active" : "")">
-                    <a href="@Url.Action(action, new {parentId = Model.ParentID, pageIndex = start})">@(start + 1)</a>
-                </li>
+                    <li class="@(start == Model.Pagin.PageIndex ? "active" : "")">
+                        <a href="@Url.Action(action, new {parentId = Model.ParentID, pageIndex = start})">@(start + 1)</a>
+                    </li>
             }
             if (Model.Pagin.AllPage - Model.Pagin.PageIndex > 5)
             {
-                <li>
-                    <a>...</a>
-                </li>
+                    <li>
+                        <a>...</a>
+                    </li>
             }
         }
 
@@ -325,7 +325,10 @@
                                     }
                                     xhr.upload.onprogress = function (e) {
                                         var persecnt = (e.loaded + start) / fileData.Data.size * 100;
-                                        item.find(".caption").html('<label class="label label-danger">' + Math.round(persecnt) + "%" + '</label>');
+                                        if(persecnt>100){
+                                            persecnt=100;
+                                        }
+                                        item.find(".caption").html('<label class="label label-danger">' + Math.floor(persecnt) + "%" + '</label>');
                                     };
                                     xhr.send(fd);
                                 }

@@ -70,8 +70,8 @@ namespace ZKEACMS.Controllers
         {
             if (_hostingEnvironment.IsDevelopment())
             {
-                var package = _packageInstallerProvider.CreateInstaller("ThemePackageInstaller").Pack(id) as ThemePackage;
-                return File(package.ToFilePackage(), "Application/zip", package.Theme.Title + ".theme");
+                var package = _packageInstallerProvider.CreateInstaller(ThemePackageInstaller.InstallerName).Pack(id) as ThemePackage;
+                return File(package.ToFilePackage(), "Application/zip", package.Theme.Title + ".wgt");
             }
             return NotFound();
         }
@@ -83,7 +83,7 @@ namespace ZKEACMS.Controllers
             {
                 try
                 {
-                    ThemePackage package;
+                    Package package;
                     var installer = _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
                     installer.Install(package);
                 }

@@ -11,6 +11,7 @@ using Easy.Mvc.Extend;
 using Easy.Net;
 using Easy.RepositoryPattern;
 using Easy.Storage;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -170,24 +171,29 @@ namespace ZKEACMS.Controllers
         }
 
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
-        public IActionResult UploadBlob()
+        public IActionResult UploadBlob([FromForm] IFormCollection formData)
         {
-            if (Request.Form.Files.Count > 0)
+            if (formData.Files.Count > 0)
             {
-                string parentId = Service.GetImageFolder().ID;
-                
-                var url = Request.SaveImage();
+                string id;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    formData.Files[0].OpenReadStream().CopyTo(ms);
+                    id = GetMd5Hash(ms.ToArray());
+                }
+                var media = Service.Get(id);
+                if (media != null) return Json(new { location = Url.Content(media.Url) });
 
+                var url = Request.SaveImage();
                 var entity = new MediaEntity
                 {
-                    ID = Path.GetFileNameWithoutExtension(url),
-                    ParentID = parentId,
+                    ID = id,
                     MediaType = (int)MediaType.Image,
                     Title = Path.GetFileName(url),
                     Status = (int)RecordStatus.Active,
                     Url = url
                 };
-                Service.Add(entity);
+                Service.AddMediaToImageFolder(entity);
                 return Json(new { location = Url.Content(entity.Url) });
             }
             return Json(null);
@@ -224,63 +230,63 @@ namespace ZKEACMS.Controllers
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
 
-            string parentId = Service.GetImageFolder().ID;
-            foreach (var item in images)
+            foreach (var imgUrl in images)
             {
-                if (!result.ContainsKey(item))
+                if (result.ContainsKey(imgUrl)) continue;
+
+                string ext = Path.GetExtension(imgUrl);
+                if (!Easy.Mvc.Common.IsImage(ext)) continue;
+
+                try
                 {
-                    string ext = Path.GetExtension(item);
-                    if (!Easy.Mvc.Common.IsImage(ext))
+                    string id = CreateIdByUrl(imgUrl);
+                    var media = Service.Get(id);
+                    if (media != null)
                     {
-                        ext = ".jpg";
+                        result.Add(imgUrl, media.Url);
+                        continue;
                     }
+
+                    Stream requestStream = await _webClient.GetStreamAsync(imgUrl);
                     string fileName = string.Format("{0}{1}", new Easy.IDGenerator().CreateStringId(), ext);
-                    try
+                    string localPath = _storage.SaveFile(requestStream, fileName);
+                    Service.AddMediaToImageFolder(new MediaEntity
                     {
-                        using (MD5 md5hash = MD5.Create())
-                        {
-                            var id = GetMd5Hash(md5hash, item);
-                            var media = Service.Get(id);
-                            if (media != null)
-                            {
-                                result.Add(item, media.Url);
-                            }
-                            else
-                            {
-                                Stream requestStream = await _webClient.GetStreamAsync(item);
-                                string url = _storage.SaveFile(requestStream, fileName);
-                                Service.Add(new MediaEntity
-                                {
-                                    ParentID = parentId,
-                                    Title = fileName,
-                                    Status = (int)RecordStatus.Active,
-                                    Url = url,
-                                    ID = id
-                                });
-                                result.Add(item, url);
-                            }
-                        }
-
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex.Message);
-                    }
-
-
+                        ID = id,
+                        Title = fileName,
+                        Status = (int)RecordStatus.Active,
+                        Url = localPath
+                    });
+                    result.Add(imgUrl, localPath);
                 }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex.Message);
+                }
+
+
+
             }
             return Json(result.Select(m => new KeyValuePair<string, string>(m.Key, Url.Content(m.Value))));
         }
-        string GetMd5Hash(MD5 md5Hash, string input)
+        private string CreateIdByUrl(string url)
         {
-            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-            StringBuilder sBuilder = new StringBuilder();
-            for (int i = 0; i < data.Length; i++)
+
+            return GetMd5Hash(Encoding.UTF8.GetBytes(url));
+
+        }
+        private string GetMd5Hash(byte[] input)
+        {
+            using (MD5 md5Hash = MD5.Create())
             {
-                sBuilder.Append(data[i].ToString("x2"));
+                byte[] data = md5Hash.ComputeHash(input);
+                StringBuilder sBuilder = new StringBuilder();
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sBuilder.Append(data[i].ToString("x2"));
+                }
+                return sBuilder.ToString();
             }
-            return sBuilder.ToString();
         }
 
         public async Task<IActionResult> Proxy(string url)
