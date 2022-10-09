@@ -14,11 +14,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Easy.Storage;
 using System.Threading.Tasks;
-using AngleSharp.Io;
 using Easy.Constant;
 using Easy.Net;
 using System.Security.Cryptography;
 using System.Text;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace ZKEACMS.Media
 {
@@ -237,6 +238,19 @@ namespace ZKEACMS.Media
         {
             string extension = Path.GetExtension(entity.Title).ToLower();
             string fileId = new IDGenerator().CreateStringId();
+
+            //todo: Resize image
+            //if (ImageHelper.IsImage(extension) && entity.Status == (int)RecordStatus.Active)
+            //{
+            //    Image.DetectFormat(fileStream);
+            //    using (Image image = Image.Load(fileStream))
+            //    {
+            //        image.Mutate(x => x.Resize(width, height));
+
+            //        image.Save();
+            //    }
+            //}
+
             entity.Url = await _storage.SaveFileAsync(fileStream, $"{fileId}{extension}");
             return Add(entity);
         }
