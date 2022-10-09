@@ -7,6 +7,7 @@ using Easy.Models;
 using Easy.RepositoryPattern;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 
 namespace ZKEACMS.Media
 {
@@ -19,6 +20,7 @@ namespace ZKEACMS.Media
         public int MediaType { get; set; }
         public string Url { get; set; }
 
+        [NotMapped]
         public string MediaTypeImage
         {
             get { return ((MediaType)MediaType).ToString().ToLower(); }
