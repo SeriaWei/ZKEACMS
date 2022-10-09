@@ -4,13 +4,9 @@
 
 using Easy.Constant;
 using Easy.Extend;
-using Easy.Image;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
-using Easy.Mvc.Extend;
-using Easy.Net;
 using Easy.RepositoryPattern;
-using Easy.Storage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,8 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using ZKEACMS.Common.ViewModels;
 using ZKEACMS.Media;
@@ -30,17 +24,11 @@ namespace ZKEACMS.Controllers
     public class MediaController : BasicController<MediaEntity, string, IMediaService>
     {
         private readonly ILogger _logger;
-        private readonly IWebClient _webClient;
-        private readonly IStorage _storage;
         public MediaController(IMediaService service,
-            ILoggerFactory loggerFactory,
-            IWebClient webClient,
-            IStorage storage)
+            ILoggerFactory loggerFactory)
             : base(service)
         {
             _logger = loggerFactory.CreateLogger<MediaController>();
-            _webClient = webClient;
-            _storage = storage;
         }
         [NonAction]
         public override IActionResult Index()
@@ -117,53 +105,59 @@ namespace ZKEACMS.Controllers
         {
             if (Request.Form.Files.Count > 0)
             {
-                if (folder.IsNotNullAndWhiteSpace())
-                {
-                    var parent = Service.Get(m => m.Title == folder && m.MediaType == (int)MediaType.Folder).FirstOrDefault();
-                    if (parent == null)
-                    {
-                        parent = new MediaEntity
-                        {
-                            Title = folder,
-                            MediaType = (int)MediaType.Folder,
-                            ParentID = "#"
-                        };
-                        Service.Add(parent);
-                    }
-                    parentId = parent.ID;
-                }
-                parentId = parentId ?? "#";
-                string fileName = Path.GetFileName(Request.Form.Files[0].FileName);
+                string pId = GetParentId(parentId, folder);
+                IFormFile formFile = Request.Form.Files[0];
+                string fileName = Path.GetFileName(formFile.FileName);
                 var entity = new MediaEntity
                 {
-                    ParentID = parentId,
+                    ParentID = pId,
                     Title = fileName,
-                    Status = Request.Form.Files[0].Length == size ? (int)RecordStatus.Active : (int)RecordStatus.InActive
+                    Status = formFile.Length == size ? (int)RecordStatus.Active : (int)RecordStatus.InActive
                 };
-                string extension = Path.GetExtension(fileName).ToLower();
-                string fileId = new Easy.IDGenerator().CreateStringId();
-                entity.Url = await _storage.SaveFileAsync(Request.Form.Files[0].OpenReadStream(), $"{fileId}{extension}");
+                await Service.UploadMediaAsync(entity, formFile.OpenReadStream());
+
                 if (entity.Url.IsNotNullAndWhiteSpace())
                 {
-                    Service.Add(entity);
                     entity.Url = Url.Content(entity.Url);
                 }
                 return Json(entity);
             }
             return Json(false);
         }
+
+        private string GetParentId(string parentId, string folder)
+        {
+            if (parentId.IsNotNullAndWhiteSpace()) return parentId;
+
+            if (folder.IsNotNullAndWhiteSpace())
+            {
+                var parent = Service.Get(m => m.Title == folder && m.MediaType == (int)MediaType.Folder).FirstOrDefault();
+                if (parent == null)
+                {
+                    parent = new MediaEntity
+                    {
+                        Title = folder,
+                        MediaType = (int)MediaType.Folder,
+                        ParentID = "#"
+                    };
+                    Service.Add(parent);
+                }
+                return parent.ID;
+            }
+
+            return "#";
+        }
+
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
         public async Task<IActionResult> AppendFile(string id, long position, long size)
         {
-            var media = Service.Get(id);
-            if (media != null && Request.Form.Files.Count > 0)
+            if (Request.Form.Files.Count > 0)
             {
-                if (position + Request.Form.Files[0].Length == size)
-                {
-                    media.Status = (int)RecordStatus.Active;
-                    Service.Update(media);
-                }
-                await _storage.AppendFileAsync(Request.Form.Files[0].OpenReadStream(), media.Url);
+                bool isCompleted = position + Request.Form.Files[0].Length == size;
+
+                var media = (await Service.AppendMediaAsync(id, Request.Form.Files[0].OpenReadStream(), isCompleted))?.Result;
+                if (media == null) return Json(false);
+
                 media.Url = Url.Content(media.Url);
                 return Json(media);
             }
@@ -171,30 +165,16 @@ namespace ZKEACMS.Controllers
         }
 
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
-        public IActionResult UploadBlob([FromForm] IFormCollection formData)
+        public async Task<IActionResult> UploadBlob([FromForm] IFormCollection formData)
         {
             if (formData.Files.Count > 0)
             {
-                string id;
-                using (MemoryStream ms = new MemoryStream())
+                Stream stream = formData.Files[0].OpenReadStream();
+                var media = (await Service.UploadFromBlobImageAsync(stream, formData.Files[0].FileName))?.Result;
+                if (media != null)
                 {
-                    formData.Files[0].OpenReadStream().CopyTo(ms);
-                    id = GetMd5Hash(ms.ToArray());
+                    return Json(new { location = Url.Content(media.Url) });
                 }
-                var media = Service.Get(id);
-                if (media != null) return Json(new { location = Url.Content(media.Url) });
-
-                var url = Request.SaveImage();
-                var entity = new MediaEntity
-                {
-                    ID = id,
-                    MediaType = (int)MediaType.Image,
-                    Title = Path.GetFileName(url),
-                    Status = (int)RecordStatus.Active,
-                    Url = url
-                };
-                Service.AddMediaToImageFolder(entity);
-                return Json(new { location = Url.Content(entity.Url) });
             }
             return Json(null);
         }
@@ -202,27 +182,7 @@ namespace ZKEACMS.Controllers
         [DefaultAuthorize(Policy = PermissionKeys.ManageMedia)]
         public override IActionResult Delete(string ids)
         {
-            DeleteMedia(ids);
             return base.Delete(ids);
-        }
-
-        private void DeleteMedia(string mediaId)
-        {
-            var media = Service.Get(mediaId);
-            if (media != null && media.MediaType != (int)MediaType.Folder)
-            {
-                if (media.Url.StartsWith("http://") || media.Url.StartsWith("https://"))
-                {
-                    media.Url = "~" + new Uri(media.Url).AbsolutePath;
-                }
-
-                _storage.Delete(media.Url);
-            }
-            else
-            {
-                Service.Get(m => m.ParentID == mediaId).Each(m => DeleteMedia(m.ID));
-            }
-            Service.Remove(mediaId);
         }
 
         [HttpPost]
@@ -234,64 +194,25 @@ namespace ZKEACMS.Controllers
             {
                 if (result.ContainsKey(imgUrl)) continue;
 
-                string ext = Path.GetExtension(imgUrl);
-                if (!Easy.Mvc.Common.IsImage(ext)) continue;
-
                 try
                 {
-                    string id = CreateIdByUrl(imgUrl);
-                    var media = Service.Get(id);
-                    if (media != null)
-                    {
-                        result.Add(imgUrl, media.Url);
-                        continue;
-                    }
+                    var media = (await Service.UploadFromExternalImageAsync(imgUrl))?.Result;
+                    if (media == null) continue;
 
-                    Stream requestStream = await _webClient.GetStreamAsync(imgUrl);
-                    string fileName = string.Format("{0}{1}", new Easy.IDGenerator().CreateStringId(), ext);
-                    string localPath = _storage.SaveFile(requestStream, fileName);
-                    Service.AddMediaToImageFolder(new MediaEntity
-                    {
-                        ID = id,
-                        Title = fileName,
-                        Status = (int)RecordStatus.Active,
-                        Url = localPath
-                    });
-                    result.Add(imgUrl, localPath);
+                    result.Add(imgUrl, Url.Content(media.Url));
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex.Message);
                 }
-
-
-
             }
             return Json(result.Select(m => new KeyValuePair<string, string>(m.Key, Url.Content(m.Value))));
         }
-        private string CreateIdByUrl(string url)
-        {
 
-            return GetMd5Hash(Encoding.UTF8.GetBytes(url));
-
-        }
-        private string GetMd5Hash(byte[] input)
-        {
-            using (MD5 md5Hash = MD5.Create())
-            {
-                byte[] data = md5Hash.ComputeHash(input);
-                StringBuilder sBuilder = new StringBuilder();
-                for (int i = 0; i < data.Length; i++)
-                {
-                    sBuilder.Append(data[i].ToString("x2"));
-                }
-                return sBuilder.ToString();
-            }
-        }
 
         public async Task<IActionResult> Proxy(string url)
         {
-            return File(await _webClient.GetStreamAsync(url), "image/jpeg");
+            return File(await Service.GetStreamAsync(url), "image/jpeg");
         }
     }
 }

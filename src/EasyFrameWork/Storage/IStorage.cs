@@ -15,6 +15,7 @@ namespace Easy.Storage
         Task<string> SaveFileAsync(Stream stream, string directory, string fileName);
         void AppendFile(Stream stream, string filePath);
         Task AppendFileAsync(Stream stream, string filePath);
+        Stream GetFile(string filePath);
         void Delete(string filePath);
         void DeleteDirectory(string path);
     }

@@ -20,7 +20,7 @@ tinymce.PluginManager.add('imagelocal', function (editor) {
                             url = url.split("?")[0];
                         }
                         if (url.indexOf("/") != 0 && url.replace("http://", "").replace("https://", "").indexOf(window.location.hostname) != 0) {
-                            if (imageUrls.indexOf(url) <= 0) {
+                            if (imageUrls.indexOf(url) < 0) {
                                 imageUrls.push(url);
                                 imageIndexed[url] = [$(this)];
                             }
