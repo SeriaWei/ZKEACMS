@@ -38,7 +38,11 @@ namespace Easy.Mvc.Extend
                 if (Common.IsImage(ext))
                 {
                     IStorage storage = request.HttpContext.RequestServices.GetService<IStorage>();
-                    return storage.SaveFile(request.Form.Files[0].OpenReadStream(), string.Format("{0}{1}", new Easy.IDGenerator().CreateStringId(), ext));
+                    using (Stream stream = request.Form.Files[0].OpenReadStream())
+                    {
+                        return storage.SaveFile(stream, string.Format("{0}{1}", new Easy.IDGenerator().CreateStringId(), ext));
+                    }
+
                 }
             }
             return string.Empty;
@@ -54,12 +58,14 @@ namespace Easy.Mvc.Extend
             {
                 string fileName = request.Form.Files[0].FileName;
                 string ext = Path.GetExtension(fileName);
-                if (Common.FileCanUp(ext))
-                {
-                    IStorage storage = request.HttpContext.RequestServices.GetService<IStorage>();
-                    return storage.SaveFile(request.Form.Files[0].OpenReadStream(), string.Format("{0}{1}", new Easy.IDGenerator().CreateStringId(), ext));
+                if (Common.IsExecuteableFile(ext)) return string.Empty;
 
+                IStorage storage = request.HttpContext.RequestServices.GetService<IStorage>();
+                using (Stream stream = request.Form.Files[0].OpenReadStream())
+                {
+                    return storage.SaveFile(stream, string.Format("{0}{1}", new Easy.IDGenerator().CreateStringId(), ext));
                 }
+
             }
             return string.Empty;
         }

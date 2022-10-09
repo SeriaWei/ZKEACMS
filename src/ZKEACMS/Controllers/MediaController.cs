@@ -114,8 +114,10 @@ namespace ZKEACMS.Controllers
                     Title = fileName,
                     Status = formFile.Length == size ? (int)RecordStatus.Active : (int)RecordStatus.InActive
                 };
-                await Service.UploadMediaAsync(entity, formFile.OpenReadStream());
-
+                using (Stream stream = formFile.OpenReadStream())
+                {
+                    await Service.UploadMediaAsync(entity, stream);
+                }
                 if (entity.Url.IsNotNullAndWhiteSpace())
                 {
                     entity.Url = Url.Content(entity.Url);
@@ -154,12 +156,14 @@ namespace ZKEACMS.Controllers
             if (Request.Form.Files.Count > 0)
             {
                 bool isCompleted = position + Request.Form.Files[0].Length == size;
+                using (Stream stream = Request.Form.Files[0].OpenReadStream())
+                {
+                    var media = (await Service.AppendMediaAsync(id, stream, isCompleted))?.Result;
+                    if (media == null) return Json(false);
 
-                var media = (await Service.AppendMediaAsync(id, Request.Form.Files[0].OpenReadStream(), isCompleted))?.Result;
-                if (media == null) return Json(false);
-
-                media.Url = Url.Content(media.Url);
-                return Json(media);
+                    media.Url = Url.Content(media.Url);
+                    return Json(media);
+                }
             }
             return Json(false);
         }
@@ -169,11 +173,13 @@ namespace ZKEACMS.Controllers
         {
             if (formData.Files.Count > 0)
             {
-                Stream stream = formData.Files[0].OpenReadStream();
-                var media = (await Service.UploadFromBlobImageAsync(stream, formData.Files[0].FileName))?.Result;
-                if (media != null)
+                using (Stream stream = formData.Files[0].OpenReadStream())
                 {
-                    return Json(new { location = Url.Content(media.Url) });
+                    var media = (await Service.UploadFromBlobImageAsync(stream, formData.Files[0].FileName))?.Result;
+                    if (media != null)
+                    {
+                        return Json(new { location = Url.Content(media.Url) });
+                    }
                 }
             }
             return Json(null);

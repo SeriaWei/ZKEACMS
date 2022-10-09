@@ -17,9 +17,9 @@ namespace Easy.Mvc
         /// </summary>
         /// <param name="ext">文件扩展名</param>
         /// <returns></returns>
-        public static bool FileCanUp(string ext)
+        public static bool IsExecuteableFile(string ext)
         {
-            return !_dangerFiles.Contains(ext);
+            return _dangerFiles.Contains(ext);
         }
 
         /// <summary>

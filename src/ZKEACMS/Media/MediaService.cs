@@ -25,6 +25,7 @@ using DocumentFormat.OpenXml.Drawing.Charts;
 using System.IO.Pipes;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
+using Easy.Mvc;
 
 namespace ZKEACMS.Media
 {
@@ -66,7 +67,7 @@ namespace ZKEACMS.Media
             if (item.Url.IsNotNullAndWhiteSpace())
             {
                 string extension = Path.GetExtension(item.Url);
-                if (ImageHelper.IsImage(extension))
+                if (Easy.Mvc.Common.IsImage(extension))
                 {
                     item.MediaType = (int)MediaType.Image;
                 }
@@ -124,6 +125,17 @@ namespace ZKEACMS.Media
             if (isCompleted)
             {
                 media.Status = (int)RecordStatus.Active;
+                if (media.MediaType == (int)MediaType.Image)
+                {
+                    Stream originStream = _storage.GetFile(media.Url);
+                    Stream stream = CompressImage(originStream);
+                    if (stream.Length < originStream.Length)
+                    {
+                        originStream.Dispose();
+                        _storage.Delete(media.Url);
+                        media.Url = await _storage.SaveFileAsync(stream, Path.GetFileName(media.Url));
+                    }
+                }
                 Update(media);
             }
             return new ServiceResult<MediaEntity>(media);
@@ -168,13 +180,9 @@ namespace ZKEACMS.Media
 
         public async Task<ServiceResult<MediaEntity>> UploadFromBlobImageAsync(Stream stream, string fileName)
         {
-            string id;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                stream.CopyTo(ms);
-                id = GetMd5Hash(ms.ToArray());
-            }
-            stream.Position = 0;
+            if (Easy.Mvc.Common.IsExecuteableFile(Path.GetExtension(fileName))) return new ServiceResult<MediaEntity>();
+
+            string id = GetIdFromStream(stream);
             MediaEntity entity = Get(id);
             if (entity != null) return new ServiceResult<MediaEntity>(entity);
 
@@ -246,11 +254,13 @@ namespace ZKEACMS.Media
         public async Task<ServiceResult<MediaEntity>> UploadMediaAsync(MediaEntity entity, Stream fileStream)
         {
             string extension = Path.GetExtension(entity.Title).ToLower();
+            if (Easy.Mvc.Common.IsExecuteableFile(extension)) return new ServiceResult<MediaEntity>();
+
             string fileId = new IDGenerator().CreateStringId();
             Stream stream;
             if (ImageHelper.IsImage(extension) && entity.Status == (int)RecordStatus.Active)
             {
-                stream = ResizeImage(fileStream);
+                stream = CompressImage(fileStream);
             }
             else
             {
@@ -262,12 +272,23 @@ namespace ZKEACMS.Media
             }
             return Add(entity);
         }
+        private static string GetIdFromStream(Stream stream)
+        {
+            string id;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                stream.CopyTo(ms);
+                id = GetMd5Hash(ms.ToArray());
+            }
+            stream.Position = 0;
+            return id;
+        }
 
-        private string CreateIdByUrl(string url)
+        private static string CreateIdByUrl(string url)
         {
             return GetMd5Hash(Encoding.UTF8.GetBytes(url));
         }
-        private string GetMd5Hash(byte[] input)
+        private static string GetMd5Hash(byte[] input)
         {
             using (MD5 md5Hash = MD5.Create())
             {
@@ -280,7 +301,7 @@ namespace ZKEACMS.Media
                 return sBuilder.ToString();
             }
         }
-        private Stream ResizeImage(Stream stream)
+        private Stream CompressImage(Stream stream)
         {
             try
             {

@@ -347,9 +347,12 @@ namespace ZKEACMS.Controllers
         {
             if (Request.Form.Files.Count > 0)
             {
-                Package package;
-                var installer = _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
-                installer.Install(package);
+                using (Stream stream = Request.Form.Files[0].OpenReadStream())
+                {
+                    Package package;
+                    var installer = _packageInstallerProvider.CreateInstaller(stream, out package);
+                    installer.Install(package);
+                }
             }
             return Redirect(returnUrl);
         }

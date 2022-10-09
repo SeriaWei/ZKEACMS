@@ -10,6 +10,7 @@ using Easy.Mvc.Authorize;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using ZKEACMS.PackageManger;
 using ZKEACMS.SectionWidget.Models;
 using ZKEACMS.SectionWidget.Service;
@@ -110,9 +111,12 @@ namespace ZKEACMS.SectionWidget.Controllers
             {
                 try
                 {
-                    Package package;
-                    var installer = _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
-                    installer.Install(package);
+                    using(Stream stream = Request.Form.Files[0].OpenReadStream())
+                    {
+                        Package package;
+                        var installer = _packageInstallerProvider.CreateInstaller(stream, out package);
+                        installer.Install(package);
+                    }                    
                 }
                 catch (Exception ex)
                 {
