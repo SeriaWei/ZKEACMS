@@ -76,5 +76,9 @@ namespace Easy.Storage
             Directory.Delete(MapPath(path), true);
         }
 
+        public Stream GetFile(string filePath)
+        {
+            return File.OpenRead(MapPath(filePath));
+        }
     }
 }

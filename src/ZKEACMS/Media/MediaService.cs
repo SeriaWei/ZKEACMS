@@ -20,6 +20,11 @@ using System.Security.Cryptography;
 using System.Text;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
+using ZKEACMS.Setting;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using System.IO.Pipes;
+using System.Text.RegularExpressions;
+using System.Runtime.InteropServices;
 
 namespace ZKEACMS.Media
 {
@@ -27,13 +32,17 @@ namespace ZKEACMS.Media
     {
         private readonly IStorage _storage;
         private readonly IWebClient _webClient;
+        private readonly IApplicationSettingService _applicationSettingService;
+        private static Regex _imageSizeParser = new Regex(@"^(\d+)x(\d+)$");
         public MediaService(IApplicationContext applicationContext,
             CMSDbContext dbContext,
             IStorage storage,
-            IWebClient webClient) : base(applicationContext, dbContext)
+            IWebClient webClient,
+            IApplicationSettingService applicationSettingService) : base(applicationContext, dbContext)
         {
             _storage = storage;
             _webClient = webClient;
+            _applicationSettingService = applicationSettingService;
         }
 
         public override DbSet<MediaEntity> CurrentDbSet => DbContext.Media;
@@ -238,20 +247,19 @@ namespace ZKEACMS.Media
         {
             string extension = Path.GetExtension(entity.Title).ToLower();
             string fileId = new IDGenerator().CreateStringId();
-
-            //todo: Resize image
-            //if (ImageHelper.IsImage(extension) && entity.Status == (int)RecordStatus.Active)
-            //{
-            //    Image.DetectFormat(fileStream);
-            //    using (Image image = Image.Load(fileStream))
-            //    {
-            //        image.Mutate(x => x.Resize(width, height));
-
-            //        image.Save();
-            //    }
-            //}
-
-            entity.Url = await _storage.SaveFileAsync(fileStream, $"{fileId}{extension}");
+            Stream stream;
+            if (ImageHelper.IsImage(extension) && entity.Status == (int)RecordStatus.Active)
+            {
+                stream = ResizeImage(fileStream);
+            }
+            else
+            {
+                stream = fileStream;
+            }
+            using (stream)
+            {
+                entity.Url = await _storage.SaveFileAsync(stream, $"{fileId}{extension}");
+            }
             return Add(entity);
         }
 
@@ -271,6 +279,41 @@ namespace ZKEACMS.Media
                 }
                 return sBuilder.ToString();
             }
+        }
+        private Stream ResizeImage(Stream stream)
+        {
+            try
+            {
+                string maxSize = _applicationSettingService.Get(SettingKeys.ImageMaxSize, "1920x1080");
+                int width = 1920;
+                int height = 1080;
+                var matchResult = _imageSizeParser.Match(maxSize);
+                if (matchResult.Success)
+                {
+                    width = int.Parse(matchResult.Groups[1].Value);
+                    height = int.Parse(matchResult.Groups[2].Value);
+                }
+                var format = Image.DetectFormat(stream);
+                using (Image image = Image.Load(stream))
+                {
+                    if (image.Width < width && image.Height < height)
+                    {
+                        return stream;
+                    }
+                    double widthPercentage = (double)width / (double)image.Width;
+                    double heightPercentage = (double)height / (double)image.Height;
+
+                    double sizePercentage = Math.Min(widthPercentage, heightPercentage);
+
+                    image.Mutate(x => x.Resize(Convert.ToInt32(image.Width * sizePercentage), Convert.ToInt32(image.Height * sizePercentage)));
+                    MemoryStream memoryStream = new MemoryStream();
+                    image.Save(memoryStream, format);
+                    memoryStream.Position = 0;
+                    return memoryStream;
+                }
+            }
+            catch { }
+            return stream;
         }
     }
 }
