@@ -768,8 +768,9 @@ document.addEventListener("click", function (e) {
     var player = document.createElement("div");
     player.style = "position:fixed;left:0;right:0;top:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.8);";
     var closeButon = document.createElement("button");
-    closeButon.style = "background:#0D4891;border:none;width:50px;height:50px;padding:6px;cursor:pointer;position:absolute;right:10px;top:10px;box-sizing:border-box;";
-
+    closeButon.style = "background:#d91437;border:none;width:50px;height:50px;padding:6px;cursor:pointer;position:absolute;right:10px;top:10px;box-sizing:border-box;";
+    closeButon.type = "button";
+    closeButon.title = "close";
     var xmlns = "http://www.w3.org/2000/svg";
     var closeIcon = document.createElementNS(xmlns, "svg");
     closeIcon.setAttributeNS(null, "viewBox", "0 0 14 14");
