@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<required>
+  <item type="SectionContentTitle">
+    <property name="InnerText"><![CDATA[ZKEASOFT]]></property>
+    <property name="Href"><![CDATA[]]></property>
+    <property name="TitleLevel"><![CDATA[h1]]></property>
+  </item>
+  <item type="SectionContentTitle">
+    <property name="InnerText"><![CDATA[Be part of the team]]></property>
+    <property name="Href"><![CDATA[]]></property>
+    <property name="TitleLevel"><![CDATA[h2]]></property>
+  </item>
+  <item type="SectionContentParagraph">
+    <property name="HtmlContent"><![CDATA[<p>HyperX is a leading sponsor of top gaming organizations worldwide including America, Europe and Asia, with plans to expand our coverage across multiple game benners and platforms. </p>]]></property>
+  </item>
+  <item type="SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/Header/ddr3-lg.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[电脑使用这个图片显示]]></property>
+    <property name="Href"><![CDATA[http://www.zkea.net]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/Header/ddr3-md.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[平板使用这个图片显示]]></property>
+    <property name="Href"><![CDATA[http://www.zkea.net]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/Header/ddr3-sm.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[手机将用这个图片显示]]></property>
+    <property name="Href"><![CDATA[http://www.zkea.net]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+</required>

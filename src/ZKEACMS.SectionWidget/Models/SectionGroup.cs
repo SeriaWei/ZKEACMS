@@ -168,6 +168,8 @@ namespace ZKEACMS.SectionWidget.Models
             ViewConfig(m => m.SectionImages).AsHidden().Ignore();
             ViewConfig(m => m.Paragraph).AsHidden().Ignore();
             ViewConfig(m => m.Paragraphs).AsHidden().Ignore();
+            ViewConfig(m => m.Video).AsHidden().Ignore();
+            ViewConfig(m => m.Videos).AsHidden().Ignore();
         }
     }
 }

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<required>
+  <item type="SectionContentTitle">
+    <property name="InnerText"><![CDATA[Find your Product]]></property>
+    <property name="Href"><![CDATA[]]></property>
+    <property name="TitleLevel"><![CDATA[h2]]></property>
+  </item>
+  <item type="SectionContentParagraph">
+    <property name="HtmlContent"><![CDATA[<p>Easily access all the information you need on any product</p>]]></property>
+  </item>
+  <item type="SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/Shortcut-Nav/iphone7_dark_large.svg]]></property>
+    <property name="ImageAlt"><![CDATA[iPhone 7]]></property>
+    <property name="ImageTitle"><![CDATA[iPhone 7]]></property>
+    <property name="Href"><![CDATA[http://www.zkea.net/zkeacms]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/Shortcut-Nav/iphone6s_dark_large.svg]]></property>
+    <property name="ImageAlt"><![CDATA[iPhone 6s]]></property>
+    <property name="ImageTitle"><![CDATA[iPhone 6s]]></property>
+    <property name="Href"><![CDATA[http://www.zkea.net/zkeacms/zkeacmscore]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/Shortcut-Nav/iphonese_dark_large.svg]]></property>
+    <property name="ImageAlt"><![CDATA[iPhone SE]]></property>
+    <property name="ImageTitle"><![CDATA[iPhone SE]]></property>
+    <property name="Href"><![CDATA[http://zkea.net/zkeacms/donate]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/Shortcut-Nav/iphone_ios_dark_large.svg]]></property>
+    <property name="ImageAlt"><![CDATA[iOS 10]]></property>
+    <property name="ImageTitle"><![CDATA[iOS 10]]></property>
+    <property name="Href"><![CDATA[http://zkea.net/zkeacms/price]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/Shortcut-Nav/iphone_acc_dark_large.svg]]></property>
+    <property name="ImageAlt"><![CDATA[Accessories]]></property>
+    <property name="ImageTitle"><![CDATA[Accessories]]></property>
+    <property name="Href"><![CDATA[http://zkea.net/zkeacms/donate]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/Shortcut-Nav/iphone_comp_dark_large.svg]]></property>
+    <property name="ImageAlt"><![CDATA[Compare]]></property>
+    <property name="ImageTitle"><![CDATA[Compare]]></property>
+    <property name="Href"><![CDATA[http://zkea.net/zkeacms/price]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+</required>

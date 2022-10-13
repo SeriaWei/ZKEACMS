@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<required>
+  <item type="SectionContentTitle">
+    <property name="InnerText"><![CDATA[ZKEACMS]]></property>
+    <property name="TitleLevel"><![CDATA[h3]]></property>
+    <property name="Href"><![CDATA[]]></property>
+  </item>
+  <item type="SectionContentParagraph">
+    <property name="HtmlContent">
+      <![CDATA[<h1>完全免费</h1><p>&nbsp;</p><p>ZKEACMS的绝大部分代码都是开源的</p><p>您可以自由地下载它来进行学习</p><p>二次开发或者商用</p><p>&nbsp;</p><p><a class="btn btn-default" href="http://www.zkea.net/zkeacms/download">立即下载</a></p>]]></property>
+  </item>
+</required>
