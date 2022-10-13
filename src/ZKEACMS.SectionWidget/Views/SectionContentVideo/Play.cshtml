@@ -15,12 +15,10 @@
 <div class="pop-video">
     @if (video.Url.IsNotNullAndWhiteSpace())
     {
-        <video id="video-player" controls="controls"
-               autoplay="autoplay"
-               playsinline
-               name="media"
-               src="@Url.Content(video.Url)"
-               style="width:@(video.Width.HasValue?video.Width+"px":"auto");height:@(video.Height.HasValue?video.Height+"px":"auto")">
+        <video id="video-player" controls autoplay muted preload="metadata"
+           name="media"
+           src="@Url.Content(video.Url)"
+           style="width:@(video.Width.HasValue?video.Width+"px":"auto");height:@(video.Height.HasValue?video.Height+"px":"auto")">
             Your brower does not support playing video.
         </video>
     }
@@ -35,11 +33,3 @@
         @Html.Raw(video.Code)
     }
 </div>
-@using (Script.AtFoot())
-{
-    <script type="text/javascript">
-        $(function () {
-            document.getElementById("video-player").play();
-        });
-    </script>
-}

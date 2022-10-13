@@ -35,8 +35,8 @@ namespace ZKEACMS.SectionWidget
             yield return new RouteDescriptor
             {
                 RouteName = "video-play",
-                Template = "VideoPlayer/Play",
-                Defaults = new { controller = "SectionContentVideo", action = "Play" },
+                Template = "VideoPlayer/Play/{Id}",
+                Defaults = new { controller = "SectionContentVideo", action = "Play", module = "Section" },
                 Priority = 10
             };
         }
