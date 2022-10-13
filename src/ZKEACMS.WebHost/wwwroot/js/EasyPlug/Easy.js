@@ -750,7 +750,7 @@ $(document).on("click", ".pop-dialog:not(.video-play)", function () {
 
 
 document.addEventListener("click", function (e) {
-    var path = event.path || (event.composedPath && event.composedPath());
+    var path = e.path || (e.composedPath && e.composedPath());
     if (!path) return;
 
     var videoElement = null;
@@ -768,14 +768,14 @@ document.addEventListener("click", function (e) {
     var player = document.createElement("div");
     player.style = "position:fixed;left:0;right:0;top:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.8);";
     var closeButon = document.createElement("button");
-    closeButon.style = "background:#0D4891;border:none;width: 50px; height: 50px; padding: 6px; cursor: pointer; position: absolute; right: 5px; top: 5px;";
+    closeButon.style = "background:#0D4891;border:none;width:50px;height:50px;padding:6px;cursor:pointer;position:absolute;right:10px;top:10px;box-sizing:border-box;";
 
     var xmlns = "http://www.w3.org/2000/svg";
     var closeIcon = document.createElementNS(xmlns, "svg");
     closeIcon.setAttributeNS(null, "viewBox", "0 0 14 14");
     closeIcon.setAttributeNS(null, "width", 32);
     closeIcon.setAttributeNS(null, "height", 32);
-    closeIcon.style = "width: 32px;height: 32px;fill: #fff;";
+    closeIcon.style = "width:32px;height:32px;fill:#fff;";
     var path = document.createElementNS(xmlns, "path");
     path.setAttributeNS(null, "d", "M.46 12.023L11.772.709l1.768 1.768L2.227 13.791z");
     var path2 = document.createElementNS(xmlns, "path");
@@ -785,7 +785,7 @@ document.addEventListener("click", function (e) {
     closeButon.appendChild(closeIcon);
     player.appendChild(closeButon);
     var videoContainer = document.createElement("div");
-    videoContainer.style = "position: absolute; top: 60px; bottom: 60px;left: 10px; right: 10px; display: flex;align-content: center;justify-content: center;";
+    videoContainer.style = "position:absolute;top:70px;bottom:60px;left:10px;right:10px;display:flex;align-content:center;justify-content:center;";
 
     var videoLink = videoElement.getAttribute("href");
     if (videoLink.indexOf(".mp4") > 0) {
