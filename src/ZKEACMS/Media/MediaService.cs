@@ -334,6 +334,10 @@ namespace ZKEACMS.Media
                 }
             }
             catch { }
+            finally
+            {
+                stream.Position = 0;
+            }
             return stream;
         }
     }
