@@ -357,7 +357,7 @@ Easy.jQueryEasing = (function () {
 })();
 Easy.PlayVideo = function (url) {
     var player = document.createElement("div");
-    player.style = "position:fixed;left:0;right:0;top:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.8);";
+    player.style = "position:fixed;left:0;right:0;top:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.8);transition:opacity 500ms;opacity:0;";
     var closeButon = document.createElement("button");
     closeButon.style = "background:#d91437;border:none;width:50px;height:50px;padding:6px;cursor:pointer;position:absolute;right:10px;top:10px;box-sizing:border-box;";
     closeButon.type = "button";
@@ -397,9 +397,15 @@ Easy.PlayVideo = function (url) {
     }
     player.appendChild(videoContainer);
     closeButon.addEventListener("click", function () {
-        document.body.removeChild(player);
+        player.style.opacity = 0;
+        setTimeout(function () {
+            document.body.removeChild(player);
+        }, 500);
     });
     document.body.appendChild(player);
+    setTimeout(function () {
+        player.style.opacity = 1;
+    });
 }
 
 /*jQuery扩展方法*/
