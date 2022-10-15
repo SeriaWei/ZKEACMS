@@ -355,7 +355,52 @@ Easy.jQueryEasing = (function () {
     /// <summary>http://jqueryui.com/demos/effect/easing.html</summary>
     return { linear: "linear", swing: "swing", easeInQuad: "easeInQuad", easeOutQuad: "easeOutQuad", easeInOutQuad: "easeInOutQuad", easeInCubic: "easeInCubic", easeOutCubic: "easeOutCubic", easeInOutCubic: "easeInOutCubic", easeInQuart: "easeInQuart", easeOutQuart: "easeOutQuart", easeInOutQuart: "easeInOutQuart", easeInQuint: "easeInQuint", easeOutQuint: "easeOutQuint", easeInOutQuint: "easeInOutQuint", easeInSine: "easeInSine", easeOutSine: "easeOutSine", easeInOutSine: "easeInOutSine", easeInExpo: "easeInExpo", easeOutExpo: "easeOutExpo", easeInOutExpo: "easeInOutExpo", easeInCirc: "easeInCirc", easeOutCirc: "easeOutCirc", easeInOutCirc: "easeInOutCirc", easeInElastic: "easeInElastic", easeOutElastic: "easeOutElastic", easeInOutElastic: "easeInOutElastic", easeInBack: "easeInBack", easeOutBack: "easeOutBack", easeInOutBack: "easeInOutBack", easeInBounce: "easeInBounce", easeOutBounce: "easeOutBounce", easeInOutBounce: "easeInOutBounce" }
 })();
+Easy.PlayVideo = function (url) {
+    var player = document.createElement("div");
+    player.style = "position:fixed;left:0;right:0;top:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.8);";
+    var closeButon = document.createElement("button");
+    closeButon.style = "background:#d91437;border:none;width:50px;height:50px;padding:6px;cursor:pointer;position:absolute;right:10px;top:10px;box-sizing:border-box;";
+    closeButon.type = "button";
+    closeButon.title = "close";
+    var xmlns = "http://www.w3.org/2000/svg";
+    var closeIcon = document.createElementNS(xmlns, "svg");
+    closeIcon.setAttributeNS(null, "viewBox", "0 0 14 14");
+    closeIcon.style = "width:38px;height:38px;fill:#fff;";
+    var path = document.createElementNS(xmlns, "path");
+    path.setAttributeNS(null, "d", "M.46 12.023L11.772.709l1.768 1.768L2.227 13.791z");
+    var path2 = document.createElementNS(xmlns, "path");
+    path2.setAttributeNS(null, "d", "M2.227.71l11.314 11.313-1.768 1.768L.459 2.477z");
+    closeIcon.appendChild(path);
+    closeIcon.appendChild(path2);
+    closeButon.appendChild(closeIcon);
+    player.appendChild(closeButon);
+    var videoContainer = document.createElement("div");
+    videoContainer.style = "position:absolute;top:70px;bottom:60px;left:10px;right:10px;display:flex;align-content:center;justify-content:center;";
 
+    var videoLink = url;
+    if (videoLink.indexOf(".mp4") > 0) {
+        var video = document.createElement("video");
+        video.controls = true;
+        video.autoplay = true;
+        video.muted = true;
+        video.src = videoLink;
+        video.style.maxWidth = "100%";
+        video.style.maxHeight = "100%";
+        videoContainer.appendChild(video);
+    } else {
+        var iframe = document.createElement("iframe");
+        iframe.src = videoLink;
+        iframe.style = "width:100%;height:100%;";
+        iframe.allowFullscreen = true;
+        iframe.frameBorder = "0";
+        videoContainer.appendChild(iframe);
+    }
+    player.appendChild(videoContainer);
+    closeButon.addEventListener("click", function () {
+        document.body.removeChild(player);
+    });
+    document.body.appendChild(player);
+}
 
 /*jQuery扩展方法*/
 jQuery.fn.extend({
@@ -765,47 +810,7 @@ document.addEventListener("click", function (e) {
     if (!videoElement) return;
 
     e.preventDefault();
-    var player = document.createElement("div");
-    player.style = "position:fixed;left:0;right:0;top:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.8);";
-    var closeButon = document.createElement("button");
-    closeButon.style = "background:#d91437;border:none;width:50px;height:50px;padding:6px;cursor:pointer;position:absolute;right:10px;top:10px;box-sizing:border-box;";
-    closeButon.type = "button";
-    closeButon.title = "close";
-    var xmlns = "http://www.w3.org/2000/svg";
-    var closeIcon = document.createElementNS(xmlns, "svg");
-    closeIcon.setAttributeNS(null, "viewBox", "0 0 14 14");
-    closeIcon.style = "width:38px;height:38px;fill:#fff;";
-    var path = document.createElementNS(xmlns, "path");
-    path.setAttributeNS(null, "d", "M.46 12.023L11.772.709l1.768 1.768L2.227 13.791z");
-    var path2 = document.createElementNS(xmlns, "path");
-    path2.setAttributeNS(null, "d", "M2.227.71l11.314 11.313-1.768 1.768L.459 2.477z");
-    closeIcon.appendChild(path);
-    closeIcon.appendChild(path2);
-    closeButon.appendChild(closeIcon);
-    player.appendChild(closeButon);
-    var videoContainer = document.createElement("div");
-    videoContainer.style = "position:absolute;top:70px;bottom:60px;left:10px;right:10px;display:flex;align-content:center;justify-content:center;";
 
-    var videoLink = videoElement.getAttribute("href");
-    if (videoLink.indexOf(".mp4") > 0) {
-        var video = document.createElement("video");
-        video.controls = true;
-        video.autoplay = true;
-        video.muted = true;
-        video.src = videoLink;
-        video.style.maxWidth = "100%";
-        video.style.maxHeight = "100%";
-        videoContainer.appendChild(video);
-    } else {
-        var iframe = document.createElement("iframe");
-        iframe.src = videoLink;
-        iframe.setAttribute("frameborder", "0");
-        iframe.style = "width:100%;height:100%;";
-        videoContainer.appendChild(iframe);
-    }
-    player.appendChild(videoContainer);
-    closeButon.addEventListener("click", function () {
-        document.body.removeChild(player);
-    });
-    document.body.appendChild(player);
+    Easy.PlayVideo(videoElement.getAttribute("href"));
+    return false;
 });
