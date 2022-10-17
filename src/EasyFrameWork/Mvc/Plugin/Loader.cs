@@ -20,9 +20,9 @@ namespace Easy.Mvc.Plugin
         public const string PluginFolder = "Plugins";
         private const string PluginInfoFile = "zkea.plugin";
 #if DEBUG
-        private readonly string[] AltDevelopmentPath = new[] { "bin", "Debug", "net6.0" };
+        private readonly string[] AltDevelopmentPath = new[] { "bin", "Debug", "net7.0" };
 #else
-        private readonly string[] AltDevelopmentPath = new[] { "bin", "Release", "net6.0" };
+        private readonly string[] AltDevelopmentPath = new[] { "bin", "Release", "net7.0" };
 #endif
         private readonly static List<AssemblyLoader> Loaders = new List<AssemblyLoader>();
         private readonly static Dictionary<string, Assembly> LoadedAssemblies = new Dictionary<string, Assembly>();

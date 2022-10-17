@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>EasyFrameWork</AssemblyName>
     <PackageId>EasyFrameWork</PackageId>
     <Copyright>深圳市纸壳软件科技有限公司 ZKEASOFT</Copyright>
@@ -19,11 +19,11 @@
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.18.0" />
     <PackageReference Include="IdGen" Version="3.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.10" />
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-rc.2.22472.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0-rc.2.22472.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.0-rc.2.22476.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.0-rc.2.22472.3" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="6.0.0-preview.4.21253.7" />
     <PackageReference Include="System.Reflection.Extensions" Version="4.3.0" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
