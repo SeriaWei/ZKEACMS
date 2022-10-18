@@ -3,8 +3,8 @@
         content_css: ['/themes/Default/css/Theme.min.css'],
         selector: "textarea.html",
         verify_html: false,
-        plugins: 'preview importcss searchreplace autolink autosave directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons filebrowser bootstrap pasteImage imagelocal docx2html',
-        toolbar: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen print | insertfile image media template link anchor codesample | ltr rtl | bootstrap imagelocal filebrowser docx2html | preview code',
+        plugins: 'preview importcss searchreplace autolink autosave directionality code visualblocks visualchars fullscreen image link media codesample table charmap nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons filebrowser bootstrap pasteImage imagelocal docx2html',
+        toolbar: 'undo redo blocks fontsize bold italic underline strikethrough alignleft aligncenter alignright alignjustify outdent indent  numlist bullist image removeformat | bootstrap imagelocal filebrowser docx2html | fontfamily forecolor backcolor emoticons charmap media link anchor ltr rtl codesample fullscreen print preview code',
         toolbar_sticky: true,
         toolbar_mode: 'sliding',
         height: 600,
@@ -42,7 +42,8 @@
         ],
         extended_valid_elements: "style,link[href|rel]",
         custom_elements: "style,link,~link",
-        quickbars_selection_toolbar: 'bold italic | quicklink h1 h2 h3 blockquote quickimage quicktable',
+        quickbars_insert_toolbar: 'image quicktable filebrowser hr bootstrap',
+        quickbars_selection_toolbar: 'bold italic quicklink h1 h2 h3 blockquote quickimage quicktable',
         skin: 'oxide',
         promotion: false
     };
