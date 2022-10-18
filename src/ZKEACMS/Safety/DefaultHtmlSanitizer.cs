@@ -3,7 +3,7 @@
  * http://www.zkea.net/licenses */
 
 using Easy.Extend;
-using Ganss.XSS;
+using Ganss.Xss;
 using System;
 using System.Collections.Generic;
 using System.Linq;
