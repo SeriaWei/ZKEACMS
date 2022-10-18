@@ -3,14 +3,10 @@
         content_css: ['/themes/Default/css/Theme.min.css'],
         selector: "textarea.html",
         verify_html: false,
-        plugins: [
-            'print preview searchreplace autolink directionality code visualblocks ',
-            'visualchars fullscreen image link media template codesample table charmap hr pagebreak',
-            'nonbreaking anchor toc insertdatetime advlist lists wordcount',
-            'imagetools textpattern help',
-            "filebrowser bootstrap pasteImage imagelocal docx2html"
-        ],
-        toolbar: 'styleselect | bold italic strikethrough forecolor backcolor | link image media | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent removeformat | bootstrap imagelocal filebrowser docx2html | preview code',
+        plugins: 'preview importcss searchreplace autolink autosave directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons filebrowser bootstrap pasteImage imagelocal docx2html',
+        toolbar: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen print | insertfile image media template link anchor codesample | ltr rtl | bootstrap imagelocal filebrowser docx2html | preview code',
+        toolbar_sticky: true,
+        toolbar_mode: 'sliding',
         height: 600,
         relative_urls: false,
         image_advtab: true,
@@ -45,7 +41,10 @@
             { text: 'C++', value: 'cpp' }
         ],
         extended_valid_elements: "style,link[href|rel]",
-        custom_elements: "style,link,~link"
+        custom_elements: "style,link,~link",
+        quickbars_selection_toolbar: 'bold italic | quicklink h1 h2 h3 blockquote quickimage quicktable',
+        skin: 'oxide',
+        promotion: false
     };
 }
 function initEditor(selector) {
