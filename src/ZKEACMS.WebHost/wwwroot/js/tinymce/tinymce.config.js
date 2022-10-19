@@ -4,7 +4,7 @@
         selector: "textarea.html",
         verify_html: false,
         plugins: 'preview importcss searchreplace autolink autosave directionality code visualblocks visualchars fullscreen image link media codesample table charmap nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons filebrowser bootstrap pasteImage imagelocal docx2html',
-        toolbar: 'undo redo blocks fontsize bold italic underline strikethrough alignleft aligncenter alignright alignjustify outdent indent  numlist bullist image removeformat | bootstrap imagelocal filebrowser docx2html | fontfamily forecolor backcolor emoticons charmap media link anchor ltr rtl codesample fullscreen print preview code',
+        toolbar: 'undo redo blocks fontsize bold italic underline strikethrough alignleft aligncenter alignright alignjustify link | outdent indent  numlist bullist | image removeformat filebrowser docx2html | fontfamily forecolor backcolor emoticons charmap media anchor ltr rtl | codesample  bootstrap imagelocal | print fullscreen preview code',
         toolbar_sticky: true,
         toolbar_mode: 'sliding',
         height: 600,
