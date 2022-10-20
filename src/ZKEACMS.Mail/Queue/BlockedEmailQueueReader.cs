@@ -10,27 +10,22 @@ namespace ZKEACMS.Mail.Queue
 {
     public class BlockedEmailQueueReader
     {
-        private readonly PersistentEmailQueue _emailQueue;
-        private EmailContext emailContext;
-        public BlockedEmailQueueReader(PersistentEmailQueue emailQueue, CancellationToken cancellationToken)
+        private EmailContext _emailContext;
+        public BlockedEmailQueueReader(CancellationToken cancellationToken)
         {
-            _emailQueue = emailQueue;
-            Task = new Task<EmailContext>(GetCurrentContext, cancellationToken);
+            Task = new Task<EmailContext>(GetCurrentContext, cancellationToken, TaskCreationOptions.LongRunning);
         }
 
-        public async Task<bool> TryDequeueAsync()
+        public void ContinueWithResult(EmailContext emailContext)
         {
-            emailContext = await _emailQueue.ReceiveFromFileAsync();
-            if (emailContext == null) return false;
-
+            _emailContext = emailContext;
             Task.Start();
-            return true;
         }
 
         public Task<EmailContext> Task { get; private set; }
         EmailContext GetCurrentContext()
         {
-            return emailContext;
+            return _emailContext;
         }
     }
 }
