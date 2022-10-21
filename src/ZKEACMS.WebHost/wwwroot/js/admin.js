@@ -309,7 +309,7 @@ $(function () {
             if (url.indexOf("~") === 0) {
                 url = url.replace("~", location.origin);
             }
-            Easy.ShowUrlWindow({ url: '/admin/widget/playvideo?url=' + encodeURIComponent(url), width: 800, height: 450 });
+            Easy.PlayVideo(url);
         }
     });
 
