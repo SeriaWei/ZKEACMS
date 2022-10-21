@@ -547,6 +547,11 @@ a.badge:hover {
     box-shadow: none;
 }
 
+.form-group .tox-tinymce {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 #media-list .edit {
     width: 100%;
     line-height: normal;
