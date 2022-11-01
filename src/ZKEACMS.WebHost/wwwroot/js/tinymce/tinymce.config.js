@@ -5,7 +5,7 @@
         verify_html: false,
         plugins: 'preview importcss searchreplace autolink autosave directionality code visualblocks visualchars fullscreen image link media codesample table charmap nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons filebrowser bootstrap pasteImage imagelocal docx2html',
         toolbar: 'undo redo blocks fontfamily fontsize blockquote forecolor backcolor bold italic underline strikethrough alignleft aligncenter alignright alignjustify link outdent indent  numlist bullist image filebrowser docx2html emoticons charmap media anchor ltr rtl codesample bootstrap imagelocal removeformat print fullscreen preview code',
-        toolbar_sticky: true,
+        toolbar_sticky: false,
         toolbar_mode: 'sliding',
         height: 600,
         relative_urls: false,
