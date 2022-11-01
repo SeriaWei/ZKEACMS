@@ -42,8 +42,8 @@
         ],
         extended_valid_elements: "style,link[href|rel]",
         custom_elements: "style,link,~link",
-        quickbars_insert_toolbar: 'image quicktable filebrowser hr bootstrap',
-        quickbars_selection_toolbar: 'bold italic quicklink h1 h2 h3 blockquote quickimage quicktable',
+        quickbars_insert_toolbar: false,
+        quickbars_selection_toolbar: 'bold italic underline strikethrough quicklink h1 h2 h3 blockquote',
         skin: 'oxide',
         promotion: false
     };
