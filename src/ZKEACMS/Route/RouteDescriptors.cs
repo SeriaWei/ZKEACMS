@@ -46,6 +46,13 @@ namespace ZKEACMS
              },
              new RouteDescriptor
              {
+                RouteName = "AntiforgeryRequest",
+                Template = "js/antiforgery/getrequesttoken",
+                Defaults = new { controller = "Antiforgery",action="GetRequestToken" },
+                Priority = 11
+             },
+             new RouteDescriptor
+             {
                 RouteName = "error",
                 Template = "error/{action}/{code?}",
                 Defaults = new { controller = "error", action = "index" },

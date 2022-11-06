@@ -13,5 +13,6 @@ namespace ZKEACMS
         public const string EnableSignMeUp = "EnableSignMeUp";
         public const string EnableCustomerAccount = "EnableCustomerAccount";
         public const string MessageNeedToBeReviewed = "MessageNeedToBeReviewed";
+        public const string ImageMaxSize = "ImageMaxSize";
     }
 }

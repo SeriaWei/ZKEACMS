@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<required>
+  <item type="SectionContentParagraph">
+    <property name="HtmlContent">
+      <![CDATA[<h4 style="word-break:break-all">2017</h4><p>3 / 1</p>]]>
+    </property>
+  </item>
+  <item type="SectionContentParagraph">
+    <property name="HtmlContent">
+      <![CDATA[<p><strong>轻松创建美观强大的网站，无需专业技术知识与设计经验。</strong></p><div class="text-muted">无需代码也可以同时拥有电脑网站、手机网站、微信网站。 拖拽建站，懒人建站神器!</div>]]>
+    </property>
+  </item>
+</required>

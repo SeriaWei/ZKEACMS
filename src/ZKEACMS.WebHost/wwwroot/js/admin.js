@@ -34,11 +34,11 @@ $(function () {
     }).on("click", "input[type=submit]", function () {
         $("#ActionType").val($(this).data("value"));
         return true;
-    }).on("click", ".input-group .glyphicon.glyphicon-search", function () {
+    }).on("click", ".input-group .search", function () {
         var obj = $(this);
         window.top.Easy.ShowUrlWindow({
             url: obj.parent().siblings("input.form-control").data("url"),
-            width: obj.parent().siblings("input.form-control").data("width") || 800,
+            width: obj.parent().siblings("input.form-control").data("width") || window.innerWidth * 0.9,
             onLoad: function (box) {
                 var win = this;
                 $(this.document).find("#confirm").click(function () {
@@ -303,13 +303,13 @@ $(function () {
         });
     }
 
-    $(".input-group .glyphicon.glyphicon-play").click(function () {
+    $(document).on("click", ".input-group .video-play-icon", function () {
         var url = $(this).closest(".input-group").find(".form-control").val();
         if (url) {
             if (url.indexOf("~") === 0) {
                 url = url.replace("~", location.origin);
             }
-            Easy.ShowUrlWindow({ url: '/admin/widget/playvideo?url=' + encodeURIComponent(url), width: 800, height: 450 });
+            Easy.PlayVideo(url);
         }
     });
 

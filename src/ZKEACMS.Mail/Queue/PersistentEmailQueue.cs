@@ -21,26 +21,34 @@ namespace ZKEACMS.Mail.Queue
     public class PersistentEmailQueue : PluginData<MailPlug>, IEmailQueue
     {
         private Stack<BlockedEmailQueueReader> _queueReaders = new Stack<BlockedEmailQueueReader>();
+        private System.Timers.Timer _blockedQueueReaderTrigger;
 
         public PersistentEmailQueue(ILogger<MailPlug> logger) : base(logger)
         {
+            _blockedQueueReaderTrigger = new System.Timers.Timer(2000);
+            _blockedQueueReaderTrigger.Elapsed += Elapsed;
+        }
+
+        private void Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Dequeue();
         }
 
         private ILiteCollection<T> GetMailCollection<T>() where T : EmailContext
         {
             return GetCollection<T>("Emails");
         }
-        public async Task<EmailContext> Receive(CancellationToken cancellationToken = default)
+        public Task<EmailContext> Receive(CancellationToken cancellationToken = default)
         {
-            var result = await ReceiveFromFileAsync();
-            if (result != null) return result;
+            var result = ReceiveFromFile();
+            if (result != null) return Task.FromResult(result);
 
-            BlockedEmailQueueReader queueReader = new BlockedEmailQueueReader(this, cancellationToken);
+            BlockedEmailQueueReader queueReader = new BlockedEmailQueueReader(cancellationToken);
             _queueReaders.Push(queueReader);
-            return await queueReader.Task;
+            return queueReader.Task;
         }
 
-        public async Task<EmailContext> ReceiveFromFileAsync()
+        public EmailContext ReceiveFromFile()
         {
             var collection = GetMailCollection<EmailContextQueueItem>();
             if (collection.Count() == 0) return null;
@@ -49,23 +57,36 @@ namespace ZKEACMS.Mail.Queue
             if (result == null) return null;
 
             collection.Delete(result.Id);
-            return await Task.FromResult(result);
+            return result;
         }
 
-        public async Task Send(EmailContext emailMessage)
+        public Task Send(EmailContext emailMessage)
         {
             GetMailCollection<EmailContext>().Insert(emailMessage);
-            BlockedEmailQueueReader reader;
+            if (!_blockedQueueReaderTrigger.Enabled)
+            {
+                _blockedQueueReaderTrigger.Start();
+            }
+            return Task.CompletedTask;
+        }
+        private void Dequeue()
+        {
             lock (_queueReaders)
             {
-                _queueReaders.TryPop(out reader);
-            }
-            if (reader != null)
-            {
-                bool success = await reader.TryDequeueAsync();
-                if (!success)
+                while (_queueReaders.Count > 0)
                 {
-                    _queueReaders.Push(reader);
+                    var result = ReceiveFromFile();
+                    if (result == null)
+                    {
+                        _blockedQueueReaderTrigger.Stop();
+                        return;
+                    }
+
+                    BlockedEmailQueueReader queueReader;
+                    if (_queueReaders.TryPop(out queueReader))
+                    {
+                        queueReader.ContinueWithResult(result);
+                    }
                 }
             }
         }

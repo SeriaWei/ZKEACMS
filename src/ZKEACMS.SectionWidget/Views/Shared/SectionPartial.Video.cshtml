@@ -8,6 +8,6 @@
            data-height="@Model.Height"
            data-title="@Model.VideoTitle"
            title="@Model.VideoTitle"
-           href="@Url.Action("Play", "SectionContentVideo", new {module = "Section", Id = Model.ID})"></a>
+           href="@(Model.Url.IsNotNullAndWhiteSpace()?Model.Url:Url.Action("Play", "SectionContentVideo", new { module = "Section", Id = Model.ID}))"></a>
     </p>
 </div>

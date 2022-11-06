@@ -3,14 +3,10 @@
         content_css: ['/themes/Default/css/Theme.min.css'],
         selector: "textarea.html",
         verify_html: false,
-        plugins: [
-            'print preview searchreplace autolink directionality code visualblocks ',
-            'visualchars fullscreen image link media template codesample table charmap hr pagebreak',
-            'nonbreaking anchor toc insertdatetime advlist lists wordcount',
-            'imagetools textpattern help',
-            "filebrowser bootstrap pasteImage imagelocal docx2html"
-        ],
-        toolbar: 'styleselect | bold italic strikethrough forecolor backcolor | link image media | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent removeformat | bootstrap imagelocal filebrowser docx2html | preview code',
+        plugins: 'preview importcss searchreplace autolink autosave directionality code visualblocks visualchars fullscreen image link media codesample table charmap nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons filebrowser bootstrap pasteImage imagelocal docx2html',
+        toolbar: 'undo redo blocks fontfamily fontsize blockquote forecolor backcolor bold italic underline strikethrough alignleft aligncenter alignright alignjustify link outdent indent  numlist bullist image filebrowser docx2html emoticons charmap media anchor ltr rtl codesample bootstrap imagelocal removeformat print fullscreen preview code',
+        toolbar_sticky: false,
+        toolbar_mode: 'sliding',
         height: 600,
         relative_urls: false,
         image_advtab: true,
@@ -45,7 +41,11 @@
             { text: 'C++', value: 'cpp' }
         ],
         extended_valid_elements: "style,link[href|rel]",
-        custom_elements: "style,link,~link"
+        custom_elements: "style,link,~link",
+        quickbars_insert_toolbar: false,
+        quickbars_selection_toolbar: 'bold italic underline strikethrough quicklink h1 h2 h3 blockquote',
+        skin: 'oxide',
+        promotion: false
     };
 }
 function initEditor(selector) {

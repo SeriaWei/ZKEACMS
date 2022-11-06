@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<required>
+  <item type="SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/banner/p1.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[iPhone 7 在此]]></property>
+    <property name="Href"><![CDATA[http://www.zkea.net]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/banner/p2.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[MacBook Pro 一身才华一触即发]]></property>
+    <property name="Href"><![CDATA[http://www.zkea.net]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/banner/p3.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[种种元素，款款显风格，精彩 Apple 配件]]></property>
+    <property name="Href"><![CDATA[http://www.zkea.net]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+  <item type="SectionContentImage">
+    <property name="ImageSrc"><![CDATA[http://cdn.zkeasoft.com/BuilderDemo/banner/p4.jpg]]></property>
+    <property name="ImageAlt"><![CDATA[]]></property>
+    <property name="ImageTitle"><![CDATA[Clips 全新登场，有话说，短片来]]></property>
+    <property name="Href"><![CDATA[http://www.zkea.net]]></property>
+    <property name="Width"><![CDATA[]]></property>
+    <property name="Height"><![CDATA[]]></property>
+  </item>
+</required>

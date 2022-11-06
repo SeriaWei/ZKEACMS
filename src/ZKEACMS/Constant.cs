@@ -3,6 +3,7 @@
  * http://www.zkea.net/licenses */
 
 using Easy.Extend;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -105,34 +106,13 @@ namespace ZKEACMS
 
     public static class FileExtensions
     {
-        public static List<string> Video
-        {
-            get { return new List<string> { ".mp4", ".avi", ".rmvb" }; }
-        }
-        public static List<string> Zip
-        {
-            get { return new List<string> { ".rar", ".zip", ".7z" }; }
-        }
-        public static List<string> Pdf
-        {
-            get { return new List<string> { ".pdf" }; }
-        }
-        public static List<string> Txt
-        {
-            get { return new List<string> { ".txt" }; }
-        }
-        public static List<string> Doc
-        {
-            get { return new List<string> { ".doc", ".docx" }; }
-        }
-        public static List<string> Excel
-        {
-            get { return new List<string> { ".xls", ".xlsx" }; }
-        }
-        public static List<string> Ppt
-        {
-            get { return new List<string> { ".ppt", ".pptx" }; }
-        }
+        public static HashSet<string> Video = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".mp4", ".avi", ".rmvb",".flv",".wmv",".asf",".asx",".rm",".3gp",".mov",".m4v",".mkv",".vob" };
+        public static HashSet<string> Zip = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".rar", ".zip", ".7z", ".arj", ".bz2", ".cab", ".gz", ".lz", ".lzh", ".tar", ".uue", ".xz", ".zipx", ".zst", ".001" };
+        public static HashSet<string> Pdf = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".pdf" };
+        public static HashSet<string> Txt = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".txt" };
+        public static HashSet<string> Doc = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".doc", ".docx" };
+        public static HashSet<string> Excel = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".xls", ".xlsx" };
+        public static HashSet<string> Ppt = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".ppt", ".pptx" };
     }
 
     public static class StringKeys

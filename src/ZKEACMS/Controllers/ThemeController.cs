@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.IO;
 using ZKEACMS.PackageManger;
 using ZKEACMS.Theme;
 
@@ -83,9 +84,12 @@ namespace ZKEACMS.Controllers
             {
                 try
                 {
-                    Package package;
-                    var installer = _packageInstallerProvider.CreateInstaller(Request.Form.Files[0].OpenReadStream(), out package);
-                    installer.Install(package);
+                    using (Stream stream = Request.Form.Files[0].OpenReadStream())
+                    {
+                        Package package;
+                        var installer = _packageInstallerProvider.CreateInstaller(stream, out package);
+                        installer.Install(package);
+                    }
                 }
                 catch (Exception ex)
                 {

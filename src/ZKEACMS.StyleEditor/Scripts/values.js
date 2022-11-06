@@ -5,7 +5,7 @@
 "use strict";
 
 $(function () {
-    $(document).on("click", ".input-group .glyphicon.glyphicon-search", function () {
+    $(document).on("click", ".input-group .search", function () {
         var obj = $(this);
         window.top.Easy.ShowUrlWindow({
             url: obj.parent().siblings("input.form-control").data("url"),
