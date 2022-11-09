@@ -3,7 +3,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<AssemblyName>ZKEACMS</AssemblyName>
 		<PackageId>ZKEACMS</PackageId>
-		<Version>3.6</Version>
+		<Version>3.6.1</Version>
 		<Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>
 		<PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
 		<PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
@@ -11,8 +11,8 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>CMS</PackageTags>
 		<Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
-		<AssemblyVersion>3.6</AssemblyVersion>
-		<FileVersion>3.6</FileVersion>
+		<AssemblyVersion>3.6.1</AssemblyVersion>
+		<FileVersion>3.6.1</FileVersion>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
