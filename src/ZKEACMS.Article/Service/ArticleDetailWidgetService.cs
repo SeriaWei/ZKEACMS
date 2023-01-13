@@ -15,6 +15,7 @@ using Easy.Extend;
 using System.Collections.Concurrent;
 using Easy.Cache;
 using Easy.RepositoryPattern;
+using Easy.Constant;
 
 namespace ZKEACMS.Article.Service
 {
@@ -66,6 +67,11 @@ namespace ZKEACMS.Article.Service
                 viewModel.Current = actionContext.RouteData.GetArticle(articleId) ?? _articleService.Get(articleId);
                 if (viewModel.Current != null)
                 {
+                    if (!viewModel.Current.IsPublish || viewModel.Current.Status!=(int)RecordStatus.Active) 
+                    {
+                        actionContext.NotFoundResult();
+                        return null;
+                    }
                     _articleService.IncreaseCount(viewModel.Current);
                     viewModel.Prev = _articleService.GetPrev(viewModel.Current);
                     viewModel.Next = _articleService.GetNext(viewModel.Current);
