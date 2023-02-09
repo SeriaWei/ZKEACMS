@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Easy.Extend;
 using System.Collections.Concurrent;
+using Easy.Constant;
 
 namespace ZKEACMS.Product.Service
 {
@@ -54,6 +55,11 @@ namespace ZKEACMS.Product.Service
             if (productId != 0)
             {
                 product = actionContext.RouteData.GetProduct(productId) ?? _productService.Get(productId);
+                if (!product.IsPublish || product.Status != (int)RecordStatus.Active)
+                {
+                    actionContext.NotFoundResult();
+                    return null;
+                }
                 if (product != null && product.Url.IsNotNullAndWhiteSpace() && actionContext.RouteData.GetProductUrl().IsNullOrWhiteSpace())
                 {
                     actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{product.Url}.html", true);

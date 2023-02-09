@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using ZKEACMS.Page;
 using Easy.Extend;
+using Easy.Constant;
 
 namespace ZKEACMS.Article.Service
 {
@@ -85,18 +86,18 @@ namespace ZKEACMS.Article.Service
             Expression<Func<ArticleEntity, bool>> filter = null;
             if (cate != 0)
             {
-                filter = m => m.IsPublish && m.ArticleTypeID == cate;
+                filter = m => m.Status == (int)RecordStatus.Active && m.IsPublish && m.ArticleTypeID == cate;
             }
             else
             {
                 var ids = _articleTypeService.Get(m => m.ID == currentWidget.ArticleTypeID || m.ParentID == currentWidget.ArticleTypeID).Select(m => m.ID).ToList();
                 if (ids.Any())
                 {
-                    filter = m => m.IsPublish && ids.Contains(m.ArticleTypeID ?? 0);
+                    filter = m => m.Status == (int)RecordStatus.Active && m.IsPublish && ids.Contains(m.ArticleTypeID ?? 0);
                 }
                 else
                 {
-                    filter = m => m.IsPublish && m.ArticleTypeID == currentWidget.ArticleTypeID;
+                    filter = m => m.Status == (int)RecordStatus.Active && m.IsPublish && m.ArticleTypeID == currentWidget.ArticleTypeID;
                 }
 
             }

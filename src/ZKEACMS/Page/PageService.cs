@@ -165,6 +165,7 @@ namespace ZKEACMS.Page
             {
                 item.ParentId = "#";
             }
+            SerializeAssets(item);
             var result = base.Add(item);
             if (!result.HasViolation)
             {

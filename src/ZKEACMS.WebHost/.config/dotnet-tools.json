@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "zkeacms.publisher": {
-      "version": "2.0",
+      "version": "2.1",
       "commands": [
         "publish-zkeacms"
       ]
