@@ -56,7 +56,7 @@ namespace ZKEACMS.Common.Service
                         }
                     }
                 });
-                _carouselItemService.SaveChanges();
+                _carouselItemService.EndBulkSave();
             }
             return result;
         }
@@ -99,7 +99,7 @@ namespace ZKEACMS.Common.Service
                     m.CarouselID = item.ID;
                     SaveCarouselItems(m);
                 });
-                _carouselItemService.SaveChanges();
+                _carouselItemService.EndBulkSave();
             }
             return result;
         }
@@ -120,7 +120,7 @@ namespace ZKEACMS.Common.Service
                         carItem.CarouselID = m.ID;
                         SaveCarouselItems(carItem);
                     });
-                    _carouselItemService.SaveChanges();
+                    _carouselItemService.EndBulkSave();
                 }
             });
             return result;
@@ -131,7 +131,7 @@ namespace ZKEACMS.Common.Service
             {
                 _carouselItemService.BeginBulkSave();
                 item.CarouselItems.Each(m => _carouselItemService.Remove(m));
-                _carouselItemService.SaveChanges();
+                _carouselItemService.EndBulkSave();
             }
             base.Remove(item);
         }

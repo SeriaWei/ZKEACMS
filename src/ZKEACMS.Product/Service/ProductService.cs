@@ -66,7 +66,7 @@ namespace ZKEACMS.Product.Service
                         {
                             _productTagService.Add(new ProductTag { ProductId = item.ID, TagId = tag.ID });
                         }
-                        _productTagService.SaveChanges();
+                        _productTagService.EndBulkSave();
                     }
                     if (item.ProductImages != null)
                     {
@@ -133,7 +133,7 @@ namespace ZKEACMS.Product.Service
                         {
                             _productTagService.Add(new ProductTag { ProductId = item.ID, TagId = tag.ID });
                         }
-                        _productTagService.SaveChanges();
+                        _productTagService.EndBulkSave();
                     }
                     if (item.ProductImages != null)
                     {
@@ -143,7 +143,7 @@ namespace ZKEACMS.Product.Service
                             m.ProductId = item.ID;
                             SaveImages(m);
                         });
-                        _productImageService.SaveChanges();
+                        _productImageService.EndBulkSave();
                     }
                 }
             });

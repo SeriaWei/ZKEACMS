@@ -145,7 +145,7 @@ namespace ZKEACMS.Widget
                 item.ExtendData = JsonConverter.Serialize(item);
                 Update(item.ToWidgetBasePart());
             }
-            SaveChanges();
+            EndBulkSave();
         }
     }
 }
