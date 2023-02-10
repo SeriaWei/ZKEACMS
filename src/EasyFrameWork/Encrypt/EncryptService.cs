@@ -45,7 +45,7 @@ namespace Easy.Encrypt
                     rsa.FromXmlString(File.ReadAllText(_publicKeyFileName));
                     int maxBlockSize = rsa.KeySize / 8 - 11;
                     if (sou.Length <= maxBlockSize)
-                        return rsa.Encrypt(sou, false);
+                        return rsa.Encrypt(sou, true);
 
                     using (MemoryStream plaiStream = new MemoryStream(sou))
                     {
@@ -59,7 +59,7 @@ namespace Easy.Encrypt
                                 byte[] toEncrypt = new byte[blockSize];
                                 Array.Copy(buffer, 0, toEncrypt, 0, blockSize);
 
-                                byte[] cryptograph = rsa.Encrypt(toEncrypt, false);
+                                byte[] cryptograph = rsa.Encrypt(toEncrypt, true);
                                 crypStream.Write(cryptograph, 0, cryptograph.Length);
 
                                 blockSize = plaiStream.Read(buffer, 0, maxBlockSize);
@@ -88,7 +88,7 @@ namespace Easy.Encrypt
                         int maxBlockSize = rsa.KeySize / 8;
 
                         if (sou.Length <= maxBlockSize)
-                            return rsa.Decrypt(sou, false);
+                            return rsa.Decrypt(sou, true);
 
                         using (MemoryStream crypStream = new MemoryStream(sou))
                         {
@@ -102,7 +102,7 @@ namespace Easy.Encrypt
                                     byte[] toDecrypt = new byte[blockSize];
                                     Array.Copy(buffer, 0, toDecrypt, 0, blockSize);
 
-                                    byte[] plaintext = rsa.Decrypt(toDecrypt, false);
+                                    byte[] plaintext = rsa.Decrypt(toDecrypt, true);
                                     plaiStream.Write(plaintext, 0, plaintext.Length);
 
                                     blockSize = crypStream.Read(buffer, 0, maxBlockSize);
