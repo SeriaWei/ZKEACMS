@@ -26,7 +26,7 @@ namespace Easy.RepositoryPattern
         {
             ApplicationContext = applicationContext;
             DbContext = dbContext;
-            isWaitingSave = false;
+            isInBulkSaving = false;
         }
 
         public virtual TdbContext DbContext
@@ -38,7 +38,7 @@ namespace Easy.RepositoryPattern
 
         public IApplicationContext ApplicationContext { get; set; }
 
-        private bool isWaitingSave;
+        private bool isInBulkSaving;
 
         public void BeginTransaction(Action action)
         {
@@ -145,7 +145,7 @@ namespace Easy.RepositoryPattern
                 editor.LastUpdateDate = DateTime.Now;
             }
             CurrentDbSet.Add(item);
-            if (!isWaitingSave)
+            if (!isInBulkSaving)
             {
                 SaveChanges();
             }
@@ -177,7 +177,7 @@ namespace Easy.RepositoryPattern
                 }
             }
             CurrentDbSet.AddRange(items);
-            if (!isWaitingSave)
+            if (!isInBulkSaving)
             {
                 SaveChanges();
             }
@@ -308,7 +308,7 @@ namespace Easy.RepositoryPattern
                 editor.LastUpdateDate = DateTime.Now;
             }
             CurrentDbSet.Update(item);
-            if (!isWaitingSave)
+            if (!isInBulkSaving)
             {
                 SaveChanges();
             }
@@ -335,7 +335,7 @@ namespace Easy.RepositoryPattern
                 }
             }
             CurrentDbSet.UpdateRange(items);
-            if (!isWaitingSave)
+            if (!isInBulkSaving)
             {
                 SaveChanges();
             }
@@ -352,23 +352,19 @@ namespace Easy.RepositoryPattern
         public virtual void Remove(T item)
         {
             CurrentDbSet.Remove(item);
-            if (!isWaitingSave)
+            if (!isInBulkSaving)
             {
                 SaveChanges();
             }
         }
         public virtual void Remove(Expression<Func<T, bool>> filter)
         {
-            CurrentDbSet.RemoveRange(CurrentDbSet.Where(filter));
-            if (!isWaitingSave)
-            {
-                SaveChanges();
-            }
+            CurrentDbSet.Where(filter).ExecuteDelete();
         }
         public virtual void RemoveRange(params T[] items)
         {
             CurrentDbSet.RemoveRange(items);
-            if (!isWaitingSave)
+            if (!isInBulkSaving)
             {
                 SaveChanges();
             }
@@ -381,12 +377,12 @@ namespace Easy.RepositoryPattern
         public virtual void SaveChanges()
         {
             DbContext.SaveChanges();
-            isWaitingSave = false;
+            isInBulkSaving = false;
         }
 
         public virtual void BeginBulkSave()
         {
-            isWaitingSave = true;
+            isInBulkSaving = true;
         }
     }
     public abstract class ServiceBase<T> : ServiceBase<T, DbContext>
