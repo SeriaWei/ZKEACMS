@@ -58,7 +58,7 @@ namespace ZKEACMS.Common.Service
                             });
                         }
                     });
-                    _carouselItemService.SaveChanges();
+                    _carouselItemService.EndBulkSave();
                 }
                 return result;
             });
@@ -93,7 +93,7 @@ namespace ZKEACMS.Common.Service
                             _carouselItemService.Update(m);
                         }
                     });
-                    _carouselItemService.SaveChanges();
+                    _carouselItemService.EndBulkSave();
                 }
             });
         }

@@ -100,7 +100,7 @@ namespace ZKEACMS.Product.Controllers
                         Service.Update(product);
                     }
                 });
-                Service.SaveChanges();
+                Service.EndBulkSave();
             }
             return Json(new AjaxResult { Status = AjaxStatus.Normal });
         }

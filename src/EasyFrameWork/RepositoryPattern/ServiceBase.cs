@@ -145,10 +145,7 @@ namespace Easy.RepositoryPattern
                 editor.LastUpdateDate = DateTime.Now;
             }
             CurrentDbSet.Add(item);
-            if (!isInBulkSaving)
-            {
-                SaveChanges();
-            }
+            SaveChanges();
             return result;
         }
         public virtual ServiceResult<T> AddRange(params T[] items)
@@ -177,10 +174,7 @@ namespace Easy.RepositoryPattern
                 }
             }
             CurrentDbSet.AddRange(items);
-            if (!isInBulkSaving)
-            {
-                SaveChanges();
-            }
+            SaveChanges();
             return result;
         }
 
@@ -308,10 +302,7 @@ namespace Easy.RepositoryPattern
                 editor.LastUpdateDate = DateTime.Now;
             }
             CurrentDbSet.Update(item);
-            if (!isInBulkSaving)
-            {
-                SaveChanges();
-            }
+            SaveChanges();
             return result;
         }
         public virtual ServiceResult<T> UpdateRange(params T[] items)
@@ -335,10 +326,7 @@ namespace Easy.RepositoryPattern
                 }
             }
             CurrentDbSet.UpdateRange(items);
-            if (!isInBulkSaving)
-            {
-                SaveChanges();
-            }
+            SaveChanges();
             return new ServiceResult<T>();
         }
         public void Remove(params object[] primaryKey)
@@ -352,10 +340,7 @@ namespace Easy.RepositoryPattern
         public virtual void Remove(T item)
         {
             CurrentDbSet.Remove(item);
-            if (!isInBulkSaving)
-            {
-                SaveChanges();
-            }
+            SaveChanges();
         }
         public virtual void Remove(Expression<Func<T, bool>> filter)
         {
@@ -364,26 +349,31 @@ namespace Easy.RepositoryPattern
         public virtual void RemoveRange(params T[] items)
         {
             CurrentDbSet.RemoveRange(items);
-            if (!isInBulkSaving)
-            {
-                SaveChanges();
-            }
+            SaveChanges();
         }
         public virtual void Dispose()
         {
             //DbContext.Dispose();
         }
-
-        public virtual void SaveChanges()
+        private void SaveChanges()
         {
-            DbContext.SaveChanges();
-            isInBulkSaving = false;
+            if(!isInBulkSaving)
+            {
+                DbContext.SaveChanges();
+            }
         }
 
         public virtual void BeginBulkSave()
         {
             isInBulkSaving = true;
         }
+
+        public virtual void EndBulkSave()
+        {
+            isInBulkSaving = false;
+            SaveChanges();
+        }
+        
     }
     public abstract class ServiceBase<T> : ServiceBase<T, DbContext>
         where T : class

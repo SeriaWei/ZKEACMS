@@ -37,6 +37,6 @@ namespace Easy.RepositoryPattern
         void Remove(Expression<Func<T, bool>> filter);
         void RemoveRange(params T[] items);
         void BeginBulkSave();
-        void SaveChanges();
+        void EndBulkSave();
     }
 }

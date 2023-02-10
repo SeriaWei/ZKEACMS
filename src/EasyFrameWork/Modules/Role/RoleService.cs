@@ -112,7 +112,7 @@ namespace Easy.Modules.Role
                             }
                     }
                 });
-                _permissionService.SaveChanges();
+                _permissionService.EndBulkSave();
 
                 var old = Get(roleEntity.ID);
                 roleEntity.CopyTo(old);
