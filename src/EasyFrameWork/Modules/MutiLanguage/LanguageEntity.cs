@@ -38,7 +38,7 @@ namespace Easy.Modules.MutiLanguage
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.ID).AsHidden().Ignore();
-            ViewConfig(m => m.CultureName).AsTextBox().ShowInGrid().ReadOnly();
+            ViewConfig(m => m.CultureName).AsTextBox().ShowInGrid().ReadOnly().Search(LINQ.Query.Operators.None);
             ViewConfig(m => m.LanKey).AsTextBox().ShowInGrid().Search(LINQ.Query.Operators.Contains).SetGridColumnTemplate("<a href=\"/admin/Language/Edit?Id={id}\">{lanKey}</a>").ReadOnly();
             ViewConfig(m => m.LanType).AsTextBox();
             ViewConfig(m => m.Module).AsTextBox();
