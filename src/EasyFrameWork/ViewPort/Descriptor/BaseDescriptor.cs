@@ -182,59 +182,35 @@ namespace Easy.ViewPort.Descriptor
 
         private string GetLocalize(string key)
         {
-            var languageService = ServiceLocator.GetService<ILanguageService>();
             var localize = ServiceLocator.GetService<ILocalize>();
-            var cultureOption = ServiceLocator.GetService<IOptions<CultureOption>>();
             var translated = localize.GetOrNull(key);
 
-            if (translated == null)
-            {
-                if (key.Contains("@"))
-                {
-                    string property = key.Split('@')[1];
-                    translated = localize.GetOrNull(property);
-                    if (translated == null)
-                    {
-                        StringBuilder lanValueBuilder = new StringBuilder();
-                        if (property.Length > 2 && (property.EndsWith("ID") || property.EndsWith("Id")))
-                        {
-                            property = property.Substring(0, property.Length - 2);
-                        }
-                        if (property.Length > 2)
-                        {
-                            for (int i = 0; i < property.Length; i++)
-                            {
-                                char charLan = property[i];
-                                if (i > 0 && char.IsUpper(charLan))
-                                {
-                                    lanValueBuilder.Append(' ');
-                                }
-                                lanValueBuilder.Append(charLan);
-                            }
-                            property = lanValueBuilder.ToString();
-                        }
-                    }
-                    else
-                    {
-                        property = translated;
-                    }
-                    languageService.Add(new LanguageEntity
-                    {
-                        CultureName = cultureOption.Value.Code,
-                        LanValue = property,
-                        LanKey = key,
-                        LanType = "EntityProperty",
-                        Module = key.Split('@')[0]
-                    });
-                    return property;
-                }
-                else
-                {
-                    return key;
-                }
+            if (translated.IsNotNullAndWhiteSpace()) return translated;
+            if (!key.Contains("@")) return key;
 
+            string property = key.Split('@')[1];
+            translated = localize.GetOrNull(property);
+            if (translated.IsNotNullAndWhiteSpace()) return translated;
+
+            if (property.Length <= 2) return property;
+
+            if (property.EndsWith("ID") || property.EndsWith("Id"))
+            {
+                property = property.Substring(0, property.Length - 2);
             }
-            return translated;
+            if (property.Length <= 2) return property;
+
+            StringBuilder lanValueBuilder = new StringBuilder();
+            for (int i = 0; i < property.Length; i++)
+            {
+                char charLan = property[i];
+                if (i > 0 && char.IsUpper(charLan))
+                {
+                    lanValueBuilder.Append(' ');
+                }
+                lanValueBuilder.Append(charLan);
+            }
+            return lanValueBuilder.ToString();
         }
     }
 
