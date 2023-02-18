@@ -204,7 +204,7 @@ namespace Easy.ViewPort.Descriptor
             for (int i = 0; i < property.Length; i++)
             {
                 char charLan = property[i];
-                if (i > 0 && char.IsUpper(charLan))
+                if (i > 0 && i < (property.Length - 1) && char.IsUpper(charLan) && !char.IsUpper(property[i + 1]))
                 {
                     lanValueBuilder.Append(' ');
                 }
