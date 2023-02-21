@@ -26,5 +26,19 @@
   </ItemGroup>  
   <ItemGroup>
     <Content Include="Templates.zip" CopyToPublishDirectory="Always" />
+  </ItemGroup>  
+  <ItemGroup>
+    <None Update="Locale\en-GB.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Locale\en-US.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Locale\zh-CN.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Locale\zh-TW.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

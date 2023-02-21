@@ -49,7 +49,7 @@ namespace Easy.Modules.MutiLanguage
         }
         private string Deserialize(string value)
         {
-            return JsonConverter.Deserialize(value, typeof(string)).ToString();
+            return JsonConverter.Deserialize(value, typeof(string))?.ToString();
         }
         private string GetLocaleDirectory()
         {
