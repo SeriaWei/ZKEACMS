@@ -28,16 +28,16 @@
     <Content Include="Templates.zip" CopyToPublishDirectory="Always" />
   </ItemGroup>  
   <ItemGroup>
-    <None Update="Locale\en-GB.ini">
+    <None Update="Locale\en-GB.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Locale\en-US.ini">
+    <None Update="Locale\en-US.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Locale\zh-CN.ini">
+    <None Update="Locale\zh-CN.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Locale\zh-TW.ini">
+    <None Update="Locale\zh-TW.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

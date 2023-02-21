@@ -14,6 +14,8 @@ using Easy.Extend;
 using Easy.RepositoryPattern;
 using Easy.Serializer;
 using FastExpressionCompiler;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Easy.Modules.MutiLanguage
 {
@@ -24,71 +26,49 @@ namespace Easy.Modules.MutiLanguage
         {
             _cacheManager = cacheManager;
         }
-        private LanguageEntity ParseLanguage(string text, string cultureName)
-        {
-            string[] keyValue = text.Split('=', 2);
-            if (keyValue.Length < 2)
-            {
-                return new LanguageEntity
-                {
-                    LanKey = text,
-                    CultureName = cultureName
-                };
-            }
-            return new LanguageEntity
-            {
-                LanKey = keyValue[0],
-                LanValue = Deserialize(keyValue[1]),
-                CultureName = cultureName
-            };
-        }
 
-        private string Serialize(string value)
-        {
-            return JsonConverter.Serialize(value);
-        }
-        private string Deserialize(string value)
-        {
-            return JsonConverter.Deserialize(value, typeof(string))?.ToString();
-        }
         private string GetLocaleDirectory()
         {
             return Path.Combine(Directory.GetCurrentDirectory(), "Locale");
         }
+
         private IEnumerable<LanguageEntity> GetAllFromLocaleFile()
         {
             List<LanguageEntity> entities = new List<LanguageEntity>();
             string localeDir = GetLocaleDirectory();
-            string[] localeFiles = Directory.GetFiles(localeDir, "*.ini");
+            string[] localeFiles = Directory.GetFiles(localeDir, "*.yml");
             foreach (string localeFile in localeFiles)
             {
                 string cultureName = Path.GetFileNameWithoutExtension(localeFile);
-
-                FetchFileLines(localeFile, line =>
+                Dictionary<string, string> localize = Deserialize(localeFile);
+                foreach (var item in localize)
                 {
-                    entities.Add(ParseLanguage(line, cultureName));
-                });
+                    entities.Add(new LanguageEntity
+                    {
+                        CultureName = cultureName,
+                        LanKey = item.Key,
+                        LanValue = item.Value
+                    });
+                }
             }
             return entities;
         }
-        private void FetchFileLines(string localeFile, Action<string> onLineReaded)
+
+        private static Dictionary<string, string> Deserialize(string localeFile)
         {
-            using (var fileReader = File.OpenRead(localeFile))
-            {
-                using (StreamReader reader = new StreamReader(fileReader, Encoding.UTF8))
-                {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        onLineReaded(line);
-                    }
-                }
-            }
+            string localizeText = File.ReadAllText(localeFile, Encoding.UTF8);
+            var deserializer = new DeserializerBuilder().WithNamingConvention(UnderscoredNamingConvention.Instance).Build();
+            var localize = deserializer.Deserialize<Dictionary<string, string>>(localizeText);
+            return localize;
         }
-        private string SerializeToLine(LanguageEntity language)
+
+        private static void SaveToFile(string localeFile, Dictionary<string, string> data)
         {
-            return $"{language.LanKey}={Serialize(language.LanValue)}";
+            var serializer = new SerializerBuilder().WithNamingConvention(UnderscoredNamingConvention.Instance).Build();
+            string localizeText = serializer.Serialize(data);
+            File.WriteAllText(localeFile, localizeText, Encoding.UTF8);
         }
+
         private ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>> GetAllFromCache()
         {
             return _cacheManager.GetOrAdd("AllLanguageEntry", factory =>
@@ -114,36 +94,27 @@ namespace Easy.Modules.MutiLanguage
                 return result;
             });
         }
-        public ServiceResult<LanguageEntity> Add(LanguageEntity item)
+        private ServiceResult<LanguageEntity> Save(LanguageEntity item)
         {
             var result = new ServiceResult<LanguageEntity>();
-            var localeFile = Path.Combine(GetLocaleDirectory(), $"{item.CultureName}.ini");
+            var localeFile = Path.Combine(GetLocaleDirectory(), $"{item.CultureName}.yml");
             try
             {
-                using (var fileWriter = File.AppendText(localeFile))
-                {
-                    fileWriter.WriteLine(SerializeToLine(item));
-                }
+                var localize = Deserialize(localeFile);
+                localize[item.LanKey] = item.LanValue;
+                SaveToFile(localeFile, localize);
+                _cacheManager.Clear();
             }
             catch (Exception ex)
             {
                 result.AddRuleViolation(ex.Message);
             }
-            if (!result.HasViolation)
-            {
-                var dict = GetAllFromCache();
-                if (dict.ContainsKey(item.LanKey))
-                {
-                    dict[item.LanKey].TryAdd(item.CultureName, item);
-                }
-                else
-                {
-                    ConcurrentDictionary<string, LanguageEntity> cultureDic = new ConcurrentDictionary<string, LanguageEntity>();
-                    cultureDic.TryAdd(item.CultureName, item);
-                    dict.TryAdd(item.LanKey, cultureDic);
-                }
-            }
             return result;
+        }
+
+        public ServiceResult<LanguageEntity> Add(LanguageEntity item)
+        {
+            return Save(item);
         }
         public LanguageEntity Get(string lanKey, string cultureName)
         {
@@ -167,46 +138,7 @@ namespace Easy.Modules.MutiLanguage
         }
         public ServiceResult<LanguageEntity> Update(LanguageEntity item)
         {
-            if (GetAllFromCache().TryGetValue(item.LanKey.ToString(), out ConcurrentDictionary<string, LanguageEntity> cultureLan))
-            {
-                if (cultureLan.TryGetValue(item.CultureName, out LanguageEntity oldItem))
-                {
-                    cultureLan.TryUpdate(item.CultureName, item, oldItem);
-
-                    var result = new ServiceResult<LanguageEntity>();
-                    try
-                    {
-                        var localeFile = Path.Combine(GetLocaleDirectory(), $"{item.CultureName}.ini");
-                        StringBuilder newlocaleText = new StringBuilder();
-                        string lanKeyIdentity = $"{item.LanKey}=";
-                        FetchFileLines(localeFile, line =>
-                        {
-                            if (!line.StartsWith(lanKeyIdentity))
-                            {
-                                newlocaleText.AppendLine(line);
-                            }
-                            else
-                            {
-                                newlocaleText.AppendLine(SerializeToLine(item));
-                            }
-                        });
-                        File.WriteAllText(localeFile, newlocaleText.ToString());
-                    }
-                    catch (Exception ex)
-                    {
-                        result.AddRuleViolation(ex.Message);
-                    }
-                    return result;
-                }
-                else
-                {
-                    return Add(item);
-                }
-            }
-            else
-            {
-                return Add(item);
-            }
+            return Save(item);
         }
 
 
