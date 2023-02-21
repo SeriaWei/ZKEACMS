@@ -2,6 +2,12 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy.Cache;
+using Easy.Extend;
+using Easy.RepositoryPattern;
+using FastExpressionCompiler;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,11 +15,6 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using Easy.Cache;
-using Easy.Extend;
-using Easy.RepositoryPattern;
-using Easy.Serializer;
-using FastExpressionCompiler;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -22,14 +23,16 @@ namespace Easy.Modules.MutiLanguage
     public class LanguageService : ILanguageService
     {
         private readonly ICacheManager<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>> _cacheManager;
-        public LanguageService(ICacheManager<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>> cacheManager)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public LanguageService(ICacheManager<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>> cacheManager, IWebHostEnvironment webHostEnvironment)
         {
             _cacheManager = cacheManager;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         private string GetLocaleDirectory()
         {
-            return Path.Combine(Directory.GetCurrentDirectory(), "Locale");
+            return Path.Combine(_webHostEnvironment.ContentRootPath, "Locale");
         }
 
         private IEnumerable<LanguageEntity> GetAllFromLocaleFile()
@@ -40,7 +43,7 @@ namespace Easy.Modules.MutiLanguage
             foreach (string localeFile in localeFiles)
             {
                 string cultureName = Path.GetFileNameWithoutExtension(localeFile);
-                Dictionary<string, string> localize = Deserialize(localeFile);
+                Dictionary<string, string> localize = ReadLocalizeTextFromFile(localeFile);
                 foreach (var item in localize)
                 {
                     entities.Add(new LanguageEntity
@@ -54,7 +57,7 @@ namespace Easy.Modules.MutiLanguage
             return entities;
         }
 
-        private static Dictionary<string, string> Deserialize(string localeFile)
+        private static Dictionary<string, string> ReadLocalizeTextFromFile(string localeFile)
         {
             string localizeText = File.ReadAllText(localeFile, Encoding.UTF8);
             var deserializer = new DeserializerBuilder().WithNamingConvention(UnderscoredNamingConvention.Instance).Build();
@@ -62,17 +65,19 @@ namespace Easy.Modules.MutiLanguage
             return localize;
         }
 
-        private static void SaveToFile(string localeFile, Dictionary<string, string> data)
+        private static void SaveLocalizeTextToFile(string localeFile, Dictionary<string, string> localizeText)
         {
             var serializer = new SerializerBuilder().WithNamingConvention(UnderscoredNamingConvention.Instance).Build();
-            string localizeText = serializer.Serialize(data);
-            File.WriteAllText(localeFile, localizeText, Encoding.UTF8);
+            string serializedData = serializer.Serialize(localizeText);
+            File.WriteAllText(localeFile, serializedData, Encoding.UTF8);
         }
 
         private ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>> GetAllFromCache()
         {
             return _cacheManager.GetOrAdd("AllLanguageEntry", factory =>
             {
+                ExpireCacheOnFileChanged();
+
                 ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>> result = new ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>(StringComparer.OrdinalIgnoreCase);
                 foreach (var item in GetAllFromLocaleFile())
                 {
@@ -94,15 +99,26 @@ namespace Easy.Modules.MutiLanguage
                 return result;
             });
         }
+
+        private void ExpireCacheOnFileChanged()
+        {
+            if (!_webHostEnvironment.IsDevelopment()) return;
+
+            _webHostEnvironment.ContentRootFileProvider.Watch("Locale/*.yml").RegisterChangeCallback(cm =>
+            {
+                (cm as ICacheManager<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>>).Clear();
+            }, _cacheManager);
+        }
+
         private ServiceResult<LanguageEntity> Save(LanguageEntity item)
         {
             var result = new ServiceResult<LanguageEntity>();
             var localeFile = Path.Combine(GetLocaleDirectory(), $"{item.CultureName}.yml");
             try
             {
-                var localize = Deserialize(localeFile);
-                localize[item.LanKey] = item.LanValue;
-                SaveToFile(localeFile, localize);
+                var localizeText = ReadLocalizeTextFromFile(localeFile);
+                localizeText[item.LanKey] = item.LanValue;
+                SaveLocalizeTextToFile(localeFile, localizeText);
                 _cacheManager.Clear();
             }
             catch (Exception ex)
