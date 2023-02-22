@@ -16,6 +16,10 @@ using System.Collections.Concurrent;
 using Easy.Cache;
 using Easy.RepositoryPattern;
 using Easy.Constant;
+using ZKEACMS.StructuredData;
+using Easy.Serializer;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Html;
 
 namespace ZKEACMS.Article.Service
 {
@@ -23,16 +27,19 @@ namespace ZKEACMS.Article.Service
     {
         private const string ArticleDetailWidgetRelatedPageUrls = "ArticleDetailWidgetRelatedPageUrls";
         private readonly IArticleService _articleService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ConcurrentDictionary<string, object> _allRelatedUrlCache;
         public ArticleDetailWidgetService(IWidgetBasePartService widgetService,
             IArticleService articleService,
             IApplicationContext applicationContext,
             ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
-            CMSDbContext dbContext)
+            CMSDbContext dbContext,
+            IHttpContextAccessor contextAccessor)
             : base(widgetService, applicationContext, dbContext)
         {
             _articleService = articleService;
             _allRelatedUrlCache = cacheManager.GetOrAdd(ArticleDetailWidgetRelatedPageUrls, new ConcurrentDictionary<string, object>());
+            _httpContextAccessor = contextAccessor;
         }
         private void DismissRelatedPageUrls()
         {
@@ -67,7 +74,7 @@ namespace ZKEACMS.Article.Service
                 viewModel.Current = actionContext.RouteData.GetArticle(articleId) ?? _articleService.Get(articleId);
                 if (viewModel.Current != null)
                 {
-                    if (!viewModel.Current.IsPublish || viewModel.Current.Status!=(int)RecordStatus.Active) 
+                    if (!viewModel.Current.IsPublish || viewModel.Current.Status != (int)RecordStatus.Active)
                     {
                         actionContext.NotFoundResult();
                         return null;
@@ -99,10 +106,42 @@ namespace ZKEACMS.Article.Service
                 {
                     layout.Page.ConfigSEO(viewModel.Current.Title, viewModel.Current.MetaKeyWords, viewModel.Current.MetaDescription);
                 }
+
+                AddStructuredDataToPageHeader(viewModel.Current);
             }
 
 
             return viewModel;
+        }
+        private void AddStructuredDataToPageHeader(ArticleEntity article)
+        {
+            var structuredData = new NewsArticle
+            {
+                HeadLine = article.Title,
+                Image = GetImages(article).Where(m => m.IsNotNullAndWhiteSpace()).ToArray(),
+                DatePublished = article.PublishDate,
+                DateModified = article.LastUpdateDate,
+                Author = new Person[] { new Person { Name = article.CreatebyName } }
+            };
+            var htmlContentBuilder = new HtmlContentBuilder();
+            htmlContentBuilder.AppendHtmlLine("<script type=\"application/ld+json\">");
+            htmlContentBuilder.AppendHtmlLine(JsonConverter.Serialize(structuredData));
+            htmlContentBuilder.AppendHtmlLine("</script>");
+            ApplicationContext.As<CMSApplicationContext>().HeaderPart.Add(htmlContentBuilder);
+        }
+        private IEnumerable<string> GetImages(ArticleEntity article)
+        {
+            yield return ToFullImageUrl(article.ImageUrl);
+            yield return ToFullImageUrl(article.ImageThumbUrl);
+        }
+
+        private string ToFullImageUrl(string url)
+        {
+            if (url.IsNullOrEmpty() ||
+                url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                url.StartsWith("https://", StringComparison.OrdinalIgnoreCase)) return url;
+
+            return _httpContextAccessor.HttpContext.GetUrlWithHost(url);
         }
 
         public string[] GetRelatedPageUrls()
