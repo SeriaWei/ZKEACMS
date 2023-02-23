@@ -52,7 +52,7 @@ namespace ZKEACMS.Article.ApiControllers
             return Ok(_articleService.Update(article));
         }
 
-        [HttpPut("Publish"), ApiAuthorize(Policy = PermissionKeys.PublishArticle)]
+        [HttpPut("Publish/{id}"), ApiAuthorize(Policy = PermissionKeys.PublishArticle)]
         public IActionResult Publish(int id)
         {
             var article = _articleService.Publish(id);

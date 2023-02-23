@@ -123,16 +123,18 @@ namespace ZKEACMS.Article.Service
                 DateModified = article.LastUpdateDate,
                 Author = new Person[] { new Person { Name = article.CreatebyName } }
             };
-            var htmlContentBuilder = new HtmlContentBuilder();
-            htmlContentBuilder.AppendHtmlLine("<script type=\"application/ld+json\">");
-            htmlContentBuilder.AppendHtmlLine(JsonConverter.Serialize(structuredData));
-            htmlContentBuilder.AppendHtmlLine("</script>");
-            ApplicationContext.As<CMSApplicationContext>().HeaderPart.Add(htmlContentBuilder);
+            IHtmlContent jsonLinkingData = HtmlHelper.SerializeToJsonLinkingData(structuredData);
+            ApplicationContext.As<CMSApplicationContext>().HeaderPart.Add(jsonLinkingData);
         }
         private IEnumerable<string> GetImages(ArticleEntity article)
         {
             yield return ToFullImageUrl(article.ImageUrl);
             yield return ToFullImageUrl(article.ImageThumbUrl);
+
+            foreach (var item in HtmlHelper.ParseImageUrls(article.ArticleContent))
+            {
+                yield return ToFullImageUrl(item);
+            }
         }
 
         private string ToFullImageUrl(string url)

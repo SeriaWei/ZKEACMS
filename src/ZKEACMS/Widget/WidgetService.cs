@@ -304,25 +304,7 @@ namespace ZKEACMS.Widget
 
         protected HashSet<string> ParseHtmlImageUrls(string html)
         {
-            HashSet<string> result = new HashSet<string>();
-            if (html.IsNullOrWhiteSpace()) return result;
-
-            using (var context = BrowsingContext.New(Configuration.Default))
-            {
-                using (var doc = context.OpenAsync(request => request.Content(html)).Result)
-                {
-                    var allImages = doc.QuerySelectorAll("img");
-                    foreach (var item in allImages)
-                    {
-                        var src = item.GetAttribute("src");
-                        if (src.IsNullOrWhiteSpace()) continue;
-                        
-                        result.Add(src);
-                    }
-                }
-            }
-
-            return result;
+            return HtmlHelper.ParseImageUrls(html);
         }
     }
 }
