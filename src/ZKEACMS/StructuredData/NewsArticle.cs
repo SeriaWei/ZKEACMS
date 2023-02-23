@@ -14,7 +14,7 @@ namespace ZKEACMS.StructuredData
 {
     public class NewsArticle : StructuredDataContext
     {
-        public override string Type => "NewsArticle";
+        public override string Type { get { return "NewsArticle"; } }
 
         [JsonProperty("headline")]
         public string HeadLine { get; set; }
