@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.StructuredData
 {
-    public class NewsArticle : StructuredDataBase
+    public class NewsArticle : StructuredDataContext
     {
         public override string Type => "NewsArticle";
 

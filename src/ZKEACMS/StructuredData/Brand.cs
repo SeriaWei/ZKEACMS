@@ -2,7 +2,6 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,15 +11,11 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.StructuredData
 {
-    public class Person : StructuredDataBase
+    public class Brand : StructuredDataBase
     {
-        public override string Type { get { return "Person"; } }
+        public override string Type { get { return "Brand"; } }
 
         [JsonProperty("name")]
         public string Name { get; set; }
-
-        [JsonProperty("url")]
-        public string Url { get; set; }
-
     }
 }

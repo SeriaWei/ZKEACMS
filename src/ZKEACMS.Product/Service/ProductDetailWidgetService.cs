@@ -13,6 +13,9 @@ using System.Linq;
 using Easy.Extend;
 using System.Collections.Concurrent;
 using Easy.Constant;
+using Microsoft.AspNetCore.Html;
+using System.Collections.Generic;
+using ZKEACMS.StructuredData;
 
 namespace ZKEACMS.Product.Service
 {
@@ -21,15 +24,18 @@ namespace ZKEACMS.Product.Service
         private const string ProductDetailWidgetRelatedPageUrls = "ProductDetailWidgetRelatedPageUrls";
         private readonly ConcurrentDictionary<string, object> _allRelatedUrlCache;
         private readonly IProductService _productService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public ProductDetailWidgetService(IWidgetBasePartService widgetService,
             IProductService productService,
             IApplicationContext applicationContext,
             Easy.Cache.ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
-            CMSDbContext dbContext)
+            CMSDbContext dbContext,
+            IHttpContextAccessor httpContextAccessor)
             : base(widgetService, applicationContext, dbContext)
         {
             _productService = productService;
             _allRelatedUrlCache = cacheManager.GetOrAdd(ProductDetailWidgetRelatedPageUrls, new ConcurrentDictionary<string, object>());
+            _httpContextAccessor = httpContextAccessor;
         }
         private void DismissRelatedPageUrls()
         {
@@ -84,9 +90,46 @@ namespace ZKEACMS.Product.Service
                 {
                     layout.Page.ConfigSEO(product.SEOTitle ?? product.Title, product.SEOKeyWord, product.SEODescription);
                 }
+
+                AddStructuredDataToPageHeader(product);
             }
 
             return product ?? new ProductEntity();
+        }
+
+        private void AddStructuredDataToPageHeader(ProductEntity product)
+        {
+            var structuredData = new StructuredData.Product
+            {
+                Name = product.Title,
+                Image = GetImages(product).Where(m => m.IsNotNullAndWhiteSpace()).ToArray(),
+                Description = product.Description,
+                MPN = product.PartNumber
+            };
+            IHtmlContent jsonLinkingData = HtmlHelper.SerializeToJsonLinkingData(structuredData);
+            ApplicationContext.As<CMSApplicationContext>().HeaderPart.Add(jsonLinkingData);
+        }
+        private IEnumerable<string> GetImages(ProductEntity product)
+        {
+            yield return ToFullImageUrl(product.ImageUrl);
+            yield return ToFullImageUrl(product.ImageThumbUrl);
+            foreach (var item in product.ProductImages)
+            {
+                yield return ToFullImageUrl(item.ImageUrl);
+            }
+            foreach (var item in HtmlHelper.ParseImageUrls(product.ProductContent))
+            {
+                yield return ToFullImageUrl(item);
+            }
+        }
+
+        private string ToFullImageUrl(string url)
+        {
+            if (url.IsNullOrEmpty() ||
+                url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                url.StartsWith("https://", StringComparison.OrdinalIgnoreCase)) return url;
+
+            return _httpContextAccessor.HttpContext.GetUrlWithHost(url);
         }
 
         public string[] GetRelatedPageUrls()
