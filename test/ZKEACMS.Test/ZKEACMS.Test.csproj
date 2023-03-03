@@ -14,4 +14,8 @@
     <PackageReference Include="Selenium.WebDriver" Version="4.8.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ZKEACMS.EventAction\ZKEACMS.EventAction.csproj" />
+  </ItemGroup>
+
 </Project>

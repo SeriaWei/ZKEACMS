@@ -64,6 +64,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKEACMS.Mail", "src\ZKEACMS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginTemplate", "tools\PluginTemplate\PluginTemplate.csproj", "{80BA2202-E07A-4B01-9952-2F5B82EE3944}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKEACMS.EventAction", "src\ZKEACMS.EventAction\ZKEACMS.EventAction.csproj", "{FAEBBBC8-524E-4AAD-B643-FA1DAFACD7DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -178,6 +180,10 @@ Global
 		{80BA2202-E07A-4B01-9952-2F5B82EE3944}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80BA2202-E07A-4B01-9952-2F5B82EE3944}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80BA2202-E07A-4B01-9952-2F5B82EE3944}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAEBBBC8-524E-4AAD-B643-FA1DAFACD7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAEBBBC8-524E-4AAD-B643-FA1DAFACD7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAEBBBC8-524E-4AAD-B643-FA1DAFACD7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAEBBBC8-524E-4AAD-B643-FA1DAFACD7DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -210,6 +216,7 @@ Global
 		{1B6BE295-F8CA-4B82-800A-8427BD635049} = {81AA2238-D340-4199-B3B9-76AB9792B3E7}
 		{42B1B71F-5E9F-4724-8B6F-252FF74BEF73} = {81AA2238-D340-4199-B3B9-76AB9792B3E7}
 		{80BA2202-E07A-4B01-9952-2F5B82EE3944} = {0B4542D1-4A9B-4C97-A067-D35E924DA9BD}
+		{FAEBBBC8-524E-4AAD-B643-FA1DAFACD7DF} = {81AA2238-D340-4199-B3B9-76AB9792B3E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ABBB3E10-D2E8-438B-B5BB-AB4E824BCB6A}
