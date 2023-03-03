@@ -41,11 +41,11 @@ namespace ZKEACMS.EventAction
                     },
                     new AdminMenu
                     {
-                        Title = "Action Content",
+                        Title = "Action Body",
                         Icon = "glyphicon-log-in",
-                        Url = "~/admin/eventcontent",
+                        Url = "~/admin/actionbody",
                         Order = 1,
-                        PermissionKey=PermissionKeys.ViewEventAction
+                        PermissionKey=PermissionKeys.ViewActionBody
                     }
                 }
             };
@@ -65,6 +65,8 @@ namespace ZKEACMS.EventAction
         {
             yield return new PermissionDescriptor(PermissionKeys.ViewEventAction, "EventAction", "View EventAction", "");
             yield return new PermissionDescriptor(PermissionKeys.ManageEventAction, "EventAction", "Manage EventAction", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewActionBody, "EventAction", "View Action Body", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageActionBody, "EventAction", "Manage Action Body", "");
         }
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
@@ -75,8 +77,12 @@ namespace ZKEACMS.EventAction
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
+
             serviceCollection.AddTransient<IEventActionService, EventActionService>();
             serviceCollection.ConfigureMetaData<Models.EventAction, Models.EventActionMetaData>();
+
+            serviceCollection.AddTransient<IActionBodyService, ActionBodyService>();
+            serviceCollection.ConfigureMetaData<Models.ActionBody, Models.ActionBodyMetaData>();
         }
     }
 }

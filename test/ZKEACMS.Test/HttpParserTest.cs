@@ -10,7 +10,7 @@ using System.Net.Http;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
 using ZKEACMS.EventAction.HttpParser;
-using ZKEACMS.EventAction.Models;
+using ZKEACMS.EventAction.ActionExecutor;
 
 namespace ZKEACMS.Test
 {

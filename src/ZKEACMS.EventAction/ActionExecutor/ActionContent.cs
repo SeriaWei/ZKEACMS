@@ -1,11 +1,15 @@
-﻿using System;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 
-namespace ZKEACMS.EventAction.Models
+namespace ZKEACMS.EventAction.ActionExecutor
 {
     public class ActionContent
     {
@@ -19,6 +23,6 @@ namespace ZKEACMS.EventAction.Models
         public string Uses { get; set; }
 
         [YamlMember(Alias = "with")]
-        public Dictionary<string,string> With { get; set; }
+        public Dictionary<string, string> With { get; set; }
     }
 }

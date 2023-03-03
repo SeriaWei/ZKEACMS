@@ -16,6 +16,7 @@ namespace ZKEACMS.EventAction
         public void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Models.EventAction>();
+            modelBuilder.Entity<Models.ActionBody>();
         }
     }
 }

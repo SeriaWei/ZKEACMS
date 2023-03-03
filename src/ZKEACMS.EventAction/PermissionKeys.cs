@@ -13,5 +13,7 @@ namespace ZKEACMS.EventAction
     {
         public const string ViewEventAction = "EventAction_View";
         public const string ManageEventAction = "EventAction_Manage";
+        public const string ViewActionBody = "ActionBody_View";
+        public const string ManageActionBody = "ActionBody_Manage";
     }
 }
