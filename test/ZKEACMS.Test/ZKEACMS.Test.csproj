@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\ZKEACMS.EventAction\ZKEACMS.EventAction.csproj" />
+    <ProjectReference Include="..\..\src\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
 
 </Project>

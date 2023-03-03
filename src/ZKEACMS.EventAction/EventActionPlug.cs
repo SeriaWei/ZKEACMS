@@ -1,7 +1,7 @@
 ﻿/* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
- 
+
 using Easy.Mvc.Resource;
 using Easy.Mvc.Route;
 using System;
@@ -24,7 +24,31 @@ namespace ZKEACMS.EventAction
 
         public override IEnumerable<AdminMenu> AdminMenu()
         {
-            return null;
+            yield return new AdminMenu
+            {
+                Title = "Event Action",
+                Icon = "glyphicon-flash",
+                Order = 14,
+                Children = new List<AdminMenu>
+                {
+                    new AdminMenu
+                    {
+                        Title = "Action",
+                        Icon = "glyphicon-console",
+                        Url = "~/admin/eventaction",
+                        Order = 0,
+                        PermissionKey=PermissionKeys.ViewEventAction
+                    },
+                    new AdminMenu
+                    {
+                        Title = "Action Content",
+                        Icon = "glyphicon-log-in",
+                        Url = "~/admin/eventcontent",
+                        Order = 1,
+                        PermissionKey=PermissionKeys.ViewEventAction
+                    }
+                }
+            };
         }
 
         protected override void InitScript(Func<string, ResourceHelper> script)
