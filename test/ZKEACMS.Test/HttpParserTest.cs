@@ -7,6 +7,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.IO;
 using System.Net.Http;
+using ZKEACMS.EventAction.HttpParser;
 
 namespace ZKEACMS.Test
 {
@@ -16,14 +17,7 @@ namespace ZKEACMS.Test
         [TestMethod]
         public void ParseHttpRequest()
         {
-            var message = ZKEACMS.EventAction.HttpParser.HttpRequest.ParseHttpRequest(@"POST http://localhost:5000/api/account/createtoken
-Content-Type: application/json
-
-{
-  ""userID"": ""admin"",
-  ""passWord"": ""admin""
-}").ToHttpRequestMessage();
-            var s = new HttpClient().Send(message).Content.ReadAsStringAsync().Result;
+            var message = HttpRequestContent.Parse(@"GET http://www.zkea.net/").ConvertToHttpRequestMessage();
         }
     }
 }

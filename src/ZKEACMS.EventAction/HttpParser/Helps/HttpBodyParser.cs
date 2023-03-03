@@ -1,14 +1,18 @@
-﻿using System;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+ 
+using System;
 using System.Linq;
 using System.Text;
 
-namespace ZKEACMS.EventAction.HttpParser
+namespace ZKEACMS.EventAction.HttpParser.Helps
 {
-    class RequestHttpBody
+    class HttpBodyParser
     {
         public string Body { get; set; }
 
-        public RequestHttpBody(string[] lines)
+        public HttpBodyParser(string[] lines)
         {
             Body = SetBodyFromPost(lines);
         }

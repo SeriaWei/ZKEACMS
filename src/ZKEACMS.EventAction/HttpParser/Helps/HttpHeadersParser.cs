@@ -1,13 +1,17 @@
-﻿using System;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+ 
+using System;
 using System.Collections.Generic;
 
-namespace ZKEACMS.EventAction.HttpParser
+namespace ZKEACMS.EventAction.HttpParser.Helps
 {
-    class RequestHttpHeaders
+    class HttpHeadersParser
     {
         public Dictionary<string, string> Headers { get; set; }
 
-        public RequestHttpHeaders(string[] lines)
+        public HttpHeadersParser(string[] lines)
         {
             InitializeHeaders(lines);
         }

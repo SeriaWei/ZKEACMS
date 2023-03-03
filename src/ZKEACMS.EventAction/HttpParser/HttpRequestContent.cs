@@ -1,14 +1,19 @@
-﻿using Easy.Extend;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using Easy.Extend;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using ZKEACMS.EventAction.HttpParser.Helps;
 
 namespace ZKEACMS.EventAction.HttpParser
 {
-    public partial class HttpRequest
+    public partial class HttpRequestContent
     {
         public string Url { get; set; }
         public string Method { get; set; }
@@ -16,42 +21,25 @@ namespace ZKEACMS.EventAction.HttpParser
         public Dictionary<string, string> Headers { get; set; }
         public Dictionary<string, string> Cookies { get; set; }
         public string RequestBody { get; set; }
-
-        public HttpRequestMessage ToHttpRequestMessage()
+        public static HttpRequestContent Parse(string httpDefinition)
         {
-            const string ContentType = "Content-Type";
+            var lines = SplitToLines(httpDefinition);
+            var requestHttp = new HttpBaseInfo(lines[0]);
 
-            var httpRequest = new HttpRequestMessage
+            var parsed = new HttpRequestContent()
             {
-                RequestUri = new Uri(Url),
-                Method = new HttpMethod(Method),
-                Version = new System.Version(HttpVersion.Substring(5))
+                Url = requestHttp.Url,
+                Method = requestHttp.Method,
+                HttpVersion = requestHttp.HttpVersion,
+                Headers = new HttpHeadersParser(lines).Headers,
+                Cookies = new HttpCookiesParser(lines).Cookies,
+                RequestBody = new HttpBodyParser(lines).Body
             };
-            string contentType = null;
-            foreach (var item in Headers)
-            {
-                if (item.Key.Equals(ContentType, StringComparison.OrdinalIgnoreCase))
-                {
-                    contentType = item.Value;
-                    continue;
-                }
+            return parsed;
 
-                httpRequest.Headers.Add(item.Key, item.Value);
-            }
-            if (Cookies != null && Cookies.Count > 0)
-            {
-                httpRequest.Headers.Add("Cookie", string.Join("; ", Cookies.Select(cookie => $"{cookie.Key}={cookie.Value}")));
-            }
-            if (contentType != null)
-            {
-                httpRequest.Content = new StringContent(RequestBody, new System.Net.Http.Headers.MediaTypeHeaderValue(contentType));
-            }
-            else
-            {
-                httpRequest.Content = new StringContent(RequestBody);
-            }
-            return httpRequest;
         }
+        
+
         public override string ToString()
         {
             var sb = new StringBuilder($"{Method} {Url} {HttpVersion}{Environment.NewLine}");
@@ -78,6 +66,10 @@ namespace ZKEACMS.EventAction.HttpParser
             }
 
             return sb.ToString().Trim();
+        }
+        private static string[] SplitToLines(string raw)
+        {
+            return raw.Trim().Split(new[] { "\n", "\r\n" }, StringSplitOptions.None);
         }
     }
 }

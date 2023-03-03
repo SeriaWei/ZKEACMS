@@ -1,11 +1,15 @@
-﻿using System;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+ 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace ZKEACMS.EventAction.HttpParser
+namespace ZKEACMS.EventAction.HttpParser.Helps
 {
-    class RequestHttpBaseInfo
+    class HttpBaseInfo
     {
         private static Regex _httpVersionValidate = new Regex(@"HTTP/\d.\d", RegexOptions.Compiled);
         private static readonly HashSet<string> validHttpVerbs = new HashSet<string> { "GET", "POST", "HEAD", "PUT", "DELETE", "MOVE", "TRACE", "CONNECT", "OPTIONS" };
@@ -14,7 +18,7 @@ namespace ZKEACMS.EventAction.HttpParser
         public string Url { get; set; }
         public string HttpVersion { get; set; } = "HTTP/1.1";
 
-        public RequestHttpBaseInfo(string requestDefinition)
+        public HttpBaseInfo(string requestDefinition)
         {
             var definitionArray = requestDefinition.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
