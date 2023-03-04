@@ -30,6 +30,13 @@ namespace ZKEACMS.Event
                     (_serviceProvider.GetService(item) as IEventHandler)?.Handle(entity, e);
                 }
             }
+            if (Handlers.ContainsKey(Events.All))
+            {
+                foreach (Type item in Handlers[Events.All])
+                {
+                    (_serviceProvider.GetService(item) as IEventHandler)?.Handle(entity, e);
+                }
+            }
         }
         internal static void RegistEvent(string name, Type type)
         {

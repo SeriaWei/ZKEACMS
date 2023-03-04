@@ -15,7 +15,7 @@ using ZKEACMS.Event;
 
 namespace ZKEACMS.EventAction.Models
 {
-    [DataTable("EventAction")]
+    [DataTable("EA_EventAction")]
     public class EventAction : EditorEntity
     {
         [Key]

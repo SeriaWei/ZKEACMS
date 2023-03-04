@@ -83,6 +83,11 @@ namespace ZKEACMS.EventAction
 
             serviceCollection.AddTransient<IActionBodyService, ActionBodyService>();
             serviceCollection.ConfigureMetaData<Models.ActionBody, Models.ActionBodyMetaData>();
+
+            serviceCollection.RegistEvent<ActionExecutor.EventHandler>(Event.Events.All);
+
+            serviceCollection.RegistActionExecutor<ActionExecutor.Executors.EmailExecutor>(ActionExecutor.Executors.EmailExecutor.Name);
+            serviceCollection.RegistActionExecutor<ActionExecutor.Executors.HttpExecutor>(ActionExecutor.Executors.HttpExecutor.Name);
         }
     }
 }

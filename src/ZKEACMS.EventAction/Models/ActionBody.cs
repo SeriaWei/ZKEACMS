@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.EventAction.Models
 {
-    [DataTable("ActionBody")]
+    [DataTable("EA_ActionBody")]
     public class ActionBody : EditorEntity
     {
         [Key]

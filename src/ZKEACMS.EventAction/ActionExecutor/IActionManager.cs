@@ -1,17 +1,17 @@
 ﻿/* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
- 
-using Easy.RepositoryPattern;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace ZKEACMS.EventAction.Service
+namespace ZKEACMS.EventAction.ActionExecutor
 {
-    public interface IEventActionService : IService<Models.EventAction>
+    public interface IActionManager
     {
-        List<Models.EventAction> GetAllActivedActinosFromCache();
+        IActionExecutor CreateExecutor(string name);
     }
 }

@@ -17,6 +17,11 @@ namespace ZKEACMS.EventAction.Service
     {
         public EventActionService(IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
-        }        
+        }
+
+        public List<Models.EventAction> GetAllActivedActinosFromCache()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
