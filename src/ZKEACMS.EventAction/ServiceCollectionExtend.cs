@@ -19,7 +19,7 @@ namespace ZKEACMS.EventAction
            where ActionExecutor : class, IActionExecutor
         {
             Type type = typeof(ActionExecutor);
-            ActionManager.RegistExecutor(uniqueUseName, type);
+            ExecutorManager.RegistExecutor(uniqueUseName, type);
             services.AddTransient(type);
         }
     }

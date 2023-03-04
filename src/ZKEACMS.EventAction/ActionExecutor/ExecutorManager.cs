@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.EventAction.ActionExecutor
 {
-    public class ActionManager : IActionManager
+    public class ExecutorManager : IExecutorManager
     {
         private static Dictionary<string, Type> _executors = new Dictionary<string, Type>();
         private readonly IServiceProvider _serviceProvider;
 
-        public ActionManager(IServiceProvider serviceProvider)
+        public ExecutorManager(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }

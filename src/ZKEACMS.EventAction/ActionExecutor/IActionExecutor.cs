@@ -8,11 +8,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZKEACMS.Event;
 
 namespace ZKEACMS.EventAction.ActionExecutor
 {
     public interface IActionExecutor
     {
-        ServiceResult Execute(object entity, Dictionary<string, string> args);
+        ServiceResult Execute(Dictionary<string, string> args, object model, EventArg e);
     }
 }

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZKEACMS.Event;
 
 namespace ZKEACMS.EventAction.ActionExecutor.Executors
 {
@@ -17,7 +18,7 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
     {
         public const string Name = "actions/http";
 
-        public ServiceResult Execute(object entity, Dictionary<string, string> args)
+        public ServiceResult Execute(Dictionary<string, string> args, object model, EventArg e)
         {
             //_emailNotification.SendEmail(new EmailMessage { });
             return new ServiceResult();

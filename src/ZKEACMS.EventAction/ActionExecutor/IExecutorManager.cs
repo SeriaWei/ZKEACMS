@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.EventAction.ActionExecutor
 {
-    public interface IActionManager
+    public interface IExecutorManager
     {
         IActionExecutor CreateExecutor(string name);
     }

@@ -12,6 +12,8 @@ using Easy.RepositoryPattern;
 using Easy;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.EventAction.Service;
+using ZKEACMS.EventAction.ActionExecutor;
+using Easy.Extend;
 
 namespace ZKEACMS.EventAction
 {
@@ -86,8 +88,10 @@ namespace ZKEACMS.EventAction
 
             serviceCollection.RegistEvent<ActionExecutor.EventHandler>(Event.Events.All);
 
+            serviceCollection.AddScoped<IExecutorManager, ExecutorManager>();
             serviceCollection.RegistActionExecutor<ActionExecutor.Executors.EmailExecutor>(ActionExecutor.Executors.EmailExecutor.Name);
             serviceCollection.RegistActionExecutor<ActionExecutor.Executors.HttpExecutor>(ActionExecutor.Executors.HttpExecutor.Name);
+            serviceCollection.ConfigureCache<Dictionary<string, List<EventActionContent>>>();
         }
     }
 }
