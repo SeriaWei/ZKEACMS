@@ -16,9 +16,6 @@ namespace ZKEACMS.EventAction.ActionExecutor
         [YamlMember(Alias = "name")]
         public string Name { get; set; }
 
-        [YamlMember(Alias = "condition")]
-        public string Condition { get; set; }
-
         [YamlMember(Alias = "description")]
         public string Description { get; set; }
 
