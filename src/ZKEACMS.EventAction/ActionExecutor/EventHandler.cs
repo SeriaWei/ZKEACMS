@@ -40,7 +40,6 @@ namespace ZKEACMS.EventAction.ActionExecutor
 
                 foreach (var parsedAction in actionContent.Actions)
                 {
-
                     var executor = _actionManager.CreateExecutor(parsedAction.Uses);
                     if (executor == null) continue;
 

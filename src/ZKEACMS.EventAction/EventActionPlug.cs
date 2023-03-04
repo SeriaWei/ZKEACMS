@@ -14,6 +14,7 @@ using ZKEACMS.WidgetTemplate;
 using ZKEACMS.EventAction.Service;
 using ZKEACMS.EventAction.ActionExecutor;
 using Easy.Extend;
+using ZKEACMS.EventAction.HttpParser;
 
 namespace ZKEACMS.EventAction
 {
@@ -89,9 +90,13 @@ namespace ZKEACMS.EventAction
             serviceCollection.RegistEvent<ActionExecutor.EventHandler>(Event.Events.All);
 
             serviceCollection.AddScoped<IExecutorManager, ExecutorManager>();
+            serviceCollection.AddScoped<IHttpRequesetSender, HttpRequesetSender>();
+            serviceCollection.AddSingleton<IHttpRequestQueue, HttpRequestQueue>();
             serviceCollection.RegistActionExecutor<ActionExecutor.Executors.EmailExecutor>(ActionExecutor.Executors.EmailExecutor.Name);
             serviceCollection.RegistActionExecutor<ActionExecutor.Executors.HttpExecutor>(ActionExecutor.Executors.HttpExecutor.Name);
             serviceCollection.ConfigureCache<Dictionary<string, List<EventActionContent>>>();
+
+            serviceCollection.AddHostedService<HttpRequestBackgroundService>();
         }
     }
 }
