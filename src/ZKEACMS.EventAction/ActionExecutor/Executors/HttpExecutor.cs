@@ -33,15 +33,15 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
 
         public ServiceResult Execute(Dictionary<string, string> args, object model, EventArg e)
         {
-            string requestBody;
-            if (!args.TryGetValue("request", out requestBody))
+            string requestBody = args.GetValueOrDefault("request");
+
+            if (requestBody.IsNullOrWhiteSpace() &&
+                args.TryGetValue("requestContentId", out var actionBodyId) &&
+                int.TryParse(actionBodyId, out int id))
             {
-                if (args.TryGetValue("requestContentId", out var actionBodyId) && int.TryParse(actionBodyId, out int id))
-                {
-                    var actionBody = _actionBodyService.Get(id);
-                    requestBody = actionBody.Body;
-                }
+                requestBody = _actionBodyService.Get(id)?.Body;
             }
+
             if (requestBody.IsNullOrWhiteSpace()) return new ServiceResult();
 
             var request = ParseRequest(model, requestBody);
@@ -50,8 +50,11 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
         }
         private HttpRequestContent ParseRequest(object model, string request)
         {
-            //todo: Bind model property values
-            return HttpRequestContent.Parse(request);
+            return HttpRequestContent.Parse(RenderRequest(model, request));
+        }
+        private string RenderRequest(object model, string request)
+        {
+            return request;
         }
         private void PushRequestInQueue(HttpRequestContent httpRequest)
         {
