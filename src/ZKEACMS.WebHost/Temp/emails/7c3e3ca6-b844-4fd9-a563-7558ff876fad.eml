@@ -1,0 +1,15 @@
+X-Sender: webmaster@zkea.net
+X-Receiver: wayne@king.com
+X-Receiver: toin@body.com
+X-Receiver: job@king.com
+X-Receiver: hello@kingston.com
+MIME-Version: 1.0
+From: webmaster@zkea.net
+To: wayne@king.com, toin@body.com
+Cc: job@king.com
+Date: 5 Mar 2023 18:53:17 +0800
+Subject: welcome to china
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+
+DQo8aDE+SGVsbG8gd29yZDwvaDE+DQo=

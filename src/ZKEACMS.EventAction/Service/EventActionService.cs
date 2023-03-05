@@ -26,7 +26,21 @@ namespace ZKEACMS.EventAction.Service
         {
             _cacheManager = cacheManager;
         }
-
+        public override ServiceResult<Models.EventAction> Update(Models.EventAction item)
+        {
+            _cacheManager.Clear();
+            return base.Update(item);
+        }
+        public override ServiceResult<Models.EventAction> Add(Models.EventAction item)
+        {
+            _cacheManager.Clear();
+            return base.Add(item);
+        }
+        public override void Remove(Models.EventAction item)
+        {
+            _cacheManager.Clear();
+            base.Remove(item);
+        }
         public Dictionary<string, List<EventActionContent>> GetAllActivedActinosFromCache()
         {
             return _cacheManager.GetOrAdd("AllActivedActinos", key =>
