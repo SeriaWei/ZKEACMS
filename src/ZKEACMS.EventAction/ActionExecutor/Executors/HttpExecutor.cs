@@ -3,17 +3,10 @@
  * http://www.zkea.net/licenses */
 
 using Easy.Extend;
-using Easy.Notification;
-using Easy.Notification.Queue;
 using Easy.RepositoryPattern;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ZKEACMS.Event;
 using ZKEACMS.EventAction.HttpParser;
-using ZKEACMS.EventAction.Models;
 using ZKEACMS.EventAction.Service;
 
 namespace ZKEACMS.EventAction.ActionExecutor.Executors
@@ -39,22 +32,14 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
                 args.TryGetValue("requestContentId", out var actionBodyId) &&
                 int.TryParse(actionBodyId, out int id))
             {
-                requestBody = _actionBodyService.Get(id)?.Body;
+                requestBody = _actionBodyService.RenderBody(id, model);
             }
 
             if (requestBody.IsNullOrWhiteSpace()) return new ServiceResult();
 
-            var request = ParseRequest(model, requestBody);
+            var request = HttpRequestContent.Parse(requestBody);
             PushRequestInQueue(request);
             return new ServiceResult();
-        }
-        private HttpRequestContent ParseRequest(object model, string request)
-        {
-            return HttpRequestContent.Parse(RenderRequest(model, request));
-        }
-        private string RenderRequest(object model, string request)
-        {
-            return request;
         }
         private void PushRequestInQueue(HttpRequestContent httpRequest)
         {

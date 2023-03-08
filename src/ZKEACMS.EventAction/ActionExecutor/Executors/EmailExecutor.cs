@@ -4,14 +4,12 @@
 
 using Easy.Extend;
 using Easy.Notification;
-using Easy.Notification.Queue;
 using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ZKEACMS.Event;
 using ZKEACMS.EventAction.Service;
 
@@ -39,22 +37,18 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
                 args.TryGetValue("bodyContentId", out string contentId) &&
                 int.TryParse(contentId, out int id))
             {
-                emailBody = _actionBodyService.Get(id)?.Body;
+                emailBody = _actionBodyService.RenderBody(id, model);
                 var parsedResult = ParseEmailHeaders(emailBody);
                 emailBody = parsedResult.EmailBody;
                 MergeEmailHeader(emailMessage, parsedResult.Headers);
             }
 
-            emailMessage.Content = RenderEmailBody(model, emailBody);
+            emailMessage.Content = emailBody;
             emailMessage.IsHtml = true;
             if (emailMessage.To == null || emailMessage.To.Length == 0) return new ServiceResult();
 
             _emailNotification.SendEmail(emailMessage);
             return new ServiceResult();
-        }
-        private string RenderEmailBody(object model, string body)
-        {
-            return body;
         }
         private EmailMessage CreateEmailMessage(Dictionary<string, string> args)
         {

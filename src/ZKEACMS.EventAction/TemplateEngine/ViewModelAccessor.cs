@@ -16,6 +16,10 @@ namespace ZKEACMS.EventAction.TemplateEngine
     public class ViewModelAccessor : IMemberAccessor
     {
         private readonly JToken obj;
+        public ViewModelAccessor()
+        {
+
+        }
         public ViewModelAccessor(JToken obj)
         {
             this.obj = obj;
