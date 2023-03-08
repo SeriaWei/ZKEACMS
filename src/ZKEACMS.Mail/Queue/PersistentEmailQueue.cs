@@ -20,32 +20,25 @@ namespace ZKEACMS.Mail.Queue
 {
     public class PersistentEmailQueue : PluginData<MailPlug>, IEmailQueue
     {
-        private Stack<BlockedEmailQueueReader> _queueReaders = new Stack<BlockedEmailQueueReader>();
-        private System.Timers.Timer _blockedQueueReaderTrigger;
-
         public PersistentEmailQueue(ILogger<MailPlug> logger) : base(logger)
         {
-            _blockedQueueReaderTrigger = new System.Timers.Timer(2000);
-            _blockedQueueReaderTrigger.Elapsed += Elapsed;
-        }
-
-        private void Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            Dequeue();
         }
 
         private ILiteCollection<T> GetMailCollection<T>() where T : EmailContext
         {
             return GetCollection<T>("Emails");
         }
-        public Task<EmailContext> Receive(CancellationToken cancellationToken = default)
+        public async Task<EmailContext> Receive(CancellationToken cancellationToken = default)
         {
             var result = ReceiveFromFile();
-            if (result != null) return Task.FromResult(result);
+            if (result != null) return result;
 
-            BlockedEmailQueueReader queueReader = new BlockedEmailQueueReader(cancellationToken);
-            _queueReaders.Push(queueReader);
-            return queueReader.Task;
+#if DEBUG
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+#else
+            await Task.Delay(TimeSpan.FromSeconds(60), cancellationToken);
+#endif
+            return null;
         }
 
         public EmailContext ReceiveFromFile()
@@ -63,32 +56,7 @@ namespace ZKEACMS.Mail.Queue
         public Task Send(EmailContext emailMessage)
         {
             GetMailCollection<EmailContext>().Insert(emailMessage);
-            if (!_blockedQueueReaderTrigger.Enabled)
-            {
-                _blockedQueueReaderTrigger.Start();
-            }
             return Task.CompletedTask;
-        }
-        private void Dequeue()
-        {
-            lock (_queueReaders)
-            {
-                while (_queueReaders.Count > 0)
-                {
-                    var result = ReceiveFromFile();
-                    if (result == null)
-                    {
-                        _blockedQueueReaderTrigger.Stop();
-                        return;
-                    }
-
-                    BlockedEmailQueueReader queueReader;
-                    if (_queueReaders.TryPop(out queueReader))
-                    {
-                        queueReader.ContinueWithResult(result);
-                    }
-                }
-            }
         }
     }
 }
