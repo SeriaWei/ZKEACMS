@@ -25,6 +25,7 @@ using ZKEACMS.Notification;
 using ZKEACMS.Options;
 using ZKEACMS.PackageManger;
 using ZKEACMS.Page;
+using ZKEACMS.PendingTask;
 using ZKEACMS.Product.Models;
 using ZKEACMS.Setting;
 using ZKEACMS.SMTP;
@@ -82,6 +83,9 @@ namespace ZKEACMS
             services.AddTransient<IStorage, WebStorage>();
             services.AddTransient<ICurrencyService, CurrencyService>();
             services.AddScoped<ITemplateService, TemplateService>();
+
+
+            services.TryAddTransient<IPendingTaskManager, PendingTaskManager>();
 
             services.ConfigureStateProvider<StateProvider.OuterChainPictureStateProvider>();
             services.ConfigureStateProvider<StateProvider.EnableResponsiveDesignStateProvider>();

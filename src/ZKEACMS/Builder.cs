@@ -38,14 +38,14 @@ namespace ZKEACMS
             services.ConfigAuthentication();
         }
 
-        public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
+        public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IWebHostEnvironment hostingEnvironment, IServiceProvider serviceProvider)
         {
             if (hostingEnvironment.IsDevelopment())
             {
                 applicationBuilder.UsePluginStaticFile();
             }
             applicationBuilder.UseStaticFiles();
-            ServiceLocator.Setup(httpContextAccessor);
+            ServiceLocator.Setup(serviceProvider);
             applicationBuilder.ConfigureResource();
             applicationBuilder.ConfigurePlugin(hostingEnvironment);
             applicationBuilder.UseSession();

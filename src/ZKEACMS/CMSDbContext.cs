@@ -11,6 +11,7 @@ using ZKEACMS.ExtendField;
 using ZKEACMS.Layout;
 using ZKEACMS.Media;
 using ZKEACMS.Page;
+using ZKEACMS.PendingTask;
 using ZKEACMS.Setting;
 using ZKEACMS.Theme;
 using ZKEACMS.Widget;

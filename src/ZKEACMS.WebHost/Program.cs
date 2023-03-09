@@ -55,7 +55,7 @@ namespace ZKEACMS.WebHost
                 app.UseStatusCodePagesWithReExecute("/Error/Code/{0}");
             }
 
-            app.UseZKEACMS(app.Environment, app.Services.GetService<IHttpContextAccessor>());
+            app.UseZKEACMS(app.Environment, app.Services);
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using ZKEACMS.DbConnectionPool;
 using ZKEACMS.Event;
+using ZKEACMS.PendingTask;
 
 namespace ZKEACMS
 {
@@ -33,6 +34,14 @@ namespace ZKEACMS
             {
                 EventManager.RegistEvent(name, type);
             }
+            services.AddScoped(type);
+        }
+
+        public static void RegistPendingTask<Handler>(this IServiceCollection services, string name)
+            where Handler : class, IPendingTaskHandler<object>
+        {
+            Type type = typeof(Handler);
+            PendingTaskManager.RegistTaskHandler(name, type);
             services.AddScoped(type);
         }
     }

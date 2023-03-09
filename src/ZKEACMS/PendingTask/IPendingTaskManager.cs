@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +12,6 @@ namespace ZKEACMS.PendingTask
 {
     public interface IPendingTaskManager
     {
-        void ProcessAllPendingTasks();
+        Task ProcessAllPendingTaskAsync();
     }
 }

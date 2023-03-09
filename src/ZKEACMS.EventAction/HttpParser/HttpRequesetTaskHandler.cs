@@ -9,18 +9,23 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using ZKEACMS.PendingTask;
 
 namespace ZKEACMS.EventAction.HttpParser
 {
-    public class HttpRequesetSender : IHttpRequesetSender
+    public class HttpRequesetTaskHandler : PendingTaskHandler<HttpRequestContent>
     {
+        public const string Name = "HttpRequesetTaskHandler";
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly ILogger<HttpRequesetSender> _logger;
 
-        public HttpRequesetSender(IHttpClientFactory httpClientFactory, ILogger<HttpRequesetSender> logger)
+        public HttpRequesetTaskHandler(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _logger = logger;
+        }
+
+        public override async Task ExecuteAsync(object context)
+        {
+            await SendAsync(context as HttpRequestContent);
         }
 
         public async Task SendAsync(HttpRequestContent httpRequest)
@@ -30,7 +35,7 @@ namespace ZKEACMS.EventAction.HttpParser
                 string responseContent = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode) return;
 
-                _logger.LogError($"Send http request with error.\r\nPayload:\r\n{httpRequest}\r\nResponse:\r\n{responseContent}");
+                throw new Exception($"Send http request with error.\r\nPayload:\r\n{httpRequest}\r\nResponse:\r\n{responseContent}");
             }
         }
     }

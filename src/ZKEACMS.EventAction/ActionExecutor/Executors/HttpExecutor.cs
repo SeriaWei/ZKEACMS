@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using ZKEACMS.Event;
 using ZKEACMS.EventAction.HttpParser;
 using ZKEACMS.EventAction.Service;
+using ZKEACMS.PendingTask;
 
 namespace ZKEACMS.EventAction.ActionExecutor.Executors
 {
@@ -16,12 +17,12 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
         public const string Name = "actions/http";
 
         private readonly IActionBodyService _actionBodyService;
-        private readonly IHttpRequestQueue _httpRequestQueue;
+        private readonly IPendingTaskService _pendingTaskService;
 
-        public HttpExecutor(IActionBodyService actionBodyService, IHttpRequestQueue httpRequestQueue)
+        public HttpExecutor(IActionBodyService actionBodyService, IPendingTaskService pendingTaskService)
         {
             _actionBodyService = actionBodyService;
-            _httpRequestQueue = httpRequestQueue;
+            _pendingTaskService = pendingTaskService;
         }
 
         public ServiceResult Execute(Dictionary<string, string> args, object model, EventArg e)
@@ -43,7 +44,7 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
         }
         private void PushRequestInQueue(HttpRequestContent httpRequest)
         {
-            _httpRequestQueue.Push(httpRequest);
+            _pendingTaskService.Add(HttpRequesetTaskHandler.Name, httpRequest);
         }
     }
 }
