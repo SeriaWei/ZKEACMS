@@ -4,58 +4,30 @@
 
 using Easy.Notification;
 using Easy.Notification.Queue;
-using LiteDB;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using ZKEACMS.Storage;
+using ZKEACMS.PendingTask;
 
 namespace ZKEACMS.Mail.Queue
 {
-    public class PersistentEmailQueue : PluginData<MailPlug>, IEmailQueue
+    public class PersistentEmailQueue : IEmailQueue
     {
-        public PersistentEmailQueue(ILogger<MailPlug> logger) : base(logger)
+        private readonly IPendingTaskService _pendingTaskService;
+
+        public PersistentEmailQueue(IPendingTaskService pendingTaskService)
         {
+            _pendingTaskService = pendingTaskService;
         }
 
-        private ILiteCollection<T> GetMailCollection<T>() where T : EmailContext
+        public Task<EmailContext> Receive(CancellationToken cancellationToken = default)
         {
-            return GetCollection<T>("Emails");
-        }
-        public async Task<EmailContext> Receive(CancellationToken cancellationToken = default)
-        {
-            var result = ReceiveFromFile();
-            if (result != null) return result;
-
-#if DEBUG
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-#else
-            await Task.Delay(TimeSpan.FromSeconds(60), cancellationToken);
-#endif
-            return null;
-        }
-
-        public EmailContext ReceiveFromFile()
-        {
-            var collection = GetMailCollection<EmailContextQueueItem>();
-            if (collection.Count() == 0) return null;
-
-            var result = collection.Find(m => m.RetryCount < 10, 0, 1).FirstOrDefault();
-            if (result == null) return null;
-
-            collection.Delete(result.Id);
-            return result;
+            throw new NotImplementedException();
         }
 
         public Task Send(EmailContext emailMessage)
         {
-            GetMailCollection<EmailContext>().Insert(emailMessage);
+            _pendingTaskService.Add(EmailPendingTaskHandler.Name, emailMessage);
             return Task.CompletedTask;
         }
     }

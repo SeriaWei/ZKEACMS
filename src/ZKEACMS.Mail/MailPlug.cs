@@ -50,7 +50,7 @@ namespace ZKEACMS.Mail
         {
             serviceCollection.Replace(new ServiceDescriptor(typeof(IEmailQueue), typeof(PersistentEmailQueue), ServiceLifetime.Singleton));
 
-            serviceCollection.AddHostedService<SendEmailBackgroundService>();
+            serviceCollection.RegistPendingTask<EmailPendingTaskHandler>(EmailPendingTaskHandler.Name);
         }
     }
 }

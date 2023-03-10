@@ -2,6 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -20,21 +21,20 @@ namespace ZKEACMS.EventAction
     internal class PendingTaskBackgroundService : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
+        bool _production;
 
-        public PendingTaskBackgroundService(IServiceProvider serviceProvider)
+        public PendingTaskBackgroundService(IServiceProvider serviceProvider, IWebHostEnvironment webHostEnvironment)
         {
             _serviceProvider = serviceProvider;
+            _production = webHostEnvironment.IsProduction();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-#if DEBUG
-                await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
-#else
-            await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);
-#endif
+                await Task.Delay(TimeSpan.FromSeconds(_production ? 60 : 5), stoppingToken);
+
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     try

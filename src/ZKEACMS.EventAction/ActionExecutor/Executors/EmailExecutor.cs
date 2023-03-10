@@ -18,14 +18,13 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
     public class EmailExecutor : IActionExecutor
     {
         public const string Name = "actions/email";
-        private readonly IEmailNotification _emailNotification;
+        private readonly INotificationManager _notificationManager;
         private readonly IActionBodyService _actionBodyService;
 
-        public EmailExecutor(IEmailNotification emailNotification,
-            IActionBodyService actionBodyService)
+        public EmailExecutor(IActionBodyService actionBodyService, INotificationManager notificationManager)
         {
-            _emailNotification = emailNotification;
             _actionBodyService = actionBodyService;
+            _notificationManager = notificationManager;
         }
 
         public ServiceResult Execute(Dictionary<string, string> args, object model, EventArg e)
@@ -47,7 +46,7 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
             emailMessage.IsHtml = true;
             if (emailMessage.To == null || emailMessage.To.Length == 0) return new ServiceResult();
 
-            _emailNotification.SendEmail(emailMessage);
+            _notificationManager.Send(emailMessage);
             return new ServiceResult();
         }
         private EmailMessage CreateEmailMessage(Dictionary<string, string> args)
