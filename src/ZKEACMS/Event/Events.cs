@@ -15,6 +15,10 @@ namespace ZKEACMS.Event
         public const string OnDatabaseCreated = "ZKEACMS.Events.OnDatabaseCreated";
         #endregion
 
+        #region Account
+        public const string OnResetPassword = "ZKEACMS.Events.OnResetPassword";
+        #endregion
+
         #region Page
         public const string OnPageAdding = "ZKEACMS.Events.OnPageAdding";
         public const string OnPageAdded = "ZKEACMS.Events.OnPageAdded";

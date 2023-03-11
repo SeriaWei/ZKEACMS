@@ -14,7 +14,6 @@ using Easy;
 using ZKEACMS.FormGenerator.Models;
 using ZKEACMS.WidgetTemplate;
 using ZKEACMS.FormGenerator.Service.Validator;
-using ZKEACMS.FormGenerator.EventHandler;
 
 namespace ZKEACMS.FormGenerator
 {
@@ -135,8 +134,6 @@ namespace ZKEACMS.FormGenerator
             serviceCollection.ConfigureMetaData<Form, FormMetaData>();
             serviceCollection.ConfigureMetaData<FormData, FormDataMetaData>();
             serviceCollection.ConfigureMetaData<FormWidget, FormWidgetMetaData>();
-
-            serviceCollection.RegistEvent<NotifyOnFormDataSubmittedEventHandler>(Events.OnFormDataSubmitted);
 
             serviceCollection.Configure<FormWidget>(option =>
             {

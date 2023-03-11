@@ -75,22 +75,26 @@ namespace ZKEACMS.FormGenerator.Models
         }
         public List<FieldOption> FieldOptions { get; set; }
         public List<AdditionalSetting> AdditionalSettings { get; set; }
-        public string DisplayValue()
+
+        public string DisplayValue
         {
-            StringBuilder valueContent = new StringBuilder();
-            if ((Name == "Checkbox" || Name == "Radio" || Name == "Dropdown") && FieldOptions != null)
+            get
             {
-                valueContent.Append(string.Join("\r\n", FieldOptions.Where(m => m.Selected ?? false).Select(m => m.DisplayText)));
+                StringBuilder valueContent = new StringBuilder();
+                if ((Name == "Checkbox" || Name == "Radio" || Name == "Dropdown") && FieldOptions != null)
+                {
+                    valueContent.Append(string.Join("\r\n", FieldOptions.Where(m => m.Selected ?? false).Select(m => m.DisplayText)));
+                }
+                else if (Name == "Address" && Value.IsNotNullAndWhiteSpace())
+                {
+                    valueContent.Append(string.Join(" ", Easy.Serializer.JsonConverter.Deserialize<string[]>(Value)));
+                }
+                else
+                {
+                    valueContent.Append(Value);
+                }
+                return valueContent.ToString();
             }
-            else if (Name == "Address" && Value.IsNotNullAndWhiteSpace())
-            {
-                valueContent.Append(string.Join(" ", Easy.Serializer.JsonConverter.Deserialize<string[]>(Value)));
-            }
-            else
-            {
-                valueContent.Append(Value);
-            }
-            return valueContent.ToString();
         }
     }
 }

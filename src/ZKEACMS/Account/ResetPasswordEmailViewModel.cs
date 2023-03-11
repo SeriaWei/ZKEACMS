@@ -2,15 +2,15 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-using Easy.Modules.User.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ZKEACMS.Notification
+namespace ZKEACMS.Account
 {
-    public interface INotifyService
+    public class ResetPasswordEmailViewModel
     {
-        void ResetPassword(UserEntity user);
+        public string Email { get; set; }
+        public string Link { get; set; }
     }
 }

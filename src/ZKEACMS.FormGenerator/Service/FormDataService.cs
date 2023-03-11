@@ -183,7 +183,7 @@ namespace ZKEACMS.FormGenerator.Service
                 {
                     foreach (var item in formData.Form.FormFields)
                     {
-                        row.AppendCell(item.DisplayValue());
+                        row.AppendCell(item.DisplayValue);
                     }
                 });
                 return excel.ToMemoryStream();
@@ -209,7 +209,7 @@ namespace ZKEACMS.FormGenerator.Service
                     {
                         foreach (var item in Get(data.ID).Form.FormFields)
                         {
-                            row.AppendCell(item.DisplayValue());
+                            row.AppendCell(item.DisplayValue);
                         }
                     });
                 }

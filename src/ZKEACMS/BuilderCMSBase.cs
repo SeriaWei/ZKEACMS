@@ -21,7 +21,6 @@ using ZKEACMS.DataArchived;
 using ZKEACMS.ExtendField;
 using ZKEACMS.Layout;
 using ZKEACMS.Media;
-using ZKEACMS.Notification;
 using ZKEACMS.Options;
 using ZKEACMS.PackageManger;
 using ZKEACMS.Page;
@@ -53,7 +52,6 @@ namespace ZKEACMS
 
             services.TryAddTransient<IDataArchivedService, DataArchivedService>();
             services.TryAddTransient<IExtendFieldService, ExtendFieldService>();
-            services.TryAddTransient<INotifyService, NotifyService>();
             services.AddTransient<IUserCenterLinksProvider, UserCenterLinksProvider>();
             services.AddTransient<IUserCenterLinkService, UserCenterLinkService>();
             services.TryAddScoped<ILayoutService, LayoutService>();

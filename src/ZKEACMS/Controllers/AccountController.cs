@@ -7,9 +7,7 @@ using Easy.Extend;
 using Easy.Modules.User.Models;
 using Easy.Modules.User.Service;
 using Easy.Mvc.Authorize;
-using ZKEACMS.Notification;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Security.Claims;
@@ -20,31 +18,35 @@ using Microsoft.Extensions.Logging;
 using Easy.Mvc.Extend;
 using ZKEACMS.Common.ViewModels;
 using Easy;
+using ZKEACMS.Event;
 
 namespace ZKEACMS.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
-        private readonly INotifyService _notifyService;
         private readonly IDataProtectionProvider _dataProtectionProvider;
         private readonly IApplicationContextAccessor _applicationContextAccessor;
         private readonly ILogger<AccountController> _logger;
         private readonly ILocalize _localize;
+        private readonly IEventManager _eventManager;
+        private readonly IHostOptionProvider _hostOptionProvider;
 
         public AccountController(IUserService userService,
-            INotifyService notifyService,
             IDataProtectionProvider dataProtectionProvider,
             ILogger<AccountController> logger,
             IApplicationContextAccessor applicationContextAccessor,
-            ILocalize localize)
+            ILocalize localize,
+            IEventManager eventManager,
+            IHostOptionProvider hostOptionProvider)
         {
             _userService = userService;
-            _notifyService = notifyService;
             _dataProtectionProvider = dataProtectionProvider;
             _applicationContextAccessor = applicationContextAccessor;
             _logger = logger;
             _localize = localize;
+            _eventManager = eventManager;
+            _hostOptionProvider = hostOptionProvider;
         }
         #region Admin
         public ActionResult Login()
@@ -223,7 +225,11 @@ namespace ZKEACMS.Controllers
                 var user = _userService.SetResetToken(model.Email, model.UserType);
                 if (user != null)
                 {
-                    _notifyService.ResetPassword(user);
+                    _eventManager.Trigger(Events.OnResetPassword, new ResetPasswordEmailViewModel
+                    {
+                        Email = user.Email,
+                        Link = $"{_hostOptionProvider.GetOrigin()}/Account/Reset?token={user.ResetToken}&pt={GetPasswordProtector().Protect(user.ResetToken)}"
+                    });
                 }
                 return RedirectToAction("Sended", "Account", new { to = model.Email, status = (user != null ? 1 : 2) });
             }
