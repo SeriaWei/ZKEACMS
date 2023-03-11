@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.PendingTask
 {
-    public interface IPendingTaskManager
+    public interface IPendingTaskExecutor
     {
         Task ProcessAllPendingTaskAsync();
     }

@@ -41,7 +41,7 @@ namespace ZKEACMS.EventAction
                         Icon = "glyphicon-console",
                         Url = "~/admin/eventaction",
                         Order = 0,
-                        PermissionKey=PermissionKeys.ViewEventAction
+                        PermissionKey = PermissionKeys.ViewEventAction
                     },
                     new AdminMenu
                     {
@@ -49,7 +49,15 @@ namespace ZKEACMS.EventAction
                         Icon = "glyphicon-log-in",
                         Url = "~/admin/actionbody",
                         Order = 1,
-                        PermissionKey=PermissionKeys.ViewActionBody
+                        PermissionKey = PermissionKeys.ViewActionBody
+                    },
+                    new AdminMenu
+                    {
+                        Title = "Pending Task",
+                        Icon = "glyphicon-tasks",
+                        Url = "~/admin/pendingtask",
+                        Order = 2,
+                        PermissionKey = PermissionKeys.ViewPendingTask
                     }
                 }
             };
@@ -71,6 +79,8 @@ namespace ZKEACMS.EventAction
             yield return new PermissionDescriptor(PermissionKeys.ManageEventAction, "EventAction", "Manage EventAction", "");
             yield return new PermissionDescriptor(PermissionKeys.ViewActionBody, "EventAction", "View Action Body", "");
             yield return new PermissionDescriptor(PermissionKeys.ManageActionBody, "EventAction", "Manage Action Body", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewPendingTask, "EventAction", "View Pending Task", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManagePendingTask, "EventAction", "Manage Pending Task", "");
         }
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
@@ -83,8 +93,11 @@ namespace ZKEACMS.EventAction
             serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
 
             serviceCollection.AddTransient<IEventActionService, EventActionService>();
-            serviceCollection.AddSingleton<IPendingTaskService, PendingTaskService>();
             serviceCollection.ConfigureMetaData<Models.EventAction, Models.EventActionMetaData>();
+
+            serviceCollection.AddTransient<IPendingTaskService, PendingTaskService>();
+            serviceCollection.AddTransient<IPendingTaskManagerService, PendingTaskManagerService>();
+            serviceCollection.ConfigureMetaData<Models.PendingTaskEntity, Models.PendingTaskEntityMetaData>();
 
             serviceCollection.AddTransient<IActionBodyService, ActionBodyService>();
             serviceCollection.ConfigureMetaData<Models.ActionBody, Models.ActionBodyMetaData>();

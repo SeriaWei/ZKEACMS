@@ -2,6 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using AngleSharp.Attributes;
 using Easy.Models;
 using Easy.RepositoryPattern;
 using LiteDB;
@@ -14,12 +15,13 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.PendingTask
 {
-    public class TaskEntity
+    public interface TaskEntity
     {
-        public ObjectId Id { get; set; }
-        public string HandlerName { get; set; }
-        public string Data { get; set; }
-        public string Error { get; set; }
-        public int RetryCount { get; set; }
+        string Identifier { get; set; }
+        string HandlerName { get; set; }
+        string Data { get; set; }
+        int? Status { get; set; }
+        string LogMessage { get; set; }
+        int RetryCount { get; set; }
     }
 }

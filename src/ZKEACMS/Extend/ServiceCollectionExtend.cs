@@ -41,7 +41,7 @@ namespace ZKEACMS
             where Handler : class, IPendingTaskHandler<object>
         {
             Type type = typeof(Handler);
-            PendingTaskManager.RegistTaskHandler(name, type);
+            PendingTaskExecutor.RegistTaskHandler(name, type);
             services.AddScoped(type);
         }
     }

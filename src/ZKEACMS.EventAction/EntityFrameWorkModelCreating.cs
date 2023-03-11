@@ -17,6 +17,7 @@ namespace ZKEACMS.EventAction
         {
             modelBuilder.Entity<Models.EventAction>();
             modelBuilder.Entity<Models.ActionBody>();
+            modelBuilder.Entity<Models.PendingTaskEntity>();
         }
     }
 }

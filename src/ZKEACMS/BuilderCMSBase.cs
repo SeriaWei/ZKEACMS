@@ -85,7 +85,7 @@ namespace ZKEACMS
             services.AddScoped<ITemplateService, TemplateService>();
 
 
-            services.TryAddTransient<IPendingTaskManager, PendingTaskManager>();
+            services.TryAddTransient<IPendingTaskExecutor, PendingTaskExecutor>();
 
             services.ConfigureStateProvider<StateProvider.OuterChainPictureStateProvider>();
             services.ConfigureStateProvider<StateProvider.EnableResponsiveDesignStateProvider>();

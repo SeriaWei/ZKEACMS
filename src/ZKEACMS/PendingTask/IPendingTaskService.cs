@@ -13,9 +13,10 @@ namespace ZKEACMS.PendingTask
 {
     public interface IPendingTaskService
     {
-        void Add(string handlerName, object context);
-        void Update(TaskEntity entity);
-        void Remove(TaskEntity entity);
+        void Add(string identifier, string handlerName, object context);
+        void Complete(TaskEntity entity);
+        void RetryLater(TaskEntity entity);
+        void Fail(TaskEntity entity);
         IEnumerable<TaskEntity> GetPendingTasks();
     }
 }

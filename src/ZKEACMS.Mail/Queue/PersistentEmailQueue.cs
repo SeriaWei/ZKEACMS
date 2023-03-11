@@ -5,6 +5,7 @@
 using Easy.Notification;
 using Easy.Notification.Queue;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ZKEACMS.PendingTask;
@@ -27,7 +28,7 @@ namespace ZKEACMS.Mail.Queue
 
         public Task Send(EmailContext emailMessage)
         {
-            _pendingTaskService.Add(EmailPendingTaskHandler.Name, emailMessage);
+            _pendingTaskService.Add(string.Join(";", emailMessage.EmailMessage.To), EmailPendingTaskHandler.Name, emailMessage);
             return Task.CompletedTask;
         }
     }

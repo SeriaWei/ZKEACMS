@@ -2,18 +2,17 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-using Microsoft.EntityFrameworkCore;
+using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZKEACMS.EventAction.Models;
 
-namespace ZKEACMS
+namespace ZKEACMS.EventAction.Service
 {
-    public interface IDBContextProvider
+    public interface IPendingTaskManagerService : IService<PendingTaskEntity>
     {
-        DbContext Current { get; }
-        IEnumerable<DbContext> GetAvailableDbContexts();
     }
 }

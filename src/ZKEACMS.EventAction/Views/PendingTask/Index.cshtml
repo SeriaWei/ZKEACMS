@@ -1,0 +1,19 @@
+﻿@using ZKEACMS.EventAction.Models
+@model PendingTaskEntity
+@{
+    Style.Reqiured("dataTable").AtHead();
+    Script.Reqiured("dataTable").AtFoot();
+
+    Script.Reqiured("datepicker").AtFoot();
+    Style.Reqiured("datepicker").AtHead();
+
+}
+
+<div class="grid-component">
+    @Html.SearchTerms(Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManagePendingTask))
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <grid delete-able="Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManagePendingTask)" edit-able="Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManagePendingTask)"></grid>
+        </div>
+    </div>    
+</div>

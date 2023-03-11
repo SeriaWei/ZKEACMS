@@ -20,6 +20,8 @@ namespace ZKEACMS
             _dbContext = dbContext;
         }
 
+        public DbContext Current => _dbContext;
+
         public IEnumerable<DbContext> GetAvailableDbContexts()
         {
             yield return _dbContext;

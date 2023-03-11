@@ -44,7 +44,7 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
         }
         private void PushRequestInQueue(HttpRequestContent httpRequest)
         {
-            _pendingTaskService.Add(HttpRequesetTaskHandler.Name, httpRequest);
+            _pendingTaskService.Add(httpRequest.Url, HttpRequesetTaskHandler.Name, httpRequest);
         }
     }
 }

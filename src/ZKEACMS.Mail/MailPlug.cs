@@ -48,7 +48,7 @@ namespace ZKEACMS.Mail
 
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.Replace(new ServiceDescriptor(typeof(IEmailQueue), typeof(PersistentEmailQueue), ServiceLifetime.Singleton));
+            serviceCollection.Replace(new ServiceDescriptor(typeof(IEmailQueue), typeof(PersistentEmailQueue), ServiceLifetime.Transient));
 
             serviceCollection.RegistPendingTask<EmailPendingTaskHandler>(EmailPendingTaskHandler.Name);
         }

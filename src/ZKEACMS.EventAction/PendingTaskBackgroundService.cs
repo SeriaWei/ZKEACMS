@@ -39,7 +39,7 @@ namespace ZKEACMS.EventAction
                 {
                     try
                     {
-                        await scope.ServiceProvider.GetService<IPendingTaskManager>().ProcessAllPendingTaskAsync();
+                        await scope.ServiceProvider.GetService<IPendingTaskExecutor>().ProcessAllPendingTaskAsync();
                     }
                     catch (Exception ex)
                     {
