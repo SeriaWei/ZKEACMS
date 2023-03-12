@@ -653,6 +653,77 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+CREATE TABLE [dbo].[EA_ActionBody](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Body] [nvarchar](max) NULL,
+	[Title] [nvarchar](50) NULL,
+	[Description] [nvarchar](500) NULL,
+	[Status] [int] NULL,
+	[CreateBy] [nvarchar](50) NULL,
+	[CreatebyName] [nvarchar](100) NULL,
+	[CreateDate] [datetime] NULL,
+	[LastUpdateBy] [nvarchar](50) NULL,
+	[LastUpdateByName] [nvarchar](100) NULL,
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_ActionBody] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EA_EventAction](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Event] [nvarchar](100) NULL,
+	[Actions] [nvarchar](max) NULL,
+	[Title] [nvarchar](50) NULL,
+	[Description] [nvarchar](500) NULL,
+	[Status] [int] NULL,
+	[CreateBy] [nvarchar](50) NULL,
+	[CreatebyName] [nvarchar](100) NULL,
+	[CreateDate] [datetime] NULL,
+	[LastUpdateBy] [nvarchar](50) NULL,
+	[LastUpdateByName] [nvarchar](100) NULL,
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_EventAction] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EA_PendingTask](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Identifier] [nvarchar](100) NOT NULL,
+	[HandlerName] [nvarchar](100) NOT NULL,
+	[Data] [nvarchar](max) NULL,
+	[LogMessage] [nvarchar](max) NULL,
+	[RetryCount] [int] NULL,
+	[Title] [nvarchar](50) NULL,
+	[Description] [nvarchar](500) NULL,
+	[Status] [int] NULL,
+	[CreateBy] [nvarchar](50) NULL,
+	[CreatebyName] [nvarchar](100) NULL,
+	[CreateDate] [datetime] NULL,
+	[LastUpdateBy] [nvarchar](50) NULL,
+	[LastUpdateByName] [nvarchar](100) NULL,
+	[LastUpdateDate] [datetime] NULL,
+ CONSTRAINT [PK_EA_PendingTask] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE TABLE [dbo].[ExtendField](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](255) NULL,
@@ -2355,6 +2426,129 @@ SET IDENTITY_INSERT [dbo].[DBVersion] ON
 
 INSERT [dbo].[DBVersion] ([ID], [Major], [Minor], [Revision], [Build]) VALUES (1, 3, 6, 2, 0)
 SET IDENTITY_INSERT [dbo].[DBVersion] OFF
+SET IDENTITY_INSERT [dbo].[EA_ActionBody] ON 
+
+INSERT [dbo].[EA_ActionBody] ([ID], [Body], [Title], [Description], [Status], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (1, N'<div>
+    <h3>
+       New message
+    </h3>
+    <table border="1" cellspacing="0" cellpadding="5" bgcolor="" style="border-color: #eee;">
+        <tbody>
+            <tr>
+                <td>Name</td>
+                <td>{{this.Model.Title}}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{this.Model.Email}}</td>
+            </tr>
+            <tr>
+                <td>Message</td>
+                <td>{{this.Model.PostMessage}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>', N'收到留言板留言', NULL, 1, N'admin', N'ZKEASOFT', CAST(N'2023-03-05T18:49:06.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2023-03-11T21:32:38.140' AS DateTime))
+INSERT [dbo].[EA_ActionBody] ([ID], [Body], [Title], [Description], [Status], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (2, N'subject: Reset password
+to: {{this.Model.Email}}
+
+<div>
+    <h3>
+        Reset password
+    </h3>
+    <p>
+        Click the link to reset your passwod:
+    </p>
+    <a href="{{this.Model.Link}}" target="_blank">{{this.Model.Link}}</a>
+</div>', N'重置密码', NULL, 1, N'admin', N'ZKEASOFT', CAST(N'2023-03-11T21:32:20.753' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2023-03-11T21:32:20.753' AS DateTime))
+INSERT [dbo].[EA_ActionBody] ([ID], [Body], [Title], [Description], [Status], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (3, N'<div>
+    <h3>
+        New comment
+    </h3>
+    <table border="1" cellspacing="0" cellpadding="5" bgcolor="" style="border-color: #eee;">
+        <tbody>
+            <tr>
+                <td>Page Title</td>
+                <td>{{this.Model.Title}}</td>
+            </tr>
+            <tr>
+                <td>Username</td>
+                <td>{{this.Model.UserName}}</td>
+            </tr>
+            <tr>
+                <td>Comments</td>
+                <td>{{this.Model.CommentContent}}</td>
+            </tr>
+            <tr>
+                <td>Page</td>
+                <td>{{this.Model.PagePath}}</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>', N'收到新评论', NULL, 1, N'admin', N'ZKEASOFT', CAST(N'2023-03-11T21:44:54.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2023-03-11T21:48:22.887' AS DateTime))
+INSERT [dbo].[EA_ActionBody] ([ID], [Body], [Title], [Description], [Status], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (4, N'subject: New form data
+to: {{this.Model.Form.NotificationReceiver}}
+
+<div>
+    <h3>
+        {{this.Model.Form.Title}}
+    </h3>
+    <table border="1" cellspacing="0" cellpadding="5" bgcolor="" style="border-color: #eee; ">
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for field in this.Model.Form.FormFields %}
+                <tr>
+                    <td>
+                        {{field.DisplayName}}
+                    </td>
+                    <td>
+                        {{field.DisplayValue}}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>', N'收到自定义表单', NULL, 1, N'admin', N'ZKEASOFT', CAST(N'2023-03-11T22:06:21.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2023-03-11T22:13:54.507' AS DateTime))
+SET IDENTITY_INSERT [dbo].[EA_ActionBody] OFF
+SET IDENTITY_INSERT [dbo].[EA_EventAction] ON 
+
+INSERT [dbo].[EA_EventAction] ([ID], [Event], [Actions], [Title], [Description], [Status], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (1, N'ZKEACMS.Message.Events.OnMessageSubmitted', N'actions:
+- name: send email notification
+  uses: actions/email
+  with:
+    subject: 收到新留言
+    to: webmaster@zkea.net
+    bodyContentId: 1', N'发送新留言邮件通知', NULL, 1, N'admin', N'ZKEASOFT', CAST(N'2023-03-03T21:53:14.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2023-03-12T21:12:14.787' AS DateTime))
+INSERT [dbo].[EA_EventAction] ([ID], [Event], [Actions], [Title], [Description], [Status], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (2, N'ZKEACMS.Events.OnResetPassword', N'actions:
+- name: send email notification
+  uses: actions/email
+  with:
+    bodyContentId: 2', N'发送重置密码发送邮件通知', NULL, 1, N'admin', N'ZKEASOFT', CAST(N'2023-03-11T21:33:51.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2023-03-12T21:11:13.133' AS DateTime))
+INSERT [dbo].[EA_EventAction] ([ID], [Event], [Actions], [Title], [Description], [Status], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (3, N'ZKEACMS.Message.Events.OnCommentsSubmitted', N'actions:
+- name: send email notification
+  uses: actions/email
+  with:
+    subject: new comment
+    to: webmaster@zkea.net
+    bodyContentId: 3', N'发送新评论邮件通知', NULL, 1, N'admin', N'ZKEASOFT', CAST(N'2023-03-11T21:44:02.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2023-03-12T21:10:58.717' AS DateTime))
+INSERT [dbo].[EA_EventAction] ([ID], [Event], [Actions], [Title], [Description], [Status], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (4, N'ZKEACMS.FormGenerator.Events.OnFormDataSubmitted', N'actions:
+- name: send email notification
+  uses: actions/email
+  with:
+    bodyContentId: 4', N'发送自定义表单邮件通知', NULL, 1, N'admin', N'ZKEASOFT', CAST(N'2023-03-11T22:07:27.000' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2023-03-12T21:11:06.727' AS DateTime))
+INSERT [dbo].[EA_EventAction] ([ID], [Event], [Actions], [Title], [Description], [Status], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (5, N'ZKEACMS.Message.Events.OnMessageSubmitted', N'POST http://demo.zkea.net/api/account/createtoken
+Content-Type: application/json
+
+{
+  "userID": "admin",
+  "passWord": "admin"
+}', N'发送Http请求（Web Hook）', NULL, 1, N'admin', N'ZKEASOFT', CAST(N'2023-03-12T21:18:33.097' AS DateTime), N'admin', N'ZKEASOFT', CAST(N'2023-03-12T21:18:33.097' AS DateTime))
+SET IDENTITY_INSERT [dbo].[EA_EventAction] OFF
 INSERT [dbo].[Forms] ([ID], [Title], [FieldsData], [NotificationReceiver], [Status], [Description], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (N'5ed56d90ac154e73befa6fbc981ae3ae', N'问卷调查', N'[{"ID":"f05da60a6e3b448fadbf7c5c040a7d5c","Name":"Label","DisplayName":"一个简单的问卷调查","Value":null,"Description":"欢迎您使用ZKEACMS，这是一个自定义表单","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null},{"ID":"41481e6eefa048feae380460b0cd5661","Name":"SingleLine","DisplayName":"姓名","Value":null,"Description":"","Placeholder":"","IsRequired":true,"Size":4,"Column":"col-md-6","FieldOptions":null,"AdditionalSettings":null},{"ID":"bfd1418684a64890a7099f764baa24b3","Name":"Number","DisplayName":"电话","Value":null,"Description":"","Placeholder":"","IsRequired":true,"Size":4,"Column":"col-md-6","FieldOptions":null,"AdditionalSettings":null},{"ID":"7e635c8fdd124b6b94f037d3bf112bc0","Name":"Email","DisplayName":"邮箱地址","Value":null,"Description":"","Placeholder":"","IsRequired":true,"Size":4,"Column":"col-md-4","FieldOptions":null,"AdditionalSettings":null},{"ID":"4d61bb5f733c47778975cc6cfbc84123","Name":"SingleLine","DisplayName":"QQ","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-4","FieldOptions":null,"AdditionalSettings":null},{"ID":"b85aeb9beaf64f509726f16ba582ec3c","Name":"SingleLine","DisplayName":"微信","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-4","FieldOptions":null,"AdditionalSettings":null},{"ID":"a2aea72c496e4a458265f7ceadb3653a","Name":"Address","DisplayName":"省份地址","Value":null,"Description":"","Placeholder":null,"IsRequired":true,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null},{"ID":"0932ca1f1f7f4af098d51e4b1ac18b94","Name":"SingleLine","DisplayName":"详细地址","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null},{"ID":"572c61930769464d97f3d31771ecf65e","Name":"Radio","DisplayName":"您从哪里了解到ZKEACMS","Value":null,"Description":"","Placeholder":null,"IsRequired":true,"Size":4,"Column":"col-md-12","FieldOptions":[{"DisplayText":"搜索引擎","Value":"70a915caf7a84e9086d5dbdf26ed3053"},{"DisplayText":"博客园","Value":"419a7d1d91974282af5c26688fbe0e8c"},{"DisplayText":"朋友介绍","Value":"227f6d2f6b39479aaf2d5b79dbefdc5c"},{"DisplayText":"其它论坛","Value":"ef50fb3bccf74d6487320e53781fb1ec"}],"AdditionalSettings":null},{"ID":"845830a5c8be4b81866a8cef83049899","Name":"Checkbox","DisplayName":"您一般使用ZKEACMS做什么","Value":null,"Description":"","Placeholder":null,"IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":[{"DisplayText":"网站","Value":"5f0fbb9faa0343e0958a896fe3cead4f"},{"DisplayText":"博客","Value":"65902e51d35142019c4aab8badff9e35"},{"DisplayText":"其它","Value":"944343b3ed904b94a9db6950dbdcccf3"}],"AdditionalSettings":null},{"ID":"2fe6e4baf01e4cb897986991c920df56","Name":"Dropdown","DisplayName":"您觉得ZKEACMS怎么样","Value":null,"Description":"","Placeholder":null,"IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":[{"DisplayText":"很不错","Value":"fc3929826e364318b7a3436d991fb097"},{"DisplayText":"还可以","Value":"619e09c2864b41ae81f4f90e7cab92ba"},{"DisplayText":"有待提高","Value":"fd1279a07150490f9a1f69c85298e22c"},{"DisplayText":"不怎么样","Value":"ef19983754504a9482232dd6be01f34d"}],"AdditionalSettings":null},{"ID":"2868de2d8e9b4d269da891342e6dc95b","Name":"Paragraph","DisplayName":"您的意见或建议","Value":null,"Description":"","Placeholder":"","IsRequired":false,"Size":4,"Column":"col-md-12","FieldOptions":null,"AdditionalSettings":null}]', NULL, NULL, N'', NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:07:58.013' AS DateTime))
 INSERT [dbo].[HtmlWidget] ([ID], [HTML]) VALUES (N'062018a8e5cf48b4a0d90296e7f4e965', N'<hr />')
 INSERT [dbo].[HtmlWidget] ([ID], [HTML]) VALUES (N'09617f6142934daaadee6cfb9df6d66f', N'<p>这是文本段落，你可以在段里面加入标题，文字，图片，表格，列表，链接等等。例如：</p>
