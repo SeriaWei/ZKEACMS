@@ -1891,3 +1891,18 @@ ZoneEntity@Status: 狀態
 ZoneEntity@Title: 標題
 ZoneID: 區域
 MD Screen: 中等屏幕
+Event Action: 事件動作
+Action Content: 事件內容
+Pending Tasks: 待處理事件
+Event: 事件
+EventAction@Actions: 動作定義
+ActionBody@Body: 內容
+OnResetPassword: 當重置密碼時
+OnMessageSubmitted: 當留言板提交時
+OnCommentsSubmitted: 當評論提交時
+OnFormGeneratorFormSubmitted: 當自定義表單提交時
+PendingTaskEntity@Identifier: 標識
+PendingTaskEntity@HandlerName: 處理程式
+PendingTaskEntity@RetryCount: 嘗試次數
+PendingTaskEntity@Data: 相關資料
+PendingTaskEntity@LogMessage: 日誌

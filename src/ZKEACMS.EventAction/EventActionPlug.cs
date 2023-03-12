@@ -37,7 +37,7 @@ namespace ZKEACMS.EventAction
                 {
                     new AdminMenu
                     {
-                        Title = "Action",
+                        Title = "Event Action",
                         Icon = "glyphicon-console",
                         Url = "~/admin/eventaction",
                         Order = 0,
@@ -45,7 +45,7 @@ namespace ZKEACMS.EventAction
                     },
                     new AdminMenu
                     {
-                        Title = "Action Body",
+                        Title = "Action Content",
                         Icon = "glyphicon-log-in",
                         Url = "~/admin/actionbody",
                         Order = 1,
@@ -53,7 +53,7 @@ namespace ZKEACMS.EventAction
                     },
                     new AdminMenu
                     {
-                        Title = "Pending Task",
+                        Title = "Pending Tasks",
                         Icon = "glyphicon-tasks",
                         Url = "~/admin/pendingtask",
                         Order = 2,
@@ -70,7 +70,6 @@ namespace ZKEACMS.EventAction
 
         protected override void InitStyle(Func<string, ResourceHelper> style)
         {
-            style("EventAction").Include("~/Plugins/ZKEACMS.EventAction/Content/EventAction.css");
         }
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()

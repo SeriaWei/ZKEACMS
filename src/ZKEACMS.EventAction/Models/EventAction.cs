@@ -30,10 +30,10 @@ namespace ZKEACMS.EventAction.Models
             ViewConfig(m => m.ID).AsHidden();
             ViewConfig(m => m.Event).AsDropDownList().Required().DataSource(new Dictionary<string, string>
             {
-                { "ZKEACMS.Events.OnResetPassword","On Reset Password" },
-                { "ZKEACMS.Message.Events.OnMessageSubmitted","On Message Submitted" },
-                { "ZKEACMS.Message.Events.OnCommentsSubmitted","On Comments Submitted" },
-                { "ZKEACMS.FormGenerator.Events.OnFormDataSubmitted","On Form Data Submitted" }
+                { "ZKEACMS.Events.OnResetPassword","OnResetPassword" },
+                { "ZKEACMS.Message.Events.OnMessageSubmitted","OnMessageSubmitted" },
+                { "ZKEACMS.Message.Events.OnCommentsSubmitted","OnCommentsSubmitted" },
+                { "ZKEACMS.FormGenerator.Events.OnFormDataSubmitted","OnFormGeneratorFormSubmitted" }
             }).ShowInGrid();
             ViewConfig(m => m.Actions).AsTextArea().Required().AddProperty("rows", "20");
         }

@@ -25,7 +25,7 @@ namespace ZKEACMS.EventAction.Models
     {
         protected override void ViewConfigure()
         {
-            ViewConfig(m => m.ID).AsHidden();
+            ViewConfig(m => m.ID).AsHidden().ShowInGrid();
             ViewConfig(m => m.Body).AsTextArea().Required().AddProperty("rows", "20");
         }
     }
