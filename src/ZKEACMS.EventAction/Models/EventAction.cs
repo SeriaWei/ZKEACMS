@@ -28,6 +28,7 @@ namespace ZKEACMS.EventAction.Models
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.ID).AsHidden();
+            ViewConfig(m => m.Title).AsTextBox().Order(1).Required().ShowInGrid().Search(Easy.LINQ.Query.Operators.Contains).MaxLength(200);
             ViewConfig(m => m.Event).AsDropDownList().Required().DataSource(new Dictionary<string, string>
             {
                 { "ZKEACMS.Events.OnResetPassword","OnResetPassword" },

@@ -35,6 +35,8 @@ namespace ZKEACMS.EventAction.ActionExecutor
 
             foreach (var actionContent in actions)
             {
+                if (actionContent.Actions == null) continue;
+
                 //todo: Action with condition.
                 //if (actionContent.Condition.IsNotNullAndWhiteSpace() && !_ruleManager.IsTrue(actionContent.Condition)) continue;
 

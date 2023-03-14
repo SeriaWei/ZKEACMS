@@ -1,0 +1,25 @@
+﻿actions:
+- name: send email
+  uses: actions/email
+  with:
+    subject: 这是邮件主题
+    to: webmaster@zkea.net
+    cc: cc@zkea.net
+    bcc: bcc@zkea.net
+    body: |
+      body为邮件内容，与bodyContentId二选一，其中bodyContentId为{事件内容}ID
+    bodyContentId: 1
+
+- name: http request (web hook)
+  uses: actions/http
+  with:
+    request: |
+      POST http://demo.zkea.net/api/account/createtoken
+      Content-Type: application/json
+      
+      {
+        "userID": "admin",
+        "passWord"": "admin"
+      }
+      如果需要从事件中绑定数据，请使用requestContentId，其中requestContentId为{事件内容}ID
+    requestContentId: 2

@@ -31,5 +31,9 @@ namespace ZKEACMS.EventAction.ActionExecutor
         {
             _executors[name] = type;
         }
+        internal static bool IsExecutorRegisted(string name)
+        {
+            return _executors.ContainsKey(name);
+        }
     }
 }
