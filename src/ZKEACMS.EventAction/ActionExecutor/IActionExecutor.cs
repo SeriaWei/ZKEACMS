@@ -14,6 +14,6 @@ namespace ZKEACMS.EventAction.ActionExecutor
 {
     public interface IActionExecutor
     {
-        ServiceResult Execute(Dictionary<string, string> args, object model, EventArg e);
+        ServiceResult Execute(Arguments args, object model, EventArg e);
     }
 }

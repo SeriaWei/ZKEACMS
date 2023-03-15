@@ -25,9 +25,9 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
             _pendingTaskService = pendingTaskService;
         }
 
-        public ServiceResult Execute(Dictionary<string, string> args, object model, EventArg e)
+        public ServiceResult Execute(Arguments args, object model, EventArg e)
         {
-            string requestBody = args.GetValueOrDefault("request");
+            string requestBody = args.Named("request");
 
             if (requestBody.IsNullOrWhiteSpace() &&
                 args.TryGetValue("requestContentId", out var actionBodyId) &&

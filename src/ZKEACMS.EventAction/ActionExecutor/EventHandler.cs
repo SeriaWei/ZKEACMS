@@ -45,7 +45,7 @@ namespace ZKEACMS.EventAction.ActionExecutor
                     var executor = _actionManager.CreateExecutor(parsedAction.Uses);
                     if (executor == null) continue;
 
-                    executor.Execute(parsedAction.With, entity, e);
+                    executor.Execute(new Arguments(parsedAction.With), entity, e);
                 }
             }
         }

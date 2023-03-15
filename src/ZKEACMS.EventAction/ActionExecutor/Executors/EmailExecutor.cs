@@ -27,10 +27,10 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
             _notificationManager = notificationManager;
         }
 
-        public ServiceResult Execute(Dictionary<string, string> args, object model, EventArg e)
+        public ServiceResult Execute(Arguments args, object model, EventArg e)
         {
             EmailMessage emailMessage = CreateEmailMessage(args);
-            string emailBody = args.GetValueOrDefault("body");
+            string emailBody = args.Named("body");
 
             if (emailBody.IsNullOrWhiteSpace() &&
                 args.TryGetValue("bodyContentId", out string contentId) &&
@@ -49,14 +49,14 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
             _notificationManager.Send(emailMessage);
             return new ServiceResult();
         }
-        private EmailMessage CreateEmailMessage(Dictionary<string, string> args)
+        private EmailMessage CreateEmailMessage(Arguments args)
         {
             var emailMessage = new EmailMessage
             {
-                Subject = args.GetValueOrDefault("subject"),
-                To = ParseEmail(args.GetValueOrDefault("to")),
-                Cc = ParseEmail(args.GetValueOrDefault("cc")),
-                Bcc = ParseEmail(args.GetValueOrDefault("bcc"))
+                Subject = args.Named("subject"),
+                To = ParseEmail(args.Named("to")),
+                Cc = ParseEmail(args.Named("cc")),
+                Bcc = ParseEmail(args.Named("bcc"))
             };
             return emailMessage;
         }
