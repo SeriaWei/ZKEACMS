@@ -12,7 +12,7 @@ using ZKEACMS.Event;
 
 namespace ZKEACMS.Updater.Service
 {
-    public class UpdateDbOnDbCreatedEventHandler : IEventHandler
+    public sealed class UpdateDbOnDbCreatedEventHandler : IEventHandler
     {
         private readonly IDbUpdaterService _dbUpdaterService;
         public UpdateDbOnDbCreatedEventHandler(IDbUpdaterService dbUpdaterService)

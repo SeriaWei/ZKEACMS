@@ -10,7 +10,7 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Page
 {
-    public class UpdatePageUrlOnPageUrlChangedEventHandler : IEventHandler
+    public sealed class UpdatePageUrlOnPageUrlChangedEventHandler : IEventHandler
     {
         private readonly IPageService _pageService;
 

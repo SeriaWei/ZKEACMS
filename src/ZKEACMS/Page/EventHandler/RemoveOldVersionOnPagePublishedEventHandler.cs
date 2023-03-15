@@ -10,7 +10,7 @@ using ZKEACMS.Event;
 
 namespace ZKEACMS.Page
 {
-    public class RemoveOldVersionOnPagePublishedEventHandler : IEventHandler
+    public sealed class RemoveOldVersionOnPagePublishedEventHandler : IEventHandler
     {
         private readonly IPageService _pageService;
         private const int keepVersions = 6;

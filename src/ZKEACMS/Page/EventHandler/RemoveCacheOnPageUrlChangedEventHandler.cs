@@ -11,7 +11,7 @@ using ZKEACMS.Widget;
 
 namespace ZKEACMS.Page
 {
-    public class RemoveCacheOnPageUrlChangedEventHandler : IEventHandler
+    public sealed class RemoveCacheOnPageUrlChangedEventHandler : IEventHandler
     {
         private readonly ICacheManager<IEnumerable<WidgetBase>> _pageWidgetCacheManager;
         private readonly ICacheManager<ConcurrentDictionary<string, object>> _concurrentCacheManager;

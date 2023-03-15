@@ -10,7 +10,7 @@ using ZKEACMS.SectionWidget.Service;
 
 namespace ZKEACMS.SectionWidget.EventHandler
 {
-    public class UpdateLinkOnPageUrlChangedEventHandler : IEventHandler
+    public sealed class UpdateLinkOnPageUrlChangedEventHandler : IEventHandler
     {
         private readonly ISectionContentTitleService _sectionContentTitleService;
         private readonly ISectionContentCallToActionService _sectionContentCallToActionService;

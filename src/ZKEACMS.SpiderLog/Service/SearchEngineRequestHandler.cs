@@ -14,7 +14,7 @@ using ZKEACMS.Event;
 
 namespace ZKEACMS.SpiderLog.Service
 {
-    public class SearchEngineRequestHandler : IEventHandler
+    public sealed class SearchEngineRequestHandler : IEventHandler
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ISearchEngineManager _searchEngineManager;

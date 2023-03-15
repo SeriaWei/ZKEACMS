@@ -16,6 +16,7 @@ using ZKEACMS.EventAction.ActionExecutor;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
 using Microsoft.Extensions.Logging;
+using Easy.Extend;
 
 namespace ZKEACMS.EventAction.Service
 {
@@ -23,12 +24,14 @@ namespace ZKEACMS.EventAction.Service
     {
         private readonly ICacheManager<Dictionary<string, List<EventActionContent>>> _cacheManager;
         private readonly ILogger<EventActionService> _logger;
+        private readonly ILocalize _localize;
         public EventActionService(IApplicationContext applicationContext, CMSDbContext dbContext,
-            ICacheManager<Dictionary<string, List<EventActionContent>>> cacheManager, ILogger<EventActionService> logger)
+            ICacheManager<Dictionary<string, List<EventActionContent>>> cacheManager, ILogger<EventActionService> logger, ILocalize localize)
             : base(applicationContext, dbContext)
         {
             _cacheManager = cacheManager;
             _logger = logger;
+            _localize = localize;
         }
         public override ServiceResult<Models.EventAction> Update(Models.EventAction item)
         {
@@ -96,7 +99,7 @@ namespace ZKEACMS.EventAction.Service
                 {
                     if (ExecutorManager.IsExecutorRegisted(action.Uses)) continue;
 
-                    result.AddRuleViolation("Actions", action.Uses + " is not exists.");
+                    result.AddRuleViolation("Actions", _localize.Get("{0} is not available").FormatWith(action.Uses));
                 }
             }
             catch (Exception ex)

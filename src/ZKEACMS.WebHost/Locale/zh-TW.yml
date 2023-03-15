@@ -1,10 +1,11 @@
 ﻿-- City --: -- 選擇市 --
 -- District --: -- 選擇區 --
 -- Province --: -- 選擇省 --
-'--- Select ---': '---請選擇---'
 -- Select --: -- 請選擇 --
 _Site Search: _站內搜索
 '{0} is already exists': '{0} 已存在'
+'{0} is not exists': '{0} 不存在'
+'{0} is not available': '{0}不可用'
 '{0} is invalid': '{0}不正確'
 '{0} is not correct.': '{0}錯誤'
 '{0} is required': 請輸入{0}

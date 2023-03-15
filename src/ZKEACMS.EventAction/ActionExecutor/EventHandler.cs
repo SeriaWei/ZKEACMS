@@ -16,16 +16,16 @@ using Easy.RuleEngine;
 
 namespace ZKEACMS.EventAction.ActionExecutor
 {
-    public class EventHandler : IEventHandler
+    public sealed class EventHandler : IEventHandler
     {
         private readonly IEventActionService _eventActionService;
-        private readonly IExecutorManager _actionManager;
+        private readonly IExecutorManager _executorManager;
         private readonly IRuleManager _ruleManager;
 
-        public EventHandler(IEventActionService eventActionService, IExecutorManager actionManager, IRuleManager ruleManager)
+        public EventHandler(IEventActionService eventActionService, IExecutorManager executorManager, IRuleManager ruleManager)
         {
             _eventActionService = eventActionService;
-            _actionManager = actionManager;
+            _executorManager = executorManager;
             _ruleManager = ruleManager;
         }
 
@@ -42,7 +42,7 @@ namespace ZKEACMS.EventAction.ActionExecutor
 
                 foreach (var parsedAction in actionContent.Actions)
                 {
-                    var executor = _actionManager.CreateExecutor(parsedAction.Uses);
+                    var executor = _executorManager.CreateExecutor(parsedAction.Uses);
                     if (executor == null) continue;
 
                     executor.Execute(new Arguments(parsedAction.With), entity, e);

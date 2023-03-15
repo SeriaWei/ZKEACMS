@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Html;
 
 namespace ZKEACMS.PinNav.Service
 {
-    public class PinNavScriptsService : IEventHandler
+    public sealed class PinNavScriptsService : IEventHandler
     {
         private readonly IApplicationContextAccessor _applicationContextAccessor;
         private readonly IApplicationSettingService _applicationSettingService;

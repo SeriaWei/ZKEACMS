@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Html;
 
 namespace ZKEACMS.Animation.Service
 {
-    public class AnimationScriptsService : IEventHandler
+    public sealed class AnimationScriptsService : IEventHandler
     {
         private readonly IApplicationContextAccessor _applicationContextAccessor;
         private readonly IApplicationSettingService _applicationSettingService;

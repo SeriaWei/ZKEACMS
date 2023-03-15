@@ -1,10 +1,11 @@
 ﻿-- City --: -- 选择市 --
 -- District --: -- 选择区 --
 -- Province --: -- 选择省 --
-'--- Select ---': '---请选择---'
 -- Select --: -- 请选择 --
 _Site Search: _站内搜索
-'{0} is already exists': '{0} 已存在'
+'{0} is already exists': '{0}已存在'
+'{0} is not exists': '{0}不存在'
+'{0} is not available': '{0}不可用'
 '{0} is invalid': '{0}不正确'
 '{0} is not correct.': '{0}错误'
 '{0} is required': 请输入{0}

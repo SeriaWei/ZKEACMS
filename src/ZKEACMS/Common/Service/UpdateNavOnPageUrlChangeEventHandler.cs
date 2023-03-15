@@ -12,7 +12,7 @@ using ZKEACMS.Page;
 
 namespace ZKEACMS.Common.Service
 {
-    public class UpdateNavOnPageUrlChangeEventHandler : IEventHandler
+    public sealed class UpdateNavOnPageUrlChangeEventHandler : IEventHandler
     {
         private readonly INavigationService _navigationService;
 

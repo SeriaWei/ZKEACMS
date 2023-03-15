@@ -9,7 +9,7 @@ using ZKEACMS.Page;
 
 namespace ZKEACMS.Product.EventHandler
 {
-    public class UpdateDetailPageUrlOnPageUrlChangedEventHandler : IEventHandler
+    public sealed class UpdateDetailPageUrlOnPageUrlChangedEventHandler : IEventHandler
     {
         private readonly IProductListWidgetDataService _productListWidgetService;
         private readonly IProductGalleryWidgetDataService _productGalleryWidgetDataService;

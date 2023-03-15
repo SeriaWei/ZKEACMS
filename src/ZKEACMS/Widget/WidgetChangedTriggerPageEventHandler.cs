@@ -12,7 +12,7 @@ using ZKEACMS.Page;
 
 namespace ZKEACMS.Widget
 {
-    public class WidgetChangedTriggerPageEventHandler : IEventHandler
+    public sealed class WidgetChangedTriggerPageEventHandler : IEventHandler
     {
         private readonly IPageService _pageService;
         private readonly ICacheManager<IEnumerable<WidgetBase>> _pageWidgetCacheManage;

@@ -9,7 +9,7 @@ using ZKEACMS.Page;
 
 namespace ZKEACMS.Article.EventHandler
 {
-    public class UpdateDetailPageUrlOnPageUrlChangedEventHandler : IEventHandler
+    public sealed class UpdateDetailPageUrlOnPageUrlChangedEventHandler : IEventHandler
     {
         private readonly IArticleListWidgetDataService _articleListWidgetService;
         private readonly IArticleGalleryWidgetDataService _articleGalleryWidgetDataService;
