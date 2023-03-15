@@ -52,14 +52,6 @@ namespace ZKEACMS.Message
                         Order = 2,
                         Icon = "glyphicon-comment",
                         PermissionKey = PermissionKeys.ViewComments
-                    },
-                    new AdminMenu
-                    {
-                        Title = "Notify Email",
-                        Url = "~/admin/messagenotification/config",
-                        Order = 3,
-                        Icon = "glyphicon-flag",
-                        PermissionKey = PermissionKeys.ManageMessageNotification
                     }
                 }
             };
@@ -73,7 +65,6 @@ namespace ZKEACMS.Message
             yield return new PermissionDescriptor(PermissionKeys.ManageMessage, "Message And Comments", "Manage Message", "");
             yield return new PermissionDescriptor(PermissionKeys.ViewComments, "Message And Comments", "View Comments", "");
             yield return new PermissionDescriptor(PermissionKeys.ManageComments, "Message And Comments", "Manage Comments", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageMessageNotification, "Message And Comments", "Manage Notify Email", "");
         }
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()
@@ -117,7 +108,6 @@ namespace ZKEACMS.Message
             serviceCollection.ConfigureMetaData<MessageBoxWidget, MessageBoxWidgetMetaData>();
             serviceCollection.ConfigureMetaData<MessageEntity, MessageMetaData>();
             serviceCollection.ConfigureMetaData<MessageWidget, MessageWidgetMetaData>();
-            serviceCollection.ConfigureMetaData<MessageNotificationConfig, MessageNotificationConfigMetaData>();
 
             serviceCollection.Configure<MessageBoxWidget>(option =>
             {
