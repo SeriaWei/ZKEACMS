@@ -18,7 +18,7 @@ using ZKEACMS.Storage;
 
 namespace ZKEACMS.EventAction.Service
 {
-    public class PendingTaskService : IPendingTaskService
+    public sealed class PendingTaskService : IPendingTaskService
     {
         private readonly IDBContextProvider _dbContextProvider;
         private readonly Dictionary<TaskEntity, DbContext> _dbContextMapping;

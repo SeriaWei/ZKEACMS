@@ -14,7 +14,7 @@ using ZKEACMS.EventAction.Models;
 
 namespace ZKEACMS.EventAction.Service
 {
-    public class PendingTaskManagerService : ServiceBase<PendingTaskEntity>, IPendingTaskManagerService
+    public sealed class PendingTaskManagerService : ServiceBase<PendingTaskEntity>, IPendingTaskManagerService
     {
         public PendingTaskManagerService(IApplicationContext applicationContext, DbContext dbContext) : base(applicationContext, dbContext)
         {

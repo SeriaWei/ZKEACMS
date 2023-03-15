@@ -18,7 +18,7 @@ using ZKEACMS.PendingTask;
 
 namespace ZKEACMS.EventAction
 {
-    internal class PendingTaskBackgroundService : BackgroundService
+    internal sealed class PendingTaskBackgroundService : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
         bool _production;

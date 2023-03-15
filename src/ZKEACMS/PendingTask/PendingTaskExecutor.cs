@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.PendingTask
 {
-    public class PendingTaskExecutor : IPendingTaskExecutor
+    public sealed class PendingTaskExecutor : IPendingTaskExecutor
     {
         private static Dictionary<string, Type> _taskHandlers = new Dictionary<string, Type>();
         private readonly IServiceProvider _serviceProvider;

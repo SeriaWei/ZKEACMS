@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ZKEACMS.EventAction.ActionExecutor
 {
-    public class ExecutorManager : IExecutorManager
+    public sealed class ExecutorManager : IExecutorManager
     {
         private static Dictionary<string, Type> _executors = new Dictionary<string, Type>();
         private readonly IServiceProvider _serviceProvider;

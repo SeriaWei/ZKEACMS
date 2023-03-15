@@ -16,7 +16,7 @@ using ZKEACMS.EventAction.TemplateEngine;
 
 namespace ZKEACMS.EventAction.Service
 {
-    public class ActionBodyService : ServiceBase<ActionBody>, IActionBodyService
+    public sealed class ActionBodyService : ServiceBase<ActionBody>, IActionBodyService
     {
         private static readonly FluidParser _fluidParser = new FluidParser();
         private static ConcurrentDictionary<int, IFluidTemplate> _templates = new ConcurrentDictionary<int, IFluidTemplate>();

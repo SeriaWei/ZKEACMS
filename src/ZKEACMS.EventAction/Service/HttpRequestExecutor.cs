@@ -15,7 +15,7 @@ using ZKEACMS.EventAction.HttpParser;
 
 namespace ZKEACMS.EventAction.Service
 {
-    public class HttpRequestExecutor : IHttpRequestExecutor
+    public sealed class HttpRequestExecutor : IHttpRequestExecutor
     {
 
         private readonly IHttpClientFactory _httpClientFactory;

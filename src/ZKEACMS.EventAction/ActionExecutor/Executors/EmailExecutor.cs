@@ -15,7 +15,7 @@ using ZKEACMS.EventAction.Service;
 
 namespace ZKEACMS.EventAction.ActionExecutor.Executors
 {
-    public class EmailExecutor : IActionExecutor
+    public sealed class EmailExecutor : IActionExecutor
     {
         public const string Name = "actions/email";
         private readonly INotificationManager _notificationManager;

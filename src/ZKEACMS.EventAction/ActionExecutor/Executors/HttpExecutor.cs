@@ -12,7 +12,7 @@ using ZKEACMS.PendingTask;
 
 namespace ZKEACMS.EventAction.ActionExecutor.Executors
 {
-    public class HttpExecutor : IActionExecutor
+    public sealed class HttpExecutor : IActionExecutor
     {
         public const string Name = "actions/http";
 

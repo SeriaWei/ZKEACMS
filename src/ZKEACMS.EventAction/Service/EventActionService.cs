@@ -19,7 +19,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ZKEACMS.EventAction.Service
 {
-    public class EventActionService : ServiceBase<Models.EventAction>, IEventActionService
+    public sealed class EventActionService : ServiceBase<Models.EventAction>, IEventActionService
     {
         private readonly ICacheManager<Dictionary<string, List<EventActionContent>>> _cacheManager;
         private readonly ILogger<EventActionService> _logger;
