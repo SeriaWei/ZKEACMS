@@ -11,6 +11,7 @@ using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
 using ZKEACMS.EventAction.HttpParser;
 using ZKEACMS.EventAction.ActionExecutor;
+using Easy.Serializer;
 
 namespace ZKEACMS.Test
 {
@@ -28,8 +29,7 @@ namespace ZKEACMS.Test
         public void DeserializeEventAction()
         {
 
-            var serializer = new DeserializerBuilder().WithNamingConvention(UnderscoredNamingConvention.Instance).Build();
-            var eventAction = serializer.Deserialize<EventActionContent>(@"name: event jobs
+            var eventAction = YamlConverter.Deserialize<EventActionContent>(@"name: event jobs
 condition: Id == 1
 
 actions:

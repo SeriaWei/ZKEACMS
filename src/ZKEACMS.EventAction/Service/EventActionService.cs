@@ -17,6 +17,7 @@ using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
 using Microsoft.Extensions.Logging;
 using Easy.Extend;
+using Easy.Serializer;
 
 namespace ZKEACMS.EventAction.Service
 {
@@ -60,7 +61,6 @@ namespace ZKEACMS.EventAction.Service
             return _cacheManager.GetOrAdd("AllActivedActinos", key =>
             {
                 var result = new Dictionary<string, List<EventActionContent>>();
-                IDeserializer deserializer = CreateDeserializer();
                 var eventGroup = Get(m => m.Status == (int)RecordStatus.Active).GroupBy(m => m.Event);
                 foreach (var group in eventGroup)
                 {
@@ -68,7 +68,7 @@ namespace ZKEACMS.EventAction.Service
                     {
                         try
                         {
-                            return deserializer.Deserialize<EventActionContent>(m.Actions);
+                            return YamlConverter.Deserialize<EventActionContent>(m.Actions);
                         }
                         catch (Exception ex)
                         {
@@ -82,18 +82,13 @@ namespace ZKEACMS.EventAction.Service
             });
         }
 
-        private static IDeserializer CreateDeserializer()
-        {
-            return new DeserializerBuilder().WithNamingConvention(UnderscoredNamingConvention.Instance).Build();
-        }
 
         private ServiceResult<Models.EventAction> ValidateActions(Models.EventAction item)
         {
             ServiceResult<Models.EventAction> result = new ServiceResult<Models.EventAction>();
             try
             {
-                IDeserializer deserializer = CreateDeserializer();
-                var eventAction = deserializer.Deserialize<EventActionContent>(item.Actions);
+                var eventAction = YamlConverter.Deserialize<EventActionContent>(item.Actions);
                 if (eventAction.Actions == null) return result;
                 foreach (var action in eventAction.Actions)
                 {

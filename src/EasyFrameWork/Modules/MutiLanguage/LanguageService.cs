@@ -5,6 +5,7 @@
 using Easy.Cache;
 using Easy.Extend;
 using Easy.RepositoryPattern;
+using Easy.Serializer;
 using FastExpressionCompiler;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -60,15 +61,13 @@ namespace Easy.Modules.MutiLanguage
         private static Dictionary<string, string> ReadLocalizeTextFromFile(string localeFile)
         {
             string localizeText = File.ReadAllText(localeFile, Encoding.UTF8);
-            var deserializer = new DeserializerBuilder().WithNamingConvention(UnderscoredNamingConvention.Instance).Build();
-            var localize = deserializer.Deserialize<Dictionary<string, string>>(localizeText);
+            var localize = YamlConverter.Deserialize<Dictionary<string, string>>(localizeText);
             return localize;
         }
 
         private static void SaveLocalizeTextToFile(string localeFile, Dictionary<string, string> localizeText)
         {
-            var serializer = new SerializerBuilder().WithNamingConvention(UnderscoredNamingConvention.Instance).Build();
-            string serializedData = serializer.Serialize(localizeText);
+            string serializedData = YamlConverter.Serialize(localizeText);
             File.WriteAllText(localeFile, serializedData, Encoding.UTF8);
         }
 
