@@ -18,7 +18,6 @@ namespace ZKEACMS.EventAction.Service
 {
     public sealed class ActionBodyService : ServiceBase<ActionBody>, IActionBodyService
     {
-        private static readonly FluidParser _fluidParser = new FluidParser();
         private static ConcurrentDictionary<int, IFluidTemplate> _templates = new ConcurrentDictionary<int, IFluidTemplate>();
 
         class RecordNotFoundException : Exception
@@ -33,7 +32,7 @@ namespace ZKEACMS.EventAction.Service
         public override ServiceResult<ActionBody> Add(ActionBody item)
         {
             IFluidTemplate templateResult = null;
-            if (item.Body.IsNotNullAndWhiteSpace() && !_fluidParser.TryParse(item.Body, out templateResult, out var error))
+            if (item.Body.IsNotNullAndWhiteSpace() && !FluidTemplateHelper.TryParse(item.Body, out templateResult, out var error))
             {
                 var result = new ServiceResult<ActionBody>();
                 result.AddRuleViolation("Body", error);
@@ -50,7 +49,7 @@ namespace ZKEACMS.EventAction.Service
         public override ServiceResult<ActionBody> Update(ActionBody item)
         {
             IFluidTemplate templateResult = null;
-            if (item.Body.IsNotNullAndWhiteSpace() && !_fluidParser.TryParse(item.Body, out templateResult, out var error))
+            if (item.Body.IsNotNullAndWhiteSpace() && !FluidTemplateHelper.TryParse(item.Body, out templateResult, out var error))
             {
                 var result = new ServiceResult<ActionBody>();
                 result.AddRuleViolation("Body", error);
@@ -68,12 +67,7 @@ namespace ZKEACMS.EventAction.Service
             var template = ParseTemplate(ID).Result;
             if (template == null) return string.Empty;
 
-            TemplateOptions templateOptions = new TemplateOptions();
-            templateOptions.MemberAccessStrategy.Register(typeof(ViewModelAccessor), new ViewModelAccessor());
-            var context = new TemplateContext(model, templateOptions);
-            var viewModel = new TemplateViewModel { Model = model };
-            context.SetValue("this", new ViewModelAccessor(JObject.FromObject(viewModel)));
-            return template.Render(context, HtmlEncoder.Default);
+            return template.Render(model);
         }
         private ServiceResult<IFluidTemplate> ParseTemplate(int ID)
         {
@@ -85,7 +79,7 @@ namespace ZKEACMS.EventAction.Service
                     var actionBody = Get(key);
                     if (actionBody == null || actionBody.Status == (int)RecordStatus.InActive) throw new RecordNotFoundException();
 
-                    if (!_fluidParser.TryParse(actionBody.Body, out var result, out var error)) throw new Exception(error);
+                    if (!FluidTemplateHelper.TryParse(actionBody.Body, out var result, out var error)) throw new Exception(error);
                     return result;
                 });
                 result.Result = template;

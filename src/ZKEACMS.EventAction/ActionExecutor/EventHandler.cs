@@ -45,7 +45,8 @@ namespace ZKEACMS.EventAction.ActionExecutor
                     var executor = _executorManager.CreateExecutor(parsedAction.Uses);
                     if (executor == null) continue;
 
-                    executor.Execute(new Arguments(parsedAction.With), entity, e);
+                    var arg = _eventActionService.RenderArguments(parsedAction.With, entity);
+                    executor.Execute(arg, entity, e);
                 }
             }
         }

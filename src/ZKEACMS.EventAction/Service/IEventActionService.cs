@@ -14,5 +14,7 @@ namespace ZKEACMS.EventAction.Service
     public interface IEventActionService : IService<Models.EventAction>
     {
         Dictionary<string, List<EventActionContent>> GetAllActivedActinosFromCache();
+
+        Arguments RenderArguments(Dictionary<string, string> arguments, object model);
     }
 }
