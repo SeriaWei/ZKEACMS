@@ -28,7 +28,6 @@ namespace ZKEACMS.EventAction.Service
         private readonly ICacheManager<Dictionary<string, List<EventActionContent>>> _cacheManager;
         private readonly ILogger<EventActionService> _logger;
         private readonly ILocalize _localize;
-        private static ConcurrentDictionary<string, IFluidTemplate> _templates = new ConcurrentDictionary<string, IFluidTemplate>();
 
         public EventActionService(IApplicationContext applicationContext, CMSDbContext dbContext,
             ICacheManager<Dictionary<string, List<EventActionContent>>> cacheManager, ILogger<EventActionService> logger, ILocalize localize)
@@ -96,52 +95,23 @@ namespace ZKEACMS.EventAction.Service
                 if (eventAction.Actions == null) return result;
                 foreach (var action in eventAction.Actions)
                 {
-                    if (ExecutorManager.IsExecutorRegisted(action.Uses)) continue;
-
-                    result.AddRuleViolation("Actions", _localize.Get("{0} is not available").FormatWith(action.Uses));
+                    if (!ExecutorManager.IsExecutorRegisted(action.Uses))
+                    {
+                        result.AddRuleViolation("Actions", _localize.Get("{0} is not available").FormatWith(action.Uses));
+                        break;
+                    }
+                    var validateResult = action.ValidateWith();
+                    if (validateResult.HasViolation)
+                    {
+                        result.AddRuleViolation("Actions", validateResult.ErrorMessage);
+                        break;
+                    }
                 }
             }
             catch (Exception ex)
             {
                 result.AddRuleViolation("Actions", ex.Message);
             }
-            return result;
-        }
-
-        public Arguments RenderArguments(Dictionary<string, string> arguments, object model)
-        {
-            var renderedArgs = new Dictionary<string, string>();
-            if (arguments == null) return new Arguments(renderedArgs);
-            foreach (var item in arguments)
-            {
-                var templateResult = ParseTemplate(item.Value);
-                if (templateResult.HasViolation)
-                {
-                    renderedArgs[item.Key] = item.Value;
-                    continue;
-                }
-                renderedArgs[item.Key] = templateResult.Result.Render(model);
-            }
-            return new Arguments(renderedArgs);
-        }
-
-        private ServiceResult<IFluidTemplate> ParseTemplate(string template)
-        {
-            var result = new ServiceResult<IFluidTemplate>();
-            try
-            {
-                var templateResult = _templates.GetOrAdd(template, key =>
-                {
-                    if (!FluidTemplateHelper.TryParse(key, out var result, out var error)) throw new Exception(error);
-                    return result;
-                });
-                result.Result = templateResult;
-            }
-            catch (Exception ex)
-            {
-                result.AddRuleViolation(ex.Message);
-            }
-
             return result;
         }
     }

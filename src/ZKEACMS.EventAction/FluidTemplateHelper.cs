@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using ZKEACMS.EventAction.TemplateEngine;
 
@@ -24,7 +25,7 @@ namespace ZKEACMS.EventAction
             var context = new TemplateContext(model, templateOptions);
             var viewModel = new TemplateViewModel { Model = model };
             context.SetValue("this", new ViewModelAccessor(JObject.FromObject(viewModel)));
-            return template.Render(context, HtmlEncoder.Default);
+            return template.Render(context, HtmlEncoder.Create(UnicodeRanges.All));
         }
 
         public static bool TryParse(string template, out IFluidTemplate fluidTemplate, out string error)
