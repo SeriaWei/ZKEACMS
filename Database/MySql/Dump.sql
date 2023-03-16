@@ -1362,74 +1362,68 @@ CREATE TABLE `EA_ActionBody` (
 INSERT INTO `EA_ActionBody` VALUES
 (1,'<div>
     <h3>
-       New message
+       收到新留言
     </h3>
     <table border=\"1\" cellspacing=\"0\" cellpadding=\"5\" bgcolor=\"\" style=\"border-color: #eee;\">
         <tbody>
             <tr>
-                <td>Name</td>
+                <td>姓名</td>
                 <td>{{this.Model.Title}}</td>
             </tr>
             <tr>
-                <td>Email</td>
+                <td>邮箱</td>
                 <td>{{this.Model.Email}}</td>
             </tr>
             <tr>
-                <td>Message</td>
+                <td>留言内容</td>
                 <td>{{this.Model.PostMessage}}</td>
             </tr>
         </tbody>
     </table>
-</div>','收到留言板留言',NULL,1,'admin','ZKEASOFT','2023-03-05 18:49:06.000','admin','ZKEASOFT','2023-03-11 21:32:38.140'),
-(2,'subject: Reset password
-to: {{this.Model.Email}}
-
-<div>
+</div>','收到留言板留言模板',NULL,1,'admin','ZKEASOFT','2023-03-05 18:49:06.000','admin','ZKEASOFT','2023-03-16 22:04:16.673'),
+(2,'<div>
     <h3>
-        Reset password
+        重置密码
     </h3>
     <p>
-        Click the link to reset your passwod:
+        点击下方链接，或者复制链接到浏览器打开
     </p>
     <a href=\"{{this.Model.Link}}\" target=\"_blank\">{{this.Model.Link}}</a>
-</div>','重置密码',NULL,1,'admin','ZKEASOFT','2023-03-11 21:32:20.753','admin','ZKEASOFT','2023-03-11 21:32:20.753'),
+</div>','重置密码邮件模板',NULL,1,'admin','ZKEASOFT','2023-03-11 21:32:20.000','admin','ZKEASOFT','2023-03-16 22:03:47.810'),
 (3,'<div>
     <h3>
-        New comment
+        收到新评论
     </h3>
     <table border=\"1\" cellspacing=\"0\" cellpadding=\"5\" bgcolor=\"\" style=\"border-color: #eee;\">
         <tbody>
             <tr>
-                <td>Page Title</td>
+                <td>页面标题</td>
                 <td>{{this.Model.Title}}</td>
             </tr>
             <tr>
-                <td>Username</td>
+                <td>用户名</td>
                 <td>{{this.Model.UserName}}</td>
             </tr>
             <tr>
-                <td>Comments</td>
+                <td>评论内容</td>
                 <td>{{this.Model.CommentContent}}</td>
             </tr>
             <tr>
-                <td>Page</td>
+                <td>页面地址</td>
                 <td>{{this.Model.PagePath}}</a></td>
             </tr>
         </tbody>
     </table>
-</div>','收到新评论',NULL,1,'admin','ZKEASOFT','2023-03-11 21:44:54.000','admin','ZKEASOFT','2023-03-11 21:48:22.887'),
-(4,'subject: New form data
-to: {{this.Model.Form.NotificationReceiver}}
-
-<div>
+</div>','收到新评论邮件模板',NULL,1,'admin','ZKEASOFT','2023-03-11 21:44:54.000','admin','ZKEASOFT','2023-03-16 22:03:57.627'),
+(4,'<div>
     <h3>
         {{this.Model.Form.Title}}
     </h3>
     <table border=\"1\" cellspacing=\"0\" cellpadding=\"5\" bgcolor=\"\" style=\"border-color: #eee; \">
         <thead>
             <tr>
-                <th>Field</th>
-                <th>Value</th>
+                <th>字段</th>
+                <th>内容</th>
             </tr>
         </thead>
         <tbody>
@@ -1445,7 +1439,7 @@ to: {{this.Model.Form.NotificationReceiver}}
             {% endfor %}
         </tbody>
     </table>
-</div>','收到自定义表单',NULL,1,'admin','ZKEASOFT','2023-03-11 22:06:21.000','admin','ZKEASOFT','2023-03-11 22:13:54.507');
+</div>','自定义表单邮件模板',NULL,1,'admin','ZKEASOFT','2023-03-11 22:06:21.000','admin','ZKEASOFT','2023-03-16 22:03:40.577');
 /*!40000 ALTER TABLE `EA_ActionBody` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `EA_EventAction`;
@@ -1478,19 +1472,23 @@ INSERT INTO `EA_EventAction` VALUES
 - name: send email notification
   uses: actions/email
   with:
-    bodyContentId: 2','发送重置密码发送邮件通知',NULL,1,'admin','ZKEASOFT','2023-03-11 21:33:51.000','admin','ZKEASOFT','2023-03-12 21:11:13.133'),
+    subject: 重置密码
+    to: ''{{this.Model.Email}}''
+    bodyContentId: 2','发送重置密码发送邮件通知',NULL,1,'admin','ZKEASOFT','2023-03-11 21:33:51.000','admin','ZKEASOFT','2023-03-16 21:59:47.367'),
 (3,'ZKEACMS.Message.Events.OnCommentsSubmitted','actions:
 - name: send email notification
   uses: actions/email
   with:
-    subject: new comment
+    subject: 有新评论
     to: webmaster@zkea.net
-    bodyContentId: 3','发送新评论邮件通知',NULL,1,'admin','ZKEASOFT','2023-03-11 21:44:02.000','admin','ZKEASOFT','2023-03-12 21:10:58.717'),
+    bodyContentId: 3','发送新评论邮件通知',NULL,1,'admin','ZKEASOFT','2023-03-11 21:44:02.000','admin','ZKEASOFT','2023-03-16 22:05:12.060'),
 (4,'ZKEACMS.FormGenerator.Events.OnFormDataSubmitted','actions:
 - name: send email notification
   uses: actions/email
   with:
-    bodyContentId: 4','发送自定义表单邮件通知',NULL,1,'admin','ZKEASOFT','2023-03-11 22:07:27.000','admin','ZKEASOFT','2023-03-12 21:11:06.727');
+    subject: 收到新的表单提交
+    to: ''{{this.Model.Form.NotificationReceiver}}''
+    bodyContentId: 4','发送自定义表单邮件通知',NULL,1,'admin','ZKEASOFT','2023-03-11 22:07:27.000','admin','ZKEASOFT','2023-03-16 22:06:44.227');
 /*!40000 ALTER TABLE `EA_EventAction` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `EA_PendingTask`;
