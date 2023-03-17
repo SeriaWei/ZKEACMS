@@ -1334,7 +1334,7 @@ INSERT INTO [EA_EventAction] ([ID],[Event],[Actions],[Title],[Description],[Stat
   uses: actions/email
   with:
     subject: 重置密码
-    to: ''{{this.Model.Email}}''
+    to: {{this.Model.Email}}
     bodyContentId: 2','发送重置密码发送邮件通知',NULL,1,'admin','ZKEASOFT','2023-03-11 21:33:51.000','admin','ZKEASOFT','2023-03-16 21:59:47.367');
 INSERT INTO [EA_EventAction] ([ID],[Event],[Actions],[Title],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (3,'ZKEACMS.Message.Events.OnCommentsSubmitted','actions:
 - name: send email notification
@@ -1348,7 +1348,7 @@ INSERT INTO [EA_EventAction] ([ID],[Event],[Actions],[Title],[Description],[Stat
   uses: actions/email
   with:
     subject: 收到新的表单提交
-    to: ''{{this.Model.Form.NotificationReceiver}}''
+    to: {{this.Model.Form.NotificationReceiver}}
     bodyContentId: 4','发送自定义表单邮件通知',NULL,1,'admin','ZKEASOFT','2023-03-11 22:07:27.000','admin','ZKEASOFT','2023-03-16 22:06:44.227');
 INSERT INTO [EA_ActionBody] ([ID],[Body],[Title],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (1,'<div>
     <h3>

@@ -20,6 +20,7 @@ using Easy.Extend;
 using Easy.Serializer;
 using Fluid;
 using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
 
 namespace ZKEACMS.EventAction.Service
 {
@@ -28,6 +29,7 @@ namespace ZKEACMS.EventAction.Service
         private readonly ICacheManager<Dictionary<string, List<EventActionContent>>> _cacheManager;
         private readonly ILogger<EventActionService> _logger;
         private readonly ILocalize _localize;
+        private static Regex _encoder = new Regex(@":( +)({{)([\w|\.| ]+)(}})", RegexOptions.Compiled);
 
         public EventActionService(IApplicationContext applicationContext, CMSDbContext dbContext,
             ICacheManager<Dictionary<string, List<EventActionContent>>> cacheManager, ILogger<EventActionService> logger, ILocalize localize)
@@ -37,6 +39,7 @@ namespace ZKEACMS.EventAction.Service
             _logger = logger;
             _localize = localize;
         }
+
         public override ServiceResult<Models.EventAction> Update(Models.EventAction item)
         {
             var result = ValidateActions(item);
@@ -71,7 +74,7 @@ namespace ZKEACMS.EventAction.Service
                     {
                         try
                         {
-                            return YamlConverter.Deserialize<EventActionContent>(m.Actions);
+                            return YamlConverter.Deserialize<EventActionContent>(Encode(m.Actions));
                         }
                         catch (Exception ex)
                         {
@@ -91,7 +94,7 @@ namespace ZKEACMS.EventAction.Service
             ServiceResult<Models.EventAction> result = new ServiceResult<Models.EventAction>();
             try
             {
-                var eventAction = YamlConverter.Deserialize<EventActionContent>(item.Actions);
+                var eventAction = YamlConverter.Deserialize<EventActionContent>(Encode(item.Actions));
                 if (eventAction.Actions == null) return result;
                 foreach (var action in eventAction.Actions)
                 {
@@ -113,6 +116,13 @@ namespace ZKEACMS.EventAction.Service
                 result.AddRuleViolation("Actions", ex.Message);
             }
             return result;
+        }
+        private string Encode(string actions)
+        {
+            return _encoder.Replace(actions, evaluator =>
+            {
+                return $":{ evaluator.Groups[1].Value }'{ evaluator.Groups[2].Value + evaluator.Groups[3].Value + evaluator.Groups[4].Value}'";
+            });
         }
     }
 }
