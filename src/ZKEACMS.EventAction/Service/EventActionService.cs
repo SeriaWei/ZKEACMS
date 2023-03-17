@@ -29,7 +29,7 @@ namespace ZKEACMS.EventAction.Service
         private readonly ICacheManager<Dictionary<string, List<EventActionContent>>> _cacheManager;
         private readonly ILogger<EventActionService> _logger;
         private readonly ILocalize _localize;
-        private static Regex _encoder = new Regex(@":( +)({{)([\w|\.| ]+)(}})", RegexOptions.Compiled);
+        private static Regex _encoder = new Regex(@":( +)({{)([\w|\.| |\[|\]]+)(}})", RegexOptions.Compiled);
 
         public EventActionService(IApplicationContext applicationContext, CMSDbContext dbContext,
             ICacheManager<Dictionary<string, List<EventActionContent>>> cacheManager, ILogger<EventActionService> logger, ILocalize localize)
