@@ -1,4 +1,4 @@
--- Script Date: 2023/3/18 星期六 16:45  - ErikEJ.SqlCeScripting version 3.5.2.56
+-- Script Date: 2023/3/18 星期六 22:30  - ErikEJ.SqlCeScripting version 3.5.2.56
 SELECT 1;
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
@@ -48,7 +48,7 @@ CREATE TABLE [Subscription] (
 , [Phone] nvarchar(100) NULL
 , [Referrer] nvarchar(500) NULL
 , [IsValidate] bit NULL
-, [Title] nvarchar(50) NULL
+, [Title] nvarchar(200) NULL
 , [Description] nvarchar(500) NULL
 , [Status] int NULL
 , [CreateBy] nvarchar(50) NULL
@@ -57,7 +57,7 @@ CREATE TABLE [Subscription] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Subscrip__3214EC27A771F06C] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Subscrip__3214EC27021C6F87] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ShippingOption] (
   [ID] INTEGER NOT NULL
@@ -74,7 +74,7 @@ CREATE TABLE [ShippingOption] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Shipping__3214EC2708372141] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Shipping__3214EC271C40EEEF] PRIMARY KEY ([ID])
 );
 CREATE TABLE [SectionTemplate] (
   [TemplateName] nvarchar(100) NOT NULL
@@ -145,13 +145,13 @@ CREATE TABLE [Roles] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Roles__3214EC27FAA6852A] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Roles__3214EC27BB1A64AD] PRIMARY KEY ([ID])
 );
 CREATE TABLE [UserRoleRelation] (
   [ID] INTEGER NOT NULL
 , [RoleID] int NULL
 , [UserID] nvarchar(50) NULL
-, CONSTRAINT [PK__UserRole__3214EC27B277211A] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__UserRole__3214EC2741D31CE3] PRIMARY KEY ([ID])
 , FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 , FOREIGN KEY ([UserID]) REFERENCES [Users] ([UserID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
@@ -159,7 +159,7 @@ CREATE TABLE [ProductTag] (
   [ID] INTEGER NOT NULL
 , [ProductId] int NULL
 , [TagId] int NULL
-, [Title] nvarchar(50) NULL
+, [Title] nvarchar(200) NULL
 , CONSTRAINT [PK_ProductTag] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ProductImage] (
@@ -189,12 +189,12 @@ CREATE TABLE [ProductGallery] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__ProductG__3214EC272FB1B181] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__ProductG__3214EC27E76CCCE6] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ProductCategoryTag] (
   [ID] INTEGER NOT NULL
 , [ProductCategoryId] int NULL
-, [Title] nvarchar(50) NULL
+, [Title] nvarchar(200) NULL
 , [Description] nvarchar(500) NULL
 , [Status] int NULL
 , [ParentId] int NULL
@@ -266,7 +266,7 @@ CREATE TABLE [PersistKey] (
 , [CreationDate] datetime NULL
 , [ActivationDate] datetime NULL
 , [ExpirationDate] datetime NULL
-, CONSTRAINT [PK__PersistK__3214EC2739CFEED5] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__PersistK__3214EC279B644864] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Permission] (
   [PermissionKey] nvarchar(100) NOT NULL
@@ -337,7 +337,7 @@ CREATE TABLE [Order] (
 , [ShippingAddress] nvarchar(500) NULL
 , [PaymentGateway] nvarchar(50) NULL
 , [PaymentID] nvarchar(500) NULL
-, [Title] nvarchar(50) NULL
+, [Title] nvarchar(200) NULL
 , [Description] nvarchar(500) NULL
 , [Status] int NULL
 , [CreateBy] nvarchar(50) NULL
@@ -483,7 +483,7 @@ CREATE TABLE [FluidContentGroup] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__FluidCon__3214EC27F6E5B5EF] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__FluidCon__3214EC27BA71BFFC] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ExtendField] (
   [ID] INTEGER NOT NULL
@@ -508,7 +508,7 @@ CREATE TABLE [EA_PendingTask] (
 , [Data] ntext NULL
 , [LogMessage] ntext NULL
 , [RetryCount] int NULL
-, [Title] nvarchar(50) NULL
+, [Title] nvarchar(200) NULL
 , [Description] nvarchar(500) NULL
 , [Status] int NULL
 , [CreateBy] nvarchar(50) NULL
@@ -523,7 +523,7 @@ CREATE TABLE [EA_EventAction] (
   [ID] INTEGER NOT NULL
 , [Event] nvarchar(100) NULL
 , [Actions] ntext NULL
-, [Title] nvarchar(50) NULL
+, [Title] nvarchar(200) NULL
 , [Description] nvarchar(500) NULL
 , [Status] int NULL
 , [CreateBy] nvarchar(50) NULL
@@ -537,7 +537,7 @@ CREATE TABLE [EA_EventAction] (
 CREATE TABLE [EA_ActionBody] (
   [ID] INTEGER NOT NULL
 , [Body] ntext NULL
-, [Title] nvarchar(50) NULL
+, [Title] nvarchar(200) NULL
 , [Description] nvarchar(500) NULL
 , [Status] int NULL
 , [CreateBy] nvarchar(50) NULL
@@ -554,7 +554,7 @@ CREATE TABLE [DBVersion] (
 , [Minor] int NULL
 , [Revision] int NULL
 , [Build] int NULL
-, CONSTRAINT [PK__DBVersio__3214EC27741FF711] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__DBVersio__3214EC279FDDC606] PRIMARY KEY ([ID])
 );
 CREATE TABLE [DataDictionary] (
   [ID] INTEGER NOT NULL
@@ -579,7 +579,7 @@ CREATE TABLE [DataDictionary] (
 CREATE TABLE [DataArchived] (
   [ID] nvarchar(100) NOT NULL
 , [Data] ntext NULL
-, [Title] nvarchar(50) NULL
+, [Title] nvarchar(200) NULL
 , [Description] nvarchar(500) NULL
 , [Status] int NULL
 , [CreateBy] nvarchar(50) NULL
@@ -603,7 +603,7 @@ CREATE TABLE [Currency] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Currency__3214EC27E7FBAE54] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Currency__3214EC27578AA481] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Comments] (
   [ID] INTEGER NOT NULL
@@ -614,7 +614,7 @@ CREATE TABLE [Comments] (
 , [CommentContent] nvarchar(500) NULL
 , [Agrees] int NULL
 , [Disagrees] int NULL
-, [Title] nvarchar(50) NULL
+, [Title] nvarchar(200) NULL
 , [Description] nvarchar(500) NULL
 , [Status] int NULL
 , [CreateBy] nvarchar(50) NULL
@@ -769,7 +769,7 @@ CREATE TABLE [HtmlWidget] (
 );
 CREATE TABLE [CMS_Theme] (
   [ID] nvarchar(100) NOT NULL
-, [Title] nvarchar(50) NULL
+, [Title] nvarchar(200) NULL
 , [Url] nvarchar(100) NULL
 , [UrlDebugger] nvarchar(100) NULL
 , [Thumbnail] nvarchar(100) NULL
@@ -786,7 +786,7 @@ CREATE TABLE [CMS_Theme] (
 );
 CREATE TABLE [CMS_Rule] (
   [RuleID] INTEGER NOT NULL
-, [Title] nvarchar(50) NULL
+, [Title] nvarchar(200) NULL
 , [ZoneName] nvarchar(50) NULL
 , [RuleExpression] nvarchar(800) NULL
 , [Description] nvarchar(500) NULL
@@ -819,7 +819,7 @@ CREATE TABLE [CMS_Redirection] (
 );
 CREATE TABLE [CMS_Message] (
   [ID] INTEGER NOT NULL
-, [Title] nvarchar(50) NULL
+, [Title] nvarchar(200) NULL
 , [Email] nvarchar(50) NOT NULL
 , [PostMessage] ntext NOT NULL
 , [Reply] ntext NULL
@@ -836,7 +836,7 @@ CREATE TABLE [CMS_Message] (
 CREATE TABLE [CMS_Media] (
   [ID] nvarchar(50) NOT NULL
 , [ParentID] nvarchar(50) NULL
-, [Title] nvarchar(50) NULL
+, [Title] nvarchar(200) NULL
 , [MediaType] int NULL
 , [Url] nvarchar(100) NULL
 , [Status] int NULL
@@ -1053,7 +1053,7 @@ CREATE TABLE [ArticleGallery] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__ArticleG__3214EC27E171AC02] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__ArticleG__3214EC27734E3FD9] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ArticleDetailWidget] (
   [ID] nvarchar(100) NOT NULL
@@ -1089,7 +1089,7 @@ CREATE TABLE [Article] (
 CREATE TABLE [ApplicationSetting] (
   [SettingKey] nvarchar(50) NOT NULL
 , [Value] ntext NULL
-, [Title] nvarchar(50) NULL
+, [Title] nvarchar(200) NULL
 , [Description] nvarchar(500) NULL
 , [Status] int NULL
 , [CreateBy] nvarchar(50) NULL

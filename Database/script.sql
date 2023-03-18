@@ -5,7 +5,7 @@ GO
 CREATE TABLE [dbo].[ApplicationSetting](
 	[SettingKey] [nvarchar](50) NOT NULL,
 	[Value] [nvarchar](max) NULL,
-	[Title] [nvarchar](50) NULL,
+	[Title] [nvarchar](200) NULL,
 	[Description] [nvarchar](500) NULL,
 	[Status] [int] NULL,
 	[CreateBy] [nvarchar](50) NULL,
@@ -319,7 +319,7 @@ GO
 CREATE TABLE [dbo].[CMS_Media](
 	[ID] [nvarchar](50) NOT NULL,
 	[ParentID] [nvarchar](50) NULL,
-	[Title] [nvarchar](50) NULL,
+	[Title] [nvarchar](200) NULL,
 	[MediaType] [int] NULL,
 	[Url] [nvarchar](100) NULL,
 	[Status] [int] NULL,
@@ -342,7 +342,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[CMS_Message](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[Title] [nvarchar](50) NULL,
+	[Title] [nvarchar](200) NULL,
 	[Email] [nvarchar](50) NOT NULL,
 	[PostMessage] [nvarchar](max) NOT NULL,
 	[Reply] [nvarchar](max) NULL,
@@ -427,7 +427,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[CMS_Rule](
 	[RuleID] [int] IDENTITY(1,1) NOT NULL,
-	[Title] [nvarchar](50) NULL,
+	[Title] [nvarchar](200) NULL,
 	[ZoneName] [nvarchar](50) NULL,
 	[RuleExpression] [nvarchar](800) NULL,
 	[Description] [nvarchar](500) NULL,
@@ -451,7 +451,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[CMS_Theme](
 	[ID] [nvarchar](100) NOT NULL,
-	[Title] [nvarchar](50) NULL,
+	[Title] [nvarchar](200) NULL,
 	[Url] [nvarchar](100) NULL,
 	[UrlDebugger] [nvarchar](100) NULL,
 	[Thumbnail] [nvarchar](100) NULL,
@@ -545,7 +545,7 @@ CREATE TABLE [dbo].[Comments](
 	[CommentContent] [nvarchar](500) NULL,
 	[Agrees] [int] NULL,
 	[Disagrees] [int] NULL,
-	[Title] [nvarchar](50) NULL,
+	[Title] [nvarchar](200) NULL,
 	[Description] [nvarchar](500) NULL,
 	[Status] [int] NULL,
 	[CreateBy] [nvarchar](50) NULL,
@@ -590,7 +590,7 @@ GO
 CREATE TABLE [dbo].[DataArchived](
 	[ID] [nvarchar](100) NOT NULL,
 	[Data] [nvarchar](max) NULL,
-	[Title] [nvarchar](50) NULL,
+	[Title] [nvarchar](200) NULL,
 	[Description] [nvarchar](500) NULL,
 	[Status] [int] NULL,
 	[CreateBy] [nvarchar](50) NULL,
@@ -656,7 +656,7 @@ GO
 CREATE TABLE [dbo].[EA_ActionBody](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Body] [nvarchar](max) NULL,
-	[Title] [nvarchar](50) NULL,
+	[Title] [nvarchar](200) NULL,
 	[Description] [nvarchar](500) NULL,
 	[Status] [int] NULL,
 	[CreateBy] [nvarchar](50) NULL,
@@ -679,7 +679,7 @@ CREATE TABLE [dbo].[EA_EventAction](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Event] [nvarchar](100) NULL,
 	[Actions] [nvarchar](max) NULL,
-	[Title] [nvarchar](50) NULL,
+	[Title] [nvarchar](200) NULL,
 	[Description] [nvarchar](500) NULL,
 	[Status] [int] NULL,
 	[CreateBy] [nvarchar](50) NULL,
@@ -705,7 +705,7 @@ CREATE TABLE [dbo].[EA_PendingTask](
 	[Data] [nvarchar](max) NULL,
 	[LogMessage] [nvarchar](max) NULL,
 	[RetryCount] [int] NULL,
-	[Title] [nvarchar](50) NULL,
+	[Title] [nvarchar](200) NULL,
 	[Description] [nvarchar](500) NULL,
 	[Status] [int] NULL,
 	[CreateBy] [nvarchar](50) NULL,
@@ -1006,7 +1006,7 @@ CREATE TABLE [dbo].[Order](
 	[ShippingAddress] [nvarchar](500) NULL,
 	[PaymentGateway] [nvarchar](50) NULL,
 	[PaymentID] [nvarchar](500) NULL,
-	[Title] [nvarchar](50) NULL,
+	[Title] [nvarchar](200) NULL,
 	[Description] [nvarchar](500) NULL,
 	[Status] [int] NULL,
 	[CreateBy] [nvarchar](50) NULL,
@@ -1200,7 +1200,7 @@ GO
 CREATE TABLE [dbo].[ProductCategoryTag](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[ProductCategoryId] [int] NULL,
-	[Title] [nvarchar](50) NULL,
+	[Title] [nvarchar](200) NULL,
 	[Description] [nvarchar](500) NULL,
 	[Status] [int] NULL,
 	[ParentId] [int] NULL,
@@ -1313,7 +1313,7 @@ CREATE TABLE [dbo].[ProductTag](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[ProductId] [int] NULL,
 	[TagId] [int] NULL,
-	[Title] [nvarchar](50) NULL,
+	[Title] [nvarchar](200) NULL,
  CONSTRAINT [PK_ProductTag] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -1567,7 +1567,7 @@ CREATE TABLE [dbo].[Subscription](
 	[Phone] [nvarchar](100) NULL,
 	[Referrer] [nvarchar](500) NULL,
 	[IsValidate] [bit] NULL,
-	[Title] [nvarchar](50) NULL,
+	[Title] [nvarchar](200) NULL,
 	[Description] [nvarchar](500) NULL,
 	[Status] [int] NULL,
 	[CreateBy] [nvarchar](50) NULL,

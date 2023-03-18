@@ -26,6 +26,7 @@ namespace ZKEACMS.EventAction.Models
         protected override void ViewConfigure()
         {
             ViewConfig(m => m.ID).AsHidden().ShowInGrid();
+            ViewConfig(m => m.Title).AsTextBox().Order(1).Required().ShowInGrid().Search(Easy.LINQ.Query.Operators.Contains).MaxLength(200);
             ViewConfig(m => m.Body).AsTextArea().Required().AddProperty("rows", "20");
         }
     }
