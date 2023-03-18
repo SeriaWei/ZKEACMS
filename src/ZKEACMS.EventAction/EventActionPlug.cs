@@ -30,22 +30,22 @@ namespace ZKEACMS.EventAction
         {
             yield return new AdminMenu
             {
-                Title = "Event Action",
+                Title = "Event/Notification",
                 Icon = "glyphicon-flash",
                 Order = 14,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu
                     {
-                        Title = "Event Action",
-                        Icon = "glyphicon-console",
+                        Title = "Notification",
+                        Icon = "glyphicon-indent-left",
                         Url = "~/admin/eventaction",
                         Order = 0,
                         PermissionKey = PermissionKeys.ViewEventAction
                     },
                     new AdminMenu
                     {
-                        Title = "Action Content",
+                        Title = "Notification Content",
                         Icon = "glyphicon-log-in",
                         Url = "~/admin/actionbody",
                         Order = 1,

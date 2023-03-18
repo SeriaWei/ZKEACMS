@@ -1892,8 +1892,9 @@ ZoneEntity@Status: 狀態
 ZoneEntity@Title: 標題
 ZoneID: 區域
 MD Screen: 中等屏幕
-Event Action: 事件動作
-Action Content: 事件內容
+Event/Notification: 事件通知
+Notification: 通知
+Notification Content: 通知內容
 Pending Tasks: 待處理事件
 Event: 事件
 EventAction@Actions: 動作定義
