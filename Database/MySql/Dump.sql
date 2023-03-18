@@ -1897,8 +1897,8 @@ CREATE TABLE `Permission` (
 
 /*!40000 ALTER TABLE `Permission` DISABLE KEYS */;
 INSERT INTO `Permission` VALUES
-('ActionBody_Manage',1,'Manage Action Body',NULL,'EventAction',NULL,'admin','ZKEASOFT','2023-03-14 21:04:42.770','admin','ZKEASOFT','2023-03-14 21:04:42.770'),
-('ActionBody_View',1,'View Action Body',NULL,'EventAction',NULL,'admin','ZKEASOFT','2023-03-14 21:04:42.770','admin','ZKEASOFT','2023-03-14 21:04:42.770'),
+('NotificationContent_Manage',1,'Manage Notification Content',NULL,'EventAction',NULL,'admin','ZKEASOFT','2023-03-14 21:04:42.770','admin','ZKEASOFT','2023-03-14 21:04:42.770'),
+('NotificationContent_View',1,'View Notification Content',NULL,'EventAction',NULL,'admin','ZKEASOFT','2023-03-14 21:04:42.770','admin','ZKEASOFT','2023-03-14 21:04:42.770'),
 ('ApplicationSetting_Manage',1,'管理系统设置',NULL,'用户/安全',NULL,'admin','ZKEASOFT','2016-08-01 14:12:07.567','admin','ZKEASOFT','2023-03-14 21:04:42.750'),
 ('ApplicationSetting_View',1,'查看系统设置',NULL,'用户/安全',NULL,'admin','ZKEASOFT','2016-08-01 13:37:46.647','admin','ZKEASOFT','2023-03-14 21:04:42.757'),
 ('Article_Manage',1,'管理文章',NULL,'文章',NULL,'admin','ZKEASOFT','2016-08-01 13:18:40.493','admin','ZKEASOFT','2023-03-14 21:04:42.757'),
@@ -1911,8 +1911,8 @@ INSERT INTO `Permission` VALUES
 ('Comments_Manage',1,'管理回复',NULL,'留言评论',NULL,'admin','ZKEASOFT','2017-12-03 17:09:48.053','admin','ZKEASOFT','2023-03-14 21:04:42.757'),
 ('Comments_View',1,'查看回复',NULL,'留言评论',NULL,'admin','ZKEASOFT','2017-12-03 17:09:48.050','admin','ZKEASOFT','2023-03-14 21:04:42.757'),
 ('Config_Currency',1,'Currency',NULL,'Setting',NULL,'admin','ZKEASOFT','2021-03-06 22:16:30.727','admin','ZKEASOFT','2023-03-14 21:04:42.757'),
-('EventAction_Manage',1,'Manage EventAction',NULL,'EventAction',NULL,'admin','ZKEASOFT','2023-03-14 21:04:42.767','admin','ZKEASOFT','2023-03-14 21:04:42.767'),
-('EventAction_View',1,'View EventAction',NULL,'EventAction',NULL,'admin','ZKEASOFT','2023-03-14 21:04:42.760','admin','ZKEASOFT','2023-03-14 21:04:42.760'),
+('EventNotification_Manage',1,'Manage Event Notification',NULL,'EventAction',NULL,'admin','ZKEASOFT','2023-03-14 21:04:42.767','admin','ZKEASOFT','2023-03-14 21:04:42.767'),
+('EventNotification_View',1,'View Event Notification',NULL,'EventAction',NULL,'admin','ZKEASOFT','2023-03-14 21:04:42.760','admin','ZKEASOFT','2023-03-14 21:04:42.760'),
 ('EventViewer_Manage',1,'查看错误日志',NULL,'设置',NULL,'admin','ZKEASOFT','2017-07-11 15:43:52.147','admin','ZKEASOFT','2023-03-14 21:04:42.757'),
 ('Form_Manage',1,'管理表单',NULL,'自定义表单',NULL,'admin','ZKEASOFT','2017-10-12 15:11:51.843','admin','ZKEASOFT','2023-03-14 21:04:42.757'),
 ('Form_View',1,'查看表单',NULL,'自定义表单',NULL,'admin','ZKEASOFT','2017-10-12 15:11:51.830','admin','ZKEASOFT','2023-03-14 21:04:42.757'),

@@ -15,14 +15,14 @@ using Easy.Constant;
 
 namespace ZKEACMS.EventAction.Controllers
 {
-    [DefaultAuthorize(Policy = PermissionKeys.ViewEventAction)]
+    [DefaultAuthorize(Policy = PermissionKeys.ViewEventNotification)]
     public class PendingTaskController : BasicController<Models.PendingTaskEntity, int, IPendingTaskManagerService>
     {
         public PendingTaskController(IPendingTaskManagerService service) : base(service)
         {
         }
 
-        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageEventAction)]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageEventNotification)]
         public override IActionResult Edit(Models.PendingTaskEntity entity)
         {
             entity.RetryCount = 0;
@@ -31,13 +31,13 @@ namespace ZKEACMS.EventAction.Controllers
             return base.Edit(entity);
         }
 
-        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageEventAction)]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageEventNotification)]
         public override IActionResult Create(Models.PendingTaskEntity entity)
         {
             return base.Create(entity);
         }
 
-        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageEventAction)]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageEventNotification)]
         public override IActionResult Delete(int id)
         {
             return base.Delete(id);

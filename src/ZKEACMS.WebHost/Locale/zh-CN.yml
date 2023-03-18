@@ -1908,10 +1908,9 @@ PendingTaskEntity@HandlerName: 处理程序
 PendingTaskEntity@RetryCount: 尝试次数
 PendingTaskEntity@Data: 相关数据
 PendingTaskEntity@LogMessage: 日志
-EventAction: 事件动作
-View EventAction: 查看事件动作
-Manage EventAction: 管理事件动作
-View Action Body: 查看事件内容
-Manage Action Body: 管理事件内容
+View Notification: 查看事件通知
+Manage Notification: 管理事件通知
+View Notification Content: 查看通知内容
+Manage Notification Content: 管理通知内容
 View Pending Task: 查看待处理事件
 Manage Pending Task: 管理待处理事件

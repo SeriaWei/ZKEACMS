@@ -16,20 +16,20 @@ using System.Text;
 
 namespace ZKEACMS.EventAction.Controllers
 {
-    [DefaultAuthorize(Policy = PermissionKeys.ViewEventAction)]
+    [DefaultAuthorize(Policy = PermissionKeys.ViewEventNotification)]
     public class EventActionController : BasicController<Models.EventAction, int, IEventActionService>
     {
         public EventActionController(IEventActionService service) : base(service)
         {
         }
 
-        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageEventAction)]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageEventNotification)]
         public override IActionResult Edit(Models.EventAction entity)
         {
             return base.Edit(entity);
         }
 
-        [DefaultAuthorize(Policy = PermissionKeys.ManageEventAction)]
+        [DefaultAuthorize(Policy = PermissionKeys.ManageEventNotification)]
         public override IActionResult Create()
         {
             return View(new Models.EventAction
@@ -38,13 +38,13 @@ namespace ZKEACMS.EventAction.Controllers
             });
         }
 
-        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageEventAction)]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageEventNotification)]
         public override IActionResult Create(Models.EventAction entity)
         {
             return base.Create(entity);
         }
 
-        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageEventAction)]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageEventNotification)]
         public override IActionResult Delete(int id)
         {
             return base.Delete(id);

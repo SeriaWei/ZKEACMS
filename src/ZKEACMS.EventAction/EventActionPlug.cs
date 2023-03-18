@@ -41,7 +41,7 @@ namespace ZKEACMS.EventAction
                         Icon = "glyphicon-indent-left",
                         Url = "~/admin/eventaction",
                         Order = 0,
-                        PermissionKey = PermissionKeys.ViewEventAction
+                        PermissionKey = PermissionKeys.ViewEventNotification
                     },
                     new AdminMenu
                     {
@@ -49,7 +49,7 @@ namespace ZKEACMS.EventAction
                         Icon = "glyphicon-log-in",
                         Url = "~/admin/actionbody",
                         Order = 1,
-                        PermissionKey = PermissionKeys.ViewActionBody
+                        PermissionKey = PermissionKeys.ViewNotificationContent
                     },
                     new AdminMenu
                     {
@@ -74,12 +74,12 @@ namespace ZKEACMS.EventAction
 
         public override IEnumerable<PermissionDescriptor> RegistPermission()
         {
-            yield return new PermissionDescriptor(PermissionKeys.ViewEventAction, "EventAction", "View EventAction", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageEventAction, "EventAction", "Manage EventAction", "");
-            yield return new PermissionDescriptor(PermissionKeys.ViewActionBody, "EventAction", "View Action Body", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManageActionBody, "EventAction", "Manage Action Body", "");
-            yield return new PermissionDescriptor(PermissionKeys.ViewPendingTask, "EventAction", "View Pending Task", "");
-            yield return new PermissionDescriptor(PermissionKeys.ManagePendingTask, "EventAction", "Manage Pending Task", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewEventNotification, "Event/Notification", "View Notification", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageEventNotification, "Event/Notification", "Manage Notification", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewNotificationContent, "Event/Notification", "View Notification Content", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManageNotificationContent, "Event/Notification", "Manage Notification Content", "");
+            yield return new PermissionDescriptor(PermissionKeys.ViewPendingTask, "Event/Notification", "View Pending Task", "");
+            yield return new PermissionDescriptor(PermissionKeys.ManagePendingTask, "Event/Notification", "Manage Pending Task", "");
         }
 
         public override IEnumerable<WidgetTemplateEntity> WidgetServiceTypes()

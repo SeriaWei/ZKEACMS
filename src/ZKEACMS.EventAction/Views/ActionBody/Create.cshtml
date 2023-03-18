@@ -13,7 +13,7 @@
         {
             @Html.EditorForModel()
             <div class="toolBar">
-                @if (Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManageEventAction))
+                @if (Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManageEventNotification))
                 {
                     <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Update" />
                 }

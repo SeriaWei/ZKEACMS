@@ -10,10 +10,10 @@
 }
 
 <div class="grid-component">
-    @Html.SearchTerms(Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManageEventAction))
+    @Html.SearchTerms(Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManageEventNotification))
     <div class="panel panel-default">
         <div class="panel-body">
-            <grid delete-able="Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManageEventAction)" edit-able="Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManageEventAction)"></grid>
+            <grid delete-able="Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManageEventNotification)" edit-able="Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManageEventNotification)"></grid>
         </div>
     </div>    
 </div>
