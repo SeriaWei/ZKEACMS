@@ -2,6 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy.RepositoryPattern;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -23,19 +24,19 @@ namespace ZKEACMS.EventAction.HttpParser
             _httpClientFactory = httpClientFactory;
         }
 
-        public override async Task ExecuteAsync(object context)
+        public override Task<ServiceResult<string>> ExecuteAsync(object context)
         {
-            await SendAsync(context as HttpRequestContent);
+            return SendAsync(context as HttpRequestContent);
         }
 
-        public async Task SendAsync(HttpRequestContent httpRequest)
+        public async Task<ServiceResult<string>> SendAsync(HttpRequestContent httpRequest)
         {
             using (var response = await _httpClientFactory.CreateClient().SendAsync(httpRequest.ConvertToHttpRequestMessage()))
             {
                 string responseContent = await response.Content.ReadAsStringAsync();
-                if (response.IsSuccessStatusCode) return;
+                if (!response.IsSuccessStatusCode) throw new Exception($"Send http request with error.\r\nPayload:\r\n{httpRequest}\r\nResponse:\r\n{responseContent}");
 
-                throw new Exception($"Send http request with error.\r\nPayload:\r\n{httpRequest}\r\nResponse:\r\n{responseContent}");
+                return new ServiceResult<string>(responseContent);
             }
         }
     }

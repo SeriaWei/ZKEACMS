@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [EA_PendingTask] (
   [ID] INTEGER NOT NULL
-, [Identifier] nvarchar(100) NOT NULL
+, [Identifier] nvarchar(200) NOT NULL
 , [HandlerName] nvarchar(100) NOT NULL
 , [Data] ntext NULL
 , [LogMessage] ntext NULL

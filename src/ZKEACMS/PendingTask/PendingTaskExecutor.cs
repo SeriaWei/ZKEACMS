@@ -45,7 +45,10 @@ namespace ZKEACMS.PendingTask
                 try
                 {
                     var context = taskHandler.Deserialize(task.Data);
-                    await taskHandler.ExecuteAsync(context);
+                    var result = await taskHandler.ExecuteAsync(context);
+                    if (result.HasViolation) throw new Exception(result.ErrorMessage);
+
+                    task.LogMessage = result.Result;
                     _pendingTaskService.Complete(task);
                 }
                 catch (Exception ex)

@@ -13,7 +13,9 @@
     @Html.SearchTerms(Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManagePendingTask))
     <div class="panel panel-default">
         <div class="panel-body">
-            <grid delete-able="Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManagePendingTask)" edit-able="Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManagePendingTask)"></grid>
+            <grid delete-able="Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManagePendingTask)"
+                  edit-able="Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManagePendingTask)" 
+                  order-desc="CreateDate"></grid>
         </div>
     </div>    
 </div>

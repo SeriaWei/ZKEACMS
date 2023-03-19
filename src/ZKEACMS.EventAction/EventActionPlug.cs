@@ -101,7 +101,7 @@ namespace ZKEACMS.EventAction
             serviceCollection.AddTransient<IActionBodyService, ActionBodyService>();
             serviceCollection.ConfigureMetaData<Models.ActionBody, Models.ActionBodyMetaData>();
 
-            serviceCollection.RegistEvent<ActionExecutor.EventHandler>(Event.Events.All);
+            serviceCollection.RegistEvent<ActionExecutor.EventActionEventHandler>(Event.Events.All);
             serviceCollection.RegistPendingTask<HttpRequesetTaskHandler>(HttpRequesetTaskHandler.Name);
 
             serviceCollection.AddScoped<IExecutorManager, ExecutorManager>();

@@ -28,7 +28,7 @@ namespace ZKEACMS.Mail.Queue
 
         public Task Send(EmailContext emailMessage)
         {
-            _pendingTaskService.Add(string.Join(";", emailMessage.EmailMessage.To), EmailPendingTaskHandler.Name, emailMessage);
+            _pendingTaskService.Add("mailto: " + string.Join(";", emailMessage.EmailMessage.To), EmailPendingTaskHandler.Name, emailMessage);
             return Task.CompletedTask;
         }
     }

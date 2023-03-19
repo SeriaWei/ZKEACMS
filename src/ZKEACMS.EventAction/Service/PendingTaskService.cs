@@ -47,8 +47,13 @@ namespace ZKEACMS.EventAction.Service
                 HandlerName = handlerName,
                 Data = JsonConverter.Serialize(context),
                 Status = (int)PendingTaskStatus.Pending,
-                CreateDate = DateTime.Now
+                CreateDate = DateTime.Now,
+                LastUpdateDate = DateTime.Now
             };
+            if (newTask.Identifier.Length > 200)
+            {
+                newTask.Identifier = newTask.Identifier.Substring(0, 200);
+            }
             _dbContextProvider.Current.Set<PendingTaskEntity>().Add(newTask);
             _dbContextProvider.Current.SaveChanges();
         }

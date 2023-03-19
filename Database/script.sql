@@ -700,7 +700,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[EA_PendingTask](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[Identifier] [nvarchar](100) NOT NULL,
+	[Identifier] [nvarchar](200) NOT NULL,
 	[HandlerName] [nvarchar](100) NOT NULL,
 	[Data] [nvarchar](max) NULL,
 	[LogMessage] [nvarchar](max) NULL,
