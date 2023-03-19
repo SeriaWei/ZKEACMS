@@ -14,12 +14,5 @@
             list = new SelectList(descriptor.OptionItems, "Key", "Value", Model);
         }
     }
-    if (list != null)
-    {
-        foreach (var item in list)
-        {
-            item.Text = L(item.Text).Text;
-        }
-    }
 }
 @Html.DropDownList("", list, descriptor?.ToHtmlProperties())

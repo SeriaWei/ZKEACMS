@@ -3,7 +3,7 @@
 @{
     Style.Reqiured("select2").AtHead();
     Script.Reqiured("select2").AtFoot();
-    var descriptor = ViewData.ModelMetadata.GetViewDescriptor() as MutiSelectDescriptor;
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor() as MultiSelectDescriptor;
     SelectList selectOptions = null;
     if (descriptor != null)
     {

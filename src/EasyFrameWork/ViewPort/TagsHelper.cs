@@ -72,9 +72,9 @@ namespace Easy.ViewPort
         /// 多选项
         /// </summary>
         /// <returns></returns>
-        public MutiSelectDescriptor AsMutiSelect()
+        public MultiSelectDescriptor AsMutiSelect()
         {
-            MutiSelectDescriptor tag = new MutiSelectDescriptor(_modelType, _key);
+            MultiSelectDescriptor tag = new MultiSelectDescriptor(_modelType, _key);
             tag.DataType = _dataType;
             _attributes[this._key] = tag;
             return tag;

@@ -2,30 +2,28 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-using Easy.Constant;
-using Easy.Modules.DataDictionary;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Easy.ViewPort.Validator;
-using System.Reflection;
+using System.Collections.Generic;
+using Easy.Constant;
+using System.Text;
+using Easy.Modules.DataDictionary;
 using Easy.Extend;
 using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using Easy.Modules.MutiLanguage;
+using System.Reflection;
 
 namespace Easy.ViewPort.Descriptor
 {
-    public class DropDownListDescriptor : SelectDescriptor<DropDownListDescriptor>
+    public class MultiSelectDescriptor : SelectDescriptor<MultiSelectDescriptor>
     {
-        public DropDownListDescriptor(Type modelType, string property)
+        public MultiSelectDescriptor(Type modelType, string property)
             : base(modelType, property)
         {
         }
 
         public override HTMLEnumerate.HTMLTagTypes GetTagType()
         {
-            return HTMLEnumerate.HTMLTagTypes.DropDownList;
+            return HTMLEnumerate.HTMLTagTypes.MultiSelect;
         }
     }
 }
