@@ -348,7 +348,7 @@ Check the email: 查收郵件
 Check your pages for SEO: 掃描您的頁面，我們將為您提供一些SEO優化建議：
 Checkbox: 復選框
 Class prefix: 類前綴
-Click on the "Thumbnails" to preview. Click on "Exit Theme Preview" in the preview page to return to: 點擊主題“縮略圖”可進行進行預覽，在預覽頁面右上角點擊“退出主題預覽”可回到該頁面
+Click the "Thumbnails" to preview the theme: 點擊主題“縮略圖”可進行進行預覽
 Click the radio button to switch the theme: 點擊單選框進行主題切換
 Click to select: 點擊選擇該區域
 Close: 關閉
@@ -1662,8 +1662,7 @@ Thank you for sign up: 註冊結果
 The max length of {0} is {1}: '{0}的長度應小於{1}'
 The order is closed!: 訂單已關閉！
 The page more than a <h1> tag: 頁面中的<h1>標簽超過了1個
-The page must be published before it can be accessed via the URL.: 只有在頁面發佈之後才可查看！
-The page must be published before it can be accessed via the URL. Modifying the page does not affect: 頁面必須要發佈才可以通過網址訪問。對頁面進行修改不會影響到已發佈版本，直到下一次發佈。
+The page must be published that can be accessed via the URL: 只有在頁面發佈之後才可查看
 The page should have a <h1> tag: 頁面中應當有一個<h1>標簽
 The parent node does not create a corresponding language: 父級結節未創建對應語言
 The setting key is already exists: 已經存在該鍵值

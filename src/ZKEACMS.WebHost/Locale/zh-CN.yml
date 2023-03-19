@@ -348,7 +348,7 @@ Check the email: 查收邮件
 Check your pages for SEO: 扫描您的页面，我们将为您提供一些SEO优化建议：
 Checkbox: 复选框
 Class prefix: 类前缀
-Click on the "Thumbnails" to preview. Click on "Exit Theme Preview" in the preview page to return to: 点击主题“缩略图”可进行进行预览，在预览页面右上角点击“退出主题预览”可回到该页面
+Click the "Thumbnails" to preview the theme: 点击主题“缩略图”可进行进行预览
 Click the radio button to switch the theme: 点击单选框进行主题切换
 Click to select: 点击选择该区域
 Close: 关闭
@@ -1662,8 +1662,7 @@ Thank you for sign up: 注册结果
 The max length of {0} is {1}: '{0}的长度应小于{1}'
 The order is closed!: 订单已关闭！
 The page more than a <h1> tag: 页面中的<h1>标签超过了1个
-The page must be published before it can be accessed via the URL.: 只有在页面发布之后才可查看！
-The page must be published before it can be accessed via the URL. Modifying the page does not affect: 页面必须要发布才可以通过网址访问。对页面进行修改不会影响到已发布版本，直到下一次发布。
+The page must be published that can be accessed via the URL: 只有在页面发布之后才可查看
 The page should have a <h1> tag: 页面中应当有一个<h1>标签
 The parent node does not create a corresponding language: 父级结节未创建对应语言
 The setting key is already exists: 已经存在该键值
