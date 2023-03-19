@@ -252,9 +252,7 @@ namespace Easy.ViewPort.Descriptor
         }
         public T AddProperty(string property, string value)
         {
-            if (this.Properties.ContainsKey(property))
-                this.Properties[property] = value;
-            else this.Properties.Add(property, value);
+            this.Properties[property] = value;
             return this as T;
         }
         public T AddClass(string name)
@@ -266,36 +264,16 @@ namespace Easy.ViewPort.Descriptor
 
         public T ReadOnly()
         {
-            if (!this.Properties.ContainsKey("readonly"))
-            {
-                this.Properties.Add("readonly", "readonly");
-            }
-            else
-            {
-                this.Properties["readonly"] = "readonly";
-            }
-            if (!this.Properties.ContainsKey("unselectable"))
-            {
-                this.Properties.Add("unselectable", "on");
-            }
-            else
-            {
-                this.Properties["unselectable"] = "on";
-            }
+            this.Properties["readonly"] = "readonly";
+            this.Properties["unselectable"] = "on";
+            this.AddStyle("pointer-events", "none");
             this.IsReadOnly = true;
             return this as T;
         }
 
         public T AddStyle(string properyt, string value)
         {
-            if (this.Styles.ContainsKey(properyt))
-            {
-                this.Styles[properyt] = value;
-            }
-            else
-            {
-                this.Styles.Add(properyt, value);
-            }
+            this.Styles[properyt] = value;
             return this as T;
         }
         public T Hide()

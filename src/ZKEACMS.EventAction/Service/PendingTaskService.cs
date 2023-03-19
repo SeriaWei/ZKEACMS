@@ -31,12 +31,22 @@ namespace ZKEACMS.EventAction.Service
 
         public void Add(string identifier, string handlerName, object context)
         {
+            if (identifier is null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            if (handlerName is null)
+            {
+                throw new ArgumentNullException(nameof(handlerName));
+            }
+
             var newTask = new PendingTaskEntity
             {
                 Identifier = identifier,
                 HandlerName = handlerName,
                 Data = JsonConverter.Serialize(context),
-                Status = (int)RecordStatus.Active,
+                Status = (int)PendingTaskStatus.Pending,
                 CreateDate = DateTime.Now
             };
             _dbContextProvider.Current.Set<PendingTaskEntity>().Add(newTask);
@@ -58,7 +68,7 @@ namespace ZKEACMS.EventAction.Service
         private IEnumerable<PendingTaskEntity> GetTopTasks(DbContext dbContext)
         {
             return dbContext.Set<PendingTaskEntity>()
-                .Where(m => m.Status == (int)RecordStatus.Active && m.RetryCount < MaxTryTimes)
+                .Where(m => m.Status == (int)PendingTaskStatus.Pending && m.RetryCount < MaxTryTimes)
                 .OrderBy(m => m.LastUpdateDate)
                 .Take(100)
                 .ToArray();
@@ -67,7 +77,7 @@ namespace ZKEACMS.EventAction.Service
         public void Fail(TaskEntity entity)
         {
             (entity as PendingTaskEntity).LastUpdateDate = DateTime.Now;
-            entity.Status = (int)RecordStatus.InActive;
+            entity.Status = (int)PendingTaskStatus.Failed;
             var dbContext = _dbContextMapping[entity];
             dbContext.Set<PendingTaskEntity>().Update(entity as PendingTaskEntity);
             dbContext.SaveChanges();
@@ -76,8 +86,7 @@ namespace ZKEACMS.EventAction.Service
         public void Complete(TaskEntity entity)
         {
             (entity as PendingTaskEntity).LastUpdateDate = DateTime.Now;
-            entity.Status = (int)RecordStatus.InActive;
-            entity.LogMessage = "Complete";
+            entity.Status = (int)PendingTaskStatus.Complete;
             var dbContext = _dbContextMapping[entity];
             dbContext.Set<PendingTaskEntity>().Update(entity as PendingTaskEntity);
             dbContext.SaveChanges();

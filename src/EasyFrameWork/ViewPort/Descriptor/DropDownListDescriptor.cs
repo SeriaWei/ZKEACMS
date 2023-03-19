@@ -30,7 +30,6 @@ namespace Easy.ViewPort.Descriptor
         {
             get
             {
-                ILocalize localize = ServiceLocator.GetService<ILocalize>();
                 if (_souceFunc != null)
                 {
                     Dictionary<string, string> data = new Dictionary<string, string>();
@@ -38,7 +37,7 @@ namespace Easy.ViewPort.Descriptor
                     {
                         if (!data.ContainsKey(item.Key))
                         {
-                            data.Add(item.Key, localize.Get(item.Value));
+                            data.Add(item.Key, item.Value);
                         }
                     }
                     return data;
@@ -52,7 +51,7 @@ namespace Easy.ViewPort.Descriptor
                     {
                         if (!data.ContainsKey(item.DicValue))
                         {
-                            data.Add(item.DicValue, localize.Get(item.Title));
+                            data.Add(item.DicValue, item.Title);
                         }
                     }
                     return data;
@@ -77,12 +76,11 @@ namespace Easy.ViewPort.Descriptor
         public DropDownListDescriptor DataSource(IDictionary<string, string> Data)
         {
             this._data = new Dictionary<string, string>();
-            ILocalize localize = ServiceLocator.GetService<ILocalize>();
             foreach (var item in Data)
             {
                 if (!_data.ContainsKey(item.Key))
                 {
-                    _data.Add(item.Key, localize.Get(item.Value));
+                    _data.Add(item.Key, item.Value);
                 }
             }
             return this;
@@ -100,10 +98,9 @@ namespace Easy.ViewPort.Descriptor
                 throw new Exception(dataType.FullName + " is not Enum type");
             }
             string[] text = Enum.GetNames(dataType);
-            ILocalize localize = ServiceLocator.GetService<ILocalize>();
             for (int i = 0; i < text.Length; i++)
             {
-                this._data.Add(Enum.Format(dataType, Enum.Parse(dataType, text[i], true), "d"), localize.Get(text[i]));
+                this._data.Add(Enum.Format(dataType, Enum.Parse(dataType, text[i], true), "d"), text[i]);
             }
             return this;
         }

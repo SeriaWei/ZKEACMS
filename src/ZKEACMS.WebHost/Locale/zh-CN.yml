@@ -1895,6 +1895,8 @@ MD Screen: 中等屏幕
 Event/Notification: 事件通知
 Notification: 通知
 Notification Content: 通知内容
+Pending: 等待
+Failed: 失败
 Pending Tasks: 待处理事件
 Event: 事件
 EventAction@Actions: 动作定义
@@ -1914,3 +1916,4 @@ View Notification Content: 查看通知内容
 Manage Notification Content: 管理通知内容
 View Pending Task: 查看待处理事件
 Manage Pending Task: 管理待处理事件
+Retry: 重试

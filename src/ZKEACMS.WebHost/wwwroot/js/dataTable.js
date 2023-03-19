@@ -11,7 +11,7 @@ $(document).ready(function () {
     }
 
     $(".seach-terms .form-control").each(function () {
-        $(this).removeAttr("readonly").removeAttr("disabled");
+        $(this).removeAttr("readonly").removeAttr("disabled").css("pointer-events", "auto");
         if ($(this).is("select")) {
             if ($("option:first", this).val()) {
                 $(this).prepend("<option selected></option>");
