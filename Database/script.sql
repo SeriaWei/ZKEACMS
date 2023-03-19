@@ -2424,7 +2424,7 @@ INSERT [dbo].[DataDictionary] ([ID], [DicName], [Title], [DicValue], [Order], [P
 SET IDENTITY_INSERT [dbo].[DataDictionary] OFF
 SET IDENTITY_INSERT [dbo].[DBVersion] ON 
 
-INSERT [dbo].[DBVersion] ([ID], [Major], [Minor], [Revision], [Build]) VALUES (1, 3, 6, 2, 0)
+INSERT [dbo].[DBVersion] ([ID], [Major], [Minor], [Revision], [Build]) VALUES (1, 3, 7, 0, 0)
 SET IDENTITY_INSERT [dbo].[DBVersion] OFF
 SET IDENTITY_INSERT [dbo].[EA_ActionBody] ON 
 
