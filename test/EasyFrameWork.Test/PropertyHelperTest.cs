@@ -1,4 +1,8 @@
-﻿using Easy;
+﻿/* http://www.zkea.net/ 
+ * Copyright 2023 ZKEASOFT 
+ * http://www.zkea.net/licenses */
+
+using Easy;
 using Easy.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -39,6 +43,14 @@ namespace EasyFrameWork.Test
             Assert.AreEqual("Football", PropertyHelper.GetPropertyValue(people, "Hobby[1]"));
             Assert.AreEqual("ShenZhen", PropertyHelper.GetPropertyValue(people, "Properties[\"City\"]"));
             Assert.AreEqual("Run", PropertyHelper.GetPropertyValue(people, "Children[0].Hobby[0]"));
+        }
+
+        [TestMethod]
+        public void SetP()
+        {
+            var people = CreateTestPeople();
+            PropertyHelper.GetPropertySetterDelegate(typeof(People), "Name")(people, "Wayne Wei");
+            PropertyHelper.GetIndexSetterDelegate(typeof(string[]), typeof(int), typeof(string))(people.Hobby, 0, "Hobby");
         }
     }
 }
