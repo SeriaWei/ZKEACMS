@@ -70,7 +70,7 @@ namespace Easy.Reflection
                     var propertyResult = parser(item);
                     if (propertyResult == null) continue;
 
-                    var valueGetter = GetPropertyDelegate(resultValue.GetType(), propertyResult.Name);
+                    var valueGetter = GetPropertyGetterDelegate(resultValue.GetType(), propertyResult.Name);
                     if (valueGetter == null) return null;
                     resultValue = valueGetter(resultValue);
                     
@@ -82,7 +82,7 @@ namespace Easy.Reflection
                         var indexProperty = valueType.GetProperty("Item");
                         if (valueType.IsArray || (indexProperty != null && indexProperty.GetIndexParameters().Length > 0))
                         {//Array or Anyother type that can get value by index. For example: List<T>, Dictionary<,>
-                            Func<object, object, object> indexAccessor = GetIndexDelegate(valueType, propertyResult.Index.GetType(), indexProperty);
+                            Func<object, object, object> indexAccessor = GetIndexGetterDelegate(valueType, propertyResult.Index.GetType(), indexProperty);
                             resultValue = indexAccessor(resultValue, propertyResult.Index);
                         }
                         else
@@ -96,7 +96,7 @@ namespace Easy.Reflection
             return resultValue;
         }
 
-        private static Func<object, object, object> GetIndexDelegate(Type valueType, Type indexType, PropertyInfo indexProperty)
+        private static Func<object, object, object> GetIndexGetterDelegate(Type valueType, Type indexType, PropertyInfo indexProperty)
         {
             return _indexGetters.GetOrAdd(valueType, v =>
             {
@@ -108,7 +108,7 @@ namespace Easy.Reflection
             });
 
         }
-        private static Func<object, object> GetPropertyDelegate(Type valueType, string propertyName)
+        private static Func<object, object> GetPropertyGetterDelegate(Type valueType, string propertyName)
         {
             var typeDelegates = _propertyGetters.GetOrAdd(valueType, t => new ConcurrentDictionary<string, Func<object, object>>());
             try
@@ -128,5 +128,8 @@ namespace Easy.Reflection
                 return null;
             }
         }
+
+
+        
     }
 }
