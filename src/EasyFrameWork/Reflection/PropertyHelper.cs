@@ -26,7 +26,7 @@ namespace Easy.Reflection
 
         static Regex _numberIndexRegex = new Regex(@"^([A-Za-z0-9_]+)\[(\d+)\]$", RegexOptions.Compiled);
         static Regex _nameIndexRegex = new Regex(@"^([A-Za-z0-9_]+)\[""([A-Za-z0-9_]+)""\]$", RegexOptions.Compiled);
-        class PropertyName
+        public class PropertyName
         {
             public PropertyName(string name, object index)
             {
@@ -58,6 +58,25 @@ namespace Easy.Reflection
             },
             static propertyExpression => new PropertyName(propertyExpression, null)
         };
+        public static PropertyName[] ParseProperties(string propertyExpression)
+        {
+            var propertyDeepArray = propertyExpression.Split('.', StringSplitOptions.RemoveEmptyEntries);
+
+            PropertyName[] properties = new PropertyName[propertyDeepArray.Length];
+            for (int i = 0; i < propertyDeepArray.Length; i++)
+            {
+                string item = propertyDeepArray[i];
+                foreach (var parseProperty in _arrayPropertyParsers)
+                {
+                    var propertyResult = parseProperty(item);
+                    if (propertyResult == null) continue;
+
+                    properties[i] = propertyResult;
+                    break;
+                }
+            }
+            return properties;
+        }
 
         public static object GetValue(object inputValue, string propertyExpression)
         {
@@ -71,21 +90,13 @@ namespace Easy.Reflection
                 throw new ArgumentNullException(nameof(propertyExpression));
             }
 
-            var propertites = propertyExpression.Split('.', StringSplitOptions.RemoveEmptyEntries);
-
             object resultValue = inputValue;
 
-            foreach (var item in propertites)
+            foreach (var parseProperty in ParseProperties(propertyExpression))
             {
-                foreach (var parseProperty in _arrayPropertyParsers)
-                {
-                    var propertyResult = parseProperty(item);
-                    if (propertyResult == null) continue;
-
-                    resultValue = GetPropertyValue(resultValue, propertyResult);
-                    break;
-                }
+                resultValue = GetPropertyValue(resultValue, parseProperty);
             }
+
             return resultValue;
         }
 
@@ -101,58 +112,52 @@ namespace Easy.Reflection
                 throw new ArgumentNullException(nameof(propertyExpression));
             }
 
-            var propertites = propertyExpression.Split('.', StringSplitOptions.RemoveEmptyEntries);
+            var propertites = ParseProperties(propertyExpression);
 
             object resultValue = inputValue;
-
             for (int i = 0; i < propertites.Length; i++)
             {
-                string item = propertites[i];
-                foreach (var parseProperty in _arrayPropertyParsers)
+                var propertyResult = propertites[i];
+
+                if (i < propertites.Length - 1)
                 {
-                    var propertyResult = parseProperty(item);
-                    if (propertyResult == null) continue;
+                    resultValue = GetPropertyValue(resultValue, propertyResult);
+                    continue;
+                }
 
-                    if (i < propertites.Length - 1)
+                if (propertyResult.Index == null)
+                {
+                    var setter = GetPropertySetterDelegate(resultValue.GetType(), propertyResult.Name);
+                    setter(resultValue, value);
+                }
+                else
+                {
+                    resultValue = GetPropertyValue(resultValue, new PropertyName(propertyResult.Name, null));
+
+                    var valueType = resultValue.GetType();
+                    Action<object, object, object> setter = null;
+                    if (_indexSetters.TryGetValue(valueType, out setter))
                     {
-                        resultValue = GetPropertyValue(resultValue, propertyResult);
-                        break;
+                        setter(resultValue, propertyResult.Index, value);
+                        return;
                     }
-
-                    if (propertyResult.Index == null)
+                    if (valueType.IsArray)
                     {
-                        var setter = GetPropertySetterDelegate(resultValue.GetType(), propertyResult.Name);
-                        setter(resultValue, value);
+                        setter = GetIndexSetterDelegate(valueType, propertyResult.Index.GetType(), null, valueType.GetElementType());
                     }
                     else
                     {
-                        resultValue = GetPropertyValue(resultValue, new PropertyName(propertyResult.Name, null));
-
-                        var valueType = resultValue.GetType();
-                        Action<object, object, object> setter = null;
-                        if (_indexSetters.TryGetValue(valueType, out setter))
+                        var indexProperty = valueType.GetProperty("Item");
+                        if (indexProperty != null && indexProperty.GetIndexParameters().Length > 0)
                         {
-                            setter(resultValue, propertyResult.Index, value);
-                            return;
+                            setter = GetIndexSetterDelegate(resultValue.GetType(), propertyResult.Index.GetType(), indexProperty, null);
                         }
-                        if (valueType.IsArray)
-                        {
-                            setter = GetIndexSetterDelegate(valueType, propertyResult.Index.GetType(), null, valueType.GetElementType());
-                        }
-                        else
-                        {
-                            var indexProperty = valueType.GetProperty("Item");
-                            if (indexProperty != null && indexProperty.GetIndexParameters().Length > 0)
-                            {
-                                setter = GetIndexSetterDelegate(resultValue.GetType(), propertyResult.Index.GetType(), indexProperty, null);
-                            }
-                        }
-                        if (setter == null) return;
-
-                        setter(resultValue, propertyResult.Index, value);
                     }
-                    break;
+                    if (setter == null) return;
+
+                    setter(resultValue, propertyResult.Index, value);
                 }
+
             }
         }
 
@@ -248,5 +253,7 @@ namespace Easy.Reflection
             });
 
         }
+
+
     }
 }
