@@ -62,7 +62,7 @@ namespace ZKEACMS.SectionWidget.Service
                                     var name = property.Attributes["name"];
                                     if (name != null && name.Value.IsNotNullAndWhiteSpace() && property.InnerText.IsNotNullAndWhiteSpace())
                                     {
-                                        ClassAction.SetObjPropertyValue(content, name.Value, property.InnerText);
+                                        PropertyHelper.SetValue(content, name.Value, property.InnerText);
                                     }
                                 }
                                 content.SectionGroupId = group.ID;

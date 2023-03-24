@@ -74,7 +74,7 @@ namespace Easy.DataTransfer
                 }
                 else
                 {
-                    convertedValue = ClassAction.ValueConvert(property, value);
+                    convertedValue = ValueConverter.Convert(value, property.PropertyType);
                 }
                 property.SetValue(item, convertedValue);
             }
