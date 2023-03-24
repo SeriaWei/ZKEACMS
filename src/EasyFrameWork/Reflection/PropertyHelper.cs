@@ -61,37 +61,28 @@ namespace Easy.Reflection
 
         public static object GetPropertyValue(object inputValue, string propertyExpression)
         {
+            if (inputValue is null)
+            {
+                throw new ArgumentNullException(nameof(inputValue));
+            }
+
+            if (propertyExpression is null)
+            {
+                throw new ArgumentNullException(nameof(propertyExpression));
+            }
+
             var propertites = propertyExpression.Split('.', StringSplitOptions.RemoveEmptyEntries);
 
             object resultValue = inputValue;
 
             foreach (var item in propertites)
             {
-                foreach (var parser in _arrayPropertyParsers)
+                foreach (var parseProperty in _arrayPropertyParsers)
                 {
-                    var propertyResult = parser(item);
+                    var propertyResult = parseProperty(item);
                     if (propertyResult == null) continue;
 
-                    var valueGetter = GetPropertyGetterDelegate(resultValue.GetType(), propertyResult.Name);
-                    if (valueGetter == null) return null;
-                    resultValue = valueGetter(resultValue);
-
-                    if (resultValue == null) return null;
-
-                    if (propertyResult.Index != null)
-                    {
-                        var valueType = resultValue.GetType();
-                        var indexProperty = valueType.GetProperty("Item");
-                        if (valueType.IsArray || (indexProperty != null && indexProperty.GetIndexParameters().Length > 0))
-                        {//Array or Anyother type that can get value by index. For example: List<T>, Dictionary<,>
-                            Func<object, object, object> indexAccessor = GetIndexGetterDelegate(valueType, propertyResult.Index.GetType(), indexProperty);
-                            resultValue = indexAccessor(resultValue, propertyResult.Index);
-                        }
-                        else
-                        {
-                            return null;
-                        }
-                    }
+                    resultValue = GetPropertyValue(resultValue, propertyResult);
                     break;
                 }
             }
@@ -100,6 +91,16 @@ namespace Easy.Reflection
 
         public static void SetPropertyValue(object inputValue, string propertyExpression, object value)
         {
+            if (inputValue is null)
+            {
+                throw new ArgumentNullException(nameof(inputValue));
+            }
+
+            if (propertyExpression is null)
+            {
+                throw new ArgumentNullException(nameof(propertyExpression));
+            }
+
             var propertites = propertyExpression.Split('.', StringSplitOptions.RemoveEmptyEntries);
 
             object resultValue = inputValue;
@@ -107,58 +108,102 @@ namespace Easy.Reflection
             for (int i = 0; i < propertites.Length; i++)
             {
                 string item = propertites[i];
-                foreach (var parser in _arrayPropertyParsers)
+                foreach (var parseProperty in _arrayPropertyParsers)
                 {
-                    var propertyResult = parser(item);
+                    var propertyResult = parseProperty(item);
                     if (propertyResult == null) continue;
 
-                    if (i == propertites.Length - 1)
+                    if (i < propertites.Length - 1)
                     {
-
+                        resultValue = GetPropertyValue(resultValue, propertyResult);
                         break;
                     }
 
-                    var valueGetter = GetPropertyGetterDelegate(resultValue.GetType(), propertyResult.Name);
-                    if (valueGetter == null) return;
-                    resultValue = valueGetter(resultValue);
-
-                    if (resultValue == null) return;
-
-                    if (propertyResult.Index != null)
+                    if (propertyResult.Index == null)
                     {
+                        var setter = GetPropertySetterDelegate(resultValue.GetType(), propertyResult.Name);
+                        setter(resultValue, value);
+                    }
+                    else
+                    {
+                        resultValue = GetPropertyValue(resultValue, new PropertyName(propertyResult.Name, null));
+
                         var valueType = resultValue.GetType();
-                        var indexProperty = valueType.GetProperty("Item");
-                        if (valueType.IsArray || (indexProperty != null && indexProperty.GetIndexParameters().Length > 0))
-                        {//Array or Anyother type that can get value by index. For example: List<T>, Dictionary<,>
-                            Func<object, object, object> indexAccessor = GetIndexGetterDelegate(valueType, propertyResult.Index.GetType(), indexProperty);
-                            resultValue = indexAccessor(resultValue, propertyResult.Index);
+                        Action<object, object, object> setter = null;
+                        if (_indexSetters.TryGetValue(valueType, out setter))
+                        {
+                            setter(resultValue, propertyResult.Index, value);
+                            return;
                         }
+                        if (valueType.IsArray)
+                        {
+                            setter = GetIndexSetterDelegate(valueType, propertyResult.Index.GetType(), null, valueType.GetElementType());
+                        }
+                        else
+                        {
+                            var indexProperty = valueType.GetProperty("Item");
+                            if (indexProperty != null && indexProperty.GetIndexParameters().Length > 0)
+                            {
+                                setter = GetIndexSetterDelegate(resultValue.GetType(), propertyResult.Index.GetType(), indexProperty, null);
+                            }
+                        }
+                        if (setter == null) return;
+
+                        setter(resultValue, propertyResult.Index, value);
                     }
                     break;
                 }
             }
         }
 
+        private static object GetPropertyValue(object resultValue, PropertyName propertyResult)
+        {
+            var valueGetter = GetPropertyGetterDelegate(resultValue.GetType(), propertyResult.Name);
+            if (valueGetter == null) return null;
+
+            object result = valueGetter(resultValue);
+
+            if (result == null) return null;
+
+            if (propertyResult.Index == null) return result;
+
+
+            var valueType = result.GetType();
+            if (_indexGetters.TryGetValue(valueType, out var getter))
+            {
+                return getter(result, propertyResult.Index);
+            }
+
+            if (valueType.IsArray)
+            {
+                Func<object, object, object> indexAccessor = GetIndexGetterDelegate(valueType, propertyResult.Index.GetType(), null);
+                return indexAccessor(result, propertyResult.Index);
+            }
+            else
+            {
+                var indexProperty = valueType.GetProperty("Item");
+                if (indexProperty != null && indexProperty.GetIndexParameters().Length > 0)
+                {
+                    Func<object, object, object> indexAccessor = GetIndexGetterDelegate(valueType, propertyResult.Index.GetType(), indexProperty);
+                    return indexAccessor(result, propertyResult.Index);
+                }
+            }
+            return null;
+        }
 
         private static Func<object, object> GetPropertyGetterDelegate(Type valueType, string propertyName)
         {
             var typeDelegates = _propertyGetters.GetOrAdd(valueType, t => new ConcurrentDictionary<string, Func<object, object>>());
-            try
+
+            return typeDelegates.GetOrAdd(propertyName, p =>
             {
-                return typeDelegates.GetOrAdd(propertyName, p =>
-                {
-                    var objPara = Expression.Parameter(typeof(object), "m");
-                    var paraToTypeValue = Expression.Convert(objPara, valueType);
-                    Expression expProperty = Expression.Property(paraToTypeValue, propertyName);
-                    Expression propertyToObject = Expression.Convert(expProperty, typeof(object));
-                    var propertyDelegateExpression = Expression.Lambda<Func<object, object>>(propertyToObject, objPara);
-                    return propertyDelegateExpression.CompileFast();
-                });
-            }
-            catch
-            {
-                return null;
-            }
+                var objPara = Expression.Parameter(typeof(object), "m");
+                var paraToTypeValue = Expression.Convert(objPara, valueType);
+                Expression expProperty = Expression.Property(paraToTypeValue, propertyName);
+                Expression propertyToObject = Expression.Convert(expProperty, typeof(object));
+                var propertyDelegateExpression = Expression.Lambda<Func<object, object>>(propertyToObject, objPara);
+                return propertyDelegateExpression.CompileFast();
+            });
         }
 
         private static Func<object, object, object> GetIndexGetterDelegate(Type valueType, Type indexType, PropertyInfo indexProperty)
@@ -174,37 +219,31 @@ namespace Easy.Reflection
 
         }
 
-        public static Action<object, object> GetPropertySetterDelegate(Type valueType, string propertyName)
+        private static Action<object, object> GetPropertySetterDelegate(Type targetObjectType, string propertyName)
         {
-            var typeDelegates = _propertySetters.GetOrAdd(valueType, t => new ConcurrentDictionary<string, Action<object, object>>());
-            try
-            {
-                return typeDelegates.GetOrAdd(propertyName, p =>
-                {
-                    var objPara = Expression.Parameter(typeof(object), "m");
-                    var valuePara = Expression.Parameter(typeof(object), "v");
-                    var paraToTypeValue = Expression.Convert(objPara, valueType);
-                    var propertyInfo = valueType.GetProperty(propertyName);
-                    MemberExpression expProperty = Expression.Property(paraToTypeValue, propertyInfo);
-                    var setValueExp = Expression.Assign(expProperty, Expression.Convert(valuePara, propertyInfo.PropertyType));
-                    var lambda = Expression.Lambda<Action<object, object>>(setValueExp, objPara, valuePara);
-                    return lambda.CompileFast();
-                });
-            }
-            catch
-            {
-                return null;
-            }
+            var typeDelegates = _propertySetters.GetOrAdd(targetObjectType, t => new ConcurrentDictionary<string, Action<object, object>>());
+
+            return typeDelegates.GetOrAdd(propertyName, p =>
+            {//build m.Name=v
+                var objPara = Expression.Parameter(typeof(object), "m");
+                var valuePara = Expression.Parameter(typeof(object), "v");
+                var paraToTypeValue = Expression.Convert(objPara, targetObjectType);
+                var propertyInfo = targetObjectType.GetProperty(propertyName);
+                var expProperty = Expression.Property(paraToTypeValue, propertyInfo);
+                var setValueExp = Expression.Assign(expProperty, Expression.Convert(valuePara, propertyInfo.PropertyType));
+                var lambda = Expression.Lambda<Action<object, object>>(setValueExp, objPara, valuePara);
+                return lambda.CompileFast();
+            });
         }
-        public static Action<object, object, object> GetIndexSetterDelegate(Type arrayType, Type indexType, Type valueType)
+        private static Action<object, object, object> GetIndexSetterDelegate(Type arrayType, Type indexType, PropertyInfo indexProperty, Type valueType)
         {
             return _indexSetters.GetOrAdd(arrayType, v =>
-            {
+            {//build m[0]=v;
                 var parameter = Expression.Parameter(typeof(object), "m");
                 var parameterKey = Expression.Parameter(typeof(object), "k");
                 var valuePara = Expression.Parameter(typeof(object), "v");
-                var indexExp = Expression.MakeIndex(Expression.Convert(parameter, arrayType), null, new[] { Expression.Convert(parameterKey, indexType) });
-                var lambda = Expression.Assign(indexExp, Expression.Convert(valuePara, valueType));
+                var indexExp = Expression.MakeIndex(Expression.Convert(parameter, arrayType), indexProperty, new[] { Expression.Convert(parameterKey, indexType) });
+                var lambda = Expression.Assign(indexExp, Expression.Convert(valuePara, indexProperty?.PropertyType ?? valueType));
                 return Expression.Lambda<Action<object, object, object>>(lambda, parameter, parameterKey, valuePara).CompileFast();
             });
 

@@ -7,6 +7,7 @@ using Easy.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace EasyFrameWork.Test
@@ -18,7 +19,8 @@ namespace EasyFrameWork.Test
         {
             public int Age { get; set; }
             public string Name { get; set; }
-            public string[] Hobby { get; set; }
+            public List<string> Hobby { get; set; }
+            public string[] FormerNames { get; set; }
             public Dictionary<string, string> Properties { get; set; }
             public People[] Children { get; set; }
         }
@@ -28,9 +30,10 @@ namespace EasyFrameWork.Test
             {
                 Name = "Wayne",
                 Age = 10,
-                Hobby = new string[] { "Basketball", "Football" },
+                Hobby = new List<string> { "Basketball", "Football" },
+                FormerNames = new string[] { "Ben" },
                 Properties = new Dictionary<string, string> { { "City", "ShenZhen" }, { "Address", "Home" } },
-                Children = new People[] { new People { Name = "Nancy", Hobby = new string[] { "Run" } } }
+                Children = new People[] { new People { Name = "Nancy", Hobby = new List<string> { "Run" } } }
             };
         }
         [TestMethod]
@@ -39,18 +42,34 @@ namespace EasyFrameWork.Test
             var people = CreateTestPeople();
             Assert.AreEqual("Wayne", PropertyHelper.GetPropertyValue(people, "Name"));
             Assert.AreEqual(10, PropertyHelper.GetPropertyValue(people, "Age"));
-            Assert.AreEqual(2, PropertyHelper.GetPropertyValue(people, "Hobby.Length"));
+            Assert.AreEqual(2, PropertyHelper.GetPropertyValue(people, "Hobby.Count"));
             Assert.AreEqual("Football", PropertyHelper.GetPropertyValue(people, "Hobby[1]"));
             Assert.AreEqual("ShenZhen", PropertyHelper.GetPropertyValue(people, "Properties[\"City\"]"));
             Assert.AreEqual("Run", PropertyHelper.GetPropertyValue(people, "Children[0].Hobby[0]"));
         }
 
         [TestMethod]
-        public void SetP()
+        public void TestSetPropertyValue()
         {
             var people = CreateTestPeople();
-            PropertyHelper.GetPropertySetterDelegate(typeof(People), "Name")(people, "Wayne Wei");
-            PropertyHelper.GetIndexSetterDelegate(typeof(string[]), typeof(int), typeof(string))(people.Hobby, 0, "Hobby");
+
+            PropertyHelper.SetPropertyValue(people, "Name", "Wayne Wei");
+            Assert.AreEqual(people.Name, "Wayne Wei");
+
+            PropertyHelper.SetPropertyValue(people, "Hobby[0]", "Running");
+            Assert.AreEqual(people.Hobby[0], "Running");
+
+            PropertyHelper.SetPropertyValue(people, "FormerNames[0]", "OK");
+            Assert.AreEqual(people.FormerNames[0], "OK");
+
+            PropertyHelper.SetPropertyValue(people, "Properties[\"City\"]", "GuanZhou");
+            Assert.AreEqual(people.Properties["City"], "GuanZhou");
+
+            PropertyHelper.SetPropertyValue(people, "Children[0]", new People { Name = "New Nancy" });
+            Assert.AreEqual(people.Children[0].Name, "New Nancy");
+
+            PropertyHelper.SetPropertyValue(people, "Children[0].Age", 123);
+            Assert.AreEqual(people.Children[0].Age, 123);
         }
     }
 }

@@ -21,22 +21,29 @@ namespace Easy.RuleEngine.RuleProviders
             {
                 if (ruleContext.Arguments[0] is string)
                 {
-                    ruleContext.Result = PropertyHelper.GetPropertyValue(workContext, ruleContext.Arguments[0].ToString());
-                    if (ruleContext.Result is IEnumerable && ruleContext.Arguments.Length == 2)
+                    try
                     {
-                        int index = Convert.ToInt32(ruleContext.Arguments[1]);
-                        int i = 0;
-                        object resultAt = null;
-                        foreach (var item in ruleContext.Result as IEnumerable)
+                        ruleContext.Result = PropertyHelper.GetPropertyValue(workContext, ruleContext.Arguments[0].ToString());
+                        if (ruleContext.Result is IEnumerable && ruleContext.Arguments.Length == 2)
                         {
-                            if (i == index)
+                            int index = Convert.ToInt32(ruleContext.Arguments[1]);
+                            int i = 0;
+                            object resultAt = null;
+                            foreach (var item in ruleContext.Result as IEnumerable)
                             {
-                                resultAt = item;
-                                break;
+                                if (i == index)
+                                {
+                                    resultAt = item;
+                                    break;
+                                }
+                                i++;
                             }
-                            i++;
+                            ruleContext.Result = resultAt;
                         }
-                        ruleContext.Result = resultAt;
+                    }
+                    catch (Exception ex)
+                    {
+                        ruleContext.Result = ex.Message;
                     }
                 }
 
