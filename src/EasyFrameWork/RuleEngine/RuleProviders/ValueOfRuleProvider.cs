@@ -23,7 +23,7 @@ namespace Easy.RuleEngine.RuleProviders
                 {
                     try
                     {
-                        ruleContext.Result = PropertyHelper.GetPropertyValue(workContext, ruleContext.Arguments[0].ToString());
+                        ruleContext.Result = PropertyHelper.GetValue(workContext, ruleContext.Arguments[0].ToString());
                         if (ruleContext.Result is IEnumerable && ruleContext.Arguments.Length == 2)
                         {
                             int index = Convert.ToInt32(ruleContext.Arguments[1]);

@@ -40,12 +40,12 @@ namespace EasyFrameWork.Test
         public void TestGetPropertyValue()
         {
             var people = CreateTestPeople();
-            Assert.AreEqual("Wayne", PropertyHelper.GetPropertyValue(people, "Name"));
-            Assert.AreEqual(10, PropertyHelper.GetPropertyValue(people, "Age"));
-            Assert.AreEqual(2, PropertyHelper.GetPropertyValue(people, "Hobby.Count"));
-            Assert.AreEqual("Football", PropertyHelper.GetPropertyValue(people, "Hobby[1]"));
-            Assert.AreEqual("ShenZhen", PropertyHelper.GetPropertyValue(people, "Properties[\"City\"]"));
-            Assert.AreEqual("Run", PropertyHelper.GetPropertyValue(people, "Children[0].Hobby[0]"));
+            Assert.AreEqual("Wayne", PropertyHelper.GetValue(people, "Name"));
+            Assert.AreEqual(10, PropertyHelper.GetValue(people, "Age"));
+            Assert.AreEqual(2, PropertyHelper.GetValue(people, "Hobby.Count"));
+            Assert.AreEqual("Football", PropertyHelper.GetValue(people, "Hobby[1]"));
+            Assert.AreEqual("ShenZhen", PropertyHelper.GetValue(people, "Properties[\"City\"]"));
+            Assert.AreEqual("Run", PropertyHelper.GetValue(people, "Children[0].Hobby[0]"));
         }
 
         [TestMethod]
@@ -53,22 +53,22 @@ namespace EasyFrameWork.Test
         {
             var people = CreateTestPeople();
 
-            PropertyHelper.SetPropertyValue(people, "Name", "Wayne Wei");
+            PropertyHelper.SetValue(people, "Name", "Wayne Wei");
             Assert.AreEqual(people.Name, "Wayne Wei");
 
-            PropertyHelper.SetPropertyValue(people, "Hobby[0]", "Running");
+            PropertyHelper.SetValue(people, "Hobby[0]", "Running");
             Assert.AreEqual(people.Hobby[0], "Running");
 
-            PropertyHelper.SetPropertyValue(people, "FormerNames[0]", "OK");
+            PropertyHelper.SetValue(people, "FormerNames[0]", "OK");
             Assert.AreEqual(people.FormerNames[0], "OK");
 
-            PropertyHelper.SetPropertyValue(people, "Properties[\"City\"]", "GuanZhou");
+            PropertyHelper.SetValue(people, "Properties[\"City\"]", "GuanZhou");
             Assert.AreEqual(people.Properties["City"], "GuanZhou");
 
-            PropertyHelper.SetPropertyValue(people, "Children[0]", new People { Name = "New Nancy" });
+            PropertyHelper.SetValue(people, "Children[0]", new People { Name = "New Nancy" });
             Assert.AreEqual(people.Children[0].Name, "New Nancy");
 
-            PropertyHelper.SetPropertyValue(people, "Children[0].Age", 123);
+            PropertyHelper.SetValue(people, "Children[0].Age", 123);
             Assert.AreEqual(people.Children[0].Age, 123);
         }
     }

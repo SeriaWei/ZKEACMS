@@ -43,7 +43,7 @@ namespace Easy.Reflection
                 var numberMatch = _numberIndexRegex.Match(propertyExpression);
                 if (numberMatch.Success)
                 {
-                    return new PropertyName(numberMatch.Groups[1].Value,int.Parse(numberMatch.Groups[2].Value));
+                    return new PropertyName(numberMatch.Groups[1].Value, int.Parse(numberMatch.Groups[2].Value));
                 }
                 return null;
             },
@@ -52,14 +52,14 @@ namespace Easy.Reflection
                 var numberMatch = _nameIndexRegex.Match(propertyExpression);
                 if (numberMatch.Success)
                 {
-                    return new PropertyName(numberMatch.Groups[1].Value,numberMatch.Groups[2].Value);
+                    return new PropertyName(numberMatch.Groups[1].Value, numberMatch.Groups[2].Value);
                 }
                 return null;
             },
             static propertyExpression => new PropertyName(propertyExpression, null)
         };
 
-        public static object GetPropertyValue(object inputValue, string propertyExpression)
+        public static object GetValue(object inputValue, string propertyExpression)
         {
             if (inputValue is null)
             {
@@ -89,7 +89,7 @@ namespace Easy.Reflection
             return resultValue;
         }
 
-        public static void SetPropertyValue(object inputValue, string propertyExpression, object value)
+        public static void SetValue(object inputValue, string propertyExpression, object value)
         {
             if (inputValue is null)
             {

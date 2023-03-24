@@ -50,6 +50,16 @@ namespace Easy.Reflection
         /// <param name="value">Value</param>
         public static void SetValue(object targetObj, string propertyDescriptor, object value)
         {
+            if (targetObj is null)
+            {
+                throw new ArgumentNullException(nameof(targetObj));
+            }
+
+            if (propertyDescriptor is null)
+            {
+                throw new ArgumentNullException(nameof(propertyDescriptor));
+            }
+
             var target = targetObj;
             var typeInfo = target.GetType().GetTypeInfo();
             var properties = ParseProperties(propertyDescriptor).ToList();
