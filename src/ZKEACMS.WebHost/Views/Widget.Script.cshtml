@@ -3,7 +3,7 @@
 {
     return;
 }
-@if (Model.Script.StartsWith("<script"))
+@if (Model.Script.Contains("<script", StringComparison.OrdinalIgnoreCase))
 {
     @Html.Raw(Model.Script)
 }
