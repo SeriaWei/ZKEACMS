@@ -46,6 +46,9 @@ namespace EasyFrameWork.Test
             Assert.AreEqual("Football", PropertyHelper.GetValue(people, "Hobby[1]"));
             Assert.AreEqual("ShenZhen", PropertyHelper.GetValue(people, "Properties[\"City\"]"));
             Assert.AreEqual("Run", PropertyHelper.GetValue(people, "Children[0].Hobby[0]"));
+
+            Assert.AreEqual("A", PropertyHelper.GetValue(new string[] { "A" }, "[0]"));
+            Assert.AreEqual("A", PropertyHelper.GetValue(new Dictionary<string,string> { { "A", "A" } }, "[\"A\"]"));
         }
 
         [TestMethod]

@@ -24,6 +24,8 @@ namespace Easy.Reflection
         private static ConcurrentDictionary<Type, Func<object, object, object>> _indexGetters = new ConcurrentDictionary<Type, Func<object, object, object>>();
         private static ConcurrentDictionary<Type, Action<object, object, object>> _indexSetters = new ConcurrentDictionary<Type, Action<object, object, object>>();
 
+        static Regex _onlyNumberIndexRegex = new Regex(@"^\[(\d+)\]$", RegexOptions.Compiled);
+        static Regex _onlyNameIndexRegex = new Regex(@"^\[""([A-Za-z0-9_]+)""\]$", RegexOptions.Compiled);
         static Regex _numberIndexRegex = new Regex(@"^([A-Za-z0-9_]+)\[(\d+)\]$", RegexOptions.Compiled);
         static Regex _nameIndexRegex = new Regex(@"^([A-Za-z0-9_]+)\[""([A-Za-z0-9_]+)""\]$", RegexOptions.Compiled);
         public class PropertyName
@@ -38,6 +40,24 @@ namespace Easy.Reflection
         }
         static List<Func<string, PropertyName>> _arrayPropertyParsers = new List<Func<string, PropertyName>>
         {
+            static propertyExpression =>
+            {
+                var numberMatch = _onlyNumberIndexRegex.Match(propertyExpression);
+                if (numberMatch.Success)
+                {
+                    return new PropertyName(null, int.Parse(numberMatch.Groups[1].Value));
+                }
+                return null;
+            },
+            static propertyExpression =>
+            {
+                var numberMatch = _onlyNameIndexRegex.Match(propertyExpression);
+                if (numberMatch.Success)
+                {
+                    return new PropertyName(null, numberMatch.Groups[1].Value);
+                }
+                return null;
+            },
             static propertyExpression =>
             {
                 var numberMatch = _numberIndexRegex.Match(propertyExpression);
@@ -163,14 +183,23 @@ namespace Easy.Reflection
 
         private static object GetPropertyValue(object resultValue, PropertyName propertyResult)
         {
-            var valueGetter = GetPropertyGetterDelegate(resultValue.GetType(), propertyResult.Name);
-            if (valueGetter == null) return null;
+            object result = null;
 
-            object result = valueGetter(resultValue);
+            if (propertyResult.Name.IsNotNullAndWhiteSpace())
+            {
+                var valueGetter = GetPropertyGetterDelegate(resultValue.GetType(), propertyResult.Name);
+                if (valueGetter == null) return null;
 
-            if (result == null) return null;
+                result = valueGetter(resultValue);
 
-            if (propertyResult.Index == null) return result;
+                if (result == null) return null;
+
+                if (propertyResult.Index == null) return result;
+            }
+            else if (propertyResult.Index != null)
+            {
+                result = resultValue;
+            }
 
 
             var valueType = result.GetType();
