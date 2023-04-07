@@ -3,7 +3,7 @@
 {
     return;
 }
-@if (Model.StyleSheet.StartsWith("<link", StringComparison.OrdinalIgnoreCase) || Model.StyleSheet.IndexOf("<style>", StringComparison.OrdinalIgnoreCase) >= 0)
+@if (Model.StyleSheet.Contains("<link", StringComparison.OrdinalIgnoreCase) || Model.StyleSheet.Contains("<style", StringComparison.OrdinalIgnoreCase))
 {
     using (Style.AtHead())
     {

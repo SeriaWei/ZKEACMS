@@ -1916,3 +1916,43 @@ Manage Notification Content: 管理通知内容
 View Pending Task: 查看待处理事件
 Manage Pending Task: 管理待处理事件
 Retry: 重试
+OnSubscribe: 当订阅时
+OnUnsubscribe: 当取消订阅时
+Sites@SubDomain: 子域名
+Sites@UserID: 用户名
+Sites@Domain: 域名
+Sites@DatabasePath: 数据库
+Sites@ConnectionString: 连接字符串
+ThemeTemplate@PreViewUrl: 预览地址
+ThemeTemplate@SourceName: 建库数据源
+ThemeTemplate@ConnectionString: 连接字符串
+Configuration@CanBuildSite: 允许创建网站？
+Configuration@CanApplyDomain: 允许绑定域名？
+Configuration@MaxSites: 允许最大建站数
+My Site: 我的网站
+New Site: 创建网站
+Select template: 选择模板
+Create: 创建
+You have {0} sites: 你有{0}个网站
+Site building: 网站生成中
+Please wait, this may take a few minutes: 请稍等，这可能需要几分钟的时间
+Search Engine / Spiders: 搜索引擎
+Database update failed.: 更新数据库失败
+Please execute scripts manually!: 请手动执行脚本！
+Please delete the script package manually after upgrade.: 更新后请手动删除升级脚本
+Database version is mismatched!: 数据库版本不一致！
+Please restart your website or contact the administrator.: 请重启网站，或者和管理员联系
+URL: Url
+Custom Style: 自定义样式
+Save Successful: 保存成功
+Change Domain: 修改域名
+Domain: 域名
+Change Domain Failed: 修改域名失败
+You can only enter uppercase and lowercase letters: 只能输入大小写字母
+Checkout: 结算
+Thank you: 谢谢
+Widget Warning: 警告
+Widget can not be displayed on page: 组件不能显示到页面
+Reset: 重置
+The page must be published before it can be accessed via the URL.: 页面必须要发布才能被访问。
+Widget Error: 错误

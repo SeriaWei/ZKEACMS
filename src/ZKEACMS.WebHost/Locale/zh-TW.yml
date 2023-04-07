@@ -1916,3 +1916,43 @@ Manage Notification Content: 管理通知內容
 View Pending Task: 查看待處理事件
 Manage Pending Task: 管理待處理事件
 Retry: 重试
+OnSubscribe: 當訂閱時
+OnUnsubscribe: 當取消訂閱時
+Sites@SubDomain: 子功能變數名稱
+Sites@UserID: 用戶名
+Sites@Domain: 功能變數名稱
+Sites@DatabasePath: 資料庫
+Sites@ConnectionString: 連接字串
+ThemeTemplate@PreViewUrl: 預覽地址
+ThemeTemplate@SourceName: 建庫資料來源
+ThemeTemplate@ConnectionString: 連接字串
+Configuration@CanBuildSite: 允許創建網站？
+Configuration@CanApplyDomain: 允許綁定功能變數名稱？
+Configuration@MaxSites: 允許最大建站數
+My Site: 我的網站
+New Site: 創建網站
+Select template: 選擇範本
+Create: 創建
+You have {0} sites: 你有{0}個網站
+Site building: 網站生成中
+Please wait, this may take a few minutes: 請稍等，這可能需要幾分鐘的時間
+Search Engine / Spiders: 搜尋引擎
+Database update failed.: 更新資料庫失敗
+Please execute scripts manually!: 請手動執行腳本！
+Please delete the script package manually after upgrade.: 更新後請手動删除陞級腳本
+Database version is mismatched!: 資料庫版本不一致！
+Please restart your website or contact the administrator.: 請重啓網站，或者和管理員聯系
+URL: Url
+Custom Style: 自定義樣式
+Save Successful: 保存成功
+Change Domain: 修改功能變數名稱
+Domain: 功能變數名稱
+Change Domain Failed: 修改功能變數名稱失敗
+You can only enter uppercase and lowercase letters: 只能輸入大小寫字母
+Checkout: 結算
+Thank you: 謝謝
+Widget Warning: 警告
+Widget can not be displayed on page: 組件不能顯示到頁面
+Reset: 重置
+The page must be published before it can be accessed via the URL.: 頁面必須要發佈才能被訪問。
+Widget Error: 錯誤
