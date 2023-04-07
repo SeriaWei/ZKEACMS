@@ -17,5 +17,6 @@ namespace Easy.Modules.MutiLanguage
         IEnumerable<LanguageEntity> GetCultures(string lanKey);
         LanguageEntity Get(string lanKey, string cultureName);
         ServiceResult<LanguageEntity> Update(LanguageEntity entity);
+        string[] GetCultureCodes();
     }
 }

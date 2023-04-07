@@ -25,16 +25,13 @@
                     var item = Model[i];
                     <div class="form-group">
                         <div class="col-md-12 col-lg-2">
-                            <label class="control-label">
-                                @L("Translation")
-                                [@item.CultureName]
-                            </label>
+                            <label class="control-label" for="@Html.Id("["+ i +"].LanValue")">@item.CultureName</label>
                         </div>
                         <div class="col-md-12 col-lg-10">
                             <input type="hidden" name="[@i].CultureName" value="@item.CultureName" />
                             <input type="hidden" name="[@i].LanKey" value="@item.LanKey" />
                             <input type="hidden" name="[@i].LanType" value="@item.LanType" />
-                            <textarea class="form-control" rows="3" name="[@i].LanValue">@item.LanValue</textarea>
+                            <textarea class="form-control" rows="3" id="@Html.Id("["+ i +"].LanValue")" name="[@i].LanValue">@item.LanValue</textarea>
                         </div>
                     </div>
                 }

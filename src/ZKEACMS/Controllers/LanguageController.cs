@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System;
 using System.Text;
 using Easy.Constant;
+using Easy.Extend;
 
 namespace ZKEACMS.Controllers
 {
@@ -25,9 +26,8 @@ namespace ZKEACMS.Controllers
     public class LanguageController : Controller
     {
         private readonly ILanguageService _languageService;
-        private readonly IOptions<CultureOption> _cultureOption;
         private readonly ILocalize _localize;
-
+        IOptions<CultureOption> _cultureOption;
         public LanguageController(ILanguageService languageService, IOptions<CultureOption> cultureOption, ILocalize localize)
         {
             _languageService = languageService;
@@ -42,7 +42,12 @@ namespace ZKEACMS.Controllers
         {
             string lanKey = Encoding.UTF8.GetString(Convert.FromBase64String(Id));
             var culture = _languageService.GetCultures(lanKey).ToList();
+            foreach (var item in _languageService.GetCultureCodes())
+            {
+                if (culture.Any(m => m.CultureName == item)) continue;
 
+                culture.Add(new LanguageEntity { CultureName = item });
+            }
             return View(culture);
         }
         [HttpPost]
@@ -50,6 +55,8 @@ namespace ZKEACMS.Controllers
         {
             foreach (var item in language)
             {
+                if (item.LanValue.IsNullOrWhiteSpace()) continue;
+
                 _languageService.AddOrUpdate(item);
             }
             if (ActionType.HasFlag(ActionType.Exit))
@@ -61,11 +68,11 @@ namespace ZKEACMS.Controllers
         }
         public IActionResult Create()
         {
-            List<LanguageEntity> culture = new List<LanguageEntity>
+            List<LanguageEntity> culture = new List<LanguageEntity>();
+            foreach (var item in _languageService.GetCultureCodes())
             {
-                new LanguageEntity { CultureName = _cultureOption.Value.Code }
-            };
-
+                culture.Add(new LanguageEntity { CultureName = item });
+            }
             return View(culture);
         }
         [HttpPost]
@@ -77,16 +84,23 @@ namespace ZKEACMS.Controllers
                 ModelState.AddModelError("LanKey", _localize.Get("Translation key is already exists"));
                 return View(language);
             }
+            string id = null;
             foreach (var item in language)
             {
+                if (item.LanValue.IsNullOrWhiteSpace()) continue;
+
                 item.LanKey = LanKey;
                 _languageService.Add(item);
+                if (id == null)
+                {
+                    id = item.ID;
+                }
             }
-            if (ActionType.HasFlag(ActionType.Exit))
+            if (ActionType.HasFlag(ActionType.Exit) || id.IsNullOrEmpty())
             {
                 return RedirectToAction("Index");
             }
-            string url = Url.Action("Edit") + "?Id=" + language[0].ID;
+            string url = Url.Action("Edit") + "?Id=" + id;
             return Redirect(url);
         }
 

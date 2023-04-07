@@ -210,5 +210,10 @@ namespace Easy.Modules.MutiLanguage
             var propertyDelegateExpression = Expression.Lambda(propertyToObject, objPara);
             return (Func<LanguageEntity, object>)propertyDelegateExpression.CompileFast();
         }
+
+        public string[] GetCultureCodes()
+        {
+            return Directory.GetFiles(GetLocaleDirectory(), "*.yml").Select(m => Path.GetFileNameWithoutExtension(m)).ToArray();
+        }
     }
 }
