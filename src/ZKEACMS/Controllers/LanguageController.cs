@@ -46,7 +46,7 @@ namespace ZKEACMS.Controllers
             return View(culture);
         }
         [HttpPost]
-        public IActionResult Edit(List<LanguageEntity> language, ActionType ActionType)
+        public IActionResult Edit(List<LanguageEntity> language, ActionType ActionType, string Id)
         {
             foreach (var item in language)
             {
@@ -56,7 +56,8 @@ namespace ZKEACMS.Controllers
             {
                 return RedirectToAction("Index");
             }
-            return RedirectToAction("Edit", new { Id= language[0].ID });
+            string url = Url.Action("Edit") + "?Id=" + Id;
+            return Redirect(url);
         }
         public IActionResult Create()
         {
@@ -85,7 +86,8 @@ namespace ZKEACMS.Controllers
             {
                 return RedirectToAction("Index");
             }
-            return RedirectToAction("Edit", new { Id = language[0].ID });
+            string url = Url.Action("Edit") + "?Id=" + language[0].ID;
+            return Redirect(url);
         }
 
         [HttpPost]

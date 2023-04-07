@@ -9,35 +9,36 @@
     <div class="panel-body">
         @using (Html.BeginForm())
         {
+            @Html.Hidden("Id")
             @Html.Hidden("ActionType")
-        <div class="form-horizontal">
-            <div class="form-group">
-                <div class="col-md-12 col-lg-2">
-                    <label class="control-label">@L("Translation Key")</label>
-                </div>
-                <div class="col-md-12 col-lg-10">
-                    <input type="text" class="form-control" readonly="readonly" value="@Model[0].LanKey"  />
-                </div>
-            </div>
-            @for (int i = 0; i < Model.Count; i++)
-            {
-                var item = Model[i];
+            <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-md-12 col-lg-2">
-                        <label class="control-label">
-                        @L("Translation")
-                        [@item.CultureName]
-                        </label>
+                        <label class="control-label">@L("Translation Key")</label>
                     </div>
                     <div class="col-md-12 col-lg-10">
-                        <input type="hidden" name="[@i].CultureName" value="@item.CultureName" />
-                        <input type="hidden" name="[@i].LanKey" value="@item.LanKey" />
-                        <input type="hidden" name="[@i].LanType" value="@item.LanType" />
-                        <textarea class="form-control" rows="3" name="[@i].LanValue">@item.LanValue</textarea>
+                        <input type="text" class="form-control" readonly="readonly" value="@Model[0].LanKey" />
                     </div>
                 </div>
-            }
-        </div>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var item = Model[i];
+                    <div class="form-group">
+                        <div class="col-md-12 col-lg-2">
+                            <label class="control-label">
+                                @L("Translation")
+                                [@item.CultureName]
+                            </label>
+                        </div>
+                        <div class="col-md-12 col-lg-10">
+                            <input type="hidden" name="[@i].CultureName" value="@item.CultureName" />
+                            <input type="hidden" name="[@i].LanKey" value="@item.LanKey" />
+                            <input type="hidden" name="[@i].LanType" value="@item.LanType" />
+                            <textarea class="form-control" rows="3" name="[@i].LanValue">@item.LanValue</textarea>
+                        </div>
+                    </div>
+                }
+            </div>
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManageApplicationSetting))
                 {
