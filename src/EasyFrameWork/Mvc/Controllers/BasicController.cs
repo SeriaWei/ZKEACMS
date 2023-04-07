@@ -12,6 +12,8 @@ using Easy.LINQ;
 using System.Linq;
 using System.Linq.Expressions;
 using Easy.Extend;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace Easy.Mvc.Controllers
 {
@@ -56,7 +58,11 @@ namespace Easy.Mvc.Controllers
                     }
                     return View(entity);
                 }
-                return RedirectToAction("Index");
+                if (entity.ActionType.HasFlag(ActionType.Exit))
+                {
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Edit", new { Id = GetPrimaryKeyValue(entity) });
             }
             return View(entity);
         }
@@ -94,7 +100,11 @@ namespace Easy.Mvc.Controllers
                     }
                     return View(entity);
                 }
-                return RedirectToAction("Index");
+                if (entity.ActionType.HasFlag(ActionType.Exit))
+                {
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Edit", new { Id = GetPrimaryKeyValue(entity) });
             }
             return View(entity);
         }
@@ -136,6 +146,19 @@ namespace Easy.Mvc.Controllers
         {
             Service.Dispose();
             base.Dispose(disposing);
+        }
+
+        private TPrimarykey GetPrimaryKeyValue(TEntity entity)
+        {
+            var myClassType = entity.GetType();
+            foreach (var propertyInfo in myClassType.GetProperties())
+            {
+                var keyAttribute = propertyInfo.GetCustomAttribute<KeyAttribute>();
+                if (keyAttribute == null) continue;
+
+                return (TPrimarykey)propertyInfo.GetValue(entity);
+            }
+            return default;
         }
     }
 }
