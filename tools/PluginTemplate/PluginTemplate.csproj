@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<PackageType>Template</PackageType>
-		<PackageVersion>1.0.1</PackageVersion>
+		<PackageVersion>1.0.3</PackageVersion>
 		<PackageId>ZKEACMS.Plugin</PackageId>
 		<Title>ZKEACMS plugin template</Title>
 		<Authors>ZKEASOFT</Authors>
@@ -21,7 +21,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
+		<Content Include="TemplateFiles\**\*" Exclude="TemplateFiles\**\bin\**;TemplateFiles\**\obj\**" />
 		<Compile Remove="**\*" />
 	</ItemGroup>
 	<ItemGroup>

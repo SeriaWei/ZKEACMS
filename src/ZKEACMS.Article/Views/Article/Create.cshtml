@@ -21,8 +21,8 @@
                 @if (Authorizer.Authorize(ZKEACMS.Article.PermissionKeys.PublishArticle))
                 {
                     <input type="submit" class="btn btn-info publish" value="@L("Publish")" data-value="@ActionType.Publish" />
-                }                
-                <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
+                }
+                <a class="btn btn-default" href="@Url.Action("Index")">@L("Cancel")</a>
             </div>
         }
     </div>

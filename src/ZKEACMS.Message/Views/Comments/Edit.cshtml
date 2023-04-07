@@ -17,7 +17,7 @@
                     <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Update" />
                     <input type="submit" class="btn btn-primary" value="@L("Save And Exit")" data-value="@(ActionType.UpdateAndExit)" />
                 }
-                <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
+                <a class="btn btn-default" href="@Url.Action("Index")">@L("Cancel")</a>
             </div>
         }
     </div>

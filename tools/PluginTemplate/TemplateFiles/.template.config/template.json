@@ -9,6 +9,7 @@
   "identity": "ZKEACMS.Plugin",
   "name": "ZKEACMS plugin project",
   "sourceName": "Standard",
+  "preferNameDirectory": false,
   "shortName": "ZKEACMS.Plugin",
   "tags": {
     "language": "C#",
@@ -22,13 +23,6 @@
       "parameters": {
         "defaultFormat": "D"
       }
-    },
-    "name": {
-      "type": "parameter",
-      "datatype": "string",
-      "replaces": "Standard",
-      "defaultValue": "Standard",
-      "description": "Plugin name"
     }
   }
 }

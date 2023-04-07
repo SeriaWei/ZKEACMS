@@ -20,7 +20,7 @@
                     <input type="submit" value="@L("Publish")" class="btn btn-info publish" data-value="@((int)ActionType.Publish)" />
                     <input type="submit" value="@L("Delete")" class="btn btn-danger delete" data-value="@ActionType.Delete" />
                 }
-                <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
+                <a class="btn btn-default" href="@Url.Action("Index")">@L("Cancel")</a>
             </div>
         }
     </div>
