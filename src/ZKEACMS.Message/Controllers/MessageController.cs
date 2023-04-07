@@ -24,6 +24,7 @@ namespace ZKEACMS.Message.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
         public override IActionResult Create(MessageEntity entity)
         {
+            ModelState.Remove("Captcha");
             return base.Create(entity);
         }
         [DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
@@ -34,6 +35,7 @@ namespace ZKEACMS.Message.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]
         public override IActionResult Edit(MessageEntity entity)
         {
+            ModelState.Remove("Captcha");
             return base.Edit(entity);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageMessage)]

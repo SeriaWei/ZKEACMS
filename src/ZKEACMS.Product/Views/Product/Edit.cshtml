@@ -31,6 +31,7 @@
                 @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProduct))
                 {
                     <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Update" />
+                    <input type="submit" class="btn btn-primary" value="@L("Save And Exit")" data-value="@(ActionType.UpdateAndExit)" />
                 }
                 @if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.PublishProduct))
                 {

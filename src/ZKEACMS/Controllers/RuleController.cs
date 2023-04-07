@@ -43,7 +43,7 @@ namespace ZKEACMS.Controllers
             var result = base.Create(entity);
             if (entity.RuleID > 0)
             {
-                TempData.Add("RuleId", entity.RuleID);
+                TempData["RuleId"] = entity.RuleID;
             }
             return result;
         }
@@ -55,7 +55,7 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public override IActionResult Edit(Rule.Rule entity)
         {
-            TempData.Add("RuleId", entity.RuleID);
+            TempData["RuleId"] = entity.RuleID;
             return base.Edit(entity);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]

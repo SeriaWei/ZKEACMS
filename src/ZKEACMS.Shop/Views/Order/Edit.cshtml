@@ -16,6 +16,7 @@
                 @if (Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.ManageOrder))
                 {
                     <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Update" />
+                    <input type="submit" class="btn btn-primary" value="@L("Save And Exit")" data-value="@(ActionType.UpdateAndExit)" />
                 }
                 @if (Authorizer.Authorize(ZKEACMS.Shop.PermissionKeys.ViewOrderPayment) && Model.PaymentID.IsNotNullAndWhiteSpace())
                 {

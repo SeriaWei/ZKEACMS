@@ -21,7 +21,7 @@ namespace ZKEACMS.Common.Service
 
         public override ServiceResult<CarouselItemEntity> Add(CarouselItemEntity item)
         {
-            if (!item.ActionType.HasFlag(ActionType.Unattached))
+            if (!item.ActionType.HasFlag(ActionType.UnAttach))
             {
                 return base.Add(item);
             }

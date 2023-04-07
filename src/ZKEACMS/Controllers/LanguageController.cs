@@ -17,6 +17,7 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System;
 using System.Text;
+using Easy.Constant;
 
 namespace ZKEACMS.Controllers
 {
@@ -45,13 +46,17 @@ namespace ZKEACMS.Controllers
             return View(culture);
         }
         [HttpPost]
-        public IActionResult Edit(List<LanguageEntity> language)
+        public IActionResult Edit(List<LanguageEntity> language, ActionType ActionType)
         {
             foreach (var item in language)
             {
                 _languageService.AddOrUpdate(item);
             }
-            return RedirectToAction("Index");
+            if (ActionType.HasFlag(ActionType.Exit))
+            {
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Edit", new { Id= language[0].ID });
         }
         public IActionResult Create()
         {
@@ -63,7 +68,7 @@ namespace ZKEACMS.Controllers
             return View(culture);
         }
         [HttpPost]
-        public IActionResult Create(List<LanguageEntity> language, string LanKey)
+        public IActionResult Create(List<LanguageEntity> language, string LanKey, ActionType ActionType)
         {
             if (_languageService.GetCultures(LanKey).Any())
             {
@@ -76,7 +81,11 @@ namespace ZKEACMS.Controllers
                 item.LanKey = LanKey;
                 _languageService.Add(item);
             }
-            return RedirectToAction("Index");
+            if (ActionType.HasFlag(ActionType.Exit))
+            {
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Edit", new { Id = language[0].ID });
         }
 
         [HttpPost]

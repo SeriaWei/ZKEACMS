@@ -18,8 +18,9 @@
             @Html.EditorForModel()
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManageUser))
-                { 
+                {
                     <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Create" />
+                    <input type="submit" class="btn btn-primary" value="@L("Save And Exit")" data-value="@ActionType.CreateAndExit" />
                 }
                 <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
             </div>

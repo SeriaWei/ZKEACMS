@@ -15,6 +15,7 @@
                 @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                 {
                     <input type="submit" value="@L("Save")" class="btn btn-primary" data-value="@ActionType.Update" />
+                    <input type="submit" class="btn btn-primary" value="@L("Save And Exit")" data-value="@(ActionType.UpdateAndExit)" />
                     <input type="submit" value="@L("Design")" class="btn btn-success" data-value="@ActionType.Design" />
                     <input type="submit" value="@L("Publish")" class="btn btn-info publish" data-value="@((int)ActionType.Publish)" />
                     <input type="submit" value="@L("Delete")" class="btn btn-danger delete" data-value="@ActionType.Delete" />

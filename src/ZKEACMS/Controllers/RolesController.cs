@@ -38,7 +38,11 @@ namespace ZKEACMS.Controllers
                 }
                 return View(entity);
             }
-            return RedirectToAction("Index");
+            if (entity.ActionType.HasFlag(ActionType.Exit))
+            {
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Edit", new { Id = entity.ID });
         }
         public override IActionResult Edit(int Id)
         {
@@ -65,7 +69,11 @@ namespace ZKEACMS.Controllers
                 }
                 return View(entity);
             }
-            return RedirectToAction("Index");
+            if (entity.ActionType.HasFlag(ActionType.Exit))
+            {
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Edit", new { Id = entity.ID });
         }
 
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageRole)]

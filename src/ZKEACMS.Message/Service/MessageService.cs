@@ -3,6 +3,7 @@
  * http://www.zkea.net/licenses */
 
 using Easy;
+using Easy.Constant;
 using Easy.Extend;
 using Easy.Notification;
 using Easy.RepositoryPattern;
@@ -24,7 +25,7 @@ namespace ZKEACMS.Message.Service
         public override ServiceResult<MessageEntity> Add(MessageEntity item)
         {
             ServiceResult<MessageEntity> result = base.Add(item);
-            if (!result.HasViolation)
+            if (!result.HasViolation && item.ActionType == ActionType.Continue)
             {
                 _eventManager.Trigger(Events.OnMessageSubmitted, item);
             }

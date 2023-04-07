@@ -1354,7 +1354,7 @@ RuleItem@FunctionName: 运算方式
 RuleItem@Property: 属性
 RuleItem@Value: 值
 Save: 保存
-Save Success: 保存成功！
+Save And Exit: 保存并退出
 Scan all pages: 检查所有页面
 ScriptWidget@CreatebyName: 创建人
 ScriptWidget@CreateDate: 创建日期

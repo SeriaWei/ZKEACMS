@@ -2,6 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy.Constant;
 using Easy.Mvc;
 using Easy.Mvc.Authorize;
 using Easy.Mvc.Controllers;
@@ -34,7 +35,7 @@ namespace ZKEACMS.Controllers
             return View(model);
         }
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTemplate)]
-        public IActionResult Create(TemplateFile model)
+        public IActionResult Create(TemplateFile model, ActionType ActionType)
         {
             if (ModelState.IsValid)
             {
@@ -46,6 +47,10 @@ namespace ZKEACMS.Controllers
                 }
                 else
                 {
+                    if (ActionType.HasFlag(ActionType.Exit))
+                    {
+                        return RedirectToAction("Index");
+                    }
                     return RedirectToAction("Edit", new { id = result.Result.Id });
                 }
 
@@ -69,7 +74,7 @@ namespace ZKEACMS.Controllers
         }
 
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageTemplate)]
-        public IActionResult Edit(TemplateFile model)
+        public IActionResult Edit(TemplateFile model, ActionType ActionType)
         {
             if (ModelState.IsValid)
             {
@@ -81,6 +86,10 @@ namespace ZKEACMS.Controllers
                 }
                 else
                 {
+                    if (ActionType.HasFlag(ActionType.Exit))
+                    {
+                        return RedirectToAction("Index");
+                    }
                     return RedirectToAction("Edit", new { id = result.Result.Id });
                 }
 

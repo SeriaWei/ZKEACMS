@@ -15,7 +15,7 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(ZKEACMS.EventAction.PermissionKeys.ManageEventNotification))
                 {
-                    <input type="submit" class="btn btn-primary" value="@L("Retry")" data-value="@ActionType.Update" />
+                    <input type="submit" class="btn btn-danger" value="@L("Retry")" data-value="@ActionType.UpdateAndExit" />
                 }
                 <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
             </div>

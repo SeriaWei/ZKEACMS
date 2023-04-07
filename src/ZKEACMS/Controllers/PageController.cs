@@ -133,6 +133,10 @@ namespace ZKEACMS.Controllers
                 ModelState.AddModelError("PageUrl", ex.Message);
                 return View(entity);
             }
+            if (entity.ActionType.HasFlag(ActionType.Exit))
+            {
+                return RedirectToAction("Index", new { PageId = entity.ID });
+            }
             if (entity.ActionType.HasFlag(ActionType.Design))
             {
                 return RedirectToAction("Design", new { entity.ID });
@@ -152,7 +156,7 @@ namespace ZKEACMS.Controllers
                 }
                 return RedirectView(entity.ID, false);
             }
-            return RedirectToAction("Index", new { PageId = entity.ID });
+            return RedirectToAction("Edit", new { Id = entity.ID });
         }
         [EditWidget, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public IActionResult Design(string ID)

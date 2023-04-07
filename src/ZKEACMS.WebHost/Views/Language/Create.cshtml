@@ -9,6 +9,7 @@
     <div class="panel-body">
         @using (Html.BeginForm())
         {
+            @Html.Hidden("ActionType")
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-md-12 col-lg-2">
@@ -38,7 +39,8 @@
             <div class="toolBar">
                 @if (Authorizer.Authorize(PermissionKeys.ManageApplicationSetting))
                 {
-                    <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Update" />
+                    <input type="submit" class="btn btn-primary" value="@L("Save")" data-value="@ActionType.Create" />
+                    <input type="submit" class="btn btn-primary" value="@L("Save And Exit")" data-value="@ActionType.CreateAndExit" />
                 }
                 <input type="button" class="btn btn-default cancel" value="@L("Cancel")" />
             </div>
