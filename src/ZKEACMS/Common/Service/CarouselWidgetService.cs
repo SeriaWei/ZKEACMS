@@ -45,7 +45,7 @@ namespace ZKEACMS.Common.Service
                     _carouselItemService.BeginBulkSave();
                     item.CarouselItems.Each(m =>
                     {
-                        if (m.ActionType != ActionType.Delete)
+                        if (!m.ActionType.HasFlag(ActionType.Delete))
                         {
                             _carouselItemService.Add(new CarouselItemEntity
                             {
@@ -77,11 +77,11 @@ namespace ZKEACMS.Common.Service
                     item.CarouselItems.Each(m =>
                     {
                         m.CarouselWidgetID = item.ID;
-                        if (m.ActionType == ActionType.Create)
+                        if (m.ActionType.HasFlag(ActionType.Create))
                         {
                             _carouselItemService.Add(m);
                         }
-                        else if (m.ActionType == ActionType.Delete)
+                        else if (m.ActionType.HasFlag(ActionType.Delete))
                         {
                             if (m.ID > 0)
                             {

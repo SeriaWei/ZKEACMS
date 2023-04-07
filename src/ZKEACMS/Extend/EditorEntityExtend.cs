@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Easy.Extend;
 
 namespace ZKEACMS.Extend
 {
@@ -14,7 +15,7 @@ namespace ZKEACMS.Extend
     {
         public static IEnumerable<T> RemoveDeletedItems<T>(this IEnumerable<T> editors) where T : EditorEntity
         {
-            return editors.Where(m => m.ActionType != Easy.Constant.ActionType.UnAttach && m.ActionType != Easy.Constant.ActionType.Delete);
+            return editors.Where(m => !m.ActionType.HasFlag(Easy.Constant.ActionType.UnAttach) && !m.ActionType.HasFlag(Easy.Constant.ActionType.Delete));
         }
     }
 }

@@ -15,9 +15,9 @@ namespace Easy.Modules.User.Service
     public class UserService : ServiceBase<UserEntity, EasyDbContext>, IUserService
     {
         private ILocalize _localize;
-        public UserService(IApplicationContext applicationContext, 
+        public UserService(IApplicationContext applicationContext,
             ILocalize localize,
-            EasyDbContext easyDbContext) 
+            EasyDbContext easyDbContext)
             : base(applicationContext, easyDbContext)
         {
             _localize = localize;
@@ -89,7 +89,7 @@ namespace Easy.Modules.User.Service
                     item.Roles.Each(m =>
                     {
                         m.UserID = item.UserID;
-                        if (m.ActionType == ActionType.Create)
+                        if (m.ActionType.HasFlag(ActionType.Create))
                         {
                             DbContext.UserRoleRelation.Add(m);
                         }
@@ -111,15 +111,15 @@ namespace Easy.Modules.User.Service
                 item.Roles.Each(m =>
                 {
                     m.UserID = item.UserID;
-                    if (m.ActionType == ActionType.Create)
+                    if (m.ActionType.HasFlag(ActionType.Create))
                     {
                         DbContext.UserRoleRelation.Add(m);
                     }
-                    else if (m.ID > 0 && m.ActionType == ActionType.Delete)
+                    else if (m.ID > 0 && m.ActionType.HasFlag(ActionType.Delete))
                     {
                         DbContext.UserRoleRelation.Remove(m);
                     }
-                    else if (m.ActionType == ActionType.Update)
+                    else if (m.ActionType.HasFlag(ActionType.Update))
                     {
                         DbContext.UserRoleRelation.Update(m);
                     }

@@ -11,6 +11,7 @@ using Easy.Constant;
 using Easy.LINQ;
 using System.Linq;
 using System.Linq.Expressions;
+using Easy.Extend;
 
 namespace Easy.Mvc.Controllers
 {
@@ -76,7 +77,7 @@ namespace Easy.Mvc.Controllers
         [HttpPost]
         public virtual IActionResult Edit(TEntity entity)
         {
-            if (entity.ActionType == ActionType.Delete)
+            if (entity.ActionType.HasFlag(ActionType.Delete))
             {
                 Service.Remove(entity);
                 return RedirectToAction("Index");

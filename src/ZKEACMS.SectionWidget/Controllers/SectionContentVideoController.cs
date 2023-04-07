@@ -7,6 +7,7 @@ using ZKEACMS.SectionWidget.Service;
 using Easy.Constant;
 using Microsoft.AspNetCore.Mvc;
 using Easy.Mvc.Authorize;
+using Easy.Extend;
 
 namespace ZKEACMS.SectionWidget.Controllers
 {
@@ -42,7 +43,7 @@ namespace ZKEACMS.SectionWidget.Controllers
             {
                 return View("Form", content);
             }
-            if (content.ActionType == ActionType.Create)
+            if (content.ActionType.HasFlag(ActionType.Create))
             {
                 _sectionContentProviderService.Add(content);
             }

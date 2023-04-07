@@ -93,23 +93,17 @@ namespace Easy.Modules.Role
                 _permissionService.BeginBulkSave();
                 permissions.Each(m =>
                 {
-                    switch (m.ActionType)
+                    if (m.ActionType.HasFlag(ActionType.Create))
                     {
-                        case ActionType.Create:
-                            {
-                                _permissionService.Add(m);
-                                break;
-                            }
-                        case ActionType.Update:
-                            {
-                                _permissionService.Update(m);
-                                break;
-                            }
-                        case ActionType.Delete:
-                            {
-                                _permissionService.Remove(m);
-                                break;
-                            }
+                        _permissionService.Add(m);
+                    }
+                    else if (m.ActionType.HasFlag(ActionType.Update))
+                    {
+                        _permissionService.Update(m);
+                    }
+                    else if (m.ActionType.HasFlag(ActionType.Delete))
+                    {
+                        _permissionService.Remove(m);
                     }
                 });
                 _permissionService.EndBulkSave();

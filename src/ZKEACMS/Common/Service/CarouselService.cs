@@ -47,7 +47,7 @@ namespace ZKEACMS.Common.Service
                 item.CarouselItems.Each(m =>
                 {
                     m.CarouselID = item.ID;
-                    if (m.ActionType == ActionType.Create)
+                    if (m.ActionType.HasFlag(ActionType.Create))
                     {
                         var itemResult = _carouselItemService.Add(m);
                         if (itemResult.HasViolation)
@@ -62,27 +62,23 @@ namespace ZKEACMS.Common.Service
         }
         private void SaveCarouselItems(CarouselItemEntity item)
         {
-            switch (item.ActionType)
+
+            if (item.ActionType.HasFlag(ActionType.Create))
             {
-                case ActionType.Create:
-                    {
-                        _carouselItemService.Add(item);
-                        break;
-                    }
-                case ActionType.Update:
-                    {
-                        _carouselItemService.Update(item);
-                        break;
-                    }
-                case ActionType.Delete:
-                    {
-                        if (item.ID > 0)
-                        {
-                            _carouselItemService.Remove(item);
-                        }
-                        break;
-                    }
+                _carouselItemService.Add(item);
             }
+            else if (item.ActionType.HasFlag(ActionType.Update))
+            {
+                _carouselItemService.Update(item);
+            }
+            else if (item.ActionType.HasFlag(ActionType.Delete))
+            {
+                if (item.ID > 0)
+                {
+                    _carouselItemService.Remove(item);
+                }
+            }
+
         }
         public override ServiceResult<CarouselEntity> Update(CarouselEntity item)
         {

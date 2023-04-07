@@ -133,16 +133,16 @@ namespace ZKEACMS.Controllers
                 ModelState.AddModelError("PageUrl", ex.Message);
                 return View(entity);
             }
-            if (entity.ActionType == ActionType.Design)
+            if (entity.ActionType.HasFlag(ActionType.Design))
             {
                 return RedirectToAction("Design", new { entity.ID });
             }
-            else if (entity.ActionType == ActionType.Delete)
+            else if (entity.ActionType.HasFlag(ActionType.Delete))
             {
                 Service.Remove(entity);
                 return RedirectToAction("Index");
             }
-            else if (entity.ActionType == ActionType.Publish)
+            else if (entity.ActionType.HasFlag(ActionType.Publish))
             {
                 var result = Service.Publish(entity);
                 if (result.HasViolation)

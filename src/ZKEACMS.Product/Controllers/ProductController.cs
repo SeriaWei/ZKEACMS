@@ -44,7 +44,7 @@ namespace ZKEACMS.Product.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProduct)]
         public override IActionResult Create(ProductEntity entity)
         {
-            if (entity.ActionType == ActionType.Publish && _authorizer.Authorize(PermissionKeys.PublishProduct))
+            if (entity.ActionType.HasFlag(ActionType.Publish) && _authorizer.Authorize(PermissionKeys.PublishProduct))
             {
                 Service.Publish(entity);
             }
@@ -60,7 +60,7 @@ namespace ZKEACMS.Product.Controllers
         public override IActionResult Edit(ProductEntity entity)
         {
             var result = base.Edit(entity);
-            if (entity.ActionType == ActionType.Publish && _authorizer.Authorize(PermissionKeys.PublishProduct))
+            if (entity.ActionType.HasFlag(ActionType.Publish) && _authorizer.Authorize(PermissionKeys.PublishProduct))
             {
                 Service.Publish(entity);
             }

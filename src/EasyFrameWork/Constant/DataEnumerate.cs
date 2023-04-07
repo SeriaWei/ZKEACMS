@@ -19,12 +19,13 @@ namespace Easy.Constant
     {
         Create = 1,
         Update = 2,
-        Delete = 3,
-        Design = 4,
-        Publish = 5,
-        Unattached = 6,
-        Continue = 7,
-        UnAttach = 8
+        Delete = 4,
+        Design = 8,
+        Publish = 16,
+        Unattached = 32,
+        Continue = 64,
+        UnAttach = 128,
+        Exit = 256
     }
     public enum UserType
     {

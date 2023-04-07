@@ -158,7 +158,7 @@ namespace ZKEACMS.Controllers
                 return View(widget);
             }
             _widgetActivator.Create(widget).AddWidget(widget);
-            if (widget.ActionType == ActionType.Continue)
+            if (widget.ActionType.HasFlag(ActionType.Continue))
             {
                 return RedirectToAction("Edit", new { widget.ID, ReturnUrl });
             }

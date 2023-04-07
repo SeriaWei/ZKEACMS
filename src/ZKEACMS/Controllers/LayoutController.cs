@@ -79,7 +79,7 @@ namespace ZKEACMS.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageLayout)]
         public override IActionResult Edit(LayoutEntity entity)
         {
-            if (entity.ActionType == ActionType.Design)
+            if (entity.ActionType.HasFlag(ActionType.Design))
             {
                 return RedirectToAction("Design", new { entity.ID });
             }

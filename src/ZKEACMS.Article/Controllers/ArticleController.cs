@@ -35,7 +35,7 @@ namespace ZKEACMS.Article.Controllers
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageArticle)]
         public override IActionResult Create(ArticleEntity entity)
         {
-            if (entity.ActionType == ActionType.Publish && _authorizer.Authorize(PermissionKeys.PublishArticle))
+            if (entity.ActionType.HasFlag(ActionType.Publish) && _authorizer.Authorize(PermissionKeys.PublishArticle))
             {
                 Service.Publish(entity);
             }
@@ -51,7 +51,7 @@ namespace ZKEACMS.Article.Controllers
         public override IActionResult Edit(ArticleEntity entity)
         {
             var result = base.Edit(entity);
-            if (entity.ActionType == ActionType.Publish && _authorizer.Authorize(PermissionKeys.PublishArticle))
+            if (entity.ActionType.HasFlag(ActionType.Publish) && _authorizer.Authorize(PermissionKeys.PublishArticle))
             {
                 Service.Publish(entity);
             }

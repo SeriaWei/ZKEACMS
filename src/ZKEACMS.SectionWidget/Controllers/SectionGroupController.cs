@@ -66,7 +66,7 @@ namespace ZKEACMS.SectionWidget.Controllers
             {
                 return View("Form", group);
             }
-            if (group.ActionType == ActionType.Create)
+            if (group.ActionType.HasFlag(ActionType.Create))
             {
                 _sectionGroupService.Add(group);
             }
