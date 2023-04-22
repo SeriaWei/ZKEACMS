@@ -22,7 +22,7 @@ namespace ZKEACMS
         {
             get
             {
-                return current ?? (current = _serviceProvider.GetService<IApplicationContext>().As<CMSApplicationContext>());
+                return current ?? (current = _serviceProvider.GetService<IApplicationContext>().CurrentAppContext());
             }
         }
     }
