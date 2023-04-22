@@ -15,6 +15,5 @@ namespace ZKEACMS.Article.Service
         ArticleEntity GetPrev(ArticleEntity article);
         ArticleEntity GetNext(ArticleEntity article);
         ArticleEntity GetByUrl(string url);
-        ArticleEntity GetLatestPublished();
     }
 }

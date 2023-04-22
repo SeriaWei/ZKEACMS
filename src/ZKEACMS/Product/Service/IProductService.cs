@@ -12,6 +12,5 @@ namespace ZKEACMS.Product.Service
         void Publish(int ID);
         void Publish(ProductEntity product);
         ProductEntity GetByUrl(string url);
-        ProductEntity GetLatestPublished();
     }
 }

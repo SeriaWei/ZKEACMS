@@ -85,36 +85,32 @@ namespace ZKEACMS.Article.Service
                     if (viewModel.Current.Url.IsNotNullAndWhiteSpace() && actionContext.RouteData.GetArticleUrl().IsNullOrWhiteSpace())
                     {
                         actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{viewModel.Current.Url}.html", true);
-                        return null;
                     }
                 }
             }
-            else
+            if (viewModel.Current == null && ApplicationContext.IsAuthenticated)
             {
-                var latest = _articleService.GetLatestPublished();
-                if (ApplicationContext.CurrentAppContext().IsDesignMode || ApplicationContext.CurrentAppContext().IsPreViewMode)
+                foreach (var item in _articleService.Get().AsQueryable().OrderByDescending(m => m.ID).Take(1))
                 {
-                    viewModel.Current = latest;
-                }
-                else
-                {
-                    actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{latest.Url}.html", false);
-                    return null;
+                    viewModel.Current = item;
                 }
             }
-
             if (viewModel.Current == null)
             {
                 actionContext.NotFoundResult();
-                return null;
             }
-
-            var layout = widgetDisplayContext.PageLayout;
-            if (layout != null && layout.Page != null)
+            else
             {
-                layout.Page.ConfigSEO(viewModel.Current.Title, viewModel.Current.MetaKeyWords, viewModel.Current.MetaDescription);
+                var layout = widgetDisplayContext.PageLayout;
+                if (layout != null && layout.Page != null)
+                {
+                    layout.Page.ConfigSEO(viewModel.Current.Title, viewModel.Current.MetaKeyWords, viewModel.Current.MetaDescription);
+                }
+
                 AddStructuredDataToPageHeader(viewModel.Current);
             }
+
+
             return viewModel;
         }
         private void AddStructuredDataToPageHeader(ArticleEntity article)
@@ -128,7 +124,7 @@ namespace ZKEACMS.Article.Service
                 Author = new Person[] { new Person { Name = article.CreatebyName } }
             };
             IHtmlContent jsonLinkingData = HtmlHelper.SerializeToJsonLinkingData(structuredData);
-            ApplicationContext.CurrentAppContext().HeaderPart.Add(jsonLinkingData);
+            ApplicationContext.As<CMSApplicationContext>().HeaderPart.Add(jsonLinkingData);
         }
         private IEnumerable<string> GetImages(ArticleEntity article)
         {

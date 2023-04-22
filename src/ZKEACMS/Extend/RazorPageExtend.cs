@@ -14,7 +14,7 @@ namespace ZKEACMS
     {
         public static CMSApplicationContext WorkContext<T>(this Easy.Mvc.RazorPages.EasyRazorPage<T> page)
         {
-            return page.ApplicationContext.CurrentAppContext();
+            return page.ApplicationContext.As<CMSApplicationContext>();
         }
     }
 }

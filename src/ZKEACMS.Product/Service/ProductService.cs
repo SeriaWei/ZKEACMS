@@ -216,10 +216,5 @@ namespace ZKEACMS.Product.Service
             }
             _eventManager.Trigger(Events.OnProductPublished, product);
         }
-
-        public ProductEntity GetLatestPublished()
-        {
-            return Get().Where(m => m.Status == (int)RecordStatus.Active && m.IsPublish).OrderByDescending(m => m.ID).Take(1).ToList().FirstOrDefault();
-        }
     }
 }

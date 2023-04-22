@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Easy.Extend;
 using ZKEACMS.Event;
-using Easy.Constant;
 
 namespace ZKEACMS.Article.Service
 {
@@ -118,11 +117,6 @@ namespace ZKEACMS.Article.Service
                 Update(article);
                 _eventManager.Trigger(Events.OnArticlePublished, article);
             }
-        }
-
-        public ArticleEntity GetLatestPublished()
-        {
-            return Get().Where(m => m.Status == (int)RecordStatus.Active && m.IsPublish).OrderByDescending(m => m.ID).Take(1).ToList().FirstOrDefault();
         }
     }
 }

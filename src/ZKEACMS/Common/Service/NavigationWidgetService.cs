@@ -37,7 +37,7 @@ namespace ZKEACMS.Common.Service
 
             string path = null;
             IUrlHelper urlHelper = null;
-            if (ApplicationContext.CurrentAppContext().IsDesignMode)
+            if (ApplicationContext.As<CMSApplicationContext>().IsDesignMode)
             {
                 var layout = widgetDisplayContext.PageLayout;
                 if (layout != null && layout.Page != null)
