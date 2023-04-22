@@ -1,33 +1,19 @@
 ﻿@model ZKEACMS.Article.ViewModel.ArticleTopWidgetViewModel
-@{
-    if (!Model.Widget.DetailPageUrl.IsNullOrEmpty())
-    {
-        Model.Widget.DetailPageUrl = Url.Content(Model.Widget.DetailPageUrl);
-    }
-    if (!Model.Widget.MoreLink.IsNullOrEmpty())
-    {
-        Model.Widget.MoreLink = Url.Content(Model.Widget.MoreLink);
-    }
+@using (Html.BeginPanel(Model.Widget.Title, Model.Widget.MoreLink.IsNullOrEmpty() ? string.Empty : Url.Content(Model.Widget.MoreLink), L("More...").Text))
+{
+    <div class="article-tops B">
+        <ol>
+            @if (Model.Articles != null)
+            {
+                foreach (var item in Model.Articles)
+                {
+                    <li>
+                        <a href="@Url.PostUrl(Model.Widget.DetailPageUrl, item.ID)" target="_blank">
+                            @item.Title
+                        </a>
+                    </li>
+                }
+            }
+        </ol>
+    </div>
 }
-<div class="article-tops B">
-    <ol>
-        @if (Model.Articles != null)
-        {
-            foreach (var item in Model.Articles)
-            {
-                <li>
-                    <a href="@Url.PostUrl(Model.Widget.DetailPageUrl, item.ID)" target="_blank">
-                        @item.Title
-                    </a>
-                </li>
-            }
-            @if (Model.Widget.MoreLink.IsNotNullAndWhiteSpace())
-            {
-                <li class="more">
-                    <a href="@Model.Widget.MoreLink">@L("More...")</a>
-                </li>
-            }
-
-        }
-    </ol>
-</div>

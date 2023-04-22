@@ -1,11 +1,14 @@
 ﻿@model ZKEACMS.Article.ViewModel.ArticleTypeWidgetViewModel
 
-<div class="article-category A">
-    @if (Model.ArticleTypes != null)
-    {
-        foreach (var item in Model.ArticleTypes)
+@using (Html.BeginPanel(Model.Widget.Title))
+{
+    <div class="article-category A">
+        @if (Model.ArticleTypes != null)
         {
-            <a href="@Url.ArticleTypeUrl(item)" class="btn @(item.ID == Model.ArticleTypeID ? "btn-black" : "btn-link")">@item.Title</a>
+            foreach (var item in Model.ArticleTypes)
+            {
+                <a href="@Url.ArticleTypeUrl(item)" class="btn @(item.ID == Model.ArticleTypeID ? "btn-black" : "btn-link")">@item.Title</a>
+            }
         }
-    }
-</div>
+    </div>
+}

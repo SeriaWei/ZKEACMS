@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Easy.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Razor;
+using ZKEACMS.HtmlComponent;
 
 namespace ZKEACMS
 {
@@ -169,5 +170,14 @@ namespace ZKEACMS
         {
             return html.ViewContext.HttpContext.RequestServices.GetService<IApplicationContextAccessor>().Current.Currency.Code;
         }
+        public static HtmlPanel BeginPanel(this IHtmlHelper html, string title)
+        {
+            return new HtmlPanel(html.ViewContext, title);
+        }
+        public static HtmlPanel BeginPanel(this IHtmlHelper html, string title, string link, string linkText)
+        {
+            return new HtmlPanel(html.ViewContext, title, link, linkText);
+        }
     }
+
 }

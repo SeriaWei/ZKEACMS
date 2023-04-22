@@ -1946,13 +1946,14 @@ li.ui-sortable-helper {
     }
 
 .template-list .thumbnail .img {
-    width: 140px;
+    width: 100%;
     height: 140px;
     display: flex;
     flex-wrap: nowrap;
     align-content: center;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .ui-draggable-dragging {

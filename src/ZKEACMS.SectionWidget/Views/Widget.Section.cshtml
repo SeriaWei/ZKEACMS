@@ -2,13 +2,16 @@
 @{
     Style.Reqiured("Section").AtFoot();
 }
-<div class="section">
-    <div class="row">
-        @foreach (SectionGroup group in Model.Groups.OrderBy(m => m.Order))
+@using (Html.BeginPanel(Model.Title))
+{
+    <div class="section">
+        <div class="row">
+            @foreach (SectionGroup group in Model.Groups.OrderBy(m => m.Order))
             {
-            <div class="@(group.PercentWidth.IsNullOrWhiteSpace()?"col-xs-12":group.PercentWidth)">
-                @await Html.PartialAsync(group.PartialView, group)
-            </div>
-        }
+                <div class="@(group.PercentWidth.IsNullOrWhiteSpace()?"col-xs-12":group.PercentWidth)">
+                    @await Html.PartialAsync(group.PartialView, group)
+                </div>
+            }
+        </div>
     </div>
-</div>
+}

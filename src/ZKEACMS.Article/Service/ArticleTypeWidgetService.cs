@@ -76,6 +76,7 @@ namespace ZKEACMS.Article.Service
             }
             return new ArticleTypeWidgetViewModel
             {
+                Widget = currentWidget,
                 ArticleTypes = types,
                 ArticleTypeID = ac
             };

@@ -2,20 +2,6 @@
 @model WidgetViewModelPart
 <div style="@Model.Widget.CustomStyle">
     <div class="widget @Model.Widget.CustomClass">
-        @if (Model.Widget.Title.IsNotNullAndWhiteSpace())
-        {
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    @Model.Widget.Title
-                </div>
-                <div class="panel-body">
-                    @await Html.DisplayWidgetPart(Model)
-                </div>
-            </div>
-        }
-        else
-        {
-            @await Html.DisplayWidgetPart(Model)
-        }
+        @await Html.DisplayWidgetPart(Model)
     </div>
 </div>
