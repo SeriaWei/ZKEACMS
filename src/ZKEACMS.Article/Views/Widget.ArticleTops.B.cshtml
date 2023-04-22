@@ -8,7 +8,7 @@
                 foreach (var item in Model.Articles)
                 {
                     <li>
-                        <a href="@Url.PostUrl(Model.Widget.DetailPageUrl, item.ID)" target="_blank">
+                        <a href="@Url.PostUrl(Model.Widget.DetailPageUrl, item)" target="_blank">
                             @item.Title
                         </a>
                     </li>
