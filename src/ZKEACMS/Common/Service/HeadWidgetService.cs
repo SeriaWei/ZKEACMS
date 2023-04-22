@@ -26,7 +26,7 @@ namespace ZKEACMS.Common.Service
             htmlContentBuilder.AppendHtmlLine("<!-- head:{0} -->".FormatWith(widgetDisplayContext.Widget.ID));
             htmlContentBuilder.AppendHtmlLine((widgetDisplayContext.Widget as HeadWidget).Content);
             htmlContentBuilder.AppendHtmlLine("<!-- end -->");
-            ApplicationContext.As<CMSApplicationContext>().HeaderPart.Add(htmlContentBuilder);
+            ApplicationContext.CurrentAppContext().HeaderPart.Add(htmlContentBuilder);
             return base.Display(widgetDisplayContext);
         }
     }

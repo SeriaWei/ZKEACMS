@@ -69,32 +69,34 @@ namespace ZKEACMS.Product.Service
                 if (product != null && product.Url.IsNotNullAndWhiteSpace() && actionContext.RouteData.GetProductUrl().IsNullOrWhiteSpace())
                 {
                     actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{product.Url}.html", true);
+                    return null;
                 }
             }
-            if (product == null && ApplicationContext.IsAuthenticated)
+            else
             {
-                product = _productService.Get().OrderByDescending(m => m.ID).FirstOrDefault();
-                if (product != null)
+                if (ApplicationContext.CurrentAppContext().IsDesignMode || ApplicationContext.CurrentAppContext().IsPreViewMode)
                 {
-                    product = _productService.Get(product.ID);
+                    product = _productService.GetLatestPublished();
+                }
+                else
+                {
+                    actionContext.RedirectTo($"{actionContext.RouteData.GetPath()}/{_productService.GetLatestPublished().Url}.html", false);
+                    return null;
                 }
             }
             if (product == null)
             {
                 actionContext.NotFoundResult();
+                return null;
             }
-            if (product != null)
-            {
-                var layout = widgetDisplayContext.PageLayout;
-                if (layout != null && layout.Page != null)
-                {
-                    layout.Page.ConfigSEO(product.SEOTitle ?? product.Title, product.SEOKeyWord, product.SEODescription);
-                }
 
+            var layout = widgetDisplayContext.PageLayout;
+            if (layout != null && layout.Page != null)
+            {
+                layout.Page.ConfigSEO(product.SEOTitle ?? product.Title, product.SEOKeyWord, product.SEODescription);
                 AddStructuredDataToPageHeader(product);
             }
-
-            return product ?? new ProductEntity();
+            return product;
         }
 
         private void AddStructuredDataToPageHeader(ProductEntity product)
@@ -107,7 +109,7 @@ namespace ZKEACMS.Product.Service
                 MPN = product.PartNumber
             };
             IHtmlContent jsonLinkingData = HtmlHelper.SerializeToJsonLinkingData(structuredData);
-            ApplicationContext.As<CMSApplicationContext>().HeaderPart.Add(jsonLinkingData);
+            ApplicationContext.CurrentAppContext().HeaderPart.Add(jsonLinkingData);
         }
         private IEnumerable<string> GetImages(ProductEntity product)
         {

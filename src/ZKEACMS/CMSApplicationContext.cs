@@ -63,6 +63,7 @@ namespace ZKEACMS
 
         public PageViewMode PageMode { get; set; }
         public bool IsDesignMode { get { return PageMode == PageViewMode.Design; } }
+        public bool IsPreViewMode { get { return PageMode == PageViewMode.PreView; } }
         /// <summary>
         /// Append to html/head
         /// </summary>
