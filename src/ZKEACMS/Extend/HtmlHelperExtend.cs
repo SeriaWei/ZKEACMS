@@ -172,11 +172,11 @@ namespace ZKEACMS
         }
         public static HtmlPanel BeginPanel(this IHtmlHelper html, string title)
         {
-            return new HtmlPanel(html.ViewContext, title);
+            return new HtmlPanel(html.ViewContext.Writer, title);
         }
         public static HtmlPanel BeginPanel(this IHtmlHelper html, string title, string link, string linkText)
         {
-            return new HtmlPanel(html.ViewContext, title, link, linkText);
+            return new HtmlPanel(html.ViewContext.Writer, title, link, linkText);
         }
     }
 
