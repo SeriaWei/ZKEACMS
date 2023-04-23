@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace ZKEACMS.HtmlComponent
@@ -23,7 +24,7 @@ namespace ZKEACMS.HtmlComponent
             _wrapWithPanel = title.IsNotNullAndWhiteSpace() || link.IsNotNullAndWhiteSpace();
 
             if (!_wrapWithPanel) return;
-            
+
             _writer.Write("<div class=\"panel panel-default\"><div class=\"panel-heading clearfix\">");
             if (title.IsNotNullAndWhiteSpace())
             {
@@ -34,9 +35,9 @@ namespace ZKEACMS.HtmlComponent
                 _writer.Write($"<div class=\"pull-right\">");
                 TagBuilder linkBuilder = new TagBuilder("a");
                 linkBuilder.MergeAttribute("href", link);
-                _writer.Write(linkBuilder.RenderStartTag());
+                linkBuilder.RenderStartTag().WriteTo(_writer, HtmlEncoder.Default);
                 _writer.Write(linkText ?? string.Empty);
-                _writer.Write(linkBuilder.RenderEndTag());
+                linkBuilder.RenderEndTag().WriteTo(_writer, HtmlEncoder.Default);
                 _writer.Write("</div>");
             }
             _writer.Write("</div><div class=\"panel-body\">");
