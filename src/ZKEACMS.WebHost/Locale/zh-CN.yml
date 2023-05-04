@@ -49,7 +49,7 @@ Align Right Top: 右上对齐
 Align Top: 顶部对齐
 AliPay: 支付宝支付
 Alipay Setting: 支付宝集成设置
-AlipayOptions@AlipayPublicKey: 应用公钥
+AlipayOptions@AlipayPublicKey: 支付宝公钥
 AlipayOptions@Environment: 环境
 AlipayOptions@Gatewayurl: 支付宝网关
 AlipayOptions@IsEnable: 是否启用
