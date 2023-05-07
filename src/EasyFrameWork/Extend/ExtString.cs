@@ -210,7 +210,7 @@ namespace Easy.Extend
         }
         public static string[] SplitWithDirectorySeparatorChar(this string path)
         {
-            return path.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+            return path.Split(new char[] { '/','\\' }, StringSplitOptions.RemoveEmptyEntries);
         }
         public static string ToWebPath(this string path)
         {
