@@ -18,8 +18,16 @@
                     }
                     @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                     {
-                        <a href="@Url.Action("Edit", "Widget", new { widget.ID, ReturnUrl = returnUrl+"#rule-"+widget.RuleID})"><i class="glyphicon glyphicon-edit"></i></a>
-                        <a href="javascript:void(0)" class="delete" data-widgetid="@widget.ID"><i class="glyphicon glyphicon-trash"></i></a>
+                        <a href="@Url.Action("Edit", "Widget", new { widget.ID, ReturnUrl = returnUrl+"#rule-"+widget.RuleID})">
+                            <img class="icon" src="~/images/icons/edit.svg" />
+                        </a>
+                        <a href="javascript:void(0)" class="delete" data-widgetid="@widget.ID">
+                            <img class="icon" src="~/images/icons/delete.svg" />
+                        </a>
+                    }
+                    @if (widget.Status == (int)RecordStatus.InActive)
+                    {
+                        <a style="cursor:default"><img class="icon" src="~/images/icons/invisible.svg" title="@L("Invisible")" /></a>
                     }
                     @widget.WidgetName
                 </li>

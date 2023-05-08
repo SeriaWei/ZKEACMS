@@ -22,6 +22,7 @@ using ZKEACMS;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using Easy.Constant;
 
 namespace ZKEACMS.Filter
 {
@@ -102,7 +103,7 @@ namespace ZKEACMS.Filter
                 layout.ZoneWidgets = new ZoneWidgetCollection();
                 widgetService.GetAllByPage(page).Each(widget =>
                 {
-                    if (widget != null)
+                    if (widget != null && widget.Status != (int)RecordStatus.InActive)
                     {
                         DateTime startTime = DateTime.Now;
                         IWidgetPartDriver partDriver = widgetActivator.Create(widget);
@@ -143,7 +144,7 @@ namespace ZKEACMS.Filter
                 {
                     widgetService.GetAllByRule(rulesID, !IsPreView(filterContext)).Each(widget =>
                     {
-                        if (widget != null)
+                        if (widget != null && widget.Status != (int)RecordStatus.InActive)
                         {
                             DateTime startTime = DateTime.Now;
                             IWidgetPartDriver partDriver = widgetActivator.Create(widget);

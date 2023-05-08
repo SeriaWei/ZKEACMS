@@ -350,6 +350,9 @@ a.badge:hover {
     .fullRowList .glyphicon {
         font-size: 12px;
     }
+    .fullRowList .icon{
+        width:16px;
+    }
 
     .fullRowList.tags input {
         border: 1px solid #fff;
@@ -379,6 +382,8 @@ a.badge:hover {
     .fullRowList a {
         text-decoration: none;
         outline: none;
+        display: inline-block;
+        margin: 0 2px;
     }
 
     .fullRowList li:hover a,
