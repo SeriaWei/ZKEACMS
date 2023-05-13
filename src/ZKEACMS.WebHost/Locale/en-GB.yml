@@ -13,50 +13,31 @@ AlipayOptions@PrivateKey: Private Key
 AlipayOptions@PublicKey: Public Key
 AlipayOptions@SignType: Sign Type
 AlipayOptions@Uid: Uid
-ApplicationSetting@CreatebyName: Create By
-ApplicationSetting@CreateDate: Create Date
-ApplicationSetting@Description: Description
-ApplicationSetting@LastUpdateByName: Last Update By
-ApplicationSetting@LastUpdateDate: Last Update Date
 ApplicationSetting@SettingKey: Setting Key
-ApplicationSetting@Status: Status
 ApplicationSetting@Title: Title
 ApplicationSetting@Value: Value
 Article Detail: Article Content
 Article Manager: Article
 Article News: News
 ArticleDetailWidget@CreatebyName: Createby Name
-ArticleDetailWidget@CreateDate: Create Date
-ArticleDetailWidget@Description: Description
 ArticleDetailWidget@ExtendFields: Extend Fields
 ArticleDetailWidget@IsTemplate: Is Template
 ArticleDetailWidget@LastUpdateByName: Last Update By Name
-ArticleDetailWidget@LastUpdateDate: Last Update Date
 ArticleDetailWidget@PartialView: Partial View
 ArticleDetailWidget@Position: Position
-ArticleDetailWidget@Status: Status
-ArticleDetailWidget@StyleClass: Style Class
 ArticleDetailWidget@Thumbnail: Thumbnail
 ArticleDetailWidget@Title: Title
-ArticleDetailWidget@WidgetName: Widget Name
-ArticleDetailWidget@ZoneID: Zone
 ArticleEntity@ArticleContent: Article Content
 ArticleEntity@ArticleTypeID: Article Type
 ArticleEntity@Counter: Counter
-ArticleEntity@CreatebyName: Create By
-ArticleEntity@CreateDate: Create Date
-ArticleEntity@Description: Description
 ArticleEntity@ExtendFields: Extend Fields
 ArticleEntity@ID: ID
 ArticleEntity@ImageThumbUrl: Image Thumb Url
 ArticleEntity@ImageUrl: Image Url
 ArticleEntity@IsPublish: Is Publish
-ArticleEntity@LastUpdateByName: Last Update By
-ArticleEntity@LastUpdateDate: Last Update Date
 ArticleEntity@MetaDescription: Meta Description
 ArticleEntity@MetaKeyWords: Meta Key Words
 ArticleEntity@PublishDate: Publish Date
-ArticleEntity@Status: Status
 ArticleEntity@Summary: Summary
 ArticleEntity@Title: Title
 ArticleEntity@Url: Name
@@ -64,23 +45,16 @@ ArticleGalleryWidget@ArticleGalleryId: Article Gallery
 ArticleGalleryWidget@DetailPageUrl: Detail Page Url
 ArticleListWidget@ArticleTypeID: Article Type
 ArticleListWidget@CreatebyName: Createby Name
-ArticleListWidget@CreateDate: Create Date
-ArticleListWidget@Description: Description
 ArticleListWidget@DetailPageUrl: Detail Page Url
 ArticleListWidget@ExtendFields: Extend Fields
 ArticleListWidget@IsPageable: Is Pageable
 ArticleListWidget@IsTemplate: Is Template
 ArticleListWidget@LastUpdateByName: Last Update By Name
-ArticleListWidget@LastUpdateDate: Last Update Date
 ArticleListWidget@PageSize: Page Size
 ArticleListWidget@PartialView: Partial View
 ArticleListWidget@Position: Position
-ArticleListWidget@Status: Status
-ArticleListWidget@StyleClass: Style Class
 ArticleListWidget@Thumbnail: Thumbnail
 ArticleListWidget@Title: Title
-ArticleListWidget@WidgetName: Widget Name
-ArticleListWidget@ZoneID: Zone
 ArticleSpecialDetailWidget@ArticleId: Article
 ArticleSpecialDetailWidget@ArticleName: Article Name
 ArticleSpecialDetailWidget@AssemblyName: Assembly Name
@@ -89,81 +63,53 @@ ArticleSpecialDetailWidget@IsTemplate: Is Template
 ArticleSpecialDetailWidget@PartialView: Partial View
 ArticleSpecialDetailWidget@Position: Position
 ArticleSpecialDetailWidget@ServiceTypeName: Service Type Name
-ArticleSpecialDetailWidget@StyleClass: Style Class
 ArticleSpecialDetailWidget@Thumbnail: Thumbnail
 ArticleSpecialDetailWidget@Title: Title
 ArticleSpecialDetailWidget@ViewModelTypeName: View Model Type Name
-ArticleSpecialDetailWidget@WidgetName: Widget Name
-ArticleSpecialDetailWidget@ZoneID: Zone
 ArticleSummaryWidget@CreatebyName: Createby Name
-ArticleSummaryWidget@CreateDate: Create Date
-ArticleSummaryWidget@Description: Description
 ArticleSummaryWidget@DetailLink: Detail Link
 ArticleSummaryWidget@ExtendFields: Extend Fields
 ArticleSummaryWidget@IsTemplate: Is Template
 ArticleSummaryWidget@LastUpdateByName: Last Update By Name
-ArticleSummaryWidget@LastUpdateDate: Last Update Date
 ArticleSummaryWidget@LayoutID: Layout
 ArticleSummaryWidget@PageID: Page
 ArticleSummaryWidget@PartialView: Partial View
 ArticleSummaryWidget@Position: Position
-ArticleSummaryWidget@Status: Status
 ArticleSummaryWidget@Style: Style
-ArticleSummaryWidget@StyleClass: Style Class
 ArticleSummaryWidget@SubTitle: Sub Title
 ArticleSummaryWidget@Summary: Summary
 ArticleSummaryWidget@Thumbnail: Thumbnail
 ArticleSummaryWidget@Title: Title
-ArticleSummaryWidget@WidgetName: Widget Name
-ArticleSummaryWidget@ZoneID: Zone
 ArticleTopWidget@ArticleTypeID: Article Type
 ArticleTopWidget@CreatebyName: Createby Name
-ArticleTopWidget@CreateDate: Create Date
-ArticleTopWidget@Description: Description
 ArticleTopWidget@DetailPageUrl: Detail Page Url
 ArticleTopWidget@ExtendFields: Extend Fields
 ArticleTopWidget@IsTemplate: Is Template
 ArticleTopWidget@LastUpdateByName: Last Update By Name
-ArticleTopWidget@LastUpdateDate: Last Update Date
 ArticleTopWidget@MoreLink: More Link
 ArticleTopWidget@PartialView: Partial View
 ArticleTopWidget@Position: Position
-ArticleTopWidget@Status: Status
-ArticleTopWidget@StyleClass: Style Class
 ArticleTopWidget@SubTitle: Sub Title
 ArticleTopWidget@Thumbnail: Thumbnail
 ArticleTopWidget@Title: Title
 ArticleTopWidget@Tops: Tops
-ArticleTopWidget@WidgetName: Widget Name
-ArticleTopWidget@ZoneID: Zone
 ArticleType@CreatebyName: Createby Name
-ArticleType@CreateDate: Create Date
-ArticleType@Description: Description
 ArticleType@LastUpdateByName: Last Update By Name
-ArticleType@LastUpdateDate: Last Update Date
 ArticleType@SEODescription: SEO Description
 ArticleType@SEOKeyWord: SEO Key Word
 ArticleType@SEOTitle: SEO Title
-ArticleType@Status: Status
 ArticleType@Title: Title
 ArticleType@Url: Url
 ArticleTypeWidget@ArticleTypeID: Article Type
 ArticleTypeWidget@CreatebyName: Createby Name
-ArticleTypeWidget@CreateDate: Create Date
-ArticleTypeWidget@Description: Description
 ArticleTypeWidget@ExtendFields: Extend Fields
 ArticleTypeWidget@IsTemplate: Is Template
 ArticleTypeWidget@LastUpdateByName: Last Update By Name
-ArticleTypeWidget@LastUpdateDate: Last Update Date
 ArticleTypeWidget@PartialView: Partial View
 ArticleTypeWidget@Position: Position
-ArticleTypeWidget@Status: Status
-ArticleTypeWidget@StyleClass: Style Class
 ArticleTypeWidget@TargetPage: Target Page
 ArticleTypeWidget@Thumbnail: Thumbnail
 ArticleTypeWidget@Title: Title
-ArticleTypeWidget@WidgetName: Widget Name
-ArticleTypeWidget@ZoneID: Zone
 AuthOption@ClientId: Client
 AuthOption@ClientSecret: Client Secret
 Baidu Map: Map
@@ -177,14 +123,11 @@ BaiduMapWidget@LocationPoint: Location Point
 BaiduMapWidget@PartialView: Partial View
 BaiduMapWidget@Position: Position
 BaiduMapWidget@ServiceTypeName: Service Type Name
-BaiduMapWidget@StyleClass: Style Class
 BaiduMapWidget@TagSummary: Tag Summary
 BaiduMapWidget@TagTitle: Tag Title
 BaiduMapWidget@Thumbnail: Thumbnail
 BaiduMapWidget@Title: Title
 BaiduMapWidget@ViewModelTypeName: View Model Type Name
-BaiduMapWidget@WidgetName: Widget Name
-BaiduMapWidget@ZoneID: Zone
 BiographyWidget@AssemblyName: Assembly Name
 BiographyWidget@Content: Content
 BiographyWidget@IsSystem: Is System
@@ -195,144 +138,79 @@ BiographyWidget@PartialView: Partial View
 BiographyWidget@Photo: Photo
 BiographyWidget@Position: Position
 BiographyWidget@ServiceTypeName: Service Type Name
-BiographyWidget@StyleClass: Style Class
 BiographyWidget@Thumbnail: Thumbnail
 BiographyWidget@Title: Title
 BiographyWidget@ViewModelTypeName: View Model Type Name
-BiographyWidget@WidgetName: Widget Name
-BiographyWidget@ZoneID: Zone
 BreadcrumbWidget@CreatebyName: Createby Name
-BreadcrumbWidget@CreateDate: Create Date
-BreadcrumbWidget@Description: Description
 BreadcrumbWidget@ExtendFields: Extend Fields
 BreadcrumbWidget@IsTemplate: Is Template
 BreadcrumbWidget@LastUpdateByName: Last Update By Name
-BreadcrumbWidget@LastUpdateDate: Last Update Date
 BreadcrumbWidget@LayoutID: Layout
 BreadcrumbWidget@PageID: Page
 BreadcrumbWidget@PartialView: Partial View
 BreadcrumbWidget@Position: Position
-BreadcrumbWidget@Status: Status
-BreadcrumbWidget@StyleClass: Style Class
 BreadcrumbWidget@Thumbnail: Thumbnail
 BreadcrumbWidget@Title: Title
-BreadcrumbWidget@WidgetName: Widget Name
-BreadcrumbWidget@ZoneID: Zone
 CarouselEntity@CarouselItems: Carousel Items
-CarouselEntity@CreatebyName: Create By
-CarouselEntity@CreateDate: Create Date
-CarouselEntity@Description: Description
 CarouselEntity@Height: Height
-CarouselEntity@LastUpdateByName: Last Update By
-CarouselEntity@LastUpdateDate: Last Update Date
-CarouselEntity@Status: Status
 CarouselEntity@Title: Title
 CarouselItemEntity@CarouselID: Carousel
 CarouselItemEntity@CreatebyName: Createby Name
-CarouselItemEntity@CreateDate: Create Date
-CarouselItemEntity@Description: Description
 CarouselItemEntity@ImageUrl: Image Url
 CarouselItemEntity@LastUpdateByName: Last Update By Name
-CarouselItemEntity@LastUpdateDate: Last Update Date
-CarouselItemEntity@Status: Status
 CarouselItemEntity@TargetLink: Target Link
 CarouselItemEntity@Title: Title
 CarouselWidget@CarouselID: Carousel
 CarouselWidget@CarouselItems: Carousel Items
 CarouselWidget@CreatebyName: Createby Name
-CarouselWidget@CreateDate: Create Date
-CarouselWidget@Description: Description
 CarouselWidget@ExtendFields: Extend Fields
 CarouselWidget@IsTemplate: Is Template
 CarouselWidget@LastUpdateByName: Last Update By Name
-CarouselWidget@LastUpdateDate: Last Update Date
 CarouselWidget@PartialView: Partial View
 CarouselWidget@Position: Position
-CarouselWidget@Status: Status
-CarouselWidget@StyleClass: Style Class
 CarouselWidget@Thumbnail: Thumbnail
 CarouselWidget@Title: Title
-CarouselWidget@WidgetName: Widget Name
-CarouselWidget@ZoneID: Zone
 CaseItem@BackgroundImage: Background Image
 Click on the "Thumbnails" to preview. Click on "Exit Theme Preview" in the preview page to return to: Click on the "Thumbnails" to preview. Click on "Exit Theme Preview" in the preview page to return to the page.
 CMS Plugins: Plugins
 Column Width: Column
 Comments@Agrees: Agrees
 Comments@CommentContent: Comment Content
-Comments@CreatebyName: Create By
-Comments@CreateDate: Create Date
-Comments@Description: Description
 Comments@Disagrees: Disagrees
-Comments@LastUpdateByName: Last Update By
-Comments@LastUpdateDate: Last Update Date
 Comments@PagePath: Page Path
-Comments@Status: Status
 Comments@Title: Title
 Comments@UserId: User
 Comments@UserName: User Name
 CommentsWidget@CreatebyName: Createby Name
-CommentsWidget@CreateDate: Create Date
-CommentsWidget@Description: Description
 CommentsWidget@IsTemplate: Is Template
 CommentsWidget@LastUpdateByName: Last Update By Name
-CommentsWidget@LastUpdateDate: Last Update Date
 CommentsWidget@PartialView: Partial View
 CommentsWidget@Position: Position
-CommentsWidget@Status: Status
-CommentsWidget@StyleClass: Style Class
 CommentsWidget@Thumbnail: Thumbnail
 CommentsWidget@Title: Title
-CommentsWidget@WidgetName: Widget Name
-CommentsWidget@ZoneID: Zone
 commit: Comment
-ContentField@FieldType: Field Type
-ContentField@Name: Name
-ContentField@Order: Order
-ContentField@Status: Status
-ContentField@Title: Title
-ContentTemplate@CreatebyName: Create By
-ContentTemplate@CreateDate: Create Date
-ContentTemplate@Description: Description
-ContentTemplate@LastUpdateByName: Last Update By
-ContentTemplate@LastUpdateDate: Last Update Date
-ContentTemplate@Status: Status
 ContentTemplate@Template: Template
 ContentTemplate@Title: Title
-ContentType@CreatebyName: Create By
-ContentType@CreateDate: Create Date
-ContentType@Description: Description
 ContentType@Fields: Fields
-ContentType@LastUpdateByName: Last Update By
-ContentType@LastUpdateDate: Last Update Date
-ContentType@Status: Status
 ContentType@Title: Title
 ContentValue@ContentTypeID: Content Type
-ContentValue@CreatebyName: Create By
-ContentValue@CreateDate: Create Date
-ContentValue@Description: Description
 ContentValue@LastUpdateByName: Update By
-ContentValue@LastUpdateDate: Last Update Date
 ContentValue@SEODescription: SEO Description
 ContentValue@SEOKeyWord: SEO Keyword
 ContentValue@SEOTitle: SEO Title
-ContentValue@Status: Status
 ContentValue@Title: Title
 ContentValue@Url: Url
 Context Menu: Menu
 Culture@CreatebyName: Createby Name
-Culture@CreateDate: Create Date
 Culture@CultureCode: Culture Code
-Culture@Description: Description
 Culture@DisplayName: Display Name
 Culture@Domain: Domain
 Culture@EnglishName: English Name
 Culture@Flag: Flag
 Culture@LastUpdateByName: Last Update By Name
-Culture@LastUpdateDate: Last Update Date
-Culture@Status: Status
 Culture@Title: Title
 Culture@UrlCode: Url Code
+Culture@LCID: LCID
 CultureSetting@CultureMode: Culture Mode
 CultureSetting@DefaultCulture: Default Culture
 CultureSetting@IsEnable: Is Enable
@@ -340,14 +218,10 @@ CultureSetting@IsShowDefault: Is Show Default
 CurrencyOption@CurrencyID: Currency
 Custom Rule: Rule
 DataDictionaryEntity@CreatebyName: Createby Name
-DataDictionaryEntity@CreateDate: Create Date
-DataDictionaryEntity@Description: Description
 DataDictionaryEntity@ImageThumbUrl: Image Thumb Url
 DataDictionaryEntity@ImageUrl: Image Url
 DataDictionaryEntity@LastUpdateByName: Last Update By Name
-DataDictionaryEntity@LastUpdateDate: Last Update Date
 DataDictionaryEntity@Order: Order
-DataDictionaryEntity@Status: Status
 DataDictionaryEntity@Title: Title
 Ddashboard: Dashboard
 Demo Video: Videos
@@ -360,11 +234,7 @@ Edit Layout: Layout
 Edit Page: Page
 Edit settings: Edit
 ExtendFieldEntity@CreatebyName: Createby Name
-ExtendFieldEntity@CreateDate: Create Date
-ExtendFieldEntity@Description: Description
 ExtendFieldEntity@LastUpdateByName: Last Update By Name
-ExtendFieldEntity@LastUpdateDate: Last Update Date
-ExtendFieldEntity@Status: Status
 ExtendFieldEntity@Title: Title
 ExtendFieldEntity@Value: Value
 Field Name: Name
@@ -378,12 +248,9 @@ FluidContentListWidget@IsTemplate: Is Template
 FluidContentListWidget@PageSize: Page Size
 FluidContentListWidget@Position: Position
 FluidContentListWidget@ServiceTypeName: Service Type Name
-FluidContentListWidget@StyleClass: Style Class
 FluidContentListWidget@Thumbnail: Thumbnail
 FluidContentListWidget@Title: Title
 FluidContentListWidget@ViewModelTypeName: View Model Type Name
-FluidContentListWidget@WidgetName: Widget Name
-FluidContentListWidget@ZoneID: Zone
 FluidContentWidget@AssemblyName: Assembly Name
 FluidContentWidget@ContentTemplateID: Content Template
 FluidContentWidget@ContentValueID: Content Value
@@ -393,42 +260,20 @@ FluidContentWidget@IsTemplate: Is Template
 FluidContentWidget@PartialView: Partial View
 FluidContentWidget@Position: Position
 FluidContentWidget@ServiceTypeName: Service Type Name
-FluidContentWidget@StyleClass: Style Class
 FluidContentWidget@Thumbnail: Thumbnail
 FluidContentWidget@Title: Title
 FluidContentWidget@ViewModelTypeName: View Model Type Name
-FluidContentWidget@WidgetName: Widget Name
-FluidContentWidget@ZoneID: Zone
-Form@CreatebyName: Create By
-Form@CreateDate: Create Date
-Form@Description: Description
-Form@LastUpdateByName: Last Update By
-Form@LastUpdateDate: Last Update Date
-Form@Status: Status
 Form@Title: Title
-FormData@CreatebyName: Create By
-FormData@CreateDate: Create Date
-FormData@Description: Description
 FormData@FormId: Form
-FormData@LastUpdateByName: Last Update By
-FormData@LastUpdateDate: Last Update Date
-FormData@Status: Status
 FormData@Title: Title
 FormWidget@CreatebyName: Createby Name
-FormWidget@CreateDate: Create Date
-FormWidget@Description: Description
 FormWidget@FormID: Form
 FormWidget@IsTemplate: Is Template
 FormWidget@LastUpdateByName: Last Update By Name
-FormWidget@LastUpdateDate: Last Update Date
 FormWidget@PartialView: Partial View
 FormWidget@Position: Position
-FormWidget@Status: Status
-FormWidget@StyleClass: Style Class
 FormWidget@Thumbnail: Thumbnail
 FormWidget@Title: Title
-FormWidget@WidgetName: Widget Name
-FormWidget@ZoneID: Zone
 GroupID: Group
 HeadWidget@AssemblyName: Assembly Name
 HeadWidget@Content: 内容
@@ -443,8 +288,6 @@ HeadWidget@Title: 标题
 HeadWidget@ViewModelTypeName: View Model Type Name
 HeadWidget@WidgetName: 组件名称
 HeadWidget@ZoneID: 区域
-HistoryEventItem@Description: Description
-HistoryEventItem@Status: Status
 HistoryEventItem@Title: Title
 HistoryEventWidget@AssemblyName: Assembly Name
 HistoryEventWidget@Events: Events
@@ -453,35 +296,23 @@ HistoryEventWidget@IsTemplate: Is Template
 HistoryEventWidget@PartialView: Partial View
 HistoryEventWidget@Position: Position
 HistoryEventWidget@ServiceTypeName: Service Type Name
-HistoryEventWidget@StyleClass: Style Class
 HistoryEventWidget@Thumbnail: Thumbnail
 HistoryEventWidget@Title: Title
 HistoryEventWidget@ViewModelTypeName: View Model Type Name
-HistoryEventWidget@WidgetName: Widget Name
-HistoryEventWidget@ZoneID: Zone
 Home Page: Home
 HtmlWidget@CreatebyName: Createby Name
-HtmlWidget@CreateDate: Create Date
-HtmlWidget@Description: Description
 HtmlWidget@ExtendFields: Extend Fields
 HtmlWidget@HTML: H T M L
 HtmlWidget@IsTemplate: Is Template
 HtmlWidget@LastUpdateByName: Last Update By Name
-HtmlWidget@LastUpdateDate: Last Update Date
 HtmlWidget@LayoutID: Layout
 HtmlWidget@PageID: Page
 HtmlWidget@PartialView: Partial View
 HtmlWidget@Position: Position
-HtmlWidget@Status: Status
-HtmlWidget@StyleClass: Style Class
 HtmlWidget@Thumbnail: Thumbnail
 HtmlWidget@Title: Title
-HtmlWidget@WidgetName: Widget Name
-HtmlWidget@ZoneID: Zone
 ImageWidget@AltText: Alt Text
 ImageWidget@CreatebyName: Createby Name
-ImageWidget@CreateDate: Create Date
-ImageWidget@Description: Description
 ImageWidget@ExtendFields: Extend Fields
 ImageWidget@Height: Height
 ImageWidget@ImageUrl: Image Url
@@ -489,19 +320,14 @@ ImageWidget@ImageUrlMd: Image Url Md
 ImageWidget@ImageUrlSm: Image Url Sm
 ImageWidget@IsTemplate: Is Template
 ImageWidget@LastUpdateByName: Last Update By Name
-ImageWidget@LastUpdateDate: Last Update Date
 ImageWidget@LayoutID: Layout
 ImageWidget@Link: Link
 ImageWidget@PageID: Page
 ImageWidget@PartialView: Partial View
 ImageWidget@Position: Position
-ImageWidget@Status: Status
-ImageWidget@StyleClass: Style Class
 ImageWidget@Thumbnail: Thumbnail
 ImageWidget@Title: Title
-ImageWidget@WidgetName: Widget Name
 ImageWidget@Width: Width
-ImageWidget@ZoneID: Zone
 Install Theme: Install
 Keywords@Action: Action
 Keywords@MetaDescription: Meta Description
@@ -521,28 +347,20 @@ Layout Content: Content
 Layout Design: Design
 Layout List: Layout
 LayoutEntity@CreatebyName: Createby Name
-LayoutEntity@CreateDate: Create Date
-LayoutEntity@Description: Description
 LayoutEntity@Html: Html
 LayoutEntity@ImageThumbUrl: Image Thumb Url
 LayoutEntity@ImageUrl: Image Url
 LayoutEntity@IsTemplate: Is Template
 LayoutEntity@LastUpdateByName: Last Update By Name
-LayoutEntity@LastUpdateDate: Last Update Date
 LayoutEntity@LayoutName: Layout Name
 LayoutEntity@Script: Script
-LayoutEntity@Status: Status
 LayoutEntity@Style: Style
 LayoutEntity@Theme: Theme
 LayoutEntity@Title: Title
 LayoutHtml@CreatebyName: Createby Name
-LayoutHtml@CreateDate: Create Date
-LayoutHtml@Description: Description
 LayoutHtml@Html: Html
 LayoutHtml@LastUpdateByName: Last Update By Name
-LayoutHtml@LastUpdateDate: Last Update Date
 LayoutHtml@LayoutId: Layout
-LayoutHtml@Status: Status
 LayoutHtml@Title: Title
 LiveChatScript@Location: Location
 LiveChatScript@Script: Script
@@ -550,8 +368,6 @@ Logs: Log
 Manage Navigation: Navigation
 Manage Page: Page
 Manage Product: Product
-MediaEntity@Description: Description
-MediaEntity@Status: Status
 MediaEntity@Title: Title
 Message And Comments: Comments
 MessageBoxWidget@AssemblyName: Assembly Name
@@ -560,65 +376,42 @@ MessageBoxWidget@IsTemplate: Is Template
 MessageBoxWidget@PartialView: Partial View
 MessageBoxWidget@Position: Position
 MessageBoxWidget@ServiceTypeName: Service Type Name
-MessageBoxWidget@StyleClass: Style Class
 MessageBoxWidget@Thumbnail: Thumbnail
 MessageBoxWidget@Title: Title
 MessageBoxWidget@ViewModelTypeName: View Model Type Name
-MessageBoxWidget@WidgetName: Widget Name
-MessageBoxWidget@ZoneID: Zone
-MessageEntity@CreatebyName: Create By
-MessageEntity@CreateDate: Create Date
-MessageEntity@Description: Description
 MessageEntity@Email: Email
-MessageEntity@LastUpdateByName: Last Update By
-MessageEntity@LastUpdateDate: Last Update Date
 MessageEntity@PostMessage: Post Message
 MessageEntity@Reply: Reply
-MessageEntity@Status: Status
 MessageEntity@Title: Name
 MessageNotificationConfig@CommentNotifyEmails: Comment Notify Emails
 MessageNotificationConfig@MessageNotifyEmails: Message Notify Emails
 MessageWidget@CreatebyName: Createby Name
-MessageWidget@CreateDate: Create Date
-MessageWidget@Description: Description
 MessageWidget@ExtendFields: Extend Fields
 MessageWidget@IsTemplate: Is Template
 MessageWidget@LastUpdateByName: Last Update By Name
-MessageWidget@LastUpdateDate: Last Update Date
 MessageWidget@PartialView: Partial View
 MessageWidget@Position: Position
-MessageWidget@Status: Status
-MessageWidget@StyleClass: Style Class
 MessageWidget@Thumbnail: Thumbnail
 MessageWidget@Title: Title
-MessageWidget@WidgetName: Widget Name
-MessageWidget@ZoneID: Zone
 My Order: Orders
 NavigationEntity@CreatebyName: Createby Name
-NavigationEntity@CreateDate: Create Date
-NavigationEntity@Description: Description
 NavigationEntity@DisplayOrder: Display Order
 NavigationEntity@Html: Html
 NavigationEntity@IsCurrent: Is Current
 NavigationEntity@IsMobile: Is Mobile
 NavigationEntity@LastUpdateByName: Last Update By Name
-NavigationEntity@LastUpdateDate: Last Update Date
-NavigationEntity@Status: Status
 NavigationEntity@Title: Title
 NavigationEntity@Url: Url
 NavigationWidget@AlignClass: Align Class
 NavigationWidget@AssemblyName: Assembly Name
 NavigationWidget@CreatebyName: Createby Name
-NavigationWidget@CreateDate: Create Date
 NavigationWidget@CustomerClass: Customer Class
 NavigationWidget@CustomStyle: Custom Style
-NavigationWidget@Description: Description
 NavigationWidget@ExtendFields: Extend Fields
 NavigationWidget@IsSystem: Is System
 NavigationWidget@IsTemplate: Is Template
 NavigationWidget@IsTopFix: Is Top Fix
 NavigationWidget@LastUpdateByName: Last Update By Name
-NavigationWidget@LastUpdateDate: Last Update Date
 NavigationWidget@LayoutID: Layout
 NavigationWidget@Logo: Logo
 NavigationWidget@PageID: Page
@@ -627,13 +420,9 @@ NavigationWidget@Position: Position
 NavigationWidget@RootID: Root
 NavigationWidget@ServiceTypeName: Service Type Name
 NavigationWidget@ShowBasket: Show Basket
-NavigationWidget@Status: Status
-NavigationWidget@StyleClass: Style Class
 NavigationWidget@Thumbnail: Thumbnail
 NavigationWidget@Title: Title
 NavigationWidget@ViewModelTypeName: View Model Type Name
-NavigationWidget@WidgetName: Widget Name
-NavigationWidget@ZoneID: Zone
 New Category: New
 New Navigation: New
 New Product Tag: New
@@ -645,22 +434,15 @@ OAuthWidget@Position: Position
 OAuthWidget@QQ: QQ
 OAuthWidget@Redirect: Redirect
 OAuthWidget@ServiceTypeName: Service Type Name
-OAuthWidget@StyleClass: Style Class
 OAuthWidget@Thumbnail: Thumbnail
 OAuthWidget@Title: Title
 OAuthWidget@ViewModelTypeName: View Model Type Name
 OAuthWidget@WeChat: We Chat
 OAuthWidget@WeiBo: Wei Bo
-OAuthWidget@WidgetName: Widget Name
-OAuthWidget@ZoneID: Zone
 Order@CompletePayTime: Complete Pay Time
 Order@Contact: Contact
 Order@CreatebyName: Createby Name
-Order@CreateDate: Create Date
-Order@Description: Description
 Order@ID: ID
-Order@LastUpdateByName: Last Update By
-Order@LastUpdateDate: Last Update Date
 Order@LogisticsCompany: Logistics Company
 Order@OrderStatus: Order Status
 Order@PaymentGateway: Payment Gateway
@@ -672,7 +454,6 @@ Order@RefundDate: Refund Date
 Order@RefundID: Refund
 Order@RefundReason: Refund Reason
 Order@ShippingAddress: Shipping Address
-Order@Status: Status
 Order@Title: Title
 Order@Total: Total
 Order@TrackingNumber: Tracking Number
@@ -681,8 +462,6 @@ Other Settings: Other
 Page Design: Design
 PageAsset@Url: Url
 PageEntity@CreatebyName: Createby Name
-PageEntity@CreateDate: Create Date
-PageEntity@Description: Description
 PageEntity@DisplayOrder: Display Order
 PageEntity@ExtendFields: Extend Fields
 PageEntity@IsHomePage: Is Home Page
@@ -690,7 +469,6 @@ PageEntity@IsPublish: Is Publish
 PageEntity@IsPublishedPage: Is Published Page
 PageEntity@IsTemplate: Is Template
 PageEntity@LastUpdateByName: Last Update By Name
-PageEntity@LastUpdateDate: Last Update Date
 PageEntity@LayoutId: Layout
 PageEntity@MetaDescription: Meta Description
 PageEntity@MetaKeyWorlds: Meta Key Worlds
@@ -699,7 +477,6 @@ PageEntity@PageUrl: Page Url
 PageEntity@PublishDate: Publish Date
 PageEntity@Script: Script
 PageEntity@Scripts: Scripts
-PageEntity@Status: Status
 PageEntity@Style: Style
 PageEntity@Styles: Styles
 PageEntity@Title: Title
@@ -710,12 +487,9 @@ ParallaxWidget@IsTemplate: Is Template
 ParallaxWidget@PartialView: Partial View
 ParallaxWidget@Position: Position
 ParallaxWidget@ServiceTypeName: Service Type Name
-ParallaxWidget@StyleClass: Style Class
 ParallaxWidget@Thumbnail: Thumbnail
 ParallaxWidget@Title: Title
 ParallaxWidget@ViewModelTypeName: View Model Type Name
-ParallaxWidget@WidgetName: Widget Name
-ParallaxWidget@ZoneID: Zone
 PayPalOptions@ClientID: Client
 PayPalOptions@ClientSecretID: Client Secret
 PayPalOptions@Environment: Environment
@@ -724,60 +498,37 @@ Picture: Image
 'Preview: Preview the pending page': 'Preview: Preview the page'
 Product Sort: Sort
 ProductCategory@CreatebyName: Createby Name
-ProductCategory@CreateDate: Create Date
-ProductCategory@Description: Description
 ProductCategory@LastUpdateByName: Last Update By Name
-ProductCategory@LastUpdateDate: Last Update Date
 ProductCategory@ParentID: Parent
 ProductCategory@SEODescription: SEO Description
 ProductCategory@SEOKeyWord: SEO Key Word
 ProductCategory@SEOTitle: SEO Title
-ProductCategory@Status: Status
 ProductCategory@Title: Title
 ProductCategory@Url: Url
 ProductCategoryTag@ProductCategoryId: Product Category
 ProductCategoryWidget@CreatebyName: Createby Name
-ProductCategoryWidget@CreateDate: Create Date
-ProductCategoryWidget@Description: Description
 ProductCategoryWidget@ExtendFields: Extend Fields
 ProductCategoryWidget@IsTemplate: Is Template
 ProductCategoryWidget@LastUpdateByName: Last Update By Name
-ProductCategoryWidget@LastUpdateDate: Last Update Date
 ProductCategoryWidget@PartialView: Partial View
 ProductCategoryWidget@Position: Position
 ProductCategoryWidget@ProductCategoryID: Product Category
-ProductCategoryWidget@Status: Status
-ProductCategoryWidget@StyleClass: Style Class
 ProductCategoryWidget@TargetPage: Target Page
 ProductCategoryWidget@Thumbnail: Thumbnail
 ProductCategoryWidget@Title: Title
-ProductCategoryWidget@WidgetName: Widget Name
-ProductCategoryWidget@ZoneID: Zone
 ProductDetailWidget@CreatebyName: Createby Name
-ProductDetailWidget@CreateDate: Create Date
-ProductDetailWidget@Description: Description
 ProductDetailWidget@ExtendFields: Extend Fields
 ProductDetailWidget@IsTemplate: Is Template
 ProductDetailWidget@LastUpdateByName: Last Update By Name
-ProductDetailWidget@LastUpdateDate: Last Update Date
 ProductDetailWidget@PartialView: Partial View
 ProductDetailWidget@Position: Position
-ProductDetailWidget@Status: Status
-ProductDetailWidget@StyleClass: Style Class
 ProductDetailWidget@Thumbnail: Thumbnail
 ProductDetailWidget@Title: Title
-ProductDetailWidget@WidgetName: Widget Name
-ProductDetailWidget@ZoneID: Zone
 ProductEntity@Color: Color
-ProductEntity@CreatebyName: Create By
-ProductEntity@CreateDate: Create Date
-ProductEntity@Description: Description
 ProductEntity@ExtendFields: Extend Fields
 ProductEntity@ImageThumbUrl: Image Thumb Url
 ProductEntity@ImageUrl: Image Url
 ProductEntity@IsPublish: Is Publish
-ProductEntity@LastUpdateByName: Last Update By
-ProductEntity@LastUpdateDate: Last Update Date
 ProductEntity@Norm: Norm
 ProductEntity@OrderIndex: Order Index
 ProductEntity@PartNumber: Part Number
@@ -797,7 +548,6 @@ ProductEntity@SEOKeyWord: SEO Key Word
 ProductEntity@SEOTitle: SEO Title
 ProductEntity@ShelfLife: Shelf Life
 ProductEntity@SourceFrom: Source From
-ProductEntity@Status: Status
 ProductEntity@TargetFrom: Target From
 ProductEntity@TargetUrl: Target Url
 ProductEntity@Title: Title
@@ -805,47 +555,28 @@ ProductEntity@Url: Name
 ProductGalleryWidget@DetailPageUrl: Detail Page Url
 ProductGalleryWidget@ProductGalleryId: Product Gallery
 ProductImage@CreatebyName: Createby Name
-ProductImage@CreateDate: Create Date
-ProductImage@Description: Description
 ProductImage@ImageUrl: Image Url
 ProductImage@LastUpdateByName: Last Update By Name
-ProductImage@LastUpdateDate: Last Update Date
-ProductImage@Status: Status
 ProductImage@Title: Title
 ProductListWidget@Columns: Columns
 ProductListWidget@CreatebyName: Createby Name
-ProductListWidget@CreateDate: Create Date
-ProductListWidget@Description: Description
 ProductListWidget@DetailPageUrl: Detail Page Url
 ProductListWidget@ExtendFields: Extend Fields
 ProductListWidget@IsPageable: Is Pageable
 ProductListWidget@IsTemplate: Is Template
 ProductListWidget@LastUpdateByName: Last Update By Name
-ProductListWidget@LastUpdateDate: Last Update Date
 ProductListWidget@PageSize: Page Size
 ProductListWidget@PartialView: Partial View
 ProductListWidget@Position: Position
 ProductListWidget@ProductCategoryID: Product Category
-ProductListWidget@Status: Status
-ProductListWidget@StyleClass: Style Class
 ProductListWidget@Thumbnail: Thumbnail
 ProductListWidget@Title: Title
-ProductListWidget@WidgetName: Widget Name
-ProductListWidget@ZoneID: Zone
 Reduce Margin: Full
 Robots@Content: Content
-RoleEntity@CreatebyName: Create By
-RoleEntity@CreateDate: Create Date
-RoleEntity@Description: Description
 RoleEntity@ID: ID
-RoleEntity@LastUpdateByName: Last Update By
-RoleEntity@LastUpdateDate: Last Update Date
-RoleEntity@Status: Status
 RoleEntity@Title: Title
-Rule@Description: Description
 Rule@RuleID: Rule
 Rule@RuleItemList: Rule Item List
-Rule@Status: Status
 Rule@Title: Title
 Rule@ZoneName: Zone Name
 RuleItem@Condition: Condition
@@ -853,123 +584,80 @@ RuleItem@FunctionName: Function Name
 RuleItem@Property: Property
 RuleItem@Value: Value
 ScriptWidget@CreatebyName: Createby Name
-ScriptWidget@CreateDate: Create Date
-ScriptWidget@Description: Description
 ScriptWidget@ExtendFields: Extend Fields
 ScriptWidget@IsTemplate: Is Template
 ScriptWidget@LastUpdateByName: Last Update By Name
-ScriptWidget@LastUpdateDate: Last Update Date
 ScriptWidget@PartialView: Partial View
 ScriptWidget@Position: Position
 ScriptWidget@Script: Script
-ScriptWidget@Status: Status
-ScriptWidget@StyleClass: Style Class
 ScriptWidget@Thumbnail: Thumbnail
 ScriptWidget@Title: Title
-ScriptWidget@WidgetName: Widget Name
-ScriptWidget@ZoneID: Zone
 Search Engine Optimization: SEO
 SearchKeyword@Title: Title
 SearchWidget@IsTemplate: Is Template
 SearchWidget@PartialView: Partial View
 SearchWidget@Position: Position
 SearchWidget@SearchKeywords: Search Keywords
-SearchWidget@StyleClass: Style Class
 SearchWidget@Thumbnail: Thumbnail
 SearchWidget@Title: Title
-SearchWidget@WidgetName: Widget Name
-SearchWidget@ZoneID: Zone
 Section Widget: Custom Section
 SectionContent@CreatebyName: Createby Name
-SectionContent@CreateDate: Create Date
-SectionContent@Description: Description
 SectionContent@LastUpdateByName: Last Update By Name
-SectionContent@LastUpdateDate: Last Update Date
 SectionContent@Order: Order
-SectionContent@Status: Status
 SectionContent@Title: Title
 SectionContentCallToAction@CreatebyName: Createby Name
-SectionContentCallToAction@CreateDate: Create Date
-SectionContentCallToAction@Description: Description
 SectionContentCallToAction@Href: Href
 SectionContentCallToAction@InnerText: Inner Text
 SectionContentCallToAction@LastUpdateByName: Last Update By Name
-SectionContentCallToAction@LastUpdateDate: Last Update Date
 SectionContentCallToAction@Order: Order
-SectionContentCallToAction@Status: Status
 SectionContentCallToAction@Title: Title
 SectionContentImage@CreatebyName: Createby Name
-SectionContentImage@CreateDate: Create Date
-SectionContentImage@Description: Description
 SectionContentImage@Height: Height
 SectionContentImage@Href: Href
 SectionContentImage@ImageAlt: Image Alt
 SectionContentImage@ImageSrc: Image Src
 SectionContentImage@ImageTitle: Image Title
 SectionContentImage@LastUpdateByName: Last Update By Name
-SectionContentImage@LastUpdateDate: Last Update Date
 SectionContentImage@Order: Order
-SectionContentImage@Status: Status
 SectionContentImage@Title: Title
 SectionContentImage@Width: Width
 SectionContentParagraph@CreatebyName: Createby Name
-SectionContentParagraph@CreateDate: Create Date
-SectionContentParagraph@Description: Description
 SectionContentParagraph@HtmlContent: Html Content
 SectionContentParagraph@LastUpdateByName: Last Update By Name
-SectionContentParagraph@LastUpdateDate: Last Update Date
 SectionContentParagraph@Order: Order
-SectionContentParagraph@Status: Status
 SectionContentParagraph@Title: Title
 SectionContentTitle@CreatebyName: Createby Name
-SectionContentTitle@CreateDate: Create Date
-SectionContentTitle@Description: Description
 SectionContentTitle@Href: Href
 SectionContentTitle@InnerText: Inner Text
 SectionContentTitle@LastUpdateByName: Last Update By Name
-SectionContentTitle@LastUpdateDate: Last Update Date
 SectionContentTitle@Order: Order
-SectionContentTitle@Status: Status
 SectionContentTitle@Title: Title
 SectionContentTitle@TitleLevel: Title Level
 SectionContentVideo@Code: Code
-SectionContentVideo@Description: Description
 SectionContentVideo@Height: Height
-SectionContentVideo@Status: Status
 SectionContentVideo@Thumbnail: Thumbnail
 SectionContentVideo@Url: Url
 SectionContentVideo@VideoTitle: Video Title
 SectionContentVideo@Width: Width
 SectionGroup@CreatebyName: Createby Name
-SectionGroup@CreateDate: Create Date
-SectionGroup@Description: Description
 SectionGroup@GroupName: Group Name
 SectionGroup@LastUpdateByName: Last Update By Name
-SectionGroup@LastUpdateDate: Last Update Date
 SectionGroup@Order: Order
 SectionGroup@PartialView: Partial View
 SectionGroup@PercentWidth: Percent Width
-SectionGroup@Status: Status
 SectionGroup@Title: Title
 SectionWidget@CreatebyName: Createby Name
-SectionWidget@CreateDate: Create Date
-SectionWidget@Description: Description
 SectionWidget@ExtendFields: Extend Fields
 SectionWidget@IsHorizontal: Is Horizontal
 SectionWidget@IsTemplate: Is Template
 SectionWidget@LastUpdateByName: Last Update By Name
-SectionWidget@LastUpdateDate: Last Update Date
 SectionWidget@LayoutID: Layout
 SectionWidget@PageID: Page
 SectionWidget@PartialView: Partial View
 SectionWidget@Position: Position
 SectionWidget@SectionTitle: Section Title
-SectionWidget@Status: Status
-SectionWidget@StyleClass: Style Class
 SectionWidget@Thumbnail: Thumbnail
 SectionWidget@Title: Title
-SectionWidget@WidgetName: Widget Name
-SectionWidget@ZoneID: Zone
 ShowCaseWidget@CaseItems: Case Items
 ShowCaseWidget@Header: Header
 ShowCaseWidget@MoreLink: More Link
@@ -979,11 +667,8 @@ SiteSearchWidget@PartialView: Partial View
 SiteSearchWidget@Position: Position
 SiteSearchWidget@SearchEngine: Search Engine
 SiteSearchWidget@SearchQuery: Search Query
-SiteSearchWidget@StyleClass: Style Class
 SiteSearchWidget@Thumbnail: Thumbnail
 SiteSearchWidget@Title: Title
-SiteSearchWidget@WidgetName: Widget Name
-SiteSearchWidget@ZoneID: Zone
 SMTP Config: SMTP
 SmtpSetting@Email: Email
 SmtpSetting@EnableSsl: Enable Ssl
@@ -999,47 +684,31 @@ SplitviewWidget@IsTemplate: Is Template
 SplitviewWidget@PartialView: Partial View
 SplitviewWidget@Position: Position
 SplitviewWidget@ServiceTypeName: Service Type Name
-SplitviewWidget@StyleClass: Style Class
 SplitviewWidget@Thumbnail: Thumbnail
 SplitviewWidget@Title: Title
 SplitviewWidget@ViewModelTypeName: View Model Type Name
-SplitviewWidget@WidgetName: Widget Name
-SplitviewWidget@ZoneID: Zone
 StaticPageSetting@CacheMinutes: Cache Minutes
 StaticPageSetting@CacheProvider: Cache Provider
 StaticPageSetting@Enable: Enable
 StaticPageSetting@ExcludePages: Exclude Pages
-Statistics@Description: Description
-Statistics@Status: Status
 Statistics@Title: Title
 StatisticsScript@Location: Location
 StatisticsScript@Script: Script
-StrongPoint@Description: Description
 StrongPoint@Title: Title
 StyleSheetWidget@CreatebyName: Createby Name
-StyleSheetWidget@CreateDate: Create Date
-StyleSheetWidget@Description: Description
 StyleSheetWidget@ExtendFields: Extend Fields
 StyleSheetWidget@IsTemplate: Is Template
 StyleSheetWidget@LastUpdateByName: Last Update By Name
-StyleSheetWidget@LastUpdateDate: Last Update Date
 StyleSheetWidget@PartialView: Partial View
 StyleSheetWidget@Position: Position
-StyleSheetWidget@Status: Status
-StyleSheetWidget@StyleClass: Style Class
 StyleSheetWidget@StyleSheet: Style Sheet
 StyleSheetWidget@Thumbnail: Thumbnail
 StyleSheetWidget@Title: Title
-StyleSheetWidget@WidgetName: Widget Name
-StyleSheetWidget@ZoneID: Zone
 Subscriber@CreatebyName: Createby Name
-Subscriber@CreateDate: Create Date
 Subscriber@Email: Email
 Subscriber@IsValidate: Is Validate
 Subscriber@LastUpdateByName: Last Update By Name
-Subscriber@LastUpdateDate: Last Update Date
 Subscriber@Referrer: Referrer
-Subscriber@Status: Status
 Subscription_Body_Copy: Subscribe by email, you will be able to receive our related information at the first time
 Subscription_Email_Confirm_Button: Yes, I want to subscribe
 Subscription_Email_Confirm_Copy: You will not be subscribed if you don't click on the link above.
@@ -1056,8 +725,6 @@ Subscription_Unsubscribed_Title: You've Been Unsubscribed
 Subscription_Unsubscribing_Copy: We will send you an email to confirm
 Subscription_Unsubscribing_Title: You are unsubscribing
 SubscriptionSetting@IsEnable: Is Enable
-TabItem@Description: Description
-TabItem@Status: Status
 TabItem@Title: Title
 TabWidget@AssemblyName: Assembly Name
 TabWidget@IsSystem: Is System
@@ -1065,13 +732,10 @@ TabWidget@IsTemplate: Is Template
 TabWidget@PartialView: Partial View
 TabWidget@Position: Position
 TabWidget@ServiceTypeName: Service Type Name
-TabWidget@StyleClass: Style Class
 TabWidget@TabItems: Tab Items
 TabWidget@Thumbnail: Thumbnail
 TabWidget@Title: Title
 TabWidget@ViewModelTypeName: View Model Type Name
-TabWidget@WidgetName: Widget Name
-TabWidget@ZoneID: Zone
 TemplateFile@Content: Content
 TemplateFile@LastUpdateTime: Last Update Time
 TemplateFile@Name: Name
@@ -1079,37 +743,24 @@ TemplateFile@RelativePath: Relative Path
 TemplateFile@ThemeName: Theme Name
 Text Title: Title
 Thank you for sign up: Thank you!
-ThemeEntity@Description: Description
-ThemeEntity@Status: Status
 ThemeEntity@Title: Title
 Translation Key: Key
 Url Redirect: Url  Redirect
-UrlRedirect@CreatebyName: Create By
-UrlRedirect@CreateDate: Create Date
-UrlRedirect@Description: Description
 UrlRedirect@DestinationURL: Destination Url
 UrlRedirect@InComingUrl: In Coming Url
 UrlRedirect@IsPattern: Is Pattern
 UrlRedirect@IsPermanent: Is Permanent
-UrlRedirect@LastUpdateByName: Last Update By
-UrlRedirect@LastUpdateDate: Last Update Date
-UrlRedirect@Status: Status
 UrlRedirect@Title: Title
 UserEntity@Address: Address
 UserEntity@Age: Age
 UserEntity@Birthday: Birthday
 UserEntity@Birthplace: Birthplace
-UserEntity@CreatebyName: Create By
-UserEntity@CreateDate: Create Date
-UserEntity@Description: Description
 UserEntity@Email: Email
 UserEntity@EnglishName: English Name
 UserEntity@FirstName: First Name
 UserEntity@Hobby: Hobby
 UserEntity@LastLoginDate: Last Login Date
 UserEntity@LastName: Last Name
-UserEntity@LastUpdateByName: Last Update By
-UserEntity@LastUpdateDate: Last Update Date
 UserEntity@MaritalStatus: Marital Status
 UserEntity@MobilePhone: Mobile Phone
 UserEntity@NickName: Nick Name
@@ -1121,7 +772,6 @@ UserEntity@QQ: QQ
 UserEntity@Roles: Roles
 UserEntity@School: School
 UserEntity@Sex: Sex
-UserEntity@Status: Status
 UserEntity@Telephone: Telephone
 UserEntity@Timestamp: Timestamp
 UserEntity@Title: Title
@@ -1130,29 +780,20 @@ UserEntity@UserName: User Name
 UserEntity@UserTypeCD: User Type
 UserEntity@ZipCode: Zip Code
 UserRoleRelation@CreatebyName: Createby Name
-UserRoleRelation@CreateDate: Create Date
-UserRoleRelation@Description: Description
 UserRoleRelation@LastUpdateByName: Last Update By Name
-UserRoleRelation@LastUpdateDate: Last Update Date
 UserRoleRelation@RoleID: Role
-UserRoleRelation@Status: Status
 UserRoleRelation@Title: Title
 UserRoleRelation@UserID: User
 VideoWidget@Code: Code
-VideoWidget@Description: Description
 VideoWidget@ExtendFields: Extend Fields
 VideoWidget@Height: Height
 VideoWidget@IsTemplate: Is Template
 VideoWidget@PartialView: Partial View
 VideoWidget@Position: Position
-VideoWidget@Status: Status
-VideoWidget@StyleClass: Style Class
 VideoWidget@Thumbnail: Thumbnail
 VideoWidget@Title: Title
 VideoWidget@Url: Url
-VideoWidget@WidgetName: Widget Name
 VideoWidget@Width: Width
-VideoWidget@ZoneID: Zone
 WeChatPayOptions@AppSecret: App Secret
 WeChatPayOptions@Certificate: Certificate
 WeChatPayOptions@CertificatePassword: Certificate Password
@@ -1163,40 +804,34 @@ WeChatPayOptions@RsaPublicKey: Rsa Public Key
 WeChatPayOptions@V3Key: V3 Key
 Widget Setting: Setting
 WidgetBase@CreatebyName: Createby Name
-WidgetBase@CreateDate: Create Date
-WidgetBase@Description: Description
 WidgetBase@ExtendFields: Extend Fields
 WidgetBase@IsTemplate: Is Template
 WidgetBase@LastUpdateByName: Last Update By Name
-WidgetBase@LastUpdateDate: Last Update Date
 WidgetBase@LayoutID: Layout
 WidgetBase@PageID: Page
 WidgetBase@PartialView: Partial View
 WidgetBase@Position: Position
-WidgetBase@Status: Status
-WidgetBase@StyleClass: Style Class
 WidgetBase@Thumbnail: Thumbnail
 WidgetBase@Title: Title
-WidgetBase@WidgetName: Widget Name
-WidgetBase@ZoneID: Zone
+WidgetName: Widget Name
+StyleClass: Style Class
 WidgetTemplateEntity@CreatebyName: Createby Name
-WidgetTemplateEntity@CreateDate: Create Date
-WidgetTemplateEntity@Description: Description
 WidgetTemplateEntity@GroupName: Group Name
 WidgetTemplateEntity@LastUpdateByName: Last Update By Name
-WidgetTemplateEntity@LastUpdateDate: Last Update Date
+Status: Status
 WidgetTemplateEntity@Order: Order
 WidgetTemplateEntity@PartialView: Partial View
-WidgetTemplateEntity@Status: Status
+LastUpdateDate: Last Update Date
 WidgetTemplateEntity@Title: Title
 ZoneEntity@CreatebyName: Createby Name
-ZoneEntity@CreateDate: Create Date
-ZoneEntity@Description: Description
+LastUpdateByName: Last Update By
+Description: Description
 ZoneEntity@LastUpdateByName: Last Update By Name
-ZoneEntity@LastUpdateDate: Last Update Date
+CreateDate: Create Date
 ZoneEntity@LayoutId: Layout
 ZoneEntity@PageId: Page
-ZoneEntity@Status: Status
+CreatebyName: Create By
 ZoneEntity@Title: Title
 ZoneID: Zone
 EventAction: Event Action
+ShippingOption@Title: Name

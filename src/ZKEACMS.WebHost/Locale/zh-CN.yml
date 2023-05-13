@@ -53,21 +53,15 @@ AlipayOptions@AlipayPublicKey: 支付宝公钥
 AlipayOptions@Environment: 环境
 AlipayOptions@Gatewayurl: 支付宝网关
 AlipayOptions@IsEnable: 是否启用
-AlipayOptions@PrivateKey: 应用私钥
-AlipayOptions@PublicKey: 应用公钥
+AlipayOptions@PrivateKey: 应用私钥(非JAVA)
+AlipayOptions@PublicKey: 支付宝公钥
 AlipayOptions@Uid: 商户UID
 All: 全部
 Always horizontally: 总是水平排列
 Amount: 金额
 And: 并且
 Append '.html': 转为伪静态路径
-ApplicationSetting@CreatebyName: 创建人
-ApplicationSetting@CreateDate: 创建日期
-ApplicationSetting@Description: 描述
-ApplicationSetting@LastUpdateByName: 更新人
-ApplicationSetting@LastUpdateDate: 更新日期
 ApplicationSetting@SettingKey: 键
-ApplicationSetting@Status: 状态
 ApplicationSetting@Title: 标题
 ApplicationSetting@Value: 值
 Article: 文章
@@ -79,61 +73,37 @@ Article List: 文章列表
 Article Manager: 文章管理
 Article News: 新闻资讯
 Article Summary: 文章概览
-ArticleDetailWidget@CreatebyName: 创建人
-ArticleDetailWidget@CreateDate: 创建日期
-ArticleDetailWidget@Description: 描述
 ArticleDetailWidget@ExtendFields: 扩展属性
 ArticleDetailWidget@IsTemplate: 保存为模板
-ArticleDetailWidget@LastUpdateByName: 更新人
-ArticleDetailWidget@LastUpdateDate: 更新日期
 ArticleDetailWidget@PartialView: 显示模板
 ArticleDetailWidget@Position: 排序
-ArticleDetailWidget@Status: 状态
-ArticleDetailWidget@StyleClass: 自定义样式
 ArticleDetailWidget@Thumbnail: 缩略图
 ArticleDetailWidget@Title: 标题
-ArticleDetailWidget@WidgetName: 组件名称
-ArticleDetailWidget@ZoneID: 区域
 ArticleEntity@ArticleContent: 文章内容
 ArticleEntity@ArticleTypeID: 文章类别
 ArticleEntity@Counter: 阅读次数
-ArticleEntity@CreatebyName: 创建人
-ArticleEntity@CreateDate: 创建日期
-ArticleEntity@Description: 描述
 ArticleEntity@ExtendFields: 扩展属性
 ArticleEntity@ImageThumbUrl: 缩略图
 ArticleEntity@ImageUrl: 图片
 ArticleEntity@IsPublish: 已发布?
-ArticleEntity@LastUpdateByName: 更新人
-ArticleEntity@LastUpdateDate: 更新日期
 ArticleEntity@MetaDescription: SEO描述
 ArticleEntity@MetaKeyWords: SEO关键字
 ArticleEntity@PublishDate: 发布日期
-ArticleEntity@Status: 状态
 ArticleEntity@Summary: 概述
 ArticleEntity@Title: 标题
 ArticleEntity@Url: 英文名
 ArticleGalleryWidget@ArticleGalleryId: 文章组
 ArticleGalleryWidget@DetailPageUrl: 详细页面
 ArticleListWidget@ArticleTypeID: 文章类别
-ArticleListWidget@CreatebyName: 创建人
-ArticleListWidget@CreateDate: 创建日期
-ArticleListWidget@Description: 描述
 ArticleListWidget@DetailPageUrl: 详细页面
 ArticleListWidget@ExtendFields: 扩展属性
 ArticleListWidget@IsPageable: 分页?
 ArticleListWidget@IsTemplate: 保存为模板
-ArticleListWidget@LastUpdateByName: 更新人
-ArticleListWidget@LastUpdateDate: 更新日期
 ArticleListWidget@PageSize: 分页大小
 ArticleListWidget@PartialView: 显示模板
 ArticleListWidget@Position: 排序
-ArticleListWidget@Status: 状态
-ArticleListWidget@StyleClass: 自定义样式
 ArticleListWidget@Thumbnail: 缩略图
 ArticleListWidget@Title: 标题
-ArticleListWidget@WidgetName: 组件名称
-ArticleListWidget@ZoneID: 区域
 Articles: 文章
 ArticleSpecialDetailWidget@ArticleId: 文章ID
 ArticleSpecialDetailWidget@ArticleName: 文章英文名
@@ -143,81 +113,45 @@ ArticleSpecialDetailWidget@IsTemplate: 保存为模板
 ArticleSpecialDetailWidget@PartialView: 显示模板
 ArticleSpecialDetailWidget@Position: 排序
 ArticleSpecialDetailWidget@ServiceTypeName: Service Type Name
-ArticleSpecialDetailWidget@StyleClass: 自定义样式
 ArticleSpecialDetailWidget@Thumbnail: 缩略图
 ArticleSpecialDetailWidget@Title: 标题
 ArticleSpecialDetailWidget@ViewModelTypeName: View Model Type Name
-ArticleSpecialDetailWidget@WidgetName: 组件名称
-ArticleSpecialDetailWidget@ZoneID: 区域
-ArticleSummaryWidget@CreatebyName: 创建人
-ArticleSummaryWidget@CreateDate: 创建日期
-ArticleSummaryWidget@Description: 描述
 ArticleSummaryWidget@DetailLink: 详细页面
 ArticleSummaryWidget@ExtendFields: 扩展属性
 ArticleSummaryWidget@IsTemplate: 保存为模板
-ArticleSummaryWidget@LastUpdateByName: 更新人
-ArticleSummaryWidget@LastUpdateDate: 更新日期
 ArticleSummaryWidget@LayoutID: 布局
 ArticleSummaryWidget@PageID: 页面
 ArticleSummaryWidget@PartialView: 显示模板
 ArticleSummaryWidget@Position: 排序
-ArticleSummaryWidget@Status: 状态
 ArticleSummaryWidget@Style: 样式
-ArticleSummaryWidget@StyleClass: 自定义样式
 ArticleSummaryWidget@SubTitle: 子标题
 ArticleSummaryWidget@Summary: 概述
 ArticleSummaryWidget@Thumbnail: 缩略图
 ArticleSummaryWidget@Title: 标题
-ArticleSummaryWidget@WidgetName: 组件名称
-ArticleSummaryWidget@ZoneID: 区域
 ArticleTopWidget@ArticleTypeID: 文章类别
-ArticleTopWidget@CreatebyName: 创建人
-ArticleTopWidget@CreateDate: 创建日期
-ArticleTopWidget@Description: 描述
 ArticleTopWidget@DetailPageUrl: 详细页面
 ArticleTopWidget@ExtendFields: 扩展属性
 ArticleTopWidget@IsTemplate: 保存为模板
-ArticleTopWidget@LastUpdateByName: 更新人
-ArticleTopWidget@LastUpdateDate: 更新日期
 ArticleTopWidget@MoreLink: 更多页面
 ArticleTopWidget@PartialView: 显示模板
 ArticleTopWidget@Position: 排序
-ArticleTopWidget@Status: 状态
-ArticleTopWidget@StyleClass: 自定义样式
 ArticleTopWidget@SubTitle: 子标题
 ArticleTopWidget@Thumbnail: 缩略图
 ArticleTopWidget@Title: 标题
-ArticleTopWidget@Tops: 置顶数
-ArticleTopWidget@WidgetName: 组件名称
-ArticleTopWidget@ZoneID: 区域
-ArticleType@CreatebyName: 创建人
-ArticleType@CreateDate: 创建日期
-ArticleType@Description: 描述
-ArticleType@LastUpdateByName: 更新人
-ArticleType@LastUpdateDate: 更新日期
+ArticleTopWidget@Tops: 最新条目数
 ArticleType@SEODescription: SEO描述
 ArticleType@SEOKeyWord: SEO关键字
 ArticleType@SEOTitle: SEO标题
-ArticleType@Status: 状态
 ArticleType@Title: 标题
 ArticleType@Url: 英文名
 ArticleTypeWidget@ArticleTypeID: 文章类别
-ArticleTypeWidget@CreatebyName: 创建人
-ArticleTypeWidget@CreateDate: 创建日期
-ArticleTypeWidget@Description: 描述
 ArticleTypeWidget@ExtendFields: 扩展属性
 ArticleTypeWidget@IsTemplate: 保存为模板
-ArticleTypeWidget@LastUpdateByName: 更新人
-ArticleTypeWidget@LastUpdateDate: 更新日期
 ArticleTypeWidget@PartialView: 显示模板
 ArticleTypeWidget@Position: 排序
-ArticleTypeWidget@Status: 状态
-ArticleTypeWidget@StyleClass: 自定义样式
 ArticleTypeWidget@TargetPage: 详细页面
 ArticleTypeWidget@Thumbnail: 缩略图
 ArticleTypeWidget@Title: 标题
-ArticleTypeWidget@WidgetName: 组件名称
-ArticleTypeWidget@ZoneID: 区域
 Assembly: 程序集
 Attachment: 附件
 Attention: 注意事项
@@ -238,14 +172,11 @@ BaiduMapWidget@LocationPoint: 位置坐标
 BaiduMapWidget@PartialView: 显示模板
 BaiduMapWidget@Position: 排序
 BaiduMapWidget@ServiceTypeName: Service Type Name
-BaiduMapWidget@StyleClass: 自定义样式
 BaiduMapWidget@TagSummary: 标注说明
 BaiduMapWidget@TagTitle: 标注
 BaiduMapWidget@Thumbnail: 缩略图
 BaiduMapWidget@Title: 标题
 BaiduMapWidget@ViewModelTypeName: View Model Type Name
-BaiduMapWidget@WidgetName: 组件名称
-BaiduMapWidget@ZoneID: 区域
 Banner: 横幅
 Basis: 基础
 Basket: 购物车
@@ -260,12 +191,9 @@ BiographyWidget@PartialView: 显示模板
 BiographyWidget@Photo: 照片
 BiographyWidget@Position: 排序
 BiographyWidget@ServiceTypeName: Service Type Name
-BiographyWidget@StyleClass: 自定义样式
 BiographyWidget@Thumbnail: 缩略图
 BiographyWidget@Title: 标题
 BiographyWidget@ViewModelTypeName: View Model Type Name
-BiographyWidget@WidgetName: 组件名称
-BiographyWidget@ZoneID: 区域
 Blink: 闪烁
 Bold: 粗体
 Bolder: 超粗体
@@ -277,23 +205,14 @@ Box Blur: 模糊
 Box Horizontal: 水平大小
 Box Vertical: 垂直大小
 Breadcrumbs: 路径导航
-BreadcrumbWidget@CreatebyName: 创建人
-BreadcrumbWidget@CreateDate: 创建日期
-BreadcrumbWidget@Description: 描述
 BreadcrumbWidget@ExtendFields: 扩展属性
 BreadcrumbWidget@IsTemplate: 保存为模板
-BreadcrumbWidget@LastUpdateByName: 更新人
-BreadcrumbWidget@LastUpdateDate: 更新日期
 BreadcrumbWidget@LayoutID: 布局
 BreadcrumbWidget@PageID: 页面
 BreadcrumbWidget@PartialView: 显示模板
 BreadcrumbWidget@Position: 排序
-BreadcrumbWidget@Status: 状态
-BreadcrumbWidget@StyleClass: 自定义样式
 BreadcrumbWidget@Thumbnail: 缩略图
 BreadcrumbWidget@Title: 标题
-BreadcrumbWidget@WidgetName: 组件名称
-BreadcrumbWidget@ZoneID: 区域
 Button: 按钮
 Can not delete yourself.: 不能删除当前登录用户
 Cancel: 取消
@@ -301,41 +220,20 @@ Capitalize: 首字母大写
 Captcha: 验证码
 Carousel: 焦点图
 CarouselEntity@CarouselItems: 滚动图
-CarouselEntity@CreatebyName: 创建人
-CarouselEntity@CreateDate: 创建日期
-CarouselEntity@Description: 描述
 CarouselEntity@Height: 高度(px)
-CarouselEntity@LastUpdateByName: 更新人
-CarouselEntity@LastUpdateDate: 更新日期
-CarouselEntity@Status: 状态
 CarouselEntity@Title: 标题
 CarouselItemEntity@CarouselID: 焦点图
-CarouselItemEntity@CreatebyName: 创建人
-CarouselItemEntity@CreateDate: 创建日期
-CarouselItemEntity@Description: 描述
 CarouselItemEntity@ImageUrl: 图片
-CarouselItemEntity@LastUpdateByName: 更新人
-CarouselItemEntity@LastUpdateDate: 更新日期
-CarouselItemEntity@Status: 状态
 CarouselItemEntity@TargetLink: 链接
 CarouselItemEntity@Title: 标题
 CarouselWidget@CarouselID: 共享焦点图
 CarouselWidget@CarouselItems: 滚动图
-CarouselWidget@CreatebyName: 创建人
-CarouselWidget@CreateDate: 创建日期
-CarouselWidget@Description: 描述
 CarouselWidget@ExtendFields: 扩展属性
 CarouselWidget@IsTemplate: 保存为模板
-CarouselWidget@LastUpdateByName: 更新人
-CarouselWidget@LastUpdateDate: 更新日期
 CarouselWidget@PartialView: 显示模板
 CarouselWidget@Position: 排序
-CarouselWidget@Status: 状态
-CarouselWidget@StyleClass: 自定义样式
 CarouselWidget@Thumbnail: 缩略图
 CarouselWidget@Title: 标题
-CarouselWidget@WidgetName: 组件名称
-CarouselWidget@ZoneID: 区域
 Case Sensitivity: 大小写
 CaseItem@BackgroundImage: 背景图
 Cell phone: 手机
@@ -364,31 +262,16 @@ Comment Box: 评论箱
 Comments: 评论
 Comments@Agrees: 赞同数
 Comments@CommentContent: 评论内容
-Comments@CreatebyName: 创建人
-Comments@CreateDate: 创建日期
-Comments@Description: 描述
 Comments@Disagrees: 反对数
-Comments@LastUpdateByName: 更新人
-Comments@LastUpdateDate: 更新日期
 Comments@PagePath: 页面地址
-Comments@Status: 状态
 Comments@Title: 标题
 Comments@UserId: 登录名
 Comments@UserName: 用户名
-CommentsWidget@CreatebyName: 创建人
-CommentsWidget@CreateDate: 创建日期
-CommentsWidget@Description: 描述
 CommentsWidget@IsTemplate: 保存为模板
-CommentsWidget@LastUpdateByName: 更新人
-CommentsWidget@LastUpdateDate: 更新日期
 CommentsWidget@PartialView: 显示模板
 CommentsWidget@Position: 排序
-CommentsWidget@Status: 状态
-CommentsWidget@StyleClass: 自定义样式
 CommentsWidget@Thumbnail: 缩略图
 CommentsWidget@Title: 标题
-CommentsWidget@WidgetName: 组件名称
-CommentsWidget@ZoneID: 区域
 commit: 评论
 Company News: 公司新闻
 Complete: 完成
@@ -403,36 +286,15 @@ Contains: 包含
 Content: 内容
 Content Category: 内容类型
 Content Group: 内容分组
-ContentField@FieldType: 字段类型
-ContentField@Name: 属性名
-ContentField@Order: 订单
-ContentField@Title: 显示名称
-ContentTemplate@CreatebyName: 创建人
-ContentTemplate@CreateDate: 创建日期
-ContentTemplate@Description: 描述
-ContentTemplate@LastUpdateByName: 更新人
-ContentTemplate@LastUpdateDate: 更新日期
-ContentTemplate@Status: 状态
 ContentTemplate@Template: 模板代码
 ContentTemplate@Title: 标题
-ContentType@CreatebyName: 创建人
-ContentType@CreateDate: 创建日期
-ContentType@Description: 描述
 ContentType@Fields: 字段
-ContentType@LastUpdateByName: 更新人
-ContentType@LastUpdateDate: 更新日期
-ContentType@Status: 状态
 ContentType@Title: 标题
+ContentType@ContentSchema: 字段定义
 ContentValue@ContentTypeID: Content Type
-ContentValue@CreatebyName: 创建人
-ContentValue@CreateDate: 创建日期
-ContentValue@Description: 描述
-ContentValue@LastUpdateByName: 更新人
-ContentValue@LastUpdateDate: 更新日期
 ContentValue@SEODescription: SEO描述
 ContentValue@SEOKeyWord: SEO关键字
 ContentValue@SEOTitle: SEO标题
-ContentValue@Status: 状态
 ContentValue@Title: 标题
 ContentValue@Url: 英文名
 Context Menu: 右键菜单
@@ -444,19 +306,14 @@ Create page from template: 从模板中快速创建页面
 CreatebyName: 创建人
 CreateDate: 创建日期
 Crosshair: 十字
-Culture@CreatebyName: 创建人
-Culture@CreateDate: 创建日期
 Culture@CultureCode: 语言缩写
-Culture@Description: 描述
 Culture@DisplayName: 显示名称
 Culture@Domain: 域名
 Culture@EnglishName: 英文名
 Culture@Flag: 旗帜
-Culture@LastUpdateByName: 更新人
-Culture@LastUpdateDate: 更新日期
-Culture@Status: 状态
 Culture@Title: 标题
 Culture@UrlCode: Url缩写
+Culture@LCID: LCID
 CultureSetting@CultureMode: 多语言模式
 CultureSetting@DefaultCulture: 默认语言
 CultureSetting@IsEnable: 是否启用？
@@ -474,15 +331,9 @@ Danger: 危险
 Dashed: 虚线
 Data Source: 内容来源
 Database Cache: 数据库缓存
-DataDictionaryEntity@CreatebyName: 创建人
-DataDictionaryEntity@CreateDate: 创建日期
-DataDictionaryEntity@Description: 描述
 DataDictionaryEntity@ImageThumbUrl: 缩略图
 DataDictionaryEntity@ImageUrl: 图片
-DataDictionaryEntity@LastUpdateByName: 更新人
-DataDictionaryEntity@LastUpdateDate: 更新日期
 DataDictionaryEntity@Order: 排序
-DataDictionaryEntity@Status: 状态
 DataDictionaryEntity@Title: 标题
 Date: 日期
 Ddashboard: 仪表盘
@@ -549,12 +400,6 @@ Explanation: 说明
 Export All Data: 导出所有数据
 Export Excel: 导出Excel
 Export Form Data: 导出表单数据
-ExtendFieldEntity@CreatebyName: 创建人
-ExtendFieldEntity@CreateDate: 创建日期
-ExtendFieldEntity@Description: 描述
-ExtendFieldEntity@LastUpdateByName: 更新人
-ExtendFieldEntity@LastUpdateDate: 更新日期
-ExtendFieldEntity@Status: 状态
 ExtendFieldEntity@Title: 名称
 ExtendFieldEntity@Value: 值
 Female: 女
@@ -580,12 +425,9 @@ FluidContentListWidget@IsTemplate: 保存为模板
 FluidContentListWidget@PageSize: 分页大小
 FluidContentListWidget@Position: 排序
 FluidContentListWidget@ServiceTypeName: Service Type Name
-FluidContentListWidget@StyleClass: 自定义样式
 FluidContentListWidget@Thumbnail: 缩略图
 FluidContentListWidget@Title: 标题
 FluidContentListWidget@ViewModelTypeName: View Model Type Name
-FluidContentListWidget@WidgetName: 组件名称
-FluidContentListWidget@ZoneID: 区域
 FluidContentWidget@AssemblyName: Assembly Name
 FluidContentWidget@ContentTemplateID: 显示模板
 FluidContentWidget@ContentValueID: 自定义内容
@@ -595,12 +437,9 @@ FluidContentWidget@IsTemplate: 保存为模板
 FluidContentWidget@PartialView: 显示模板
 FluidContentWidget@Position: 排序
 FluidContentWidget@ServiceTypeName: Service Type Name
-FluidContentWidget@StyleClass: 自定义样式
 FluidContentWidget@Thumbnail: 缩略图
 FluidContentWidget@Title: 标题
 FluidContentWidget@ViewModelTypeName: View Model Type Name
-FluidContentWidget@WidgetName: 组件名称
-FluidContentWidget@ZoneID: 区域
 Fobidden: 没有权限
 Font: 字体
 Font Size: 字体大小
@@ -613,36 +452,15 @@ Form Control Size: 输入框尺寸
 Form Data: 表单数据
 Form Generator: 自定义表单
 Form have submited: 表单提交成功
-Form@CreatebyName: 创建人
-Form@CreateDate: 创建日期
-Form@Description: 描述
-Form@LastUpdateByName: 更新人
-Form@LastUpdateDate: 更新日期
-Form@Status: 状态
 Form@Title: 标题
-FormData@CreatebyName: 创建人
-FormData@CreateDate: 创建日期
-FormData@Description: 描述
 FormData@FormId: 表单
-FormData@LastUpdateByName: 更新人
-FormData@LastUpdateDate: 更新日期
-FormData@Status: 状态
 FormData@Title: 标题
-FormWidget@CreatebyName: 创建人
-FormWidget@CreateDate: 创建日期
-FormWidget@Description: 描述
 FormWidget@FormID: 表单
 FormWidget@IsTemplate: 保存为模板
-FormWidget@LastUpdateByName: 更新人
-FormWidget@LastUpdateDate: 更新日期
 FormWidget@PartialView: 显示模板
 FormWidget@Position: 排序
-FormWidget@Status: 状态
-FormWidget@StyleClass: 自定义样式
 FormWidget@Thumbnail: 缩略图
 FormWidget@Title: 标题
-FormWidget@WidgetName: 组件名称
-FormWidget@ZoneID: 区域
 Full: 整行
 Full-text Index: 全站索引
 Gender: 性别
@@ -667,18 +485,14 @@ HeadWidget@IsTemplate: 保存为模板
 HeadWidget@PartialView: 显示模板
 HeadWidget@Position: 排序
 HeadWidget@ServiceTypeName: Service Type Name
-HeadWidget@StyleClass: 自定义样式
 HeadWidget@Thumbnail: 缩略图
 HeadWidget@Title: 标题
 HeadWidget@ViewModelTypeName: View Model Type Name
-HeadWidget@WidgetName: 组件名称
-HeadWidget@ZoneID: 区域
 Height(px): 高(px)
 Help: 帮助
 Hidden: 隐藏
 History: 历史事件
 HistoryEventItem@Description: 事件
-HistoryEventItem@Status: 状态
 HistoryEventItem@Title: 年份
 HistoryEventWidget@AssemblyName: Assembly Name
 HistoryEventWidget@Events: 历史事件
@@ -687,63 +501,42 @@ HistoryEventWidget@IsTemplate: 保存为模板
 HistoryEventWidget@PartialView: 显示模板
 HistoryEventWidget@Position: 排序
 HistoryEventWidget@ServiceTypeName: Service Type Name
-HistoryEventWidget@StyleClass: 自定义样式
 HistoryEventWidget@Thumbnail: 缩略图
 HistoryEventWidget@Title: 标题
 HistoryEventWidget@ViewModelTypeName: View Model Type Name
-HistoryEventWidget@WidgetName: 组件名称
-HistoryEventWidget@ZoneID: 区域
 Hobby: 爱好
 Home Page: 首页
 Horizontal Display: 水平排列
 How many column you want?: 将内容分为几列？
-HtmlWidget@CreatebyName: 创建人
-HtmlWidget@CreateDate: 创建日期
-HtmlWidget@Description: 描述
 HtmlWidget@ExtendFields: 扩展属性
 HtmlWidget@HTML: 内容
 HtmlWidget@IsTemplate: 保存为模板
-HtmlWidget@LastUpdateByName: 更新人
-HtmlWidget@LastUpdateDate: 更新日期
 HtmlWidget@LayoutID: 布局
 HtmlWidget@PageID: 页面
 HtmlWidget@PartialView: 显示模板
 HtmlWidget@Position: 排序
-HtmlWidget@Status: 状态
-HtmlWidget@StyleClass: 自定义样式
 HtmlWidget@Thumbnail: 缩略图
 HtmlWidget@Title: 标题
-HtmlWidget@WidgetName: 组件名称
-HtmlWidget@ZoneID: 区域
 Icon: 图标
 Image Border: 图片边框
 Image Radius: 图片圆角
 Image should set alt title: 页面中有图片缺少alt
 Image Text: 图片文字
 ImageWidget@AltText: 说明
-ImageWidget@CreatebyName: 创建人
-ImageWidget@CreateDate: 创建日期
-ImageWidget@Description: 描述
 ImageWidget@ExtendFields: 扩展属性
 ImageWidget@Height: 高度(px)
 ImageWidget@ImageUrl: 图片
 ImageWidget@ImageUrlMd: 中屏图片
 ImageWidget@ImageUrlSm: 小屏图片
 ImageWidget@IsTemplate: 保存为模板
-ImageWidget@LastUpdateByName: 更新人
-ImageWidget@LastUpdateDate: 更新日期
 ImageWidget@LayoutID: 布局
 ImageWidget@Link: 链接
 ImageWidget@PageID: 页面
 ImageWidget@PartialView: 显示模板
 ImageWidget@Position: 排序
-ImageWidget@Status: 状态
-ImageWidget@StyleClass: 自定义样式
 ImageWidget@Thumbnail: 缩略图
 ImageWidget@Title: 标题
-ImageWidget@WidgetName: 组件名称
 ImageWidget@Width: 宽度(px)
-ImageWidget@ZoneID: 区域
 Import html page to system: 该功能用于将做好的静态页面模板（HTML）导入到系统中
 Import Html Template: 导入静态模板
 In: 在...里
@@ -779,6 +572,7 @@ Keywords@SEODescription: SEO描述
 Keywords@SEOKeyWord: SEO关键字
 Keywords@SEOTitle: SEO标题
 Keywords@Title: 标题
+Keywords@Url: 英文名
 LanguageEntity@CultureName: 语言缩写
 LanguageEntity@LanKey: 翻译键
 LanguageEntity@LanType: 对象
@@ -794,29 +588,17 @@ Layout Content: 布局内容
 Layout Design: 布局设计
 Layout List: 布局列表
 'Layout: Edit page layout': 布局：修改页面布局
-LayoutEntity@CreatebyName: 创建人
-LayoutEntity@CreateDate: 创建日期
-LayoutEntity@Description: 描述
 LayoutEntity@Html: 内容
 LayoutEntity@ImageThumbUrl: 缩略图
 LayoutEntity@ImageUrl: 图片
 LayoutEntity@IsTemplate: 保存为模板
-LayoutEntity@LastUpdateByName: 更新人
-LayoutEntity@LastUpdateDate: 更新日期
 LayoutEntity@LayoutName: 名称
 LayoutEntity@Script: 脚本
-LayoutEntity@Status: 状态
 LayoutEntity@Style: 样式
 LayoutEntity@Theme: 主题
 LayoutEntity@Title: 标题
-LayoutHtml@CreatebyName: 创建人
-LayoutHtml@CreateDate: 创建日期
-LayoutHtml@Description: 描述
 LayoutHtml@Html: 内容
-LayoutHtml@LastUpdateByName: 更新人
-LayoutHtml@LastUpdateDate: 更新日期
 LayoutHtml@LayoutId: 布局
-LayoutHtml@Status: 状态
 LayoutHtml@Title: 标题
 Less Than: 小于
 Less Than Or Equals: 小于等于
@@ -870,8 +652,6 @@ Married: 已婚
 Max Column Width: 最大列宽
 Max Width: 最大宽度
 Media: 媒体库
-MediaEntity@Description: 描述
-MediaEntity@Status: 状态
 MediaEntity@Title: 标题
 Medium: 中等
 Memory Cache: 内存缓存
@@ -885,39 +665,21 @@ MessageBoxWidget@IsTemplate: 保存为模板
 MessageBoxWidget@PartialView: 显示模板
 MessageBoxWidget@Position: 排序
 MessageBoxWidget@ServiceTypeName: Service Type Name
-MessageBoxWidget@StyleClass: 自定义样式
 MessageBoxWidget@Thumbnail: 缩略图
 MessageBoxWidget@Title: 标题
 MessageBoxWidget@ViewModelTypeName: View Model Type Name
-MessageBoxWidget@WidgetName: 组件名称
-MessageBoxWidget@ZoneID: 区域
-MessageEntity@CreatebyName: 创建人
-MessageEntity@CreateDate: 创建日期
-MessageEntity@Description: 描述
 MessageEntity@Email: 邮箱
-MessageEntity@LastUpdateByName: 更新人
-MessageEntity@LastUpdateDate: 更新日期
 MessageEntity@PostMessage: 留言内容
 MessageEntity@Reply: 回复
-MessageEntity@Status: 状态
 MessageEntity@Title: 姓名
 MessageNotificationConfig@CommentNotifyEmails: 新评论通知邮箱
 MessageNotificationConfig@MessageNotifyEmails: 新留言通知邮箱
-MessageWidget@CreatebyName: 创建人
-MessageWidget@CreateDate: 创建日期
-MessageWidget@Description: 描述
 MessageWidget@ExtendFields: 扩展属性
 MessageWidget@IsTemplate: 保存为模板
-MessageWidget@LastUpdateByName: 更新人
-MessageWidget@LastUpdateDate: 更新日期
 MessageWidget@PartialView: 显示模板
 MessageWidget@Position: 排序
-MessageWidget@Status: 状态
-MessageWidget@StyleClass: 自定义样式
 MessageWidget@Thumbnail: 缩略图
 MessageWidget@Title: 标题
-MessageWidget@WidgetName: 组件名称
-MessageWidget@ZoneID: 区域
 Mobile (<768px): 手机 (<768px)
 Modified: 已修改
 Modified By: 修改人
@@ -935,39 +697,24 @@ Multi-Language Setting: 语言设置
 My Order: 我的订单
 Name: 名称
 Navigation: 导航
-NavigationEntity@CreatebyName: 创建人
-NavigationEntity@CreateDate: 创建日期
-NavigationEntity@Description: 描述
 NavigationEntity@DisplayOrder: 排序
 NavigationEntity@Html: HTML内容
 NavigationEntity@IsMobile: 手机一级导航
-NavigationEntity@LastUpdateByName: 更新人
-NavigationEntity@LastUpdateDate: 更新日期
-NavigationEntity@Status: 状态
 NavigationEntity@Title: 标题
 NavigationWidget@AlignClass: 对齐
-NavigationWidget@CreatebyName: 创建人
-NavigationWidget@CreateDate: 创建日期
 NavigationWidget@CustomerClass: 契合度
 NavigationWidget@CustomStyle: 契合度
-NavigationWidget@Description: 描述
 NavigationWidget@ExtendFields: 扩展属性
 NavigationWidget@IsTemplate: 保存为模板
 NavigationWidget@IsTopFix: 顶部固定
-NavigationWidget@LastUpdateByName: 更新人
-NavigationWidget@LastUpdateDate: 更新日期
 NavigationWidget@LayoutID: 布局
 NavigationWidget@PageID: 页面
 NavigationWidget@PartialView: 显示模板
 NavigationWidget@Position: 排序
 NavigationWidget@RootID: 根结点
 NavigationWidget@ShowBasket: 显示购物车？
-NavigationWidget@Status: 状态
-NavigationWidget@StyleClass: 自定义样式
 NavigationWidget@Thumbnail: 缩略图
 NavigationWidget@Title: 标题
-NavigationWidget@WidgetName: 组件名称
-NavigationWidget@ZoneID: 区域
 ne-resize: 向右上改变大小
 New: 新建
 New Category: 添加类别
@@ -1011,14 +758,11 @@ OAuthWidget@Position: 排序
 OAuthWidget@QQ: QQ?
 OAuthWidget@Redirect: 跳转地址
 OAuthWidget@ServiceTypeName: Service Type Name
-OAuthWidget@StyleClass: 自定义样式
 OAuthWidget@Thumbnail: 缩略图
 OAuthWidget@Title: 标题
 OAuthWidget@ViewModelTypeName: View Model Type Name
 OAuthWidget@WeChat: 微信?
 OAuthWidget@WeiBo: 微博?
-OAuthWidget@WidgetName: 组件名称
-OAuthWidget@ZoneID: 区域
 Oblique: 倾斜
 Official Website: 官网
 OK: 确定
@@ -1040,12 +784,7 @@ Order Number: 订单号
 'Order Number:': 订单号：
 Order@CompletePayTime: 完成支付时间
 Order@Contact: 联系人
-Order@CreatebyName: 创建人
-Order@CreateDate: 创建日期
-Order@Description: 描述
 Order@ID: 订单号
-Order@LastUpdateByName: 更新人
-Order@LastUpdateDate: 更新日期
 Order@LogisticsCompany: 快递公司
 Order@OrderStatus: 订单状态
 Order@PaymentGateway: 支付方式
@@ -1057,7 +796,6 @@ Order@RefundDate: 退款日期
 Order@RefundID: 退款流水号
 Order@RefundReason: 退款原因
 Order@ShippingAddress: 收货地址
-Order@Status: 状态
 Order@Title: 标题
 Order@Total: 总价
 Order@TrackingNumber: 快递单号
@@ -1083,16 +821,11 @@ Page Not Exists: 页面不存在
 Page Title: 页面的标题
 Page title is empty: 页面没有设置标题
 Page title is too short or too long: 页面的标题文字长度太长或者太短
-PageEntity@CreatebyName: 创建人
-PageEntity@CreateDate: 创建日期
-PageEntity@Description: 描述
 PageEntity@DisplayOrder: 排序
 PageEntity@ExtendFields: 扩展属性
 PageEntity@IsHomePage: 首页?
 PageEntity@IsPublish: 已发布?
 PageEntity@IsTemplate: 保存为模板
-PageEntity@LastUpdateByName: 更新人
-PageEntity@LastUpdateDate: 更新日期
 PageEntity@LayoutId: 布局
 PageEntity@MetaDescription: SEO描述
 PageEntity@MetaKeyWorlds: SEO关键字
@@ -1101,7 +834,6 @@ PageEntity@PageUrl: 页面地址
 PageEntity@PublishDate: 发布日期
 PageEntity@Script: 脚本
 PageEntity@Scripts: 脚本
-PageEntity@Status: 状态
 PageEntity@Style: 样式
 PageEntity@Styles: 样式
 PageEntity@Title: 标题
@@ -1116,12 +848,9 @@ ParallaxWidget@IsTemplate: 保存为模板
 ParallaxWidget@PartialView: 显示模板
 ParallaxWidget@Position: 排序
 ParallaxWidget@ServiceTypeName: Service Type Name
-ParallaxWidget@StyleClass: 自定义样式
 ParallaxWidget@Thumbnail: 缩略图
 ParallaxWidget@Title: 标题
 ParallaxWidget@ViewModelTypeName: View Model Type Name
-ParallaxWidget@WidgetName: 组件名称
-ParallaxWidget@ZoneID: 区域
 PartialView: 显示模板
 Password: 密码
 Passwords are inconsistent: 密码不一致
@@ -1176,60 +905,31 @@ Product keywords: 产品关键字
 Product List: 产品列表
 Product Sort: 产品排序
 Product Tag: 产品标签
-ProductCategory@CreatebyName: 创建人
-ProductCategory@CreateDate: 创建日期
-ProductCategory@Description: 描述
-ProductCategory@LastUpdateByName: 更新人
-ProductCategory@LastUpdateDate: 更新日期
 ProductCategory@SEODescription: SEO描述
 ProductCategory@SEOKeyWord: SEO关键字
 ProductCategory@SEOTitle: SEO标题
-ProductCategory@Status: 状态
 ProductCategory@Title: 标题
 ProductCategory@Url: 英文名
 ProductCategoryTag@ProductCategoryId: 产品类别
-ProductCategoryWidget@CreatebyName: 创建人
-ProductCategoryWidget@CreateDate: 创建日期
-ProductCategoryWidget@Description: 描述
 ProductCategoryWidget@ExtendFields: 扩展属性
 ProductCategoryWidget@IsTemplate: 保存为模板
-ProductCategoryWidget@LastUpdateByName: 更新人
-ProductCategoryWidget@LastUpdateDate: 更新日期
 ProductCategoryWidget@PartialView: 显示模板
 ProductCategoryWidget@Position: 排序
 ProductCategoryWidget@ProductCategoryID: 产品类别
-ProductCategoryWidget@Status: 状态
-ProductCategoryWidget@StyleClass: 自定义样式
 ProductCategoryWidget@TargetPage: 详细页面
 ProductCategoryWidget@Thumbnail: 缩略图
 ProductCategoryWidget@Title: 标题
-ProductCategoryWidget@WidgetName: 组件名称
-ProductCategoryWidget@ZoneID: 区域
-ProductDetailWidget@CreatebyName: 创建人
-ProductDetailWidget@CreateDate: 创建日期
-ProductDetailWidget@Description: 描述
 ProductDetailWidget@ExtendFields: 扩展属性
 ProductDetailWidget@IsTemplate: 保存为模板
-ProductDetailWidget@LastUpdateByName: 更新人
-ProductDetailWidget@LastUpdateDate: 更新日期
 ProductDetailWidget@PartialView: 显示模板
 ProductDetailWidget@Position: 排序
-ProductDetailWidget@Status: 状态
-ProductDetailWidget@StyleClass: 自定义样式
 ProductDetailWidget@Thumbnail: 缩略图
 ProductDetailWidget@Title: 标题
-ProductDetailWidget@WidgetName: 组件名称
-ProductDetailWidget@ZoneID: 区域
 ProductEntity@Color: 颜色
-ProductEntity@CreatebyName: 创建人
-ProductEntity@CreateDate: 创建日期
-ProductEntity@Description: 描述
 ProductEntity@ExtendFields: 扩展属性
 ProductEntity@ImageThumbUrl: 缩略图
 ProductEntity@ImageUrl: 图片
 ProductEntity@IsPublish: 已发布?
-ProductEntity@LastUpdateByName: 更新人
-ProductEntity@LastUpdateDate: 更新日期
 ProductEntity@Norm: 规格
 ProductEntity@OrderIndex: 排序
 ProductEntity@PartNumber: 型号
@@ -1249,41 +949,25 @@ ProductEntity@SEOKeyWord: SEO关键字
 ProductEntity@SEOTitle: SEO标题
 ProductEntity@ShelfLife: 保质期
 ProductEntity@SourceFrom: 来源
-ProductEntity@Status: 状态
 ProductEntity@TargetFrom: 其它网站
 ProductEntity@TargetUrl: 网站网址
 ProductEntity@Title: 标题
 ProductEntity@Url: 英文名
 ProductGalleryWidget@DetailPageUrl: 详细页面
 ProductGalleryWidget@ProductGalleryId: 产品组
-ProductImage@CreatebyName: 创建人
-ProductImage@CreateDate: 创建日期
-ProductImage@Description: 描述
 ProductImage@ImageUrl: 图片
-ProductImage@LastUpdateByName: 更新人
-ProductImage@LastUpdateDate: 更新日期
-ProductImage@Status: 状态
 ProductImage@Title: 标题
 ProductListWidget@Columns: 显示列
-ProductListWidget@CreatebyName: 创建人
-ProductListWidget@CreateDate: 创建日期
-ProductListWidget@Description: 描述
 ProductListWidget@DetailPageUrl: 详细页面
 ProductListWidget@ExtendFields: 扩展属性
 ProductListWidget@IsPageable: 分页?
 ProductListWidget@IsTemplate: 保存为模板
-ProductListWidget@LastUpdateByName: 更新人
-ProductListWidget@LastUpdateDate: 更新日期
 ProductListWidget@PageSize: 分页大小
 ProductListWidget@PartialView: 显示模板
 ProductListWidget@Position: 排序
 ProductListWidget@ProductCategoryID: 产品类别
-ProductListWidget@Status: 状态
-ProductListWidget@StyleClass: 自定义样式
 ProductListWidget@Thumbnail: 缩略图
 ProductListWidget@Title: 标题
-ProductListWidget@WidgetName: 组件名称
-ProductListWidget@ZoneID: 区域
 Products: 产品
 Property: 属性
 Property/History: 属性/历史记录
@@ -1334,19 +1018,11 @@ Rich text box: 富文本输入
 Ridge: 屋脊
 Robots@Content: 内容
 Role: 角色
-RoleEntity@CreatebyName: 创建人
-RoleEntity@CreateDate: 创建日期
-RoleEntity@Description: 描述
-RoleEntity@LastUpdateByName: 更新人
-RoleEntity@LastUpdateDate: 更新日期
-RoleEntity@Status: 状态
 RoleEntity@Title: 标题
 RoleID: 角色
 Row: 行
 Rule: 条件规则
-Rule@Description: 描述
 Rule@RuleItemList: 条件组
-Rule@Status: 状态
 Rule@Title: 标题
 Rule@ZoneName: 显示区域
 RuleItem@Condition: 条件
@@ -1356,22 +1032,13 @@ RuleItem@Value: 值
 Save: 保存
 Save And Exit: 保存并退出
 Scan all pages: 检查所有页面
-ScriptWidget@CreatebyName: 创建人
-ScriptWidget@CreateDate: 创建日期
-ScriptWidget@Description: 描述
 ScriptWidget@ExtendFields: 扩展属性
 ScriptWidget@IsTemplate: 保存为模板
-ScriptWidget@LastUpdateByName: 更新人
-ScriptWidget@LastUpdateDate: 更新日期
 ScriptWidget@PartialView: 显示模板
 ScriptWidget@Position: 排序
 ScriptWidget@Script: 脚本
-ScriptWidget@Status: 状态
-ScriptWidget@StyleClass: 自定义样式
 ScriptWidget@Thumbnail: 缩略图
 ScriptWidget@Title: 标题
-ScriptWidget@WidgetName: 组件名称
-ScriptWidget@ZoneID: 区域
 Scroll: 滚动
 Search: 搜 索
 Search Engine Optimization: SEO优化
@@ -1383,102 +1050,52 @@ SearchWidget@IsTemplate: 保存为模板
 SearchWidget@PartialView: 显示模板
 SearchWidget@Position: 排序
 SearchWidget@SearchKeywords: 关键字
-SearchWidget@StyleClass: 自定义样式
 SearchWidget@Thumbnail: 缩略图
 SearchWidget@Title: 标题
-SearchWidget@WidgetName: 组件名称
-SearchWidget@ZoneID: 区域
 Section Widget: 自定义
-SectionContent@CreatebyName: 创建人
-SectionContent@CreateDate: 创建日期
-SectionContent@Description: 描述
-SectionContent@LastUpdateByName: 更新人
-SectionContent@LastUpdateDate: 更新日期
 SectionContent@Order: 排序
-SectionContent@Status: 状态
 SectionContent@Title: 标题
-SectionContentCallToAction@CreatebyName: 创建人
-SectionContentCallToAction@CreateDate: 创建日期
-SectionContentCallToAction@Description: 描述
 SectionContentCallToAction@Href: 链接
 SectionContentCallToAction@InnerText: 标题
-SectionContentCallToAction@LastUpdateByName: 更新人
-SectionContentCallToAction@LastUpdateDate: 更新日期
 SectionContentCallToAction@Order: 排序
-SectionContentCallToAction@Status: 状态
 SectionContentCallToAction@Title: 标题
-SectionContentImage@CreatebyName: 创建人
-SectionContentImage@CreateDate: 创建日期
-SectionContentImage@Description: 描述
 SectionContentImage@Height: 高度(px)
 SectionContentImage@Href: 链接
 SectionContentImage@ImageAlt: 说明
 SectionContentImage@ImageSrc: 图片
 SectionContentImage@ImageTitle: 标题
-SectionContentImage@LastUpdateByName: 更新人
-SectionContentImage@LastUpdateDate: 更新日期
 SectionContentImage@Order: 排序
-SectionContentImage@Status: 状态
 SectionContentImage@Title: 标题
 SectionContentImage@Width: 宽度(px)
-SectionContentParagraph@CreatebyName: 创建人
-SectionContentParagraph@CreateDate: 创建日期
-SectionContentParagraph@Description: 描述
 SectionContentParagraph@HtmlContent: 内容
-SectionContentParagraph@LastUpdateByName: 更新人
-SectionContentParagraph@LastUpdateDate: 更新日期
 SectionContentParagraph@Order: 排序
-SectionContentParagraph@Status: 状态
 SectionContentParagraph@Title: 标题
-SectionContentTitle@CreatebyName: 创建人
-SectionContentTitle@CreateDate: 创建日期
-SectionContentTitle@Description: 描述
 SectionContentTitle@Href: 链接
 SectionContentTitle@InnerText: 标题
-SectionContentTitle@LastUpdateByName: 更新人
-SectionContentTitle@LastUpdateDate: 更新日期
 SectionContentTitle@Order: 排序
-SectionContentTitle@Status: 状态
 SectionContentTitle@Title: 标题
 SectionContentTitle@TitleLevel: 等级
 SectionContentVideo@Code: 视频代码
-SectionContentVideo@Description: 描述
 SectionContentVideo@Height: 高度(px)
-SectionContentVideo@Status: 状态
 SectionContentVideo@Thumbnail: 缩略图
 SectionContentVideo@Url: 视频地址(MP4)
 SectionContentVideo@VideoTitle: 标题
 SectionContentVideo@Width: 宽度(px)
-SectionGroup@CreatebyName: 创建人
-SectionGroup@CreateDate: 创建日期
-SectionGroup@Description: 描述
 SectionGroup@GroupName: 组名
-SectionGroup@LastUpdateByName: 更新人
-SectionGroup@LastUpdateDate: 更新日期
 SectionGroup@Order: 排序
 SectionGroup@PartialView: 显示模板
 SectionGroup@PercentWidth: 栅格列
-SectionGroup@Status: 状态
 SectionGroup@Title: 标题
-SectionWidget@CreatebyName: 创建人
-SectionWidget@CreateDate: 创建日期
-SectionWidget@Description: 描述
 SectionWidget@ExtendFields: 扩展属性
 SectionWidget@IsHorizontal: 水平分组
 SectionWidget@IsTemplate: 保存为模板
-SectionWidget@LastUpdateByName: 更新人
-SectionWidget@LastUpdateDate: 更新日期
 SectionWidget@LayoutID: 布局
 SectionWidget@PageID: 页面
 SectionWidget@PartialView: 显示模板
 SectionWidget@Position: 排序
 SectionWidget@SectionTitle: 标题
-SectionWidget@Status: 状态
-SectionWidget@StyleClass: 自定义样式
 SectionWidget@Thumbnail: 缩略图
 SectionWidget@Title: 标题
-SectionWidget@WidgetName: 组件名称
-SectionWidget@ZoneID: 区域
 Secure Payment: 安全支付
 Security: 安全
 Select: 选择
@@ -1498,6 +1115,7 @@ Shipping: 运费
 Shipping Address: 收货地址
 Shipping Option: 物流选项
 ShippingOption: 物流选项
+ShippingOption@Title: 名称
 Shop: 商城
 Showcase: 展示橱窗
 ShowCaseWidget@CaseItems: 展示项
@@ -1515,11 +1133,8 @@ SiteSearchWidget@PartialView: 显示模板
 SiteSearchWidget@Position: 排序
 SiteSearchWidget@SearchEngine: 搜索引擎
 SiteSearchWidget@SearchQuery: Search Query
-SiteSearchWidget@StyleClass: 自定义样式
 SiteSearchWidget@Thumbnail: 缩略图
 SiteSearchWidget@Title: 标题
-SiteSearchWidget@WidgetName: 组件名称
-SiteSearchWidget@ZoneID: 区域
 Size: 大小
 SM Screen: 小屏幕
 Small: 小
@@ -1542,12 +1157,9 @@ SplitviewWidget@IsTemplate: 保存为模板
 SplitviewWidget@PartialView: 显示模板
 SplitviewWidget@Position: 排序
 SplitviewWidget@ServiceTypeName: Service Type Name
-SplitviewWidget@StyleClass: 自定义样式
 SplitviewWidget@Thumbnail: 缩略图
 SplitviewWidget@Title: 标题
 SplitviewWidget@ViewModelTypeName: View Model Type Name
-SplitviewWidget@WidgetName: 组件名称
-SplitviewWidget@ZoneID: 区域
 s-resize: 向下改变大小
 Standalone domain: 独立域名模式
 Starts With: 以…开头
@@ -1556,13 +1168,10 @@ StaticPageSetting@CacheMinutes: 缓存时间（分钟）
 StaticPageSetting@CacheProvider: 缓存方式
 StaticPageSetting@Enable: 启用？
 StaticPageSetting@ExcludePages: 例外页面
-Statistics@Description: 描述
-Statistics@Status: 状态
 Statistics@Title: 标题
 StatisticsScript@Location: 位置
 StatisticsScript@Script: 脚本
 Status: 状态
-StrongPoint@Description: 描述
 StrongPoint@Title: 名称
 Style: 样式
 Style A: 样式A
@@ -1573,32 +1182,18 @@ Style E: 样式E
 Style F: 样式F
 Style G: 样式G
 StyleClass: 自定义样式
-StyleSheetWidget@CreatebyName: 创建人
-StyleSheetWidget@CreateDate: 创建日期
-StyleSheetWidget@Description: 描述
 StyleSheetWidget@ExtendFields: 扩展属性
 StyleSheetWidget@IsTemplate: 保存为模板
-StyleSheetWidget@LastUpdateByName: 更新人
-StyleSheetWidget@LastUpdateDate: 更新日期
 StyleSheetWidget@PartialView: 显示模板
 StyleSheetWidget@Position: 排序
-StyleSheetWidget@Status: 状态
-StyleSheetWidget@StyleClass: 自定义样式
 StyleSheetWidget@StyleSheet: 样式
 StyleSheetWidget@Thumbnail: 缩略图
 StyleSheetWidget@Title: 标题
-StyleSheetWidget@WidgetName: 组件名称
-StyleSheetWidget@ZoneID: 区域
 Submit: 提交
 Subscribe: 订阅
-Subscriber@CreatebyName: 创建人
-Subscriber@CreateDate: 创建日期
 Subscriber@Email: 邮箱
 Subscriber@IsValidate: 已验证？
-Subscriber@LastUpdateByName: 更新人
-Subscriber@LastUpdateDate: 更新日期
 Subscriber@Referrer: 来源
-Subscriber@Status: 状态
 Subscription: 订阅
 Subscription_Body_Copy: 通过邮箱订阅我们，您将可以在第一时间收到我们的相关信息
 Subscription_Email_Confirm_Button: 是的，我想要订阅
@@ -1624,8 +1219,6 @@ Switching Theme...: 切换主题中...
 sw-resize: 向左下改变大小
 System: 系统
 Tab: 标签页
-TabItem@Description: 描述
-TabItem@Status: 状态
 TabItem@Title: 标题
 Tablet (≥768px): 平板 (≥768px)
 TabWidget@AssemblyName: Assembly Name
@@ -1634,13 +1227,10 @@ TabWidget@IsTemplate: 保存为模板
 TabWidget@PartialView: 显示模板
 TabWidget@Position: 排序
 TabWidget@ServiceTypeName: Service Type Name
-TabWidget@StyleClass: 自定义样式
 TabWidget@TabItems: 标签项
 TabWidget@Thumbnail: 缩略图
 TabWidget@Title: 标题
 TabWidget@ViewModelTypeName: View Model Type Name
-TabWidget@WidgetName: 组件名称
-TabWidget@ZoneID: 区域
 Tag: 标签
 Tax: 税
 Tax Rate: 税率
@@ -1669,8 +1259,6 @@ The setting key is already exists: 已经存在该键值
 The template is being used, could not delete: 该模板被使用中，无法删除
 Theme: 主题
 Theme Template: 主题模板
-ThemeEntity@Description: 描述
-ThemeEntity@Status: 状态
 ThemeEntity@Title: 标题
 There is an error value in the condition, save failed!: 条件中的值有错误，保存失败！
 There is no messages...: 还没有留言……
@@ -1679,7 +1267,7 @@ Thumbnail: 缩略图
 Title: 标题
 Today: 当前日期
 Toggle Container: 切换容器
-Top Article: 置顶文章
+Latest Article: 最新文章
 Total: 总计
 'Total Articles:': 文章总数：
 Total Comments: 条评论
@@ -1707,16 +1295,10 @@ Uppercase: 大写
 Url: Url
 URL already exists: Url已存在
 Url Redirect: URL重定向
-UrlRedirect@CreatebyName: 创建人
-UrlRedirect@CreateDate: 创建日期
-UrlRedirect@Description: 描述
 UrlRedirect@DestinationURL: 跳转地址
 UrlRedirect@InComingUrl: 访问地址
 UrlRedirect@IsPattern: 使用正则表达式？
 UrlRedirect@IsPermanent: 永久？
-UrlRedirect@LastUpdateByName: 更新人
-UrlRedirect@LastUpdateDate: 更新日期
-UrlRedirect@Status: 状态
 UrlRedirect@Title: 标题
 User: 用户
 User name password is incorrect: 用户名密码不正确
@@ -1724,17 +1306,12 @@ UserEntity@Address: 地址
 UserEntity@Age: 年龄
 UserEntity@Birthday: 出生日期
 UserEntity@Birthplace: 出生地
-UserEntity@CreatebyName: 创建人
-UserEntity@CreateDate: 创建日期
-UserEntity@Description: 描述
 UserEntity@Email: 邮箱
 UserEntity@EnglishName: 英文名
 UserEntity@FirstName: 名
 UserEntity@Hobby: 爱好
 UserEntity@LastLoginDate: 最后登录时间
 UserEntity@LastName: 姓
-UserEntity@LastUpdateByName: 更新人
-UserEntity@LastUpdateDate: 更新日期
 UserEntity@MaritalStatus: 婚姻情况
 UserEntity@MobilePhone: 手机号码
 UserEntity@NickName: 昵称
@@ -1745,7 +1322,6 @@ UserEntity@Profession: 专业技能
 UserEntity@Roles: 角色
 UserEntity@School: 学校
 UserEntity@Sex: 性别
-UserEntity@Status: 状态
 UserEntity@Telephone: 联系电话
 UserEntity@Title: 标题
 UserEntity@UserID: 登录名
@@ -1753,13 +1329,7 @@ UserEntity@UserName: 用户名
 UserEntity@UserTypeCD: 用户类别
 UserEntity@ZipCode: 邮编
 Username: 姓名
-UserRoleRelation@CreatebyName: 创建人
-UserRoleRelation@CreateDate: 创建日期
-UserRoleRelation@Description: 描述
-UserRoleRelation@LastUpdateByName: 更新人
-UserRoleRelation@LastUpdateDate: 更新日期
 UserRoleRelation@RoleID: 角色
-UserRoleRelation@Status: 状态
 UserRoleRelation@Title: 标题
 UserRoleRelation@UserID: 登录名
 Value: 值
@@ -1767,20 +1337,15 @@ Version: 版本
 Versions: 历史版本
 Video: 视频
 VideoWidget@Code: 视频代码
-VideoWidget@Description: 描述
 VideoWidget@ExtendFields: 扩展属性
 VideoWidget@Height: 高度(px)
 VideoWidget@IsTemplate: 保存为模板
 VideoWidget@PartialView: 显示模板
 VideoWidget@Position: 排序
-VideoWidget@Status: 状态
-VideoWidget@StyleClass: 自定义样式
 VideoWidget@Thumbnail: 缩略图
 VideoWidget@Title: 标题
 VideoWidget@Url: 视频地址(MP4)
-VideoWidget@WidgetName: 组件名称
 VideoWidget@Width: 宽度(px)
-VideoWidget@ZoneID: 区域
 View: 查看
 View Article: 查看文章
 View Article Category: 查看文章类别
@@ -1839,33 +1404,18 @@ WeiBo Config: 配置微博登录
 Welcome: 欢迎
 Welcome to use ZKEACMS: 欢迎使用ZKEACMS
 Widget Setting: 组件设置
-WidgetBase@CreatebyName: 创建人
-WidgetBase@CreateDate: 创建日期
-WidgetBase@Description: 描述
 WidgetBase@ExtendFields: 扩展属性
 WidgetBase@IsTemplate: 保存为模板
-WidgetBase@LastUpdateByName: 更新人
-WidgetBase@LastUpdateDate: 更新日期
 WidgetBase@LayoutID: 布局
 WidgetBase@PageID: 页面
 WidgetBase@PartialView: 显示模板
 WidgetBase@Position: 排序
-WidgetBase@Status: 状态
-WidgetBase@StyleClass: 自定义样式
 WidgetBase@Thumbnail: 缩略图
 WidgetBase@Title: 标题
-WidgetBase@WidgetName: 组件名称
-WidgetBase@ZoneID: 区域
 WidgetName: 组件名称
-WidgetTemplateEntity@CreatebyName: 创建人
-WidgetTemplateEntity@CreateDate: 创建日期
-WidgetTemplateEntity@Description: 描述
 WidgetTemplateEntity@GroupName: 组名
-WidgetTemplateEntity@LastUpdateByName: 更新人
-WidgetTemplateEntity@LastUpdateDate: 更新日期
 WidgetTemplateEntity@Order: 排序
 WidgetTemplateEntity@PartialView: 显示模板
-WidgetTemplateEntity@Status: 状态
 WidgetTemplateEntity@Title: 标题
 Width / Height: 宽 / 高
 Width(px): 宽(px)
@@ -1880,14 +1430,8 @@ Your name: 你的名字
 Zip Code: 邮政编码
 Zone: 区域
 Zone Name: 区域名称
-ZoneEntity@CreatebyName: 创建人
-ZoneEntity@CreateDate: 创建日期
-ZoneEntity@Description: 描述
-ZoneEntity@LastUpdateByName: 更新人
-ZoneEntity@LastUpdateDate: 更新日期
 ZoneEntity@LayoutId: 布局
 ZoneEntity@PageId: Page
-ZoneEntity@Status: 状态
 ZoneEntity@Title: 标题
 ZoneID: 区域
 MD Screen: 中等屏幕
@@ -1957,3 +1501,41 @@ Reset: 重置
 The page must be published before it can be accessed via the URL.: 页面必须要发布才能被访问。
 Widget Error: 错误
 Invisible: 不可见的
+ExtendableWidgetCreateViewModel@PropertyDescriptor: 字段定义
+Video Manager: 视频管理
+Video List: 视频列表
+Video Gallery: 视频组
+Video Category: 视频分类
+VideoTypeID: 视频分类
+IsPublish: 已发布？
+MetaDescription: SEO描述
+MetaKeyWords: SEO关键字
+VideoEntity@Counter: 播放次数
+VideoUrl: 视频地址(MP4)
+VideoCode: 视频代码
+Duration: 时长
+ImageThumbUrl: 缩略图
+ImageUrl: 图片
+Videos: 视频
+SEODescription: SEO描述
+SEOKeyWord: SEO关键字
+SEOTitle: SEO标题
+Video Detail: 视频内容
+Specify Video Detail: 特定视频内容
+Latest Video: 最新视频
+DetailPageUrl: 详细页面
+IsPageable: 分页?
+PageSize: 分页大小
+VideoSpecialDetailWidget@VideoId: 视频ID
+SubTitle: 子标题
+VideoTopWidget@Tops: 最新条目数
+VideoTopWidget@MoreLink: 更多页面
+VideoGalleryWidget@VideoGalleryId: 视频组
+Recent Videos: 近期视频
+'Total Videos:': 视频总数
+Most Play Top10: 播放排行 Top10
+View Video: 查看视频
+Manage Video: 管理视频
+Publish Video: 发布视频
+View Video Category: 查看视频类别
+Manage Video Category: 管理视频类别
