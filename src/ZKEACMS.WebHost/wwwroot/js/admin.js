@@ -76,9 +76,18 @@ $(function () {
         if (obj.val() == "ZONE-X") {
             return;
         }
-        var url = "/admin/Layout/SelectZone?layoutId=" + $(".hide #LayoutId").val() + "&pageId=" + $(".hide #PageId").val() + "&zoneId=" + obj.val();
+        var url = new URL("/admin/Layout/SelectZone", document.baseURI);
+        var layoutId = $(".hide #LayoutId").val();
+        if (layoutId) {
+            url.searchParams.append("layoutId", layoutId);
+        }
+        var pageId = $(".hide #PageId").val();
+        if (pageId) {
+            url.searchParams.append("pageId", pageId);
+        }
+        url.searchParams.append("zoneId", obj.val());
         window.top.Easy.ShowUrlWindow({
-            url: url,
+            url: url.toString(),
             width: 1000,
             title: "选择区域",
             onLoad: function (box) {
@@ -318,17 +327,30 @@ $(function () {
     if (mainMenu.length > 0) {
         var currentSelect;
         var match = 0;
-        $("a.menu-item", mainMenu).each(function () {
-            var href = $(this).attr("href");
+        var pathArray = (location.pathname + location.search).split(/[/|?]/);
+        var menuItems = $("a.menu-item", mainMenu);
+        for (var i = 0; i < menuItems.length; i++) {
+            var href = $(menuItems[i]).attr("href");
             if (href) {
-                if (location.pathname.toLocaleLowerCase().indexOf(href.toLowerCase()) === 0) {
-                    if (href.length > match) {
-                        currentSelect = $(this);
-                        match = href.length;
+                var hrefArray = href.toLowerCase().split(/[/|?]/);
+                var matchCount = 0;
+                var fullMath = true;
+                for (var j = 0; j < pathArray.length; j++) {
+                    if (hrefArray.indexOf(pathArray[j].toLowerCase()) >= 0) {
+                        matchCount++;
+                    } else {
+                        fullMath = false;
+                    }
+                }
+                if (fullMath || matchCount > match) {
+                    match = matchCount;
+                    currentSelect = $(menuItems[i]);
+                    if (fullMath) {
+                        break;
                     }
                 }
             }
-        });
+        }
         if (currentSelect && currentSelect.size()) {
             currentSelect.addClass("active");
             if (currentSelect.parent().hasClass("accordion-inner")) {
@@ -348,7 +370,7 @@ $(function () {
             Easy.Processor(setHeight, 500);
         });
         if (scroll > 0) {
-            scrollBar.scrollTop = scroll / 2;
+            scrollBar.scrollTop = scroll/2;
         }
     }
 
