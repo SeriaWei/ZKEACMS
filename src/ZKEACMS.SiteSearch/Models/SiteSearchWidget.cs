@@ -25,6 +25,7 @@ namespace ZKEACMS.SiteSearch.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
+            ViewConfig(m => m.Title).AsHidden();
             ViewConfig(m => m.SearchEngine).AsDropDownList().DataSource(() =>
             {
                 var searchEngines = ServiceLocator.GetService<IEnumerable<SearchEngine>>();

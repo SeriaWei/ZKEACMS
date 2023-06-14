@@ -12,6 +12,10 @@ namespace ZKEACMS.Message.Models
     }
     class MessageBoxWidgetMetaData : WidgetMetaData<MessageBoxWidget>
     {
-
+        protected override void ViewConfigure()
+        {
+            base.ViewConfigure();
+            ViewConfig(m => m.Title).AsHidden();
+        }
     }
 }

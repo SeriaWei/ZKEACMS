@@ -24,6 +24,7 @@ namespace ZKEACMS.FormGenerator.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
+            ViewConfig(m => m.Title).AsHidden();
             ViewConfig(m => m.FormID).AsDropDownList().DataSource(() =>
             {
                 return Easy.ServiceLocator.GetService<IFormService>().Get().ToDictionary(f => f.ID, f => f.Title);

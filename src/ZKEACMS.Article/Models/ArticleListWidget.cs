@@ -31,7 +31,7 @@ namespace ZKEACMS.Article.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
-
+            ViewConfig(m => m.Title).AsHidden();
             ViewConfig(m => m.ArticleTypeID).AsDropDownList().Order(NextOrder()).SetTemplate("ArticleTypeTree").Required();
 
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector().InnerUrl();

@@ -13,6 +13,10 @@ namespace ZKEACMS.Message.Models
 
     class CommentsWidgetMetaData : WidgetMetaData<CommentsWidget>
     {
-
+        protected override void ViewConfigure()
+        {
+            base.ViewConfigure();
+            ViewConfig(m => m.Title).AsHidden();
+        }
     }
 }

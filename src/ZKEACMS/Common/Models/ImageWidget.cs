@@ -29,6 +29,7 @@ namespace ZKEACMS.Common.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
+            ViewConfig(m => m.Title).AsHidden();
             ViewConfig(m => m.ImageUrl).AsTextBox().Required().Order(NextOrder()).MediaSelector();
             ViewConfig(m => m.ImageUrlMd).AsTextBox().Order(NextOrder()).MediaSelector();
             ViewConfig(m => m.ImageUrlSm).AsTextBox().Order(NextOrder()).MediaSelector();

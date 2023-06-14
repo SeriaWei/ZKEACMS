@@ -36,6 +36,7 @@ namespace ZKEACMS.Common.Models
         {
             base.ViewConfigure();
             ViewConfig(m => m.ID).AsHidden();
+            ViewConfig(m => m.Title).AsHidden();
             ViewConfig(m => m.CarouselItems).AsListEditor().Order(NextOrder());
             ViewConfig(m => m.CarouselID).AsDropDownList().Order(NextOrder()).DataSource(() =>
             {

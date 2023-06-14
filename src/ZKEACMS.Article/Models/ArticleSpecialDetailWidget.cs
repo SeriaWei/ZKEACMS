@@ -31,7 +31,7 @@ namespace ZKEACMS.Article.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
-
+            ViewConfig(m => m.Title).AsHidden();
             ViewConfig(m => m.ArticleId).AsTextBox().Required().RegularExpression(RegularExpression.Integer);
             ViewConfig(m => m.ArticleName).AsHidden();
         }

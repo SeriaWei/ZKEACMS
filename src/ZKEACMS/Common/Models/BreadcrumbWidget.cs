@@ -15,6 +15,10 @@ namespace ZKEACMS.Common.Models
 
     class BreadcrumbWidgetMetaData : WidgetMetaData<BreadcrumbWidget>
     {
-
+        protected override void ViewConfigure()
+        {
+            base.ViewConfigure();
+            ViewConfig(m => m.Title).AsHidden();
+        }
     }
 }

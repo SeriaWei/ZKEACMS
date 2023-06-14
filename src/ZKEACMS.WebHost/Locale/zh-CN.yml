@@ -1336,7 +1336,7 @@ Value: 值
 Version: 版本
 Versions: 历史版本
 Video: 视频
-VideoWidget@Code: 视频代码
+VideoWidget@Code: （或者）视频代码
 VideoWidget@ExtendFields: 扩展属性
 VideoWidget@Height: 高度(px)
 VideoWidget@IsTemplate: 保存为模板
@@ -1512,7 +1512,7 @@ MetaDescription: SEO描述
 MetaKeyWords: SEO关键字
 VideoEntity@Counter: 播放次数
 VideoUrl: 视频地址(MP4)
-VideoCode: 视频代码
+VideoEntity@VideoCode: （或者）视频代码
 Duration: 时长
 ImageThumbUrl: 缩略图
 ImageUrl: 图片
@@ -1520,8 +1520,8 @@ Videos: 视频
 SEODescription: SEO描述
 SEOKeyWord: SEO关键字
 SEOTitle: SEO标题
-Video Detail: 视频内容
-Specify Video Detail: 特定视频内容
+Play Video: 播放视频
+Play Specify Video: 播放特定视频
 Latest Video: 最新视频
 DetailPageUrl: 详细页面
 IsPageable: 分页?
@@ -1539,3 +1539,6 @@ Manage Video: 管理视频
 Publish Video: 发布视频
 View Video Category: 查看视频类别
 Manage Video Category: 管理视频类别
+Video(Embed): 视频（嵌入）
+Name already exists: 名称已存在
+Please upload video or input video code: 请上传视频或者输入视频代码

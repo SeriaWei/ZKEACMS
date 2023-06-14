@@ -24,6 +24,7 @@ namespace ZKEACMS.Common.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
+            ViewConfig(m => m.Title).AsHidden();
             ViewConfig(m => m.TabItems).AsListEditor();
         }
     }

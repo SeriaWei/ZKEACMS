@@ -1268,7 +1268,7 @@ Thumbnail: 縮略圖
 Title: 標題
 Today: 當前日期
 Toggle Container: 切換容器
-Top Article: 置頂文章
+Latest Article: 最新文章
 Total: 總計
 'Total Articles:': 文章總數：
 Total Comments: 條評論
@@ -1337,7 +1337,7 @@ Value: 值
 Version: 版本
 Versions: 歴史版本
 Video: 視頻
-VideoWidget@Code: 視頻代碼
+VideoWidget@Code: （或者）視頻代碼
 VideoWidget@ExtendFields: 擴展屬性
 VideoWidget@Height: 高度(px)
 VideoWidget@IsTemplate: 保存為模闆
@@ -1513,7 +1513,7 @@ MetaDescription: SEO描述
 MetaKeyWords: SEO關鍵字
 VideoEntity@Counter: 播放次數
 VideoUrl: 視頻地址(MP4)
-VideoCode: 視頻程式碼
+VideoEntity@VideoCode: （或者）視頻程式碼
 Duration: 時長
 ImageThumbUrl: 縮略圖
 ImageUrl: 圖片
@@ -1521,8 +1521,8 @@ Videos: 視頻
 SEODescription: SEO描述
 SEOKeyWord: SEO關鍵字
 SEOTitle: SEO標題
-Video Detail: 視頻內容
-Specify Video Detail: 特定視頻內容
+Play Video: 播放視頻
+Play Specify Video: 播放特定視頻
 Latest Video: 最新視頻
 DetailPageUrl: 詳細頁面
 IsPageable: 分頁？
@@ -1540,3 +1540,6 @@ Manage Video: 管理視頻
 Publish Video: 發佈視頻
 View Video Category: 查看視頻類別
 Manage Video Category: 管理視頻類別
+Video(Embed): 視頻（嵌入）
+Name already exists: 名稱已存在
+Please upload video or input video code: 請上傳視頻或者輸入視頻程式碼

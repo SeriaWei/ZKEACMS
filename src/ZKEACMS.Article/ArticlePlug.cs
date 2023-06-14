@@ -113,7 +113,7 @@ namespace ZKEACMS.Article
 
             yield return new WidgetTemplateEntity<ArticleTopWidgetService>
             {
-                Title = "Top Article",
+                Title = "Latest Article",
                 GroupName = groupName,
                 PartialView = "Widget.ArticleTops",
                 Thumbnail = "~/Plugins/ZKEACMS.Article/Content/Image/Widget.ArticleTops.png",
