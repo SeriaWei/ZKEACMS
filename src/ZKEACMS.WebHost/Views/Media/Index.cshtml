@@ -90,7 +90,7 @@
     <ul class="pagination">
         @if (Model.Pagin.PageIndex >= 1)
         {
-            <li><a href="@Url.Action(action, new {ParentId = Model.ParentID})"><i class="glyphicon glyphicon-chevron-left"></i></a></li>
+            <li><a href="@Url.Action(action, new {ParentId = Model.ParentID, pageIndex = Model.Pagin.PageIndex - 1})"><i class="glyphicon glyphicon-chevron-left"></i></a></li>
         }
         else
         {
@@ -99,9 +99,9 @@
         @{
             if (Model.Pagin.PageIndex >= 5)
             {
-                    <li>
-                        <a>...</a>
-                    </li>
+                <li>
+                    <a>...</a>
+                </li>
             }
             int start = Model.Pagin.PageIndex - 4;
             int end = Model.Pagin.PageIndex + 4;
@@ -111,15 +111,15 @@
             }
             for (; start < Model.Pagin.AllPage && start <= end; start++)
             {
-                    <li class="@(start == Model.Pagin.PageIndex ? "active" : "")">
-                        <a href="@Url.Action(action, new {parentId = Model.ParentID, pageIndex = start})">@(start + 1)</a>
-                    </li>
+                <li class="@(start == Model.Pagin.PageIndex ? "active" : "")">
+                    <a href="@Url.Action(action, new {parentId = Model.ParentID, pageIndex = start})">@(start + 1)</a>
+                </li>
             }
             if (Model.Pagin.AllPage - Model.Pagin.PageIndex > 5)
             {
-                    <li>
-                        <a>...</a>
-                    </li>
+                <li>
+                    <a>...</a>
+                </li>
             }
         }
 
@@ -176,13 +176,13 @@
                 $("#media-list .preview").each(function (i) {
                     var imageUrl = $(this).data("href");
                     if (imageUrl) {
-                        images.push({ src: imageUrl, desc: $(this).data("title")});
+                        images.push({ src: imageUrl, desc: $(this).data("title") });
                         if (imageUrl == current) {
                             index = i;
                         }
                     }
                 });
-                var civer =  new CIV({
+                var civer = new CIV({
                     animation: CIV.ANIMATION.TRANSLATE,
                     background: "#444",
                     list: images,
@@ -190,14 +190,14 @@
                     preload: false,
                     save: true,
                     saveBtn: "@L("OK")",
-                    noSave:true,
+                    noSave: true,
                     onsave: function (a) {
-                        this.hide();                        
+                        this.hide();
                         $($("#media-list .preview")[a.index]).closest(".thumbnail").find("a.confirm")[0].click();
                     }
-                });                
+                });
                 civer.show();
-             });
+            });
 
             $(document).on("click", ".create-folder", function () {
                 var newfolder = $($("#item-template").html());
@@ -325,14 +325,14 @@
                                     }
                                     xhr.upload.onprogress = function (e) {
                                         var persecnt = (e.loaded + start) / fileData.Data.size * 100;
-                                        if(persecnt>100){
-                                            persecnt=100;
+                                        if (persecnt > 100) {
+                                            persecnt = 100;
                                         }
                                         item.find(".caption").html('<label class="label label-danger">' + Math.floor(persecnt) + "%" + '</label>');
                                     };
                                     xhr.send(fd);
                                 }
-                                sliceSend(0,'@Url.Action("Upload")')
+                                sliceSend(0, '@Url.Action("Upload")')
                             }
                         },
                         Data: formData

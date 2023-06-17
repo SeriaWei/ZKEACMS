@@ -3,7 +3,7 @@
 <ul class="pagination">
     @if (Model.PageIndex >= 1)
     {
-        <li><a href="@Url.Page(0)"><i class="glyphicon glyphicon-chevron-left"></i></a></li>
+        <li><a href="@Url.Page(Model.PageIndex - 1)"><i class="glyphicon glyphicon-chevron-left"></i></a></li>
     }
     else
     {
