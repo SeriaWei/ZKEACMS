@@ -18,6 +18,7 @@ using Easy.RepositoryPattern;
 using ZKEACMS.Route;
 using System.Collections.Concurrent;
 using ZKEACMS.Article.EventHandler;
+using ZKEACMS.Sitemap.Service;
 
 namespace ZKEACMS.Article
 {
@@ -161,6 +162,8 @@ namespace ZKEACMS.Article
             serviceCollection.AddTransient<IArticleGalleryWidgetDataService, ArticleGalleryWidgetDataService>();
             serviceCollection.AddTransient<IArticleSummaryWidgetDataService, ArticleSummaryWidgetDataService>();
             serviceCollection.AddTransient<IArticleTopWidgetDataService, ArticleTopWidgetDataService>();
+            serviceCollection.AddTransient<ISiteUrlProvider, ArticlePageSiteUrlProvider>();
+            serviceCollection.AddTransient<IBlockUrlService, ArticleBlockUrlService>();
 
             serviceCollection.RegistEvent<UpdateDetailPageUrlOnPageUrlChangedEventHandler>(Event.Events.OnPageUrlChanged);
 

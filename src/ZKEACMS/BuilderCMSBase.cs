@@ -27,6 +27,7 @@ using ZKEACMS.Page;
 using ZKEACMS.PendingTask;
 using ZKEACMS.Product.Models;
 using ZKEACMS.Setting;
+using ZKEACMS.Sitemap.Service;
 using ZKEACMS.SMTP;
 using ZKEACMS.Theme;
 using ZKEACMS.Widget;
@@ -58,6 +59,7 @@ namespace ZKEACMS
             services.TryAddScoped<ILayoutHtmlService, LayoutHtmlService>();
             services.TryAddTransient<IMediaService, MediaService>();
             services.TryAddScoped<IPageService, PageService>();
+            services.AddTransient<ISiteUrlProvider, PageSiteUrlProvider>();
             services.TryAddScoped<IApplicationSettingService, ApplicationSettingService>();
             services.TryAddScoped<IThemeService, ThemeService>();
             services.TryAddTransient<IWidgetTemplateService, WidgetTemplateService>();

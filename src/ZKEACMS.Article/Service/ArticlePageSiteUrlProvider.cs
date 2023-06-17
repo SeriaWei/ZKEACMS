@@ -7,31 +7,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ZKEACMS.Product.Service;
+using ZKEACMS.Article.Service;
 using ZKEACMS.Sitemap.Models;
 using Easy.Extend;
 using Easy;
+using ZKEACMS.Sitemap.Service;
 
-namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
+namespace ZKEACMS.Article.Service
 {
-    public class ProductPageSiteUrlProvider : ISiteUrlProvider
+    public class ArticlePageSiteUrlProvider : ISiteUrlProvider
     {
-        private readonly IProductUrlService _productUrlService;
+        private readonly IArticleUrlService _articleUrlService;
 
-        public ProductPageSiteUrlProvider(IProductUrlService productUrlService)
+        public ArticlePageSiteUrlProvider(IArticleUrlService articleUrlService)
         {
-            _productUrlService = productUrlService;
+            _articleUrlService = articleUrlService;
         }
 
         public IEnumerable<SiteUrl> Get()
         {
-            foreach (var item in _productUrlService.GetAllPublicUrls())
+            foreach (var item in _articleUrlService.GetAllPublicUrls())
             {
                 yield return new SiteUrl
                 {
                     Url = Helper.Url.ToAbsolutePath(item.Url),
-                    ModifyDate = item.Product.LastUpdateDate ?? DateTime.Now,
-                    Changefreq = "weekly",
+                    ModifyDate = item.Article.LastUpdateDate ?? DateTime.Now,
+                    Changefreq = "daily",
                     Priority = 0.5F
                 };
             }

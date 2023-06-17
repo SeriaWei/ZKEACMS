@@ -16,6 +16,7 @@ using Easy.RepositoryPattern;
 using ZKEACMS.Route;
 using System.Collections.Concurrent;
 using ZKEACMS.Product.EventHandler;
+using ZKEACMS.Sitemap.Service;
 
 namespace ZKEACMS.Product
 {
@@ -156,7 +157,8 @@ namespace ZKEACMS.Product
             serviceCollection.AddTransient<IProductTagService, ProductTagService>();
             serviceCollection.AddTransient<IProductImageService, ProductImageService>();
             serviceCollection.AddTransient<IProductUrlService, ProductUrlService>();
-
+            serviceCollection.AddTransient<ISiteUrlProvider, ProductPageSiteUrlProvider>();
+            serviceCollection.AddTransient<IBlockUrlService, ProductBlockUrlService>();
             serviceCollection.AddTransient<IProductListWidgetDataService, ProductListWidgetDataService>();
             serviceCollection.AddTransient<IProductGalleryWidgetDataService, ProductGalleryWidgetDataService>();
 

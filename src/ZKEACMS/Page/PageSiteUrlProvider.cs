@@ -12,29 +12,21 @@ using ZKEACMS.Sitemap.Models;
 using ZKEACMS.Widget;
 using Easy.Extend;
 using Easy;
+using ZKEACMS.Sitemap.Service;
 
-namespace ZKEACMS.Sitemap.Service.SiteUrlProviders
+namespace ZKEACMS.Page
 {
     public class PageSiteUrlProvider : ISiteUrlProvider
     {
         private readonly IPageService _pageService;
-        private readonly SitemapDbContext _sitemapDbContext;
-        private readonly IWidgetBasePartService _widgetBasePartService;
-        public PageSiteUrlProvider(SitemapDbContext sitemapDbContext,
-            IPageService pageService,
-            IWidgetBasePartService widgetBasePartService)
+        public PageSiteUrlProvider(IPageService pageService)
         {
-            _sitemapDbContext = sitemapDbContext;
             _pageService = pageService;
-            _widgetBasePartService = widgetBasePartService;
         }
         public IEnumerable<SiteUrl> Get()
         {
             HashSet<string> distinct = new HashSet<string>();
-            var widgetIds = _sitemapDbContext.ArticleDetailWidget.ToList().Select(m => m.ID).ToArray();
-            widgetIds = widgetIds.Concat(_sitemapDbContext.ProductDetailWidget.ToList().Select(m => m.ID)).ToArray();
-            var pageIds = _widgetBasePartService.Get(m => widgetIds.Contains(m.ID)).Select(m => m.PageId);
-            var pages = _pageService.Get().Where(m => !pageIds.Contains(m.ID) && m.IsPublishedPage).OrderBy(m => m.ReferencePageID).ThenByDescending(m => m.PublishDate).ToList();
+            var pages = _pageService.Get().Where(m => m.IsPublishedPage).OrderBy(m => m.ReferencePageID).ThenByDescending(m => m.PublishDate).ToList();
             foreach (var page in pages)
             {
                 if (page.Url.IsNotNullAndWhiteSpace() && !distinct.Contains(page.ReferencePageID))

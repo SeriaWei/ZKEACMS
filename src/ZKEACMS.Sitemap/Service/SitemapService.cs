@@ -2,6 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy.Extend;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -19,24 +20,25 @@ namespace ZKEACMS.Sitemap.Service
     public class SitemapService : ISitemapService
     {
         private readonly IEnumerable<ISiteUrlProvider> _siteUrlProviders;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHostOptionProvider _hostOptionProvider;
-        private readonly IBlockUrlService _blockUrlService;
+        private readonly IEnumerable<IBlockUrlService> _blockUrlServices;
 
         public SitemapService(IEnumerable<ISiteUrlProvider> siteUrlProviders,
-            IHttpContextAccessor httpContextAccessor,
-            IHostOptionProvider hostOptionProvider, 
-            IBlockUrlService blockUrlService)
+            IHostOptionProvider hostOptionProvider,
+            IEnumerable<IBlockUrlService> blockUrlServices)
         {
             _siteUrlProviders = siteUrlProviders;
-            _httpContextAccessor = httpContextAccessor;
             _hostOptionProvider = hostOptionProvider;
-            _blockUrlService = blockUrlService;
+            _blockUrlServices = blockUrlServices;
         }
         public string Get()
         {
             var host = _hostOptionProvider.GetOrigin();
-            HashSet<string> blockedUrls = _blockUrlService.GetAll();
+            HashSet<string> blockedUrls = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var blockUrlService in _blockUrlServices)
+            {
+                blockUrlService.GetAll().Each(l => blockedUrls.Add(l));
+            }
             StringBuilder xmlBuilder = new StringBuilder();
             xmlBuilder.AppendLine("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\">");
 
