@@ -32,13 +32,16 @@ namespace Easy.Mvc.Plugin
         public List<PluginInfo> PluginInfos { get; set; }
         public List<Assembly> DependencyAssemblies { get; private set; }
         private readonly TypeInfo PluginTypeInfo = typeof(IPluginStartup).GetTypeInfo();
-        public IEnumerable<Assembly> LoadPlugin(string path)
+        public IEnumerable<Assembly> LoadPlugin(string assemblyFullpath)
         {
             if (CurrentAssembly == null)
             {
-                AssemblyPath = path;
-                CurrentAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
-                ResolveDenpendency(CurrentAssembly);
+                AssemblyPath = assemblyFullpath;
+                using (var stream = new FileStream(assemblyFullpath, FileMode.Open, FileAccess.Read))
+                {
+                    CurrentAssembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+                }
+                ResolveDenpendency(CurrentAssembly, Path.GetDirectoryName(assemblyFullpath));
                 yield return CurrentAssembly;
                 foreach (var item in DependencyAssemblies)
                 {
@@ -48,7 +51,7 @@ namespace Easy.Mvc.Plugin
             else { throw new Exception("A loader just can load one assembly."); }
         }
 
-        private void ResolveDenpendency(Assembly assembly)
+        private void ResolveDenpendency(Assembly assembly, string assemblyFolder)
         {
             if (LoadedAssemblies == null)
             {
@@ -60,17 +63,20 @@ namespace Easy.Mvc.Plugin
                 LoadedAssemblies.Add(nameVersion, assembly);
             }
             List<Assembly> dependencies = new List<Assembly>();
-            DependencyAssemblyResolver dependencyAssemblyResolver = new DependencyAssemblyResolver(Path.GetDirectoryName(assembly.Location));
+            DependencyAssemblyResolver dependencyAssemblyResolver = new DependencyAssemblyResolver(assemblyFolder);
             foreach (var item in dependencyAssemblyResolver.ResolveAssemblyPaths())
             {
                 AssemblyName assemblyName = AssemblyName.GetAssemblyName(item);
                 string assemblyNameVersion = GetAssemblyNameVersion(assemblyName);
                 if (!LoadedAssemblies.ContainsKey(assemblyNameVersion))
                 {
-                    Assembly assemblyDep = AssemblyLoadContext.Default.LoadFromAssemblyPath(item);
-                    DependencyAssemblies.Add(assemblyDep);
-                    LoadedAssemblies.Add(assemblyNameVersion, assemblyDep);
-                    dependencies.Add(assemblyDep);
+                    using (var stream = new FileStream(item, FileMode.Open, FileAccess.Read))
+                    {
+                        Assembly assemblyDep = AssemblyLoadContext.Default.LoadFromStream(stream);
+                        DependencyAssemblies.Add(assemblyDep);
+                        LoadedAssemblies.Add(assemblyNameVersion, assemblyDep);
+                        dependencies.Add(assemblyDep);
+                    }
                 }
             }
 
