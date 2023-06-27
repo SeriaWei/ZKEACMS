@@ -112,7 +112,10 @@ namespace ZKEACMS.Article.Service
         public void Publish(ArticleEntity article)
         {
             article.IsPublish = true;
-            article.PublishDate = DateTime.Now;
+            if (article.PublishDate == null)
+            {
+                article.PublishDate = DateTime.Now;
+            }            
             if (article.ID > 0)
             {
                 Update(article);
