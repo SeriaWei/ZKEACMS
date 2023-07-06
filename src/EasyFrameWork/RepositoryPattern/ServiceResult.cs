@@ -57,7 +57,10 @@ namespace Easy.RepositoryPattern
         {
             Result = result;
         }
-
+        public static implicit operator ServiceResult<T>(T result)
+        {
+            return new ServiceResult<T>(result);
+        }
         public T Result { get; set; }
     }
 }
