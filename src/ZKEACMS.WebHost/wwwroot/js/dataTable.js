@@ -76,6 +76,7 @@ $(document).ready(function () {
         });
         var dataTable = $(this);
         dataTable.DataTable({
+            "responsive":true,
             "autoWidth": false,
             "processing": true,
             "serverSide": true,

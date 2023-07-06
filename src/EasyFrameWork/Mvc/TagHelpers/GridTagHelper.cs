@@ -105,7 +105,7 @@ namespace Easy.Mvc.TagHelpers
 
                     actionPartBuilder.AppendLine(ActionLable ?? localize.Get("Action"));
                     tableHeaderBuilder.AppendFormat(TableHeadStructure,
-                        string.Empty,
+                        name,
                         WebUtility.HtmlEncode(managerBuiller.ToString()),
                         string.Empty,
                         actionPartBuilder,

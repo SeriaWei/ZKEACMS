@@ -67,6 +67,8 @@ namespace ZKEACMS.WebHost
             script("dataTable")
                 .Include($"{LibraryPath}/datatables/media/js/jquery.dataTables.js", $"{LibraryPath}/datatables/media/js/jquery.dataTables.min.js")
                 .Include($"{LibraryPath}/datatables/media/js/dataTables.bootstrap.js", $"{LibraryPath}/datatables/media/js/dataTables.bootstrap.min.js")
+                .Include($"{LibraryPath}/datatables/media/js/dataTables.responsive.js", $"{LibraryPath}/datatables/media/js/dataTables.responsive.min.js")
+                .Include($"{LibraryPath}/datatables/media/js/responsive.bootstrap.js", $"{LibraryPath}/datatables/media/js/responsive.bootstrap.min.js")
                 .Include($"{ScriptPath}/moment.js", $"{ScriptPath}/moment.min.js")
                 .Include($"{ScriptPath}/dataTable.js", $"{ScriptPath}/dataTable.min.js");
 
@@ -151,7 +153,8 @@ namespace ZKEACMS.WebHost
                .Include($"{LibraryPath}/jstree/dist/themes/default/style.css", $"{LibraryPath}/jstree/dist/themes/default/style.min.css");
 
             style("dataTable")
-                .Include($"{LibraryPath}/datatables/media/css/dataTables.bootstrap.css", $"{LibraryPath}/datatables/media/css/dataTables.bootstrap.min.css");
+                .Include($"{LibraryPath}/datatables/media/css/dataTables.bootstrap.css", $"{LibraryPath}/datatables/media/css/dataTables.bootstrap.min.css")
+                .Include($"{LibraryPath}/datatables/media/css/responsive.bootstrap.css", $"{LibraryPath}/datatables/media/css/responsive.bootstrap.min.css");
 
             style("datepicker")
                 .Include($"{LibraryPath}/bootstrap-datepicker/bootstrap-datetimepicker.min.css");
