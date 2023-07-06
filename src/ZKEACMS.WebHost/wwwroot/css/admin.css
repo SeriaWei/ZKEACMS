@@ -770,10 +770,10 @@ a.pack-theme {
         display: block;
         float: left;
     }
-}
 
-.seach-terms .form-control {
-    max-width: 160px;
+    .seach-terms .form-control {
+        max-width: 160px;
+    }
 }
 
     .seach-terms .form-control.required {
