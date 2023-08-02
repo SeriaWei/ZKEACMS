@@ -21,23 +21,28 @@ using Easy.Serializer;
 using Fluid;
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ZKEACMS.EventAction.Service
 {
     public sealed class EventActionService : ServiceBase<Models.EventAction>, IEventActionService
     {
-        private readonly ICacheManager<Dictionary<string, List<EventActionContent>>> _cacheManager;
+        private const string EventActionChanged = "EventActionChanged";
+
+        private readonly ICacheManager<EventActionService> _cacheManager;
+        private readonly ISignals _signals;
         private readonly ILogger<EventActionService> _logger;
         private readonly ILocalize _localize;
         private static Regex _encoder = new Regex(@":( +)({{)([\w|\.| |\[|\]]+)(}})", RegexOptions.Compiled);
 
         public EventActionService(IApplicationContext applicationContext, CMSDbContext dbContext,
-            ICacheManager<Dictionary<string, List<EventActionContent>>> cacheManager, ILogger<EventActionService> logger, ILocalize localize)
+            ICacheManager<EventActionService> cacheManager, ILogger<EventActionService> logger, ILocalize localize, ISignals signals)
             : base(applicationContext, dbContext)
         {
             _cacheManager = cacheManager;
             _logger = logger;
             _localize = localize;
+            _signals = signals;
         }
 
         public override ServiceResult<Models.EventAction> Update(Models.EventAction item)
@@ -45,7 +50,7 @@ namespace ZKEACMS.EventAction.Service
             var result = ValidateActions(item);
             if (result.HasViolation) return result;
 
-            _cacheManager.Clear();
+            _signals.Trigger(EventActionChanged);
             return base.Update(item);
         }
         public override ServiceResult<Models.EventAction> Add(Models.EventAction item)
@@ -53,19 +58,21 @@ namespace ZKEACMS.EventAction.Service
             var result = ValidateActions(item);
             if (result.HasViolation) return result;
 
-            _cacheManager.Clear();
+            _signals.Trigger(EventActionChanged);
             return base.Add(item);
         }
 
         public override void Remove(Models.EventAction item)
         {
-            _cacheManager.Clear();
+            _signals.Trigger(EventActionChanged);
             base.Remove(item);
         }
         public Dictionary<string, List<EventActionContent>> GetAllActivedActinosFromCache()
         {
-            return _cacheManager.GetOrAdd("AllActivedActinos", key =>
+            return _cacheManager.GetOrCreate("AllActivedActinos", factory =>
             {
+                factory.AddExpirationToken(_signals.When(EventActionChanged));
+
                 var result = new Dictionary<string, List<EventActionContent>>();
                 var eventGroup = Get(m => m.Status == (int)RecordStatus.Active).GroupBy(m => m.Event);
                 foreach (var group in eventGroup)

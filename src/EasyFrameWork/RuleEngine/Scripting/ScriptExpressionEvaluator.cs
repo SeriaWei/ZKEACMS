@@ -13,15 +13,15 @@ namespace Easy.RuleEngine.Scripting
 {
     public class ScriptExpressionEvaluator : IScriptExpressionEvaluator
     {
-        private readonly ICacheManager<ScriptExpressionResult> _cacheManager;
-        public ScriptExpressionEvaluator(ICacheManager<ScriptExpressionResult> cacheManager)
+        private readonly ICacheManager<ScriptExpressionEvaluator> _cacheManager;
+        public ScriptExpressionEvaluator(ICacheManager<ScriptExpressionEvaluator> cacheManager)
         {
             _cacheManager = cacheManager;
         }
 
         public object Evaluate(string expression, IEnumerable<IGlobalMethodProvider> providers)
         {
-            var expr = _cacheManager.GetOrAdd(expression, ctx =>
+            var expr = _cacheManager.GetOrCreate(expression, ctx =>
             {
                 var ast = ParseExpression(expression);
                 return new ScriptExpressionResult { Tree = ast, Errors = ast.GetErrors().ToList() };

@@ -16,30 +16,35 @@ using Easy.Constant;
 using Microsoft.AspNetCore.Html;
 using System.Collections.Generic;
 using ZKEACMS.StructuredData;
+using Easy.Cache;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ZKEACMS.Product.Service
 {
     public class ProductDetailWidgetService : WidgetService<ProductDetailWidget>
     {
         private const string ProductDetailWidgetRelatedPageUrls = "ProductDetailWidgetRelatedPageUrls";
-        private readonly ConcurrentDictionary<string, object> _allRelatedUrlCache;
+        private readonly ICacheManager<ProductDetailWidgetService> _cacheManager;
         private readonly IProductService _productService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ISignals _signals;
         public ProductDetailWidgetService(IWidgetBasePartService widgetService,
             IProductService productService,
             IApplicationContext applicationContext,
-            Easy.Cache.ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
+            ICacheManager<ProductDetailWidgetService> cacheManager,
             CMSDbContext dbContext,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            ISignals signals)
             : base(widgetService, applicationContext, dbContext)
         {
             _productService = productService;
-            _allRelatedUrlCache = cacheManager.GetOrAdd(ProductDetailWidgetRelatedPageUrls, new ConcurrentDictionary<string, object>());
+            _cacheManager = cacheManager;
             _httpContextAccessor = httpContextAccessor;
+            _signals = signals;
         }
         private void DismissRelatedPageUrls()
         {
-            _allRelatedUrlCache.TryRemove(ProductDetailWidgetRelatedPageUrls, out var urls);
+            _cacheManager.Remove(ProductDetailWidgetRelatedPageUrls);
         }
 
         public override void AddWidget(WidgetBase widget)
@@ -136,11 +141,13 @@ namespace ZKEACMS.Product.Service
 
         public string[] GetRelatedPageUrls()
         {
-            return _allRelatedUrlCache.GetOrAdd(ProductDetailWidgetRelatedPageUrls, fac =>
+            return _cacheManager.GetOrCreate(ProductDetailWidgetRelatedPageUrls, fac =>
             {
+                fac.AddExpirationToken(_signals.When(CacheSignals.PageUrlChanged));
+
                 var pages = WidgetBasePartService.Get(w => Get().Select(m => m.ID).Contains(w.ID)).Select(m => m.PageId).ToArray();
                 return DbContext.Page.Where(p => pages.Contains(p.ID)).Select(m => m.Url.Replace("~/", "/")).Distinct().ToArray();
-            }) as string[];
+            });
         }
     }
 }

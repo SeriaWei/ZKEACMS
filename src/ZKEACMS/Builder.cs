@@ -28,7 +28,6 @@ namespace ZKEACMS
 
             services.AddRouteDataProvider();
             services.ConfigCMS(configuration);
-            services.ConfigCache();
             services.ConfigMetaData();
             services.ConfigEvents();
             services.ConfigCaptcha();

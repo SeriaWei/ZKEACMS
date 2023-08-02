@@ -26,8 +26,8 @@ namespace ZKEACMS.Common.Service
         private const string _viewFolderName = "Views";
         private const string _viewImportsFileName = "_ViewImports.cshtml";
         private readonly string _templateFilesCacheKey = "TemplateFilesCacheKey";
-        private readonly ICacheManager<List<TemplateFile>> _cacheMgr;
-        public TemplateService(IWebHostEnvironment hostingEnvironment, IThemeService themeService, ICacheManager<List<TemplateFile>> cacheManager)
+        private readonly ICacheManager<TemplateService> _cacheMgr;
+        public TemplateService(IWebHostEnvironment hostingEnvironment, IThemeService themeService, ICacheManager<TemplateService> cacheManager)
         {
             _webHostEnvironment = hostingEnvironment;
             _themeService = themeService;
@@ -187,7 +187,7 @@ namespace ZKEACMS.Common.Service
 
         private List<TemplateFile> GetTemplateFiles()
         {
-            return _cacheMgr.GetOrAdd(_templateFilesCacheKey, key =>
+            return _cacheMgr.GetOrCreate(_templateFilesCacheKey, key =>
             {
                 var allTemplateFiles = new List<TemplateFile>();
                 List<string> themes = GetThemeNames();

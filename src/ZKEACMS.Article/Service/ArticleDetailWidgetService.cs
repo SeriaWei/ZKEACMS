@@ -20,6 +20,7 @@ using ZKEACMS.StructuredData;
 using Easy.Serializer;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Html;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ZKEACMS.Article.Service
 {
@@ -28,22 +29,25 @@ namespace ZKEACMS.Article.Service
         private const string ArticleDetailWidgetRelatedPageUrls = "ArticleDetailWidgetRelatedPageUrls";
         private readonly IArticleService _articleService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ConcurrentDictionary<string, object> _allRelatedUrlCache;
+        private readonly ICacheManager<ArticleDetailWidgetService> _cacheManager;
+        private readonly ISignals _signals;
         public ArticleDetailWidgetService(IWidgetBasePartService widgetService,
             IArticleService articleService,
             IApplicationContext applicationContext,
-            ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
+            ICacheManager<ArticleDetailWidgetService> cacheManager,
             CMSDbContext dbContext,
-            IHttpContextAccessor contextAccessor)
+            IHttpContextAccessor contextAccessor,
+            ISignals signals)
             : base(widgetService, applicationContext, dbContext)
         {
             _articleService = articleService;
-            _allRelatedUrlCache = cacheManager.GetOrAdd(ArticleDetailWidgetRelatedPageUrls, new ConcurrentDictionary<string, object>());
+            _cacheManager = cacheManager;
             _httpContextAccessor = contextAccessor;
+            _signals = signals;
         }
         private void DismissRelatedPageUrls()
         {
-            _allRelatedUrlCache.TryRemove(ArticleDetailWidgetRelatedPageUrls, out var urls);
+            _cacheManager.Remove(ArticleDetailWidgetRelatedPageUrls);
         }
 
         public override ServiceResult<ArticleDetailWidget> Add(ArticleDetailWidget item)
@@ -152,11 +156,13 @@ namespace ZKEACMS.Article.Service
 
         public string[] GetRelatedPageUrls()
         {
-            return _allRelatedUrlCache.GetOrAdd(ArticleDetailWidgetRelatedPageUrls, fac =>
+            return _cacheManager.GetOrCreate(ArticleDetailWidgetRelatedPageUrls, fac =>
             {
+                fac.AddExpirationToken(_signals.When(CacheSignals.PageUrlChanged));
+
                 var pages = WidgetBasePartService.Get(w => Get().Select(m => m.ID).Contains(w.ID)).Select(m => m.PageId).ToArray();
                 return DbContext.Page.Where(p => pages.Contains(p.ID)).Select(m => m.Url.Replace("~/", "/")).Distinct().ToArray();
-            }) as string[];
+            });
         }
     }
 }

@@ -12,15 +12,23 @@ using System;
 using ZKEACMS.Page;
 using Easy.Cache;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ZKEACMS.Layout
 {
     public class LayoutHtmlService : ServiceBase<LayoutHtml, CMSDbContext>, ILayoutHtmlService
     {
-        private readonly ICacheManager<IEnumerable<LayoutHtml>> _cacheManager;
-        public LayoutHtmlService(IApplicationContext applicationContext, ICacheManager<IEnumerable<LayoutHtml>> cacheManager, CMSDbContext dbContext) : base(applicationContext, dbContext)
+        private readonly ICacheManager<LayoutHtmlService> _cacheManager;
+        private readonly ISignals _signals;
+        private const string LayoutHtmlChanged = "LayoutHtmlChanged";
+        public LayoutHtmlService(IApplicationContext applicationContext, 
+            ICacheManager<LayoutHtmlService> cacheManager, 
+            CMSDbContext dbContext, 
+            ISignals signals) 
+            : base(applicationContext, dbContext)
         {
             _cacheManager = cacheManager;
+            _signals = signals;
         }
         public override DbSet<LayoutHtml> CurrentDbSet => DbContext.LayoutHtml;
 
@@ -35,7 +43,7 @@ namespace ZKEACMS.Layout
         }
         public IEnumerable<LayoutHtml> GetByPage(PageEntity page)
         {
-            IEnumerable<LayoutHtml> get(string key, string regin)
+            IEnumerable<LayoutHtml> get()
             {
                 IEnumerable<LayoutHtml> html = Get().Where(m => m.PageId == page.ID).OrderBy(m => m.LayoutHtmlId).ToList();
                 if (!html.Any())
@@ -53,9 +61,15 @@ namespace ZKEACMS.Layout
             }
             if (page.IsPublishedPage)
             {
-                return _cacheManager.GetOrAdd(page.ID, page.ReferencePageID, get);
+                return _cacheManager.GetOrCreate(page.ID, factory =>
+                {
+                    factory.AddExpirationToken(_signals.When(LayoutHtmlChanged));
+                    factory.AddExpirationToken(_signals.When(page.ID));
+                    factory.AddExpirationToken(_signals.When(page.ReferencePageID));
+                    return get();
+                });
             }
-            return get(page.ID, page.ReferencePageID);
+            return get();
         }
         public IEnumerable<LayoutHtml> GetByLayoutID(string layoutId)
         {
@@ -64,12 +78,12 @@ namespace ZKEACMS.Layout
 
         public void RemoveCache(string pageId)
         {
-            _cacheManager.ClearRegion(pageId);
+            _signals.Trigger(pageId);
         }
 
         public void ClearCache()
         {
-            _cacheManager.Clear();
+            _signals.Trigger(LayoutHtmlChanged);
         }
     }
 }

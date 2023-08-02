@@ -8,6 +8,7 @@ using Easy.RepositoryPattern;
 using Easy.Serializer;
 using FastExpressionCompiler;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Concurrent;
@@ -23,12 +24,15 @@ namespace Easy.Modules.MutiLanguage
 {
     public class LanguageService : ILanguageService
     {
-        private readonly ICacheManager<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>> _cacheManager;
+        private readonly ICacheManager<LanguageService> _cacheManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public LanguageService(ICacheManager<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>> cacheManager, IWebHostEnvironment webHostEnvironment)
+        private readonly ISignals _signals;
+        private const string LanguageChanged = "LanguageChanged";
+        public LanguageService(ICacheManager<LanguageService> cacheManager, IWebHostEnvironment webHostEnvironment, ISignals signals)
         {
             _cacheManager = cacheManager;
             _webHostEnvironment = webHostEnvironment;
+            _signals = signals;
         }
 
         private string GetLocaleDirectory()
@@ -73,8 +77,10 @@ namespace Easy.Modules.MutiLanguage
 
         private ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>> GetAllFromCache()
         {
-            return _cacheManager.GetOrAdd("AllLanguageEntry", factory =>
+            return _cacheManager.GetOrCreate("AllLanguageEntry", factory =>
             {
+                factory.AddExpirationToken(_signals.When(LanguageChanged));
+
                 ExpireCacheOnFileChanged();
 
                 ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>> result = new ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>(StringComparer.OrdinalIgnoreCase);
@@ -103,10 +109,10 @@ namespace Easy.Modules.MutiLanguage
         {
             if (!_webHostEnvironment.IsDevelopment()) return;
 
-            _webHostEnvironment.ContentRootFileProvider.Watch("Locale/*.yml").RegisterChangeCallback(cm =>
+            _webHostEnvironment.ContentRootFileProvider.Watch("Locale/*.yml").RegisterChangeCallback(signals =>
             {
-                (cm as ICacheManager<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>>).Clear();
-            }, _cacheManager);
+                (signals as ISignals).Trigger(LanguageChanged);
+            }, _signals);
         }
 
         private ServiceResult<LanguageEntity> Save(LanguageEntity item)
@@ -118,7 +124,7 @@ namespace Easy.Modules.MutiLanguage
                 var localizeText = ReadLocalizeTextFromFile(localeFile);
                 localizeText[item.LanKey] = item.LanValue;
                 SaveLocalizeTextToFile(localeFile, localizeText);
-                _cacheManager.Clear();
+                _signals.Trigger(LanguageChanged);
             }
             catch (Exception ex)
             {

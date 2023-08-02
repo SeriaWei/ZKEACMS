@@ -83,11 +83,11 @@ namespace Easy
             services.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
             services.AddTransient<IWebClient, WebClient>().AddHttpClient();
 
-            services.AddSingleton<ICacheProvider, DefaultCacheProvider>();
             services.AddScoped<ILocalize, Localize>();
 
-            services.ConfigureCache<ScriptExpressionResult>();
-            services.ConfigureCache<ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>>();
+            services.AddMemoryCache();
+            services.AddTransient(typeof(ICacheManager<>), typeof(CacheManager<>));
+            services.AddSingleton<ISignals, Signals>();
 
             services.AddScoped<IAuthorizationHandler, RolePolicyRequirementHandler>();
             services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));

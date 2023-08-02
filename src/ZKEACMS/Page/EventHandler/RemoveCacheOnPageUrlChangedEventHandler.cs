@@ -13,14 +13,11 @@ namespace ZKEACMS.Page
 {
     public sealed class RemoveCacheOnPageUrlChangedEventHandler : IEventHandler
     {
-        private readonly ICacheManager<IEnumerable<WidgetBase>> _pageWidgetCacheManager;
-        private readonly ICacheManager<ConcurrentDictionary<string, object>> _concurrentCacheManager;
+        private readonly ISignals _signals;
 
-        public RemoveCacheOnPageUrlChangedEventHandler(ICacheManager<IEnumerable<WidgetBase>> pageWidgetCacheManage, 
-            ICacheManager<ConcurrentDictionary<string, object>> concurrentCacheManager)
+        public RemoveCacheOnPageUrlChangedEventHandler(ISignals signals)
         {
-            _pageWidgetCacheManager = pageWidgetCacheManage;
-            _concurrentCacheManager = concurrentCacheManager;
+            _signals = signals;
         }
 
         public void Handle(object entity, EventArg e)
@@ -28,8 +25,9 @@ namespace ZKEACMS.Page
             PageEntity page = entity as PageEntity;
             if (page != null && e.Data != null)
             {
-                _pageWidgetCacheManager.Clear();
-                _concurrentCacheManager.Clear();
+                _signals.Trigger(CacheSignals.PageUrlChanged);
+                _signals.Trigger(CacheSignals.PageWidgetChanged);                
+                _signals.Trigger(CacheSignals.PageZoneChanged);
             }
         }
     }

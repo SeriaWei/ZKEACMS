@@ -26,15 +26,14 @@ namespace ZKEACMS.Layout
         private readonly ILayoutHtmlService _layoutHtmlService;
         private readonly IWidgetActivator _widgetActivator;
         private readonly IWidgetBasePartService _widgetService;
-        private readonly ConcurrentDictionary<string, object> _cache;
-        private const string LayoutCacheKey = "LayoutCacheKey";
-        public LayoutService(IDataArchivedService dataArchivedService,
-            IZoneService zoneService,
+        private readonly ICacheManager<LayoutService> _cacheManager;
+
+        public LayoutService(IZoneService zoneService,
             IWidgetBasePartService widgetService,
             IApplicationContext applicationContext,
             ILayoutHtmlService layoutHtmlService,
             IWidgetActivator widgetActivator,
-            ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
+            ICacheManager<LayoutService> cacheManager,
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
@@ -42,7 +41,7 @@ namespace ZKEACMS.Layout
             _widgetService = widgetService;
             _layoutHtmlService = layoutHtmlService;
             _widgetActivator = widgetActivator;
-            _cache = cacheManager.GetOrAdd("LayoutCacheKey", key => new ConcurrentDictionary<string, object>());
+            _cacheManager = cacheManager;
         }
 
         public override DbSet<LayoutEntity> CurrentDbSet => DbContext.Layout;
@@ -181,7 +180,7 @@ namespace ZKEACMS.Layout
         }
         public LayoutEntity GetByPage(PageEntity page)
         {
-            LayoutEntity baseLayout = _cache.GetOrAdd(page.LayoutId, key =>
+            LayoutEntity baseLayout = _cacheManager.GetOrCreate(page.LayoutId, key =>
             {
                 LayoutEntity entry = base.Get(key);
                 DbContext.Attach(entry).State = EntityState.Detached;
@@ -248,11 +247,7 @@ namespace ZKEACMS.Layout
         }
         private void MarkChanged(LayoutEntity item)
         {
-            object old;
-            if (_cache.TryGetValue(item.ID, out old))
-            {
-                _cache.TryUpdate(item.ID, item, old);
-            }
+            _cacheManager.Remove(item.ID);
         }
     }
 }

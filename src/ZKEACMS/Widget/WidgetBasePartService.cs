@@ -9,6 +9,7 @@ using Easy.RepositoryPattern;
 using Easy.Serializer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,17 +23,19 @@ namespace ZKEACMS.Widget
     {
         protected const string EncryptWidgetTemplate = "EncryptWidgetTemplate";
         private readonly IWidgetActivator _widgetActivator;
+        private readonly ICacheManager<WidgetBasePartService> _cacheManager;
+        private readonly ISignals _signals;
 
-        private readonly ICacheManager<IEnumerable<WidgetBase>> _pageWidgetCacheManage;
         public WidgetBasePartService(IApplicationContext applicationContext,
             IWidgetActivator widgetActivator,
-            ICacheManager<IEnumerable<WidgetBase>> pageWidgetCacheManage,
-            CMSDbContext dbContext, IEventManager eventManager)
+            ICacheManager<WidgetBasePartService> cacheManager,
+            CMSDbContext dbContext, IEventManager eventManager, ISignals signals)
             : base(applicationContext, dbContext)
         {
             _widgetActivator = widgetActivator;
-            _pageWidgetCacheManage = pageWidgetCacheManage;
+            _cacheManager = cacheManager;
             EventManager = eventManager;
+            _signals = signals;
         }
         public IEventManager EventManager { get; private set; }
         public override DbSet<WidgetBasePart> CurrentDbSet => DbContext.WidgetBasePart;
@@ -62,7 +65,13 @@ namespace ZKEACMS.Widget
             }
             if (page.IsPublishedPage)
             {
-                return _pageWidgetCacheManage.GetOrAdd(page.ID, page.ReferencePageID, (key, region) => getPageWidgets(page));
+                return _cacheManager.GetOrCreate(page.ID, factory =>
+                {
+                    factory.AddExpirationToken(_signals.When(page.ID));
+                    factory.AddExpirationToken(_signals.When(page.ReferencePageID));
+                    factory.AddExpirationToken(_signals.When(CacheSignals.PageWidgetChanged));
+                    return getPageWidgets(page);
+                });
             }
             return getPageWidgets(page).Where(m => m != null);
         }
@@ -114,12 +123,12 @@ namespace ZKEACMS.Widget
         }
         public void RemoveCache(string pageId)
         {
-            _pageWidgetCacheManage.ClearRegion(pageId);
+            _signals.Trigger(pageId);
         }
 
         public void ClearCache()
         {
-            _pageWidgetCacheManage.Clear();
+            _signals.Trigger(CacheSignals.PageWidgetChanged);
         }
 
         public IEnumerable<TWidget> GetAllWidgets<TWidgetService, TWidget>()

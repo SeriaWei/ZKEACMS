@@ -13,10 +13,6 @@ namespace Easy.Extend
 {
     public static class ExtServiceCollection
     {
-        public static IServiceCollection ConfigureCache<T>(this IServiceCollection services)
-        {
-            return services.AddScoped(serviceProvider => serviceProvider.GetService<ICacheProvider>().Build<T>());
-        }
         public static IServiceCollection ConfigureStateProvider<T>(this IServiceCollection services)
             where T : class, IApplicationContextStateProvider
         {

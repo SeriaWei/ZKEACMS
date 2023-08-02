@@ -14,27 +14,31 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Collections.Concurrent;
 using Easy.Cache;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ZKEACMS.Article.Service
 {
     public class ArticleTypeWidgetService : WidgetService<ArticleTypeWidget>
     {
         private const string ArticleTypeWidgetRelatedPageUrls = "ArticleTypeWidgetRelatedPageUrls";
-        private readonly ConcurrentDictionary<string, object> _allRelatedUrlCache;
+        private readonly ICacheManager<ArticleTypeWidgetService> _cacheManager;
         private readonly IArticleTypeService _articleTypeService;
+        private readonly ISignals _signals;
         public ArticleTypeWidgetService(IWidgetBasePartService widgetService,
             IArticleTypeService articleTypeService,
             IApplicationContext applicationContext,
-            ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
-            CMSDbContext dbContext)
+            ICacheManager<ArticleTypeWidgetService> cacheManager,
+            CMSDbContext dbContext,
+            ISignals signals)
             : base(widgetService, applicationContext, dbContext)
         {
             _articleTypeService = articleTypeService;
-            _allRelatedUrlCache = cacheManager.GetOrAdd(ArticleTypeWidgetRelatedPageUrls, new ConcurrentDictionary<string, object>());
+            _cacheManager = cacheManager;
+            _signals = signals;
         }
         private void DismissRelatedPageUrls()
         {
-            _allRelatedUrlCache.TryRemove(ArticleTypeWidgetRelatedPageUrls, out var urls);
+            _cacheManager.Remove(ArticleTypeWidgetRelatedPageUrls);
         }
         public override void AddWidget(WidgetBase widget)
         {
@@ -84,11 +88,13 @@ namespace ZKEACMS.Article.Service
 
         public string[] GetRelatedPageUrls()
         {
-            return _allRelatedUrlCache.GetOrAdd(ArticleTypeWidgetRelatedPageUrls, fac =>
+            return _cacheManager.GetOrCreate(ArticleTypeWidgetRelatedPageUrls, fac =>
             {
+                fac.AddExpirationToken(_signals.When(CacheSignals.PageUrlChanged));
+
                 var pages = WidgetBasePartService.Get(w => Get().Select(m => m.ID).Contains(w.ID)).Select(m => m.PageId).ToArray();
                 return DbContext.Page.Where(p => pages.Contains(p.ID)).Select(m => m.Url.Replace("~/", "/")).Distinct().ToArray();
-            }) as string[];
+            });
         }
     }
 }

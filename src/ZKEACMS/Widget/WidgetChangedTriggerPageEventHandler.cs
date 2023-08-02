@@ -15,13 +15,13 @@ namespace ZKEACMS.Widget
     public sealed class WidgetChangedTriggerPageEventHandler : IEventHandler
     {
         private readonly IPageService _pageService;
-        private readonly ICacheManager<IEnumerable<WidgetBase>> _pageWidgetCacheManage;
+        private readonly ISignals _signals;
         private readonly HashSet<string> _pages;
-        public WidgetChangedTriggerPageEventHandler(IPageService pageService, ICacheManager<IEnumerable<WidgetBase>> pageWidgetCacheManage)
+        public WidgetChangedTriggerPageEventHandler(IPageService pageService, ISignals signals)
         {
             _pageService = pageService;
-            _pageWidgetCacheManage = pageWidgetCacheManage;
             _pages = new HashSet<string>();
+            _signals = signals;
         }
 
         public WidgetChangedTriggerPageEventHandler(IPageService pageService)
@@ -39,7 +39,7 @@ namespace ZKEACMS.Widget
             }
             if (widget.LayoutId.IsNotNullAndWhiteSpace())
             {
-                _pageWidgetCacheManage.Clear();
+                _signals.Trigger(CacheSignals.PageWidgetChanged);
             }
         }
     }

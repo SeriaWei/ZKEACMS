@@ -18,8 +18,8 @@ namespace ZKEACMS.Redirection.Service
     public class UrlRedirectService : ServiceBase<UrlRedirect, CMSDbContext>, IUrlRedirectService
     {
         private const string CacheKey = "AllUrlRedirectItems";
-        private readonly ICacheManager<IEnumerable<UrlRedirect>> _cacheManager;
-        public UrlRedirectService(IApplicationContext applicationContext, CMSDbContext dbContext, ICacheManager<IEnumerable<UrlRedirect>> cacheManager) : base(applicationContext, dbContext)
+        private readonly ICacheManager<UrlRedirectService> _cacheManager;
+        public UrlRedirectService(IApplicationContext applicationContext, CMSDbContext dbContext, ICacheManager<UrlRedirectService> cacheManager) : base(applicationContext, dbContext)
         {
             _cacheManager = cacheManager;
         }
@@ -155,12 +155,15 @@ namespace ZKEACMS.Redirection.Service
         }
         public IEnumerable<UrlRedirect> GetAll()
         {
-            return _cacheManager.GetOrAdd(CacheKey, key => Get(m => m.Status == (int)RecordStatus.Active)
-            .Select(m =>
+            return _cacheManager.GetOrCreate(CacheKey, factory =>
             {
-                m.ParsePattern();
-                return m;
-            }).ToList());
+                return Get(m => m.Status == (int)RecordStatus.Active)
+                .Select(m =>
+                {
+                    m.ParsePattern();
+                    return m;
+                }).ToList();
+            });
         }
 
         public UrlRedirect GetMatchedRedirection(string path)

@@ -39,8 +39,7 @@ namespace ZKEACMS.Theme
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IApplicationSettingService _applicationSettingService;
-        private readonly ConcurrentDictionary<string, object> _cache;
-        private readonly ConcurrentDictionary<string, object> _versionMap;
+        private static readonly ConcurrentDictionary<string, string> _versionMap = new ConcurrentDictionary<string, string>();
         private const string CurrentThemeCacheKey = "CurrentThemeCacheKey";
         private const string CurrentThemeVersionMapCacheKey = "CurrentThemeVersionMapCacheKey";
 
@@ -49,7 +48,7 @@ namespace ZKEACMS.Theme
         private readonly string _sql = "*.sql";
 
         private readonly ILogger<ThemeService> _logger;
-        private readonly ICacheManager<IEnumerable<ThemeEntity>> _cacheMgr;
+        private readonly ICacheManager<ThemeService> _cacheManager;
         private const string AllThemeCacheKey = "AllThemeCacheKey";
         public ThemeService(ICookie cookie,
             ILogger<ThemeService> logger,
@@ -57,8 +56,7 @@ namespace ZKEACMS.Theme
             IWebHostEnvironment hostingEnvironment,
             IApplicationContext applicationContext,
             IApplicationSettingService applicationSettingService,
-            ICacheManager<ConcurrentDictionary<string, object>> cacheManager,
-            ICacheManager<IEnumerable<ThemeEntity>> cacheMgr,
+            ICacheManager<ThemeService> cacheManager,
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
         {
@@ -66,9 +64,7 @@ namespace ZKEACMS.Theme
             _httpContextAccessor = httpContextAccessor;
             _hostingEnvironment = hostingEnvironment;
             _applicationSettingService = applicationSettingService;
-            _cache = cacheManager.GetOrAdd(CurrentThemeCacheKey, key => new ConcurrentDictionary<string, object>());
-            _versionMap = cacheManager.GetOrAdd(CurrentThemeVersionMapCacheKey, key => new ConcurrentDictionary<string, object>());
-            _cacheMgr = cacheMgr;
+            _cacheManager = cacheManager;
             _logger = logger;
         }
 
@@ -106,7 +102,7 @@ namespace ZKEACMS.Theme
             ThemeEntity theme = GetPreviewTheme();
             if (theme != null) return theme;
 
-            theme = _cache.GetOrAdd(CurrentThemeCacheKey, key =>
+            theme = _cacheManager.GetOrCreate(CurrentThemeCacheKey, factory =>
             {
                 ThemeEntity entry = Get(m => m.IsActived == true && m.Status == (int)RecordStatus.Active).FirstOrDefault();
                 if (entry == null)
@@ -140,7 +136,7 @@ namespace ZKEACMS.Theme
         public IEnumerable<ThemeEntity> GetAllThemes()
         {
             int status = (int)RecordStatus.Active;
-            return _cacheMgr.GetOrAdd(AllThemeCacheKey, (key) => Get(m => m.Status == status));
+            return _cacheManager.GetOrCreate(AllThemeCacheKey, (key) => Get(m => m.Status == status));
         }
 
         public void ChangeTheme(string id)
@@ -273,7 +269,7 @@ namespace ZKEACMS.Theme
             if (filePath is FilePathMap map)
             {
                 string newValue = map.Source + "?v=" + File.GetLastWriteTime(map.FilePath).ToFileTime().ToString("x");
-                if (_versionMap.TryGetValue(map.Source, out object oldValue))
+                if (_versionMap.TryGetValue(map.Source, out string oldValue))
                 {
                     _versionMap.TryUpdate(map.Source, newValue, oldValue);
                 }
@@ -281,8 +277,8 @@ namespace ZKEACMS.Theme
         }
         private void ClearCache()
         {
-            _cache.Clear();
-            _cacheMgr.Clear();
+            _cacheManager.Remove(CurrentThemeCacheKey);
+            _cacheManager.Remove(AllThemeCacheKey);
         }
     }
 }

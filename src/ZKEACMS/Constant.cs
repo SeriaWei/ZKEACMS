@@ -154,6 +154,12 @@ namespace ZKEACMS
         public static Regex CategoryIdRegex = new Regex(@"/cate-(\d+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         public static Regex PageRegex = new Regex(@"/p-(\d+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
     }
+    public static class CacheSignals
+    {
+        public const string PageUrlChanged = "PageUrlChanged";
+        public const string PageWidgetChanged = "PageWidgetChanged";
+        public const string PageZoneChanged = "PageZoneChanged";
+    }
     public static class Version
     {
         static string _version;

@@ -28,10 +28,6 @@ namespace EasyFrameWork.Test
             serviceCollection.AddTransient<IRuleProvider, DateRuleProvider>();
             serviceCollection.AddTransient<IRuleProvider, MoneyRuleProvider>();
             serviceCollection.AddTransient<IScriptExpressionEvaluator, ScriptExpressionEvaluator>();
-
-            serviceCollection.AddSingleton<ICacheProvider, DefaultCacheProvider>();
-            serviceCollection.AddSingleton(serviceProvider => serviceProvider.GetService<ICacheProvider>().Build<ScriptExpressionResult>());
-
             ServiceProvider = serviceCollection.BuildServiceProvider();
         }
         [TestMethod]

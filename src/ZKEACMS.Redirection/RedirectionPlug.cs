@@ -84,7 +84,6 @@ namespace ZKEACMS.Redirection
             serviceCollection.TryAddTransient<IUrlRedirectService, UrlRedirectService>();
 
             serviceCollection.ConfigureMetaData<UrlRedirect, UrlRedirectMetaData>();
-            serviceCollection.ConfigureCache<IEnumerable<UrlRedirect>>();
         }
     }
 }
