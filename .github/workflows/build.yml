@@ -36,13 +36,3 @@ jobs:
         mkdir ./src/ZKEACMS.WebHost/bin/Release/PublishOutput/App_Data
         sqlite-exec -d ./src/ZKEACMS.WebHost/bin/Release/PublishOutput/App_Data/Database.sqlite -f ./Database/SQLite/ZKEACMS.sqlite.sql
         cp -f ./Database/SQLite/appsettings.json ./src/ZKEACMS.WebHost/bin/Release/PublishOutput/appsettings.json
-    - name: Archive cms application
-      uses: actions/upload-artifact@v2
-      with:
-        name: Application
-        path: ./src/ZKEACMS.WebHost/bin/Release/PublishOutput
-    - name: Archive cms database
-      uses: actions/upload-artifact@v2
-      with:
-        name: Database
-        path: ./Database
