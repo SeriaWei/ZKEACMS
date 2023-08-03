@@ -156,9 +156,9 @@ namespace ZKEACMS.Article.Service
 
         public string[] GetRelatedPageUrls()
         {
-            return _cacheManager.GetOrCreate(ArticleDetailWidgetRelatedPageUrls, fac =>
+            return _cacheManager.GetOrCreate(ArticleDetailWidgetRelatedPageUrls, factory =>
             {
-                fac.AddExpirationToken(_signals.When(CacheSignals.PageUrlChanged));
+                factory.AddExpirationToken(_signals.When(CacheSignals.PageUrlChanged));
 
                 var pages = WidgetBasePartService.Get(w => Get().Select(m => m.ID).Contains(w.ID)).Select(m => m.PageId).ToArray();
                 return DbContext.Page.Where(p => pages.Contains(p.ID)).Select(m => m.Url.Replace("~/", "/")).Distinct().ToArray();

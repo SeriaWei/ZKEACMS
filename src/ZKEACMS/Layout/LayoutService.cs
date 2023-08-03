@@ -180,13 +180,13 @@ namespace ZKEACMS.Layout
         }
         public LayoutEntity GetByPage(PageEntity page)
         {
-            LayoutEntity baseLayout = _cacheManager.GetOrCreate(page.LayoutId, key =>
+            LayoutEntity baseLayout = _cacheManager.GetOrCreate(page.LayoutId, factory =>
             {
-                LayoutEntity entry = base.Get(key);
+                LayoutEntity entry = base.Get(page.LayoutId);
                 DbContext.Attach(entry).State = EntityState.Detached;
                 return entry;
-            }) as LayoutEntity;
-            LayoutEntity entity = new LayoutEntity
+            });
+            var entity = new LayoutEntity
             {
                 ID = baseLayout.ID,
                 Style = baseLayout.Style,

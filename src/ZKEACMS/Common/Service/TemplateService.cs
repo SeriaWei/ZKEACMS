@@ -187,7 +187,7 @@ namespace ZKEACMS.Common.Service
 
         private List<TemplateFile> GetTemplateFiles()
         {
-            return _cacheMgr.GetOrCreate(_templateFilesCacheKey, key =>
+            return _cacheMgr.GetOrCreate(_templateFilesCacheKey, factory =>
             {
                 var allTemplateFiles = new List<TemplateFile>();
                 List<string> themes = GetThemeNames();

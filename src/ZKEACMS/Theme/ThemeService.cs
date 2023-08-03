@@ -136,7 +136,7 @@ namespace ZKEACMS.Theme
         public IEnumerable<ThemeEntity> GetAllThemes()
         {
             int status = (int)RecordStatus.Active;
-            return _cacheManager.GetOrCreate(AllThemeCacheKey, (key) => Get(m => m.Status == status));
+            return _cacheManager.GetOrCreate(AllThemeCacheKey, factory => Get(m => m.Status == status));
         }
 
         public void ChangeTheme(string id)

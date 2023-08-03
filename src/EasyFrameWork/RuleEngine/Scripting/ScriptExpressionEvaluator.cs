@@ -21,7 +21,7 @@ namespace Easy.RuleEngine.Scripting
 
         public object Evaluate(string expression, IEnumerable<IGlobalMethodProvider> providers)
         {
-            var expr = _cacheManager.GetOrCreate(expression, ctx =>
+            var expr = _cacheManager.GetOrCreate(expression, factory =>
             {
                 var ast = ParseExpression(expression);
                 return new ScriptExpressionResult { Tree = ast, Errors = ast.GetErrors().ToList() };
