@@ -13,6 +13,7 @@ namespace Easy.Cache
 {
     public interface ICacheManager<out Category>
     {
+        T Get<T>(string key);
         T GetOrCreate<T>(string key, Func<ICacheEntry, T> factory);
         Task<T> GetOrCreateAsync<T>(string key, Func<ICacheEntry, Task<T>> factory);
         void Remove(string key);

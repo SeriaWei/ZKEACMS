@@ -23,6 +23,11 @@ namespace Easy.Cache
             _signals = signals;
         }
 
+        public T Get<T>(string key)
+        {
+            return _memoryCache.Get<T>(CreateCacheKey(key));
+        }
+
         public T GetOrCreate<T>(string key, Func<ICacheEntry, T> factory)
         {
             return _memoryCache.GetOrCreate<T>(CreateCacheKey(key), cacheEntry =>
@@ -55,5 +60,6 @@ namespace Easy.Cache
         {
             _signals.Trigger(Signals.AllCacheEntryChanged);
         }
+
     }
 }
