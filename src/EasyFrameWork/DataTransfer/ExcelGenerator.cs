@@ -13,51 +13,51 @@ using System.Text;
 
 namespace Easy.DataTransfer
 {
-    public class ExcelGenerator : IDisposable
+    public sealed class ExcelGenerator : IDisposable
     {
-        private MemoryStream memoryStream;
-        private SheetData sheetData;
-        private WorkbookPart workbookpart;
-        private SpreadsheetDocument spreadsheetDocument;
+        private readonly MemoryStream _memoryStream;
+        private readonly SheetData _sheetData;
+        private readonly WorkbookPart _workbookpart;
+        private readonly SpreadsheetDocument _spreadsheetDocument;
         public ExcelGenerator()
         {
-            memoryStream = new MemoryStream();
-            spreadsheetDocument = SpreadsheetDocument.Create(memoryStream, SpreadsheetDocumentType.Workbook);
-            workbookpart = spreadsheetDocument.AddWorkbookPart();
-            workbookpart.Workbook = new Workbook();
-            WorksheetPart worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
+            _memoryStream = new MemoryStream();
+            _spreadsheetDocument = SpreadsheetDocument.Create(_memoryStream, SpreadsheetDocumentType.Workbook);
+            _workbookpart = _spreadsheetDocument.AddWorkbookPart();
+            _workbookpart.Workbook = new Workbook();
+            var worksheetPart = _workbookpart.AddNewPart<WorksheetPart>();
             worksheetPart.Worksheet = new Worksheet(new SheetData());
-            Sheets sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild(new Sheets());
-            Sheet sheet = new Sheet() { Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = "Sheet1" };
+            var sheets = _spreadsheetDocument.WorkbookPart.Workbook.AppendChild(new Sheets());
+            var sheet = new Sheet() { Id = _spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = "Sheet1" };
             sheets.Append(sheet);
-            sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
+            _sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
         }
 
         public void Dispose()
         {
-            spreadsheetDocument.Dispose();
-            memoryStream.Close();
-            memoryStream.Dispose();
+            _spreadsheetDocument.Dispose();
+            _memoryStream.Close();
+            _memoryStream.Dispose();
         }
         public void AddRow(Action<Row> newrow)
         {
-            Row row = new Row();
-            sheetData.Append(row);
+            var row = new Row();
+            _sheetData.Append(row);
             newrow(row);
         }
         public MemoryStream ToMemoryStream()
         {
-            workbookpart.Workbook.Save();
-            spreadsheetDocument.Close();
-            memoryStream.Position = 0;
-            return new MemoryStream(memoryStream.ToArray());
+            _workbookpart.Workbook.Save();
+            _spreadsheetDocument.Dispose();
+            _memoryStream.Position = 0;
+            return new MemoryStream(_memoryStream.ToArray());
         }
     }
     public static class OpenXmlExt
     {
         public static void AppendCell(this Row row, string value)
         {
-            Cell dataCell = new Cell();
+            var dataCell = new Cell();
             row.AppendChild(dataCell);
             dataCell.CellValue = new CellValue(value);
             dataCell.DataType = new EnumValue<CellValues>(CellValues.String);

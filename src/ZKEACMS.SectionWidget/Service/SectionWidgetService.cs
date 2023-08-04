@@ -11,7 +11,6 @@ using ZKEACMS.SectionWidget.Models;
 using Easy.Extend;
 using Newtonsoft.Json;
 using ZKEACMS.Widget;
-using Easy.Zip;
 using Easy;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -60,7 +59,7 @@ namespace ZKEACMS.SectionWidget.Service
 
             widget.Groups = _sectionGroupService.Get(m => m.SectionWidgetId == widget.ID).OrderBy(m => m.Order).ToList();
             var contents = _sectionContentProviderService.Get(m => m.SectionWidgetId == widget.ID);
-            List<SectionContent> filled = new List<SectionContent>();
+            var filled = new List<SectionContent>();
             contents.AsParallel().Each(content =>
             {
                 var contentFull = _sectionContentProviderService.FillContent(content);
@@ -78,13 +77,10 @@ namespace ZKEACMS.SectionWidget.Service
         }
         public override void Remove(Models.SectionWidget item)
         {
-            if (item != null)
-            {
-                item.Groups.Each(m =>
+            item?.Groups.Each(m =>
                 {
                     _sectionGroupService.Remove(m.ID);
                 });
-            }
             base.Remove(item);
         }
 
@@ -145,8 +141,10 @@ namespace ZKEACMS.SectionWidget.Service
                 var templateFiles = GetTemplateFiles(widget.Template);
                 pack.Files = pack.Files.Where(m => !templateFiles.Contains(m.FilePath)).ToList();
             }
-            var filePackageInstaller = new FilePackageInstaller(ApplicationContext.HostingEnvironment);
-            filePackageInstaller.AddtionalUsing = new string[] { "@using ZKEACMS.SectionWidget", "@using ZKEACMS.SectionWidget.Models", "@using ZKEACMS.SectionWidget.Service" };
+            var filePackageInstaller = new FilePackageInstaller(ApplicationContext.HostingEnvironment)
+            {
+                AddtionalUsing = new string[] { "@using ZKEACMS.SectionWidget", "@using ZKEACMS.SectionWidget.Models", "@using ZKEACMS.SectionWidget.Service" }
+            };
             filePackageInstaller.Install(pack);
 
             widget.PageId = null;
@@ -158,12 +156,14 @@ namespace ZKEACMS.SectionWidget.Service
             AddWidget(widget);
         }
 
-        private HashSet<string> GetTemplateFiles(SectionTemplate template)
+        private static HashSet<string> GetTemplateFiles(SectionTemplate template)
         {
-            HashSet<string> result = new HashSet<string>();
-            result.Add($"~/Plugins/ZKEACMS.SectionWidget/Views/{template.TemplateName}.cshtml".FormatWith(template.TemplateName));
-            result.Add($"~/Plugins/ZKEACMS.SectionWidget/{string.Join('/', template.Thumbnail.ToWebPath())}");
-            result.Add($"~/Plugins/ZKEACMS.SectionWidget/{string.Join('/', template.ExampleData.ToWebPath())}");
+            var result = new HashSet<string>
+            {
+                $"~/Plugins/ZKEACMS.SectionWidget/Views/{template.TemplateName}.cshtml".FormatWith(template.TemplateName),
+                $"~/Plugins/ZKEACMS.SectionWidget/{string.Join('/', template.Thumbnail.ToWebPath())}",
+                $"~/Plugins/ZKEACMS.SectionWidget/{string.Join('/', template.ExampleData.ToWebPath())}"
+            };
             return result;
         }
     }

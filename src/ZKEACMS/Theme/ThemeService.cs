@@ -34,22 +34,21 @@ namespace ZKEACMS.Theme
             public string FilePath { get; set; }
         }
 
-        private readonly ICookie _cookie;
-        private const string PreViewCookieName = "PreViewTheme";
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IWebHostEnvironment _hostingEnvironment;
-        private readonly IApplicationSettingService _applicationSettingService;
-        private static readonly ConcurrentDictionary<string, string> _versionMap = new ConcurrentDictionary<string, string>();
-        private const string CurrentThemeCacheKey = "CurrentThemeCacheKey";
-        private const string CurrentThemeVersionMapCacheKey = "CurrentThemeVersionMapCacheKey";
-
+        private const string _preViewCookieName = "PreViewTheme";
+        private const string _currentThemeCacheKey = "CurrentThemeCacheKey";
         private readonly string _themeName = "themes";
         private readonly string _sqlName = "sql";
         private readonly string _sql = "*.sql";
+        private const string _allThemeCacheKey = "AllThemeCacheKey";
+        private static readonly ConcurrentDictionary<string, string> _versionMap = new();
 
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly IApplicationSettingService _applicationSettingService;
+        private readonly ICookie _cookie;
         private readonly ILogger<ThemeService> _logger;
         private readonly ICacheManager<ThemeService> _cacheManager;
-        private const string AllThemeCacheKey = "AllThemeCacheKey";
+
         public ThemeService(ICookie cookie,
             ILogger<ThemeService> logger,
             IHttpContextAccessor httpContextAccessor,
@@ -77,15 +76,13 @@ namespace ZKEACMS.Theme
 
         public void SetPreview(string id)
         {
-            var theme = GetAllThemes().FirstOrDefault(m => m.ID.Equals(id, StringComparison.OrdinalIgnoreCase));
-            if (theme == null) throw new Exception("Theme not found.");
-
-            _cookie.SetValue(PreViewCookieName, theme.ID, true, true);
+            var theme = GetAllThemes().FirstOrDefault(m => m.ID.Equals(id, StringComparison.OrdinalIgnoreCase)) ?? throw new Exception("Theme not found.");
+            _cookie.SetValue(_preViewCookieName, theme.ID, true, true);
         }
 
         public void CancelPreview()
         {
-            _cookie.Delete(PreViewCookieName);
+            _cookie.Delete(_preViewCookieName);
         }
         public override ServiceResult<ThemeEntity> Add(ThemeEntity item)
         {
@@ -102,7 +99,7 @@ namespace ZKEACMS.Theme
             ThemeEntity theme = GetPreviewTheme();
             if (theme != null) return theme;
 
-            theme = _cacheManager.GetOrCreate(CurrentThemeCacheKey, factory =>
+            theme = _cacheManager.GetOrCreate(_currentThemeCacheKey, factory =>
             {
                 ThemeEntity entry = Get(m => m.IsActived == true && m.Status == (int)RecordStatus.Active).FirstOrDefault();
                 if (entry == null)
@@ -115,13 +112,13 @@ namespace ZKEACMS.Theme
                 entry.UrlDebugger = VersionSource(entry.UrlDebugger);
                 entry.Url = VersionSource(entry.Url);
                 return entry;
-            }) as ThemeEntity;
+            });
             return theme;
         }
 
         private ThemeEntity GetPreviewTheme()
         {
-            var id = _cookie.GetValue<string>(PreViewCookieName);
+            var id = _cookie.GetValue<string>(_preViewCookieName);
             if (id.IsNullOrEmpty() || !(_httpContextAccessor.HttpContext.User?.Identity.IsAuthenticated ?? false)) return null;
 
             var theme = Get(id);
@@ -136,7 +133,7 @@ namespace ZKEACMS.Theme
         public IEnumerable<ThemeEntity> GetAllThemes()
         {
             int status = (int)RecordStatus.Active;
-            return _cacheManager.GetOrCreate(AllThemeCacheKey, factory => Get(m => m.Status == status));
+            return _cacheManager.GetOrCreate(_allThemeCacheKey, factory => Get(m => m.Status == status));
         }
 
         public void ChangeTheme(string id)
@@ -161,26 +158,24 @@ namespace ZKEACMS.Theme
                 if (connection.State != ConnectionState.Open)
                     connection.Open();
 
-                using (var transaction = connection.BeginTransaction())
+                using var transaction = connection.BeginTransaction();
+                try
                 {
-                    try
+                    ExecuteSql(currentTheme.ID, 1, connection, transaction);//uninstall current theme
+                    ExecuteSql(theme.ID, 2, connection, transaction); //install target theme
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    _logger.LogError(ex, ex.Message);
+                    throw;
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
                     {
-                        ExecuteSql(currentTheme.ID, 1, connection, transaction);//uninstall current theme
-                        ExecuteSql(theme.ID, 2, connection, transaction); //install target theme
-                        transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        _logger.LogError(ex, ex.Message);
-                        throw;
-                    }
-                    finally
-                    {
-                        if (connection.State == ConnectionState.Open)
-                        {
-                            connection.Close();
-                        }
+                        connection.Close();
                     }
                 }
 
@@ -208,40 +203,36 @@ namespace ZKEACMS.Theme
                     foreach (var sql in ReadSql(item))
                     {
                         if (sql.IsNullOrWhiteSpace()) continue;
-                        using (var command = dbConnection.CreateCommand())
-                        {
-                            command.Transaction = dbTransaction;
-                            command.CommandTimeout = 0;
-                            command.CommandText = sql;
-                            command.ExecuteNonQuery();
-                        }
+                        using var command = dbConnection.CreateCommand();
+                        command.Transaction = dbTransaction;
+                        command.CommandTimeout = 0;
+                        command.CommandText = sql;
+                        command.ExecuteNonQuery();
                     }
                 }
             }
         }
-        private IEnumerable<string> ReadSql(string scriptFile)
+        private static IEnumerable<string> ReadSql(string scriptFile)
         {
-            FileInfo file = new FileInfo(scriptFile);
-            StringBuilder stringBuilder = new StringBuilder();
-            using (FileStream fileStream = file.OpenRead())
+            var file = new FileInfo(scriptFile);
+            var stringBuilder = new StringBuilder();
+            using (var fileStream = file.OpenRead())
             {
-                using (StreamReader reader = new StreamReader(fileStream))
+                using var reader = new StreamReader(fileStream);
+                string line = null;
+                while ((line = reader.ReadLine()) != null)
                 {
-                    string line = null;
-                    while ((line = reader.ReadLine()) != null)
+                    if (line.Equals("GO", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (line.Equals("GO", StringComparison.OrdinalIgnoreCase))
+                        if (stringBuilder.Length > 0)
                         {
-                            if (stringBuilder.Length > 0)
-                            {
-                                yield return stringBuilder.ToString().Trim();
-                            }
-                            stringBuilder.Clear();
+                            yield return stringBuilder.ToString().Trim();
                         }
-                        else
-                        {
-                            stringBuilder.AppendLine(line);
-                        }
+                        stringBuilder.Clear();
+                    }
+                    else
+                    {
+                        stringBuilder.AppendLine(line);
                     }
                 }
             }
@@ -277,8 +268,8 @@ namespace ZKEACMS.Theme
         }
         private void ClearCache()
         {
-            _cacheManager.Remove(CurrentThemeCacheKey);
-            _cacheManager.Remove(AllThemeCacheKey);
+            _cacheManager.Remove(_currentThemeCacheKey);
+            _cacheManager.Remove(_allThemeCacheKey);
         }
     }
 }

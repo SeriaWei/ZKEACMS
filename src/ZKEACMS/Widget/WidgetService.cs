@@ -5,7 +5,6 @@
 using Easy;
 using Easy.Extend;
 using Easy.RepositoryPattern;
-using Easy.Zip;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -48,7 +47,7 @@ namespace ZKEACMS.Widget
                  var baseResult = WidgetBasePartService.Add(basePart);
                  if (baseResult.HasViolation)
                  {
-                     ServiceResult<T> result = new ServiceResult<T>();
+                     var result = new ServiceResult<T>();
                      foreach (var item in baseResult.RuleViolations)
                      {
                          result.AddRuleViolation(item.ParameterName, item.ErrorMessage);
@@ -69,7 +68,7 @@ namespace ZKEACMS.Widget
                  var baseResult = WidgetBasePartService.Update(basePart);
                  if (baseResult.HasViolation)
                  {
-                     ServiceResult<T> result = new ServiceResult<T>();
+                     var result = new ServiceResult<T>();
                      foreach (var item in baseResult.RuleViolations)
                      {
                          result.AddRuleViolation(item.ParameterName, item.ErrorMessage);
@@ -93,7 +92,7 @@ namespace ZKEACMS.Widget
                  var baseResult = WidgetBasePartService.UpdateRange(baseParts.ToArray());
                  if (baseResult.HasViolation)
                  {
-                     ServiceResult<T> result = new ServiceResult<T>();
+                     var result = new ServiceResult<T>();
                      foreach (var item in baseResult.RuleViolations)
                      {
                          result.AddRuleViolation(item.ParameterName, item.ErrorMessage);
@@ -248,10 +247,14 @@ namespace ZKEACMS.Widget
             widget.ZoneId = null;
             widget.IsSystem = false;
             widget.IsTemplate = true;
-            WidgetPackage package = new WidgetPackage(WidgetPackageInstaller.InstallerName);
-            package.Widget = widget;
-            HashSet<string> images = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            images.Add(widget.Thumbnail);
+            var package = new WidgetPackage(WidgetPackageInstaller.InstallerName)
+            {
+                Widget = widget
+            };
+            var images = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                widget.Thumbnail
+            };
             AddFileToPackage(package, widget.Thumbnail);
             foreach (var item in GetFilesInWidget((T)widget))
             {
@@ -274,7 +277,7 @@ namespace ZKEACMS.Widget
             if (!IsLocalFile(filePath)) return;
 
             string physicalPath = ApplicationContext.HostingEnvironment.MapPath(filePath);
-            System.IO.FileInfo fileInfo = new System.IO.FileInfo(physicalPath);
+            var fileInfo = new System.IO.FileInfo(physicalPath);
             if (!fileInfo.Exists) return;
 
             package.Files.Add(new PackageManger.FileInfo
