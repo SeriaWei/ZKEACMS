@@ -39,7 +39,7 @@ namespace ZKEACMS.Captcha
         public float MaxLineThickness { get; set; } = 2.0f;
         public ushort Width { get; set; } = 200;
         public ushort Height { get; set; } = 70;
-        public ushort NoiseRate { get; set; } = 300;
+        public ushort NoiseRate { get; set; } = 30;
         public Color[] NoiseRateColor { get; set; } = new Color[] { Color.LightBlue, Color.LightCoral, Color.LightCyan, Color.LightGray, Color.LightPink, Color.LightSalmon, Color.LightSeaGreen, Color.LightSkyBlue, Color.LightSlateGray, Color.LightSteelBlue };
         public byte FontSize { get; set; } = 45;
         public FontStyle FontStyle { get; set; } = FontStyle.Regular;
@@ -65,13 +65,13 @@ namespace ZKEACMS.Captcha
                 {
                     var location = new PointF(startWith + position, random.Next(6, 13));
                     imgText.Mutate(ctx => ctx.DrawText(c.ToString(), font, TextColor[random.Next(0, TextColor.Length)], location));
-                    position += TextMeasurer.Measure(c.ToString(), new TextOptions(font)).Width;
+                    position += TextMeasurer.MeasureSize(c.ToString(), new TextOptions(font)).Width;
                 }
 
                 AffineTransformBuilder rotation = GetRotation();
                 imgText.Mutate(ctx => ctx.Transform(rotation));
 
-                ushort size = (ushort)TextMeasurer.Measure(text, new TextOptions(font)).Width;
+                ushort size = (ushort)TextMeasurer.MeasureSize(text, new TextOptions(font)).Width;
                 var img = new Image<Rgba32>(size + 10 + 5, Height);
                 img.Mutate(ctx => ctx.BackgroundColor(Color.White));
 
@@ -82,7 +82,7 @@ namespace ZKEACMS.Captcha
                     int x1 = random.Next(img.Width / 2, img.Width);
                     int y1 = random.Next(0, img.Height);
                     img.Mutate(ctx =>
-                            ctx.DrawLines(TextColor[random.Next(0, TextColor.Length)],
+                            ctx.DrawLine(TextColor[random.Next(0, TextColor.Length)],
                                           GenerateNextFloat(MinLineThickness, MaxLineThickness),
                                           new PointF[] { new PointF(x0, y0), new PointF(x1, y1) })
                             );
@@ -94,10 +94,12 @@ namespace ZKEACMS.Captcha
                 {
                     int x0 = random.Next(0, img.Width);
                     int y0 = random.Next(0, img.Height);
+                    int size = random.Next(2, 8);
                     img.Mutate(
-                                ctx => ctx
-                                    .DrawLines(NoiseRateColor[random.Next(0, NoiseRateColor.Length)],
-                                    GenerateNextFloat(0.5, 1.5), new PointF[] { new Vector2(x0, y0), new Vector2(x0, y0) })
+                                ctx =>
+                                {
+                                    ctx.Fill(NoiseRateColor[random.Next(0, NoiseRateColor.Length)], new RectangleF(new PointF(x0, y0), new SizeF(size, size)));
+                                }
                             );
                 });
 
@@ -128,7 +130,7 @@ namespace ZKEACMS.Captcha
                     encoder = new JpegEncoder();
                     break;
                 default:
-                    throw new ArgumentException($"Encoder '{ encoderType }' not found!");
+                    throw new ArgumentException($"Encoder '{encoderType}' not found!");
             };
             return encoder;
         }
