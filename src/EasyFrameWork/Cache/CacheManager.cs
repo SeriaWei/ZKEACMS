@@ -51,7 +51,7 @@ namespace Easy.Cache
             _memoryCache.Remove(CreateCacheKey(key));
         }
 
-        private static string CreateCacheKey(string key)
+        protected virtual string CreateCacheKey(string key)
         {
             return $"{typeof(Category).FullName}_{key}";
         }
