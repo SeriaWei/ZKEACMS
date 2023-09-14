@@ -598,7 +598,7 @@ a.badge:hover {
 
 #media-list .thumbnail.status-2 .caption:after {
     display: block;
-    content: "文件不完整";
+    content: "Error";
     color: #fff;
     position: absolute;
     left: 0;
@@ -611,6 +611,12 @@ a.badge:hover {
 
 #media-list .thumbnail .caption .edit {
     text-align: center;
+    height: 20px;
+    padding: 0;
+    line-height: 20px;
+    border: 1px solid #ddd;
+    outline: none;
+    border-radius: 3px;
 }
 
 #media-list .thumbnail .close {
