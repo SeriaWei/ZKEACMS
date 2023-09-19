@@ -76,7 +76,7 @@ namespace Easy.Mvc.TagHelpers
 
                 if ((EditAble ?? true) && primaryKey != null)
                 {
-                    string name = primaryKey.Name.FirstCharToLowerCase();
+                    string name = primaryKey.Name.ToCamelCaseNaming();
                     if (name.Length == 2)
                     {
                         name = name.ToLower();
@@ -150,7 +150,7 @@ namespace Easy.Mvc.TagHelpers
                             optionBuilder.AppendFormat("{{\"name\":\"{0}\",\"value\":\"{1}\"}},", localize.Get("No"), "false");
                         }
                         tableHeaderBuilder.AppendFormat(TableHeadStructure,
-                            m.Name.FirstCharToLowerCase(),
+                            m.Name.ToCamelCaseNaming(),
                             WebUtility.HtmlEncode(m.GridColumnTemplate),
                             OrderAsc == m.Name ? "asc" : OrderDesc == m.Name ? "desc" : "",
                             m.DisplayName,
@@ -166,7 +166,7 @@ namespace Easy.Mvc.TagHelpers
                 foreach (var property in ModelType.GetProperties())
                 {
                     tableHeaderBuilder.AppendFormat(TableHeadStructure,
-                            property.Name.FirstCharToLowerCase(),
+                            property.Name.ToCamelCaseNaming(),
                             string.Empty,
                             OrderAsc == property.Name ? "asc" : OrderDesc == property.Name ? "desc" : "",
                             property.Name,

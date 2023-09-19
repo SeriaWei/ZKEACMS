@@ -188,17 +188,9 @@ namespace Easy.Extend
             return string.IsNullOrEmpty(theString);
         }
 
-        public static string FirstCharToLowerCase(this string instance)
+        public static string ToCamelCaseNaming(this string instance)
         {
-            if (instance.IsNotNullAndWhiteSpace() && instance.Length > 2 && char.IsUpper(instance[0]))
-            {
-                return char.ToLower(instance[0]) + instance.Substring(1);
-            }
-            if (instance.Length == 2)
-            {
-                return instance.ToLower();
-            }
-            return instance;
+            return System.Text.Json.JsonNamingPolicy.CamelCase.ConvertName(instance);
         }
         public static string ToFilePath(this string path)
         {

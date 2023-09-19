@@ -91,7 +91,7 @@ namespace Easy.Mvc.Controllers
         }
         public void AppendCondition(string property, string value, Query.Operators operators = Query.Operators.Equal)
         {
-            property = property.FirstCharToLowerCase();
+            property = property.ToCamelCaseNaming();
             foreach (var item in Columns)
             {
                 if (item.Data == property)
