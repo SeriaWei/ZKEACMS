@@ -80,10 +80,9 @@ namespace Easy.Modules.MutiLanguage
             return _cacheManager.GetOrCreate("AllLanguageEntry", factory =>
             {
                 factory.AddExpirationToken(_signals.When(LanguageChanged));
+                factory.AddExpirationToken(_webHostEnvironment.ContentRootFileProvider.Watch("Locale/*.yml"));
 
-                ExpireCacheOnFileChanged();
-
-                ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>> result = new ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>(StringComparer.OrdinalIgnoreCase);
+                var result = new ConcurrentDictionary<string, ConcurrentDictionary<string, LanguageEntity>>(StringComparer.OrdinalIgnoreCase);
                 foreach (var item in GetAllFromLocaleFile())
                 {
                     if (!result.TryGetValue(item.LanKey, out ConcurrentDictionary<string, LanguageEntity> cultureDic))
@@ -103,16 +102,6 @@ namespace Easy.Modules.MutiLanguage
                 }
                 return result;
             });
-        }
-
-        private void ExpireCacheOnFileChanged()
-        {
-            if (!_webHostEnvironment.IsDevelopment()) return;
-
-            _webHostEnvironment.ContentRootFileProvider.Watch("Locale/*.yml").RegisterChangeCallback(signals =>
-            {
-                (signals as ISignals).Trigger(LanguageChanged);
-            }, _signals);
         }
 
         private ServiceResult<LanguageEntity> Save(LanguageEntity item)
