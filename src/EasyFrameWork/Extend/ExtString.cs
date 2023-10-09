@@ -9,35 +9,78 @@ using System.Text.RegularExpressions;
 
 namespace Easy.Extend
 {
-    public static class ExtString
+    public static partial class ExtString
     {
-        public static string NoHTML(this string Htmlstring)
+        [GeneratedRegex("<script[\\s\\S]*?</script>", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexScripts();
+        [GeneratedRegex("<noscript[\\s\\S]*?</noscript>", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexNoScript();
+        [GeneratedRegex("<style[\\s\\S]*?</style>", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexStyle();
+        [GeneratedRegex("<.*?>", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexTags();
+        [GeneratedRegex("<(.[^>]*)>", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexTag2();
+        [GeneratedRegex("([\\r\\n])[\\s]+", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexWhiteSpace();
+        [GeneratedRegex("-->", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexCommentEnd();
+        [GeneratedRegex("<!--.*", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexCommentBegin();
+        [GeneratedRegex("&(quot|#34);", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexQuote();
+        [GeneratedRegex("&(amp|#38);", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexAMP();
+        [GeneratedRegex("&(lt|#60);", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexLt();
+        [GeneratedRegex("&(gt|#62);", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexGt();
+        [GeneratedRegex("&(nbsp|#160);", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexNbsp();
+        [GeneratedRegex("&(iexcl|#161);", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexIexcl();
+        [GeneratedRegex("&(cent|#162);", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexCent();
+        [GeneratedRegex("&(pound|#163);", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexPound();
+        [GeneratedRegex("&(copy|#169);", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexCopy();
+        [GeneratedRegex("&#(\\d+);", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexNumber();
+        [GeneratedRegex("^([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$",  RegexOptions.Singleline | RegexOptions.CultureInvariant)]
+        private static partial Regex RegexEmail();
+        [GeneratedRegex("(http|https)://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?", RegexOptions.Singleline | RegexOptions.CultureInvariant)]
+        private static partial Regex RegexUrl();
+
+        public static string RemoveHtml(this string Htmlstring)
         {
-            Htmlstring = Regex.Replace(Htmlstring, @"<script[\s\S]*?</script>", "", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"<noscript[\s\S]*?</noscript>", "", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"<style[\s\S]*?</style>", "", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"<.*?>", "", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"<(.[^>]*)>", " ", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"([\r\n])[\s]+", " ", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"-->", " ", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"<!--.*", " ", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"&(quot|#34);", "\"", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"&(amp|#38);", "&", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"&(lt|#60);", "<", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"&(gt|#62);", ">", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"&(nbsp|#160);", "", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"&(iexcl|#161);", "\xa1", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"&(cent|#162);", "\xa2", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"&(pound|#163);", "\xa3", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"&(copy|#169);", "\xa9", RegexOptions.IgnoreCase);
-            Htmlstring = Regex.Replace(Htmlstring, @"&#(\d+);", " ", RegexOptions.IgnoreCase);
+            const string _singleSpace = " ";
+
+            Htmlstring = RegexScripts().Replace(Htmlstring, string.Empty);
+            Htmlstring = RegexNoScript().Replace(Htmlstring, string.Empty);
+            Htmlstring = RegexStyle().Replace(Htmlstring, string.Empty);
+            Htmlstring = RegexTags().Replace(Htmlstring, string.Empty);
+            Htmlstring = RegexTag2().Replace(Htmlstring, _singleSpace);
+            Htmlstring = RegexWhiteSpace().Replace(Htmlstring, _singleSpace);
+            Htmlstring = RegexCommentEnd().Replace(Htmlstring, _singleSpace);
+            Htmlstring = RegexCommentBegin().Replace(Htmlstring, _singleSpace);
+            Htmlstring = RegexQuote().Replace(Htmlstring, "\"");
+            Htmlstring = RegexAMP().Replace(Htmlstring, "&");
+            Htmlstring = RegexLt().Replace(Htmlstring, "<");
+            Htmlstring = RegexGt().Replace(Htmlstring, ">");
+            Htmlstring = RegexNbsp().Replace(Htmlstring, string.Empty);
+            Htmlstring = RegexIexcl().Replace(Htmlstring, "\xa1");
+            Htmlstring = RegexCent().Replace(Htmlstring, "\xa2");
+            Htmlstring = RegexPound().Replace(Htmlstring, "\xa3");
+            Htmlstring = RegexCopy().Replace(Htmlstring, "\xa9");
+            Htmlstring = RegexNumber().Replace(Htmlstring, _singleSpace);
             return Htmlstring;
         }
 
 
         public static byte[] ToByte(this string value)
         {
-            return System.Text.Encoding.UTF8.GetBytes(value);
+            return Encoding.UTF8.GetBytes(value);
         }
 
 
@@ -54,12 +97,12 @@ namespace Easy.Extend
         public static string UrlEncode(this string value)
         {
             StringBuilder sb = new StringBuilder();
-            byte[] byStr = System.Text.Encoding.UTF8.GetBytes(value);
+            byte[] byStr = Encoding.UTF8.GetBytes(value);
             for (int i = 0; i < byStr.Length; i++)
             {
                 sb.Append(@"%" + Convert.ToString(byStr[i], 16));
             }
-            return (sb.ToString());
+            return sb.ToString();
         }
 
 
@@ -73,11 +116,6 @@ namespace Easy.Extend
             }
             return builder.ToString();
         }
-
-        private static readonly Regex emailExpression = new Regex(@"^([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$", RegexOptions.Singleline | RegexOptions.CultureInvariant | RegexOptions.Compiled);
-        private static readonly Regex webUrlExpression = new Regex(@"(http|https)://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?", RegexOptions.Singleline | RegexOptions.CultureInvariant | RegexOptions.Compiled);
-        private static readonly Regex stripHTMLExpression = new Regex("<\\S[^><]*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Multiline | RegexOptions.CultureInvariant | RegexOptions.Compiled);
-
 
         public static string FormatWith(this string instance, params object[] args)
         {
@@ -110,19 +148,15 @@ namespace Easy.Extend
             return convertedValue;
         }
 
-        public static string StripHtml(this string instance)
-        {
-            return stripHTMLExpression.Replace(instance, string.Empty);
-        }
 
         public static bool IsEmail(this string instance)
         {
-            return !string.IsNullOrWhiteSpace(instance) && emailExpression.IsMatch(instance);
+            return !string.IsNullOrWhiteSpace(instance) && RegexEmail().IsMatch(instance);
         }
 
         public static bool IsWebUrl(this string instance)
         {
-            return !string.IsNullOrWhiteSpace(instance) && webUrlExpression.IsMatch(instance);
+            return !string.IsNullOrWhiteSpace(instance) && RegexUrl().IsMatch(instance);
         }
 
 
@@ -140,16 +174,16 @@ namespace Easy.Extend
             return result;
         }
 
-        public static Decimal AsDecimal(this string instance)
+        public static decimal AsDecimal(this string instance)
         {
             var result = (decimal)0.0;
-            Decimal.TryParse(instance, out result);
+            decimal.TryParse(instance, out result);
             return result;
         }
 
         public static int AsInt(this string instance)
         {
-            var result = (int)0;
+            var result = 0;
             int.TryParse(instance, out result);
             return result;
         }
