@@ -17,17 +17,23 @@ using System.Text.RegularExpressions;
 
 namespace Easy.Reflection
 {
-    public static class PropertyHelper
+    public static partial class PropertyHelper
     {
         private static ConcurrentDictionary<Type, ConcurrentDictionary<string, Func<object, object>>> _propertyGetters = new ConcurrentDictionary<Type, ConcurrentDictionary<string, Func<object, object>>>();
         private static ConcurrentDictionary<Type, ConcurrentDictionary<string, Action<object, object>>> _propertySetters = new ConcurrentDictionary<Type, ConcurrentDictionary<string, Action<object, object>>>();
         private static ConcurrentDictionary<Type, Func<object, object, object>> _indexGetters = new ConcurrentDictionary<Type, Func<object, object, object>>();
         private static ConcurrentDictionary<Type, Action<object, object, object>> _indexSetters = new ConcurrentDictionary<Type, Action<object, object, object>>();
 
-        static Regex _onlyNumberIndexRegex = new Regex(@"^\[(\d+)\]$", RegexOptions.Compiled);
-        static Regex _onlyNameIndexRegex = new Regex(@"^\[""([A-Za-z0-9_]+)""\]$", RegexOptions.Compiled);
-        static Regex _numberIndexRegex = new Regex(@"^([A-Za-z0-9_]+)\[(\d+)\]$", RegexOptions.Compiled);
-        static Regex _nameIndexRegex = new Regex(@"^([A-Za-z0-9_]+)\[""([A-Za-z0-9_]+)""\]$", RegexOptions.Compiled);
+
+        [GeneratedRegex("^\\[(\\d+)\\]$")]
+        private static partial Regex RegexOnlyNumberIndex();
+        [GeneratedRegex("^\\[\"([A-Za-z0-9_]+)\"\\]$")]
+        private static partial Regex RegexOnlyNameIndex();
+        [GeneratedRegex("^([A-Za-z0-9_]+)\\[(\\d+)\\]$")]
+        private static partial Regex RegexNumberIndex();
+        [GeneratedRegex("^([A-Za-z0-9_]+)\\[\"([A-Za-z0-9_]+)\"\\]$")]
+        private static partial Regex RegexNameIndex();
+
         public class PropertyName
         {
             public PropertyName(string name, object index)
@@ -42,7 +48,7 @@ namespace Easy.Reflection
         {
             static propertyExpression =>
             {
-                var numberMatch = _onlyNumberIndexRegex.Match(propertyExpression);
+                var numberMatch = RegexOnlyNumberIndex().Match(propertyExpression);
                 if (numberMatch.Success)
                 {
                     return new PropertyName(null, int.Parse(numberMatch.Groups[1].Value));
@@ -51,7 +57,7 @@ namespace Easy.Reflection
             },
             static propertyExpression =>
             {
-                var numberMatch = _onlyNameIndexRegex.Match(propertyExpression);
+                var numberMatch = RegexOnlyNameIndex().Match(propertyExpression);
                 if (numberMatch.Success)
                 {
                     return new PropertyName(null, numberMatch.Groups[1].Value);
@@ -60,7 +66,7 @@ namespace Easy.Reflection
             },
             static propertyExpression =>
             {
-                var numberMatch = _numberIndexRegex.Match(propertyExpression);
+                var numberMatch = RegexNumberIndex().Match(propertyExpression);
                 if (numberMatch.Success)
                 {
                     return new PropertyName(numberMatch.Groups[1].Value, int.Parse(numberMatch.Groups[2].Value));
@@ -69,7 +75,7 @@ namespace Easy.Reflection
             },
             static propertyExpression =>
             {
-                var numberMatch = _nameIndexRegex.Match(propertyExpression);
+                var numberMatch = RegexNameIndex().Match(propertyExpression);
                 if (numberMatch.Success)
                 {
                     return new PropertyName(numberMatch.Groups[1].Value, numberMatch.Groups[2].Value);
@@ -78,6 +84,8 @@ namespace Easy.Reflection
             },
             static propertyExpression => new PropertyName(propertyExpression, null)
         };
+
+
         public static PropertyName[] ParseProperties(string propertyExpression)
         {
             var propertyDeepArray = propertyExpression.Split('.', StringSplitOptions.RemoveEmptyEntries);
@@ -282,7 +290,5 @@ namespace Easy.Reflection
             });
 
         }
-
-
     }
 }
