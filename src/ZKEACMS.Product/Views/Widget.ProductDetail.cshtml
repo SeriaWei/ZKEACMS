@@ -59,12 +59,12 @@
                                     @Html.LabelFor(m => m.Price)
                                     @if (Model.RebatePrice.HasValue)
                                     {
-                                        <del class="text-muted"><small>@Html.CurrencySymbol()</small>@Html.Raw(Regex.Replace((Model.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</del>
-                                        <span class="price"><small>@Html.CurrencySymbol()</small>@Html.Raw(Regex.Replace((Model.RebatePrice ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</span>
+                                        <del class="text-muted"><small>@Html.CurrencySymbol()</small>@Html.Raw(CustomRegex.DecimalPoint().Replace((Model.Price ?? 0).ToString("F2"), "<small>.$1</small>"))</del>
+                                        <span class="price"><small>@Html.CurrencySymbol()</small>@Html.Raw(CustomRegex.DecimalPoint().Replace((Model.RebatePrice ?? 0).ToString("F2"), "<small>.$1</small>"))</span>
                                     }
                                     else
                                     {
-                                        <span class="price"><small>@Html.CurrencySymbol()</small>@Html.Raw(Regex.Replace((Model.Price ?? 0).ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))</span>
+                                        <span class="price"><small>@Html.CurrencySymbol()</small>@Html.Raw(CustomRegex.DecimalPoint().Replace((Model.Price ?? 0).ToString("F2"), "<small>.$1</small>"))</span>
                                     }
                                 </p>
                             }

@@ -24,7 +24,7 @@ namespace ZKEACMS.Layout
 
         public string NoStyleHtml
         {
-            get { return CustomRegex.StyleRegex.Replace(Html, ""); }
+            get { return CustomRegex.CssStyle().Replace(Html, string.Empty); }
         }
     }
     public class LayoutHtmlCollection : Collection<LayoutHtml>

@@ -93,7 +93,7 @@ namespace ZKEACMS.Redirection.Controllers
         }
         public IActionResult RedirectTo(string path)
         {
-            if (path.IsNotNullAndWhiteSpace() && path.IndexOf(".html", StringComparison.OrdinalIgnoreCase) < 0 && CustomRegex.PostIdRegex.IsMatch(path))
+            if (path.IsNotNullAndWhiteSpace() && path.IndexOf(".html", StringComparison.OrdinalIgnoreCase) < 0 && CustomRegex.PostId().IsMatch(path))
             {
                 return RedirectPermanent($"~/{(path ?? "").Trim()}.html");
             }

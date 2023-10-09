@@ -44,7 +44,7 @@ namespace ZKEACMS.Redirection.Models
         {
             if (!string.IsNullOrEmpty(InComingUrl))
             {
-                _regex = new Regex(InComingUrl, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                _regex = new Regex(InComingUrl, RegexOptions.IgnoreCase);
             }
         }
         public string GetDestinationURL(string inComingUrl)

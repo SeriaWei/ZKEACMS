@@ -29,12 +29,11 @@ using Easy.Mvc;
 
 namespace ZKEACMS.Media
 {
-    public class MediaService : ServiceBase<MediaEntity, CMSDbContext>, IMediaService
+    public partial class MediaService : ServiceBase<MediaEntity, CMSDbContext>, IMediaService
     {
         private readonly IStorage _storage;
         private readonly IWebClient _webClient;
         private readonly IApplicationSettingService _applicationSettingService;
-        private static Regex _imageSizeParser = new Regex(@"^(\d+)x(\d+)$");
         public MediaService(IApplicationContext applicationContext,
             CMSDbContext dbContext,
             IStorage storage,
@@ -308,7 +307,7 @@ namespace ZKEACMS.Media
                 string maxSize = _applicationSettingService.Get(SettingKeys.ImageMaxSize, "1920x1080");
                 int width = 1920;
                 int height = 1080;
-                var matchResult = _imageSizeParser.Match(maxSize);
+                var matchResult = RegexImageSize().Match(maxSize);
                 if (matchResult.Success)
                 {
                     width = int.Parse(matchResult.Groups[1].Value);
@@ -321,8 +320,8 @@ namespace ZKEACMS.Media
                     {
                         return stream;
                     }
-                    double widthPercentage = (double)width / (double)image.Width;
-                    double heightPercentage = (double)height / (double)image.Height;
+                    double widthPercentage = width / (double)image.Width;
+                    double heightPercentage = height / (double)image.Height;
 
                     double sizePercentage = Math.Min(widthPercentage, heightPercentage);
 
@@ -340,5 +339,8 @@ namespace ZKEACMS.Media
             }
             return stream;
         }
+
+        [GeneratedRegex("^(\\d+)x(\\d+)$")]
+        private static partial Regex RegexImageSize();
     }
 }

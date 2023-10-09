@@ -25,7 +25,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace ZKEACMS.EventAction.Service
 {
-    public sealed class EventActionService : ServiceBase<Models.EventAction>, IEventActionService
+    public sealed partial class EventActionService : ServiceBase<Models.EventAction>, IEventActionService
     {
         private const string EventActionChanged = "EventActionChanged";
 
@@ -33,7 +33,6 @@ namespace ZKEACMS.EventAction.Service
         private readonly ISignals _signals;
         private readonly ILogger<EventActionService> _logger;
         private readonly ILocalize _localize;
-        private static Regex _encoder = new Regex(@":( +)({{)([\w|\.| |\[|\]]+)(}})", RegexOptions.Compiled);
 
         public EventActionService(IApplicationContext applicationContext, CMSDbContext dbContext,
             ICacheManager<EventActionService> cacheManager, ILogger<EventActionService> logger, ILocalize localize, ISignals signals)
@@ -126,10 +125,13 @@ namespace ZKEACMS.EventAction.Service
         }
         private string Encode(string actions)
         {
-            return _encoder.Replace(actions, evaluator =>
+            return RegexEncoder().Replace(actions, evaluator =>
             {
                 return $":{ evaluator.Groups[1].Value }'{ evaluator.Groups[2].Value + evaluator.Groups[3].Value + evaluator.Groups[4].Value}'";
             });
         }
+
+        [GeneratedRegex(":( +)({{)([\\w|\\.| |\\[|\\]]+)(}})", RegexOptions.Compiled)]
+        private static partial Regex RegexEncoder();
     }
 }

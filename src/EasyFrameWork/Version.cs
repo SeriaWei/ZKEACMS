@@ -11,10 +11,8 @@ using System.Threading.Tasks;
 
 namespace Easy
 {
-    public class Version
+    public partial class Version
     {
-        static Regex regex = new Regex(@"^(\d+\.)?(\d+\.)?(\d+\.)?(\d+)$", RegexOptions.Compiled);
-
         public int Major { get; set; }
         public int Minor { get; set; }
         public int Revision { get; set; }
@@ -22,7 +20,7 @@ namespace Easy
 
         public static Version Parse(string version)
         {
-            if (!regex.IsMatch(version))
+            if (!RegexVersion().IsMatch(version))
             {
                 throw new Exception("Version format is not supported.");
             }
@@ -161,7 +159,7 @@ namespace Easy
                 return false;
             }
 
-            return this == (obj as Version);
+            return this == obj as Version;
         }
 
         public override int GetHashCode()
@@ -172,5 +170,8 @@ namespace Easy
         {
             return $"{Major}.{Minor}.{Revision}.{Build}";
         }
+
+        [GeneratedRegex("^(\\d+\\.)?(\\d+\\.)?(\\d+\\.)?(\\d+)$", RegexOptions.Compiled)]
+        private static partial Regex RegexVersion();
     }
 }

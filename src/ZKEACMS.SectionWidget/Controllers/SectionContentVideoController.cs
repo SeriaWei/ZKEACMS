@@ -8,10 +8,11 @@ using Easy.Constant;
 using Microsoft.AspNetCore.Mvc;
 using Easy.Mvc.Authorize;
 using Easy.Extend;
+using System.Text.RegularExpressions;
 
 namespace ZKEACMS.SectionWidget.Controllers
 {
-    public class SectionContentVideoController : Controller
+    public partial class SectionContentVideoController : Controller
     {
         private readonly ISectionContentProviderService _sectionContentProviderService;
 
@@ -63,7 +64,28 @@ namespace ZKEACMS.SectionWidget.Controllers
 
         public ActionResult Play(string Id)
         {
-            return View(_sectionContentProviderService.GetContent(Id));
+            SectionContentVideo video = _sectionContentProviderService.GetContent(Id) as SectionContentVideo;
+            if (video == null) return NotFound();
+
+            if (video.Code.IsNotNullAndWhiteSpace())
+            {
+                video.Code = RegexVideoCodeWidth().Replace(video.Code, eva =>
+                {
+                    return $"{eva.Groups[1].Value}{eva.Groups[2].Value}{eva.Groups[3].Value}{eva.Groups[4].Value}{eva.Groups[5].Value}{video.Width}{eva.Groups[7].Value}";
+                });
+                video.Code = RegexVideoCodeHeight().Replace(video.Code, eva =>
+                {
+                    return $"{eva.Groups[1].Value}{eva.Groups[2].Value}{eva.Groups[3].Value}{eva.Groups[4].Value}{eva.Groups[5].Value}{video.Height}{eva.Groups[7].Value}";
+                });
+            }
+
+            return View(video);
         }
+
+        [GeneratedRegex("(\\s)?(width)(\\s)?([=:])(\\s)?(\\d+)(\\s)?", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexVideoCodeWidth();
+
+        [GeneratedRegex("(\\s)?(height)(\\s)?([=:])(\\s)?(\\d+)(\\s)?", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexVideoCodeHeight();
     }
 }

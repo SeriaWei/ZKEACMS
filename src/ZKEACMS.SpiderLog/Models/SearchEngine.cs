@@ -22,7 +22,7 @@ namespace ZKEACMS.SpiderLog.Models
         {
             if (userAgent.IsNullOrEmpty()) return false;
 
-            if (_regex == null) _regex = new Regex(Regex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            if (_regex == null) _regex = new Regex(Regex, RegexOptions.IgnoreCase);
 
             return _regex.IsMatch(userAgent);
         }

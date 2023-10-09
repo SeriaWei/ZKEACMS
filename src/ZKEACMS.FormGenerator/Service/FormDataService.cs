@@ -19,13 +19,12 @@ using ZKEACMS.FormGenerator.Service.Validator;
 
 namespace ZKEACMS.FormGenerator.Service
 {
-    public class FormDataService : ServiceBase<FormData, CMSDbContext>, IFormDataService
+    public partial class FormDataService : ServiceBase<FormData, CMSDbContext>, IFormDataService
     {
         private readonly IFormService _formService;
         private readonly IFormDataItemService _formDataItemService;
         private readonly IEnumerable<IFormDataValidator> _formDataValidators;
         private readonly IEventManager _eventManager;
-        private static Regex _nameRegex = new Regex(@"(\w+)\[(\d+)\]", RegexOptions.Compiled);
 
         public FormDataService(IApplicationContext applicationContext,
             CMSDbContext dbContext,
@@ -115,7 +114,7 @@ namespace ZKEACMS.FormGenerator.Service
 
             foreach (var item in formCollection.Keys)
             {
-                string id = _nameRegex.Replace(item, evaluator =>
+                string id = RegexName().Replace(item, evaluator =>
                 {
                     return evaluator.Groups[1].Value;
                 });
@@ -216,5 +215,8 @@ namespace ZKEACMS.FormGenerator.Service
                 return excel.ToMemoryStream();
             }
         }
+
+        [GeneratedRegex("(\\w+)\\[(\\d+)\\]", RegexOptions.Compiled)]
+        private static partial Regex RegexName();
     }
 }
