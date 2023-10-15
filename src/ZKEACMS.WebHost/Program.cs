@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Serilog;
 using System;
 
 namespace ZKEACMS.WebHost
@@ -29,7 +30,12 @@ namespace ZKEACMS.WebHost
         private static WebApplication BuildApplication(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Logging.AddFileLog();
+            
+            builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
+            {
+                loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
+            });
+
             builder.Services.ConfigureResource<DefaultResourceManager>();
             builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<MvcRazorRuntimeCompilationOptions>, CompilationOptionsSetup>());
             Type mvcBuilderType = typeof(Builder);

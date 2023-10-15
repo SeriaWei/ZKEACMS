@@ -30,7 +30,7 @@ namespace ZKEACMS.Controllers
         }
         public IActionResult ViewLog(string id)
         {
-            return Content(_eventViewerService.ReadLog(id));
+            return Content(_eventViewerService.ReadLog(id), "text/plain");
         }
     }
 }

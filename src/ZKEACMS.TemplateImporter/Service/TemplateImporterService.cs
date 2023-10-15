@@ -25,7 +25,7 @@ using System.Text.RegularExpressions;
 
 namespace ZKEACMS.TemplateImporter.Service
 {
-    public class TemplateImporterService : ITemplateImporterService
+    public partial class TemplateImporterService : ITemplateImporterService
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IThemeService _themeService;
@@ -33,11 +33,17 @@ namespace ZKEACMS.TemplateImporter.Service
         private readonly IPageService _pageService;
         private readonly IWidgetActivator _widgetActivator;
         private readonly IWdigetCreatorManager _widgetCreatorManager;
-        private static Regex jQueryFilter = new Regex(@"^jquery(\d+|\.|-|_)*(.min)?.js$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static Regex BootstrapFilter = new Regex(@"^bootstrap(\d+|\.|-|_)*(.min)?.(js)$|(css)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static Regex StyleUrl = new Regex(@"url\(['|""]?([A-Za-z0-9_|\.|/|-]*)['|""]?\)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
         private const string ThemeFolder = "themes";
+
+
+        [GeneratedRegex("^jquery(\\d+|\\.|-|_)*(.min)?.js$", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexjQuery();
+
+        [GeneratedRegex("^bootstrap(\\d+|\\.|-|_)*(.min)?.(js)$|(css)$", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexBootstrap();
+        [GeneratedRegex("url\\(['|\"]?([A-Za-z0-9_|\\.|/|-]*)['|\"]?\\)", RegexOptions.IgnoreCase)]
+        private static partial Regex RegexStyleUrl();
+
         public TemplateImporterService(IWebHostEnvironment hostingEnvironment,
             IThemeService themeService,
             ILayoutService layoutService,
@@ -203,7 +209,7 @@ namespace ZKEACMS.TemplateImporter.Service
                             item.SetAttributeValue("src", ConvertToThemePath(themeName, path));
                         }
                         string fileName = Path.GetFileName(path);
-                        if (!jQueryFilter.IsMatch(fileName) && !BootstrapFilter.IsMatch(fileName))
+                        if (!RegexjQuery().IsMatch(fileName) && !RegexBootstrap().IsMatch(fileName))
                         {
                             pageScripts.AppendLine(item.OuterHtml.Trim());
                         }
@@ -261,7 +267,7 @@ namespace ZKEACMS.TemplateImporter.Service
                 if (pageStyle.Length > 0)
                 {
                     string section = $"<style>{pageStyle.ToString().Trim()}</style>";
-                    section = StyleUrl.Replace(section, evaluator =>
+                    section = RegexStyleUrl().Replace(section, evaluator =>
                     {
                         return $"url({ConvertToThemePath(themeName, evaluator.Groups[1].Value)})";
                     });
@@ -282,7 +288,7 @@ namespace ZKEACMS.TemplateImporter.Service
                         var tNode = node.SelectSingleNode(".//h1|.//h2|.//h3|.//h4|.//h5|.//h6");
                         string widgetTitle = tNode?.InnerText;
 
-                        string section = StyleUrl.Replace(node.OuterHtml, evaluator =>
+                        string section = RegexStyleUrl().Replace(node.OuterHtml, evaluator =>
                         {
                             return $"url({ConvertToThemePath(themeName, evaluator.Groups[1].Value)})";
                         });
@@ -364,7 +370,7 @@ namespace ZKEACMS.TemplateImporter.Service
             {
                 using (StreamWriter writer = new StreamWriter(themeFilestram))
                 {
-                    if (cssFiles.All(css => !BootstrapFilter.IsMatch(css.Entry)))
+                    if (cssFiles.All(css => !RegexBootstrap().IsMatch(css.Entry)))
                     {
                         writer.WriteLine("@import url(\"/lib/bootstrap/dist/css/bootstrap.min.css\");");
                     }
@@ -379,7 +385,7 @@ namespace ZKEACMS.TemplateImporter.Service
             {
                 using (StreamWriter writer = new StreamWriter(themeFilestram))
                 {
-                    if (cssFiles.All(css => !BootstrapFilter.IsMatch(css.Entry)))
+                    if (cssFiles.All(css => !RegexBootstrap().IsMatch(css.Entry)))
                     {
                         writer.WriteLine("@import url(\"/lib/bootstrap/dist/css/bootstrap.min.css\");");
                     }

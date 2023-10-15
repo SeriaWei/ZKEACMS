@@ -9,9 +9,8 @@ using System.Text.RegularExpressions;
 
 namespace ZKEACMS.EventAction.HttpParser.Helps
 {
-    class HttpBaseInfo
+    partial class HttpBaseInfo
     {
-        private static Regex _httpVersionValidate = new Regex(@"HTTP/\d.\d", RegexOptions.Compiled);
         private static readonly HashSet<string> validHttpVerbs = new HashSet<string> { "GET", "POST", "HEAD", "PUT", "DELETE", "MOVE", "TRACE", "CONNECT", "OPTIONS" };
 
         public string Method { get; set; }
@@ -63,9 +62,12 @@ namespace ZKEACMS.EventAction.HttpParser.Helps
 
         private void SetHttpVersion(string version)
         {
-            if (!_httpVersionValidate.IsMatch(version)) return;
+            if (!RegexHttpVersionValidate().IsMatch(version)) return;
 
             HttpVersion = version.Trim();
         }
+
+        [GeneratedRegex("HTTP/\\d.\\d", RegexOptions.Compiled)]
+        private static partial Regex RegexHttpVersionValidate();
     }
 }

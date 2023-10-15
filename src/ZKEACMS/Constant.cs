@@ -146,13 +146,21 @@ namespace ZKEACMS
         }
     }
 
-    public static class CustomRegex
+    public static partial class CustomRegex
     {
-        public static readonly Regex StyleRegex = new Regex(@"style=""([^""]*)""", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        [GeneratedRegex("style=\"([^\"]*)\"", RegexOptions.IgnoreCase)]
+        public static partial Regex CssStyle();
 
-        public static Regex PostIdRegex = new Regex(@"/post-(\d+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        public static Regex CategoryIdRegex = new Regex(@"/cate-(\d+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        public static Regex PageRegex = new Regex(@"/p-(\d+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        [GeneratedRegex("/post-(\\d+)", RegexOptions.IgnoreCase)]
+        public static partial Regex PostId();
+        [GeneratedRegex("/cate-(\\d+)", RegexOptions.IgnoreCase)]
+        public static partial Regex CategoryId();
+
+        [GeneratedRegex("/p-(\\d+)", RegexOptions.IgnoreCase | RegexOptions.Compiled)]
+        public static partial Regex PageIndex();
+
+        [GeneratedRegex(@"\.(\d+)", RegexOptions.IgnoreCase | RegexOptions.Compiled)]
+        public static partial Regex DecimalPoint();
     }
     public static class CacheSignals
     {

@@ -25,7 +25,7 @@ namespace ZKEACMS.Redirection
             {
                 path = path.TrimEnd('/');
             }
-            if (path.IndexOf(".html", StringComparison.OrdinalIgnoreCase) < 0 && CustomRegex.PostIdRegex.IsMatch(path))
+            if (path.IndexOf(".html", StringComparison.OrdinalIgnoreCase) < 0 && CustomRegex.PostId().IsMatch(path))
             {
                 return true;
             }

@@ -24,12 +24,6 @@
     }
     else if (video.Code.IsNotNullAndWhiteSpace())
     {
-        video.Code = Regex.Replace(video.Code, @"("")?width("")?=("")?(\d+)("")?", "width=\"" + (video.Width ?? 798) + "\"");
-        video.Code = Regex.Replace(video.Code, @"("")?width("")?:("")?(\d+)("")?", "width:" + (video.Width ?? 798));
-
-        video.Code = Regex.Replace(video.Code, @"("")?height("")?=("")?(\d+)("")?", "height=" + (video.Height ?? 500));
-        video.Code = Regex.Replace(video.Code, @"("")?height("")?:("")?(\d+)("")?", "height:" + (video.Height ?? 500));
-
         @Html.Raw(video.Code)
     }
 </div>

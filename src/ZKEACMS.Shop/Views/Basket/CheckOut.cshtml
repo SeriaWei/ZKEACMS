@@ -57,7 +57,7 @@
                                 <div class="clearfix">
                                     <div class="text-right">
                                         <span class="price">
-                                            @Html.CurrencySymbol() @Html.Raw(Regex.Replace(item.Price.ToString("F2"), @"\.(\d+)", "<small>.$1</small>"))
+                                            @Html.CurrencySymbol() @Html.Raw(CustomRegex.DecimalPoint().Replace(item.Price.ToString("F2"), "<small>.$1</small>"))
                                             x <span class="quantity">@item.Quantity</span>
                                         </span>
                                     </div>

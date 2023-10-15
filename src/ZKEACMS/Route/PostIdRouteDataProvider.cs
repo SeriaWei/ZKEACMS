@@ -15,10 +15,10 @@ namespace ZKEACMS.Route
 
         public string ExtractVirtualPath(string path, RouteValueDictionary values)
         {
-            if (CustomRegex.PostIdRegex.IsMatch(path))
+            if (CustomRegex.PostId().IsMatch(path))
             {
                 int postId = 0;
-                path = CustomRegex.PostIdRegex.Replace(path, evaluator =>
+                path = CustomRegex.PostId().Replace(path, evaluator =>
                 {
                     int.TryParse(evaluator.Groups[1].Value, out postId);
                     return string.Empty;

@@ -80,7 +80,7 @@ namespace ZKEACMS.Widget
             }
             else
             {
-                _customClass = CustomRegex.StyleRegex.Replace(StyleClass, evaluator =>
+                _customClass = CustomRegex.CssStyle().Replace(StyleClass, evaluator =>
                 {
                     _customStyle = evaluator.Groups[1].Value;
                     return string.Empty;
