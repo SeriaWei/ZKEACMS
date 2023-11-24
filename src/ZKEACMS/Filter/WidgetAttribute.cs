@@ -82,6 +82,10 @@ namespace ZKEACMS.Filter
             if (page != null)
             {
                 var requestServices = filterContext.HttpContext.RequestServices;
+                if (!filterContext.RouteData.Values.ContainsKey(StringKeys.RouteValue_Path) && filterContext.Controller is Controller controller)
+                {
+                    filterContext.RouteData.Values[StringKeys.RouteValue_Path] = controller.Url.Content(page.Url);
+                }
                 var eventManager = requestServices.GetService<IEventManager>();
                 var layoutService = requestServices.GetService<ILayoutService>();
                 var widgetService = requestServices.GetService<IWidgetBasePartService>();
