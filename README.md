@@ -62,7 +62,7 @@ $ docker run -d -p 5000:80 zkeasoft/zkeacms:ent
 ```
 
 ## Development
-* [.Net 7 SDK](https://dotnet.microsoft.com/download/dotnet/7.0)
+* [.Net 7 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 * Microsoft Sql Server 2012+ / MySql 5.6+ / SQLite 3
 * Microsoft Visual Studio 2019 / Visual Studio Code
 
