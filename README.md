@@ -1,6 +1,6 @@
 [![Auto Build](https://github.com/SeriaWei/ZKEACMS/actions/workflows/build.yml/badge.svg)](https://github.com/SeriaWei/ZKEACMS/actions/workflows/build.yml)
 
-# ZKEACMS Build With .Net 7
+# ZKEACMS Build With .Net 8
 
 ZKEACMS is a visual design, **WYSIWYG** Content Management System.
 
@@ -62,9 +62,9 @@ $ docker run -d -p 5000:80 zkeasoft/zkeacms:ent
 ```
 
 ## Development
-* [.Net 7 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-* Microsoft Sql Server 2012+ / MySql 5.6+ / SQLite 3
-* Microsoft Visual Studio 2019 / Visual Studio Code
+* [.Net 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+* Microsoft Sql Server 2016+ / MySql 5.6+ / SQLite 3
+* Microsoft Visual Studio 2022 / Visual Studio Code
 
 ## Responsive Design
 ZKEACMS is featuring a modern responsive design that automatically adapts to different screen sizes and devices. From the PC, laptop, TV, tablet to the phone page will automatically adapt to adapt.
