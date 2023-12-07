@@ -95,11 +95,11 @@ namespace ZKEACMS.Controllers
             WidgetBase widget = widgetPartDriver.GetWidget(widgetBasePart.ToWidgetBase());
             if (widget == null) return BadRequest();
 
-            SetDefaultValuesToWidget(context, widget);
             widget.IsTemplate = false;
             widget.IsSystem = false;
             widget.Thumbnail = null;
             widget.RuleID = null;
+            SetDefaultValuesToWidget(context, widget);
             widgetPartDriver.AddWidget(widget);
             return RedirectToAction("Edit", new { ID = widget.ID, ReturnUrl = context.ReturnUrl });
         }
