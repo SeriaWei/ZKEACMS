@@ -107,7 +107,7 @@
 </div><!-- /.modal -->
 @using (Script.AtFoot())
 {
-<script type="text/javascript">
+    <script type="text/javascript">
         function Create(node) {
             var parent = node.reference.attr("id");
             window.location.href = '@Url.Action("Create", "Page")' + '?ParentID=' + parent;
@@ -139,9 +139,10 @@
                 Easy.Block();
                 $.post('@Url.Action("Publish")', { id: id }, function (data) {
                     if (data.errorMessage) {
-                        Easy.ShowMessageBox("@L("Notice")",data.errorMessage);
+                        Easy.ShowMessageBox("@L("Notice")", data.errorMessage);
                     }
                     $(".jstree").jstree().refresh();
+                    $(".simplePreview .widget.disabled").remove();
                     Easy.UnBlock();
                 });
             }, true);
@@ -172,24 +173,28 @@
         $(document).on("click", ".fullRowList .delete", function () {
             var id = $(this).data("widgetid");
             Easy.ShowMessageBox("@L("Notice")", "@L("Do you want to delete?")", function () {
-                $.post("@Url.Action("DeleteWidget", "Widget")", { ID: id }, function (data) {
-                    if (data) {
+                $.post("@Url.Action("DeleteWidget", "Widget")", { ID: id, permanent: true }, function (data) {
+                    if (data.actionType == @((int)ActionType.Delete)) {
                         $("#widget_" + id).remove();
+                    } else if (data.actionType == @((int)ActionType.Update)) {
+                        $("#widget_" + id).addClass("disabled");
                     }
                 }, "json");
             }, true, 10);
-        }).on("click", ".publish-page",function() {
+        }).on("click", ".publish-page", function () {
             var btn = $(this);
             Publish({
                 reference: {
                     attr: function (id) {
-                return btn.data(id);
-            }}});
+                        return btn.data(id);
+                    }
+                }
+            });
         });
         if (!location.hash) {
             location.hash = '@(pageId)';
         }
-</script>
+    </script>
     <script type="text/javascript">
         $(function () {
             $(".jstree").css("max-height", $(window).height() - 200).css("overflow", "auto");

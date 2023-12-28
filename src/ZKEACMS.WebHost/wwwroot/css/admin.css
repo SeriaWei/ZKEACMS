@@ -321,6 +321,9 @@ a.badge:hover {
         margin: 5px;
         background-color: white;
     }
+        .fullRowList li.muted {
+            border-left: 5px solid #ddd;
+        }
 
         .fullRowList li.sorting {
             height: 34px;
@@ -350,8 +353,9 @@ a.badge:hover {
     .fullRowList .glyphicon {
         font-size: 12px;
     }
-    .fullRowList .icon{
-        width:16px;
+
+    .fullRowList .icon {
+        width: 16px;
     }
 
     .fullRowList.tags input {
@@ -391,6 +395,16 @@ a.badge:hover {
         color: #E28271;
     }
 
+    .fullRowList li.disabled {
+        border-left: 5px solid #ddd;
+        color: #ccc;
+    }
+
+        .fullRowList li.disabled .icon {
+            opacity: 0.2;
+        }
+
+#rules.fullRowList .rule-item,
 #layouts.fullRowList li {
     cursor: pointer;
 }
@@ -577,7 +591,7 @@ a.badge:hover {
     text-align: center;
 }
 
-    #media-list .thumbnail > a.img-link.confirm img{
+    #media-list .thumbnail > a.img-link.confirm img {
         background: url(../images/opacity-dotted.png);
     }
 
@@ -782,9 +796,9 @@ a.pack-theme {
     }
 }
 
-    .seach-terms .form-control.required {
-        background-color: #fff;
-    }
+.seach-terms .form-control.required {
+    background-color: #fff;
+}
 
 .dataTable tfoot .search {
     display: none;
@@ -793,6 +807,7 @@ a.pack-theme {
 .select2-container--default .select2-selection--single {
     border-color: #ccc;
 }
+
 .opacity-dotted {
     background: url(../images/opacity-dotted.png);
 }

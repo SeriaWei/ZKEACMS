@@ -11,7 +11,7 @@
         <ul id="rule-widgets" class="fullRowList">
             @foreach (var widget in Model.OrderBy(m => m.Position))
             {
-                <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
+                <li title="@(widget.Status == (int)WidgetStatus.Deleted ? L("Deleted"):widget.WidgetName)" id="widget_@widget.ID" class="widget @(widget.Status == (int)WidgetStatus.Deleted? "disabled":"")" data-widgetid="@widget.ID">
                     @if (widget.LayoutId.IsNotNullAndWhiteSpace())
                     {
                         <span class="badge">@L("Layout")</span>
@@ -25,7 +25,7 @@
                             <img class="icon" src="~/images/icons/delete.svg" />
                         </a>
                     }
-                    @if (widget.Status == (int)RecordStatus.InActive)
+                    @if (widget.Status == (int)WidgetStatus.Hidden)
                     {
                         <a style="cursor:default"><img class="icon" src="~/images/icons/invisible.svg" title="@L("Invisible")" /></a>
                     }

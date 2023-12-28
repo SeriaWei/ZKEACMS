@@ -11,14 +11,14 @@
                     <ul id="rules" class="fullRowList">
                         @foreach (var item in Model)
                         {
-                            <li class="clearfix">
-                                <div class="pull-left">
+                            <li class="clearfix muted">
+                                <div class="pull-left rule-item" id="rule-@item.RuleID" data-id="@item.RuleID">
                                     <i class="glyphicon glyphicon-equalizer"></i>
-                                    <a href="javascript:void(0)" class="role-item" id="rule-@item.RuleID" data-id="@item.RuleID">
+                                    <span>
                                         @item.Title
                                         [@item.ZoneName]
                                         @L("Zone")
-                                    </a>
+                                    </span>
                                 </div>
                                 @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                                 {
@@ -57,20 +57,22 @@
                 $("a" + location.hash).trigger("click");
             }
             else if ($("#rules>li.actived").size() === 0) {
-                $("#rules .role-item").first().trigger("click");
+                $("#rules .rule-item").first().trigger("click");
             }
         });
 
         $(document).on("click", ".fullRowList .delete", function () {
             var id = $(this).data("widgetid");
             if (confirm("@L("Do you want to delete?")")) {
-                $.post("@Url.Action("DeleteWidget", "Widget")", { ID: id }, function (data) {
-                    if (data) {
+                $.post("@Url.Action("DeleteWidget", "Widget")", { ID: id, permanent: true }, function (data) {
+                    if (data.actionType == @((int)ActionType.Delete)) {
                         $("#widget_" + id).remove();
+                    } else if (data.actionType == @((int)ActionType.Update)) {
+                        $("#widget_" + id).addClass("disabled");
                     }
                 }, "json");
             }
-        }).on("click", "#rules .role-item", function () {
+        }).on("click", "#rules .rule-item", function () {
             $(this).closest("li").siblings().removeClass("actived");
             $(this).closest("li").addClass("actived");
             location.hash ="rule-" + $(this).data("id");

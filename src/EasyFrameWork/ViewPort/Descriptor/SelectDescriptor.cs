@@ -56,7 +56,7 @@ namespace Easy.ViewPort.Descriptor
                     {
                         Dictionary<string, string> data = new Dictionary<string, string>();
                         IDataDictionaryService dicService = ServiceLocator.GetService<IDataDictionaryService>();
-                        var dicts = dicService.Get(m => m.DicName == this.SourceKey);
+                        var dicts = dicService.Get(m => m.DicName == this.SourceKey).OrderBy(m => m.Order);
                         foreach (DataDictionaryEntity item in dicts)
                         {
                             data[item.DicValue] = item.Title;

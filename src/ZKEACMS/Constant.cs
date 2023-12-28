@@ -14,7 +14,10 @@ namespace ZKEACMS
     {
         public const string CopyWidgetCookie = "F84DBA";
     }
-
+    public class DictionaryKeys
+    {
+        public const string WidgetStatus = "WidgetStatus";
+    }
     public class Layouts
     {
         /// <summary>
@@ -103,7 +106,13 @@ namespace ZKEACMS
         Ppt = 9,
         Other = 100
     }
-
+    public enum WidgetStatus
+    {
+        Undefined = 0,
+        Visible = 1,
+        Hidden = 2,
+        Deleted = 3
+    }
     public static class FileExtensions
     {
         public static HashSet<string> Video = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".mp4", ".avi", ".rmvb", ".flv", ".wmv", ".asf", ".asx", ".rm", ".3gp", ".mov", ".m4v", ".mkv", ".vob" };

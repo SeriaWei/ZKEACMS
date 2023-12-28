@@ -28,6 +28,8 @@
             {
                 foreach (var widgetPart in Model.ZoneWidgets[zoneId].OrderBy(m => m.Widget.Position).ThenBy(m => m.Widget.WidgetName))
                 {
+                    if (widgetPart.Widget.Status == (int)WidgetStatus.Deleted) continue;
+
                     if (widgetPart.Widget.ID.IsNotNullAndWhiteSpace())
                     {
                         @await Html.DesignWidget(new DesignWidgetViewModel(widgetPart, Model.Page.ID))

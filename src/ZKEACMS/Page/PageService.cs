@@ -130,15 +130,24 @@ namespace ZKEACMS.Page
                 m.PageId = item.ID;
                 _layoutHtmlService.Add(m);
             });
-            widgets.Each(m =>
+            foreach (var widget in widgets)
             {
-                using (var widgetService = _widgetActivator.Create(m))
+                if (widget.Status == (int)WidgetStatus.Hidden) continue;
+
+                using (var widgetService = _widgetActivator.Create(widget))
                 {
-                    m = widgetService.GetWidget(m);
-                    m.PageId = item.ID;
-                    widgetService.Publish(m);
+                    if (widget.IsVisible())
+                    {
+                        var fullFillWidget = widgetService.GetWidget(widget);
+                        fullFillWidget.PageId = item.ID;
+                        widgetService.Publish(fullFillWidget);
+                    }
+                    else if (widget.Status == (int)WidgetStatus.Deleted)
+                    {
+                        widgetService.DeleteWidget(widget.ID);
+                    }
                 }
-            });
+            }
         }
 
         public override DbSet<PageEntity> CurrentDbSet
@@ -219,7 +228,7 @@ namespace ZKEACMS.Page
                     }, item);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.AddRuleViolation("Title", ex.Message);
             }

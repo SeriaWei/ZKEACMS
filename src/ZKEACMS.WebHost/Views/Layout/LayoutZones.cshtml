@@ -53,7 +53,7 @@
                         <ul data-zoneid="@item.HeadingCode" class="fullRowList widgets connectedSortable">
                             @foreach (var widget in Model.Widgets.Where(m => m.ZoneId == item.HeadingCode).OrderBy(m => m.Position).ThenBy(m => m.WidgetName))
                             {
-                                <li id="widget_@widget.ID" class="widget" data-widgetid="@widget.ID">
+                                <li title="@(widget.Status == (int)WidgetStatus.Deleted ? L("Deleted"):widget.WidgetName)" id="widget_@widget.ID" class="widget @(widget.Status == (int)WidgetStatus.Deleted? "disabled":"")" data-widgetid="@widget.ID">
                                     @if (Authorizer.Authorize(PermissionKeys.ManagePage))
                                     {
                                         <a href="@Url.Action("Edit", "Widget", new { widget.ID, ReturnUrl = returnUrl})">
@@ -63,7 +63,7 @@
                                             <img class="icon" src="~/images/icons/delete.svg" />
                                         </a>
                                     }
-                                    @if (widget.Status == (int)RecordStatus.InActive)
+                                    @if (widget.Status == (int)WidgetStatus.Hidden)
                                     {
                                         <a style="cursor:default"><img class="icon" src="~/images/icons/invisible.svg" title="@L("Invisible")" /></a>
                                     }

@@ -40,7 +40,7 @@ namespace ZKEACMS.MetaData
             ViewConfig(m => m.Title).AsTextBox().Order(NextOrder());
             ViewConfig(m => m.Position).AsTextBox().Order(NextOrder()).RegularExpression(RegularExpression.Integer).Required();
             ViewConfig(m => m.ZoneId).AsDropDownList().Order(NextOrder()).DataSource(ViewDataKeys.Zones, SourceType.ViewData).Required();
-            ViewConfig(m => m.Status).AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary).Order(NextOrder());
+            ViewConfig(m => m.Status).AsDropDownList().DataSource(DictionaryKeys.WidgetStatus, SourceType.Dictionary).Order(NextOrder());
             ViewConfig(m => m.IsTemplate).AsCheckBox().Order(NextOrder());
             ViewConfig(m => m.Thumbnail).AsTextBox().Order(NextOrder()).MediaSelector();
             ViewConfig(m => m.StyleClass).AsTextBox()

@@ -219,15 +219,22 @@ namespace ZKEACMS.Controllers
             return Json(true);
         }
         [HttpPost]
-        public JsonResult DeleteWidget(string ID)
+        public JsonResult DeleteWidget(string ID, bool? permanent)
         {
-            WidgetBase widget = _widgetService.Get(ID);
-            if (widget != null)
+            var widget = _widgetService.Get(ID);
+            if (widget == null) return Json(new { ActionType = (int)ActionType.UnAttach });
+
+            if (widget.Status == (int)WidgetStatus.Deleted || permanent == true)
             {
                 _widgetActivator.Create(widget).DeleteWidget(ID);
-                return Json(ID);
+                return Json(new { ActionType = (int)ActionType.Delete });
             }
-            return Json(false);
+            else
+            {
+                widget.Status = (int)WidgetStatus.Deleted;
+                _widgetService.Update(widget);
+                return Json(new { ActionType = (int)ActionType.Update });
+            }
         }
 
         public PartialViewResult Templates()
