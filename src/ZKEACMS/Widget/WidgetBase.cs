@@ -150,5 +150,9 @@ namespace ZKEACMS.Widget
         {
             return ZoneId == zoneCode || availableZones.Contains(zoneCode);
         }
+        public bool IsVisible()
+        {
+            return Status == (int)WidgetStatus.Undefined || (Status ?? (int)WidgetStatus.Visible) == (int)WidgetStatus.Visible;
+        }
     }
 }

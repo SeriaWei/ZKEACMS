@@ -55,10 +55,11 @@ $(function () {
 
     $(".templates ul li").draggable({ helper: "clone", connectToSortable: ".zone" });
     $(document).on("click", ".zoneToolbar .delete", function () {
-        var th = $(this);        
-        $.post(th.data("url"), { ID: th.data("id") }, function (data) {
+        var th = $(this);
+        var id = th.data("id");
+        $.post(th.data("url"), { ID: id }, function (data) {
             if (data) {
-                $("#widget_" + data).parent().remove();
+                $("#widget_" + id).parent().remove();
             }
         }, "json");
     }).on("click", ".zoneToolbar .more", function () {

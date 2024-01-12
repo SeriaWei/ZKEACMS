@@ -14,7 +14,10 @@ namespace ZKEACMS
     {
         public const string CopyWidgetCookie = "F84DBA";
     }
-
+    public class DictionaryKeys
+    {
+        public const string WidgetStatus = "WidgetStatus";
+    }
     public class Layouts
     {
         /// <summary>
@@ -103,10 +106,16 @@ namespace ZKEACMS
         Ppt = 9,
         Other = 100
     }
-
+    public enum WidgetStatus
+    {
+        Undefined = 0,
+        Visible = 1,
+        Hidden = 2,
+        Deleted = 3
+    }
     public static class FileExtensions
     {
-        public static HashSet<string> Video = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".mp4", ".avi", ".rmvb",".flv",".wmv",".asf",".asx",".rm",".3gp",".mov",".m4v",".mkv",".vob" };
+        public static HashSet<string> Video = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".mp4", ".avi", ".rmvb", ".flv", ".wmv", ".asf", ".asx", ".rm", ".3gp", ".mov", ".m4v", ".mkv", ".vob" };
         public static HashSet<string> Zip = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".rar", ".zip", ".7z", ".arj", ".bz2", ".cab", ".gz", ".lz", ".lzh", ".tar", ".uue", ".xz", ".zipx", ".zst", ".001" };
         public static HashSet<string> Pdf = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".pdf" };
         public static HashSet<string> Txt = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".txt" };
@@ -177,8 +186,7 @@ namespace ZKEACMS
             {
                 if (_version == null)
                 {
-                    var attr = typeof(Version).GetTypeInfo().Assembly.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
-                    _version = $"ZKEACMS v{attr.InformationalVersion}";
+                    _version = $"ZKEACMS v{VersionInfo}";
                 }
                 return _version;
             }
@@ -190,8 +198,8 @@ namespace ZKEACMS
             {
                 if (_versionInfo == null)
                 {
-                    var attr = typeof(Version).GetTypeInfo().Assembly.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
-                    _versionInfo = attr.InformationalVersion;
+                    var attr = typeof(Version).GetTypeInfo().Assembly.GetCustomAttribute(typeof(AssemblyFileVersionAttribute)) as AssemblyFileVersionAttribute;
+                    _versionInfo = attr.Version;
                 }
                 return _versionInfo;
             }

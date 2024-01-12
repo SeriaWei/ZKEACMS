@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using Easy.Extend;
 using System;
 using System.Net;
+using ZKEACMS.Route;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ZKEACMS.Filter
 {
@@ -21,14 +24,7 @@ namespace ZKEACMS.Filter
         {
             return filterContext.HttpContext.Request.Form["CurrentPagePath"];
         }
-        public override PageEntity GetPage(ActionExecutedContext filterContext)
-        {
-            string pagePath = GetPagePath(filterContext);
-            using (var pageService = filterContext.HttpContext.RequestServices.GetService<IPageService>())
-            {
-                return pageService.GetByPath(pagePath, false);
-            }
-        }
+
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             string pagePath = GetPagePath(filterContext);
@@ -66,11 +62,16 @@ namespace ZKEACMS.Filter
 
         private void RenderRefererPage(ActionExecutedContext filterContext, ViewResult viewResult)
         {
-            base.OnActionExecuted(filterContext);
-
+            var routeDataProviders = filterContext.HttpContext.RequestServices.GetServices<IRouteDataProvider>();
+            string pagePath = GetPagePath(filterContext);
+            foreach (var routeDataProvider in routeDataProviders.OrderBy(m => m.Order))
+            {
+                pagePath = routeDataProvider.ExtractVirtualPath(pagePath, filterContext.RouteData.Values);
+            }
             filterContext.RouteData.Values["controller"] = "page";
-            filterContext.RouteData.Values["path"] = GetPagePath(filterContext);
+            filterContext.RouteData.Values["path"] = pagePath;
             viewResult.ViewName = "PreView";
+            base.OnActionExecuted(filterContext);
         }
     }
 

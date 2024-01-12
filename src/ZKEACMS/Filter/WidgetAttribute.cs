@@ -82,6 +82,10 @@ namespace ZKEACMS.Filter
             if (page != null)
             {
                 var requestServices = filterContext.HttpContext.RequestServices;
+                if (!filterContext.RouteData.Values.ContainsKey(StringKeys.RouteValue_Path) && filterContext.Controller is Controller controller)
+                {
+                    filterContext.RouteData.Values[StringKeys.RouteValue_Path] = controller.Url.Content(page.Url);
+                }
                 var eventManager = requestServices.GetService<IEventManager>();
                 var layoutService = requestServices.GetService<ILayoutService>();
                 var widgetService = requestServices.GetService<IWidgetBasePartService>();
@@ -103,32 +107,32 @@ namespace ZKEACMS.Filter
                 layout.ZoneWidgets = new ZoneWidgetCollection();
                 widgetService.GetAllByPage(page).Each(widget =>
                 {
-                    if (widget != null && widget.Status != (int)RecordStatus.InActive)
+                    if (widget == null || widget.Status == (int)WidgetStatus.Hidden || widget.Status == (int)WidgetStatus.Deleted) return;
+
+                    DateTime startTime = DateTime.Now;
+                    IWidgetPartDriver partDriver = widgetActivator.Create(widget);
+                    object viewModel = partDriver.Display(new WidgetDisplayContext
                     {
-                        DateTime startTime = DateTime.Now;
-                        IWidgetPartDriver partDriver = widgetActivator.Create(widget);
-                        object viewModel = partDriver.Display(new WidgetDisplayContext
+                        PageLayout = layout,
+                        ActionContext = filterContext,
+                        Widget = widget,
+                        FormModel = viewResult?.Model
+                    });
+                    WidgetViewModelPart part = new WidgetViewModelPart(widget, viewModel);
+                    logger.LogInformation("{0}.Display(): {1}ms", widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
+                    if (part != null)
+                    {
+                        if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneId ?? UnknownZone))
                         {
-                            PageLayout = layout,
-                            ActionContext = filterContext,
-                            Widget = widget,
-                            FormModel = viewResult?.Model
-                        });
-                        WidgetViewModelPart part = new WidgetViewModelPart(widget, viewModel);
-                        logger.LogInformation("{0}.Display(): {1}ms", widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
-                        if (part != null)
-                        {
-                            if (layout.ZoneWidgets.ContainsKey(part.Widget.ZoneId ?? UnknownZone))
-                            {
-                                layout.ZoneWidgets[part.Widget.ZoneId ?? UnknownZone].TryAdd(part);
-                            }
-                            else
-                            {
-                                layout.ZoneWidgets.Add(part.Widget.ZoneId ?? UnknownZone, new WidgetCollection { part });
-                            }
+                            layout.ZoneWidgets[part.Widget.ZoneId ?? UnknownZone].TryAdd(part);
                         }
-                        partDriver.Dispose();
+                        else
+                        {
+                            layout.ZoneWidgets.Add(part.Widget.ZoneId ?? UnknownZone, new WidgetCollection { part });
+                        }
                     }
+                    partDriver.Dispose();
+
                 });
 
                 var ruleWorkContext = new RuleWorkContext
@@ -144,37 +148,37 @@ namespace ZKEACMS.Filter
                 {
                     widgetService.GetAllByRule(rulesID, !IsPreView(filterContext)).Each(widget =>
                     {
-                        if (widget != null && widget.Status != (int)RecordStatus.InActive)
+                        if (widget == null || widget.Status == (int)WidgetStatus.Hidden || widget.Status == (int)WidgetStatus.Deleted) return;
+
+                        DateTime startTime = DateTime.Now;
+                        IWidgetPartDriver partDriver = widgetActivator.Create(widget);
+                        object viewModel = partDriver.Display(new WidgetDisplayContext
                         {
-                            DateTime startTime = DateTime.Now;
-                            IWidgetPartDriver partDriver = widgetActivator.Create(widget);
-                            object viewModel = partDriver.Display(new WidgetDisplayContext
+                            PageLayout = layout,
+                            ActionContext = filterContext,
+                            Widget = widget,
+                            FormModel = viewResult?.Model
+                        });
+                        WidgetViewModelPart part = new WidgetViewModelPart(widget, viewModel);
+                        logger.LogInformation("{0}.Display(): {1}ms", widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
+                        if (part != null)
+                        {
+                            var availableZones = layout.Zones.Where(z => ruleDic[widget.RuleID.Value].ZoneNames.Contains(z.ZoneName));
+                            foreach (var zone in availableZones)
                             {
-                                PageLayout = layout,
-                                ActionContext = filterContext,
-                                Widget = widget,
-                                FormModel = viewResult?.Model
-                            });
-                            WidgetViewModelPart part = new WidgetViewModelPart(widget, viewModel);
-                            logger.LogInformation("{0}.Display(): {1}ms", widget.ServiceTypeName, (DateTime.Now - startTime).TotalMilliseconds);
-                            if (part != null)
-                            {
-                                var availableZones = layout.Zones.Where(z => ruleDic[widget.RuleID.Value].ZoneNames.Contains(z.ZoneName));
-                                foreach (var zone in availableZones)
+                                part.Widget.SetZone(zone.HeadingCode);
+                                if (layout.ZoneWidgets.ContainsKey(zone.HeadingCode ?? UnknownZone))
                                 {
-                                    part.Widget.SetZone(zone.HeadingCode);
-                                    if (layout.ZoneWidgets.ContainsKey(zone.HeadingCode ?? UnknownZone))
-                                    {
-                                        layout.ZoneWidgets[zone.HeadingCode ?? UnknownZone].TryAdd(part);
-                                    }
-                                    else
-                                    {
-                                        layout.ZoneWidgets.Add(zone.HeadingCode ?? UnknownZone, new WidgetCollection { part });
-                                    }
+                                    layout.ZoneWidgets[zone.HeadingCode ?? UnknownZone].TryAdd(part);
+                                }
+                                else
+                                {
+                                    layout.ZoneWidgets.Add(zone.HeadingCode ?? UnknownZone, new WidgetCollection { part });
                                 }
                             }
-                            partDriver.Dispose();
                         }
+                        partDriver.Dispose();
+
                     });
                 }
 

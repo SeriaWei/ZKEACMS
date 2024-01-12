@@ -14,7 +14,7 @@
                     <ul id="layouts" class="fullRowList">
                         @foreach (LayoutEntity item in Model)
                         {
-                            <li id="@item.ID" class="clearfix" data-id="@item.ID">
+                            <li id="@item.ID" class="clearfix muted" data-id="@item.ID">
                                 <div class="pull-left">
                                     <i class="glyphicon glyphicon-equalizer"></i> @item.LayoutName
                                 </div>
@@ -22,7 +22,7 @@
                                 {
                                     <div class="pull-right">
                                         <a href="@Url.Action("Design", new {item.ID})" title="@L("Design")">
-                                            <i class="glyphicon glyphicon-edit"></i>
+                                            <img class="icon" src="~/images/icons/edit.svg" />
                                         </a>
                                     </div>
                                 }
@@ -56,9 +56,11 @@
         $(document).on("click", ".fullRowList .delete", function () {
             var id = $(this).data("widgetid");
             if (confirm("@L("Do you want to delete?")")) {
-                $.post("@Url.Action("DeleteWidget", "Widget")", { ID: id }, function (data) {
-                    if (data) {
+                $.post("@Url.Action("DeleteWidget", "Widget")", { ID: id, permanent: true }, function (data) {
+                    if (data.actionType == @((int)ActionType.Delete)) {
                         $("#widget_" + id).remove();
+                    } else if (data.actionType == @((int)ActionType.Update)) {
+                        $("#widget_" + id).addClass("disabled");
                     }
                 }, "json");
             }

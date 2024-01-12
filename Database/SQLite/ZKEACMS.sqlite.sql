@@ -1,7 +1,97 @@
--- Script Date: 2023/3/18 星期六 22:30  - ErikEJ.SqlCeScripting version 3.5.2.56
+-- Script Date: 2024/1/11 星期四 21:09  - ErikEJ.SqlCeScripting version 3.5.2.56
 SELECT 1;
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
+CREATE TABLE [VideoTypeWidget] (
+  [ID] nvarchar(100) NOT NULL
+, [VideoTypeID] int NULL
+, [TargetPage] nvarchar(255) NULL
+, CONSTRAINT [PK_VideoTypeWidget] PRIMARY KEY ([ID])
+);
+CREATE TABLE [VideoType] (
+  [ID] INTEGER NOT NULL
+, [Name] nvarchar(100) NULL
+, [Title] nvarchar(255) NULL
+, [Description] nvarchar(255) NULL
+, [ParentID] int NULL
+, [Status] int NULL
+, [SEOTitle] nvarchar(100) NULL
+, [SEOKeyWord] nvarchar(100) NULL
+, [SEODescription] nvarchar(300) NULL
+, [CreateBy] nvarchar(50) NULL
+, [CreatebyName] nvarchar(100) NULL
+, [CreateDate] datetime NULL
+, [LastUpdateBy] nvarchar(50) NULL
+, [LastUpdateByName] nvarchar(100) NULL
+, [LastUpdateDate] datetime NULL
+, [ContentID] nvarchar(100) NULL
+, [CultureID] int NULL
+, CONSTRAINT [PK_VideoType] PRIMARY KEY ([ID])
+);
+CREATE TABLE [VideoTopWidget] (
+  [ID] nvarchar(100) NOT NULL
+, [VideoTypeID] int NULL
+, [Tops] int NULL
+, [SubTitle] nvarchar(255) NULL
+, [MoreLink] nvarchar(255) NULL
+, [DetailPageUrl] nvarchar(255) NULL
+, CONSTRAINT [PK_VideoTopWidget] PRIMARY KEY ([ID])
+);
+CREATE TABLE [VideoListWidget] (
+  [ID] nvarchar(100) NOT NULL
+, [VideoTypeID] int NULL
+, [DetailPageUrl] nvarchar(255) NULL
+, [IsPageable] bit NOT NULL
+, [PageSize] int NULL
+, CONSTRAINT [PK_VideoListWidget] PRIMARY KEY ([ID])
+);
+CREATE TABLE [VideoGallery] (
+  [ID] INTEGER NOT NULL
+, [Title] nvarchar(255) NULL
+, [Description] nvarchar(255) NULL
+, [RawData] ntext NULL
+, [Status] int NULL
+, [CreateBy] nvarchar(50) NULL
+, [CreatebyName] nvarchar(100) NULL
+, [CreateDate] datetime NULL
+, [LastUpdateBy] nvarchar(50) NULL
+, [LastUpdateByName] nvarchar(100) NULL
+, [LastUpdateDate] datetime NULL
+, CONSTRAINT [PK__VideoGal__3214EC27B31280D1] PRIMARY KEY ([ID])
+);
+CREATE TABLE [VideoDetailWidget] (
+  [ID] nvarchar(100) NOT NULL
+, [CustomerClass] nvarchar(255) NULL
+, CONSTRAINT [PK_VideoDetailWidget] PRIMARY KEY ([ID])
+);
+CREATE TABLE [Video] (
+  [ID] INTEGER NOT NULL
+, [Name] nvarchar(100) NULL
+, [Title] nvarchar(255) NULL
+, [Summary] nvarchar(255) NULL
+, [MetaKeyWords] nvarchar(255) NULL
+, [MetaDescription] nvarchar(255) NULL
+, [Counter] int NULL
+, [VideoTypeID] int NULL
+, [Description] nvarchar(255) NULL
+, [VideoUrl] nvarchar(255) NULL
+, [VideoCode] nvarchar(1000) NULL
+, [Duration] nvarchar(100) NULL
+, [Status] int NULL
+, [ImageThumbUrl] nvarchar(255) NULL
+, [ImageUrl] nvarchar(255) NULL
+, [IsPublish] bit NOT NULL
+, [PublishDate] datetime NULL
+, [CreateBy] nvarchar(50) NULL
+, [CreatebyName] nvarchar(100) NULL
+, [CreateDate] datetime NULL
+, [LastUpdateBy] nvarchar(50) NULL
+, [LastUpdateByName] nvarchar(100) NULL
+, [LastUpdateDate] datetime NULL
+, [ContentID] nvarchar(100) NULL
+, [CultureID] int NULL
+, CONSTRAINT [PK_Video] PRIMARY KEY ([ID])
+);
 CREATE TABLE [Users] (
   [UserID] nvarchar(50) NOT NULL
 , [PassWord] nvarchar(255) NULL
@@ -57,7 +147,7 @@ CREATE TABLE [Subscription] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Subscrip__3214EC27021C6F87] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Subscrip__3214EC2726B7DB0D] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ShippingOption] (
   [ID] INTEGER NOT NULL
@@ -74,7 +164,7 @@ CREATE TABLE [ShippingOption] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Shipping__3214EC271C40EEEF] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Shipping__3214EC278B857D8B] PRIMARY KEY ([ID])
 );
 CREATE TABLE [SectionTemplate] (
   [TemplateName] nvarchar(100) NOT NULL
@@ -145,13 +235,13 @@ CREATE TABLE [Roles] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Roles__3214EC27BB1A64AD] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Roles__3214EC279B49A1D5] PRIMARY KEY ([ID])
 );
 CREATE TABLE [UserRoleRelation] (
   [ID] INTEGER NOT NULL
 , [RoleID] int NULL
 , [UserID] nvarchar(50) NULL
-, CONSTRAINT [PK__UserRole__3214EC2741D31CE3] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__UserRole__3214EC272AFDE069] PRIMARY KEY ([ID])
 , FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 , FOREIGN KEY ([UserID]) REFERENCES [Users] ([UserID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
@@ -189,7 +279,7 @@ CREATE TABLE [ProductGallery] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__ProductG__3214EC27E76CCCE6] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__ProductG__3214EC277AEBB52A] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ProductCategoryTag] (
   [ID] INTEGER NOT NULL
@@ -266,7 +356,7 @@ CREATE TABLE [PersistKey] (
 , [CreationDate] datetime NULL
 , [ActivationDate] datetime NULL
 , [ExpirationDate] datetime NULL
-, CONSTRAINT [PK__PersistK__3214EC279B644864] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__PersistK__3214EC27AC8069D3] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Permission] (
   [PermissionKey] nvarchar(100) NOT NULL
@@ -483,7 +573,7 @@ CREATE TABLE [FluidContentGroup] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__FluidCon__3214EC27BA71BFFC] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__FluidCon__3214EC27B8079E33] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ExtendField] (
   [ID] INTEGER NOT NULL
@@ -554,7 +644,7 @@ CREATE TABLE [DBVersion] (
 , [Minor] int NULL
 , [Revision] int NULL
 , [Build] int NULL
-, CONSTRAINT [PK__DBVersio__3214EC279FDDC606] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__DBVersio__3214EC27289CA485] PRIMARY KEY ([ID])
 );
 CREATE TABLE [DataDictionary] (
   [ID] INTEGER NOT NULL
@@ -603,7 +693,7 @@ CREATE TABLE [Currency] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__Currency__3214EC27578AA481] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__Currency__3214EC2765CDA47B] PRIMARY KEY ([ID])
 );
 CREATE TABLE [Comments] (
   [ID] INTEGER NOT NULL
@@ -1053,7 +1143,7 @@ CREATE TABLE [ArticleGallery] (
 , [LastUpdateBy] nvarchar(50) NULL
 , [LastUpdateByName] nvarchar(100) NULL
 , [LastUpdateDate] datetime NULL
-, CONSTRAINT [PK__ArticleG__3214EC27734E3FD9] PRIMARY KEY ([ID])
+, CONSTRAINT [PK__ArticleG__3214EC2730EB07A0] PRIMARY KEY ([ID])
 );
 CREATE TABLE [ArticleDetailWidget] (
   [ID] nvarchar(100) NOT NULL
@@ -1429,7 +1519,7 @@ INSERT INTO [EA_ActionBody] ([ID],[Body],[Title],[Description],[Status],[CreateB
         </tbody>
     </table>
 </div>','自定义表单邮件模板',NULL,1,'admin','ZKEASOFT','2023-03-11 22:06:21.000','admin','ZKEASOFT','2023-03-16 22:03:40.577');
-INSERT INTO [DBVersion] ([ID],[Major],[Minor],[Revision],[Build]) VALUES (1,3,7,0,0);
+INSERT INTO [DBVersion] ([ID],[Major],[Minor],[Revision],[Build]) VALUES (1,3,9,3,0);
 INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (1,'RecordStatus','Active','1',1,0,1,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (2,'RecordStatus','Inactive','2',2,0,1,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (3,'ArticleCategory','News','1',1,0,1,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL);
@@ -1511,6 +1601,9 @@ INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[I
 INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (80,'StaticPageSetting@CacheProvider','File Cache','File',3,0,1,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (81,'CultureSetting@CultureMode','Single domain','1',1,0,1,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (82,'CultureSetting@CultureMode','Standalone domain','2',3,0,1,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (83,'WidgetStatus','Visible','1',1,0,1,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (84,'WidgetStatus','Hidden','2',2,0,1,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [DataDictionary] ([ID],[DicName],[Title],[DicValue],[Order],[Pid],[IsSystem],[ImageUrl],[ImageThumbUrl],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES (85,'WidgetStatus','Deleted','3',3,0,1,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO [DataArchived] ([ID],[Data],[Title],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES ('Alipay.AopSdk.AspnetCore.AlipayOptions','{"AppId":null,"Uid":null,"Gatewayurl":null,"PrivateKey":null,"AlipayPublicKey":null,"SignType":"RSA2","CharSet":"UTF-8","IsKeyFromFile":false}',NULL,NULL,NULL,NULL,NULL,'2019-04-24 19:55:03.627',NULL,NULL,'2019-04-24 19:55:03.627');
 INSERT INTO [DataArchived] ([ID],[Data],[Title],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES ('ZKEACMS.Currency.CurrencyOption','{"CurrencyID":4,"Name":"Chinese Renmenbi","Code":"CNY","Symbol":"￥"}',NULL,NULL,NULL,'admin','ZKEASOFT','2021-03-06 22:16:39.503','admin','ZKEASOFT','2021-03-06 22:16:43.467');
 INSERT INTO [DataArchived] ([ID],[Data],[Title],[Description],[Status],[CreateBy],[CreatebyName],[CreateDate],[LastUpdateBy],[LastUpdateByName],[LastUpdateDate]) VALUES ('ZKEACMS.GlobalScripts.Models.LiveChatScript','{"Location":0,"Script":null}',NULL,NULL,NULL,NULL,NULL,'2019-04-07 16:38:35.293',NULL,NULL,'2019-04-07 16:38:35.293');
