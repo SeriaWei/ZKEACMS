@@ -91,16 +91,6 @@ The theme is base on Boorstrap.
 ## Videos
 [http://www.zkea.net/zkeacms/videos](http://www.zkea.net/zkeacms/videos)
 
-**Enterprise Edition**
-
-The following videos can help you to know the Enterprise Edition:
-
-- https://v.vuevideo.net/share/post/5481323210292563522 
-- https://v.vuevideo.net/share/post/-639458500689997299
-- https://v.vuevideo.net/share/post/7761412908248591201 
-- https://v.vuevideo.net/share/post/2774403749855987239 
-- https://v.vuevideo.net/share/post/779279774519648270 
-
 
 ## Official Website
 [http://www.zkea.net](http://www.zkea.net/zkeacms/zkeacmscore)
