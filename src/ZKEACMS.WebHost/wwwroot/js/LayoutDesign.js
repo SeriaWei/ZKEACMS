@@ -232,10 +232,16 @@ $(function () {
         form.submit();
         return false;
     });
+    var editor = null;
+    function formatCode() {
+        setTimeout(function () {
+            editor.getAction('editor.action.formatDocument').run();
+        }, 50);
+    }
     $(document).on("click", "#show-source-code", function () {
         $('input[name="ZoneName"]').each(function () {
             if (!$.trim($(this).val())) {
-                $(this).val("未命名");
+                $(this).val("Untitled");
             }
             $(this).attr("value", $(this).val());
         });
@@ -258,12 +264,19 @@ $(function () {
             .replace(new RegExp('><zone>', 'g'), ">\n<zone>\n")
             .replace(new RegExp('></zone', 'g'), ">\n</zone")
             .replace(new RegExp('><input', 'g'), ">\n<input");
-        editor.setValue(html);
-        setTimeout(function () {
-            editor.refresh();
-            var totalLines = editor.lineCount();
-            editor.autoFormatRange({ line: 0, ch: 0 }, { line: totalLines });
-        }, 500);
+        if (editor == null) {
+            Easy.Block();
+            setTimeout(function () {
+                codeEditor.createToAsync(document.getElementById("layout-code-editor"), html, "html").then(e => {
+                    Easy.UnBlock();
+                    editor = e;
+                    formatCode();
+                });
+            }, 300);
+        } else {
+            editor.setValue(html);
+            formatCode();
+        }
     });
     $(document).on("click", "#save-layout-code", function () {
         var doc = editor.getValue();
@@ -272,16 +285,4 @@ $(function () {
         initContainer();
 
     });
-    var editor = CodeMirror.fromTextArea(document.getElementById('layout-code'), {
-        lineNumbers: true,
-        mode: "htmlmixed",
-        theme: 'monokai',
-        lineWrapping: true,
-        autofocus: true,
-        tabSize: 2,
-        extraKeys: { "Ctrl-J": "autocomplete" },
-        autoCloseTags: true
-    });
-    $(".CodeMirror").height($(window).height() - 220);
-    $("#modal-layout-code").css("display", "");
 });

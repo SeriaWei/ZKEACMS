@@ -1,10 +1,9 @@
 ﻿@model string
 @{
-    Style.Reqiured("codemirror").AtHead();
-    Script.Reqiured("codemirror").AtFoot();
+    Script.Reqiured("code-editor").AtHead();
     string name = ViewData.TemplateInfo.GetFullHtmlFieldName("");
     var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
-
+    
     if (descriptor != null && !descriptor.Properties.ContainsKey("rows"))
     {
         descriptor.Properties.Add("rows", "5");
@@ -15,17 +14,7 @@
 {
     <script type="text/javascript">
         (function () {
-            var editor = CodeMirror.fromTextArea(document.getElementById('@name'), {
-                lineNumbers: true,
-                mode: "htmlmixed",
-                theme: 'monokai',
-                lineWrapping: true,
-                autofocus: true,
-                tabSize: 2,
-                extraKeys: { "Ctrl-J": "autocomplete" },
-                autoCloseTags: true
-            });
-            editor.setSize("100%", 400);
+            codeEditor.createAsync(document.getElementById('@name'));
         })();
     </script>
 }

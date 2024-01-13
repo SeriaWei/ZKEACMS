@@ -19,7 +19,7 @@ RUN cp -f /build/Database/SQLite/appsettings.json /build/src/ZKEACMS.WebHost/bin
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /zkeacms
 COPY --from=builder /build/src/ZKEACMS.WebHost/bin/Release/PublishOutput .
-EXPOSE 80
+EXPOSE 8080
 RUN echo "cp -n Database.sqlite App_Data/Database.sqlite" > run.sh
 RUN echo "dotnet ZKEACMS.WebHost.dll" >> run.sh
 ENTRYPOINT ["sh", "run.sh"]

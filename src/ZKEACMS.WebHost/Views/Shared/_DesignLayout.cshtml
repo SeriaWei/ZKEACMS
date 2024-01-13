@@ -3,10 +3,9 @@
 @{
     Style.Reqiured("Layout").AtHead();
     Style.Reqiured("bootStrap").AtHead();
-    Style.Reqiured("codemirror").AtHead();
     Script.Reqiured("jQueryUi").AtFoot();
     Script.Reqiured("admin").AtFoot();
-    Script.Reqiured("codemirror").AtFoot();
+    Script.Reqiured("code-editor").AtFoot();
     Model.ContainerClass = Model.ContainerClass ?? "container";
 }
 @model LayoutEntity
@@ -30,11 +29,6 @@
     <title>[@L("Design")]@Model.LayoutName</title>
     @StyleAtHead()
     @ScriptAtHead()
-    <style type="text/css">
-        .CodeMirror-hints {
-            z-index: 1060;
-        }
-    </style>
 </head>
 <body class="front">
     <form id="LayoutInfo" asp-controller="Layout" asp-action="SaveLayout" method="post">
@@ -202,7 +196,7 @@
         </div>
     </div>
 
-    <div class="zk-modal fade" id="modal-layout-code" tabindex="-1" role="dialog" data-keyboard="false" style="display:block;">
+    <div class="zk-modal fade" id="modal-layout-code" tabindex="-1" role="dialog" data-keyboard="false">
         <div class="zk-modal-dialog" style="width:1200px" role="document">
             <div class="zk-modal-content">
                 <div class="zk-modal-header">
@@ -210,7 +204,7 @@
                     <h4 class="zk-modal-title">@L("Layout Code")</h4>
                 </div>
                 <div class="zk-modal-body">
-                    <textarea id="layout-code" rows="10" cols="10"></textarea>
+                    <div id="layout-code-editor" style="width:100%;height:75vh"></div>
                 </div>
                 <div class="zk-modal-footer">
                     <button type="button" class="zk-btn zk-btn-default" data-dismiss="modal">@L("Close")</button>
