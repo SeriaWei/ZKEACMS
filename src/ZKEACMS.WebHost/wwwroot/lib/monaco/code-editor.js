@@ -14,7 +14,7 @@
                     ele.parentElement.insertBefore(codeContainer, ele);
                     var editor = monaco.editor.create(codeContainer, {
                         value: ele.value,
-                        language: "razor", //ele.dataset.lan
+                        language: ele.dataset.lan || "razor",
                         codeMap: false
                     });                    
                     editor.onDidChangeModelContent(e => {

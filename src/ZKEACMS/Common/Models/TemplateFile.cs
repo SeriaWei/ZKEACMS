@@ -40,7 +40,7 @@ namespace ZKEACMS.Common.Models
             ViewConfig(m => m.Name).AsTextBox().ShowInGrid().Order(10).Required();
             ViewConfig(m => m.Path).AsHidden();
             ViewConfig(m => m.RelativePath).AsTextBox().ReadOnly().ShowInGrid().Order(20).Search(Easy.LINQ.Query.Operators.None).Required();
-            ViewConfig(m => m.Content).AsTextArea().AsCodeEditor().ShowInGrid(false).Order(30).Required();
+            ViewConfig(m => m.Content).AsTextArea().AsCodeEditor("razor").ShowInGrid(false).Order(30).Required();
             ViewConfig(m => m.LastUpdateTime).AsTextBox().FormatAsDateTime().ShowInGrid().ReadOnly().Order(100).Search(Easy.LINQ.Query.Operators.None);
         }
     }

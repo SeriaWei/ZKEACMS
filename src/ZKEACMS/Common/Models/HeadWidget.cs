@@ -21,7 +21,7 @@ namespace ZKEACMS.Common.Models
         {
             base.ViewConfigure();
             ViewConfig(m => m.Title).AsHidden();
-            ViewConfig(m => m.Content).AsTextArea().AsCodeEditor().Order(NextOrder()).Required();
+            ViewConfig(m => m.Content).AsTextArea().AsCodeEditor("html").Order(NextOrder()).Required();
         }
     }
 }

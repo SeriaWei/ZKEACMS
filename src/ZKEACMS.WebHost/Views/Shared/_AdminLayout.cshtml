@@ -6,7 +6,7 @@
 @{
     Style.Reqiured("bootStrap").AtHead();
     Style.Reqiured("admin").AtHead();
-    Script.Reqiured("admin").AtFoot();
+    Script.Reqiured("admin").AtHead();
     List<AdminMenu> menus = adminMenuProvider.GetAdminMenus().ToList();
 }
 @inject IOptions<CultureOption> cultureOption

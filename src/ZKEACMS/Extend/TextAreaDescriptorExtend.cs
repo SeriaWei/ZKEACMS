@@ -11,9 +11,9 @@ namespace ZKEACMS.Extend
 {
     public static class TextAreaDescriptorExtend
     {
-        public static TextAreaDescriptor AsCodeEditor(this TextAreaDescriptor textArea)
+        public static TextAreaDescriptor AsCodeEditor(this TextAreaDescriptor textArea, string language)
         {
-            return textArea.SetTemplate("TemplateContent");
+            return textArea.SetTemplate("TemplateContent").AddProperty("data-lan", language);
         }
     }
 }

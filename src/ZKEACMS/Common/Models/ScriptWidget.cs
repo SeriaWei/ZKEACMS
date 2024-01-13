@@ -26,7 +26,7 @@ namespace ZKEACMS.Common.Models
             ViewConfig(m => m.PartialView).AsHidden();
             ViewConfig(m => m.Title).AsHidden();
             ViewConfig(m => m.StyleClass).AsHidden();
-            ViewConfig(m => m.Script).AsTextArea().AsCodeEditor().Order(NextOrder()).Required();
+            ViewConfig(m => m.Script).AsTextArea().AsCodeEditor("javascript").Order(NextOrder()).Required();
         }
     }
 }
