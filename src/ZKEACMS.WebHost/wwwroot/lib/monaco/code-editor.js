@@ -15,7 +15,7 @@
                     var editor = monaco.editor.create(codeContainer, {
                         value: ele.value,
                         language: ele.dataset.lan || "razor",
-                        codeMap: false
+                        minimap: { enabled: false }
                     });                    
                     editor.onDidChangeModelContent(e => {
                         ele.value = editor.getValue();
