@@ -35,26 +35,17 @@
     @StyleAtFoot()
     @ScriptAtFoot()
     <script type="text/javascript">
-        var selected = "";
-        var selectedArray = [];
+        var _innerPopSelectedOptions = null;
         $(".popUpToolBar .btn-default").click(function () {
             $(window.parent.document).find(".WeiWindow.BoxShadow:last").find(".CloseWindow").click();
         });
 
-        function Set(obj) {
-            selected = obj;
-        }
-
-        function SetArray(obj) {
-            selectedArray = obj;
+        function SetSelected(obj) {
+            _innerPopSelectedOptions = obj;
         }
 
         function GetSelected() {
-            return selected;
-        }
-
-        function GetSelectedArray() {
-            return selectedArray;
+            return _innerPopSelectedOptions;
         }
     </script>
 </body>
