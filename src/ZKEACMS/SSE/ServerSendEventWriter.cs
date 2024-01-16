@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using Easy.Serializer;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -25,9 +30,14 @@ namespace ZKEACMS.SSE
             }
         }
 
+        byte[] Serialize(ServerSendEvent sse)
+        {
+            return Encoding.UTF8.GetBytes(sse.ToString());
+        }
+
         public async Task WriteAsync(ServerSendEvent sse)
         {
-            await _httpContext.Response.BodyWriter.WriteAsync(Encoding.UTF8.GetBytes(sse.ToString()));
+            await _httpContext.Response.BodyWriter.WriteAsync(Serialize(sse));
             await _httpContext.Response.BodyWriter.FlushAsync();
         }
         public async Task WriteAsync(string data)
@@ -37,7 +47,7 @@ namespace ZKEACMS.SSE
 
         public void Dispose()
         {
-            _httpContext.Response.BodyWriter.Write(Encoding.UTF8.GetBytes(ServerSendEvent.End.ToString()));
+            _httpContext.Response.BodyWriter.Write(Serialize(ServerSendEvent.End));
         }
     }
 }
