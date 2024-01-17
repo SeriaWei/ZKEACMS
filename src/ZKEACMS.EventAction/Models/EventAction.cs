@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using ZKEACMS.Event;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.EventAction.Models
 {
@@ -36,7 +37,7 @@ namespace ZKEACMS.EventAction.Models
                 { "ZKEACMS.Message.Events.OnCommentsSubmitted","OnCommentsSubmitted" },
                 { "ZKEACMS.FormGenerator.Events.OnFormDataSubmitted","OnFormGeneratorFormSubmitted" }
             }).ShowInGrid();
-            ViewConfig(m => m.Actions).AsTextArea().Required().AddProperty("rows", "20");
+            ViewConfig(m => m.Actions).AsTextArea().Required().AsCodeEditor("yaml");
         }
     }
 }

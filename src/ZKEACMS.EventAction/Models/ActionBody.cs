@@ -11,6 +11,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZKEACMS.Extend;
 
 namespace ZKEACMS.EventAction.Models
 {
@@ -27,7 +28,7 @@ namespace ZKEACMS.EventAction.Models
         {
             ViewConfig(m => m.ID).AsHidden().ShowInGrid().Order(0);
             ViewConfig(m => m.Title).AsTextBox().Order(1).Required().ShowInGrid().Search(Easy.LINQ.Query.Operators.Contains).MaxLength(200);
-            ViewConfig(m => m.Body).AsTextArea().Required().AddProperty("rows", "20");
+            ViewConfig(m => m.Body).AsTextArea().Required().AsCodeEditor("html");
         }
     }
 }
