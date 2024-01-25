@@ -11,7 +11,7 @@ namespace Easy.Logging
     public class LogReader : IDisposable
     {
         private static Regex _newLogRegex = new Regex(@"^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})", RegexOptions.Compiled);
-        private static Regex _logLevelRegex = new Regex(@"(\[DBG|INF|WRN|ERR\])", RegexOptions.Compiled);
+        private static Regex _logLevelRegex = new Regex(@"\[(DBG|INF|WRN|ERR)\]", RegexOptions.Compiled);
         private readonly FileStream _fileStream;
         public LogReader(string logFile)
         {
@@ -31,7 +31,7 @@ namespace Easy.Logging
                 var messageBuilder = new StringBuilder();
                 while (entryCount < takes && (nextLineReaded || (line = streamReader.ReadLine()) != null))
                 {
-                    nextLineReaded = false;                    
+                    nextLineReaded = false;
                     messageBuilder.AppendLine(line);
                     if (!IsNewLogEntry(line)) continue;
 
@@ -45,7 +45,7 @@ namespace Easy.Logging
                         }
                         messageBuilder.AppendLine(line);
                     }
-                    
+
                     yield return new LogEntry
                     {
                         LogLevel = logLevel,
