@@ -128,9 +128,5 @@ namespace Easy
             builder.UseMiddleware<PluginStaticFileMiddleware>();
             return builder;
         }
-        public static void AddFileLog(this ILoggingBuilder loggingBuilder)
-        {
-            loggingBuilder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, FileLoggerProvider>());
-        }
     }
 }
