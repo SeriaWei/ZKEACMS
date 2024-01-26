@@ -1,0 +1,35 @@
+@using System.IO
+@model IEnumerable<Easy.Logging.LogEntry>
+<div class="panel panel-default">
+    <div class="panel-heading">@ViewContext.RouteData.Values["id"]</div>
+    <div class="panel-body">
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            @foreach (var item in Model)
+            {
+                <div class="panel @(item.LogLevel== Easy.Logging.LogLevel.Error?"panel-danger":"panel-info")">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h5 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#pn-@item.NextPosition" aria-expanded="false" aria-controls="pn-@item.NextPosition">
+                                @using (var reader = new StringReader(item.Message))
+                                {
+                                    @reader.ReadLine()
+                                }
+                            </a>
+                        </h5>
+                    </div>
+                    <div id="pn-@item.NextPosition" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false">
+                        <div class="panel-body"><div style="white-space: pre; overflow-y:auto">@item.Message</div></div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="panel-footer">
+        <a href="@Url.Action("Index")" class="btn btn-default">@L("Cancel")</a>
+        @if (Model.Last().NextPosition > 0)
+        {
+            <a href="@Url.Action("ViewLog", new { position = Model.Last().NextPosition })" class="btn btn-primary">@L("More")</a>
+        }
+    </div>
+</div>
+

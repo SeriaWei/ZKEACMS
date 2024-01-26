@@ -18,9 +18,9 @@ namespace EasyFrameWork.Test
         [TestMethod]
         public void TestLogReader()
         {
-            //LogReader logReader = new LogReader("");
-            //logReader.SetPosition(1024);
-            //var logs = logReader.Read(30).ToList();
+            //LogReader logReader = new LogReader("..\\..\\..\\..\\..\\src\\ZKEACMS.WebHost\\Logs\\log-20240125.log", Encoding.UTF8);
+            //logReader.SetPosition(57);
+            //var logs = logReader.Take(300).ToList();
         }
     }
 }

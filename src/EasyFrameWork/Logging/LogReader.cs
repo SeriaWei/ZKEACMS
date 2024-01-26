@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,50 +17,85 @@ namespace Easy.Logging
         private static Regex _newLogRegex = new Regex(@"^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})", RegexOptions.Compiled);
         private static Regex _logLevelRegex = new Regex(@"\[(DBG|INF|WRN|ERR)\]", RegexOptions.Compiled);
         private readonly FileStream _fileStream;
-        public LogReader(string logFile)
+
+        public Encoding Encoding { get; }
+
+        public LogReader(string logFile,Encoding encoding)
         {
-            _fileStream = new FileStream(logFile, FileMode.Open, FileAccess.Read);
+            _fileStream = new FileStream(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            Encoding = encoding;
         }
         public void SetPosition(long position)
         {
             _fileStream.Position = position;
         }
-        public IEnumerable<LogEntry> Read(int takes)
+        public IEnumerable<LogEntry> Take(int count)
         {
             int entryCount = 0;
-            using (StreamReader streamReader = new StreamReader(_fileStream, Encoding.UTF8))
+            var line = string.Empty;
+            bool nextLineReaded = false;
+            var messageBuilder = new StringBuilder();
+            while (entryCount < count && (nextLineReaded || (line = ReadLine()) != null))
             {
-                var line = string.Empty;
-                bool nextLineReaded = false;
-                var messageBuilder = new StringBuilder();
-                while (entryCount < takes && (nextLineReaded || (line = streamReader.ReadLine()) != null))
+                nextLineReaded = false;
+                long position = _fileStream.Position;
+                messageBuilder.AppendLine(line);
+                if (!IsNewLogEntry(line)) continue;
+
+                LogLevel logLevel = ParseLogLevel(line);
+                while ((line = ReadLine()) != null)
                 {
-                    nextLineReaded = false;
-                    messageBuilder.AppendLine(line);
-                    if (!IsNewLogEntry(line)) continue;
-
-                    LogLevel logLevel = ParseLogLevel(line);
-                    while ((line = streamReader.ReadLine()) != null)
+                    if (IsNewLogEntry(line))
                     {
-                        if (IsNewLogEntry(line))
-                        {
-                            nextLineReaded = true;
-                            break;
-                        }
-                        messageBuilder.AppendLine(line);
+                        nextLineReaded = true;
+                        break;
                     }
-
-                    yield return new LogEntry
-                    {
-                        LogLevel = logLevel,
-                        Message = messageBuilder.ToString()
-                    };
-                    entryCount++;
-                    messageBuilder.Clear();
+                    position = _fileStream.Position;
+                    messageBuilder.AppendLine(line);
                 }
+
+                yield return new LogEntry
+                {
+                    LogLevel = logLevel,
+                    Message = messageBuilder.ToString(),
+                    NextPosition = _fileStream.Position == _fileStream.Length ? -1 : position
+                };
+                entryCount++;
+                messageBuilder.Clear();
             }
         }
 
+        private string ReadLine()
+        {
+            List<byte> buffer = new List<byte>();
+            do
+            {
+                int bit = _fileStream.ReadByte();
+                if (bit == -1)
+                {
+                    break;
+                }
+                if (bit == 0x0A || bit == 0x0D)
+                {
+                    while (bit == 0x0A || bit == 0x0D)
+                    {
+                        bit = _fileStream.ReadByte();
+                    }
+                    if (bit != -1)
+                    {
+                        _fileStream.Position -= 1;
+                    }
+                    break;
+                }
+                buffer.Add((byte)bit);
+            } while (_fileStream.Position != _fileStream.Length);
+
+            if (buffer.Count == 0)
+            {
+                return null;
+            }
+            return Encoding.GetString(buffer.ToArray());
+        }
         private bool IsNewLogEntry(string line)
         {
             return _newLogRegex.IsMatch(line);

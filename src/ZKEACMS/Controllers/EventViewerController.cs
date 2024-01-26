@@ -28,7 +28,13 @@ namespace ZKEACMS.Controllers
             _eventViewerService.Delete(id);
             return Json(true);
         }
-        public IActionResult ViewLog(string id)
+
+        public IActionResult ViewLog(string id, long? position)
+        {
+            return View(_eventViewerService.Take(id, position ?? 0, 20));
+        }
+
+        public IActionResult Download(string id)
         {
             return Content(_eventViewerService.ReadLog(id), "text/plain");
         }

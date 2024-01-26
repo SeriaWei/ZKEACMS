@@ -17,7 +17,7 @@
                                     <a class="delete" href="@Url.Action("Delete","EventViewer",new { id = file.Name })">
                                         <i class="text-danger glyphicon glyphicon-remove"></i>
                                     </a>
-                                    <a href="@Url.Action("ViewLog","EventViewer",new { id = file.Name })" target="_blank">@file.Name</a>
+                                    <a href="@Url.Action("ViewLog","EventViewer",new { id = file.Name })">@file.Name</a>
                                     @if (file.Length >= 1048576)
                                     {
                                         <span class="text-muted small">@((file.Length / 1048576d).ToString("F2")) MB</span>
@@ -28,7 +28,7 @@
                                     }
                                 </div>
                                 <div class="pull-right">
-                                    <a href="@Url.Action("ViewLog","EventViewer",new { id = file.Name })" download="@file.Name">@L("Download")</a>
+                                    <a href="@Url.Action("Download","EventViewer",new { id = file.Name })" download="@file.Name">@L("Download")</a>
                                 </div>
                             </div>
                         </li>

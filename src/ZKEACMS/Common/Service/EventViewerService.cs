@@ -2,6 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy.Logging;
 using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,14 @@ namespace ZKEACMS.Common.Service
         }
         public void Delete(string id)
         {
-            var filePath = Path.Combine(_hostingEnvironment.ContentRootPath, LoggerFoler, id);
+            var filePath = GetLogFilePath(id);
             if (File.Exists(filePath))
             {
-                File.Delete(filePath);
+                try
+                {
+                    File.Delete(filePath);
+                }
+                catch { }                
             }
         }
 
@@ -48,12 +53,31 @@ namespace ZKEACMS.Common.Service
 
         public string ReadLog(string id)
         {
-            var filePath = Path.Combine(_hostingEnvironment.ContentRootPath, LoggerFoler, id);
+            var filePath = GetLogFilePath(id);
             if (File.Exists(filePath))
             {
-                return File.ReadAllText(filePath, Encoding.UTF8);
+                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    using(StreamReader sr = new StreamReader(fs, Encoding.UTF8))
+                    {
+                        return sr.ReadToEnd();
+                    }
+                }
             }
             return string.Empty;
+        }
+
+        public IEnumerable<LogEntry> Take(string id, long position, int take)
+        {
+            using (LogReader reader = new LogReader(GetLogFilePath(id), Encoding.UTF8))
+            {
+                reader.SetPosition(position);
+                return reader.Take(take).ToList();
+            }
+        }
+        private string GetLogFilePath(string id)
+        {
+            return Path.Combine(_hostingEnvironment.ContentRootPath, LoggerFoler, id);
         }
     }
 }
