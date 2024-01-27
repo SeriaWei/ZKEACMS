@@ -6,9 +6,22 @@
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             @foreach (var item in Model)
             {
-                <div class="panel @(item.LogLevel== Easy.Logging.LogLevel.Error?"panel-danger":"panel-info")">
-                    <div class="panel-heading" role="tab" id="headingOne">
-                        <h5 class="panel-title">
+                string levelClass = null;
+                if (item.LogLevel == Easy.Logging.LogLevel.Error)
+                {
+                    levelClass = "panel-danger";
+                }
+                else if (item.LogLevel == Easy.Logging.LogLevel.Warn)
+                {
+                    levelClass = "panel-warning";
+                }
+                else
+                {
+                    levelClass = "panel-info";
+                }
+                <div class="panel @(levelClass)">
+                    <div class="panel-heading" role="tab" id="headingOne" style="background-image:none">
+                        <h5 class="panel-title" style="font-size:inherit">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#pn-@item.NextPosition" aria-expanded="false" aria-controls="pn-@item.NextPosition">
                                 @using (var reader = new StringReader(item.Message))
                                 {
