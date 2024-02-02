@@ -51,20 +51,9 @@ namespace ZKEACMS.Common.Service
             }
         }
 
-        public string ReadLog(string id)
+        public Stream GetStream(string id)
         {
-            var filePath = GetLogFilePath(id);
-            if (File.Exists(filePath))
-            {
-                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                {
-                    using(StreamReader sr = new StreamReader(fs, Encoding.UTF8))
-                    {
-                        return sr.ReadToEnd();
-                    }
-                }
-            }
-            return string.Empty;
+            return new FileStream(GetLogFilePath(id), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         }
 
         public IEnumerable<LogEntry> Take(string id, long position, int take)

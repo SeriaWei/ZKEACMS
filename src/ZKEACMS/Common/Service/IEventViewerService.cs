@@ -15,7 +15,7 @@ namespace ZKEACMS.Common.Service
         IEnumerable<FileInfo> Get();
         void Delete(string id);
         void DeleteAll();
-        string ReadLog(string id);
+        Stream GetStream(string id);
         IEnumerable<LogEntry> Take(string id, long position, int take);
     }
 }

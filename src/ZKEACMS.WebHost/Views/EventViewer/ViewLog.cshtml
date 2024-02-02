@@ -1,11 +1,16 @@
 @using System.IO
 @model IEnumerable<Easy.Logging.LogEntry>
+@{
+    int itemNumber = 0;
+}
 <div class="panel panel-default">
     <div class="panel-heading">@ViewContext.RouteData.Values["id"]</div>
     <div class="panel-body">
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             @foreach (var item in Model)
             {
+                string itemId="pn-" + itemNumber++;
+
                 string levelClass = null;
                 if (item.LogLevel == Easy.Logging.LogLevel.Error)
                 {
@@ -15,14 +20,18 @@
                 {
                     levelClass = "panel-warning";
                 }
+                else if (item.LogLevel == Easy.Logging.LogLevel.Debug)
+                {
+                    levelClass = "panel-success";
+                }
                 else
                 {
                     levelClass = "panel-info";
                 }
                 <div class="panel @(levelClass)">
-                    <div class="panel-heading" role="tab" id="headingOne" style="background-image:none">
+                    <div class="panel-heading" role="tab" id="heading-@itemId" style="background-image:none">
                         <h5 class="panel-title" style="font-size:inherit">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#pn-@item.NextPosition" aria-expanded="false" aria-controls="pn-@item.NextPosition">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#@itemId" aria-expanded="false" aria-controls="@itemId">
                                 @using (var reader = new StringReader(item.Message))
                                 {
                                     @reader.ReadLine()
@@ -30,7 +39,7 @@
                             </a>
                         </h5>
                     </div>
-                    <div id="pn-@item.NextPosition" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false">
+                    <div id="@itemId" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-@itemId" aria-expanded="false">
                         <div class="panel-body"><div style="white-space: pre; overflow-y:auto">@item.Message</div></div>
                     </div>
                 </div>
@@ -41,7 +50,7 @@
         <a href="@Url.Action("Index")" class="btn btn-default">@L("Cancel")</a>
         @if (Model.Last().NextPosition > 0)
         {
-            <a href="@Url.Action("ViewLog", new { position = Model.Last().NextPosition })" class="btn btn-primary">@L("More")</a>
+            <a href="@Url.Action("ViewLog", new { position = Model.Last().NextPosition })" class="btn btn-primary">@L("More...")</a>
         }
     </div>
 </div>

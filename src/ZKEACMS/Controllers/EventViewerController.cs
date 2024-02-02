@@ -36,7 +36,7 @@ namespace ZKEACMS.Controllers
 
         public IActionResult Download(string id)
         {
-            return Content(_eventViewerService.ReadLog(id), "text/plain");
+            return File(_eventViewerService.GetStream(id), "text/plain", id);
         }
     }
 }
