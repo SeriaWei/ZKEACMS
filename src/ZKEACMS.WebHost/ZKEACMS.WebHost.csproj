@@ -29,10 +29,7 @@
     <Content Include="Templates.zip" CopyToPublishDirectory="Always" />
   </ItemGroup>  
   <ItemGroup>
-    <None Update="Locale\en-GB.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Locale\en-US.yml">
+    <None Update="Locale\en.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Locale\zh-CN.yml">

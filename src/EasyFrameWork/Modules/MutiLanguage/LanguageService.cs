@@ -128,12 +128,12 @@ namespace Easy.Modules.MutiLanguage
         }
         public LanguageEntity Get(string lanKey, string cultureName)
         {
-            LanguageEntity languageEntity = null;
-            if (GetAllFromCache().TryGetValue(lanKey, out ConcurrentDictionary<string, LanguageEntity> cultureLan))
-            {
-                cultureLan.TryGetValue(cultureName, out languageEntity);
-            }
-            return languageEntity;
+            if (!GetAllFromCache().TryGetValue(lanKey, out ConcurrentDictionary<string, LanguageEntity> cultureLan)) return null;
+
+            if (cultureLan.TryGetValue(cultureName, out LanguageEntity languageEntity)) return languageEntity;
+
+            if (cultureLan.TryGetValue(cultureName.Split('-')[0], out languageEntity)) return languageEntity;
+            return null;
         }
 
         public IEnumerable<LanguageEntity> GetCultures(string lanKey)

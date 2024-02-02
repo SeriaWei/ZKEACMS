@@ -46,9 +46,9 @@ namespace ZKEACMS.Controllers
             {
                 if (culture.Any(m => m.CultureName == item)) continue;
 
-                culture.Add(new LanguageEntity { CultureName = item });
+                culture.Add(new LanguageEntity { CultureName = item, LanKey = lanKey });
             }
-            return View(culture);
+            return View(culture.OrderBy(m => m.CultureName).ToList());
         }
         [HttpPost]
         public IActionResult Edit(List<LanguageEntity> language, ActionType ActionType, string Id)
