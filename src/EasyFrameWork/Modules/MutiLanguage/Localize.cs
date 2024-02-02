@@ -10,26 +10,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Easy.Modules.MutiLanguage
 {
     public class Localize : ILocalize
     {
-        private ILanguageService _languageService;
-        List<string> cultureCodes = new List<string>();
-        public Localize(ILanguageService languageService, IOptions<CultureOption> options, IHttpContextAccessor httpContextAccessor)
+        private readonly IServiceProvider _serviceProvider;
+        public Localize(IServiceProvider serviceProvider)
         {
-            _languageService = languageService;
-
-            var userLan = httpContextAccessor.HttpContext.Request.GetUserLanguages().FirstOrDefault();
-
-            if (userLan.IsNotNullAndWhiteSpace())
+            _serviceProvider = serviceProvider;
+        }
+        private string cultureCode;
+        public string CultureCode
+        {
+            get
             {
-                cultureCodes.Add(userLan);
+                return cultureCode ?? (cultureCode = _serviceProvider.GetService<IOptions<CultureOption>>().Value.Code);
             }
-            if (userLan != options.Value.Code)
+        }
+        private ILanguageService languageService;
+        private ILanguageService LanguageService
+        {
+            get
             {
-                cultureCodes.Add(options.Value.Code);
+                return languageService ?? (languageService = _serviceProvider.GetService<ILanguageService>());
             }
         }
         public string Get(string content)
@@ -44,20 +49,12 @@ namespace Easy.Modules.MutiLanguage
 
         public string GetOrNull(string content)
         {
-            foreach (var item in cultureCodes)
-            {
-                string lanValue = GetOrNull(content, item);
-                if (lanValue.IsNotNullAndWhiteSpace())
-                {
-                    return lanValue;
-                }
-            }
-            return null;
+            return GetOrNull(content, CultureCode);
         }
 
         public string GetOrNull(string content, string culture)
         {
-            var lanContent = _languageService.Get(content, culture);
+            var lanContent = LanguageService.Get(content, culture);
             if (lanContent != null && lanContent.LanValue.IsNotNullAndWhiteSpace())
             {
                 return lanContent.LanValue;
