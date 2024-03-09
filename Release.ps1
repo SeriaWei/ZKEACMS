@@ -1,5 +1,9 @@
 Add-Type -assembly "system.io.compression.filesystem"
 
+[xml]$cmsProj = Get-Content "src/ZKEACMS/ZKEACMS.csproj"
+$version = $cmsProj.Project.PropertyGroup[0].FileVersion
+Write-Host "Create a new release for version $version ?"
+Pause
 $releaseFolder = "Release"
 Write-Host "This may take a few minutes, please wait..."
 if(Test-Path $releaseFolder){
@@ -26,5 +30,12 @@ $exclude = @('*.mdf','*.ldf','*.cmd','*.exe','*.dll','*.sh','*.json')
 $length =(Get-Item -Path ".\" -Verbose).FullName.Length + $dbSource.Length + 1
 Get-ChildItem $dbSource -Recurse -Exclude $exclude | Copy-Item -Destination {Join-Path $dbDestination $_.FullName.Substring($length)}
 Write-Host "Zip application to cms.zip"
-[io.compression.zipfile]::CreateFromDirectory("$releaseFolder/Application", "$releaseFolder/cms.zip")
-Write-Host "Done"
+[io.compression.zipfile]::CreateFromDirectory("$releaseFolder/Application", "$releaseFolder/cms-v$version.zip")
+Write-Host "Build docker image and push to docker hub?"
+Pause
+Write-Host "Build docker image..."
+Invoke-Expression("docker build -t zkeasoft/zkeacms:latest .")
+Invoke-Expression("docker tag zkeasoft/zkeacms:latest zkeasoft/zkeacms:v$version")
+Write-Host "Push to docker hub..."
+Invoke-Expression("docker push zkeasoft/zkeacms:latest")
+Invoke-Expression("docker push zkeasoft/zkeacms:v$version")
