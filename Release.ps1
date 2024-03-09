@@ -1,32 +1,30 @@
 Add-Type -assembly "system.io.compression.filesystem"
-$source = "Release"
-$destination = "ZKEACMS.zip"
-Write-Host "Starting release" $destination
+
+$releaseFolder = "Release"
 Write-Host "This may take a few minutes, please wait..."
-if(Test-Path $source){
-    Remove-Item -Path $source -Force -Recurse
-}
-if(Test-path $destination) {    
-    Remove-item -Path $destination -Force -Recurse
+if(Test-Path $releaseFolder){
+    Remove-Item -Path $releaseFolder -Force -Recurse
 }
 Invoke-Expression("dotnet restore")
 Set-Location src/ZKEACMS.WebHost
 Invoke-Expression("dotnet tool restore")
 Invoke-Expression("dotnet tool run publish-zkeacms")
+Write-Host "Copy application files..."
 Set-Location ../../
-Write-Host "Copy files..."
-New-Item -Path "." -Name "Release" -ItemType "directory" -Force
-Move-Item -Path "src/ZKEACMS.WebHost/bin/Release/PublishOutput" -Destination "Release/Application"
-New-Item -Path "Release/Application" -Name "App_Data" -ItemType "directory"
+New-Item -Path "." -Name $releaseFolder -ItemType "directory" -Force
+Move-Item -Path "src/ZKEACMS.WebHost/bin/Release/PublishOutput" -Destination "$releaseFolder/Application"
+Write-Host "Generate application database..."
+New-Item -Path "$releaseFolder/Application" -Name "App_Data" -ItemType "directory"
 Set-Location Database/SQLite
-Invoke-Expression("dotnet tool restore")
-Invoke-Expression("dotnet tool run sqlite-exec -d ../../Release/Application/App_Data/Database.sqlite -f ZKEACMS.sqlite.sql")
+Invoke-Expression("sqlite-exec -d ../../$releaseFolder/Application/App_Data/Database.sqlite -f ZKEACMS.sqlite.sql")
 Set-Location ../../
-Copy-Item -Path "Database/SQLite/appsettings.json" -Destination "Release/Application/appsettings.json" -Force
+Copy-Item -Path "Database/SQLite/appsettings.json" -Destination "$releaseFolder/Application/appsettings.json" -Force
+Write-Host "Copy database scripts..."
 $dbSource = 'Database'
-$dbDestination = 'Release/Database'
+$dbDestination = "$releaseFolder/Database"
 $exclude = @('*.mdf','*.ldf','*.cmd','*.exe','*.dll','*.sh','*.json')
 $length =(Get-Item -Path ".\" -Verbose).FullName.Length + $dbSource.Length + 1
 Get-ChildItem $dbSource -Recurse -Exclude $exclude | Copy-Item -Destination {Join-Path $dbDestination $_.FullName.Substring($length)}
-Write-Host "Archive to" $destination
-[io.compression.zipfile]::CreateFromDirectory($Source, $destination)
+Write-Host "Zip application to cms.zip"
+[io.compression.zipfile]::CreateFromDirectory("$releaseFolder/Application", "$releaseFolder/cms.zip")
+Write-Host "Done"
