@@ -12,13 +12,10 @@ using ZKEACMS.Common.Service;
 namespace ZKEACMS.Controllers
 {
     [DefaultAuthorize(Policy = PermissionKeys.ManageEventViewer)]
-    public class EventViewerController : Controller
+    public class EventViewerController(IEventViewerService eventViewerService) : Controller
     {
-        private readonly IEventViewerService _eventViewerService;
-        public EventViewerController(IEventViewerService eventViewerService)
-        {
-            _eventViewerService = eventViewerService;
-        }
+        private readonly IEventViewerService _eventViewerService = eventViewerService;
+
         public IActionResult Index()
         {
             return View(_eventViewerService.Get());
