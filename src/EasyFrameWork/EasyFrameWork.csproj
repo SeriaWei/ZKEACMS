@@ -17,7 +17,7 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App"></FrameworkReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DocumentFormat.OpenXml" Version="3.0.2" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.1.0" />
     <PackageReference Include="FastExpressionCompiler" Version="4.2.1" />
     <PackageReference Include="IdGen" Version="3.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
