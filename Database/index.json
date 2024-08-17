@@ -56,6 +56,10 @@
         {
             "Version": "3.9.3",
             "Resolved": "Update/3.9.3/package.zip"
+        },
+        {
+            "Version": "4.0",
+            "Resolved": "Update/4.0/package.zip"
         }
     ]
 }
