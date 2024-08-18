@@ -1,7 +1,7 @@
 Add-Type -assembly "system.io.compression.filesystem"
 
 [xml]$cmsProj = Get-Content "src/ZKEACMS/ZKEACMS.csproj"
-$version = $cmsProj.Project.PropertyGroup[0].FileVersion
+$version = $cmsProj.Project.PropertyGroup[0].Version
 Write-Host "Create a new release for version $version ?"
 Pause
 $releaseFolder = "Release"
