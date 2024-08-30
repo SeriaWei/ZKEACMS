@@ -102,6 +102,9 @@ namespace ZKEACMS.WebHost
             script("mammoth")
                 .Include($"{LibraryPath}/mammoth/mammoth.browser.js", $"{LibraryPath}/mammoth/mammoth.browser.min.js");
 
+            script("dropdown-tree")
+                .Include($"{ScriptPath}/dropdown-tree.js", $"{ScriptPath}/dropdown-tree.min.js");
+
             script("code-editor")
                 .Include($"{LibraryPath}/monaco/min/vs/loader.js")
                 .Include($"{LibraryPath}/monaco/code-editor.js", $"{LibraryPath}/monaco/code-editor.min.js");
@@ -160,6 +163,9 @@ namespace ZKEACMS.WebHost
 
             style("captcha")
                 .Include($"{StylePath}/captcha.css", $"{StylePath}/captcha.min.css");
+
+            style("dropdown-tree")
+                .Include($"{StylePath}/dropdown-tree.css", $"{StylePath}/dropdown-tree.min.css");
         }
     }
 }

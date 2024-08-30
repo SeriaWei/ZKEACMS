@@ -214,5 +214,17 @@
     "inputFiles": [
       "wwwroot/lib/monaco/code-editor.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/dropdown-tree.min.js",
+    "inputFiles": [
+      "wwwroot/js/dropdown-tree.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/dropdown-tree.min.css",
+    "inputFiles": [
+      "wwwroot/css/dropdown-tree.css"
+    ]
   }
 ]

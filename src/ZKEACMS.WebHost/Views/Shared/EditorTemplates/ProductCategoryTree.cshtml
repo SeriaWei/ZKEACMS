@@ -6,28 +6,25 @@
 @{
     var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
     Script.Reqiured("jsTree").AtFoot();
+    Script.Reqiured("dropdown-tree").AtFoot();
     Style.Reqiured("jsTree").AtHead();
+    Style.Reqiured("dropdown-tree").AtHead();
     var categoryTree = Html.Tree<ProductCategory>().Source("GetProductCategoryTree", "ProductCategory", new { module = "admin" })
-    .On(Events.Loaded, "loadedProductCategory")
-    .On(Events.ActiveNode, "activedProductCategory");
+    .On(Events.Loaded, "dropdownTreeLoaded")
+    .On(Events.ActiveNode, "dropdownTreeSelectted");
+
+    string dropdownId = $"dropdown-tree-{Html.IdForModel()}";
 }
-<div class="input-group product-category-tree">
-    @Html.Hidden("", Model, descriptor?.ToHtmlProperties())
-    @categoryTree
+<div class="dropdown-tree">
+    <div class="dropdown">
+        <div class="dropdown-toggle" type="button" id="@dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="form-control @(descriptor.IsRequired?"required":"")"></div>
+            <span class="caret"></span>
+        </div>
+        <div class="dropdown-menu" aria-labelledby="@dropdownId">
+            @categoryTree
+        </div>
+        @Html.TextBox("", Model, descriptor?.ToHtmlProperties())
+    </div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 </div>
-@using (Script.AtFoot())
-{
-    <script type="text/javascript">
-        function loadedProductCategory(p) {
-            var category = $("input[type=hidden]", ".product-category-tree").val();
-            if (!category || category == "0") {
-                category = $(".jstree-node:first a.jstree-anchor:first", p.target).attr("id");
-                $("input[type=hidden]", ".product-category-tree").val(category);
-            }
-            $(p.target).jstree('select_node', category);            
-        }
-        function activedProductCategory(node, selected) {
-            $("input[name=@(ViewData.TemplateInfo.GetFullHtmlFieldName(""))]", ".product-category-tree").val(selected.node.id)
-        }
-    </script>
-}
