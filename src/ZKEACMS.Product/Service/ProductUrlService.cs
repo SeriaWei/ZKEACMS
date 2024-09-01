@@ -36,7 +36,7 @@ namespace ZKEACMS.Product.Service
                 if (item.DetailPageUrl.IsNotNullAndWhiteSpace() && !excuted.Contains(typeDetail))
                 {
                     var ids = _productCategoryService.Get(m => m.ID == item.ProductCategoryID || m.ParentID == item.ProductCategoryID).Select(m => m.ID).ToList();
-                    var products = _productService.Get(m => m.IsPublish && ids.Contains(m.ProductCategoryID ?? 0));
+                    var products = _productService.Get(m => m.IsPublish && ids.Contains(m.ProductCategoryID.Value));
                     foreach (var product in products)
                     {
                         string post = product.Url.IsNullOrWhiteSpace() ? $"post-{product.ID}" : product.Url;
