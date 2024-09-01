@@ -1,15 +1,16 @@
-@using ZKEACMS.Product
+@using ZKEACMS.Article
 @using Easy.ViewPort.jsTree
-@using ZKEACMS.Product.Models
+@using ZKEACMS.Article.Models
 
-@model int?
+@model object
 @{
-    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
     Script.Reqiured("jsTree").AtFoot();
-    Script.Reqiured("dropdown-tree").AtFoot();
     Style.Reqiured("jsTree").AtHead();
+    Script.Reqiured("dropdown-tree").AtFoot();
     Style.Reqiured("dropdown-tree").AtHead();
-    var categoryTree = Html.Tree<ProductCategory>().Source("GetProductCategoryTree", "ProductCategory", new { module = "admin" })
+
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
+    var categoryTree = Html.Tree<object>().Source(descriptor.Properties["action"], descriptor.Properties["controller"], new { module = descriptor.Properties["module"] })
     .On(Events.Loaded, "dropdownTreeLoaded")
     .On(Events.ActiveNode, "dropdownTreeSelectted");
 

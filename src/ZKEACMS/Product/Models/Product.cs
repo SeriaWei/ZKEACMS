@@ -106,10 +106,8 @@ namespace ZKEACMS.Product.Models
             ViewConfig(m => m.PartNumber).AsTextBox().ShowInGrid().Search(Query.Operators.Contains);
             ViewConfig(m => m.BrandCD).AsHidden();
             ViewConfig(m => m.ProductCategoryID)
-                .AsDropDownList()
+                .AsDropDownTree("GetProductCategoryTree", "ProductCategory", "admin")
                 .Required()
-                .DataSource(ViewDataKeys.ProductCategory, SourceType.ViewData)
-                .SetTemplate("ProductCategoryTree")
                 .ShowInGrid();
 
             ViewConfig(m => m.ProductTags).AsTextBox().SetTemplate("TagSelector");

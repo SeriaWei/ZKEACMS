@@ -43,10 +43,8 @@ namespace ZKEACMS.Article.Models
             ViewConfig(m => m.ImageThumbUrl).AsTextBox().MediaSelector();
             ViewConfig(m => m.ImageUrl).AsTextBox().MediaSelector();
             ViewConfig(m => m.ArticleTypeID)
-                .AsDropDownList()
-                .DataSource(ViewDataKeys.ArticleCategory, SourceType.ViewData)
-                .Required()
-                .SetTemplate("ArticleTypeTree")
+                .AsDropDownTree("GetArticleTypeTree", "ArticleType", "admin")
+                .Required()                
                 .ShowInGrid();
 
             ViewConfig(m => m.ArticleContent).AsTextArea().AddClass(StringKeys.HtmlEditorClass);
