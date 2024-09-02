@@ -107,6 +107,7 @@ namespace ZKEACMS.Product.Models
             ViewConfig(m => m.BrandCD).AsHidden();
             ViewConfig(m => m.ProductCategoryID)
                 .AsDropDownTree("GetProductCategoryTree", "ProductCategory", "admin")
+                .DataSource(ViewDataKeys.ProductCategory, SourceType.ViewData)
                 .Required()
                 .ShowInGrid();
 
