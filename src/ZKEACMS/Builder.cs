@@ -69,9 +69,9 @@ namespace ZKEACMS
             });
             using (var scope = applicationBuilder.ApplicationServices.CreateScope())
             {
-                foreach (IStartTask task in scope.ServiceProvider.GetServices<IStartTask>())
+                foreach (IAppStartTask task in scope.ServiceProvider.GetServices<IAppStartTask>())
                 {
-                    task.Excute();
+                    task.OnStartup();
                 }
             }
 

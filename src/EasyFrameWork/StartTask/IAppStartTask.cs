@@ -4,8 +4,8 @@
 
 namespace Easy.StartTask
 {
-    public interface IStartTask
+    public interface IAppStartTask
     {
-        void Excute();
+        void OnStartup();
     }
 }

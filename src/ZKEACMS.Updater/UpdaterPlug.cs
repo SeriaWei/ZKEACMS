@@ -53,7 +53,7 @@ namespace ZKEACMS.Updater
         public override void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IOnModelCreating, EntityFrameWorkModelCreating>();
-            serviceCollection.AddTransient<IStartTask, ApplicationStartup>();
+            serviceCollection.AddTransient<IAppStartTask, ApplicationStartup>();
             serviceCollection.AddTransient<IDbUpdaterService, DbUpdaterService>();
             serviceCollection.AddTransient<IDashboardPartDriveService, UpdateDbFailedDashboardService>();
             serviceCollection.RegistEvent<UpdateDbOnDbCreatedEventHandler>(Events.OnDatabaseCreated);
