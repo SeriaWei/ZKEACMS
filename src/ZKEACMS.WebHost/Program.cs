@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Serilog;
 using System;
+using System.IO;
 
 namespace ZKEACMS.WebHost
 {
@@ -30,9 +31,14 @@ namespace ZKEACMS.WebHost
         private static WebApplication BuildApplication(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            
+
             builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
             {
+                var logFoler = new DirectoryInfo(Path.Combine(hostingContext.HostingEnvironment.ContentRootPath, "Logs"));
+                if (!logFoler.Exists)
+                {
+                    logFoler.Create();
+                }
                 loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
             });
 

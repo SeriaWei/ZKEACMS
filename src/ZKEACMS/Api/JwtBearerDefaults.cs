@@ -15,7 +15,7 @@ namespace ZKEACMS.Api
     {
         public const string Issuer = "ZKEACMS.Security.Tokens.Issuer";
         public const string Audience = "ZKEACMS.Security.Tokens.Audience";
-        public const string IssuerSigningKey = "ZKEACMS.Security.Tokens.Key";
+        public const string IssuerSigningKey = "ZKEACMS.Security.Tokens.PrivaKey";
         public const double ExpireDays = 1;
         /// <summary>
         /// Bearer
