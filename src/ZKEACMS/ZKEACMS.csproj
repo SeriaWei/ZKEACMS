@@ -10,8 +10,8 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>CMS</PackageTags>
 		<Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
-		<Version>4.0</Version>
-		<AssemblyVersion>4.0</AssemblyVersion>
+		<Version>4.0.1</Version>
+		<AssemblyVersion>4.0.1</AssemblyVersion>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
