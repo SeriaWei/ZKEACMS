@@ -36,7 +36,7 @@ namespace ZKEACMS.Product.Service
                 if (item.DetailPageUrl.IsNotNullAndWhiteSpace() && !excuted.Contains(typeDetail))
                 {
                     var ids = _productCategoryService.Get(m => m.ID == item.ProductCategoryID || m.ParentID == item.ProductCategoryID).Select(m => m.ID).ToList();
-                    var products = _productService.Get(m => m.IsPublish && ids.Contains(m.ProductCategoryID));
+                    var products = _productService.Get(m => m.IsPublish && ids.Contains(m.ProductCategoryID.Value));
                     foreach (var product in products)
                     {
                         string post = product.Url.IsNullOrWhiteSpace() ? $"post-{product.ID}" : product.Url;
@@ -66,8 +66,8 @@ namespace ZKEACMS.Product.Service
 
         public string[] GetPublicUrl(ProductEntity product)
         {
-            int categoryId = product.ProductCategoryID;
-            if (categoryId == 0) return null;
+            var categoryId = product.ProductCategoryID;
+            if ((categoryId ?? 0) == 0) return null;
 
             ProductCategory productCategory = _productCategoryService.Get(categoryId);
 

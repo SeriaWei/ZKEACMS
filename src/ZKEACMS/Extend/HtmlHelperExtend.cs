@@ -106,7 +106,7 @@ namespace ZKEACMS
             var descriptor = item.GetViewDescriptor();
             if (descriptor is Easy.ViewPort.Descriptor.DropDownListDescriptor)
             {
-                return html.Editor(item.PropertyName, "DropDownList");
+                return html.Editor(item.PropertyName, descriptor.TemplateName);
             }
             else
             {

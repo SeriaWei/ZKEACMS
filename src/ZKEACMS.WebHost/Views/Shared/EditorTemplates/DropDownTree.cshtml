@@ -1,0 +1,31 @@
+@using ZKEACMS.Article
+@using Easy.ViewPort.jsTree
+@using ZKEACMS.Article.Models
+
+@model object
+@{
+    Script.Reqiured("jsTree").AtFoot();
+    Style.Reqiured("jsTree").AtHead();
+    Script.Reqiured("dropdown-tree").AtFoot();
+    Style.Reqiured("dropdown-tree").AtHead();
+
+    var descriptor = ViewData.ModelMetadata.GetViewDescriptor();
+    var categoryTree = Html.Tree<object>().Source(descriptor.Properties["action"], descriptor.Properties["controller"], new { module = descriptor.Properties["module"] })
+    .On(Events.Loaded, "dropdownTreeLoaded")
+    .On(Events.ActiveNode, "dropdownTreeSelectted");
+
+    string dropdownId = $"dropdown-tree-{Html.IdForModel()}";
+}
+<div class="dropdown-tree">
+    <div class="dropdown">
+        <div class="dropdown-toggle" type="button" id="@dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="form-control @(descriptor.IsRequired?"required":"")"></div>
+            <span class="caret"></span>
+        </div>
+        <div class="dropdown-menu" aria-labelledby="@dropdownId">
+            @categoryTree
+        </div>
+        @Html.TextBox("", Model, descriptor?.ToHtmlProperties())
+    </div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>

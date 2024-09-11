@@ -40,7 +40,7 @@ namespace ZKEACMS.Product.Models
         /// <summary>
         /// 类别
         /// </summary>
-        public int ProductCategoryID { get; set; }
+        public int? ProductCategoryID { get; set; }
 
         public string PartNumber { get; set; }
         /// <summary>
@@ -106,10 +106,9 @@ namespace ZKEACMS.Product.Models
             ViewConfig(m => m.PartNumber).AsTextBox().ShowInGrid().Search(Query.Operators.Contains);
             ViewConfig(m => m.BrandCD).AsHidden();
             ViewConfig(m => m.ProductCategoryID)
-                .AsDropDownList()
-                .Required()
+                .AsDropDownTree("GetProductCategoryTree", "ProductCategory", "admin")
                 .DataSource(ViewDataKeys.ProductCategory, SourceType.ViewData)
-                .SetTemplate("ProductCategoryTree")
+                .Required()
                 .ShowInGrid();
 
             ViewConfig(m => m.ProductTags).AsTextBox().SetTemplate("TagSelector");

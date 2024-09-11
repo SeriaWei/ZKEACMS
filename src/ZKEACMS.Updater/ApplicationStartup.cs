@@ -7,14 +7,14 @@ using ZKEACMS.Updater.Service;
 
 namespace ZKEACMS.Updater
 {
-    public class ApplicationStartup : IStartTask
+    public class ApplicationStartup : IAppStartTask
     {
         private readonly IDbUpdaterService _dbUpdaterService;
         public ApplicationStartup(IDbUpdaterService dbUpdaterService)
         {
             _dbUpdaterService = dbUpdaterService;
         }
-        public void Excute()
+        public void OnStartup()
         {
             _dbUpdaterService.UpdateDatabase();
         }

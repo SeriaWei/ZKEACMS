@@ -5,6 +5,7 @@
 using Easy.Extend;
 using Easy.Mvc.Plugin;
 using Easy.Net;
+using Easy.Serializer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +27,7 @@ namespace ZKEACMS.Updater.Service
 {
     public class DbUpdaterService : IDbUpdaterService
     {
-        private readonly IOptions<DBVersionOption> _dbVersionOption;
+        private readonly DBVersionOption _dbVersionOption;
         private readonly IWebClient _webClient;
         private readonly ILogger<DbUpdaterService> _logger;
         private readonly IDBContextProvider _dbContextProvider;
@@ -39,7 +40,7 @@ namespace ZKEACMS.Updater.Service
             IDBContextProvider dbContextProvider,
             ILogger<DbUpdaterService> logger)
         {
-            _dbVersionOption = dbVersionOption;
+            _dbVersionOption = dbVersionOption.Value;
             _webClient = webClient;
             _scriptFileName = $"{databaseOption.DbType}.sql";//MsSql.sql, MySql.sql, Sqlite.sql
             _logger = logger;
@@ -56,6 +57,8 @@ namespace ZKEACMS.Updater.Service
         private void UpgradeDbToLatest()
         {
             var appVersion = Easy.Version.Parse(Version.VersionInfo);
+            if (GetVersionFromFile() == appVersion) return;
+
             bool allSuccess = true;
             foreach (var dbContext in _dbContextProvider.GetAvailableDbContexts())
             {
@@ -67,6 +70,7 @@ namespace ZKEACMS.Updater.Service
             }
             if (allSuccess)
             {
+                SaveVersionToFile(appVersion);
                 DeleteAllCachedScripts();
             }
         }
@@ -124,11 +128,30 @@ namespace ZKEACMS.Updater.Service
             }
             if (version == null)
             {
-                version = Easy.Version.Parse(_dbVersionOption.Value.BaseVersion);
+                version = Easy.Version.Parse(_dbVersionOption.BaseVersion);
             }
             return version;
         }
+        private Easy.Version GetVersionFromFile()
+        {
+            return _dbVersionOption.DBVersion;
+        }
 
+        private void SaveVersionToFile(Easy.Version version)
+        {
+            try
+            {
+                var plugPath = PluginBase.GetPath<UpdaterPlug>();
+                var versionFile = Path.Combine(plugPath, "appsettings.json");
+                _dbVersionOption.DBVersion = version.ToString();
+                string versionJson = JsonConverter.Serialize(new { DBVersionOption = _dbVersionOption });
+                File.WriteAllText(versionFile, versionJson);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+        }
         private void ExcuteLocalScripts()
         {
             List<string> localScripts = ReadLocalScripts();
@@ -223,7 +246,7 @@ namespace ZKEACMS.Updater.Service
         private ReleaseVersion GetReleaseVersions()
         {
             ReleaseVersion releaseVersion = null;
-            foreach (var item in _dbVersionOption.Value.Source)
+            foreach (var item in _dbVersionOption.Source)
             {
                 availableSource = item;
                 string source = $"{availableSource}/index.json";

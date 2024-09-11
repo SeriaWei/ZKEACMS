@@ -106,10 +106,11 @@ namespace ZKEACMS.Product.Controllers
         }
         public JsonResult GetProducts(int ProductCategoryID)
         {
-            var ids = _productCategoryService.Get(m => m.ParentID == ProductCategoryID || m.ID == ProductCategoryID).Select(m => m.ID);
-            return Json(Service.Get(m => ids.Contains(m.ProductCategoryID))
+            var ids = _productCategoryService.Get(m => m.ParentID == ProductCategoryID || m.ID == ProductCategoryID).Select(m => m.ID).ToArray();
+            return Json(Service.Get(m => ids.Contains(m.ProductCategoryID.Value))
                 .OrderBy(m => m.OrderIndex)
-                .ThenByDescending(m => m.ID).Select(m => new { m.ID, m.Title }));
+                .ThenByDescending(m => m.ID)
+                .Select(m => new { m.ID, m.Title }));
         }
         [HttpPost]
         public IActionResult ProduceTags(int productId, int ProductCategoryId)

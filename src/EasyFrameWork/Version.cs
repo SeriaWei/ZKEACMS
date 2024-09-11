@@ -147,6 +147,13 @@ namespace Easy
             return false;
         }
 
+        public static implicit operator Version(string version)
+        {
+            if (string.IsNullOrEmpty(version)) return null;
+
+            return Parse(version);
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(this, obj))

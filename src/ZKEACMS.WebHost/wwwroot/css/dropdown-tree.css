@@ -1,0 +1,50 @@
+﻿.dropdown-tree {
+    position: relative;
+}
+
+    .dropdown-tree .close {
+        position: absolute;
+        right: 17px;
+        top: 7px;
+        display: none;
+    }
+
+    .dropdown-tree.selected .close {
+        display: block;
+    }
+
+    .dropdown-tree input.form-control {
+        border: 0 !important;
+        clip: rect(0 0 0 0) !important;
+        -webkit-clip-path: inset(50%) !important;
+        clip-path: inset(50%) !important;
+        height: 1px !important;
+        overflow: hidden !important;
+        padding: 0 !important;
+        position: absolute !important;
+        width: 1px !important;
+        white-space: nowrap !important;
+    }
+
+    .dropdown-tree .caret {
+        position: absolute;
+        right: 5px;
+        top: 16px;
+    }
+
+    .dropdown-tree .open .caret {
+        transform: rotate(180deg);
+    }
+
+    .dropdown-tree .dropdown-toggle .form-control {
+        padding-right: 35px;
+        min-width: 160px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        cursor: default;
+    }
+
+    .dropdown-tree .dropdown-menu {
+        padding-right: 10px;
+    }

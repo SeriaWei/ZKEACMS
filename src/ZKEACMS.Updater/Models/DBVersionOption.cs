@@ -12,6 +12,7 @@ namespace ZKEACMS.Updater.Models
 {
     public class DBVersionOption
     {
+        public string DBVersion { get; set; }
         public string BaseVersion { get; set; }
         public string[] Source { get; set; }
     }

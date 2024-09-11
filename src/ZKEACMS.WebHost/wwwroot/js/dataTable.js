@@ -84,7 +84,7 @@ $(document).ready(function () {
             "ajax": {
                 "url": $(this).data("source"),
                 "data": function (data, setting) {
-                    var inputs = dataTable.closest(".grid-component").find(".seach-terms").find(".form-control");
+                    var inputs = dataTable.closest(".grid-component").find(".seach-terms").find("input,select");
                     for (var i = 0; i < inputs.length; i++) {
                         var input = $(inputs[i]);
                         var name = input.attr("name").toLowerCase();

@@ -47,5 +47,14 @@ namespace ZKEACMS
             descriptor.ReadOnly();
             return descriptor;
         }
+        public static DropDownListDescriptor AsDropDownTree(this TagsHelper helper, string action, string controller, string module)
+        {
+            var descriptor = helper.AsDropDownList();
+            descriptor.SetTemplate("DropDownTree");
+            descriptor.AddProperty("action", action);
+            descriptor.AddProperty("controller", controller);
+            descriptor.AddProperty("module", module);
+            return descriptor;
+        }
     }
 }
