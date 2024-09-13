@@ -1,7 +1,9 @@
 name: Build and push Docker image
 on:
   push:
-    branches: [ develop ]
+    branches: [ master ]
+    tags:
+      - v*
 
 jobs:
   build-docker-image:
@@ -10,6 +12,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Extract Git tag
+        id: extract_tag
+        run: echo "GIT_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
       
       - name: Log into registry
         uses: docker/login-action@v3
@@ -22,4 +28,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: zkeasoft/zkeacms:dev
+          tags: zkeasoft/zkeacms:latest,zkeasoft/zkeacms:${{ env.GIT_TAG }}
