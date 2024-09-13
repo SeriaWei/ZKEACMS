@@ -12,12 +12,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-tags: true
 
-      - name: Extract Git tag
-        id: extract_tag
-        run: echo "GIT_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+      - id: docker-tag
+        uses: yuya-takeyama/docker-tag-from-github-ref-action@v1
+        with:
+          remove-version-tag-prefix: false
       
       - name: Log into registry
         uses: docker/login-action@v3
@@ -30,4 +29,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: zkeasoft/zkeacms:latest,zkeasoft/zkeacms:${{ env.GIT_TAG }}
+          tags: zkeasoft/zkeacms:${{ steps.docker-tag.outputs.tag }}
