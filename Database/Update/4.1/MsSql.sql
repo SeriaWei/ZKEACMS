@@ -97,3 +97,54 @@ UNION
 SELECT T0.ID, T1.ID FROM ProductCategoryWidget T0
 INNER JOIN ProductCategory T1 ON T0.ProductCategoryID = T1.ID OR T0.ProductCategoryID = T1.ParentID 
 GO
+
+IF NOT EXISTS (SELECT * 
+               FROM INFORMATION_SCHEMA.TABLES 
+               WHERE TABLE_SCHEMA = 'dbo' 
+               AND  TABLE_NAME = 'VideoTypeRelation')
+BEGIN
+	CREATE TABLE [dbo].[VideoTypeRelation](
+		[VideoId] [nvarchar](100) NOT NULL,
+		[VideoTypeId] [nvarchar](100) NOT NULL,
+	 CONSTRAINT [PK_VideoTypeRelation] PRIMARY KEY CLUSTERED 
+	(
+		[VideoId] ASC,
+		[VideoTypeId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+GO
+TRUNCATE TABLE [dbo].[VideoTypeRelation]
+GO
+INSERT INTO [dbo].[VideoTypeRelation] (VideoId, VideoTypeId)
+SELECT DISTINCT ContentID,VideoTypeID FROM [Video]
+GO
+
+IF NOT EXISTS (SELECT * 
+               FROM INFORMATION_SCHEMA.TABLES 
+               WHERE TABLE_SCHEMA = 'dbo' 
+               AND  TABLE_NAME = 'WidgetVideoTypeRelation')
+BEGIN
+	CREATE TABLE [dbo].[WidgetVideoTypeRelation](
+		[WidgetId] [nvarchar](100) NOT NULL,
+		[VideoTypeId] [int] NOT NULL,
+	 CONSTRAINT [PK_WidgetVideoTypeRelation] PRIMARY KEY CLUSTERED 
+	(
+		[WidgetId] ASC,
+		[VideoTypeId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+GO
+TRUNCATE TABLE dbo.WidgetVideoTypeRelation
+GO
+INSERT INTO [dbo].[WidgetVideoTypeRelation](WidgetId,VideoTypeId)
+SELECT T0.ID, T1.ID FROM VideoListWidget T0
+INNER JOIN VideoType T1 ON T0.VideoTypeID = T1.ID OR T0.VideoTypeID =T1.ParentID 
+UNION
+SELECT T0.ID, T1.ID FROM VideoTopWidget T0
+INNER JOIN VideoType T1 ON T0.VideoTypeID = T1.ID OR T0.VideoTypeID =T1.ParentID 
+UNION
+SELECT T0.ID, T1.ID FROM VideoTypeWidget T0
+INNER JOIN VideoType T1 ON T0.VideoTypeID = T1.ID OR T0.VideoTypeID = T1.ParentID 
+GO
