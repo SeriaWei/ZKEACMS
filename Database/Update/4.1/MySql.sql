@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `ArticleTypeRelation` (
     PRIMARY KEY (`ArticleId`, `ArticleTypeId`)
 );
 
-TRUNCATE TABLE `ArticleTypeRelation`;
+DELETE FROM `ArticleTypeRelation`;
 
 INSERT INTO `ArticleTypeRelation` (ArticleId, ArticleTypeId)
 SELECT DISTINCT IFNULL(ContentID, ID), ArticleTypeID FROM `Article`;
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `CMS_WidgetArticleTypeRelation` (
     PRIMARY KEY (`WidgetId`, `ArticleTypeId`)
 );
 
-TRUNCATE TABLE `CMS_WidgetArticleTypeRelation`;
+DELETE FROM `CMS_WidgetArticleTypeRelation`;
 
 INSERT INTO `CMS_WidgetArticleTypeRelation` (WidgetId, ArticleTypeId)
 SELECT T0.ID, T1.ID FROM `ArticleListWidget` T0
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `ProductCategoryRelation` (
     PRIMARY KEY (`ProductId`, `ProductCategoryId`)
 );
 
-TRUNCATE TABLE `ProductCategoryRelation`;
+DELETE FROM `ProductCategoryRelation`;
 
 INSERT INTO `ProductCategoryRelation` (ProductId, ProductCategoryId)
 SELECT DISTINCT IFNULL(ContentID, ID), ProductCategoryID FROM `Product`;
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `CMS_WidgetProductCategoryRelation` (
     PRIMARY KEY (`WidgetId`, `ProductCategoryId`)
 );
 
-TRUNCATE TABLE `CMS_WidgetProductCategoryRelation`;
+DELETE FROM `CMS_WidgetProductCategoryRelation`;
 
 INSERT INTO `CMS_WidgetProductCategoryRelation` (WidgetId, ProductCategoryId)
 SELECT T0.ID, T1.ID FROM `ProductListWidget` T0
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `VideoTypeRelation` (
     PRIMARY KEY (`VideoId`, `VideoTypeId`)
 );
 
-TRUNCATE TABLE `VideoTypeRelation`;
+DELETE FROM `VideoTypeRelation`;
 
 INSERT INTO `VideoTypeRelation` (VideoId, VideoTypeId)
 SELECT DISTINCT IFNULL(ContentID, ID), VideoTypeID FROM `Video`;
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `CMS_WidgetVideoTypeRelation` (
     PRIMARY KEY (`WidgetId`, `VideoTypeId`)
 );
 
-TRUNCATE TABLE `CMS_WidgetVideoTypeRelation`;
+DELETE FROM `CMS_WidgetVideoTypeRelation`;
 
 INSERT INTO `CMS_WidgetVideoTypeRelation` (WidgetId, VideoTypeId)
 SELECT T0.ID, T1.ID FROM `VideoListWidget` T0
