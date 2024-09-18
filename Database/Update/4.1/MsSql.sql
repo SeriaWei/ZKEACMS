@@ -1,4 +1,4 @@
-﻿IF NOT EXISTS (SELECT * 
+IF NOT EXISTS (SELECT * 
                FROM INFORMATION_SCHEMA.TABLES 
                WHERE TABLE_SCHEMA = 'dbo' 
                AND  TABLE_NAME = 'ArticleTypeRelation')
@@ -17,18 +17,18 @@ GO
 TRUNCATE TABLE [dbo].[ArticleTypeRelation]
 GO
 INSERT INTO [dbo].[ArticleTypeRelation] (ArticleId, ArticleTypeId)
-SELECT DISTINCT ContentID,ArticleTypeID FROM [Article]
+SELECT DISTINCT ISNULL(ContentID,ID),ArticleTypeID FROM dbo.[Article]
 GO
 
 IF NOT EXISTS (SELECT * 
                FROM INFORMATION_SCHEMA.TABLES 
                WHERE TABLE_SCHEMA = 'dbo' 
-               AND  TABLE_NAME = 'WidgetArticleTypeRelation')
+               AND  TABLE_NAME = 'CMS_WidgetArticleTypeRelation')
 BEGIN
-	CREATE TABLE [dbo].[WidgetArticleTypeRelation](
+	CREATE TABLE [dbo].[CMS_WidgetArticleTypeRelation](
 		[WidgetId] [nvarchar](100) NOT NULL,
 		[ArticleTypeId] [int] NOT NULL,
-	 CONSTRAINT [PK_WidgetArticleTypeRelation] PRIMARY KEY CLUSTERED 
+	 CONSTRAINT [PK_CMS_WidgetArticleTypeRelation] PRIMARY KEY CLUSTERED 
 	(
 		[WidgetId] ASC,
 		[ArticleTypeId] ASC
@@ -36,17 +36,17 @@ BEGIN
 	) ON [PRIMARY]
 END
 GO
-TRUNCATE TABLE dbo.WidgetArticleTypeRelation
+TRUNCATE TABLE dbo.CMS_WidgetArticleTypeRelation
 GO
-INSERT INTO [dbo].[WidgetArticleTypeRelation](WidgetId,ArticleTypeId)
-SELECT T0.ID, T1.ID FROM ArticleListWidget T0
-INNER JOIN ArticleType T1 ON T0.ArticleTypeID = T1.ID OR T0.ArticleTypeID =T1.ParentID 
+INSERT INTO [dbo].[CMS_WidgetArticleTypeRelation](WidgetId,ArticleTypeId)
+SELECT T0.ID, T1.ID FROM dbo.ArticleListWidget T0
+INNER JOIN dbo.ArticleType T1 ON T0.ArticleTypeID = T1.ID OR T0.ArticleTypeID =T1.ParentID 
 UNION
-SELECT T0.ID, T1.ID FROM ArticleTopWidget T0
-INNER JOIN ArticleType T1 ON T0.ArticleTypeID = T1.ID OR T0.ArticleTypeID =T1.ParentID 
+SELECT T0.ID, T1.ID FROM dbo.ArticleTopWidget T0
+INNER JOIN dbo.ArticleType T1 ON T0.ArticleTypeID = T1.ID OR T0.ArticleTypeID =T1.ParentID 
 UNION
-SELECT T0.ID, T1.ID FROM ArticleTypeWidget T0
-INNER JOIN ArticleType T1 ON T0.ArticleTypeID = T1.ID OR T0.ArticleTypeID = T1.ParentID 
+SELECT T0.ID, T1.ID FROM dbo.ArticleTypeWidget T0
+INNER JOIN dbo.ArticleType T1 ON T0.ArticleTypeID = T1.ID OR T0.ArticleTypeID = T1.ParentID 
 GO
 
 
@@ -69,18 +69,18 @@ GO
 TRUNCATE TABLE [dbo].[ProductCategoryRelation]
 GO
 INSERT INTO [dbo].[ProductCategoryRelation] (ProductId, ProductCategoryId)
-SELECT DISTINCT ContentID, ProductCategoryID FROM dbo.[Product]
+SELECT DISTINCT ISNULL(ContentID,ID), ProductCategoryID FROM dbo.[Product]
 GO
 
 IF NOT EXISTS (SELECT * 
                FROM INFORMATION_SCHEMA.TABLES 
                WHERE TABLE_SCHEMA = 'dbo' 
-               AND  TABLE_NAME = 'WidgetProductCategoryRelation')
+               AND  TABLE_NAME = 'CMS_WidgetProductCategoryRelation')
 BEGIN
-	CREATE TABLE [dbo].[WidgetProductCategoryRelation](
+	CREATE TABLE [dbo].[CMS_WidgetProductCategoryRelation](
 		[WidgetId] [nvarchar](100) NOT NULL,
 		[ProductCategoryId] [int] NOT NULL,
-	 CONSTRAINT [PK_WidgetProductCategoryRelation] PRIMARY KEY CLUSTERED 
+	 CONSTRAINT [PK_CMS_WidgetProductCategoryRelation] PRIMARY KEY CLUSTERED 
 	(
 		[WidgetId] ASC,
 		[ProductCategoryId] ASC
@@ -88,14 +88,14 @@ BEGIN
 	) ON [PRIMARY]
 END
 GO
-TRUNCATE TABLE dbo.[WidgetProductCategoryRelation]
+TRUNCATE TABLE dbo.[CMS_WidgetProductCategoryRelation]
 GO
-INSERT INTO [dbo].[WidgetProductCategoryRelation](WidgetId, ProductCategoryId)
-SELECT T0.ID, T1.ID FROM ProductListWidget T0
-INNER JOIN ProductCategory T1 ON T0.ProductCategoryID = T1.ID OR T0.ProductCategoryID =T1.ParentID 
+INSERT INTO [dbo].[CMS_WidgetProductCategoryRelation](WidgetId, ProductCategoryId)
+SELECT T0.ID, T1.ID FROM dbo.ProductListWidget T0
+INNER JOIN dbo.ProductCategory T1 ON T0.ProductCategoryID = T1.ID OR T0.ProductCategoryID =T1.ParentID 
 UNION
-SELECT T0.ID, T1.ID FROM ProductCategoryWidget T0
-INNER JOIN ProductCategory T1 ON T0.ProductCategoryID = T1.ID OR T0.ProductCategoryID = T1.ParentID 
+SELECT T0.ID, T1.ID FROM dbo.ProductCategoryWidget T0
+INNER JOIN dbo.ProductCategory T1 ON T0.ProductCategoryID = T1.ID OR T0.ProductCategoryID = T1.ParentID 
 GO
 
 IF NOT EXISTS (SELECT * 
@@ -117,18 +117,18 @@ GO
 TRUNCATE TABLE [dbo].[VideoTypeRelation]
 GO
 INSERT INTO [dbo].[VideoTypeRelation] (VideoId, VideoTypeId)
-SELECT DISTINCT ContentID,VideoTypeID FROM [Video]
+SELECT DISTINCT ISNULL(ContentID,ID),VideoTypeID FROM dbo.[Video]
 GO
 
 IF NOT EXISTS (SELECT * 
                FROM INFORMATION_SCHEMA.TABLES 
                WHERE TABLE_SCHEMA = 'dbo' 
-               AND  TABLE_NAME = 'WidgetVideoTypeRelation')
+               AND  TABLE_NAME = 'CMS_WidgetVideoTypeRelation')
 BEGIN
-	CREATE TABLE [dbo].[WidgetVideoTypeRelation](
+	CREATE TABLE [dbo].[CMS_WidgetVideoTypeRelation](
 		[WidgetId] [nvarchar](100) NOT NULL,
 		[VideoTypeId] [int] NOT NULL,
-	 CONSTRAINT [PK_WidgetVideoTypeRelation] PRIMARY KEY CLUSTERED 
+	 CONSTRAINT [PK_CMS_WidgetVideoTypeRelation] PRIMARY KEY CLUSTERED 
 	(
 		[WidgetId] ASC,
 		[VideoTypeId] ASC
@@ -136,15 +136,15 @@ BEGIN
 	) ON [PRIMARY]
 END
 GO
-TRUNCATE TABLE dbo.WidgetVideoTypeRelation
+TRUNCATE TABLE dbo.CMS_WidgetVideoTypeRelation
 GO
-INSERT INTO [dbo].[WidgetVideoTypeRelation](WidgetId,VideoTypeId)
-SELECT T0.ID, T1.ID FROM VideoListWidget T0
-INNER JOIN VideoType T1 ON T0.VideoTypeID = T1.ID OR T0.VideoTypeID =T1.ParentID 
+INSERT INTO [dbo].[CMS_WidgetVideoTypeRelation](WidgetId,VideoTypeId)
+SELECT T0.ID, T1.ID FROM dbo.VideoListWidget T0
+INNER JOIN dbo.VideoType T1 ON T0.VideoTypeID = T1.ID OR T0.VideoTypeID =T1.ParentID 
 UNION
-SELECT T0.ID, T1.ID FROM VideoTopWidget T0
-INNER JOIN VideoType T1 ON T0.VideoTypeID = T1.ID OR T0.VideoTypeID =T1.ParentID 
+SELECT T0.ID, T1.ID FROM dbo.VideoTopWidget T0
+INNER JOIN dbo.VideoType T1 ON T0.VideoTypeID = T1.ID OR T0.VideoTypeID =T1.ParentID 
 UNION
-SELECT T0.ID, T1.ID FROM VideoTypeWidget T0
-INNER JOIN VideoType T1 ON T0.VideoTypeID = T1.ID OR T0.VideoTypeID = T1.ParentID 
+SELECT T0.ID, T1.ID FROM dbo.VideoTypeWidget T0
+INNER JOIN dbo.VideoType T1 ON T0.VideoTypeID = T1.ID OR T0.VideoTypeID = T1.ParentID 
 GO
