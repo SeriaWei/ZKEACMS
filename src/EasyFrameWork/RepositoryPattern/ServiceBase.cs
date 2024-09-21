@@ -360,6 +360,7 @@ namespace Easy.RepositoryPattern
             if(!isInBulkSaving)
             {
                 DbContext.SaveChanges();
+                DbContext.ChangeTracker.Clear();
             }
         }
 
