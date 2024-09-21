@@ -303,7 +303,7 @@ namespace ZKEACMS.Updater.Service
                     }
                 }
             }
-            throw new Exception($"{_scriptFileName} is not in the update package.");
+            return Enumerable.Empty<string>();
         }
         private byte[] GetUpdateScriptsFromLocalCache(string version)
         {
