@@ -31,6 +31,7 @@ namespace ZKEACMS.Updater.Service
         private readonly IWebClient _webClient;
         private readonly ILogger<DbUpdaterService> _logger;
         private readonly IDBContextProvider _dbContextProvider;
+        private readonly bool isDevelopment;
         private const int DBVersionRecord = 1;
         private readonly string _scriptFileName;
         private string availableSource;
@@ -38,13 +39,15 @@ namespace ZKEACMS.Updater.Service
             IOptions<DBVersionOption> dbVersionOption,
             IWebClient webClient,
             IDBContextProvider dbContextProvider,
-            ILogger<DbUpdaterService> logger)
+            ILogger<DbUpdaterService> logger,
+            IWebHostEnvironment hostEnvironment)
         {
             _dbVersionOption = dbVersionOption.Value;
             _webClient = webClient;
             _scriptFileName = $"{databaseOption.DbType}.sql";//MsSql.sql, MySql.sql, Sqlite.sql
             _logger = logger;
             _dbContextProvider = dbContextProvider;
+            isDevelopment = hostEnvironment.IsDevelopment();
         }
 
         public void UpdateDatabase()
@@ -141,6 +144,8 @@ namespace ZKEACMS.Updater.Service
         {
             try
             {
+                if (isDevelopment) return;
+
                 var plugPath = PluginBase.GetPath<UpdaterPlug>();
                 var versionFile = Path.Combine(plugPath, "appsettings.json");
                 _dbVersionOption.DBVersion = version.ToString();
@@ -388,6 +393,7 @@ namespace ZKEACMS.Updater.Service
                     foreach (var sql in sqlScripts)
                     {
                         if (sql.IsNullOrWhiteSpace()) continue;
+
                         using (var command = dbConnection.CreateCommand())
                         {
                             command.Transaction = dbTransaction;
@@ -397,9 +403,7 @@ namespace ZKEACMS.Updater.Service
                         }
                     }
 
-
                     dbTransaction.Commit();
-
                     return true;
                 }
                 catch (Exception ex)
@@ -414,7 +418,6 @@ namespace ZKEACMS.Updater.Service
                         dbConnection.Close();
                     }
                 }
-
             }
             return false;
         }
