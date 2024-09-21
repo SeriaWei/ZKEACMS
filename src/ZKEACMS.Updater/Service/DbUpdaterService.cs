@@ -289,11 +289,12 @@ namespace ZKEACMS.Updater.Service
             {
                 using (ZipArchive archive = new ZipArchive(memoryStream, ZipArchiveMode.Read))
                 {
+                    string rankScriptFileName = $"{Version.Rank}.{_scriptFileName}";
                     foreach (ZipArchiveEntry entry in archive.Entries)
                     {
                         //There three scripts in the package, MsSql.sql, MySql.sql, Sqlite.sql
                         //Pick up matched script to execute.
-                        if (!entry.Name.Equals(_scriptFileName, StringComparison.OrdinalIgnoreCase)) continue;
+                        if (!entry.Name.Equals(_scriptFileName, StringComparison.OrdinalIgnoreCase) && !entry.Name.Equals(rankScriptFileName, StringComparison.OrdinalIgnoreCase)) continue;
 
                         using (StreamReader reader = new StreamReader(entry.Open()))
                         {
