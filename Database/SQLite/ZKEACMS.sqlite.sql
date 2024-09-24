@@ -1177,7 +1177,7 @@ CREATE TABLE [Article] (
 , FOREIGN KEY ([ArticleTypeID]) REFERENCES [ArticleType] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 CREATE TABLE [ApplicationSetting] (
-  [SettingKey] nvarchar(50) NOT NULL
+  [SettingKey] nvarchar(50) NOT NULL COLLATE NOCASE
 , [Value] ntext NULL
 , [Title] nvarchar(200) NULL
 , [Description] nvarchar(500) NULL
