@@ -54,7 +54,7 @@ namespace ZKEACMS.Shop
             {
                 Title = "E-commerce",
                 Icon = "glyphicon-shopping-cart",
-                Order = 9,
+                Order = 40,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu

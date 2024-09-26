@@ -32,7 +32,7 @@ namespace ZKEACMS.EventAction
             {
                 Title = "Event/Notification",
                 Icon = "glyphicon-flash",
-                Order = 14,
+                Order = 80,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu
