@@ -19,6 +19,10 @@
     <meta http-equiv="cache-control" content="no-store">
     <meta http-equiv="expires" content="-1">
     <meta http-equiv="pragma" content="no-cache" />
+    @foreach (var item in appContext.CurrentPage.Meta)
+    {
+        @item.Render()
+    }
     @if (appContext.OuterChainPicture)
     {
         <meta name="referrer" content="same-origin" />
@@ -31,7 +35,7 @@
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     @StyleAtHead()
     @ScriptAtHead()
-    @foreach (var item in appContext.HeaderPart)
+    @foreach (var item in appContext.CurrentPage.Header)
     {
         @item
     }
@@ -53,6 +57,18 @@
         {
             <link type="text/css" rel="stylesheet" href="@Url.Content(Model.CurrentTheme.Url)" />
         }
+    }
+    @foreach (var item in appContext.CurrentPage.StyleSheets)
+    {
+        @item.Render()
+    }
+    @foreach (var item in appContext.CurrentPage.Style)
+    {
+        @item.Render()
+    }
+    @foreach (var item in appContext.CurrentPage.HeaderScripts)
+    {
+        @item.Render()
     }
 </head>
 <body class="front">
@@ -152,7 +168,11 @@
     {
         <script type="text/javascript" src="@Url.Content(script.Url)"></script>
     }
-    @foreach (var item in appContext.FooterPart)
+    @foreach (var item in appContext.CurrentPage.FooterScripts)
+    {
+        @item.Render()
+    }
+    @foreach (var item in appContext.CurrentPage.BodyFooter)
     {
         @item
     }

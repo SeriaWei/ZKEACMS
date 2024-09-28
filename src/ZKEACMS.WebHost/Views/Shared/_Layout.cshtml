@@ -10,11 +10,11 @@
     }
     Style.Reqiured("Easy").AtFoot();
     CMSApplicationContext appContext = ApplicationContext as CMSApplicationContext;
-    foreach (var item in appContext.Styles)
+    foreach (var item in appContext.CurrentPage.StyleSource)
     {
         Style.Reqiured(item).AtHead();
     }
-    foreach (var item in appContext.Scripts)
+    foreach (var item in appContext.CurrentPage.ScriptSource)
     {
         Script.Reqiured(item).AtFoot();
     }
@@ -31,6 +31,10 @@
     <meta name="author" content="ZKEASOFT" />
     <meta name="about" content="@ZKEACMS.Version.CurrentVersion" />
     <meta name="website" content="http://www.zkea.net" />
+    @foreach (var item in appContext.CurrentPage.Meta)
+    {
+        @item.Render()
+    }
     <link rel="author" href="http://www.zkea.net" />
     @if (this.WorkContext().OuterChainPicture)
     {
@@ -43,7 +47,7 @@
     <link href="@Url.PathContent(Model.Page.Favicon)" rel="shortcut icon" type="image/x-icon" />
     @StyleAtHead()
     @ScriptAtHead()
-    @foreach (var item in appContext.HeaderPart)
+    @foreach (var item in appContext.CurrentPage.Header)
     {
         @item
     }
@@ -65,6 +69,18 @@
         {
             <link type="text/css" async rel="stylesheet" href="@Url.Content(Model.CurrentTheme.Url)" />
         }
+    }
+    @foreach (var item in appContext.CurrentPage.StyleSheets)
+    {
+        @item.Render()
+    }
+    @foreach (var item in appContext.CurrentPage.Style)
+    {
+        @item.Render()
+    }
+    @foreach (var item in appContext.CurrentPage.HeaderScripts)
+    {
+        @item.Render()
     }
 </head>
 <body class="front">
@@ -159,7 +175,11 @@
     {
         <script type="text/javascript" src="@Url.Content(script.Url)"></script>
     }
-    @foreach (var item in appContext.FooterPart)
+    @foreach (var item in appContext.CurrentPage.FooterScripts)
+    {
+        @item.Render()
+    }
+    @foreach (var item in appContext.CurrentPage.BodyFooter)
     {
         @item
     }

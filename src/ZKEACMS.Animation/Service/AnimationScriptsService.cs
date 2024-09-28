@@ -35,14 +35,12 @@ namespace ZKEACMS.Animation.Service
                 HtmlContentBuilder styleBuilder = new HtmlContentBuilder();
                 HtmlContentBuilder scriptBuilder = new HtmlContentBuilder();
 #if DEBUG
-                styleBuilder.AppendHtml("<link type=\"text/css\" async rel=\"stylesheet\" href=\"/Plugins/ZKEACMS.Animation/Content/animate.css\" />");
-                scriptBuilder.AppendHtml("<script type=\"text/javascript\" src=\"/Plugins/ZKEACMS.Animation/Scripts/animate.js\"></script>");
+                applicationContext.CurrentPage.StyleSheets.Add(new Page.StyleSheetTag("/Plugins/ZKEACMS.Animation/Content/animate.css"));
+                applicationContext.CurrentPage.FooterScripts.Add(new Page.ScriptTag("/Plugins/ZKEACMS.Animation/Scripts/animate.js"));
 #else
-                styleBuilder.AppendHtml("<link type=\"text/css\" async rel=\"stylesheet\" href=\"/Plugins/ZKEACMS.Animation/Content/animate.min.css\" />");
-                scriptBuilder.AppendHtml("<script type=\"text/javascript\" src=\"/Plugins/ZKEACMS.Animation/Scripts/animate.min.js\" ></script>");
+                applicationContext.CurrentPage.StyleSheets.Add(new Page.StyleSheetTag("/Plugins/ZKEACMS.Animation/Content/animate.min.css"));
+                applicationContext.CurrentPage.FooterScripts.Add(new Page.ScriptTag("/Plugins/ZKEACMS.Animation/Scripts/animate.min.js"));
 #endif
-                applicationContext.HeaderPart.Add(styleBuilder);
-                applicationContext.FooterPart.Add(scriptBuilder);
             }
         }
     }

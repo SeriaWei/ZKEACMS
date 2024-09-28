@@ -41,11 +41,11 @@ namespace ZKEACMS.GlobalScripts.Service
                     htmlContentBuilder.AppendHtml(script.Script);
                     if (script.Location == (int)ScriptLocation.Header)
                     {
-                        applicationContext.HeaderPart.Add(htmlContentBuilder);
+                        applicationContext.CurrentPage.Header.Add(htmlContentBuilder);
                     }
                     else
                     {
-                        applicationContext.FooterPart.Add(htmlContentBuilder);
+                        applicationContext.CurrentPage.BodyFooter.Add(htmlContentBuilder);
                     }
                 }
                 else
@@ -56,11 +56,11 @@ namespace ZKEACMS.GlobalScripts.Service
                     htmlContentBuilder.AppendHtml("</script>");
                     if (script.Location == (int)ScriptLocation.Header)
                     {
-                        applicationContext.HeaderPart.Add(htmlContentBuilder);
+                        applicationContext.CurrentPage.Header.Add(htmlContentBuilder);
                     }
                     else
                     {
-                        applicationContext.FooterPart.Add(htmlContentBuilder);
+                        applicationContext.CurrentPage.BodyFooter.Add(htmlContentBuilder);
                     }
                 }
             }

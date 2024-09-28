@@ -131,8 +131,11 @@ namespace ZKEACMS.Article.Service
                 DateModified = article.LastUpdateDate,
                 Author = new Person[] { new Person { Name = article.CreatebyName } }
             };
-            IHtmlContent jsonLinkingData = HtmlHelper.SerializeToJsonLinkingData(structuredData);
-            ApplicationContext.CurrentAppContext().HeaderPart.Add(jsonLinkingData);
+            ApplicationContext.CurrentAppContext().CurrentPage.HeaderScripts.Add(new Page.ScriptTag()
+            {
+                Type = "application/ld+json",
+                InnerScript = new HtmlString(JsonConverter.Serialize(structuredData))
+            });
         }
         private IEnumerable<string> GetImages(ArticleEntity article)
         {
