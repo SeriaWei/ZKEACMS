@@ -28,7 +28,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Fluid.Core" Version="2.11.1" />
-		<PackageReference Include="HtmlAgilityPack" Version="1.11.65" />
+		<PackageReference Include="HtmlAgilityPack" Version="1.11.66" />
 		<PackageReference Include="HtmlSanitizer" Version="8.1.870" />
 		<PackageReference Include="LiteDB" Version="5.0.21" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
