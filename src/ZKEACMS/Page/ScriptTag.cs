@@ -26,5 +26,10 @@ namespace ZKEACMS.Page
         public string Type { get { return Attributes["type"]; } set { Attributes["type"] = value; } }
 
         public IHtmlContent InnerScript { get { return InnerHtml; } set { InnerHtml = value; } }
+
+        public static implicit operator ScriptTag(string src)
+        {
+            return new ScriptTag(src);
+        }
     }
 }

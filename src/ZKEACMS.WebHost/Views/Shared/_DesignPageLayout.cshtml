@@ -8,68 +8,14 @@
     {
         return;
     }
-    CMSApplicationContext appContext = ApplicationContext as CMSApplicationContext;
 }
 @inject IOptions<CultureOption> cultureOption
 <!DOCTYPE html>
 <html lang="@cultureOption.Value.Code">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="cache-control" content="no-store">
-    <meta http-equiv="expires" content="-1">
-    <meta http-equiv="pragma" content="no-cache" />
-    @foreach (var item in appContext.CurrentPage.Meta)
-    {
-        @item.Render()
-    }
-    @if (appContext.OuterChainPicture)
-    {
-        <meta name="referrer" content="same-origin" />
-    }
-    @if (this.WorkContext().EnableResponsiveDesign)
-    {
-        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
-    }
     <title>[@L("Design")]@Model.Page.Title</title>
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    @StyleAtHead()
-    @ScriptAtHead()
-    @foreach (var item in appContext.CurrentPage.Header)
-    {
-        @item
-    }
-    @if (!Model.Style.IsNullOrEmpty())
-    {
-        <link href="@Url.Content(Model.Style)" rel="stylesheet" />
-    }
-    @foreach (var style in Model.Page.Styles)
-    {
-        <link href="@Url.Content(style.Url)" rel="stylesheet" />
-    }
-    @if (Model.CurrentTheme != null)
-    {
-        if (ApplicationContext.HostingEnvironment.IsDevelopment())
-        {
-            <link type="text/css" rel="stylesheet" href="@Url.Content(Model.CurrentTheme.UrlDebugger)" />
-        }
-        else
-        {
-            <link type="text/css" rel="stylesheet" href="@Url.Content(Model.CurrentTheme.Url)" />
-        }
-    }
-    @foreach (var item in appContext.CurrentPage.StyleSheets)
-    {
-        @item.Render()
-    }
-    @foreach (var item in appContext.CurrentPage.Style)
-    {
-        @item.Render()
-    }
-    @foreach (var item in appContext.CurrentPage.HeaderScripts)
-    {
-        @item.Render()
-    }
+    <link href="@Url.PathContent(Model.Page.Favicon)" rel="shortcut icon" type="image/x-icon" />
+    @await Html.PartialAsync("Partial.PageHeader")
 </head>
 <body class="front">
     <nav id="toolBar">
@@ -168,13 +114,6 @@
     {
         <script type="text/javascript" src="@Url.Content(script.Url)"></script>
     }
-    @foreach (var item in appContext.CurrentPage.FooterScripts)
-    {
-        @item.Render()
-    }
-    @foreach (var item in appContext.CurrentPage.BodyFooter)
-    {
-        @item
-    }
+    @await Html.PartialAsync("Partial.PageFooter")
 </body>
 </html>

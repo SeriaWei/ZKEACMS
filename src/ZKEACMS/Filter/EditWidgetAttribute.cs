@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using System;
 using Microsoft.Net.Http.Headers;
 using ZKEACMS.Theme;
+using ZKEACMS.Layout;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ZKEACMS.Filter
 {
@@ -40,6 +42,14 @@ namespace ZKEACMS.Filter
         public override PageViewMode GetPageViewMode()
         {
             return PageViewMode.Design;
+        }
+        public override void SetupPageResource(LayoutEntity layout, IPageContext pageContext, IUrlHelper urlHelper, bool isDevelopment)
+        {
+            pageContext.Meta.Add(new MetaTag(new { http_equiv = "cache-control", content = "no-cache" }));
+            pageContext.Meta.Add(new MetaTag(new { http_equiv = "cache-control", content = "no-store" }));
+            pageContext.Meta.Add(new MetaTag(new { http_equiv = "expires", content = "-1" }));
+            pageContext.Meta.Add(new MetaTag(new { http_equiv = "pragma", content = "no-cache" }));
+            base.SetupPageResource(layout, pageContext, urlHelper, isDevelopment);
         }
     }
 

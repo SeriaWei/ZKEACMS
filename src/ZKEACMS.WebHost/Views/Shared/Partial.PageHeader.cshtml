@@ -1,0 +1,46 @@
+﻿@{
+    foreach (var item in this.WorkContext().CurrentPage.StyleSource)
+    {
+        Style.Reqiured(item).AtHead();
+    }
+    foreach (var item in this.WorkContext().CurrentPage.ScriptSource)
+    {
+        Script.Reqiured(item).AtFoot();
+    }
+}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8" />
+<meta name="author" content="ZKEASOFT" />
+<meta name="about" content="@ZKEACMS.Version.CurrentVersion" />
+<meta name="website" content="http://www.zkea.net" />
+<link rel="author" href="http://www.zkea.net" />
+@if (this.WorkContext().OuterChainPicture)
+{
+    <meta name="referrer" content="same-origin" />
+}
+@foreach (var item in this.WorkContext().CurrentPage.Meta)
+{
+    @item.Render()
+}
+@if (this.WorkContext().EnableResponsiveDesign)
+{
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
+}
+@StyleAtHead()
+@ScriptAtHead()
+@foreach (var item in this.WorkContext().CurrentPage.Header)
+{
+    @item
+}
+@foreach (var item in this.WorkContext().CurrentPage.StyleSheets)
+{
+    @item.Render()
+}
+@foreach (var item in this.WorkContext().CurrentPage.Style)
+{
+    @item.Render()
+}
+@foreach (var item in this.WorkContext().CurrentPage.HeaderScripts)
+{
+    @item.Render()
+}

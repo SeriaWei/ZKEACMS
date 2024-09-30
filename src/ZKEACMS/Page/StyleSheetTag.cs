@@ -21,5 +21,10 @@ namespace ZKEACMS.Page
         }
         public override string Name => "link";
         public override TagRenderMode RenderMode => TagRenderMode.SelfClosing;
+
+        public static implicit operator StyleSheetTag(string href)
+        {
+            return new StyleSheetTag(href);
+        }
     }
 }
