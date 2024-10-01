@@ -104,16 +104,6 @@
             </div>
         </div>
     </div>
-    @StyleAtFoot()
-    @ScriptAtFoot()
-    @if (!Model.Script.IsNullOrEmpty())
-    {
-        <script type="text/javascript" src="@Url.Content(Model.Script)"></script>
-    }
-    @foreach (var script in Model.Page.Scripts)
-    {
-        <script type="text/javascript" src="@Url.Content(script.Url)"></script>
-    }
     @await Html.PartialAsync("Partial.PageFooter")
 </body>
 </html>
