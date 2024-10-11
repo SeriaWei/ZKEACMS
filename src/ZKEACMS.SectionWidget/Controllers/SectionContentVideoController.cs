@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Easy.Mvc.Authorize;
 using Easy.Extend;
 using System.Text.RegularExpressions;
+using ZKEACMS.Filter;
 
 namespace ZKEACMS.SectionWidget.Controllers
 {
@@ -62,6 +63,7 @@ namespace ZKEACMS.SectionWidget.Controllers
             return Json(true);
         }
 
+        [Themed]
         public ActionResult Play(string Id)
         {
             SectionContentVideo video = _sectionContentProviderService.GetContent(Id) as SectionContentVideo;

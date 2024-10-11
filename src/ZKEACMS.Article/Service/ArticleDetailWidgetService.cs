@@ -113,12 +113,8 @@ namespace ZKEACMS.Article.Service
                 return null;
             }
 
-            var layout = widgetDisplayContext.PageLayout;
-            if (layout != null && layout.Page != null)
-            {
-                layout.Page.ConfigSEO(viewModel.Current.Title, viewModel.Current.MetaKeyWords, viewModel.Current.MetaDescription);
-                AddStructuredDataToPageHeader(viewModel.Current);
-            }
+            ApplicationContext.As<CMSApplicationContext>().CurrentPage.ConfigSEO(viewModel.Current.Title, viewModel.Current.MetaKeyWords, viewModel.Current.MetaDescription);
+            AddStructuredDataToPageHeader(viewModel.Current);
             return viewModel;
         }
         private void AddStructuredDataToPageHeader(ArticleEntity article)

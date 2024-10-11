@@ -2,6 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy.Extend;
 using Microsoft.AspNetCore.Html;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,10 @@ namespace ZKEACMS.Page
 {
     public interface IPageContext
     {
-        public string Title { get; set; }
-        public string CultureCode { get; set; }
+        string Title { get; set; }
+        string MetaKeyWorlds { get; set; }
+        string MetaDescription { get; set; }
+        string CultureCode { get; set; }
         List<MetaTag> Meta { get; }
         List<StyleTag> Style { get; }
         List<StyleSheetTag> StyleSheets { get; }
@@ -22,8 +25,9 @@ namespace ZKEACMS.Page
         List<ScriptTag> HeaderScripts { get; }
 
         List<ScriptTag> FooterScripts { get; }
-        public List<IHtmlContent> BodyFooter { get; }
-        public List<string> StyleSource { get; }
-        public List<string> ScriptSource { get; }
+        List<IHtmlContent> BodyFooter { get; }
+        List<string> StyleSource { get; }
+        List<string> ScriptSource { get; }
+        void ConfigSEO(string title, string keywords, string description);
     }
 }

@@ -97,12 +97,9 @@ namespace ZKEACMS.Product.Service
                 return null;
             }
 
-            var layout = widgetDisplayContext.PageLayout;
-            if (layout != null && layout.Page != null)
-            {
-                layout.Page.ConfigSEO(product.SEOTitle ?? product.Title, product.SEOKeyWord, product.SEODescription);
-                AddStructuredDataToPageHeader(product);
-            }
+            ApplicationContext.As<CMSApplicationContext>().CurrentPage.ConfigSEO(product.SEOTitle ?? product.Title, product.SEOKeyWord, product.SEODescription);
+            AddStructuredDataToPageHeader(product);
+
             return product;
         }
 

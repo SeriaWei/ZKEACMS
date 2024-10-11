@@ -2,6 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy.Extend;
 using Microsoft.AspNetCore.Html;
 using System;
 using System.Collections.Generic;
@@ -30,5 +31,23 @@ namespace ZKEACMS.Page
         public List<IHtmlContent> BodyFooter { get; } = new List<IHtmlContent>();
         public List<string> StyleSource { get; }= new List<string>();
         public List<string> ScriptSource { get; } = new List<string>();
+        public string MetaKeyWorlds { get; set; }
+        public string MetaDescription { get; set; }
+
+        public void ConfigSEO(string title, string keywords, string description)
+        {
+            if (title.IsNotNullAndWhiteSpace())
+            {
+                Title = title;
+            }
+            if (keywords.IsNotNullAndWhiteSpace())
+            {
+                MetaKeyWorlds = keywords;
+            }
+            if (description.IsNotNullAndWhiteSpace())
+            {
+                MetaDescription = description;
+            }
+        }
     }
 }

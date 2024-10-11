@@ -8,13 +8,12 @@
     {
         return;
     }
+    this.WorkContext().CurrentPage.Title = $"[{L("Design")}]{Model.Page.Title}";
 }
 @inject IOptions<CultureOption> cultureOption
 <!DOCTYPE html>
 <html lang="@cultureOption.Value.Code">
 <head>
-    <title>[@L("Design")]@Model.Page.Title</title>
-    <link href="@Url.PathContent(Model.Page.Favicon)" rel="shortcut icon" type="image/x-icon" />
     @await Html.PartialAsync("Partial.PageHeader")
 </head>
 <body class="front">

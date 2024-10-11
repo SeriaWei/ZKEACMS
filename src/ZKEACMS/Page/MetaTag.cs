@@ -23,6 +23,7 @@ namespace ZKEACMS.Page
                 Attributes[item.Key.Replace("_", "-")] = item.Value;
             }
         }
+        public override TagRenderMode RenderMode => TagRenderMode.SelfClosing;
         public override string Name => "meta";
     }
 }

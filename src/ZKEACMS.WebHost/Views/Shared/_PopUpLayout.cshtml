@@ -3,23 +3,13 @@
     Script.Reqiured("admin").AtHead();
     Style.Reqiured("bootStrap").AtHead();
     Style.Reqiured("admin").AtHead();
+    this.WorkContext().CurrentPage.Title = ViewBag.Title;
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
-    <title>@ViewBag.Title</title>
-    @if (this.WorkContext().OuterChainPicture)
-    {
-        <meta name="referrer" content="same-origin" />
-    }
-    @if (this.WorkContext().EnableResponsiveDesign)
-    {
-        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
-    }
-    @StyleAtHead()
-    @ScriptAtHead()
+    @await Html.PartialAsync("Partial.PageHeader")
 </head>
 <body>
     <div style="padding:10px 10px @(ViewBag.ShowToolBar == null?"40px":"10px");">
@@ -32,8 +22,7 @@
             </div>
         }
     </div>
-    @StyleAtFoot()
-    @ScriptAtFoot()
+    @await Html.PartialAsync("Partial.PageFooter")
     <script type="text/javascript">
         var _innerPopSelectedOptions = null;
         $(".popUpToolBar .btn-default").click(function () {

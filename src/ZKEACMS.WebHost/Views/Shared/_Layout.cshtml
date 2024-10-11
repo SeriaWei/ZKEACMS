@@ -14,10 +14,6 @@
 <!DOCTYPE html>
 <html lang="@cultureOption.Value.Code">
 <head>
-    <title>@Model.Page.Title</title>
-    <meta name="keywords" content="@Model.Page.MetaKeyWorlds" />
-    <meta name="description" content="@Model.Page.MetaDescription" />
-    <link href="@Url.PathContent(Model.Page.Favicon)" rel="shortcut icon" type="image/x-icon" />
     @await Html.PartialAsync("Partial.PageHeader")
 </head>
 <body class="front">
@@ -97,11 +93,9 @@
             </script>
         }
     }
-
     <div>
         @RenderBody()
     </div>
     @await Html.PartialAsync("Partial.PageFooter")
 </body>
-
 </html>

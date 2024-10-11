@@ -7,28 +7,14 @@
     Script.Reqiured("admin").AtFoot();
     Script.Reqiured("code-editor").AtFoot();
     Model.ContainerClass = Model.ContainerClass ?? "container";
+    this.WorkContext().CurrentPage.Title = $"[{L("Design")}]{Model.LayoutName}";
 }
 @model LayoutEntity
 @inject IOptions<CultureOption> cultureOption
 <!DOCTYPE html>
 <html lang="@cultureOption.Value.Code">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="cache-control" content="no-store">
-    <meta http-equiv="expires" content="0">
-    <meta http-equiv="pragma" content="no-cache" />
-    @if (this.WorkContext().OuterChainPicture)
-    {
-        <meta name="referrer" content="same-origin" />
-    }
-    @if (this.WorkContext().EnableResponsiveDesign)
-    {
-        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
-    }
-    <title>[@L("Design")]@Model.LayoutName</title>
-    @StyleAtHead()
-    @ScriptAtHead()
+    @await Html.PartialAsync("Partial.PageHeader")
 </head>
 <body class="front">
     <form id="LayoutInfo" asp-controller="Layout" asp-action="SaveLayout" method="post">
@@ -121,11 +107,6 @@
     </div>
 
     @await Html.PartialAsync("Layout/Templates")
-    @if (!Model.Style.IsNullOrEmpty())
-    {
-        <link href="@Url.Content(Model.Style)" rel="stylesheet" />
-
-    }
     <div class="zk-modal fade" id="question" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="zk-modal-dialog" role="document">
             <div class="zk-modal-content">
@@ -211,11 +192,6 @@
             </div>
         </div>
     </div>
-    @if (!Model.Script.IsNullOrEmpty())
-    {
-        <script type="text/javascript" src="@Url.Content(Model.Script)"></script>
-    }
-    @StyleAtFoot()
-    @ScriptAtFoot()
+    @await Html.PartialAsync("Partial.PageFooter")
 </body>
 </html>

@@ -4,10 +4,12 @@
 
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using ZKEACMS.Filter;
 
 namespace ZKEACMS.Controllers
 {
 
+    [Themed]
     public class ErrorController : Controller
     {
         public ErrorController()

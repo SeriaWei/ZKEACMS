@@ -72,11 +72,7 @@ namespace ZKEACMS.Article.Service
             }
             if (articleType != null && articleType.SEOTitle.IsNotNullAndWhiteSpace())
             {
-                var layout = widgetDisplayContext.PageLayout;
-                if (layout != null && layout.Page != null)
-                {
-                    layout.Page.ConfigSEO(articleType.SEOTitle, articleType.SEOKeyWord, articleType.SEODescription);
-                }
+                _articleTypeService.ApplicationContext.As<CMSApplicationContext>().CurrentPage.ConfigSEO(articleType.SEOTitle, articleType.SEOKeyWord, articleType.SEODescription);
             }
             return new ArticleTypeWidgetViewModel
             {

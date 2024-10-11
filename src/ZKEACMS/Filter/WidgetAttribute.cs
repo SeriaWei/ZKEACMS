@@ -93,7 +93,6 @@ namespace ZKEACMS.Filter
                 var eventManager = requestServices.GetService<IEventManager>();
                 var layoutService = requestServices.GetService<ILayoutService>();
                 var widgetService = requestServices.GetService<IWidgetBasePartService>();
-                var applicationSettingService = requestServices.GetService<IApplicationSettingService>();
                 var themeService = requestServices.GetService<IThemeService>();
                 var widgetActivator = requestServices.GetService<IWidgetActivator>();
                 var ruleService = requestServices.GetService<IRuleService>();
@@ -102,7 +101,6 @@ namespace ZKEACMS.Filter
                 var pageContext = requestServices.GetService<IPageContext>();
                 LayoutEntity layout = layoutService.GetByPage(page);
                 layout.Page = page;
-                page.Favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
                 if (filterContext.HttpContext.User.Identity.IsAuthenticated && page.IsPublishedPage)
                 {
                     layout.PreViewPage = requestServices.GetService<IPageService>().Get(page.ReferencePageID);
@@ -199,7 +197,6 @@ namespace ZKEACMS.Filter
                 eventManager.Trigger(Events.OnPageExecuted, layout);
 
                 layoutService.Dispose();
-                applicationSettingService.Dispose();
                 widgetService.Dispose();
                 themeService.Dispose();
             }
@@ -240,6 +237,7 @@ namespace ZKEACMS.Filter
         }
         public virtual void SetupPageResource(LayoutEntity layout, IPageContext pageContext, IUrlHelper urlHelper, bool isDevelopment)
         {
+            pageContext.ConfigSEO(layout.Page.Title, layout.Page.MetaKeyWorlds, layout.Page.MetaDescription);
             if (layout.CurrentTheme != null)
             {
                 pageContext.StyleSheets.Add(isDevelopment ? urlHelper.Content(layout.CurrentTheme.UrlDebugger) : urlHelper.Content(layout.CurrentTheme.Url));
