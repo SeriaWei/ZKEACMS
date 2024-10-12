@@ -984,7 +984,7 @@ CREATE TABLE [CMS_Page] (
 , [ParentId] nvarchar(100) NULL
 , [PageName] nvarchar(100) NULL
 , [IsHomePage] bit NOT NULL
-, [Url] nvarchar(255) NULL
+, [Url] nvarchar(255) NULL COLLATE NOCASE
 , [LayoutId] nvarchar(100) NULL
 , [Title] nvarchar(255) NULL
 , [Content] ntext NULL
