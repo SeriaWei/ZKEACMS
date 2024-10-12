@@ -45,7 +45,7 @@ namespace ZKEACMS.Article.Service
             else
             {
                 _articleService.IncreaseCount(article);
-                ApplicationContext.As<CMSApplicationContext>().CurrentPage.ConfigSEO(article.Title, article.MetaKeyWords, article.MetaDescription);
+                ApplicationContext.Current().CurrentPage.ConfigSEO(article.Title, article.MetaKeyWords, article.MetaDescription);
             }
             viewModel.Current = article;
 

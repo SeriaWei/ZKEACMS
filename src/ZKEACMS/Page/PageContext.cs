@@ -29,8 +29,8 @@ namespace ZKEACMS.Page
 
         public List<IHtmlContent> Header { get; } = new List<IHtmlContent>();
         public List<IHtmlContent> BodyFooter { get; } = new List<IHtmlContent>();
-        public List<string> StyleSource { get; }= new List<string>();
-        public List<string> ScriptSource { get; } = new List<string>();
+        public List<string> StyleNames { get; }= new List<string>();
+        public List<string> ScriptNames { get; } = new List<string>();
         public string MetaKeyWorlds { get; set; }
         public string MetaDescription { get; set; }
 

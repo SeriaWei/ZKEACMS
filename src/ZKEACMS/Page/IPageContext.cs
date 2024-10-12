@@ -23,11 +23,10 @@ namespace ZKEACMS.Page
         List<StyleSheetTag> StyleSheets { get; }
         List<IHtmlContent> Header { get; }
         List<ScriptTag> HeaderScripts { get; }
-
         List<ScriptTag> FooterScripts { get; }
         List<IHtmlContent> BodyFooter { get; }
-        List<string> StyleSource { get; }
-        List<string> ScriptSource { get; }
+        List<string> StyleNames { get; }
+        List<string> ScriptNames { get; }
         void ConfigSEO(string title, string keywords, string description);
     }
 }

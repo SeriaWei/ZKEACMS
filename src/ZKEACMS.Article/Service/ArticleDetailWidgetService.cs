@@ -96,7 +96,7 @@ namespace ZKEACMS.Article.Service
             else
             {
                 var latest = _articleService.GetLatestPublished();
-                if (ApplicationContext.CurrentAppContext().IsDesignMode || ApplicationContext.CurrentAppContext().IsPreViewMode)
+                if (ApplicationContext.Current().IsDesignMode || ApplicationContext.Current().IsPreViewMode)
                 {
                     viewModel.Current = latest;
                 }
@@ -113,7 +113,7 @@ namespace ZKEACMS.Article.Service
                 return null;
             }
 
-            ApplicationContext.As<CMSApplicationContext>().CurrentPage.ConfigSEO(viewModel.Current.Title, viewModel.Current.MetaKeyWords, viewModel.Current.MetaDescription);
+            ApplicationContext.Current().CurrentPage.ConfigSEO(viewModel.Current.Title, viewModel.Current.MetaKeyWords, viewModel.Current.MetaDescription);
             AddStructuredDataToPageHeader(viewModel.Current);
             return viewModel;
         }
@@ -127,7 +127,7 @@ namespace ZKEACMS.Article.Service
                 DateModified = article.LastUpdateDate,
                 Author = new Person[] { new Person { Name = article.CreatebyName } }
             };
-            ApplicationContext.CurrentAppContext().CurrentPage.HeaderScripts.Add(new Page.ScriptTag()
+            ApplicationContext.Current().CurrentPage.HeaderScripts.Add(new Page.ScriptTag()
             {
                 Type = "application/ld+json",
                 InnerScript = new HtmlString(JsonConverter.Serialize(structuredData))

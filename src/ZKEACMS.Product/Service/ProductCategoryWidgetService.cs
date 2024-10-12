@@ -71,7 +71,7 @@ namespace ZKEACMS.Product.Service
             }
             if (productCategory != null && productCategory.SEOTitle.IsNotNullAndWhiteSpace())
             {
-                ApplicationContext.As<CMSApplicationContext>().CurrentPage.ConfigSEO(productCategory.SEOTitle, productCategory.SEOKeyWord, productCategory.SEODescription);
+                ApplicationContext.Current().CurrentPage.ConfigSEO(productCategory.SEOTitle, productCategory.SEOKeyWord, productCategory.SEODescription);
             }
             return new ProductCategoryWidgetViewModel
             {

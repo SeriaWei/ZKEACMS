@@ -81,7 +81,7 @@ namespace ZKEACMS.Product.Service
             }
             else
             {
-                if (ApplicationContext.CurrentAppContext().IsDesignMode || ApplicationContext.CurrentAppContext().IsPreViewMode)
+                if (ApplicationContext.Current().IsDesignMode || ApplicationContext.Current().IsPreViewMode)
                 {
                     product = _productService.GetLatestPublished();
                 }
@@ -97,7 +97,7 @@ namespace ZKEACMS.Product.Service
                 return null;
             }
 
-            ApplicationContext.As<CMSApplicationContext>().CurrentPage.ConfigSEO(product.SEOTitle ?? product.Title, product.SEOKeyWord, product.SEODescription);
+            ApplicationContext.Current().CurrentPage.ConfigSEO(product.SEOTitle ?? product.Title, product.SEOKeyWord, product.SEODescription);
             AddStructuredDataToPageHeader(product);
 
             return product;
@@ -112,7 +112,7 @@ namespace ZKEACMS.Product.Service
                 Description = product.Description,
                 MPN = product.PartNumber
             };
-            ApplicationContext.CurrentAppContext().CurrentPage.HeaderScripts.Add(new Page.ScriptTag()
+            ApplicationContext.Current().CurrentPage.HeaderScripts.Add(new Page.ScriptTag()
             {
                 Type = "application/ld+json",
                 InnerScript = new HtmlString(JsonConverter.Serialize(structuredData))
