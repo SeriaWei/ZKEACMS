@@ -1,7 +1,10 @@
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Hosting
 @{
-    this.WorkContext().CurrentPage.Title = ViewBag.Title;
+    if (ViewBag.Title != null)
+    {
+        this.WorkContext().CurrentPage.Title = ViewBag.Title;
+    }
 }
 <!DOCTYPE html>
 <html style="height:100%">

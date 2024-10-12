@@ -3,7 +3,10 @@
 @using Microsoft.Extensions.Options
 @using Easy.Options
 @{
-    this.WorkContext().CurrentPage.Title = ViewBag.Title;
+    if (ViewBag.Title != null)
+    {
+        this.WorkContext().CurrentPage.Title = ViewBag.Title;
+    }
 }
 @inject IOptions<CultureOption> cultureOption
 <!DOCTYPE html>

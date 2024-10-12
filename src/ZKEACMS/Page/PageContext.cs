@@ -31,7 +31,7 @@ namespace ZKEACMS.Page
         public List<IHtmlContent> BodyFooter { get; } = new List<IHtmlContent>();
         public List<string> StyleNames { get; }= new List<string>();
         public List<string> ScriptNames { get; } = new List<string>();
-        public string MetaKeyWorlds { get; set; }
+        public string MetaKeyWords { get; set; }
         public string MetaDescription { get; set; }
 
         public void ConfigSEO(string title, string keywords, string description)
@@ -42,7 +42,7 @@ namespace ZKEACMS.Page
             }
             if (keywords.IsNotNullAndWhiteSpace())
             {
-                MetaKeyWorlds = keywords;
+                MetaKeyWords = keywords;
             }
             if (description.IsNotNullAndWhiteSpace())
             {

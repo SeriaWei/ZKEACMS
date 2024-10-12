@@ -3,7 +3,10 @@
     Script.Reqiured("admin").AtHead();
     Style.Reqiured("bootStrap").AtHead();
     Style.Reqiured("admin").AtHead();
-    this.WorkContext().CurrentPage.Title = ViewBag.Title;
+    if (ViewBag.Title != null)
+    {
+        this.WorkContext().CurrentPage.Title = ViewBag.Title;
+    }
 }
 
 <!DOCTYPE html>

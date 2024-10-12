@@ -6,7 +6,10 @@
     Style.Reqiured("Customer").AtHead();
     Style.Reqiured("Easy").AtHead();
     IEnumerable<AdminMenu> menu = userCenterLinkService.GetLinks();
-    this.WorkContext().CurrentPage.Title = ViewBag.Title;
+    if (ViewBag.Title != null)
+    {
+        this.WorkContext().CurrentPage.Title = ViewBag.Title;
+    }    
 }
 @inject IUserCenterLinkService userCenterLinkService
 @inject IOptions<CultureOption> cultureOption

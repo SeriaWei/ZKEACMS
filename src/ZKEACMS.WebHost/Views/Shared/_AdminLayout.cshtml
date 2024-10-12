@@ -8,7 +8,10 @@
     Style.Reqiured("admin").AtHead();
     Script.Reqiured("admin").AtHead();
     List<AdminMenu> menus = adminMenuProvider.GetAdminMenus().ToList();
-    this.WorkContext().CurrentPage.Title = ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank;
+    if (this.WorkContext().CurrentPage.Title.IsNullOrEmpty())
+    {
+        this.WorkContext().CurrentPage.Title = ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank;
+    }
 }
 @inject IOptions<CultureOption> cultureOption
 <!DOCTYPE html>

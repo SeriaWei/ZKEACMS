@@ -15,7 +15,7 @@ namespace ZKEACMS.Page
     public interface IPageContext
     {
         string Title { get; set; }
-        string MetaKeyWorlds { get; set; }
+        string MetaKeyWords { get; set; }
         string MetaDescription { get; set; }
         string CultureCode { get; set; }
         List<MetaTag> Meta { get; }
