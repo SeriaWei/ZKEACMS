@@ -1,0 +1,10 @@
+﻿@StyleAtFoot()
+@ScriptAtFoot()
+@foreach (var item in this.WorkContext().CurrentPage.FooterScripts)
+{
+    @item.Render()
+}
+@foreach (var item in this.WorkContext().CurrentPage.BodyFooter)
+{
+    @item
+}

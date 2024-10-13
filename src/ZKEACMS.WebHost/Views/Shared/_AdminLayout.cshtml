@@ -8,25 +8,16 @@
     Style.Reqiured("admin").AtHead();
     Script.Reqiured("admin").AtHead();
     List<AdminMenu> menus = adminMenuProvider.GetAdminMenus().ToList();
+    if (this.WorkContext().CurrentPage.Title.IsNullOrEmpty())
+    {
+        this.WorkContext().CurrentPage.Title = ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank;
+    }
 }
 @inject IOptions<CultureOption> cultureOption
 <!DOCTYPE html>
 <html lang="@cultureOption.Value.Code">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <title>@(ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank)</title>
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    @if (this.WorkContext().OuterChainPicture)
-    {
-        <meta name="referrer" content="same-origin" />
-    }
-    @if (this.WorkContext().EnableResponsiveDesign)
-    {
-        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
-    }
-    @StyleAtHead()
-    @ScriptAtHead()
+    @await Html.PartialAsync("Partial.PageHeader")
 </head>
 <body>
     <div id="wrap">
@@ -143,7 +134,6 @@
         </nav>
         <div class="main-container">
             <div class="site-map">
-
             </div>
             <div id="main-body">
                 @if (ViewContext.ModelState.GetFieldValidationState("Unknown") == ModelValidationState.Invalid)
@@ -157,7 +147,6 @@
             </div>
         </div>
     </div>
-    @StyleAtFoot()
-    @ScriptAtFoot()
+    @await Html.PartialAsync("Partial.PageFooter")
 </body>
 </html>

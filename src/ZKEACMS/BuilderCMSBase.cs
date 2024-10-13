@@ -59,6 +59,7 @@ namespace ZKEACMS
             services.TryAddScoped<ILayoutHtmlService, LayoutHtmlService>();
             services.TryAddTransient<IMediaService, MediaService>();
             services.TryAddScoped<IPageService, PageService>();
+            services.TryAddScoped<IPageContext, PageContext>();
             services.AddTransient<ISiteUrlProvider, PageSiteUrlProvider>();
             services.TryAddScoped<IApplicationSettingService, ApplicationSettingService>();
             services.TryAddScoped<IThemeService, ThemeService>();

@@ -36,7 +36,7 @@ namespace ZKEACMS.Product.Models
         {
             base.ViewConfigure();
             ViewConfig(m => m.Title).AsHidden();
-            ViewConfig(m => m.ProductCategoryID).AsDropDownList().SetTemplate("ProductCategoryTree").Required().Order(NextOrder());
+            ViewConfig(m => m.ProductCategoryID).AsDropDownTree("GetProductCategoryTree", "ProductCategory", "admin").Required().Order(NextOrder());
 
             ViewConfig(m => m.DetailPageUrl).AsTextBox().Order(NextOrder()).PageSelector().InnerUrl();
             ViewConfig(m => m.IsPageable).AsCheckBox().Order(NextOrder());

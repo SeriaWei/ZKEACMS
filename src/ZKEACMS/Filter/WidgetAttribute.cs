@@ -23,6 +23,8 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Easy.Constant;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace ZKEACMS.Filter
 {
@@ -82,28 +84,29 @@ namespace ZKEACMS.Filter
             if (page != null)
             {
                 var requestServices = filterContext.HttpContext.RequestServices;
-                if (!filterContext.RouteData.Values.ContainsKey(StringKeys.RouteValue_Path) && filterContext.Controller is Controller controller)
+                var controller = filterContext.Controller as Controller;
+                var urlHelper = controller.Url;
+                if (!filterContext.RouteData.Values.ContainsKey(StringKeys.RouteValue_Path))
                 {
-                    filterContext.RouteData.Values[StringKeys.RouteValue_Path] = controller.Url.Content(page.Url);
+                    filterContext.RouteData.Values[StringKeys.RouteValue_Path] = urlHelper.Content(page.Url);
                 }
                 var eventManager = requestServices.GetService<IEventManager>();
                 var layoutService = requestServices.GetService<ILayoutService>();
                 var widgetService = requestServices.GetService<IWidgetBasePartService>();
-                var applicationSettingService = requestServices.GetService<IApplicationSettingService>();
                 var themeService = requestServices.GetService<IThemeService>();
                 var widgetActivator = requestServices.GetService<IWidgetActivator>();
                 var ruleService = requestServices.GetService<IRuleService>();
                 var logger = requestServices.GetService<ILogger<WidgetAttribute>>();
                 var viewResult = (filterContext.Result as ViewResult);
-
+                var pageContext = requestServices.GetService<IPageContext>();
                 LayoutEntity layout = layoutService.GetByPage(page);
                 layout.Page = page;
-                page.Favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
                 if (filterContext.HttpContext.User.Identity.IsAuthenticated && page.IsPublishedPage)
                 {
                     layout.PreViewPage = requestServices.GetService<IPageService>().Get(page.ReferencePageID);
                 }
                 layout.CurrentTheme = themeService.GetCurrentTheme();
+                SetupPageResource(layout, pageContext,urlHelper, layoutService.ApplicationContext.HostingEnvironment.IsDevelopment());
                 layout.ZoneWidgets = new ZoneWidgetCollection();
                 widgetService.GetAllByPage(page).Each(widget =>
                 {
@@ -194,7 +197,6 @@ namespace ZKEACMS.Filter
                 eventManager.Trigger(Events.OnPageExecuted, layout);
 
                 layoutService.Dispose();
-                applicationSettingService.Dispose();
                 widgetService.Dispose();
                 themeService.Dispose();
             }
@@ -233,7 +235,31 @@ namespace ZKEACMS.Filter
             var eventManager = filterContext.HttpContext.RequestServices.GetService<IEventManager>();
             eventManager.Trigger(Events.OnPageExecuting, filterContext);
         }
+        public virtual void SetupPageResource(LayoutEntity layout, IPageContext pageContext, IUrlHelper urlHelper, bool isDevelopment)
+        {
+            pageContext.ConfigSEO(layout.Page.Title, layout.Page.MetaKeyWorlds, layout.Page.MetaDescription);
+            if (layout.CurrentTheme != null)
+            {
+                pageContext.StyleSheets.Add(isDevelopment ? urlHelper.Content(layout.CurrentTheme.UrlDebugger) : urlHelper.Content(layout.CurrentTheme.Url));
+            }
+            if (layout.Style.IsNotNullAndWhiteSpace())
+            {
+                pageContext.StyleSheets.Add(urlHelper.Content(layout.Style));
+            }
+            foreach (var item in layout.Page.Styles)
+            {
+                pageContext.StyleSheets.Add(urlHelper.Content(item.Url));
+            }
 
+            if (layout.Script.IsNotNullAndWhiteSpace())
+            {
+                pageContext.StyleSheets.Add(urlHelper.Content(layout.Script));
+            }
+            foreach (var item in layout.Page.Scripts)
+            {
+                pageContext.FooterScripts.Add(urlHelper.Content(item.Url));
+            }
+        }
         public bool Accept(ActionConstraintContext context)
         {
             return context.Candidates.Count == 1;

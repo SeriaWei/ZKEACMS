@@ -34,7 +34,7 @@ namespace ZKEACMS
             {
                 Title = "Layout",
                 Icon = "glyphicon-th-list",
-                Order = 1,
+                Order = 10,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu
@@ -58,7 +58,7 @@ namespace ZKEACMS
                 Title = "Page",
                 Icon = "glyphicon-eye-open",
                 Url = "~/admin/page",
-                Order = 2,
+                Order = 20,
                 PermissionKey = PermissionKeys.ViewPage
             },
             new AdminMenu
@@ -66,14 +66,14 @@ namespace ZKEACMS
                 Title = "Navigation",
                 Icon = "glyphicon-retweet",
                 Url = "~/admin/navigation",
-                Order = 3,
+                Order = 30,
                 PermissionKey = PermissionKeys.ViewNavigation
             },
             new AdminMenu
             {
                 Title = "Generate Content",
                 Icon = "glyphicon-tree-deciduous",
-                Order = 5,
+                Order = 50,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu

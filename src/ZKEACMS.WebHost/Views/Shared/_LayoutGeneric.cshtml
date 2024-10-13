@@ -3,40 +3,19 @@
 @using Microsoft.Extensions.Options
 @using Easy.Options
 @{
-    ThemeEntity theme = themeService.GetCurrentTheme();
-    if (theme == null)
+    if (ViewBag.Title != null)
     {
-        Style.Reqiured("bootStrap").AtHead();
+        this.WorkContext().CurrentPage.Title = ViewBag.Title;
     }
 }
-@inject IThemeService themeService
 @inject IOptions<CultureOption> cultureOption
 <!DOCTYPE html>
 <html lang="@cultureOption.Value.Code">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <title>@ViewBag.Title</title>
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    @if (this.WorkContext().OuterChainPicture)
-    {
-        <meta name="referrer" content="same-origin" />
-    }
-    @if (this.WorkContext().EnableResponsiveDesign)
-    {
-        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
-    }
-    @StyleAtHead()
-    @ScriptAtHead()
-    @if (theme != null)
-    {
-        string themeFile = ApplicationContext.HostingEnvironment.IsDevelopment() ? theme.UrlDebugger : theme.Url;
-        <link type="text/css" async rel="stylesheet" href="@Url.Content(themeFile)" />
-    }
+    @await Html.PartialAsync("Partial.PageHeader")
 </head>
 <body>
     @RenderBody()
-    @StyleAtFoot()
-    @ScriptAtFoot()
+    @await Html.PartialAsync("Partial.PageFooter")
 </body>
 </html>

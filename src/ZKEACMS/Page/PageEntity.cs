@@ -57,26 +57,9 @@ namespace ZKEACMS.Page
         public DateTime? PublishDate { get; set; }
         public bool IsPublish { get; set; }
         [NotMapped]
-        public string Favicon { get; set; }
-        [NotMapped]
         public List<PageAsset> Styles { get; set; }
         [NotMapped]
         public List<PageAsset> Scripts { get; set; }
-        public void ConfigSEO(string title,string keywords,string description)
-        {
-            if (title.IsNotNullAndWhiteSpace())
-            {
-                Title = title;
-            }
-            if (keywords.IsNotNullAndWhiteSpace())
-            {
-                MetaKeyWorlds = keywords;
-            }
-            if (description.IsNotNullAndWhiteSpace())
-            {
-                MetaDescription = description;
-            }
-        }
     }
     class PageMetaData : ViewMetaData<PageEntity>
     {
@@ -102,7 +85,6 @@ namespace ZKEACMS.Page
             ViewConfig(m => m.PublishDate).AsTextBox().Hide();
             ViewConfig(m => m.IsPublish).AsTextBox().Hide();
             ViewConfig(m => m.IsPublishedPage).AsTextBox().Hide();
-            ViewConfig(m => m.Favicon).AsHidden().Ignore();
         }
     }
 

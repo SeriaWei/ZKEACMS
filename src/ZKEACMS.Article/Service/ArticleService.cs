@@ -19,10 +19,10 @@ namespace ZKEACMS.Article.Service
     {
         private readonly ILocalize _localize;
         private readonly IEventManager _eventManager;
-        public ArticleService(IApplicationContext applicationContext, 
-            ILocalize localize, 
+        public ArticleService(IApplicationContext applicationContext,
+            ILocalize localize,
             CMSDbContext dbContext,
-            IEventManager eventManager) 
+            IEventManager eventManager)
             : base(applicationContext, dbContext)
         {
             _localize = localize;
@@ -98,10 +98,7 @@ namespace ZKEACMS.Article.Service
 
         public void IncreaseCount(ArticleEntity article)
         {
-            article.Counter = (article.Counter ?? 0) + 1;
-            DbContext.Attach(article);
-            DbContext.Entry(article).Property(x => x.Counter).IsModified = true;
-            DbContext.SaveChanges();
+            Get().Where(m => m.ID == article.ID).ExecuteUpdate(m => m.SetProperty(m => m.Counter, m => (m.Counter ?? 0) + 1));
         }
 
         public void Publish(int ID)
@@ -115,7 +112,7 @@ namespace ZKEACMS.Article.Service
             if (article.PublishDate == null)
             {
                 article.PublishDate = DateTime.Now;
-            }            
+            }
             if (article.ID > 0)
             {
                 Update(article);

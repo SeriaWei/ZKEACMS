@@ -35,7 +35,7 @@ namespace ZKEACMS.Article
             {
                 Title = "Article Manager",
                 Icon = "glyphicon-font",
-                Order = 10,
+                Order = 31,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu

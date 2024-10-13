@@ -33,7 +33,7 @@ namespace ZKEACMS.Product
             {
                 Title = "Manage Product",
                 Icon = "glyphicon-list-alt",
-                Order = 11,
+                Order = 32,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu

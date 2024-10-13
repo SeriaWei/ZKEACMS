@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using ZKEACMS.StructuredData;
 using Easy.Cache;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Easy.Serializer;
 
 namespace ZKEACMS.Product.Service
 {
@@ -79,7 +81,7 @@ namespace ZKEACMS.Product.Service
             }
             else
             {
-                if (ApplicationContext.CurrentAppContext().IsDesignMode || ApplicationContext.CurrentAppContext().IsPreViewMode)
+                if (ApplicationContext.Current().IsDesignMode || ApplicationContext.Current().IsPreViewMode)
                 {
                     product = _productService.GetLatestPublished();
                 }
@@ -95,12 +97,9 @@ namespace ZKEACMS.Product.Service
                 return null;
             }
 
-            var layout = widgetDisplayContext.PageLayout;
-            if (layout != null && layout.Page != null)
-            {
-                layout.Page.ConfigSEO(product.SEOTitle ?? product.Title, product.SEOKeyWord, product.SEODescription);
-                AddStructuredDataToPageHeader(product);
-            }
+            ApplicationContext.Current().CurrentPage.ConfigSEO(product.SEOTitle ?? product.Title, product.SEOKeyWord, product.SEODescription);
+            AddStructuredDataToPageHeader(product);
+
             return product;
         }
 
@@ -113,8 +112,11 @@ namespace ZKEACMS.Product.Service
                 Description = product.Description,
                 MPN = product.PartNumber
             };
-            IHtmlContent jsonLinkingData = HtmlHelper.SerializeToJsonLinkingData(structuredData);
-            ApplicationContext.CurrentAppContext().HeaderPart.Add(jsonLinkingData);
+            ApplicationContext.Current().CurrentPage.HeaderScripts.Add(new Page.ScriptTag()
+            {
+                Type = "application/ld+json",
+                InnerScript = new HtmlString(JsonConverter.Serialize(structuredData))
+            });
         }
         private IEnumerable<string> GetImages(ProductEntity product)
         {

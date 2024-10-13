@@ -34,7 +34,7 @@ namespace ZKEACMS.Message
             {
                 Title = "Message And Comments",
                 Icon = "glyphicon-volume-up",
-                Order = 7,
+                Order = 70,
                 Children = new List<AdminMenu>
                 {
                     new AdminMenu

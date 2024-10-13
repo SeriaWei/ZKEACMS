@@ -9,63 +9,12 @@
         return;
     }
     Style.Reqiured("Easy").AtFoot();
-    CMSApplicationContext appContext = ApplicationContext as CMSApplicationContext;
-    foreach (var item in appContext.Styles)
-    {
-        Style.Reqiured(item).AtHead();
-    }
-    foreach (var item in appContext.Scripts)
-    {
-        Script.Reqiured(item).AtFoot();
-    }
 }
 @inject IOptions<CultureOption> cultureOption
 <!DOCTYPE html>
 <html lang="@cultureOption.Value.Code">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <title>@Model.Page.Title</title>
-    <meta name="keywords" content="@Model.Page.MetaKeyWorlds" />
-    <meta name="description" content="@Model.Page.MetaDescription" />
-    <meta name="author" content="ZKEASOFT" />
-    <meta name="about" content="@ZKEACMS.Version.CurrentVersion" />
-    <meta name="website" content="http://www.zkea.net" />
-    <link rel="author" href="http://www.zkea.net" />
-    @if (this.WorkContext().OuterChainPicture)
-    {
-        <meta name="referrer" content="same-origin" />
-    }
-    @if (this.WorkContext().EnableResponsiveDesign)
-    {
-        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
-    }
-    <link href="@Url.PathContent(Model.Page.Favicon)" rel="shortcut icon" type="image/x-icon" />
-    @StyleAtHead()
-    @ScriptAtHead()
-    @foreach (var item in appContext.HeaderPart)
-    {
-        @item
-    }
-    @if (!Model.Style.IsNullOrEmpty())
-    {
-        <link href="@Url.Content(Model.Style)" rel="stylesheet" />
-    }
-    @foreach (var style in Model.Page.Styles)
-    {
-        <link href="@Url.Content(style.Url)" rel="stylesheet" />
-    }
-    @if (Model.CurrentTheme != null)
-    {
-        if (ApplicationContext.HostingEnvironment.IsDevelopment())
-        {
-            <link type="text/css" async rel="stylesheet" href="@Url.Content(Model.CurrentTheme.UrlDebugger)" />
-        }
-        else
-        {
-            <link type="text/css" async rel="stylesheet" href="@Url.Content(Model.CurrentTheme.Url)" />
-        }
-    }
+    @await Html.PartialAsync("Partial.PageHeader")
 </head>
 <body class="front">
     @if (Authorizer.Authorize(PermissionKeys.ManagePage) && (ApplicationContext as CMSApplicationContext).PageMode != ZKEACMS.Filter.PageViewMode.ViewOnly)
@@ -144,25 +93,9 @@
             </script>
         }
     }
-
     <div>
         @RenderBody()
     </div>
-
-    @StyleAtFoot()
-    @ScriptAtFoot()
-    @if (!Model.Script.IsNullOrEmpty())
-    {
-        <script type="text/javascript" src="@Url.Content(Model.Script)"></script>
-    }
-    @foreach (var script in Model.Page.Scripts)
-    {
-        <script type="text/javascript" src="@Url.Content(script.Url)"></script>
-    }
-    @foreach (var item in appContext.FooterPart)
-    {
-        @item
-    }
+    @await Html.PartialAsync("Partial.PageFooter")
 </body>
-
 </html>

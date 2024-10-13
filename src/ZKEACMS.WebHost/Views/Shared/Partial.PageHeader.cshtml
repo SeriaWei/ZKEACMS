@@ -1,0 +1,59 @@
+﻿@inject IApplicationSettingService applicationSettingService
+@{
+    var currentPage = this.WorkContext().CurrentPage;
+    foreach (var item in currentPage.StyleNames)
+    {
+        Style.Reqiured(item).AtHead();
+    }
+    foreach (var item in currentPage.ScriptNames)
+    {
+        Script.Reqiured(item).AtFoot();
+    }
+    var favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
+}
+<title>@currentPage.Title</title>
+@if (currentPage.MetaKeyWords.IsNotNullAndWhiteSpace())
+{
+    <meta name="keywords" content="@currentPage.MetaKeyWords" />
+}
+@if (currentPage.MetaDescription.IsNotNullAndWhiteSpace())
+{
+    <meta name="description" content="@currentPage.MetaDescription" />
+}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8" />
+<meta name="author" content="ZKEASOFT" />
+<meta name="about" content="@ZKEACMS.Version.CurrentVersion" />
+<meta name="website" content="http://www.zkea.net" />
+@if (this.WorkContext().EnableResponsiveDesign)
+{
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0" />
+}
+@if (this.WorkContext().OuterChainPicture)
+{
+    <meta name="referrer" content="same-origin" />
+}
+@foreach (var item in currentPage.Meta)
+{
+    @item.Render()
+}
+<link rel="author" href="http://www.zkea.net" />
+<link href="@Url.Content(favicon)" rel="shortcut icon" type="image/x-icon" />
+@StyleAtHead()
+@ScriptAtHead()
+@foreach (var item in currentPage.Header)
+{
+    @item
+}
+@foreach (var item in currentPage.StyleSheets)
+{
+    @item.Render()
+}
+@foreach (var item in currentPage.Style)
+{
+    @item.Render()
+}
+@foreach (var item in currentPage.HeaderScripts)
+{
+    @item.Render()
+}

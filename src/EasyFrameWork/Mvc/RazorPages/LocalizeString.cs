@@ -33,8 +33,6 @@ namespace Easy.Mvc.RazorPages
         }
         private string _translatedContent;
         public string Content { get; set; }
-
-
         public string CultureCode { get; set; }
         public string Text { get { return Get(); } }
         private HttpContext _httpContext;
@@ -64,6 +62,11 @@ namespace Easy.Mvc.RazorPages
         public override string ToString()
         {
             return this.Get();
+        }
+
+        public static implicit operator string(LocalizeString content)
+        {
+            return content.ToString();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace ZKEACMS.Product.Models
         protected override void ViewConfigure()
         {
             base.ViewConfigure();
-            ViewConfig(m => m.ProductCategoryID).AsDropDownList().Order(NextOrder()).SetTemplate("ProductCategoryTree").Required();
+            ViewConfig(m => m.ProductCategoryID).AsDropDownTree("GetProductCategoryTree", "ProductCategory", "admin").Order(NextOrder()).Required();
             ViewConfig(m => m.PartialView).AsDropDownList().Order(NextOrder()).DataSource(SourceType.Dictionary).AsWidgetTemplateChooser();
             ViewConfig(m => m.TargetPage).AsHidden();
         }

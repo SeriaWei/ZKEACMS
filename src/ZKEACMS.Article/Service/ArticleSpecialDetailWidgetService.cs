@@ -45,11 +45,7 @@ namespace ZKEACMS.Article.Service
             else
             {
                 _articleService.IncreaseCount(article);
-                var layout = widgetDisplayContext.PageLayout;
-                if (layout != null && layout.Page != null)
-                {
-                    layout.Page.ConfigSEO(article.Title, article.MetaKeyWords, article.MetaDescription);
-                }
+                ApplicationContext.Current().CurrentPage.ConfigSEO(article.Title, article.MetaKeyWords, article.MetaDescription);
             }
             viewModel.Current = article;
 

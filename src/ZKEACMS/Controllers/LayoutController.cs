@@ -16,6 +16,7 @@ using ZKEACMS.Widget;
 using ZKEACMS.Zone;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ZKEACMS.Controllers
 {
@@ -25,12 +26,18 @@ namespace ZKEACMS.Controllers
         private readonly IPageService _pageService;
         private readonly IZoneService _zoneService;
         private readonly IWidgetBasePartService _widgetService;
-        public LayoutController(ILayoutService service, IPageService pageService, IZoneService zoneService, IWidgetBasePartService widgetService)
+        private readonly IPageContext _pageContext;
+        public LayoutController(ILayoutService service, 
+            IPageService pageService, 
+            IZoneService zoneService, 
+            IWidgetBasePartService widgetService, 
+            IPageContext pageContext)
             : base(service)
         {
             _pageService = pageService;
             _zoneService = zoneService;
             _widgetService = widgetService;
+            _pageContext = pageContext;
         }
 
 
@@ -102,6 +109,18 @@ namespace ZKEACMS.Controllers
             if (layout == null)
             {
                 return NotFound();
+            }
+            _pageContext.Meta.Add(new MetaTag(new { http_equiv = "cache-control", content = "no-cache" }));
+            _pageContext.Meta.Add(new MetaTag(new { http_equiv = "cache-control", content = "no-store" }));
+            _pageContext.Meta.Add(new MetaTag(new { http_equiv = "expires", content = "-1" }));
+            _pageContext.Meta.Add(new MetaTag(new { http_equiv = "pragma", content = "no-cache" }));
+            if (layout.Style.IsNotNullAndWhiteSpace())
+            {
+                _pageContext.StyleSheets.Add(layout.Style);
+            }
+            if (layout.Script.IsNotNullAndWhiteSpace())
+            {
+                _pageContext.FooterScripts.Add(layout.Script);
             }
             return View(layout ?? new LayoutEntity());
         }

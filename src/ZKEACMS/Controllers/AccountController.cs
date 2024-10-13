@@ -19,9 +19,11 @@ using Easy.Mvc.Extend;
 using ZKEACMS.Common.ViewModels;
 using Easy;
 using ZKEACMS.Event;
+using ZKEACMS.Filter;
 
 namespace ZKEACMS.Controllers
 {
+    [Themed]
     public class AccountController : Controller
     {
         private readonly IUserService _userService;

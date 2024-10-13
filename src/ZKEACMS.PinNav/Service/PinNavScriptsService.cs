@@ -35,14 +35,12 @@ namespace ZKEACMS.PinNav.Service
                 HtmlContentBuilder styleBuilder = new HtmlContentBuilder();
                 HtmlContentBuilder scriptBuilder = new HtmlContentBuilder();
 #if DEBUG
-                styleBuilder.AppendHtml("<link type=\"text/css\" async rel=\"stylesheet\" href=\"/Plugins/ZKEACMS.PinNav/Content/pin-nav.css\" />");
-                scriptBuilder.AppendHtml("<script type=\"text/javascript\" src=\"/Plugins/ZKEACMS.PinNav/Scripts/pin-nav.js \"></script>");
+                applicationContext.CurrentPage.StyleSheets.Add(new Page.StyleSheetTag("/Plugins/ZKEACMS.PinNav/Content/pin-nav.css"));
+                applicationContext.CurrentPage.FooterScripts.Add(new Page.ScriptTag("/Plugins/ZKEACMS.PinNav/Scripts/pin-nav.js"));
 #else
-                styleBuilder.AppendHtml("<link type=\"text/css\" async rel=\"stylesheet\" href=\"/Plugins/ZKEACMS.PinNav/Content/pin-nav.min.css\" />");
-                scriptBuilder.AppendHtml("<script type=\"text/javascript\" src=\"/Plugins/ZKEACMS.PinNav/Scripts/pin-nav.min.js\" ></script>");
+                applicationContext.CurrentPage.StyleSheets.Add(new Page.StyleSheetTag("/Plugins/ZKEACMS.PinNav/Content/pin-nav.min.css"));
+                applicationContext.CurrentPage.FooterScripts.Add(new Page.ScriptTag("/Plugins/ZKEACMS.PinNav/Scripts/pin-nav.min.js"));
 #endif
-                applicationContext.HeaderPart.Add(styleBuilder);
-                applicationContext.FooterPart.Add(scriptBuilder);
             }
         }
     }

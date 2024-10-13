@@ -67,7 +67,7 @@ namespace ZKEACMS.FormGenerator
                     }
                 },
                 Icon = "glyphicon-list-alt",
-                Order = 12
+                Order = 60
             };
         }
 
