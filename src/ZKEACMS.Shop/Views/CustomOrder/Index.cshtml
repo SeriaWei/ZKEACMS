@@ -2,7 +2,7 @@
 @model OrderListViewModel
 @{
     Layout = Layouts.CustomerCenter;
-    ViewBag.Title = L("My Order").Text;
+    this.WorkContext().CurrentPage.Title = L("My Order").Text;
 }
 <div class="panel panel-default">
     <div class="panel-heading">

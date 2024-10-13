@@ -1,6 +1,6 @@
 @using Easy.ViewPort.jsTree;
 @{
-    ViewBag.Title = L("Page");
+    this.WorkContext().CurrentPage.Title = L("Page");
     Script.Reqiured("jsTree").AtFoot();
     Style.Reqiured("jsTree").AtHead();
     Layout = Layouts.PopUp;

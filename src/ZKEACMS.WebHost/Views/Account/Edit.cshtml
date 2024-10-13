@@ -1,6 +1,6 @@
 @model Easy.Modules.User.Models.UserEntity
 @{
-    ViewBag.Title = L("Account Center");
+    this.WorkContext().CurrentPage.Title = L("Account Center");
     Layout = Layouts.CustomerCenter;
     Script.Reqiured("validate").AtFoot();
 }

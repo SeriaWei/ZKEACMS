@@ -1,7 +1,7 @@
 @using ZKEACMS.Common.ViewModels
 @model MediaViewModel
 @{
-    ViewBag.Title = L("Media");
+    this.WorkContext().CurrentPage.Title = L("Media");
     var action = Html.ViewContext.RouteData.Values["action"].ToString();
 
     Script.Reqiured("image-viewer").AtFoot();

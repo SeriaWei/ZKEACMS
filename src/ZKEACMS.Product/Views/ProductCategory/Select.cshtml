@@ -1,7 +1,7 @@
 @using Easy.ViewPort.jsTree
 @using ZKEACMS.Article.Models
 @{
-    ViewBag.Title = L("Product Category");
+    this.WorkContext().CurrentPage.Title = L("Product Category");
     Layout = Layouts.PopUp;
     Style.Reqiured("jsTree").AtHead();
     Script.Reqiured("jsTree").AtFoot();

@@ -1,6 +1,6 @@
 @model ZKEACMS.Account.ForgottenViewModel
 @{
-    ViewBag.Title = ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank;
+    this.WorkContext().CurrentPage.Title = ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank;
     Layout = Layouts.NormalDefault;
     Style.Reqiured("Customer").AtHead();
     Script.Reqiured("validate").AtFoot();
