@@ -1,0 +1,57 @@
+# @name auth
+POST {{BaseUrl}}/api/account/createtoken
+Content-Type: application/json
+
+{
+  "userID": "{{Username}}",
+  "passWord": "{{Password}}"
+}
+
+###
+
+@token={{auth.response.body.$.token}}
+
+###
+
+GET {{BaseUrl}}/api/article/get/1
+Content-Type: application/json
+
+###
+
+GET {{BaseUrl}}/api/article/getbyname/zkeacms
+Content-Type: application/json
+
+###
+
+# @name newArticle
+POST {{BaseUrl}}/api/article/create
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "url": "create-from-api",
+  "summary": "create from api",
+  "metaKeyWords": "create from api",
+  "metaDescription": "desc",
+  "counter": 1,
+  "articleContent": "Come",
+  "imageThumbUrl": "/images/09.jpg",
+  "imageUrl": null,
+  "articleTypeID": 2,
+  "isPublish": false,
+  "title": "Create from api",
+  "description": null,
+  "status": 1
+}
+
+###
+
+PUT {{BaseUrl}}/api/article/publish/{{newArticle.response.body.$.result.id}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+
+DELETE {{BaseUrl}}/api/article/delete/{{newArticle.response.body.$.result.id}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
