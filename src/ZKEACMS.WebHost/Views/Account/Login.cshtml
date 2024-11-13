@@ -1,7 +1,8 @@
 @model ZKEACMS.Common.ViewModels.AdminSignViewModel
 @{
     this.WorkContext().CurrentPage.Title = ZKEACMS.Version.CurrentVersion + " " + ZKEACMS.Version.Rank;
-    Layout = Layouts.NormalDefault;
+    Layout = Layouts.EmptyLayout;
+    Style.Reqiured("bootStrap").AtHead();
     Style.Reqiured("Login").AtHead();
     Script.Reqiured("validate").AtFoot();
 }
