@@ -24,7 +24,7 @@ namespace ZKEACMS.Product.Service
         public ServiceResult<ProductCategory> Create(ProductCategory productCategory)
         {
             var validResult = ValidParentId(productCategory);
-            if (validResult.HasViolation) return validResult;
+            if (validResult.HasError) return validResult;
 
             return _productCategoryService.Add(productCategory);
         }
@@ -36,7 +36,7 @@ namespace ZKEACMS.Product.Service
                 var parentProductCategory = _productCategoryService.Get(productCategory.ParentID);
                 if (parentProductCategory == null)
                 {
-                    result.AddRuleViolation("ParentID", "Parent is not exist");
+                    result.AddError("ParentID", "Parent is not exist");
                 }
             }
             return result;
@@ -59,7 +59,7 @@ namespace ZKEACMS.Product.Service
         public ServiceResult<ProductCategory> Update(ProductCategory productCategory)
         {
             var validResult = ValidParentId(productCategory);
-            if (validResult.HasViolation) return validResult;
+            if (validResult.HasError) return validResult;
 
             return _productCategoryService.Update(productCategory);
         }

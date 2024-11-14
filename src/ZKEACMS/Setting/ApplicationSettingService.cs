@@ -40,13 +40,9 @@ namespace ZKEACMS.Setting
         {
             lock (ApplicationSetting)
             {
-                if (base.Get(item.SettingKey) == null)
-                {
-                    return base.Add(item);
-                }
-                var result = new ServiceResult<ApplicationSetting>();
-                result.RuleViolations.Add(new RuleViolation("SettingKey", ApplicationContext.GetService<ILocalize>().Get("The setting key is already exists")));
-                return result;
+                if (base.Get(item.SettingKey) != null) return new Error("SettingKey", ApplicationContext.GetService<ILocalize>().Get("The setting key is already exists"));
+
+                return base.Add(item);
             }
 
         }

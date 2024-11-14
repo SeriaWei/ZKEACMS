@@ -27,27 +27,17 @@ namespace ZKEACMS.Article.Service
         public override ServiceResult<ArticleType> Add(ArticleType item)
         {
             item.ParentID = item.ParentID ?? 0;
-            if (item.Url.IsNotNullAndWhiteSpace())
+            if (item.Url.IsNotNullAndWhiteSpace()&& GetByUrl(item.Url) != null)
             {
-                if (GetByUrl(item.Url) != null)
-                {
-                    var result = new ServiceResult<ArticleType>();
-                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
-                    return result;
-                }
+                return new Error("Url", _localize.Get("URL already exists"));
             }
             return base.Add(item);
         }
         public override ServiceResult<ArticleType> Update(ArticleType item)
         {
-            if (item.Url.IsNotNullAndWhiteSpace())
+            if (item.Url.IsNotNullAndWhiteSpace() && Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
             {
-                if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
-                {
-                    var result = new ServiceResult<ArticleType>();
-                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
-                    return result;
-                }
+                return new Error("Url", _localize.Get("URL already exists"));
             }
             return base.Update(item);
         }

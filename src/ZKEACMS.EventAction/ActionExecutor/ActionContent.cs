@@ -62,7 +62,7 @@ namespace ZKEACMS.EventAction.ActionExecutor
             }
             catch (Exception ex)
             {
-                result.AddRuleViolation("With", ex.Message);
+                result.AddError("With", ex.Message);
             }
             return result;
         }
@@ -74,9 +74,9 @@ namespace ZKEACMS.EventAction.ActionExecutor
             foreach (var item in With)
             {
                 var template = ParseTemplate(item.Key, item.Value);
-                if (!template.HasViolation) continue;
+                if (!template.HasError) continue;
 
-                result.AddRuleViolation(template.ErrorMessage);
+                result.AddError(template.ErrorMessage);
                 break;
             }
             return result;

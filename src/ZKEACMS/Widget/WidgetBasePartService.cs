@@ -88,7 +88,7 @@ namespace ZKEACMS.Widget
         public override ServiceResult<WidgetBasePart> Update(WidgetBasePart item)
         {
             var result = base.Update(item);
-            if (!result.HasViolation)
+            if (!result.HasError)
             {
                 EventManager.Trigger(Events.OnWidgetBasePartUpdated, item);
             }

@@ -58,7 +58,7 @@ namespace ZKEACMS.Article.Service
         public ServiceResult<ArticleEntity> Create(ArticleEntity article)
         {
             var validResult = ValidArticleType(article);
-            if (validResult.HasViolation) return validResult;
+            if (validResult.HasError) return validResult;
             
             article.ArticleContent = _htmlSanitizer.Sanitize(article.ArticleContent);
             return _articleService.Add(article);
@@ -67,7 +67,7 @@ namespace ZKEACMS.Article.Service
         public ServiceResult<ArticleEntity> Update(ArticleEntity article)
         {
             var validResult = ValidArticleType(article);
-            if (validResult.HasViolation) return validResult;
+            if (validResult.HasError) return validResult;
 
             article.ArticleContent = _htmlSanitizer.Sanitize(article.ArticleContent);
             return _articleService.Update(article);
@@ -79,7 +79,7 @@ namespace ZKEACMS.Article.Service
             ArticleType articleType = _articleTypeService.Get(article.ArticleTypeID ?? 0);
             if (articleType == null)
             {
-                serviceResult.AddRuleViolation("ArticleTypeID", "Article type is not exist.");
+                serviceResult.AddError("ArticleTypeID", "Article type is not exist.");
                 return serviceResult;
             }
             return serviceResult;

@@ -82,7 +82,7 @@ namespace Easy.Modules.User.Service
                 throw new Exception(_localize.Get("{0} is already exists").FormatWith(item.Email));
             }
             var result = base.Add(item);
-            if (!result.HasViolation)
+            if (!result.HasError)
             {
                 if (item.Roles != null)
                 {

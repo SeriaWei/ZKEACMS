@@ -60,7 +60,7 @@ namespace ZKEACMS.Product.Service
         public ServiceResult<ProductEntity> Create(ProductEntity product)
         {
             var validResult = ValidProductType(product);
-            if (validResult.HasViolation) return validResult;
+            if (validResult.HasError) return validResult;
 
             if (product.ProductImages != null)
             {
@@ -76,7 +76,7 @@ namespace ZKEACMS.Product.Service
         public ServiceResult<ProductEntity> Update(ProductEntity product)
         {
             var validResult = ValidProductType(product);
-            if (validResult.HasViolation) return validResult;
+            if (validResult.HasError) return validResult;
 
             if (product.ProductImages != null)
             {
@@ -98,7 +98,7 @@ namespace ZKEACMS.Product.Service
             ProductCategory productType = _productCategoryService.Get(product.ProductCategoryID);
             if (productType == null)
             {
-                serviceResult.AddRuleViolation("ProductTypeID", "Product type is not exist.");
+                serviceResult.AddError("ProductTypeID", "Product type is not exist.");
                 return serviceResult;
             }
             return serviceResult;

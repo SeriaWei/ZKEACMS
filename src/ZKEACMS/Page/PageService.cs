@@ -176,7 +176,7 @@ namespace ZKEACMS.Page
             }
             SerializeAssets(item);
             var result = base.Add(item);
-            if (!result.HasViolation)
+            if (!result.HasError)
             {
                 _eventManager.Trigger(Events.OnPageAdded, item);
             }
@@ -193,7 +193,7 @@ namespace ZKEACMS.Page
             item.IsPublish = false;
             SerializeAssets(item);
             var result = base.Update(item);
-            if (!result.HasViolation)
+            if (!result.HasError)
             {
                 _eventManager.Trigger(Events.OnPageUpdated, item);
             }
@@ -230,7 +230,7 @@ namespace ZKEACMS.Page
             }
             catch (Exception ex)
             {
-                result.AddRuleViolation("Title", ex.Message);
+                result.AddError("Title", ex.Message);
             }
             return result;
         }

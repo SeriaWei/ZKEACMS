@@ -87,7 +87,7 @@ namespace ZKEACMS.SectionWidget.Service
         public override ServiceResult<Models.SectionWidget> Add(Models.SectionWidget item)
         {
             var result = base.Add(item);
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 return result;
             }

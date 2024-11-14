@@ -117,7 +117,7 @@ namespace Easy.Modules.MutiLanguage
             }
             catch (Exception ex)
             {
-                result.AddRuleViolation(ex.Message);
+                result.AddError(ex.Message);
             }
             return result;
         }

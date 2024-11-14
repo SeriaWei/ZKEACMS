@@ -69,7 +69,7 @@ namespace ZKEACMS.Shop.Service
             };
             if (!status)
             {
-                result.RuleViolations.Add(new RuleViolation("Error", responseEntry.msg + (responseEntry.sub_msg ?? "")));
+                result.AddError("Error", responseEntry.msg + (responseEntry.sub_msg ?? ""));
             }
             return result;
         }
@@ -138,7 +138,7 @@ namespace ZKEACMS.Shop.Service
             };
             if (!status)
             {
-                result.RuleViolations.Add(new RuleViolation("Error", responseEntry.msg + (responseEntry.sub_msg ?? "")));
+                result.AddError("Error", responseEntry.msg + (responseEntry.sub_msg ?? ""));
             }
             return result;
         }

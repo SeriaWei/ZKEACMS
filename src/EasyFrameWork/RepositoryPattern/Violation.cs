@@ -8,19 +8,19 @@ using System.Text;
 
 namespace Easy.RepositoryPattern
 {
-    public class RuleViolation
+    public abstract class Violation
     {
-        public RuleViolation(string parameterName, string errorMessage)
+        public Violation(string parameterName, string message)
         {
             ParameterName = parameterName;
-            ErrorMessage = errorMessage;
+            Message = message;
         }
         public string ParameterName
         {
             get;
             private set;
         }
-        public string ErrorMessage
+        public string Message
         {
             get;
             private set;

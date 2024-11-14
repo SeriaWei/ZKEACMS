@@ -81,7 +81,7 @@ namespace ZKEACMS.SectionWidget.Service
         {
             item.ID = Guid.NewGuid().ToString("N");
             var result = base.Add(item);
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 return result;
             }

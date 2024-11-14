@@ -18,9 +18,9 @@ namespace ZKEACMS.Product.Service
         private readonly IProductService _productService;
         private readonly IProductCategoryTagService _productCategoryTagService;
         private readonly ILocalize _localize;
-        public ProductCategoryService(IProductService productService, 
+        public ProductCategoryService(IProductService productService,
             IApplicationContext applicationContext,
-            IProductCategoryTagService productCategoryTagService, 
+            IProductCategoryTagService productCategoryTagService,
             ILocalize localize,
             CMSDbContext dbContext)
             : base(applicationContext, dbContext)
@@ -31,27 +31,17 @@ namespace ZKEACMS.Product.Service
         }
         public override ServiceResult<ProductCategory> Add(ProductCategory item)
         {
-            if (item.Url.IsNotNullAndWhiteSpace())
+            if (item.Url.IsNotNullAndWhiteSpace() && GetByUrl(item.Url) != null)
             {
-                if (GetByUrl(item.Url) != null)
-                {
-                    var result = new ServiceResult<ProductCategory>();
-                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
-                    return result;
-                }
+                return new Error("Url", _localize.Get("URL already exists"));
             }
             return base.Add(item);
         }
         public override ServiceResult<ProductCategory> Update(ProductCategory item)
         {
-            if (item.Url.IsNotNullAndWhiteSpace())
+            if (item.Url.IsNotNullAndWhiteSpace() && Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
             {
-                if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
-                {
-                    var result = new ServiceResult<ProductCategory>();
-                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
-                    return result;
-                }
+                return new Error("Url", _localize.Get("URL already exists"));
             }
             return base.Update(item);
         }

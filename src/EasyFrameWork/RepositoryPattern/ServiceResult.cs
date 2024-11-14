@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Easy.RepositoryPattern
@@ -12,42 +13,147 @@ namespace Easy.RepositoryPattern
     {
         public ServiceResult()
         {
-            RuleViolations = new List<RuleViolation>();
+            RuleViolations = new List<Violation>();
         }
-        public List<RuleViolation> RuleViolations
+        public List<Violation> RuleViolations
         {
             get;
             private set;
         }
-        public void AddRuleViolation(string message)
+        public void AddError(string message)
         {
-            RuleViolations.Add(new RuleViolation(string.Empty, message));
+            RuleViolations.Add(new Error(string.Empty, message));
         }
-        public void AddRuleViolation(string name, string message)
+        public void AddError(string name, string message)
         {
-            RuleViolations.Add(new RuleViolation(name, message));
+            RuleViolations.Add(new Error(name, message));
         }
-        public bool HasViolation
+        public void AddWarning(string message)
         {
-            get { return RuleViolations != null && RuleViolations.Count > 0; }
+            RuleViolations.Add(new Warning(string.Empty, message));
+        }
+        public void AddWarning(string name, string message)
+        {
+            RuleViolations.Add(new Warning(name, message));
+        }
+        public void AddInfo(string message)
+        {
+            RuleViolations.Add(new Info(string.Empty, message));
+        }
+        public void AddInfo(string name, string message)
+        {
+            RuleViolations.Add(new Info(name, message));
+        }
+        public bool HasError
+        {
+            get { return RuleViolations.Any(m => m is Error); }
+        }
+
+        public IEnumerable<Error> Errors
+        {
+            get
+            {
+                foreach (var item in RuleViolations)
+                {
+                    if (item is Error error)
+                    {
+                        yield return error;
+                    }
+                }
+            }
         }
 
         public string ErrorMessage
         {
             get
             {
-                string msg = string.Empty;
-                if (RuleViolations != null && RuleViolations.Count > 0)
+                var msg = new StringBuilder();
+
+                foreach (Violation item in Errors)
                 {
-                    foreach (RuleViolation item in RuleViolations)
+                    if (item is Error)
                     {
-                        if (msg != string.Empty)
-                            msg += "\r\n";
-                        msg += item.ErrorMessage;
+                        msg.AppendLine(item.Message);
                     }
                 }
-                return msg;
+                return msg.ToString();
             }
+        }
+
+        public IEnumerable<Warning> Warnings
+        {
+            get
+            {
+                foreach (var item in RuleViolations)
+                {
+                    if (item is Warning warning)
+                    {
+                        yield return warning;
+                    }
+                }
+            }
+        }
+        public string WarningMessage
+        {
+            get
+            {
+                var msg = new StringBuilder();
+                foreach (Violation item in RuleViolations)
+                {
+                    if (item is Warning)
+                    {
+                        msg.AppendLine(item.Message);
+                    }
+                }
+                return msg.ToString();
+            }
+        }
+        public IEnumerable<Info> Infos
+        {
+            get
+            {
+                foreach (var item in RuleViolations)
+                {
+                    if (item is Info info)
+                    {
+                        yield return info;
+                    }
+                }
+            }
+        }
+        public string InfoMessage
+        {
+            get
+            {
+                var msg = new StringBuilder();
+                foreach (Violation item in RuleViolations)
+                {
+                    if (item is Info)
+                    {
+                        msg.AppendLine(item.Message);
+                    }
+                }
+                return msg.ToString();
+            }
+        }
+
+        public static implicit operator ServiceResult(Error error)
+        {
+            var result = new ServiceResult();
+            result.RuleViolations.Add(error);
+            return result;
+        }
+        public static implicit operator ServiceResult(Warning warning)
+        {
+            var result = new ServiceResult();
+            result.RuleViolations.Add(warning);
+            return result;
+        }
+        public static implicit operator ServiceResult(Info info)
+        {
+            var result = new ServiceResult();
+            result.RuleViolations.Add(info);
+            return result;
         }
     }
     public class ServiceResult<T> : ServiceResult
@@ -57,10 +163,29 @@ namespace Easy.RepositoryPattern
         {
             Result = result;
         }
+        public T Result { get; set; }
+
         public static implicit operator ServiceResult<T>(T result)
         {
             return new ServiceResult<T>(result);
         }
-        public T Result { get; set; }
+        public static implicit operator ServiceResult<T>(Error error)
+        {
+            var result = new ServiceResult<T>();
+            result.RuleViolations.Add(error);
+            return result;
+        }
+        public static implicit operator ServiceResult<T>(Warning warning)
+        {
+            var result = new ServiceResult<T>();
+            result.RuleViolations.Add(warning);
+            return result;
+        }
+        public static implicit operator ServiceResult<T>(Info info)
+        {
+            var result = new ServiceResult<T>();
+            result.RuleViolations.Add(info);
+            return result;
+        }
     }
 }

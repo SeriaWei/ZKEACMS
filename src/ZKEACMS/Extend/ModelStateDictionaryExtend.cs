@@ -18,7 +18,7 @@ namespace ZKEACMS
         {
             foreach (var item in serviceResult.RuleViolations)
             {
-                modelState.AddModelError(item.ParameterName, item.ErrorMessage);
+                modelState.AddModelError(item.ParameterName, item.Message);
             }
         }
         public static void AddUnknownError(this ModelStateDictionary modelState, string message)

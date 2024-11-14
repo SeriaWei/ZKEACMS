@@ -35,7 +35,7 @@ namespace ZKEACMS.EventAction.Service
             if (item.Body.IsNotNullAndWhiteSpace() && !FluidTemplateHelper.TryParse(item.Body, out templateResult, out var error))
             {
                 var result = new ServiceResult<ActionBody>();
-                result.AddRuleViolation("Body", error);
+                result.AddError("Body", error);
                 return result;
             }
             var addResult = base.Add(item);
@@ -52,7 +52,7 @@ namespace ZKEACMS.EventAction.Service
             if (item.Body.IsNotNullAndWhiteSpace() && !FluidTemplateHelper.TryParse(item.Body, out templateResult, out var error))
             {
                 var result = new ServiceResult<ActionBody>();
-                result.AddRuleViolation("Body", error);
+                result.AddError("Body", error);
                 return result;
             }
             if (templateResult != null)
@@ -87,7 +87,7 @@ namespace ZKEACMS.EventAction.Service
             catch (RecordNotFoundException) { }
             catch (Exception ex)
             {
-                result.AddRuleViolation(ex.Message);
+                result.AddError(ex.Message);
             }
 
             return result;

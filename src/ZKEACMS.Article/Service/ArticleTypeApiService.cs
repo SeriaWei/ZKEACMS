@@ -24,7 +24,7 @@ namespace ZKEACMS.Article.Service
         public ServiceResult<ArticleType> Create(ArticleType articleType)
         {
             var validResult= ValidParentId(articleType);
-            if (validResult.HasViolation) return validResult;
+            if (validResult.HasError) return validResult;
 
             return _articleTypeService.Add(articleType);
         }
@@ -36,7 +36,7 @@ namespace ZKEACMS.Article.Service
                 var parentArticleType = _articleTypeService.Get(articleType.ParentID.Value);
                 if (parentArticleType == null)
                 {
-                    result.AddRuleViolation("ParentID", "Parent is not exist");
+                    result.AddError("ParentID", "Parent is not exist");
                 }
             }
             return result;
@@ -59,7 +59,7 @@ namespace ZKEACMS.Article.Service
         public ServiceResult<ArticleType> Update(ArticleType articleType)
         {
             var validResult = ValidParentId(articleType);
-            if (validResult.HasViolation) return validResult;
+            if (validResult.HasError) return validResult;
 
             return _articleTypeService.Update(articleType);
         }

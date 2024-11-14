@@ -37,7 +37,7 @@ namespace Easy.Modules.Role
             return BeginTransaction(() =>
             {
                 var result = Add(roleEntity);
-                if (result.HasViolation) return result;
+                if (result.HasError) return result;
                 var permissions = new List<Permission>();
                 permissionDescriptors.Where(m => m.Checked ?? false).Each(m =>
                 {

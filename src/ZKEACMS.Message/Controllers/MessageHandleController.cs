@@ -46,7 +46,7 @@ namespace ZKEACMS.Message.Controllers
                 entity.ActionType = ActionType.Continue;//Use continue to send notification.
                 var result = _messageService.Add(entity);
                 ModelState.Merge(result);
-                if (!result.HasViolation)
+                if (!result.HasError)
                 {
                     TempData["Message"] = _localize.Get("Thank You for your submit!");
                 }

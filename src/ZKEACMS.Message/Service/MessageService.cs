@@ -25,7 +25,7 @@ namespace ZKEACMS.Message.Service
         public override ServiceResult<MessageEntity> Add(MessageEntity item)
         {
             ServiceResult<MessageEntity> result = base.Add(item);
-            if (!result.HasViolation && item.ActionType == ActionType.Continue)
+            if (!result.HasError && item.ActionType == ActionType.Continue)
             {
                 _eventManager.Trigger(Events.OnMessageSubmitted, item);
             }

@@ -72,7 +72,7 @@ namespace Easy.RepositoryPattern
                     try
                     {
                         var result = action.Invoke();
-                        if (result is ServiceResult sResult && sResult.HasViolation)
+                        if (result is ServiceResult sResult && sResult.HasError)
                         {
                             transaction.Rollback();
                         }
@@ -112,7 +112,7 @@ namespace Easy.RepositoryPattern
                             {
                                 if (!v.Validate(p.GetValue(item)))
                                 {
-                                    serviceResult.RuleViolations.Add(new RuleViolation(p.Name, v.ErrorMessage));
+                                    serviceResult.AddError(p.Name, v.ErrorMessage);
                                 }
                             });
                         }
@@ -126,7 +126,7 @@ namespace Easy.RepositoryPattern
         public virtual ServiceResult<T> Add(T item)
         {
             var result = Validate(item);
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 return result;
             }
@@ -154,7 +154,7 @@ namespace Easy.RepositoryPattern
             foreach (var item in items)
             {
                 var itemResult = Validate(item);
-                if (itemResult.HasViolation)
+                if (itemResult.HasError)
                 {
                     return itemResult;
                 }
@@ -287,7 +287,7 @@ namespace Easy.RepositoryPattern
         public virtual ServiceResult<T> Update(T item)
         {
             var result = Validate(item);
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 return result;
             }
@@ -310,7 +310,7 @@ namespace Easy.RepositoryPattern
             foreach (var item in items)
             {
                 var itemResult = Validate(item);
-                if (itemResult.HasViolation)
+                if (itemResult.HasError)
                 {
                     return itemResult;
                 }

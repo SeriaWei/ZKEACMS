@@ -132,7 +132,6 @@ namespace ZKEACMS.Common.Service
         {
             string name = model.Name;
             string relativePath = model.RelativePath;
-            ServiceResult<TemplateFile> result = new ServiceResult<TemplateFile>();
             string ext = Path.GetExtension(name);
             if (GetSupportFileExtensions().Contains(ext))
             {
@@ -149,13 +148,12 @@ namespace ZKEACMS.Common.Service
                 ExtFile.WriteFile(model.Path, model.Content);
                 EnsureHasViewImports(model.Path);
                 _cacheMgr.Remove(_templateFilesCacheKey);
-                result.Result = GetTemplateFiles().First(m => m.RelativePath == model.RelativePath);
+                return new ServiceResult<TemplateFile>(GetTemplateFiles().First(m => m.RelativePath == model.RelativePath));
             }
             else
             {
-                result.RuleViolations.Add(new RuleViolation("Name", "File not support"));
+                return new Error("Name", "File not support");
             }
-            return result;
         }
 
         public void Delete(int id)

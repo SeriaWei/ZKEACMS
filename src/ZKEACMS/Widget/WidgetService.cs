@@ -45,12 +45,12 @@ namespace ZKEACMS.Widget
                  var basePart = item.ToWidgetBasePart();
                  basePart.ID = id;
                  var baseResult = WidgetBasePartService.Add(basePart);
-                 if (baseResult.HasViolation)
+                 if (baseResult.HasError)
                  {
                      var result = new ServiceResult<T>();
                      foreach (var item in baseResult.RuleViolations)
                      {
-                         result.AddRuleViolation(item.ParameterName, item.ErrorMessage);
+                         result.AddError(item.ParameterName, item.Message);
                      }
                      return result;
                  }
@@ -66,12 +66,12 @@ namespace ZKEACMS.Widget
                  var basePart = WidgetBasePartService.Get(item.ID);
                  item.CopyTo(basePart);
                  var baseResult = WidgetBasePartService.Update(basePart);
-                 if (baseResult.HasViolation)
+                 if (baseResult.HasError)
                  {
                      var result = new ServiceResult<T>();
                      foreach (var item in baseResult.RuleViolations)
                      {
-                         result.AddRuleViolation(item.ParameterName, item.ErrorMessage);
+                         result.AddError(item.ParameterName, item.Message);
                      }
                      return result;
                  }
@@ -90,12 +90,12 @@ namespace ZKEACMS.Widget
             return BeginTransaction(() =>
              {
                  var baseResult = WidgetBasePartService.UpdateRange(baseParts.ToArray());
-                 if (baseResult.HasViolation)
+                 if (baseResult.HasError)
                  {
                      var result = new ServiceResult<T>();
                      foreach (var item in baseResult.RuleViolations)
                      {
-                         result.AddRuleViolation(item.ParameterName, item.ErrorMessage);
+                         result.AddError(item.ParameterName, item.Message);
                      }
                      return result;
                  }
@@ -236,7 +236,7 @@ namespace ZKEACMS.Widget
             widget.IsTemplate = false;
             widget.IsSystem = false;
             var publishResult = Add((T)widget);
-            if (publishResult.HasViolation) throw new Exception(widget.WidgetName + " " + publishResult.ErrorMessage);
+            if (publishResult.HasError) throw new Exception(widget.WidgetName + " " + publishResult.ErrorMessage);
         }
 
         #region PackWidget

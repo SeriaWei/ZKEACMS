@@ -83,9 +83,7 @@ namespace ZKEACMS.Rule
             }
             catch
             {
-                var result = new ServiceResult<Rule>();
-                result.RuleViolations.Add(new RuleViolation("Title", _localize.Get("There is an error value in the condition, save failed!")));
-                return result;
+                return new Error("Title", _localize.Get("There is an error value in the condition, save failed!"));
             }
             return base.Add(item);
         }
@@ -98,9 +96,7 @@ namespace ZKEACMS.Rule
             }
             catch
             {
-                var result = new ServiceResult<Rule>();
-                result.RuleViolations.Add(new RuleViolation("Title", _localize.Get("There is an error value in the condition, save failed!")));
-                return result;
+                return new Error("Title", _localize.Get("There is an error value in the condition, save failed!"));
             }
             return base.Update(item);
         }
