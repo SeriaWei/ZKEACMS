@@ -79,12 +79,9 @@ namespace Easy.RepositoryPattern
             {
                 var msg = new StringBuilder();
 
-                foreach (Violation item in Errors)
+                foreach (var item in Errors)
                 {
-                    if (item is Error)
-                    {
-                        msg.AppendLine(item.Message);
-                    }
+                    msg.AppendLine(item.Message);
                 }
                 return msg.ToString();
             }
@@ -108,12 +105,9 @@ namespace Easy.RepositoryPattern
             get
             {
                 var msg = new StringBuilder();
-                foreach (Violation item in _ruleViolations)
+                foreach (var item in Warnings)
                 {
-                    if (item is Warning)
-                    {
-                        msg.AppendLine(item.Message);
-                    }
+                    msg.AppendLine(item.Message);
                 }
                 return msg.ToString();
             }
@@ -136,12 +130,9 @@ namespace Easy.RepositoryPattern
             get
             {
                 var msg = new StringBuilder();
-                foreach (Violation item in _ruleViolations)
+                foreach (var item in Infos)
                 {
-                    if (item is Info)
-                    {
-                        msg.AppendLine(item.Message);
-                    }
+                    msg.AppendLine(item.Message);
                 }
                 return msg.ToString();
             }
