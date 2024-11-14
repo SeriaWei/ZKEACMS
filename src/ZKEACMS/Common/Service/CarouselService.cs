@@ -52,7 +52,7 @@ namespace ZKEACMS.Common.Service
                         var itemResult = _carouselItemService.Add(m);
                         if (itemResult.HasError)
                         {
-                            result.RuleViolations.AddRange(itemResult.RuleViolations);
+                            itemResult.Errors.Each(result.AddError);
                         }
                     }
                 });

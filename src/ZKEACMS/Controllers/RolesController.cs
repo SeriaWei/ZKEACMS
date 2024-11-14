@@ -32,10 +32,7 @@ namespace ZKEACMS.Controllers
             var result = Service.Add(entity, PermissionSet);
             if (result.HasError)
             {
-                foreach (var item in result.RuleViolations)
-                {
-                    ModelState.AddModelError(item.ParameterName, item.Message);
-                }
+                ModelState.Merge(result);
                 return View(entity);
             }
             if (entity.ActionType.HasFlag(ActionType.Exit))
@@ -63,10 +60,7 @@ namespace ZKEACMS.Controllers
             if (result.HasError)
             {
                 ViewBag.Permissions = Service.GetPermission(entity.ID);
-                foreach (var item in result.RuleViolations)
-                {
-                    ModelState.AddModelError(item.ParameterName, item.Message);
-                }
+                ModelState.Merge(result);
                 return View(entity);
             }
             if (entity.ActionType.HasFlag(ActionType.Exit))

@@ -11,49 +11,59 @@ namespace Easy.RepositoryPattern
 {
     public class ServiceResult
     {
+        private readonly List<Violation> _ruleViolations;
         public ServiceResult()
         {
-            RuleViolations = new List<Violation>();
+            _ruleViolations = new List<Violation>();
         }
-        public List<Violation> RuleViolations
+        public void AddError(Error error)
         {
-            get;
-            private set;
+            _ruleViolations.Add(error);
         }
         public void AddError(string message)
         {
-            RuleViolations.Add(new Error(string.Empty, message));
+            _ruleViolations.Add(new Error(string.Empty, message));
         }
         public void AddError(string name, string message)
         {
-            RuleViolations.Add(new Error(name, message));
+            _ruleViolations.Add(new Error(name, message));
         }
+        public void AddWarning(Warning warning)
+        {
+            _ruleViolations.Add(warning);
+        }
+
         public void AddWarning(string message)
         {
-            RuleViolations.Add(new Warning(string.Empty, message));
+            _ruleViolations.Add(new Warning(string.Empty, message));
         }
         public void AddWarning(string name, string message)
         {
-            RuleViolations.Add(new Warning(name, message));
+            _ruleViolations.Add(new Warning(name, message));
         }
+        public void AddInfo(Info info)
+        {
+            _ruleViolations.Add(info);
+        }
+
         public void AddInfo(string message)
         {
-            RuleViolations.Add(new Info(string.Empty, message));
+            _ruleViolations.Add(new Info(string.Empty, message));
         }
         public void AddInfo(string name, string message)
         {
-            RuleViolations.Add(new Info(name, message));
+            _ruleViolations.Add(new Info(name, message));
         }
         public bool HasError
         {
-            get { return RuleViolations.Any(m => m is Error); }
+            get { return _ruleViolations.Any(m => m is Error); }
         }
 
         public IEnumerable<Error> Errors
         {
             get
             {
-                foreach (var item in RuleViolations)
+                foreach (var item in _ruleViolations)
                 {
                     if (item is Error error)
                     {
@@ -84,7 +94,7 @@ namespace Easy.RepositoryPattern
         {
             get
             {
-                foreach (var item in RuleViolations)
+                foreach (var item in _ruleViolations)
                 {
                     if (item is Warning warning)
                     {
@@ -98,7 +108,7 @@ namespace Easy.RepositoryPattern
             get
             {
                 var msg = new StringBuilder();
-                foreach (Violation item in RuleViolations)
+                foreach (Violation item in _ruleViolations)
                 {
                     if (item is Warning)
                     {
@@ -112,7 +122,7 @@ namespace Easy.RepositoryPattern
         {
             get
             {
-                foreach (var item in RuleViolations)
+                foreach (var item in _ruleViolations)
                 {
                     if (item is Info info)
                     {
@@ -126,7 +136,7 @@ namespace Easy.RepositoryPattern
             get
             {
                 var msg = new StringBuilder();
-                foreach (Violation item in RuleViolations)
+                foreach (Violation item in _ruleViolations)
                 {
                     if (item is Info)
                     {
@@ -140,19 +150,19 @@ namespace Easy.RepositoryPattern
         public static implicit operator ServiceResult(Error error)
         {
             var result = new ServiceResult();
-            result.RuleViolations.Add(error);
+            result._ruleViolations.Add(error);
             return result;
         }
         public static implicit operator ServiceResult(Warning warning)
         {
             var result = new ServiceResult();
-            result.RuleViolations.Add(warning);
+            result._ruleViolations.Add(warning);
             return result;
         }
         public static implicit operator ServiceResult(Info info)
         {
             var result = new ServiceResult();
-            result.RuleViolations.Add(info);
+            result._ruleViolations.Add(info);
             return result;
         }
     }
@@ -172,19 +182,19 @@ namespace Easy.RepositoryPattern
         public static implicit operator ServiceResult<T>(Error error)
         {
             var result = new ServiceResult<T>();
-            result.RuleViolations.Add(error);
+            result.AddError(error);
             return result;
         }
         public static implicit operator ServiceResult<T>(Warning warning)
         {
             var result = new ServiceResult<T>();
-            result.RuleViolations.Add(warning);
+            result.AddWarning(warning);
             return result;
         }
         public static implicit operator ServiceResult<T>(Info info)
         {
             var result = new ServiceResult<T>();
-            result.RuleViolations.Add(info);
+            result.AddInfo(info);
             return result;
         }
     }

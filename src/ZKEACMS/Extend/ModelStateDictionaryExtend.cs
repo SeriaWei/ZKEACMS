@@ -16,7 +16,7 @@ namespace ZKEACMS
     {
         public static void Merge<T>(this ModelStateDictionary modelState, ServiceResult<T> serviceResult)
         {
-            foreach (var item in serviceResult.RuleViolations)
+            foreach (var item in serviceResult.Errors)
             {
                 modelState.AddModelError(item.ParameterName, item.Message);
             }

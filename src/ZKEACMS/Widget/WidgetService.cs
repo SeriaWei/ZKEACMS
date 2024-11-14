@@ -48,7 +48,7 @@ namespace ZKEACMS.Widget
                  if (baseResult.HasError)
                  {
                      var result = new ServiceResult<T>();
-                     foreach (var item in baseResult.RuleViolations)
+                     foreach (var item in baseResult.Errors)
                      {
                          result.AddError(item.ParameterName, item.Message);
                      }
@@ -69,7 +69,7 @@ namespace ZKEACMS.Widget
                  if (baseResult.HasError)
                  {
                      var result = new ServiceResult<T>();
-                     foreach (var item in baseResult.RuleViolations)
+                     foreach (var item in baseResult.Errors)
                      {
                          result.AddError(item.ParameterName, item.Message);
                      }
@@ -93,7 +93,7 @@ namespace ZKEACMS.Widget
                  if (baseResult.HasError)
                  {
                      var result = new ServiceResult<T>();
-                     foreach (var item in baseResult.RuleViolations)
+                     foreach (var item in baseResult.Errors)
                      {
                          result.AddError(item.ParameterName, item.Message);
                      }

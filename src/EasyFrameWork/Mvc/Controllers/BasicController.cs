@@ -52,7 +52,7 @@ namespace Easy.Mvc.Controllers
                 var result = Service.Add(entity);
                 if (result.HasError)
                 {
-                    foreach (var item in result.RuleViolations)
+                    foreach (var item in result.Errors)
                     {
                         ModelState.AddModelError(item.ParameterName, item.Message);
                     }
@@ -94,7 +94,7 @@ namespace Easy.Mvc.Controllers
                 var result = Service.Update(entity);
                 if (result.HasError)
                 {
-                    foreach (var item in result.RuleViolations)
+                    foreach (var item in result.Errors)
                     {
                         ModelState.AddModelError(item.ParameterName, item.Message);
                     }
