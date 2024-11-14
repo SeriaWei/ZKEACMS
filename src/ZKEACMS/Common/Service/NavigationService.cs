@@ -23,7 +23,7 @@ namespace ZKEACMS.Common.Service
             _htmlSanitizer = htmlSanitizer;
         }
         public override DbSet<NavigationEntity> CurrentDbSet => DbContext.Navigation;
-        public override ServiceResult<NavigationEntity> Add(NavigationEntity item)
+        public override ErrorOr<NavigationEntity> Add(NavigationEntity item)
         {
             if (item.ParentId.IsNullOrEmpty())
             {
@@ -34,7 +34,7 @@ namespace ZKEACMS.Common.Service
             return base.Add(item);
         }
 
-        public override ServiceResult<NavigationEntity> AddRange(params NavigationEntity[] items)
+        public override ErrorOr<NavigationEntity> AddRange(params NavigationEntity[] items)
         {
             foreach (var item in items)
             {
@@ -43,13 +43,13 @@ namespace ZKEACMS.Common.Service
             return base.AddRange(items);
         }
 
-        public override ServiceResult<NavigationEntity> Update(NavigationEntity item)
+        public override ErrorOr<NavigationEntity> Update(NavigationEntity item)
         {
             Santize(item);
             return base.Update(item);
         }
 
-        public override ServiceResult<NavigationEntity> UpdateRange(params NavigationEntity[] items)
+        public override ErrorOr<NavigationEntity> UpdateRange(params NavigationEntity[] items)
         {
             foreach (var item in items)
             {

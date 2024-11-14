@@ -162,7 +162,7 @@ namespace ZKEACMS.Page
             return page;
         }
 
-        public override ServiceResult<PageEntity> Add(PageEntity item)
+        public override ErrorOr<PageEntity> Add(PageEntity item)
         {
             if (!item.IsPublishedPage && Count(m => m.Url == item.Url && m.IsPublishedPage == false) > 0)
             {
@@ -183,7 +183,7 @@ namespace ZKEACMS.Page
             return result;
         }
 
-        public override ServiceResult<PageEntity> Update(PageEntity item)
+        public override ErrorOr<PageEntity> Update(PageEntity item)
         {
             if (Count(m => m.ID != item.ID && m.Url == item.Url && m.IsPublishedPage == false) > 0)
             {
@@ -200,9 +200,9 @@ namespace ZKEACMS.Page
             return result;
         }
 
-        public ServiceResult<PageEntity> Publish(PageEntity item)
+        public ErrorOr<PageEntity> Publish(PageEntity item)
         {
-            var result = new ServiceResult<PageEntity>();
+            var result = new ErrorOr<PageEntity>();
             result.Result = item;
             try
             {

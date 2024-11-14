@@ -29,12 +29,12 @@ namespace ZKEACMS.EventAction.Service
         {
         }
 
-        public override ServiceResult<ActionBody> Add(ActionBody item)
+        public override ErrorOr<ActionBody> Add(ActionBody item)
         {
             IFluidTemplate templateResult = null;
             if (item.Body.IsNotNullAndWhiteSpace() && !FluidTemplateHelper.TryParse(item.Body, out templateResult, out var error))
             {
-                var result = new ServiceResult<ActionBody>();
+                var result = new ErrorOr<ActionBody>();
                 result.AddError("Body", error);
                 return result;
             }
@@ -46,12 +46,12 @@ namespace ZKEACMS.EventAction.Service
             return addResult;
         }
 
-        public override ServiceResult<ActionBody> Update(ActionBody item)
+        public override ErrorOr<ActionBody> Update(ActionBody item)
         {
             IFluidTemplate templateResult = null;
             if (item.Body.IsNotNullAndWhiteSpace() && !FluidTemplateHelper.TryParse(item.Body, out templateResult, out var error))
             {
-                var result = new ServiceResult<ActionBody>();
+                var result = new ErrorOr<ActionBody>();
                 result.AddError("Body", error);
                 return result;
             }
@@ -69,9 +69,9 @@ namespace ZKEACMS.EventAction.Service
 
             return template.Render(model);
         }
-        private ServiceResult<IFluidTemplate> ParseTemplate(int ID)
+        private ErrorOr<IFluidTemplate> ParseTemplate(int ID)
         {
-            var result = new ServiceResult<IFluidTemplate>();
+            var result = new ErrorOr<IFluidTemplate>();
             try
             {
                 var template = _templates.GetOrAdd(ID, key =>

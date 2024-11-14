@@ -2,7 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-using Easy.RepositoryPattern;
+using Easy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,16 +21,16 @@ namespace ZKEACMS.Article.Service
             _articleTypeService = articleTypeService;
         }
 
-        public ServiceResult<ArticleType> Create(ArticleType articleType)
+        public ErrorOr<ArticleType> Create(ArticleType articleType)
         {
             var validResult= ValidParentId(articleType);
             if (validResult.HasError) return validResult;
 
             return _articleTypeService.Add(articleType);
         }
-        private ServiceResult<ArticleType> ValidParentId(ArticleType articleType)
+        private ErrorOr<ArticleType> ValidParentId(ArticleType articleType)
         {
-            ServiceResult<ArticleType> result = new ServiceResult<ArticleType>();
+            ErrorOr<ArticleType> result = new ErrorOr<ArticleType>();
             if (articleType.ParentID.HasValue)
             {
                 var parentArticleType = _articleTypeService.Get(articleType.ParentID.Value);
@@ -56,7 +56,7 @@ namespace ZKEACMS.Article.Service
             return _articleTypeService.GetByUrl(name);
         }
 
-        public ServiceResult<ArticleType> Update(ArticleType articleType)
+        public ErrorOr<ArticleType> Update(ArticleType articleType)
         {
             var validResult = ValidParentId(articleType);
             if (validResult.HasError) return validResult;

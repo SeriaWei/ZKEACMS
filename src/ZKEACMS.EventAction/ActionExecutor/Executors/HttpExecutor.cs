@@ -2,8 +2,8 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy;
 using Easy.Extend;
-using Easy.RepositoryPattern;
 using System.Collections.Generic;
 using ZKEACMS.Event;
 using ZKEACMS.EventAction.HttpParser;
@@ -25,7 +25,7 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
             _pendingTaskService = pendingTaskService;
         }
 
-        public ServiceResult Execute(Arguments args, object model, EventArg e)
+        public ErrorOr Execute(Arguments args, object model, EventArg e)
         {
             string requestBody = args.Named("request");
 
@@ -36,11 +36,11 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
                 requestBody = _actionBodyService.RenderBody(id, model);
             }
 
-            if (requestBody.IsNullOrWhiteSpace()) return new ServiceResult();
+            if (requestBody.IsNullOrWhiteSpace()) return new ErrorOr();
 
             var request = HttpRequestContent.Parse(requestBody);
             PushRequestInQueue(request);
-            return new ServiceResult();
+            return new ErrorOr();
         }
         private void PushRequestInQueue(HttpRequestContent httpRequest)
         {

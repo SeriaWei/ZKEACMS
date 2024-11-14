@@ -24,7 +24,7 @@ namespace ZKEACMS.Article.Service
             _localize = localize;
         }     
 
-        public override ServiceResult<ArticleType> Add(ArticleType item)
+        public override ErrorOr<ArticleType> Add(ArticleType item)
         {
             item.ParentID = item.ParentID ?? 0;
             if (item.Url.IsNotNullAndWhiteSpace()&& GetByUrl(item.Url) != null)
@@ -33,7 +33,7 @@ namespace ZKEACMS.Article.Service
             }
             return base.Add(item);
         }
-        public override ServiceResult<ArticleType> Update(ArticleType item)
+        public override ErrorOr<ArticleType> Update(ArticleType item)
         {
             if (item.Url.IsNotNullAndWhiteSpace() && Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
             {

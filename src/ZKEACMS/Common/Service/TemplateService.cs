@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Hosting;
 using Easy.RepositoryPattern;
 using Easy.Cache;
 using System.IO.Compression;
+using Easy;
 
 namespace ZKEACMS.Common.Service
 {
@@ -128,7 +129,7 @@ namespace ZKEACMS.Common.Service
             return string.Empty;
         }
 
-        public virtual ServiceResult<TemplateFile> CreateOrUpdate(TemplateFile model)
+        public virtual ErrorOr<TemplateFile> CreateOrUpdate(TemplateFile model)
         {
             string name = model.Name;
             string relativePath = model.RelativePath;
@@ -148,7 +149,7 @@ namespace ZKEACMS.Common.Service
                 ExtFile.WriteFile(model.Path, model.Content);
                 EnsureHasViewImports(model.Path);
                 _cacheMgr.Remove(_templateFilesCacheKey);
-                return new ServiceResult<TemplateFile>(GetTemplateFiles().First(m => m.RelativePath == model.RelativePath));
+                return new ErrorOr<TemplateFile>(GetTemplateFiles().First(m => m.RelativePath == model.RelativePath));
             }
             else
             {

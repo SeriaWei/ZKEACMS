@@ -29,7 +29,7 @@ namespace ZKEACMS.Product.Service
             _productCategoryTagService = productCategoryTagService;
             _localize = localize;
         }
-        public override ServiceResult<ProductCategory> Add(ProductCategory item)
+        public override ErrorOr<ProductCategory> Add(ProductCategory item)
         {
             if (item.Url.IsNotNullAndWhiteSpace() && GetByUrl(item.Url) != null)
             {
@@ -37,7 +37,7 @@ namespace ZKEACMS.Product.Service
             }
             return base.Add(item);
         }
-        public override ServiceResult<ProductCategory> Update(ProductCategory item)
+        public override ErrorOr<ProductCategory> Update(ProductCategory item)
         {
             if (item.Url.IsNotNullAndWhiteSpace() && Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
             {

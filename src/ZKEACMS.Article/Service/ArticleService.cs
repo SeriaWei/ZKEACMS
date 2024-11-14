@@ -28,9 +28,9 @@ namespace ZKEACMS.Article.Service
             _localize = localize;
             _eventManager = eventManager;
         }
-        public override ServiceResult<ArticleEntity> Add(ArticleEntity item)
+        public override ErrorOr<ArticleEntity> Add(ArticleEntity item)
         {
-            ServiceResult<ArticleEntity> result;
+            ErrorOr<ArticleEntity> result;
             if (item.Url.IsNotNullAndWhiteSpace() && GetByUrl(item.Url) != null)
             {
                 return new Error("Url", _localize.Get("URL already exists"));
@@ -43,9 +43,9 @@ namespace ZKEACMS.Article.Service
             }
             return result;
         }
-        public override ServiceResult<ArticleEntity> Update(ArticleEntity item)
+        public override ErrorOr<ArticleEntity> Update(ArticleEntity item)
         {
-            ServiceResult<ArticleEntity> result;
+            ErrorOr<ArticleEntity> result;
             if (item.Url.IsNotNullAndWhiteSpace() && Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
             {
                 return new Error("Url", _localize.Get("URL already exists"));

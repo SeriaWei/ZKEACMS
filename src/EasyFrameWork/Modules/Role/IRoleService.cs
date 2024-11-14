@@ -7,7 +7,7 @@ namespace Easy.Modules.Role
     public interface IRoleService : IService<RoleEntity>
     {
         IList<Permission> GetPermission(int roleId);
-        ServiceResult<RoleEntity> Add(RoleEntity roleEntity, List<PermissionDescriptor> permissionDescriptors);
-        ServiceResult<RoleEntity> Update(RoleEntity roleEntity, List<PermissionDescriptor> permissionDescriptors);
+        ErrorOr<RoleEntity> Add(RoleEntity roleEntity, List<PermissionDescriptor> permissionDescriptors);
+        ErrorOr<RoleEntity> Update(RoleEntity roleEntity, List<PermissionDescriptor> permissionDescriptors);
     }
 }

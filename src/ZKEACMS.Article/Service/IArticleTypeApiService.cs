@@ -2,7 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-using Easy.RepositoryPattern;
+using Easy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +16,8 @@ namespace ZKEACMS.Article.Service
     {
         ArticleType Get(int id);
         ArticleType GetByName(string name);
-        ServiceResult<ArticleType> Create(ArticleType articleType);
-        ServiceResult<ArticleType> Update(ArticleType articleType);
+        ErrorOr<ArticleType> Create(ArticleType articleType);
+        ErrorOr<ArticleType> Update(ArticleType articleType);
         void Delete(int id);
     }
 }

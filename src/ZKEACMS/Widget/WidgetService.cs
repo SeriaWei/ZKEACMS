@@ -37,7 +37,7 @@ namespace ZKEACMS.Widget
         {
             return CurrentDbSet.AsNoTracking();
         }
-        public override ServiceResult<T> Add(T item)
+        public override ErrorOr<T> Add(T item)
         {
             return BeginTransaction(() =>
              {
@@ -47,7 +47,7 @@ namespace ZKEACMS.Widget
                  var baseResult = WidgetBasePartService.Add(basePart);
                  if (baseResult.HasError)
                  {
-                     var result = new ServiceResult<T>();
+                     var result = new ErrorOr<T>();
                      foreach (var item in baseResult.Errors)
                      {
                          result.AddError(item.ParameterName, item.Message);
@@ -59,7 +59,7 @@ namespace ZKEACMS.Widget
              });
         }
 
-        public override ServiceResult<T> Update(T item)
+        public override ErrorOr<T> Update(T item)
         {
             return BeginTransaction(() =>
              {
@@ -68,7 +68,7 @@ namespace ZKEACMS.Widget
                  var baseResult = WidgetBasePartService.Update(basePart);
                  if (baseResult.HasError)
                  {
-                     var result = new ServiceResult<T>();
+                     var result = new ErrorOr<T>();
                      foreach (var item in baseResult.Errors)
                      {
                          result.AddError(item.ParameterName, item.Message);
@@ -78,7 +78,7 @@ namespace ZKEACMS.Widget
                  return base.Update(item);
              });
         }
-        public override ServiceResult<T> UpdateRange(params T[] items)
+        public override ErrorOr<T> UpdateRange(params T[] items)
         {
             var ids = items.Select(m => m.ID).ToArray();
             var baseParts = WidgetBasePartService.Get(m => ids.Contains(m.ID));
@@ -92,7 +92,7 @@ namespace ZKEACMS.Widget
                  var baseResult = WidgetBasePartService.UpdateRange(baseParts.ToArray());
                  if (baseResult.HasError)
                  {
-                     var result = new ServiceResult<T>();
+                     var result = new ErrorOr<T>();
                      foreach (var item in baseResult.Errors)
                      {
                          result.AddError(item.ParameterName, item.Message);

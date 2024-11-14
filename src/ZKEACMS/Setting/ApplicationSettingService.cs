@@ -36,7 +36,7 @@ namespace ZKEACMS.Setting
             return CurrentDbSet.AsNoTracking();
         }
 
-        public override ServiceResult<ApplicationSetting> Add(ApplicationSetting item)
+        public override ErrorOr<ApplicationSetting> Add(ApplicationSetting item)
         {
             lock (ApplicationSetting)
             {
@@ -76,7 +76,7 @@ namespace ZKEACMS.Setting
             return setting.Value;
         }
 
-        public override ServiceResult<ApplicationSetting> Update(ApplicationSetting item)
+        public override ErrorOr<ApplicationSetting> Update(ApplicationSetting item)
         {
             _cacheManager.Remove(item.SettingKey);
             return base.Update(item);

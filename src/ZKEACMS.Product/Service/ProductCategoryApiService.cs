@@ -2,7 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-using Easy.RepositoryPattern;
+using Easy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,16 +21,16 @@ namespace ZKEACMS.Product.Service
             _productCategoryService = productCategoryService;
         }
 
-        public ServiceResult<ProductCategory> Create(ProductCategory productCategory)
+        public ErrorOr<ProductCategory> Create(ProductCategory productCategory)
         {
             var validResult = ValidParentId(productCategory);
             if (validResult.HasError) return validResult;
 
             return _productCategoryService.Add(productCategory);
         }
-        private ServiceResult<ProductCategory> ValidParentId(ProductCategory productCategory)
+        private ErrorOr<ProductCategory> ValidParentId(ProductCategory productCategory)
         {
-            ServiceResult<ProductCategory> result = new ServiceResult<ProductCategory>();
+            ErrorOr<ProductCategory> result = new ErrorOr<ProductCategory>();
             if (productCategory.ParentID > 0)
             {
                 var parentProductCategory = _productCategoryService.Get(productCategory.ParentID);
@@ -56,7 +56,7 @@ namespace ZKEACMS.Product.Service
             return _productCategoryService.GetByUrl(name);
         }
 
-        public ServiceResult<ProductCategory> Update(ProductCategory productCategory)
+        public ErrorOr<ProductCategory> Update(ProductCategory productCategory)
         {
             var validResult = ValidParentId(productCategory);
             if (validResult.HasError) return validResult;

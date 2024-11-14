@@ -42,9 +42,9 @@ namespace ZKEACMS.Product.Service
         {
             Publish(Get(ID));
         }
-        public override ServiceResult<ProductEntity> Add(ProductEntity item)
+        public override ErrorOr<ProductEntity> Add(ProductEntity item)
         {
-            ServiceResult<ProductEntity> result = new ServiceResult<ProductEntity>();
+            ErrorOr<ProductEntity> result = new ErrorOr<ProductEntity>();
             if (item.Url.IsNotNullAndWhiteSpace() && GetByUrl(item.Url) != null)
             {
                 return new Error("Url", _localize.Get("URL already exists"));
@@ -99,9 +99,9 @@ namespace ZKEACMS.Product.Service
             }
 
         }
-        public override ServiceResult<ProductEntity> Update(ProductEntity item)
+        public override ErrorOr<ProductEntity> Update(ProductEntity item)
         {
-            ServiceResult<ProductEntity> result = new ServiceResult<ProductEntity>();
+            ErrorOr<ProductEntity> result = new ErrorOr<ProductEntity>();
             if (item.Url.IsNotNullAndWhiteSpace() && Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
             {
                 return new Error("Url", _localize.Get("URL already exists"));

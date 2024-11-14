@@ -5,7 +5,6 @@
 using System;
 using Easy;
 using Easy.Extend;
-using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Common.Models;
 using ZKEACMS.Widget;
@@ -19,7 +18,7 @@ namespace ZKEACMS.Common.Service
         {
         }
         public override DbSet<ScriptWidget> CurrentDbSet => DbContext.ScriptWidget;
-        public override ServiceResult<ScriptWidget> Add(ScriptWidget item)
+        public override ErrorOr<ScriptWidget> Add(ScriptWidget item)
         {
             if (item.StyleClass.IsNullOrEmpty())
             {

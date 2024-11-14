@@ -51,7 +51,7 @@ namespace ZKEACMS.Product.Service
             }
             return "~/product-detail";
         }
-        public override ServiceResult<ProductListWidget> Add(ProductListWidget item)
+        public override ErrorOr<ProductListWidget> Add(ProductListWidget item)
         {
             if (!item.PageSize.HasValue || item.PageSize.Value == 0)
             {

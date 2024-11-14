@@ -55,7 +55,7 @@ namespace Easy.Modules.User.Service
             }
             return passWord;
         }
-        public override ServiceResult<UserEntity> Add(UserEntity item)
+        public override ErrorOr<UserEntity> Add(UserEntity item)
         {
             if (item.UserID.IsNullOrEmpty() && item.Email.IsNotNullAndWhiteSpace())
             {
@@ -100,7 +100,7 @@ namespace Easy.Modules.User.Service
             return result;
         }
 
-        public override ServiceResult<UserEntity> Update(UserEntity item)
+        public override ErrorOr<UserEntity> Update(UserEntity item)
         {
             if (item.PassWordNew.IsNotNullAndWhiteSpace())
             {

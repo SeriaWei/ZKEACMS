@@ -40,7 +40,7 @@ namespace ZKEACMS.FormGenerator.Service
             _eventManager = eventManager;
         }
 
-        public override ServiceResult<FormData> Add(FormData item)
+        public override ErrorOr<FormData> Add(FormData item)
         {
             var result = base.Add(item);
             if (result.HasError)
@@ -101,9 +101,9 @@ namespace ZKEACMS.FormGenerator.Service
             }
         }
 
-        public ServiceResult<FormData> SaveForm(IFormCollection formCollection, string formId)
+        public ErrorOr<FormData> SaveForm(IFormCollection formCollection, string formId)
         {
-            var result = new ServiceResult<FormData>();
+            var result = new ErrorOr<FormData>();
             var form = _formService.Get(formId);
             if (form == null)
             {

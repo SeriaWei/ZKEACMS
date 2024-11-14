@@ -32,7 +32,7 @@ namespace Easy.Modules.Role
             }
         }
 
-        public ServiceResult<RoleEntity> Add(RoleEntity roleEntity, List<PermissionDescriptor> permissionDescriptors)
+        public ErrorOr<RoleEntity> Add(RoleEntity roleEntity, List<PermissionDescriptor> permissionDescriptors)
         {
             return BeginTransaction(() =>
             {
@@ -60,7 +60,7 @@ namespace Easy.Modules.Role
             return _permissionService.Get(m => m.RoleId == roleId);
         }
 
-        public ServiceResult<RoleEntity> Update(RoleEntity roleEntity, List<PermissionDescriptor> permissionDescriptors)
+        public ErrorOr<RoleEntity> Update(RoleEntity roleEntity, List<PermissionDescriptor> permissionDescriptors)
         {
             return BeginTransaction(() =>
             {

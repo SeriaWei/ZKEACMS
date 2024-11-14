@@ -85,7 +85,7 @@ namespace ZKEACMS.Widget
             return getWidgets(roleId);
         }
 
-        public override ServiceResult<WidgetBasePart> Update(WidgetBasePart item)
+        public override ErrorOr<WidgetBasePart> Update(WidgetBasePart item)
         {
             var result = base.Update(item);
             if (!result.HasError)

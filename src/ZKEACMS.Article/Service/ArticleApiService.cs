@@ -2,8 +2,8 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy;
 using Easy.Mvc.Authorize;
-using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +55,7 @@ namespace ZKEACMS.Article.Service
             }
             return article;
         }
-        public ServiceResult<ArticleEntity> Create(ArticleEntity article)
+        public ErrorOr<ArticleEntity> Create(ArticleEntity article)
         {
             var validResult = ValidArticleType(article);
             if (validResult.HasError) return validResult;
@@ -64,7 +64,7 @@ namespace ZKEACMS.Article.Service
             return _articleService.Add(article);
         }
 
-        public ServiceResult<ArticleEntity> Update(ArticleEntity article)
+        public ErrorOr<ArticleEntity> Update(ArticleEntity article)
         {
             var validResult = ValidArticleType(article);
             if (validResult.HasError) return validResult;
@@ -73,9 +73,9 @@ namespace ZKEACMS.Article.Service
             return _articleService.Update(article);
         }
 
-        private ServiceResult<ArticleEntity> ValidArticleType(ArticleEntity article)
+        private ErrorOr<ArticleEntity> ValidArticleType(ArticleEntity article)
         {
-            ServiceResult<ArticleEntity> serviceResult = new ServiceResult<ArticleEntity>();
+            ErrorOr<ArticleEntity> serviceResult = new ErrorOr<ArticleEntity>();
             ArticleType articleType = _articleTypeService.Get(article.ArticleTypeID ?? 0);
             if (articleType == null)
             {

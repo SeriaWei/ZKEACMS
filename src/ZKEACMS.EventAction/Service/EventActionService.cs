@@ -44,7 +44,7 @@ namespace ZKEACMS.EventAction.Service
             _signals = signals;
         }
 
-        public override ServiceResult<Models.EventAction> Update(Models.EventAction item)
+        public override ErrorOr<Models.EventAction> Update(Models.EventAction item)
         {
             var result = ValidateActions(item);
             if (result.HasError) return result;
@@ -52,7 +52,7 @@ namespace ZKEACMS.EventAction.Service
             _signals.Trigger(EventActionChanged);
             return base.Update(item);
         }
-        public override ServiceResult<Models.EventAction> Add(Models.EventAction item)
+        public override ErrorOr<Models.EventAction> Add(Models.EventAction item)
         {
             var result = ValidateActions(item);
             if (result.HasError) return result;
@@ -95,9 +95,9 @@ namespace ZKEACMS.EventAction.Service
         }
 
 
-        private ServiceResult<Models.EventAction> ValidateActions(Models.EventAction item)
+        private ErrorOr<Models.EventAction> ValidateActions(Models.EventAction item)
         {
-            ServiceResult<Models.EventAction> result = new ServiceResult<Models.EventAction>();
+            ErrorOr<Models.EventAction> result = new ErrorOr<Models.EventAction>();
             try
             {
                 var eventAction = YamlConverter.Deserialize<EventActionContent>(Encode(item.Actions));

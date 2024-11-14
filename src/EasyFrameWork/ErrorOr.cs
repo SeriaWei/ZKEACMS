@@ -2,17 +2,18 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Easy.RepositoryPattern
+namespace Easy
 {
-    public class ServiceResult
+    public class ErrorOr
     {
         private readonly List<Violation> _ruleViolations;
-        public ServiceResult()
+        public ErrorOr()
         {
             _ruleViolations = new List<Violation>();
         }
@@ -138,53 +139,53 @@ namespace Easy.RepositoryPattern
             }
         }
 
-        public static implicit operator ServiceResult(Error error)
+        public static implicit operator ErrorOr(Error error)
         {
-            var result = new ServiceResult();
+            var result = new ErrorOr();
             result._ruleViolations.Add(error);
             return result;
         }
-        public static implicit operator ServiceResult(Warning warning)
+        public static implicit operator ErrorOr(Warning warning)
         {
-            var result = new ServiceResult();
+            var result = new ErrorOr();
             result._ruleViolations.Add(warning);
             return result;
         }
-        public static implicit operator ServiceResult(Info info)
+        public static implicit operator ErrorOr(Info info)
         {
-            var result = new ServiceResult();
+            var result = new ErrorOr();
             result._ruleViolations.Add(info);
             return result;
         }
     }
-    public class ServiceResult<T> : ServiceResult
+    public class ErrorOr<T> : ErrorOr
     {
-        public ServiceResult() { }
-        public ServiceResult(T result)
+        public ErrorOr() { }
+        public ErrorOr(T result)
         {
             Result = result;
         }
         public T Result { get; set; }
 
-        public static implicit operator ServiceResult<T>(T result)
+        public static implicit operator ErrorOr<T>(T result)
         {
-            return new ServiceResult<T>(result);
+            return new ErrorOr<T>(result);
         }
-        public static implicit operator ServiceResult<T>(Error error)
+        public static implicit operator ErrorOr<T>(Error error)
         {
-            var result = new ServiceResult<T>();
+            var result = new ErrorOr<T>();
             result.AddError(error);
             return result;
         }
-        public static implicit operator ServiceResult<T>(Warning warning)
+        public static implicit operator ErrorOr<T>(Warning warning)
         {
-            var result = new ServiceResult<T>();
+            var result = new ErrorOr<T>();
             result.AddWarning(warning);
             return result;
         }
-        public static implicit operator ServiceResult<T>(Info info)
+        public static implicit operator ErrorOr<T>(Info info)
         {
-            var result = new ServiceResult<T>();
+            var result = new ErrorOr<T>();
             result.AddInfo(info);
             return result;
         }

@@ -2,7 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-using Easy.RepositoryPattern;
+using Easy;
 using Fluid;
 using System;
 using System.Collections.Concurrent;
@@ -48,9 +48,9 @@ namespace ZKEACMS.EventAction.ActionExecutor
             }
             return renderedArgs;
         }
-        public ServiceResult<IFluidTemplate> ParseTemplate(string key, string template)
+        public ErrorOr<IFluidTemplate> ParseTemplate(string key, string template)
         {
-            var result = new ServiceResult<IFluidTemplate>();
+            var result = new ErrorOr<IFluidTemplate>();
             try
             {
                 var templateResult = _templates.GetOrAdd(key, key =>
@@ -66,9 +66,9 @@ namespace ZKEACMS.EventAction.ActionExecutor
             }
             return result;
         }
-        public ServiceResult ValidateWith()
+        public ErrorOr ValidateWith()
         {
-            var result = new ServiceResult();
+            var result = new ErrorOr();
             if (With == null) return result;
 
             foreach (var item in With)

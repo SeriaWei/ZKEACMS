@@ -74,7 +74,7 @@ namespace ZKEACMS.Rule
             }
             return string.Format("'{0}'", value.Replace("\\", "\\\\").Replace("'", "\\'"));
         }
-        public override ServiceResult<Rule> Add(Rule item)
+        public override ErrorOr<Rule> Add(Rule item)
         {
             item = Init(item);
             try
@@ -87,7 +87,7 @@ namespace ZKEACMS.Rule
             }
             return base.Add(item);
         }
-        public override ServiceResult<Rule> Update(Rule item)
+        public override ErrorOr<Rule> Update(Rule item)
         {
             item = Init(item);
             try

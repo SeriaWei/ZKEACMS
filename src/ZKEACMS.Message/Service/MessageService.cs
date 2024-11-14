@@ -22,9 +22,9 @@ namespace ZKEACMS.Message.Service
         {
             _eventManager = eventManager;
         }
-        public override ServiceResult<MessageEntity> Add(MessageEntity item)
+        public override ErrorOr<MessageEntity> Add(MessageEntity item)
         {
-            ServiceResult<MessageEntity> result = base.Add(item);
+            ErrorOr<MessageEntity> result = base.Add(item);
             if (!result.HasError && item.ActionType == ActionType.Continue)
             {
                 _eventManager.Trigger(Events.OnMessageSubmitted, item);

@@ -2,9 +2,9 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy;
 using Easy.Extend;
 using Easy.Notification;
-using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,7 +27,7 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
             _notificationManager = notificationManager;
         }
 
-        public ServiceResult Execute(Arguments args, object model, EventArg e)
+        public ErrorOr Execute(Arguments args, object model, EventArg e)
         {
             EmailMessage emailMessage = CreateEmailMessage(args);
             string emailBody = args.Named("body");
@@ -44,10 +44,10 @@ namespace ZKEACMS.EventAction.ActionExecutor.Executors
 
             emailMessage.Content = emailBody;
             emailMessage.IsHtml = true;
-            if (emailMessage.To == null || emailMessage.To.Length == 0) return new ServiceResult();
+            if (emailMessage.To == null || emailMessage.To.Length == 0) return new ErrorOr();
 
             _notificationManager.Send(emailMessage);
-            return new ServiceResult();
+            return new ErrorOr();
         }
         private EmailMessage CreateEmailMessage(Arguments args)
         {

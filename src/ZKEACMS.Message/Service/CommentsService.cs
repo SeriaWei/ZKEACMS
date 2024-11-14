@@ -21,9 +21,9 @@ namespace ZKEACMS.Message.Service
         {
             _eventManager = eventManager;
         }
-        public override ServiceResult<Comments> Add(Comments item)
+        public override ErrorOr<Comments> Add(Comments item)
         {
-            ServiceResult<Comments> result = base.Add(item);
+            ErrorOr<Comments> result = base.Add(item);
             if (!result.HasError)
             {
                 _eventManager.Trigger(Events.OnCommentsSubmitted, item);

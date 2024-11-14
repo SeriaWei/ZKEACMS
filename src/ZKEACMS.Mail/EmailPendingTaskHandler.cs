@@ -1,5 +1,5 @@
-﻿using Easy.Notification;
-using Easy.RepositoryPattern;
+﻿using Easy;
+using Easy.Notification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +19,10 @@ namespace ZKEACMS.Mail
             _emailNotification = emailNotification;
         }
 
-        public override async Task<ServiceResult<string>> ExecuteAsync(object context)
+        public override async Task<ErrorOr<string>> ExecuteAsync(object context)
         {
             await _emailNotification.SendEmailAsync(context as EmailContext);
-            return new ServiceResult<string>();
+            return new ErrorOr<string>();
         }
     }
 }
