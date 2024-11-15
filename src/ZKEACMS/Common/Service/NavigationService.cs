@@ -81,26 +81,18 @@ namespace ZKEACMS.Common.Service
             base.Remove(filter);
         }
 
-        public void Move(string id, string parentId, int position, int oldPosition)
+        public void Move(string id, string parentId, int position)
         {
             var nav = Get(id);
             nav.ParentId = parentId;
-            nav.DisplayOrder = position;
+            var siblings = Get().Where(m => m.ParentId == nav.ParentId && m.ID != nav.ID).OrderBy(m => m.DisplayOrder).ToList();
+            siblings.Insert(position, nav);
 
-            IEnumerable<NavigationEntity> navs = CurrentDbSet.AsTracking().Where(m => m.ParentId == nav.ParentId && m.ID != nav.ID).OrderBy(m => m.DisplayOrder);
-
-            int order = 1;
-            for (int i = 0; i < navs.Count(); i++)
+            for (int i = 0; i < siblings.Count; i++)
             {
-                var eleNav = navs.ElementAt(i);
-                if (i == position - 1)
-                {
-                    order++;
-                }
-                eleNav.DisplayOrder = order;
-                order++;
+                siblings[i].DisplayOrder = i + 1;
             }
-            Update(nav);
+            UpdateRange(siblings.ToArray());
         }
 
         private void Santize(NavigationEntity item)

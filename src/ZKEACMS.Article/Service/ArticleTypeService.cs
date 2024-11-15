@@ -10,6 +10,7 @@ using Easy;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using ZKEACMS.Common.Models;
 
 namespace ZKEACMS.Article.Service
 {
@@ -22,12 +23,12 @@ namespace ZKEACMS.Article.Service
         {
             _articleService = articleService;
             _localize = localize;
-        }     
+        }
 
         public override ErrorOr<ArticleType> Add(ArticleType item)
         {
             item.ParentID = item.ParentID ?? 0;
-            if (item.Url.IsNotNullAndWhiteSpace()&& GetByUrl(item.Url) != null)
+            if (item.Url.IsNotNullAndWhiteSpace() && GetByUrl(item.Url) != null)
             {
                 return new Error("Url", _localize.Get("URL already exists"));
             }
@@ -58,10 +59,24 @@ namespace ZKEACMS.Article.Service
                 GetChildren(item.ID).Each(m =>
                 {
                     Remove(m);
-                });                
+                });
             }
             base.Remove(item);
         }
 
+        public void Move(int id, int parentId, int position)
+        {
+            var articleType = Get(id);
+            articleType.ParentID = parentId;
+
+            var siblings = Get().Where(m => m.ParentID == articleType.ParentID && m.ID != articleType.ID).OrderBy(m => m.DisplayOrder ?? m.ID).ToList();
+            siblings.Insert(position, articleType);
+
+            for (int i = 0; i < siblings.Count; i++)
+            {
+                siblings[i].DisplayOrder = i + 1;
+            }
+            UpdateRange(siblings.ToArray());
+        }
     }
 }

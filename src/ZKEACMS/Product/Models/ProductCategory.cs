@@ -22,6 +22,7 @@ namespace ZKEACMS.Product.Models
         public string SEOTitle { get; set; }
         public string SEOKeyWord { get; set; }
         public string SEODescription { get; set; }
+        public int? DisplayOrder { get; set; }
     }
     class ProductCategoryMetaData : ViewMetaData<ProductCategory>
     {

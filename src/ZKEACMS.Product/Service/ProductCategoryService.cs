@@ -63,5 +63,19 @@ namespace ZKEACMS.Product.Service
                 base.Remove(item);
             });
         }
+
+        public void Move(int id, int parentId, int position)
+        {
+            var productCategory = Get(id);
+            productCategory.ParentID = parentId;
+            var siblings = Get().Where(m => m.ParentID == productCategory.ParentID && m.ID != productCategory.ID).OrderBy(m => m.DisplayOrder ?? m.ID).ToList();
+            siblings.Insert(position, productCategory);
+
+            for (int i = 0; i < siblings.Count; i++)
+            {
+                siblings[i].DisplayOrder = i + 1;
+            }
+            UpdateRange(siblings.ToArray());
+        }
     }
 }
