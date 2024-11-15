@@ -130,6 +130,28 @@ body {
         font-size: 14px;
     }
 
+.field-validation-error {
+    top: 10px;
+    position: relative;
+    background: #d9534f;
+    color: white;
+    padding: 1rem 1.2rem;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+    .field-validation-error:before {
+        content: " ";
+        display: block;
+        border-top: 2px solid transparent;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid #d9534f;
+        position: absolute;
+        left: 10px;
+        top: -10px;
+    }
+
 @media all and (max-width:991px) {
     .login-panel {
         width: 100%;
