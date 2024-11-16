@@ -30,6 +30,7 @@ namespace ZKEACMS.Product.Models
         {
             ViewConfig(m => m.ID).AsHidden();
             ViewConfig(m => m.ParentID).AsHidden();
+            ViewConfig(m => m.DisplayOrder).AsHidden();
             ViewConfig(m => m.Title).AsTextBox().Order(1).MaxLength(200).Required();
             ViewConfig(m => m.Url).AsTextBox().Order(2).MaxLength(100).UrlPart().RandomText().Required();
             ViewConfig(m => m.Status).AsDropDownList().DataSource(DicKeys.RecordStatus, SourceType.Dictionary);
