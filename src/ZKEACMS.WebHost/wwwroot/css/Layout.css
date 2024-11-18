@@ -1560,8 +1560,12 @@ label.additional {
 
 
 .sort-handle {
-    cursor: move;
+    cursor: grab;
 }
+
+    .sort-handle:active {
+        cursor: grabbing;
+    }
 
 .zoneToolbar {
     position: absolute;
@@ -1886,9 +1890,14 @@ label.additional {
 
 
     .templates .widget-design {
-        cursor: move;
+        cursor: grab;
         position: relative;
     }
+
+        .widget-design.ui-draggable-dragging,
+        .templates .widget-design:active {
+            cursor: grabbing;
+        }
 
     .templates .delete-template {
         position: absolute;
