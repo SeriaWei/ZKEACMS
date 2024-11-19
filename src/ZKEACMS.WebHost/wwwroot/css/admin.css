@@ -549,8 +549,12 @@ a.badge:hover {
 }
 
 .sort-handle {
-    cursor: n-resize;
+    cursor: grab;
 }
+
+    .sort-handle:active {
+        cursor: grabbing;
+    }
 
 .panel-default > .panel-heading {
     background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #f5f5f5 100%);
