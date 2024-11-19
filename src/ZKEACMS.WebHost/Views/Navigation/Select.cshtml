@@ -3,7 +3,7 @@
 @using Easy.ViewPort.jsTree
 
 @{
-    this.WorkContext().CurrentPage.Title = L("Navigation");
+    this.WorkContext().CurrentPage.Title = L("Navigation").Text;
     Layout = Layouts.PopUp;
     Script.Reqiured("jsTree").AtFoot();
     Style.Reqiured("jsTree").AtHead();
