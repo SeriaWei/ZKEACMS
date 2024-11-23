@@ -50,11 +50,11 @@ namespace Easy.Mvc.Controllers
             if (ModelState.IsValid)
             {
                 var result = Service.Add(entity);
-                if (result.HasViolation)
+                if (result.HasError)
                 {
-                    foreach (var item in result.RuleViolations)
+                    foreach (var item in result.Errors)
                     {
-                        ModelState.AddModelError(item.ParameterName, item.ErrorMessage);
+                        ModelState.AddModelError(item.ParameterName, item.Message);
                     }
                     return View(entity);
                 }
@@ -92,11 +92,11 @@ namespace Easy.Mvc.Controllers
             if (ModelState.IsValid)
             {
                 var result = Service.Update(entity);
-                if (result.HasViolation)
+                if (result.HasError)
                 {
-                    foreach (var item in result.RuleViolations)
+                    foreach (var item in result.Errors)
                     {
-                        ModelState.AddModelError(item.ParameterName, item.ErrorMessage);
+                        ModelState.AddModelError(item.ParameterName, item.Message);
                     }
                     return View(entity);
                 }

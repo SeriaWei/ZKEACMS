@@ -34,10 +34,10 @@ namespace ZKEACMS.Common.Service
             return carousel;
         }
 
-        public override ServiceResult<CarouselEntity> Add(CarouselEntity item)
+        public override ErrorOr<CarouselEntity> Add(CarouselEntity item)
         {
             var result = base.Add(item);
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 return result;
             }
@@ -50,9 +50,9 @@ namespace ZKEACMS.Common.Service
                     if (m.ActionType.HasFlag(ActionType.Create))
                     {
                         var itemResult = _carouselItemService.Add(m);
-                        if (itemResult.HasViolation)
+                        if (itemResult.HasError)
                         {
-                            result.RuleViolations.AddRange(itemResult.RuleViolations);
+                            itemResult.Errors.Each(result.AddError);
                         }
                     }
                 });
@@ -80,10 +80,10 @@ namespace ZKEACMS.Common.Service
             }
 
         }
-        public override ServiceResult<CarouselEntity> Update(CarouselEntity item)
+        public override ErrorOr<CarouselEntity> Update(CarouselEntity item)
         {
             var result = base.Update(item);
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 return result;
             }
@@ -99,10 +99,10 @@ namespace ZKEACMS.Common.Service
             }
             return result;
         }
-        public override ServiceResult<CarouselEntity> UpdateRange(params CarouselEntity[] items)
+        public override ErrorOr<CarouselEntity> UpdateRange(params CarouselEntity[] items)
         {
             var result = base.UpdateRange(items);
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 return result;
             }

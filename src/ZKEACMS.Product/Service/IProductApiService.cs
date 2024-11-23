@@ -2,7 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-using Easy.RepositoryPattern;
+using Easy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +16,8 @@ namespace ZKEACMS.Product.Service
     {
         ProductEntity Get(int id);
         ProductEntity GetByName(string name);
-        ServiceResult<ProductEntity> Create(ProductEntity product);
-        ServiceResult<ProductEntity> Update(ProductEntity product);
+        ErrorOr<ProductEntity> Create(ProductEntity product);
+        ErrorOr<ProductEntity> Update(ProductEntity product);
         ProductEntity Publish(int id);
         void Delete(int id);
     }

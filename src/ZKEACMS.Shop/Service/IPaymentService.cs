@@ -2,7 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-using Easy.RepositoryPattern;
+using Easy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +15,8 @@ namespace ZKEACMS.Shop.Service
     {
         string Getway { get; }
         PaymentInfo GetPaymentInfo(Order order);
-        ServiceResult<bool> Refund(Order order);
+        ErrorOr<bool> Refund(Order order);
         RefundInfo GetRefund(Order order);
-        ServiceResult<bool> CloseOrder(Order order);
+        ErrorOr<bool> CloseOrder(Order order);
     }
 }

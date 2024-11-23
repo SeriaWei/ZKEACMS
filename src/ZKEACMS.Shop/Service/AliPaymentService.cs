@@ -5,7 +5,7 @@
 using Alipay.AopSdk.AspnetCore;
 using Alipay.AopSdk.Core.Domain;
 using Alipay.AopSdk.Core.Request;
-using Easy.RepositoryPattern;
+using Easy;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace ZKEACMS.Shop.Service
         }
         public string Getway => Gateways.AliPay;
 
-        public ServiceResult<bool> CloseOrder(Order order)
+        public ErrorOr<bool> CloseOrder(Order order)
         {
             AlipayTradeCloseModel model = new AlipayTradeCloseModel();
             model.OutTradeNo = order.ID;
@@ -63,13 +63,13 @@ namespace ZKEACMS.Shop.Service
             var response = _alipayService.Execute(request);
             var responseEntry = JObject.Parse(response.Body).GetValue("alipay_trade_close_response").ToObject<AliPaymentResponse>();
             var status = responseEntry.msg.Equals("Success", StringComparison.OrdinalIgnoreCase);
-            var result = new ServiceResult<bool>
+            var result = new ErrorOr<bool>
             {
                 Result = status
             };
             if (!status)
             {
-                result.RuleViolations.Add(new RuleViolation("Error", responseEntry.msg + (responseEntry.sub_msg ?? "")));
+                result.AddError("Error", responseEntry.msg + (responseEntry.sub_msg ?? ""));
             }
             return result;
         }
@@ -117,7 +117,7 @@ namespace ZKEACMS.Shop.Service
             };
         }
 
-        public ServiceResult<bool> Refund(Order order)
+        public ErrorOr<bool> Refund(Order order)
         {
             AlipayTradeRefundModel model = new AlipayTradeRefundModel();
             model.OutTradeNo = order.ID;
@@ -132,13 +132,13 @@ namespace ZKEACMS.Shop.Service
             var response = _alipayService.Execute(request);
             var responseEntry = JObject.Parse(response.Body).GetValue("alipay_trade_refund_response").ToObject<AliPaymentResponse>();
             var status = responseEntry.msg.Equals("Success", StringComparison.OrdinalIgnoreCase);
-            var result = new ServiceResult<bool>
+            var result = new ErrorOr<bool>
             {
                 Result = status
             };
             if (!status)
             {
-                result.RuleViolations.Add(new RuleViolation("Error", responseEntry.msg + (responseEntry.sub_msg ?? "")));
+                result.AddError("Error", responseEntry.msg + (responseEntry.sub_msg ?? ""));
             }
             return result;
         }

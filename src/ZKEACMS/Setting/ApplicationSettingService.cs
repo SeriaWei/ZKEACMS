@@ -36,17 +36,13 @@ namespace ZKEACMS.Setting
             return CurrentDbSet.AsNoTracking();
         }
 
-        public override ServiceResult<ApplicationSetting> Add(ApplicationSetting item)
+        public override ErrorOr<ApplicationSetting> Add(ApplicationSetting item)
         {
             lock (ApplicationSetting)
             {
-                if (base.Get(item.SettingKey) == null)
-                {
-                    return base.Add(item);
-                }
-                var result = new ServiceResult<ApplicationSetting>();
-                result.RuleViolations.Add(new RuleViolation("SettingKey", ApplicationContext.GetService<ILocalize>().Get("The setting key is already exists")));
-                return result;
+                if (base.Get(item.SettingKey) != null) return new Error("SettingKey", ApplicationContext.GetService<ILocalize>().Get("The setting key is already exists"));
+
+                return base.Add(item);
             }
 
         }
@@ -80,7 +76,7 @@ namespace ZKEACMS.Setting
             return setting.Value;
         }
 
-        public override ServiceResult<ApplicationSetting> Update(ApplicationSetting item)
+        public override ErrorOr<ApplicationSetting> Update(ApplicationSetting item)
         {
             _cacheManager.Remove(item.SettingKey);
             return base.Update(item);

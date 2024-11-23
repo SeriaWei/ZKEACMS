@@ -77,11 +77,11 @@ namespace ZKEACMS.SectionWidget.Service
             group.SectionContents = contents;
             return group;
         }
-        public override ServiceResult<SectionGroup> Add(SectionGroup item)
+        public override ErrorOr<SectionGroup> Add(SectionGroup item)
         {
             item.ID = Guid.NewGuid().ToString("N");
             var result = base.Add(item);
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 return result;
             }

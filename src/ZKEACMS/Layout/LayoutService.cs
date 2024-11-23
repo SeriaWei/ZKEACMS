@@ -50,11 +50,11 @@ namespace ZKEACMS.Layout
         {
             return CurrentDbSet.AsNoTracking();
         }
-        public override ServiceResult<LayoutEntity> Add(LayoutEntity item)
+        public override ErrorOr<LayoutEntity> Add(LayoutEntity item)
         {
             item.ID = Guid.NewGuid().ToString("N");
             var result = base.Add(item);
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 return result;
             }
@@ -153,12 +153,12 @@ namespace ZKEACMS.Layout
 
 
         }
-        public override ServiceResult<LayoutEntity> Update(LayoutEntity item)
+        public override ErrorOr<LayoutEntity> Update(LayoutEntity item)
         {
             MarkChanged(item);
             return base.Update(item);
         }
-        public override ServiceResult<LayoutEntity> UpdateRange(params LayoutEntity[] items)
+        public override ErrorOr<LayoutEntity> UpdateRange(params LayoutEntity[] items)
         {
             items.Each(MarkChanged);
             return base.UpdateRange(items);

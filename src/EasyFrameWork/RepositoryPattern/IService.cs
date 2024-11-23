@@ -17,8 +17,8 @@ namespace Easy.RepositoryPattern
     {
         IApplicationContext ApplicationContext { get; set; }
         void BeginTransaction(Action action);
-        ServiceResult<T> Add(T item);
-        ServiceResult<T> AddRange(params T[] items);
+        ErrorOr<T> Add(T item);
+        ErrorOr<T> AddRange(params T[] items);
         IQueryable<T> Get();
         T GetSingle(Expression<Func<T, bool>> filter);
         Task<T> GetSingleAsync(Expression<Func<T, bool>> filter);
@@ -30,8 +30,8 @@ namespace Easy.RepositoryPattern
         Task<T> GetAsync(params object[] primaryKey);
         int Count(Expression<Func<T, bool>> filter);
         Task<int> CountAsync(Expression<Func<T, bool>> filter);
-        ServiceResult<T> Update(T item);
-        ServiceResult<T> UpdateRange(params T[] items);
+        ErrorOr<T> Update(T item);
+        ErrorOr<T> UpdateRange(params T[] items);
         void Remove(params object[] primaryKey);
         void Remove(T item);
         void Remove(Expression<Func<T, bool>> filter);

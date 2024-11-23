@@ -2,7 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-using Easy.RepositoryPattern;
+using Easy;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
@@ -14,11 +14,11 @@ namespace ZKEACMS
 {
     public static class ModelStateDictionaryExtend
     {
-        public static void Merge<T>(this ModelStateDictionary modelState, ServiceResult<T> serviceResult)
+        public static void Merge<T>(this ModelStateDictionary modelState, ErrorOr<T> serviceResult)
         {
-            foreach (var item in serviceResult.RuleViolations)
+            foreach (var item in serviceResult.Errors)
             {
-                modelState.AddModelError(item.ParameterName, item.ErrorMessage);
+                modelState.AddModelError(item.ParameterName, item.Message);
             }
         }
         public static void AddUnknownError(this ModelStateDictionary modelState, string message)

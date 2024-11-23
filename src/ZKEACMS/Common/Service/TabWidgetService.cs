@@ -11,7 +11,6 @@ using ZKEACMS.Widget;
 using ZKEACMS.Page;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Easy.RepositoryPattern;
 using ZKEACMS.Extend;
 
 namespace ZKEACMS.Common.Service
@@ -23,12 +22,12 @@ namespace ZKEACMS.Common.Service
         {
         }
 
-        public override ServiceResult<TabWidget> Add(TabWidget item)
+        public override ErrorOr<TabWidget> Add(TabWidget item)
         {
             item.TabItems = item.TabItems.RemoveDeletedItems().ToList();
             return base.Add(item);
         }
-        public override ServiceResult<TabWidget> Update(TabWidget item)
+        public override ErrorOr<TabWidget> Update(TabWidget item)
         {
             item.TabItems = item.TabItems.RemoveDeletedItems().ToList();
             return base.Update(item);

@@ -35,7 +35,7 @@ namespace ZKEACMS.Zone
             return CurrentDbSet.AsNoTracking();
         }
 
-        public override ServiceResult<ZoneEntity> Add(ZoneEntity item)
+        public override ErrorOr<ZoneEntity> Add(ZoneEntity item)
         {
 
             item.ID = Guid.NewGuid().ToString("N");

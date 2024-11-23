@@ -47,7 +47,7 @@ namespace ZKEACMS.Media
 
         public override DbSet<MediaEntity> CurrentDbSet => DbContext.Media;
 
-        public override ServiceResult<MediaEntity> Add(MediaEntity item)
+        public override ErrorOr<MediaEntity> Add(MediaEntity item)
         {
             if (item.ID.IsNullOrEmpty())
             {
@@ -109,13 +109,13 @@ namespace ZKEACMS.Media
             }
         }
 
-        public async Task<ServiceResult<MediaEntity>> AddMediaToImageFolderAsync(MediaEntity entity, Stream fileStream)
+        public async Task<ErrorOr<MediaEntity>> AddMediaToImageFolderAsync(MediaEntity entity, Stream fileStream)
         {
             entity.ParentID = GetImageFolder().ID;
             return await UploadMediaAsync(entity, fileStream);
         }
 
-        public async Task<ServiceResult<MediaEntity>> AppendMediaAsync(string id, Stream fileStream, bool isCompleted)
+        public async Task<ErrorOr<MediaEntity>> AppendMediaAsync(string id, Stream fileStream, bool isCompleted)
         {
             var media = Get(id);
             if (media == null) return null;
@@ -137,13 +137,13 @@ namespace ZKEACMS.Media
                 }
                 Update(media);
             }
-            return new ServiceResult<MediaEntity>(media);
+            return new ErrorOr<MediaEntity>(media);
         }
 
-        public async Task<ServiceResult<MediaEntity>> UploadFromExternalImageAsync(string imageUrl)
+        public async Task<ErrorOr<MediaEntity>> UploadFromExternalImageAsync(string imageUrl)
         {
             string ext = Path.GetExtension(imageUrl);
-            if (!Easy.Mvc.Common.IsImage(ext)) return new ServiceResult<MediaEntity>();
+            if (!Easy.Mvc.Common.IsImage(ext)) return new ErrorOr<MediaEntity>();
 
             string id = CreateIdByUrl(imageUrl);
             var media = Get(id);
@@ -157,7 +157,7 @@ namespace ZKEACMS.Media
                     Status = (int)RecordStatus.Active
                 }, requestStream))?.Result;
             }
-            return new ServiceResult<MediaEntity>(media);
+            return new ErrorOr<MediaEntity>(media);
         }
 
         public MediaEntity GetImageFolder()
@@ -177,13 +177,13 @@ namespace ZKEACMS.Media
             return folder;
         }
 
-        public async Task<ServiceResult<MediaEntity>> UploadFromBlobImageAsync(Stream stream, string fileName)
+        public async Task<ErrorOr<MediaEntity>> UploadFromBlobImageAsync(Stream stream, string fileName)
         {
-            if (Easy.Mvc.Common.IsExecuteableFile(Path.GetExtension(fileName))) return new ServiceResult<MediaEntity>();
+            if (Easy.Mvc.Common.IsExecuteableFile(Path.GetExtension(fileName))) return new ErrorOr<MediaEntity>();
 
             string id = GetIdFromStream(stream);
             MediaEntity entity = Get(id);
-            if (entity != null) return new ServiceResult<MediaEntity>(entity);
+            if (entity != null) return new ErrorOr<MediaEntity>(entity);
 
             entity = new MediaEntity
             {
@@ -250,10 +250,10 @@ namespace ZKEACMS.Media
             base.RemoveRange(items);
         }
 
-        public async Task<ServiceResult<MediaEntity>> UploadMediaAsync(MediaEntity entity, Stream fileStream)
+        public async Task<ErrorOr<MediaEntity>> UploadMediaAsync(MediaEntity entity, Stream fileStream)
         {
             string extension = Path.GetExtension(entity.Title).ToLower();
-            if (Easy.Mvc.Common.IsExecuteableFile(extension)) return new ServiceResult<MediaEntity>();
+            if (Easy.Mvc.Common.IsExecuteableFile(extension)) return new ErrorOr<MediaEntity>();
 
             string fileId = new IDGenerator().CreateStringId();
             Stream stream;

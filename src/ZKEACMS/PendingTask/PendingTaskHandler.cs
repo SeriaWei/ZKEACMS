@@ -2,7 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-using Easy.RepositoryPattern;
+using Easy;
 using Easy.Serializer;
 using System;
 using System.Collections.Generic;
@@ -19,6 +19,6 @@ namespace ZKEACMS.PendingTask
             return JsonConverter.Deserialize<T>(rowData);
         }
 
-        public abstract Task<ServiceResult<string>> ExecuteAsync(object context);
+        public abstract Task<ErrorOr<string>> ExecuteAsync(object context);
     }
 }

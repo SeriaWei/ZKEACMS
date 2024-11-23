@@ -27,9 +27,9 @@ namespace ZKEACMS.Redirection.Service
         {
             _cacheManager.Remove(CacheKey);
         }
-        private ServiceResult<UrlRedirect> PatternTest(UrlRedirect item)
+        private ErrorOr<UrlRedirect> PatternTest(UrlRedirect item)
         {
-            ServiceResult<UrlRedirect> exceptionResult = new ServiceResult<UrlRedirect>();
+            ErrorOr<UrlRedirect> exceptionResult = new ErrorOr<UrlRedirect>();
             if (item.IsPattern ?? false)
             {
                 try
@@ -38,15 +38,15 @@ namespace ZKEACMS.Redirection.Service
                 }
                 catch (Exception ex)
                 {
-                    exceptionResult.AddRuleViolation("InComingUrl", ex.Message);
+                    exceptionResult.AddError("InComingUrl", ex.Message);
 
                 }
             }
             return exceptionResult;
         }
-        private ServiceResult<UrlRedirect> LoopTest(UrlRedirect item)
+        private ErrorOr<UrlRedirect> LoopTest(UrlRedirect item)
         {
-            ServiceResult<UrlRedirect> result = new ServiceResult<UrlRedirect>();
+            ErrorOr<UrlRedirect> result = new ErrorOr<UrlRedirect>();
             List<string> direction = new List<string>();
             direction.Add(item.DestinationURL.ToLowerInvariant());
             UrlRedirect destiantion = item;
@@ -65,7 +65,7 @@ namespace ZKEACMS.Redirection.Service
                     if (direction.Contains(url))
                     {
                         direction.Add(url);
-                        result.AddRuleViolation("DestinationURL", string.Join(" > ", direction));
+                        result.AddError("DestinationURL", string.Join(" > ", direction));
                         break;
                     }
                     else
@@ -76,10 +76,10 @@ namespace ZKEACMS.Redirection.Service
             }
             return result;
         }
-        private ServiceResult<UrlRedirect> Valid(UrlRedirect item)
+        private ErrorOr<UrlRedirect> Valid(UrlRedirect item)
         {
-            ServiceResult<UrlRedirect> result = PatternTest(item);
-            if (result.HasViolation)
+            ErrorOr<UrlRedirect> result = PatternTest(item);
+            if (result.HasError)
             {
                 return result;
             }
@@ -89,49 +89,49 @@ namespace ZKEACMS.Redirection.Service
         {
             return CurrentDbSet.AsNoTracking();
         }
-        public override ServiceResult<UrlRedirect> Add(UrlRedirect item)
+        public override ErrorOr<UrlRedirect> Add(UrlRedirect item)
         {
-            ServiceResult<UrlRedirect> validResult = Valid(item);
-            if (validResult.HasViolation)
+            ErrorOr<UrlRedirect> validResult = Valid(item);
+            if (validResult.HasError)
             {
                 return validResult;
             }
 
-            ServiceResult<UrlRedirect> result = base.Add(item);
-            if (!result.HasViolation)
+            ErrorOr<UrlRedirect> result = base.Add(item);
+            if (!result.HasError)
             {
                 RemoveCache();
             }
             return result;
         }
-        public override ServiceResult<UrlRedirect> AddRange(params UrlRedirect[] items)
+        public override ErrorOr<UrlRedirect> AddRange(params UrlRedirect[] items)
         {
-            ServiceResult<UrlRedirect> result = base.AddRange(items);
-            if (!result.HasViolation)
+            ErrorOr<UrlRedirect> result = base.AddRange(items);
+            if (!result.HasError)
             {
                 RemoveCache();
             }
             return result;
         }
 
-        public override ServiceResult<UrlRedirect> Update(UrlRedirect item)
+        public override ErrorOr<UrlRedirect> Update(UrlRedirect item)
         {
-            ServiceResult<UrlRedirect> validResult = Valid(item);
-            if (validResult.HasViolation)
+            ErrorOr<UrlRedirect> validResult = Valid(item);
+            if (validResult.HasError)
             {
                 return validResult;
             }
-            ServiceResult<UrlRedirect> result = base.Update(item);
-            if (!result.HasViolation)
+            ErrorOr<UrlRedirect> result = base.Update(item);
+            if (!result.HasError)
             {
                 RemoveCache();
             }
             return result;
         }
-        public override ServiceResult<UrlRedirect> UpdateRange(params UrlRedirect[] items)
+        public override ErrorOr<UrlRedirect> UpdateRange(params UrlRedirect[] items)
         {
-            ServiceResult<UrlRedirect> result = base.UpdateRange(items);
-            if (!result.HasViolation)
+            ErrorOr<UrlRedirect> result = base.UpdateRange(items);
+            if (!result.HasError)
             {
                 RemoveCache();
             }

@@ -158,7 +158,7 @@ namespace ZKEACMS.TemplateImporter.Service
                     page.DisplayOrder = ++index;
                 }
                 var addPageResult = _pageService.Add(page);
-                if (addPageResult.HasViolation)
+                if (addPageResult.HasError)
                 {
                     throw new Exception(addPageResult.ErrorMessage);
                 }

@@ -44,18 +44,18 @@ namespace ZKEACMS.EventAction.Service
             _signals = signals;
         }
 
-        public override ServiceResult<Models.EventAction> Update(Models.EventAction item)
+        public override ErrorOr<Models.EventAction> Update(Models.EventAction item)
         {
             var result = ValidateActions(item);
-            if (result.HasViolation) return result;
+            if (result.HasError) return result;
 
             _signals.Trigger(EventActionChanged);
             return base.Update(item);
         }
-        public override ServiceResult<Models.EventAction> Add(Models.EventAction item)
+        public override ErrorOr<Models.EventAction> Add(Models.EventAction item)
         {
             var result = ValidateActions(item);
-            if (result.HasViolation) return result;
+            if (result.HasError) return result;
 
             _signals.Trigger(EventActionChanged);
             return base.Add(item);
@@ -95,9 +95,9 @@ namespace ZKEACMS.EventAction.Service
         }
 
 
-        private ServiceResult<Models.EventAction> ValidateActions(Models.EventAction item)
+        private ErrorOr<Models.EventAction> ValidateActions(Models.EventAction item)
         {
-            ServiceResult<Models.EventAction> result = new ServiceResult<Models.EventAction>();
+            ErrorOr<Models.EventAction> result = new ErrorOr<Models.EventAction>();
             try
             {
                 var eventAction = YamlConverter.Deserialize<EventActionContent>(Encode(item.Actions));
@@ -106,20 +106,20 @@ namespace ZKEACMS.EventAction.Service
                 {
                     if (!ExecutorManager.IsExecutorRegisted(action.Uses))
                     {
-                        result.AddRuleViolation("Actions", _localize.Get("{0} is not available").FormatWith(action.Uses));
+                        result.AddError("Actions", _localize.Get("{0} is not available").FormatWith(action.Uses));
                         break;
                     }
                     var validateResult = action.ValidateWith();
-                    if (validateResult.HasViolation)
+                    if (validateResult.HasError)
                     {
-                        result.AddRuleViolation("Actions", validateResult.ErrorMessage);
+                        result.AddError("Actions", validateResult.ErrorMessage);
                         break;
                     }
                 }
             }
             catch (Exception ex)
             {
-                result.AddRuleViolation("Actions", ex.Message);
+                result.AddError("Actions", ex.Message);
             }
             return result;
         }

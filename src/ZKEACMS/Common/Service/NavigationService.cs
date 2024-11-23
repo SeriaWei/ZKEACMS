@@ -23,7 +23,7 @@ namespace ZKEACMS.Common.Service
             _htmlSanitizer = htmlSanitizer;
         }
         public override DbSet<NavigationEntity> CurrentDbSet => DbContext.Navigation;
-        public override ServiceResult<NavigationEntity> Add(NavigationEntity item)
+        public override ErrorOr<NavigationEntity> Add(NavigationEntity item)
         {
             if (item.ParentId.IsNullOrEmpty())
             {
@@ -34,7 +34,7 @@ namespace ZKEACMS.Common.Service
             return base.Add(item);
         }
 
-        public override ServiceResult<NavigationEntity> AddRange(params NavigationEntity[] items)
+        public override ErrorOr<NavigationEntity> AddRange(params NavigationEntity[] items)
         {
             foreach (var item in items)
             {
@@ -43,13 +43,13 @@ namespace ZKEACMS.Common.Service
             return base.AddRange(items);
         }
 
-        public override ServiceResult<NavigationEntity> Update(NavigationEntity item)
+        public override ErrorOr<NavigationEntity> Update(NavigationEntity item)
         {
             Santize(item);
             return base.Update(item);
         }
 
-        public override ServiceResult<NavigationEntity> UpdateRange(params NavigationEntity[] items)
+        public override ErrorOr<NavigationEntity> UpdateRange(params NavigationEntity[] items)
         {
             foreach (var item in items)
             {
@@ -81,26 +81,18 @@ namespace ZKEACMS.Common.Service
             base.Remove(filter);
         }
 
-        public void Move(string id, string parentId, int position, int oldPosition)
+        public void Move(string id, string parentId, int position)
         {
             var nav = Get(id);
             nav.ParentId = parentId;
-            nav.DisplayOrder = position;
+            var siblings = Get().Where(m => m.ParentId == nav.ParentId && m.ID != nav.ID).OrderBy(m => m.DisplayOrder).ToList();
+            siblings.Insert(position, nav);
 
-            IEnumerable<NavigationEntity> navs = CurrentDbSet.AsTracking().Where(m => m.ParentId == nav.ParentId && m.ID != nav.ID).OrderBy(m => m.DisplayOrder);
-
-            int order = 1;
-            for (int i = 0; i < navs.Count(); i++)
+            for (int i = 0; i < siblings.Count; i++)
             {
-                var eleNav = navs.ElementAt(i);
-                if (i == position - 1)
-                {
-                    order++;
-                }
-                eleNav.DisplayOrder = order;
-                order++;
+                siblings[i].DisplayOrder = i + 1;
             }
-            Update(nav);
+            UpdateRange(siblings.ToArray());
         }
 
         private void Santize(NavigationEntity item)

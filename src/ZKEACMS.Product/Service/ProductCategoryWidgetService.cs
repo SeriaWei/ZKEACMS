@@ -76,7 +76,7 @@ namespace ZKEACMS.Product.Service
             return new ProductCategoryWidgetViewModel
             {
                 Widget = currentWidget,
-                Categorys = _productCategoryService.Get(m => m.Status == (int)RecordStatus.Active && m.ParentID == currentWidget.ProductCategoryID),
+                Categorys = _productCategoryService.Get().Where(m => m.Status == (int)RecordStatus.Active && m.ParentID == currentWidget.ProductCategoryID).OrderBy(m => m.DisplayOrder ?? m.ID).ToList(),
                 CurrentCategory = cate
             };
         }

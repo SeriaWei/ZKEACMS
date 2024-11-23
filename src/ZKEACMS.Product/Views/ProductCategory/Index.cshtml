@@ -4,11 +4,14 @@
 @{
     Script.Reqiured("jsTree").AtFoot();
     Style.Reqiured("jsTree").AtHead();
-    var categoryTree = Html.Tree<ProductCategory>().Source("GetProductCategoryTree", "ProductCategory");
+    var categoryTree = Html.Tree<ProductCategory>().Source("GetProductCategoryTree", "ProductCategory")
+    .CheckCallBack("checkCallBack")
+    .On(Events.MoveNode, "moveNode");
     if (Authorizer.Authorize(ZKEACMS.Product.PermissionKeys.ManageProductCategory))
     {
         categoryTree
             .AddPlugin(Plugins.ContextMenu)
+            .AddPlugin(Plugins.DragAndDrop)
             .AddContextMenuItem(new ContextmenuItem {Label = L("New").Text, Action = "Create", Icon = "glyphicon glyphicon-plus"})
             .AddContextMenuItem(new ContextmenuItem {Label = L("Edit").Text, Action = "Edit", Icon = "glyphicon glyphicon-edit"});
     }
@@ -41,6 +44,12 @@
         var id = node.reference.attr("id");
         window.location.href = '@Url.Action("Edit")' + '/' + id;
     }
+    function checkCallBack(operation, node, node_parent, node_position, more) {
+        return true;
+    }
+    function moveNode(node, parent) {
+        $.post("@Url.Action("Move")", { id: parent.node.id, parentId: parent.parent, position: parent.position }, function () {
 
-
+        }, "json");
+    }
 </script>

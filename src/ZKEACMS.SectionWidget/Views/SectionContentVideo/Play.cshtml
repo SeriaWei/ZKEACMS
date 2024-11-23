@@ -8,7 +8,7 @@
     {
         return;
     }
-    ViewBag.Title = video.VideoTitle;
+    this.WorkContext().CurrentPage.Title = video.VideoTitle;
     Style.Reqiured("Section").AtFoot();
 }
 

@@ -40,10 +40,10 @@ namespace ZKEACMS.FormGenerator.Service
             _eventManager = eventManager;
         }
 
-        public override ServiceResult<FormData> Add(FormData item)
+        public override ErrorOr<FormData> Add(FormData item)
         {
             var result = base.Add(item);
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 return result;
             }
@@ -101,14 +101,13 @@ namespace ZKEACMS.FormGenerator.Service
             }
         }
 
-        public ServiceResult<FormData> SaveForm(IFormCollection formCollection, string formId)
+        public ErrorOr<FormData> SaveForm(IFormCollection formCollection, string formId)
         {
-            var result = new ServiceResult<FormData>();
+            var result = new ErrorOr<FormData>();
             var form = _formService.Get(formId);
             if (form == null)
             {
-                result.RuleViolations.Add(new RuleViolation("Form", "Form not found!"));
-                return result;
+                return new Error("Form", "Form not found!");
             }
             var formData = new FormData { FormId = formId, Datas = new List<FormDataItem>(), Form = form };
 
@@ -136,7 +135,7 @@ namespace ZKEACMS.FormGenerator.Service
                     {
                         if (!validator.Validate(field, dataitem, out string message))
                         {
-                            result.RuleViolations.Add(new RuleViolation(item, message));
+                            result.AddError(item, message);
                         }
                     }
                     formData.Datas.Add(dataitem);
@@ -144,7 +143,7 @@ namespace ZKEACMS.FormGenerator.Service
             }
             MergeDataToForm(formData);
             result.Result = formData;
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 return result;
             }
@@ -153,7 +152,7 @@ namespace ZKEACMS.FormGenerator.Service
                 formData.Title = formData.Datas.FirstOrDefault().FieldValue;
             }
             result = Add(formData);
-            if (!result.HasViolation)
+            if (!result.HasError)
             {
                 FormData data = Get(formData.ID);
                 _eventManager.Trigger(Events.OnFormDataSubmitted, data);

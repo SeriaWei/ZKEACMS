@@ -2,7 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-using Easy.RepositoryPattern;
+using Easy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +16,8 @@ namespace ZKEACMS.Product.Service
     {
         ProductCategory Get(int id);
         ProductCategory GetByName(string name);
-        ServiceResult<ProductCategory> Create(ProductCategory productCategory);
-        ServiceResult<ProductCategory> Update(ProductCategory productCategory);
+        ErrorOr<ProductCategory> Create(ProductCategory productCategory);
+        ErrorOr<ProductCategory> Update(ProductCategory productCategory);
         void Delete(int id);
     }
 }

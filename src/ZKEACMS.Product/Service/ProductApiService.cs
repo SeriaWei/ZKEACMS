@@ -2,10 +2,10 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy;
 using Easy.Constant;
 using Easy.Extend;
 using Easy.Mvc.Authorize;
-using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,10 +57,10 @@ namespace ZKEACMS.Product.Service
             }
             return product;
         }
-        public ServiceResult<ProductEntity> Create(ProductEntity product)
+        public ErrorOr<ProductEntity> Create(ProductEntity product)
         {
             var validResult = ValidProductType(product);
-            if (validResult.HasViolation) return validResult;
+            if (validResult.HasError) return validResult;
 
             if (product.ProductImages != null)
             {
@@ -73,10 +73,10 @@ namespace ZKEACMS.Product.Service
             return _productService.Add(product);
         }
 
-        public ServiceResult<ProductEntity> Update(ProductEntity product)
+        public ErrorOr<ProductEntity> Update(ProductEntity product)
         {
             var validResult = ValidProductType(product);
-            if (validResult.HasViolation) return validResult;
+            if (validResult.HasError) return validResult;
 
             if (product.ProductImages != null)
             {
@@ -92,13 +92,13 @@ namespace ZKEACMS.Product.Service
             return _productService.Update(product);
         }
 
-        private ServiceResult<ProductEntity> ValidProductType(ProductEntity product)
+        private ErrorOr<ProductEntity> ValidProductType(ProductEntity product)
         {
-            ServiceResult<ProductEntity> serviceResult = new ServiceResult<ProductEntity>();
+            ErrorOr<ProductEntity> serviceResult = new ErrorOr<ProductEntity>();
             ProductCategory productType = _productCategoryService.Get(product.ProductCategoryID);
             if (productType == null)
             {
-                serviceResult.AddRuleViolation("ProductTypeID", "Product type is not exist.");
+                serviceResult.AddError("ProductTypeID", "Product type is not exist.");
                 return serviceResult;
             }
             return serviceResult;

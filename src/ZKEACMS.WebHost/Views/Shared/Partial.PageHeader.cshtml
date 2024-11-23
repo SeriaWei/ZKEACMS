@@ -11,7 +11,7 @@
     }
     var favicon = applicationSettingService.Get(SettingKeys.Favicon, "~/favicon.ico");
 }
-<title>@currentPage.Title</title>
+<title>@(currentPage.Title)</title>
 @if (currentPage.MetaKeyWords.IsNotNullAndWhiteSpace())
 {
     <meta name="keywords" content="@currentPage.MetaKeyWords" />

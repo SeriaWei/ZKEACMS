@@ -23,7 +23,6 @@ using ZKEACMS.Filter;
 
 namespace ZKEACMS.Controllers
 {
-    [Themed]
     public class AccountController : Controller
     {
         private readonly IUserService _userService;

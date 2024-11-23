@@ -321,6 +321,7 @@ a.badge:hover {
         margin: 5px;
         background-color: white;
     }
+
         .fullRowList li.muted {
             border-left: 5px solid #ddd;
         }
@@ -332,18 +333,24 @@ a.badge:hover {
         }
 
     .fullRowList.widgets li {
-        cursor: move;
+        cursor: grab;
     }
+
+        .fullRowList.widgets li:active {
+            cursor: grabbing;
+        }
 
     .fullRowList li ul {
         list-style: none;
         padding-left: 2.2rem;
     }
 
-    .fullRowList li:hover,
-    .fullRowList li.actived {
+    .fullRowList li:hover {
         border-left: 5px solid #E28271;
-        color: #E28271;
+    }
+
+    .fullRowList li.actived {
+        border-color: #E28271;
     }
 
     .fullRowList.droping {
@@ -380,19 +387,18 @@ a.badge:hover {
         }
 
     .fullRowList.ui-sortable li {
-        cursor: move;
+        cursor: grab;
     }
+
+        .fullRowList.ui-sortable li:active {
+            border-color: #E28271;
+        }
 
     .fullRowList a {
         text-decoration: none;
         outline: none;
         display: inline-block;
         margin: 0 2px;
-    }
-
-    .fullRowList li:hover a,
-    .fullRowList li.actived a {
-        color: #E28271;
     }
 
     .fullRowList li.disabled {
@@ -543,8 +549,12 @@ a.badge:hover {
 }
 
 .sort-handle {
-    cursor: n-resize;
+    cursor: grab;
 }
+
+    .sort-handle:active {
+        cursor: grabbing;
+    }
 
 .panel-default > .panel-heading {
     background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #f5f5f5 100%);

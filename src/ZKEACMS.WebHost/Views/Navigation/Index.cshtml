@@ -51,7 +51,7 @@
         return true;
     }
     function moveNode(node, parent) {
-        $.post("@Url.Action("MoveNav")", { id: parent.node.id, parentId: parent.parent, position: parent.position + 1, oldPosition: parent.old_position + 1 }, function () {
+        $.post("@Url.Action("MoveNav")", { id: parent.node.id, parentId: parent.parent, position: parent.position }, function () {
 
         }, "json");
     }

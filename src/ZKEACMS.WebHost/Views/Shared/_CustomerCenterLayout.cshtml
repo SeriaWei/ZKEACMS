@@ -5,11 +5,7 @@
     Style.Reqiured("bootStrap").AtHead();
     Style.Reqiured("Customer").AtHead();
     Style.Reqiured("Easy").AtHead();
-    IEnumerable<AdminMenu> menu = userCenterLinkService.GetLinks();
-    if (ViewBag.Title != null)
-    {
-        this.WorkContext().CurrentPage.Title = ViewBag.Title;
-    }    
+    IEnumerable<AdminMenu> menu = userCenterLinkService.GetLinks();  
 }
 @inject IUserCenterLinkService userCenterLinkService
 @inject IOptions<CultureOption> cultureOption

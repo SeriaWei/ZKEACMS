@@ -74,7 +74,7 @@ namespace ZKEACMS.Rule
             }
             return string.Format("'{0}'", value.Replace("\\", "\\\\").Replace("'", "\\'"));
         }
-        public override ServiceResult<Rule> Add(Rule item)
+        public override ErrorOr<Rule> Add(Rule item)
         {
             item = Init(item);
             try
@@ -83,13 +83,11 @@ namespace ZKEACMS.Rule
             }
             catch
             {
-                var result = new ServiceResult<Rule>();
-                result.RuleViolations.Add(new RuleViolation("Title", _localize.Get("There is an error value in the condition, save failed!")));
-                return result;
+                return new Error("Title", _localize.Get("There is an error value in the condition, save failed!"));
             }
             return base.Add(item);
         }
-        public override ServiceResult<Rule> Update(Rule item)
+        public override ErrorOr<Rule> Update(Rule item)
         {
             item = Init(item);
             try
@@ -98,9 +96,7 @@ namespace ZKEACMS.Rule
             }
             catch
             {
-                var result = new ServiceResult<Rule>();
-                result.RuleViolations.Add(new RuleViolation("Title", _localize.Get("There is an error value in the condition, save failed!")));
-                return result;
+                return new Error("Title", _localize.Get("There is an error value in the condition, save failed!"));
             }
             return base.Update(item);
         }

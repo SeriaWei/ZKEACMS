@@ -29,13 +29,13 @@ namespace ZKEACMS.EventAction.Service
         {
         }
 
-        public override ServiceResult<ActionBody> Add(ActionBody item)
+        public override ErrorOr<ActionBody> Add(ActionBody item)
         {
             IFluidTemplate templateResult = null;
             if (item.Body.IsNotNullAndWhiteSpace() && !FluidTemplateHelper.TryParse(item.Body, out templateResult, out var error))
             {
-                var result = new ServiceResult<ActionBody>();
-                result.AddRuleViolation("Body", error);
+                var result = new ErrorOr<ActionBody>();
+                result.AddError("Body", error);
                 return result;
             }
             var addResult = base.Add(item);
@@ -46,13 +46,13 @@ namespace ZKEACMS.EventAction.Service
             return addResult;
         }
 
-        public override ServiceResult<ActionBody> Update(ActionBody item)
+        public override ErrorOr<ActionBody> Update(ActionBody item)
         {
             IFluidTemplate templateResult = null;
             if (item.Body.IsNotNullAndWhiteSpace() && !FluidTemplateHelper.TryParse(item.Body, out templateResult, out var error))
             {
-                var result = new ServiceResult<ActionBody>();
-                result.AddRuleViolation("Body", error);
+                var result = new ErrorOr<ActionBody>();
+                result.AddError("Body", error);
                 return result;
             }
             if (templateResult != null)
@@ -69,9 +69,9 @@ namespace ZKEACMS.EventAction.Service
 
             return template.Render(model);
         }
-        private ServiceResult<IFluidTemplate> ParseTemplate(int ID)
+        private ErrorOr<IFluidTemplate> ParseTemplate(int ID)
         {
-            var result = new ServiceResult<IFluidTemplate>();
+            var result = new ErrorOr<IFluidTemplate>();
             try
             {
                 var template = _templates.GetOrAdd(ID, key =>
@@ -87,7 +87,7 @@ namespace ZKEACMS.EventAction.Service
             catch (RecordNotFoundException) { }
             catch (Exception ex)
             {
-                result.AddRuleViolation(ex.Message);
+                result.AddError(ex.Message);
             }
 
             return result;

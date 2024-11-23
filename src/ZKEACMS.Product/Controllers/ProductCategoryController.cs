@@ -63,7 +63,7 @@ namespace ZKEACMS.Product.Controllers
         [DefaultAuthorize(Policy = PermissionKeys.ViewProductCategory)]
         public JsonResult GetProductCategoryTree()
         {
-            var pages = Service.Get().ToList();
+            var pages = Service.Get().OrderBy(m => m.DisplayOrder ?? m.ID).ToList();
             var node = new Tree<ProductCategory>().Source(pages).ToNode(m => m.ID.ToString(), m => m.Title, m => m.ParentID.ToString(), "0");
             return Json(node);
         }
@@ -73,6 +73,13 @@ namespace ZKEACMS.Product.Controllers
         {
             ViewBag.Selected = selected;
             return View();
+        }
+
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageProductCategory)]
+        public JsonResult Move(int id, int parentId, int position)
+        {
+            Service.Move(id, parentId, position);
+            return Json(true);
         }
     }
 }
