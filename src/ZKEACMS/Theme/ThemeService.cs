@@ -84,12 +84,12 @@ namespace ZKEACMS.Theme
         {
             _cookie.Delete(_preViewCookieName);
         }
-        public override ServiceResult<ThemeEntity> Add(ThemeEntity item)
+        public override ErrorOr<ThemeEntity> Add(ThemeEntity item)
         {
             ClearCache();
             return base.Add(item);
         }
-        public override ServiceResult<ThemeEntity> Update(ThemeEntity item)
+        public override ErrorOr<ThemeEntity> Update(ThemeEntity item)
         {
             ClearCache();
             return base.Update(item);

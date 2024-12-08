@@ -2,6 +2,7 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
+using Easy;
 using Easy.RepositoryPattern;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,8 @@ namespace ZKEACMS.Shop.Service
         void CompletePay(Order order, string paymentGateway, string paymentID);
 
         PaymentInfo GetPaymentInfo(string orderId);
-        ServiceResult<bool> Refund(string orderId, decimal amount, string reason);
+        ErrorOr<bool> Refund(string orderId, decimal amount, string reason);
         RefundInfo GetRefund(string orderId);
-        ServiceResult<bool> CloseOrder(string orderId);
+        ErrorOr<bool> CloseOrder(string orderId);
     }
 }

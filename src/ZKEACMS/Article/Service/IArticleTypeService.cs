@@ -12,5 +12,6 @@ namespace ZKEACMS.Article.Service
     {
         IEnumerable<ArticleType> GetChildren(long id);
         ArticleType GetByUrl(string url);
+        void Move(int id, int parentId, int position);
     }
 }

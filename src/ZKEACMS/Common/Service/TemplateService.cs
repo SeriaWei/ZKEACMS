@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Hosting;
 using Easy.RepositoryPattern;
 using Easy.Cache;
 using System.IO.Compression;
+using Easy;
 
 namespace ZKEACMS.Common.Service
 {
@@ -128,11 +129,10 @@ namespace ZKEACMS.Common.Service
             return string.Empty;
         }
 
-        public virtual ServiceResult<TemplateFile> CreateOrUpdate(TemplateFile model)
+        public virtual ErrorOr<TemplateFile> CreateOrUpdate(TemplateFile model)
         {
             string name = model.Name;
             string relativePath = model.RelativePath;
-            ServiceResult<TemplateFile> result = new ServiceResult<TemplateFile>();
             string ext = Path.GetExtension(name);
             if (GetSupportFileExtensions().Contains(ext))
             {
@@ -149,13 +149,12 @@ namespace ZKEACMS.Common.Service
                 ExtFile.WriteFile(model.Path, model.Content);
                 EnsureHasViewImports(model.Path);
                 _cacheMgr.Remove(_templateFilesCacheKey);
-                result.Result = GetTemplateFiles().First(m => m.RelativePath == model.RelativePath);
+                return new ErrorOr<TemplateFile>(GetTemplateFiles().First(m => m.RelativePath == model.RelativePath));
             }
             else
             {
-                result.RuleViolations.Add(new RuleViolation("Name", "File not support"));
+                return new Error("Name", "File not support");
             }
-            return result;
         }
 
         public void Delete(int id)

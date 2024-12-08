@@ -16,7 +16,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using Newtonsoft.Json.Linq;
 using Easy.Mvc.Plugin;
-using Easy.RepositoryPattern;
 using ZKEACMS.Common.Service;
 using Microsoft.AspNetCore.Razor.Hosting;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
@@ -84,10 +83,10 @@ namespace ZKEACMS.SectionWidget.Service
             base.Remove(item);
         }
 
-        public override ServiceResult<Models.SectionWidget> Add(Models.SectionWidget item)
+        public override ErrorOr<Models.SectionWidget> Add(Models.SectionWidget item)
         {
             var result = base.Add(item);
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 return result;
             }

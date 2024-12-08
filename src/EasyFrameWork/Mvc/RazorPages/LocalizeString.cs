@@ -63,10 +63,5 @@ namespace Easy.Mvc.RazorPages
         {
             return this.Get();
         }
-
-        public static implicit operator string(LocalizeString content)
-        {
-            return content.ToString();
-        }
     }
 }

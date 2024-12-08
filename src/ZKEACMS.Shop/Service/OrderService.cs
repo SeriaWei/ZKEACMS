@@ -41,12 +41,12 @@ namespace ZKEACMS.Shop.Service
             return order;
         }
 
-        public override ServiceResult<Order> Add(Order item)
+        public override ErrorOr<Order> Add(Order item)
         {
             item.ID = Guid.NewGuid().ToString("N");
             item.OrderStatus = (int)OrderStatus.UnPaid;
-            ServiceResult<Order> result = base.Add(item);
-            if (!result.HasViolation)
+            ErrorOr<Order> result = base.Add(item);
+            if (!result.HasError)
             {
                 foreach (var orderItem in item.OrderItems)
                 {
@@ -66,7 +66,7 @@ namespace ZKEACMS.Shop.Service
             _eventManager.Trigger(Events.OnPaymentBegin, order);
         }
 
-        public ServiceResult<bool> CloseOrder(string orderId)
+        public ErrorOr<bool> CloseOrder(string orderId)
         {
             var order = Get(orderId);
             if (order != null && order.OrderStatus == (int)OrderStatus.UnPaid)
@@ -79,11 +79,11 @@ namespace ZKEACMS.Shop.Service
                 }
                 return serviceResult;
             }
-            ServiceResult<bool> result = new ServiceResult<bool>
+            ErrorOr<bool> result = new ErrorOr<bool>
             {
                 Result = false
             };
-            result.RuleViolations.Add(new RuleViolation("Error", _localize.Get("Only unpaid order can be closed!")));
+            result.AddError("Error", _localize.Get("Only unpaid order can be closed!"));
             return result;
         }
 
@@ -117,7 +117,7 @@ namespace ZKEACMS.Shop.Service
             return null;
         }
 
-        public ServiceResult<bool> Refund(string orderId, decimal amount, string reason)
+        public ErrorOr<bool> Refund(string orderId, decimal amount, string reason)
         {
             var order = Get(orderId);
             if (order != null && order.PaymentID.IsNotNullAndWhiteSpace() && order.RefundID.IsNullOrEmpty() && amount <= order.Total)
@@ -133,21 +133,21 @@ namespace ZKEACMS.Shop.Service
                 }
                 return result;
             }
-            ServiceResult<bool> failed = new ServiceResult<bool>
+            ErrorOr<bool> failed = new ErrorOr<bool>
             {
                 Result = false
             };
             if (order.PaymentID.IsNullOrEmpty())
             {
-                failed.RuleViolations.Add(new RuleViolation("Error", _localize.Get("Unpaid order")));
+                failed.AddError("Error", _localize.Get("Unpaid order"));
             }
             if (order.RefundID.IsNotNullAndWhiteSpace())
             {
-                failed.RuleViolations.Add(new RuleViolation("Error", _localize.Get("Refunded")));
+                failed.AddError("Error", _localize.Get("Refunded"));
             }
             if (amount > order.Total)
             {
-                failed.RuleViolations.Add(new RuleViolation("Error", _localize.Get("Refund amount exceeds the amount of the order")));
+                failed.AddError("Error", _localize.Get("Refund amount exceeds the amount of the order"));
             }
             return failed;
         }

@@ -2,7 +2,7 @@
 @model OrderDetailViewModel
 @{
     Layout = Layouts.CustomerCenter;
-    ViewBag.Title = L("Order Detail").Text;
+    this.WorkContext().CurrentPage.Title = L("Order Detail").Text;
     if (Model.Order == null)
     {
         return;

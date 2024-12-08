@@ -72,7 +72,7 @@ namespace Easy.RepositoryPattern
                     try
                     {
                         var result = action.Invoke();
-                        if (result is ServiceResult sResult && sResult.HasViolation)
+                        if (result is ErrorOr sResult && sResult.HasError)
                         {
                             transaction.Rollback();
                         }
@@ -94,9 +94,9 @@ namespace Easy.RepositoryPattern
                 return action.Invoke();
             }
         }
-        protected virtual ServiceResult<T> Validate(T item)
+        protected virtual ErrorOr<T> Validate(T item)
         {
-            ServiceResult<T> serviceResult = new ServiceResult<T>();
+            ErrorOr<T> serviceResult = new ErrorOr<T>();
             var entryType = typeof(T);
             var viewConfig = ServiceLocator.GetViewConfigure(typeof(T));
             if (viewConfig != null)
@@ -112,7 +112,7 @@ namespace Easy.RepositoryPattern
                             {
                                 if (!v.Validate(p.GetValue(item)))
                                 {
-                                    serviceResult.RuleViolations.Add(new RuleViolation(p.Name, v.ErrorMessage));
+                                    serviceResult.AddError(p.Name, v.ErrorMessage);
                                 }
                             });
                         }
@@ -123,10 +123,10 @@ namespace Easy.RepositoryPattern
             serviceResult.Result = item;
             return serviceResult;
         }
-        public virtual ServiceResult<T> Add(T item)
+        public virtual ErrorOr<T> Add(T item)
         {
             var result = Validate(item);
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 return result;
             }
@@ -148,13 +148,13 @@ namespace Easy.RepositoryPattern
             SaveChanges();
             return result;
         }
-        public virtual ServiceResult<T> AddRange(params T[] items)
+        public virtual ErrorOr<T> AddRange(params T[] items)
         {
-            ServiceResult<T> result = new ServiceResult<T>();
+            ErrorOr<T> result = new ErrorOr<T>();
             foreach (var item in items)
             {
                 var itemResult = Validate(item);
-                if (itemResult.HasViolation)
+                if (itemResult.HasError)
                 {
                     return itemResult;
                 }
@@ -284,10 +284,10 @@ namespace Easy.RepositoryPattern
             }
             return await Get().CountAsync();
         }
-        public virtual ServiceResult<T> Update(T item)
+        public virtual ErrorOr<T> Update(T item)
         {
             var result = Validate(item);
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 return result;
             }
@@ -305,12 +305,12 @@ namespace Easy.RepositoryPattern
             SaveChanges();
             return result;
         }
-        public virtual ServiceResult<T> UpdateRange(params T[] items)
+        public virtual ErrorOr<T> UpdateRange(params T[] items)
         {
             foreach (var item in items)
             {
                 var itemResult = Validate(item);
-                if (itemResult.HasViolation)
+                if (itemResult.HasError)
                 {
                     return itemResult;
                 }
@@ -327,7 +327,7 @@ namespace Easy.RepositoryPattern
             }
             CurrentDbSet.UpdateRange(items);
             SaveChanges();
-            return new ServiceResult<T>();
+            return new ErrorOr<T>();
         }
         public void Remove(params object[] primaryKey)
         {

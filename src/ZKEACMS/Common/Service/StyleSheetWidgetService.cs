@@ -4,7 +4,6 @@
 
 using System;
 using Easy;
-using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
 using ZKEACMS.Common.Models;
 using ZKEACMS.Widget;
@@ -19,7 +18,7 @@ namespace ZKEACMS.Common.Service
         {
         }
         public override DbSet<StyleSheetWidget> CurrentDbSet => DbContext.StyleSheetWidget;
-        public override ServiceResult<StyleSheetWidget> Add(StyleSheetWidget item)
+        public override ErrorOr<StyleSheetWidget> Add(StyleSheetWidget item)
         {
             if (item.StyleClass.IsNullOrEmpty())
             {

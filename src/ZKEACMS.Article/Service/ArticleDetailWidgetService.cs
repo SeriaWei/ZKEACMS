@@ -14,7 +14,6 @@ using System.Linq;
 using Easy.Extend;
 using System.Collections.Concurrent;
 using Easy.Cache;
-using Easy.RepositoryPattern;
 using Easy.Constant;
 using ZKEACMS.StructuredData;
 using Easy.Serializer;
@@ -50,13 +49,13 @@ namespace ZKEACMS.Article.Service
             _cacheManager.Remove(ArticleDetailWidgetRelatedPageUrls);
         }
 
-        public override ServiceResult<ArticleDetailWidget> Add(ArticleDetailWidget item)
+        public override ErrorOr<ArticleDetailWidget> Add(ArticleDetailWidget item)
         {
             var result = base.Add(item);
             DismissRelatedPageUrls();
             return result;
         }
-        public override ServiceResult<ArticleDetailWidget> Update(ArticleDetailWidget item)
+        public override ErrorOr<ArticleDetailWidget> Update(ArticleDetailWidget item)
         {
             var result = base.Update(item);
             DismissRelatedPageUrls();

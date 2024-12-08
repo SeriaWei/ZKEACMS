@@ -15,6 +15,7 @@ using System.Linq;
 using System.Collections.Concurrent;
 using Easy.Cache;
 using Microsoft.Extensions.Caching.Memory;
+using Easy.Constant;
 
 namespace ZKEACMS.Article.Service
 {
@@ -55,7 +56,7 @@ namespace ZKEACMS.Article.Service
         public override object Display(WidgetDisplayContext widgetDisplayContext)
         {
             ArticleTypeWidget currentWidget = widgetDisplayContext.Widget as ArticleTypeWidget;
-            var types = _articleTypeService.Get(m => m.ParentID == currentWidget.ArticleTypeID);
+            var types = _articleTypeService.Get().Where(m => m.Status==(int)RecordStatus.Active && m.ParentID == currentWidget.ArticleTypeID).OrderBy(m => m.DisplayOrder ?? m.ID).ToList();
             var actionContext = widgetDisplayContext.ActionContext;
             int ac = actionContext.RouteData.GetCategory();
             ArticleType articleType = null;

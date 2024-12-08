@@ -38,7 +38,7 @@ namespace ZKEACMS.FormGenerator.Controllers
 
             var result = Service.SaveForm(Request.Form, FormId);
             ModelState.Merge(result);
-            if (!result.HasViolation)
+            if (!result.HasError)
             {
                 TempData["Message"] = _localize.Get("Form have submited");
             }

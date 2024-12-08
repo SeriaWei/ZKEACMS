@@ -20,13 +20,13 @@ namespace ZKEACMS.FormGenerator.Service
         {
         }
         
-        public override ServiceResult<Form> Add(Form item)
+        public override ErrorOr<Form> Add(Form item)
         {
             item.ID = Guid.NewGuid().ToString("N");
             item.FieldsData = JsonConverter.Serialize(item.FormFields);
             return base.Add(item);
         }
-        public override ServiceResult<Form> Update(Form item)
+        public override ErrorOr<Form> Update(Form item)
         {
             item.FieldsData = JsonConverter.Serialize(item.FormFields);
             return base.Update(item);

@@ -1,6 +1,6 @@
-FROM zkeasoft/cms-runtime:5.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 ARG source
 WORKDIR /zkeacms
-EXPOSE 80
 COPY ${source:-bin/Release/PublishOutput} .
+EXPOSE 8080
 ENTRYPOINT ["dotnet", "ZKEACMS.WebHost.dll"]

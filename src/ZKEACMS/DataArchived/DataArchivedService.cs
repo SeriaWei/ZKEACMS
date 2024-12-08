@@ -36,7 +36,7 @@ namespace ZKEACMS.DataArchived
             return Get().FirstOrDefault(m => m.ID == key);
         }
 
-        public override ServiceResult<DataArchived> Add(DataArchived item)
+        public override ErrorOr<DataArchived> Add(DataArchived item)
         {
             lock (ArchiveLock)
             {

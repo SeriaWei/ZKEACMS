@@ -54,7 +54,7 @@
                 location.hash = '@ViewBag.RuleID';
             }
             if (location.hash && location.hash != "#") {
-                $("a" + location.hash).trigger("click");
+                $(location.hash).trigger("click");
             }
             else if ($("#rules>li.actived").size() === 0) {
                 $("#rules .rule-item").first().trigger("click");

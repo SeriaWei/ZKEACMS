@@ -127,7 +127,8 @@ CREATE TABLE [dbo].[ArticleType](
 	[CreateDate] [datetime2](7) NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime2](7) NULL
+	[LastUpdateDate] [datetime2](7) NULL,
+	[DisplayOrder] [int] NULL
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -989,7 +990,8 @@ CREATE TABLE [dbo].[ProductCategory](
 	[CreateDate] [datetime2](7) NULL,
 	[LastUpdateBy] [nvarchar](50) NULL,
 	[LastUpdateByName] [nvarchar](100) NULL,
-	[LastUpdateDate] [datetime2](7) NULL
+	[LastUpdateDate] [datetime2](7) NULL,
+	[DisplayOrder] [int] NULL
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -1456,7 +1458,8 @@ CREATE TABLE [dbo].[VideoType](
 	[LastUpdateByName] [nvarchar](100) NULL,
 	[LastUpdateDate] [datetime2](7) NULL,
 	[ContentID] [nvarchar](100) NULL,
-	[CultureID] [int] NULL
+	[CultureID] [int] NULL,
+	[DisplayOrder] [int] NULL
 ) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -2065,9 +2068,9 @@ INSERT [dbo].[ArticleSummaryWidget] ([ID], [SubTitle], [Style], [DetailLink], [S
 <p></p>')
 SET IDENTITY_INSERT [dbo].[ArticleType] ON 
 
-INSERT [dbo].[ArticleType] ([ID], [Title], [Description], [ParentID], [Url], [Status], [SEOTitle], [SEOKeyWord], [SEODescription], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (1, N'新闻', NULL, 0, NULL, 1, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T13:50:18.0000000' AS DateTime2), N'admin', N'ZKEASOFT', CAST(N'2017-10-15T18:18:33.4300000' AS DateTime2))
-INSERT [dbo].[ArticleType] ([ID], [Title], [Description], [ParentID], [Url], [Status], [SEOTitle], [SEOKeyWord], [SEODescription], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (2, N'公司新闻', NULL, 1, N'company', 1, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T13:50:24.0000000' AS DateTime2), N'admin', N'ZKEASOFT', CAST(N'2018-08-15T15:31:38.3466667' AS DateTime2))
-INSERT [dbo].[ArticleType] ([ID], [Title], [Description], [ParentID], [Url], [Status], [SEOTitle], [SEOKeyWord], [SEODescription], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (3, N'行业新闻', NULL, 1, N'industry', 1, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T13:50:29.0000000' AS DateTime2), N'admin', N'ZKEASOFT', CAST(N'2018-08-15T15:31:42.8100000' AS DateTime2))
+INSERT [dbo].[ArticleType] ([ID], [Title], [Description], [ParentID], [Url], [Status], [SEOTitle], [SEOKeyWord], [SEODescription], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [DisplayOrder]) VALUES (1, N'新闻', NULL, 0, N'news', 1, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T13:50:18.0000000' AS DateTime2), N'admin', N'ZKEASOFT', CAST(N'2024-11-16T13:53:08.7514733' AS DateTime2), NULL)
+INSERT [dbo].[ArticleType] ([ID], [Title], [Description], [ParentID], [Url], [Status], [SEOTitle], [SEOKeyWord], [SEODescription], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [DisplayOrder]) VALUES (2, N'公司新闻', NULL, 1, N'company', 1, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T13:50:24.0000000' AS DateTime2), N'admin', N'ZKEASOFT', CAST(N'2018-08-15T15:31:38.3466667' AS DateTime2), NULL)
+INSERT [dbo].[ArticleType] ([ID], [Title], [Description], [ParentID], [Url], [Status], [SEOTitle], [SEOKeyWord], [SEODescription], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [DisplayOrder]) VALUES (3, N'行业新闻', NULL, 1, N'industry', 1, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T13:50:29.0000000' AS DateTime2), N'admin', N'ZKEASOFT', CAST(N'2018-08-15T15:31:42.8100000' AS DateTime2), NULL)
 SET IDENTITY_INSERT [dbo].[ArticleType] OFF
 INSERT [dbo].[ArticleTypeWidget] ([ID], [ArticleTypeID], [TargetPage]) VALUES (N'8df64186d2fd4d63a9f9bb3b6e34cd2a', 1, NULL)
 INSERT [dbo].[ArticleTypeWidget] ([ID], [ArticleTypeID], [TargetPage]) VALUES (N'de8d94fd51cb4e73b00518dbb2f134d3', 1, NULL)
@@ -2738,7 +2741,7 @@ INSERT [dbo].[DataDictionary] ([ID], [DicName], [Title], [DicValue], [Order], [P
 SET IDENTITY_INSERT [dbo].[DataDictionary] OFF
 SET IDENTITY_INSERT [dbo].[DBVersion] ON 
 
-INSERT [dbo].[DBVersion] ([ID], [Major], [Minor], [Revision], [Build]) VALUES (1, 4, 0, 0, 0)
+INSERT [dbo].[DBVersion] ([ID], [Major], [Minor], [Revision], [Build]) VALUES (1, 4, 2, 0, 0)
 SET IDENTITY_INSERT [dbo].[DBVersion] OFF
 SET IDENTITY_INSERT [dbo].[EA_ActionBody] ON 
 
@@ -2999,9 +3002,9 @@ INSERT [dbo].[Product] ([ID], [Title], [ImageUrl], [ImageThumbUrl], [BrandCD], [
 SET IDENTITY_INSERT [dbo].[Product] OFF
 SET IDENTITY_INSERT [dbo].[ProductCategory] ON 
 
-INSERT [dbo].[ProductCategory] ([ID], [Title], [Description], [ParentID], [Url], [Status], [SEOTitle], [SEOKeyWord], [SEODescription], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (1, N'产品', NULL, 0, NULL, 1, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T13:49:32.0000000' AS DateTime2), N'admin', N'ZKEASOFT', CAST(N'2017-11-17T15:10:08.1933333' AS DateTime2))
-INSERT [dbo].[ProductCategory] ([ID], [Title], [Description], [ParentID], [Url], [Status], [SEOTitle], [SEOKeyWord], [SEODescription], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (2, N'耳机', NULL, 1, N'headset', 1, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T13:49:50.0000000' AS DateTime2), N'admin', N'ZKEASOFT', CAST(N'2018-08-15T15:30:59.2333333' AS DateTime2))
-INSERT [dbo].[ProductCategory] ([ID], [Title], [Description], [ParentID], [Url], [Status], [SEOTitle], [SEOKeyWord], [SEODescription], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate]) VALUES (3, N'键盘', NULL, 1, N'keyboard', 1, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T13:50:07.0000000' AS DateTime2), N'admin', N'ZKEASOFT', CAST(N'2018-08-15T15:31:08.0633333' AS DateTime2))
+INSERT [dbo].[ProductCategory] ([ID], [Title], [Description], [ParentID], [Url], [Status], [SEOTitle], [SEOKeyWord], [SEODescription], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [DisplayOrder]) VALUES (1, N'产品', NULL, 0, N'products', 1, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T13:49:32.0000000' AS DateTime2), N'admin', N'ZKEASOFT', CAST(N'2024-11-16T13:53:22.1816480' AS DateTime2), NULL)
+INSERT [dbo].[ProductCategory] ([ID], [Title], [Description], [ParentID], [Url], [Status], [SEOTitle], [SEOKeyWord], [SEODescription], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [DisplayOrder]) VALUES (2, N'耳机', NULL, 1, N'headset', 1, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T13:49:50.0000000' AS DateTime2), N'admin', N'ZKEASOFT', CAST(N'2018-08-15T15:30:59.2333333' AS DateTime2), NULL)
+INSERT [dbo].[ProductCategory] ([ID], [Title], [Description], [ParentID], [Url], [Status], [SEOTitle], [SEOKeyWord], [SEODescription], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [DisplayOrder]) VALUES (3, N'键盘', NULL, 1, N'keyboard', 1, NULL, NULL, NULL, N'admin', N'ZKEASOFT', CAST(N'2016-03-10T13:50:07.0000000' AS DateTime2), N'admin', N'ZKEASOFT', CAST(N'2018-08-15T15:31:08.0633333' AS DateTime2), NULL)
 SET IDENTITY_INSERT [dbo].[ProductCategory] OFF
 SET IDENTITY_INSERT [dbo].[ProductCategoryTag] ON 
 
@@ -3259,7 +3262,7 @@ SET IDENTITY_INSERT [dbo].[UserRoleRelation] ON
 
 INSERT [dbo].[UserRoleRelation] ([ID], [RoleID], [UserID]) VALUES (5, 1, N'admin')
 SET IDENTITY_INSERT [dbo].[UserRoleRelation] OFF
-INSERT [dbo].[Users] ([UserID], [PassWord], [ApiLoginToken], [LastLoginDate], [LoginIP], [PhotoUrl], [Timestamp], [UserName], [UserTypeCD], [Address], [Age], [Birthday], [Birthplace], [Email], [EnglishName], [FirstName], [Hobby], [LastName], [MaritalStatus], [MobilePhone], [NickName], [Profession], [QQ], [School], [Sex], [Telephone], [ZipCode], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Status], [Description], [ResetToken], [ResetTokenDate]) VALUES (N'admin', N'8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', NULL, CAST(N'2020-11-10T21:40:58.1633333' AS DateTime2), N'::1', N'~/images/head.png', 0, N'ZKEASOFT', 1, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, N'Admin', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, N'admin', N'Admin', CAST(N'2020-11-10T21:40:58.1833333' AS DateTime2), 1, NULL, NULL, NULL)
+INSERT [dbo].[Users] ([UserID], [PassWord], [ApiLoginToken], [LastLoginDate], [LoginIP], [PhotoUrl], [Timestamp], [UserName], [UserTypeCD], [Address], [Age], [Birthday], [Birthplace], [Email], [EnglishName], [FirstName], [Hobby], [LastName], [MaritalStatus], [MobilePhone], [NickName], [Profession], [QQ], [School], [Sex], [Telephone], [ZipCode], [CreateBy], [CreatebyName], [CreateDate], [LastUpdateBy], [LastUpdateByName], [LastUpdateDate], [Status], [Description], [ResetToken], [ResetTokenDate]) VALUES (N'admin', N'8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', NULL, CAST(N'2024-11-16T13:52:55.2852196' AS DateTime2), N'::1', N'~/images/head.png', 0, N'ZKEASOFT', 1, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, N'Admin', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, N'admin', N'Admin', CAST(N'2024-11-16T13:52:55.2913529' AS DateTime2), 1, NULL, NULL, NULL)
 ALTER TABLE [dbo].[CMS_WidgetBase] ADD  CONSTRAINT [DF_CMS_WidgetBase_IsTemplate]  DEFAULT ((0)) FOR [IsTemplate]
 GO
 ALTER TABLE [dbo].[CMS_WidgetBase] ADD  CONSTRAINT [DF_CMS_WidgetBase_IsSystem]  DEFAULT ((0)) FOR [IsSystem]

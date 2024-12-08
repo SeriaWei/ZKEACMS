@@ -37,7 +37,7 @@ namespace ZKEACMS.Widget
         {
             return CurrentDbSet.AsNoTracking();
         }
-        public override ServiceResult<T> Add(T item)
+        public override ErrorOr<T> Add(T item)
         {
             return BeginTransaction(() =>
              {
@@ -45,12 +45,12 @@ namespace ZKEACMS.Widget
                  var basePart = item.ToWidgetBasePart();
                  basePart.ID = id;
                  var baseResult = WidgetBasePartService.Add(basePart);
-                 if (baseResult.HasViolation)
+                 if (baseResult.HasError)
                  {
-                     var result = new ServiceResult<T>();
-                     foreach (var item in baseResult.RuleViolations)
+                     var result = new ErrorOr<T>();
+                     foreach (var item in baseResult.Errors)
                      {
-                         result.AddRuleViolation(item.ParameterName, item.ErrorMessage);
+                         result.AddError(item.ParameterName, item.Message);
                      }
                      return result;
                  }
@@ -59,26 +59,26 @@ namespace ZKEACMS.Widget
              });
         }
 
-        public override ServiceResult<T> Update(T item)
+        public override ErrorOr<T> Update(T item)
         {
             return BeginTransaction(() =>
              {
                  var basePart = WidgetBasePartService.Get(item.ID);
                  item.CopyTo(basePart);
                  var baseResult = WidgetBasePartService.Update(basePart);
-                 if (baseResult.HasViolation)
+                 if (baseResult.HasError)
                  {
-                     var result = new ServiceResult<T>();
-                     foreach (var item in baseResult.RuleViolations)
+                     var result = new ErrorOr<T>();
+                     foreach (var item in baseResult.Errors)
                      {
-                         result.AddRuleViolation(item.ParameterName, item.ErrorMessage);
+                         result.AddError(item.ParameterName, item.Message);
                      }
                      return result;
                  }
                  return base.Update(item);
              });
         }
-        public override ServiceResult<T> UpdateRange(params T[] items)
+        public override ErrorOr<T> UpdateRange(params T[] items)
         {
             var ids = items.Select(m => m.ID).ToArray();
             var baseParts = WidgetBasePartService.Get(m => ids.Contains(m.ID));
@@ -90,12 +90,12 @@ namespace ZKEACMS.Widget
             return BeginTransaction(() =>
              {
                  var baseResult = WidgetBasePartService.UpdateRange(baseParts.ToArray());
-                 if (baseResult.HasViolation)
+                 if (baseResult.HasError)
                  {
-                     var result = new ServiceResult<T>();
-                     foreach (var item in baseResult.RuleViolations)
+                     var result = new ErrorOr<T>();
+                     foreach (var item in baseResult.Errors)
                      {
-                         result.AddRuleViolation(item.ParameterName, item.ErrorMessage);
+                         result.AddError(item.ParameterName, item.Message);
                      }
                      return result;
                  }
@@ -236,7 +236,7 @@ namespace ZKEACMS.Widget
             widget.IsTemplate = false;
             widget.IsSystem = false;
             var publishResult = Add((T)widget);
-            if (publishResult.HasViolation) throw new Exception(widget.WidgetName + " " + publishResult.ErrorMessage);
+            if (publishResult.HasError) throw new Exception(widget.WidgetName + " " + publishResult.ErrorMessage);
         }
 
         #region PackWidget

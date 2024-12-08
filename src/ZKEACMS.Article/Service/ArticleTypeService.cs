@@ -10,6 +10,7 @@ using Easy;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using ZKEACMS.Common.Models;
 
 namespace ZKEACMS.Article.Service
 {
@@ -22,32 +23,22 @@ namespace ZKEACMS.Article.Service
         {
             _articleService = articleService;
             _localize = localize;
-        }     
+        }
 
-        public override ServiceResult<ArticleType> Add(ArticleType item)
+        public override ErrorOr<ArticleType> Add(ArticleType item)
         {
             item.ParentID = item.ParentID ?? 0;
-            if (item.Url.IsNotNullAndWhiteSpace())
+            if (item.Url.IsNotNullAndWhiteSpace() && GetByUrl(item.Url) != null)
             {
-                if (GetByUrl(item.Url) != null)
-                {
-                    var result = new ServiceResult<ArticleType>();
-                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
-                    return result;
-                }
+                return new Error("Url", _localize.Get("URL already exists"));
             }
             return base.Add(item);
         }
-        public override ServiceResult<ArticleType> Update(ArticleType item)
+        public override ErrorOr<ArticleType> Update(ArticleType item)
         {
-            if (item.Url.IsNotNullAndWhiteSpace())
+            if (item.Url.IsNotNullAndWhiteSpace() && Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
             {
-                if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
-                {
-                    var result = new ServiceResult<ArticleType>();
-                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
-                    return result;
-                }
+                return new Error("Url", _localize.Get("URL already exists"));
             }
             return base.Update(item);
         }
@@ -68,10 +59,24 @@ namespace ZKEACMS.Article.Service
                 GetChildren(item.ID).Each(m =>
                 {
                     Remove(m);
-                });                
+                });
             }
             base.Remove(item);
         }
 
+        public void Move(int id, int parentId, int position)
+        {
+            var articleType = Get(id);
+            articleType.ParentID = parentId;
+
+            var siblings = Get().Where(m => m.ParentID == articleType.ParentID && m.ID != articleType.ID).OrderBy(m => m.DisplayOrder ?? m.ID).ToList();
+            siblings.Insert(position, articleType);
+
+            for (int i = 0; i < siblings.Count; i++)
+            {
+                siblings[i].DisplayOrder = i + 1;
+            }
+            UpdateRange(siblings.ToArray());
+        }
     }
 }

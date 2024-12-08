@@ -28,41 +28,31 @@ namespace ZKEACMS.Article.Service
             _localize = localize;
             _eventManager = eventManager;
         }
-        public override ServiceResult<ArticleEntity> Add(ArticleEntity item)
+        public override ErrorOr<ArticleEntity> Add(ArticleEntity item)
         {
-            ServiceResult<ArticleEntity> result;
-            if (item.Url.IsNotNullAndWhiteSpace())
+            ErrorOr<ArticleEntity> result;
+            if (item.Url.IsNotNullAndWhiteSpace() && GetByUrl(item.Url) != null)
             {
-                if (GetByUrl(item.Url) != null)
-                {
-                    result = new ServiceResult<ArticleEntity>();
-                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
-                    return result;
-                }
+                return new Error("Url", _localize.Get("URL already exists"));
             }
             _eventManager.Trigger(Events.OnArticleAdding, item);
             result = base.Add(item);
-            if (!result.HasViolation)
+            if (!result.HasError)
             {
                 _eventManager.Trigger(Events.OnArticleAdded, item);
             }
             return result;
         }
-        public override ServiceResult<ArticleEntity> Update(ArticleEntity item)
+        public override ErrorOr<ArticleEntity> Update(ArticleEntity item)
         {
-            ServiceResult<ArticleEntity> result;
-            if (item.Url.IsNotNullAndWhiteSpace())
+            ErrorOr<ArticleEntity> result;
+            if (item.Url.IsNotNullAndWhiteSpace() && Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
             {
-                if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
-                {
-                    result = new ServiceResult<ArticleEntity>();
-                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
-                    return result;
-                }
+                return new Error("Url", _localize.Get("URL already exists"));
             }
             _eventManager.Trigger(Events.OnArticleUpdating, item);
             result = base.Update(item);
-            if (!result.HasViolation)
+            if (!result.HasError)
             {
                 _eventManager.Trigger(Events.OnArticleUpdated, item);
             }

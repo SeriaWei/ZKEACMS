@@ -11,5 +11,6 @@ namespace ZKEACMS.Product.Service
     public interface IProductCategoryService : IService<ProductCategory>
     {
         ProductCategory GetByUrl(string url);
+        void Move(int id, int parentId, int position);
     }
 }

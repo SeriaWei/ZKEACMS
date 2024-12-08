@@ -48,7 +48,7 @@ namespace ZKEACMS.Article.Service
             return "~/article-detail";
         }
 
-        public override ServiceResult<ArticleListWidget> Add(ArticleListWidget item)
+        public override ErrorOr<ArticleListWidget> Add(ArticleListWidget item)
         {
             if (item.DetailPageUrl.IsNullOrEmpty())
             {

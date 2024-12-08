@@ -5,7 +5,6 @@
 using Easy;
 using Easy.Constant;
 using Easy.Extend;
-using Easy.RepositoryPattern;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -35,7 +34,7 @@ namespace ZKEACMS.Common.Service
             carouselWidget.CarouselItems.Each(m => m.ActionType = ActionType.Update);
             return carouselWidget;
         }
-        public override ServiceResult<CarouselWidget> Add(CarouselWidget item)
+        public override ErrorOr<CarouselWidget> Add(CarouselWidget item)
         {
             return BeginTransaction(() =>
             {

@@ -36,7 +36,7 @@ namespace ZKEACMS.Layout
         {
             return CurrentDbSet.AsNoTracking();
         }
-        public override ServiceResult<LayoutHtml> Add(LayoutHtml item)
+        public override ErrorOr<LayoutHtml> Add(LayoutHtml item)
         {
             item.LayoutHtmlId = 0;
             return base.Add(item);

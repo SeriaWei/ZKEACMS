@@ -30,12 +30,9 @@ namespace ZKEACMS.Controllers
         public IActionResult Create(RoleEntity entity, List<Easy.Modules.Role.PermissionDescriptor> PermissionSet)
         {
             var result = Service.Add(entity, PermissionSet);
-            if (result.HasViolation)
+            if (result.HasError)
             {
-                foreach (var item in result.RuleViolations)
-                {
-                    ModelState.AddModelError(item.ParameterName, item.ErrorMessage);
-                }
+                ModelState.Merge(result);
                 return View(entity);
             }
             if (entity.ActionType.HasFlag(ActionType.Exit))
@@ -60,13 +57,10 @@ namespace ZKEACMS.Controllers
         public IActionResult Edit(RoleEntity entity, List<Easy.Modules.Role.PermissionDescriptor> PermissionSet)
         {
             var result = Service.Update(entity, PermissionSet);
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 ViewBag.Permissions = Service.GetPermission(entity.ID);
-                foreach (var item in result.RuleViolations)
-                {
-                    ModelState.AddModelError(item.ParameterName, item.ErrorMessage);
-                }
+                ModelState.Merge(result);
                 return View(entity);
             }
             if (entity.ActionType.HasFlag(ActionType.Exit))

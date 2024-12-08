@@ -42,22 +42,18 @@ namespace ZKEACMS.Product.Service
         {
             Publish(Get(ID));
         }
-        public override ServiceResult<ProductEntity> Add(ProductEntity item)
+        public override ErrorOr<ProductEntity> Add(ProductEntity item)
         {
-            ServiceResult<ProductEntity> result = new ServiceResult<ProductEntity>();
-            if (item.Url.IsNotNullAndWhiteSpace())
+            ErrorOr<ProductEntity> result = new ErrorOr<ProductEntity>();
+            if (item.Url.IsNotNullAndWhiteSpace() && GetByUrl(item.Url) != null)
             {
-                if (GetByUrl(item.Url) != null)
-                {
-                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
-                    return result;
-                }
+                return new Error("Url", _localize.Get("URL already exists"));
             }
             _eventManager.Trigger(Events.OnProductAdding, item);
             BeginTransaction(() =>
             {
                 result = base.Add(item);
-                if (!result.HasViolation)
+                if (!result.HasError)
                 {
                     if (item.ProductTags != null)
                     {
@@ -103,22 +99,18 @@ namespace ZKEACMS.Product.Service
             }
 
         }
-        public override ServiceResult<ProductEntity> Update(ProductEntity item)
+        public override ErrorOr<ProductEntity> Update(ProductEntity item)
         {
-            ServiceResult<ProductEntity> result = new ServiceResult<ProductEntity>();
-            if (item.Url.IsNotNullAndWhiteSpace())
+            ErrorOr<ProductEntity> result = new ErrorOr<ProductEntity>();
+            if (item.Url.IsNotNullAndWhiteSpace() && Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
             {
-                if (Count(m => m.Url == item.Url && m.ID != item.ID) > 0)
-                {
-                    result.RuleViolations.Add(new RuleViolation("Url", _localize.Get("URL already exists")));
-                    return result;
-                }
+                return new Error("Url", _localize.Get("URL already exists"));
             }
             _eventManager.Trigger(Events.OnProductUpdating, item);
             BeginTransaction(() =>
             {
                 result = base.Update(item);
-                if (!result.HasViolation)
+                if (!result.HasError)
                 {
                     if (item.ProductTags != null)
                     {

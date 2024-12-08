@@ -40,7 +40,7 @@ namespace ZKEACMS.Controllers
             if (ModelState.IsValid)
             {
                 var result = _templateService.CreateOrUpdate(model);
-                if (result.HasViolation)
+                if (result.HasError)
                 {
                     ModelState.AddModelError("Name", result.ErrorMessage);
                     return View(model);
@@ -79,7 +79,7 @@ namespace ZKEACMS.Controllers
             if (ModelState.IsValid)
             {
                 var result = _templateService.CreateOrUpdate(model);
-                if (result.HasViolation)
+                if (result.HasError)
                 {
                     ModelState.AddModelError("Name", result.ErrorMessage);
                     return View(model);

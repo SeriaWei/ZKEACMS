@@ -149,7 +149,7 @@ namespace ZKEACMS.Controllers
             else if (entity.ActionType.HasFlag(ActionType.Publish))
             {
                 var result = Service.Publish(entity);
-                if (result.HasViolation)
+                if (result.HasError)
                 {
                     ModelState.AddUnknownError(result.ErrorMessage);
                     return View(entity);
@@ -262,7 +262,7 @@ namespace ZKEACMS.Controllers
         public IActionResult PublishPage(string ID, string ReturnUrl)
         {
             var result = Service.Publish(Service.Get(ID));
-            if (result.HasViolation)
+            if (result.HasError)
             {
                 ModelState.AddUnknownError(result.ErrorMessage);
                 return Edit(ID);

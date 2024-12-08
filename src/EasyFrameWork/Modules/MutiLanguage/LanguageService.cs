@@ -104,9 +104,9 @@ namespace Easy.Modules.MutiLanguage
             });
         }
 
-        private ServiceResult<LanguageEntity> Save(LanguageEntity item)
+        private ErrorOr<LanguageEntity> Save(LanguageEntity item)
         {
-            var result = new ServiceResult<LanguageEntity>();
+            var result = new ErrorOr<LanguageEntity>();
             var localeFile = Path.Combine(GetLocaleDirectory(), $"{item.CultureName}.yml");
             try
             {
@@ -117,12 +117,12 @@ namespace Easy.Modules.MutiLanguage
             }
             catch (Exception ex)
             {
-                result.AddRuleViolation(ex.Message);
+                result.AddError(ex.Message);
             }
             return result;
         }
 
-        public ServiceResult<LanguageEntity> Add(LanguageEntity item)
+        public ErrorOr<LanguageEntity> Add(LanguageEntity item)
         {
             return Save(item);
         }
@@ -146,13 +146,13 @@ namespace Easy.Modules.MutiLanguage
                 }
             }
         }
-        public ServiceResult<LanguageEntity> Update(LanguageEntity item)
+        public ErrorOr<LanguageEntity> Update(LanguageEntity item)
         {
             return Save(item);
         }
 
 
-        public ServiceResult<LanguageEntity> AddOrUpdate(LanguageEntity entity)
+        public ErrorOr<LanguageEntity> AddOrUpdate(LanguageEntity entity)
         {
             LanguageEntity translate = Get(entity.LanKey, entity.CultureName);
             if (translate == null)

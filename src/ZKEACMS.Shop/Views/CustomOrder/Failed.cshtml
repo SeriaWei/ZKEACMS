@@ -1,6 +1,6 @@
 @{
     Layout = Layouts.CustomerCenter;
-    ViewBag.Title = L("Order failed to pay");
+    this.WorkContext().CurrentPage.Title = L("Order failed to pay").Text;
 }
 <div class="text-center">
     <div class="page-header">

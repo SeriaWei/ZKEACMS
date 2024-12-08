@@ -33,14 +33,6 @@ namespace ZKEACMS
         /// </summary>
         public const string Default = "_Layout";
         /// <summary>
-        /// Layout with current theme and body with container.
-        /// </summary>
-        public const string NormalDefault = "_LayoutNormal";
-        /// <summary>
-        /// Layout with current theme
-        /// </summary>
-        public const string Generic = "_LayoutGeneric";
-        /// <summary>
         /// Layout for admin pop up modal
         /// </summary>
         public const string PopUp = "_PopUpLayout";

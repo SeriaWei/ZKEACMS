@@ -57,7 +57,7 @@ namespace ZKEACMS.Article.Controllers
         [DefaultAuthorize(Policy = PermissionKeys.ViewArticleType)]
         public JsonResult GetArticleTypeTree()
         {
-            var allNodes = Service.Get().ToList();
+            var allNodes = Service.Get().OrderBy(m => m.DisplayOrder ?? m.ID).ToList();
             var node = new Tree<ArticleType>().Source(allNodes).ToNode(m => m.ID.ToString(), m => m.Title, m => m.ParentID.ToString(), "0");
             return Json(node);
         }
@@ -71,6 +71,13 @@ namespace ZKEACMS.Article.Controllers
         {
             ViewBag.Selected = selected;
             return View();
+        }
+
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageArticleType)]
+        public JsonResult Move(int id, int parentId, int position)
+        {
+            Service.Move(id, parentId, position);
+            return Json(true);
         }
     }
 }

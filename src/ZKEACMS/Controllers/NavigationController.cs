@@ -71,9 +71,9 @@ namespace ZKEACMS.Controllers
         }
 
         [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManageNavigation)]
-        public JsonResult MoveNav(string id, string parentId, int position, int oldPosition)
+        public JsonResult MoveNav(string id, string parentId, int position)
         {
-            Service.Move(id, parentId, position, oldPosition);
+            Service.Move(id, parentId, position);
             return Json(true);
         }
         public IActionResult Select(string selected)
