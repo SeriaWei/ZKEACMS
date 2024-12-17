@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 		<AssemblyName>ZKEACMS.Swagger</AssemblyName>
 		<PackageId>ZKEACMS.Swagger</PackageId>
@@ -16,7 +16,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
 		<ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj">
 			<Private>false</Private>
 			<ExcludeAssets>runtime</ExcludeAssets>

@@ -1,6 +1,6 @@
 [![Auto Build](https://github.com/SeriaWei/ZKEACMS/actions/workflows/build.yml/badge.svg)](https://github.com/SeriaWei/ZKEACMS/actions/workflows/build.yml)
 
-# ZKEACMS Build With .Net 8
+# ZKEACMS Build With .Net 9
 
 ZKEACMS is a visual design, **WYSIWYG** Content Management System.
 
@@ -58,11 +58,11 @@ $ ./src/ZKEACMS.WebHost/publish-zkeacms -r win-x64
 ## Run on Docker
 https://hub.docker.com/r/zkeasoft/zkeacms
 ```
-$ docker run -d -p 5000:80 zkeasoft/zkeacms:ent
+$ docker run -d -p 5000:8080 zkeasoft/zkeacms:ent
 ```
 
 ## Development
-* [.Net 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+* [.Net 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 * Microsoft Sql Server 2016+ / MySql 5.6+ / SQLite 3
 * Microsoft Visual Studio 2022 / Visual Studio Code
 
