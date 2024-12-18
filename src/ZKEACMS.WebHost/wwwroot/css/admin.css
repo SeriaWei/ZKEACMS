@@ -332,14 +332,6 @@ a.badge:hover {
             border-left: 5px solid #E28271;
         }
 
-    .fullRowList.widgets li {
-        cursor: grab;
-    }
-
-        .fullRowList.widgets li:active {
-            cursor: grabbing;
-        }
-
     .fullRowList li ul {
         list-style: none;
         padding-left: 2.2rem;
@@ -392,6 +384,7 @@ a.badge:hover {
 
         .fullRowList.ui-sortable li:active {
             border-color: #E28271;
+            cursor: grabbing;
         }
 
     .fullRowList a {
