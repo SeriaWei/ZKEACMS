@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<AssemblyName>ZKEACMS</AssemblyName>
 		<PackageId>ZKEACMS</PackageId>
 		<Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>
@@ -27,17 +27,17 @@
 		<ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Fluid.Core" Version="2.11.1" />
-		<PackageReference Include="HtmlAgilityPack" Version="1.11.70" />
-		<PackageReference Include="HtmlSanitizer" Version="8.1.870" />
+		<PackageReference Include="Fluid.Core" Version="2.19.0" />
+		<PackageReference Include="HtmlAgilityPack" Version="1.11.72" />
+		<PackageReference Include="HtmlSanitizer" Version="9.0.876" />
 		<PackageReference Include="LiteDB" Version="5.0.21" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
-		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
-		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
-		<PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.4" />
-		<PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.2" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-preview.2.efcore.9.0.0" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
+		<PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.5" />
+		<PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.7.0" />
 	</ItemGroup>
 </Project>
