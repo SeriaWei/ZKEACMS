@@ -16,7 +16,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="8.0.0" />
 		<ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj">
 			<Private>false</Private>
 			<ExcludeAssets>runtime</ExcludeAssets>

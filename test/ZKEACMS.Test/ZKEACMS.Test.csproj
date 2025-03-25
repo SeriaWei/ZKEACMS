@@ -9,10 +9,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageReference Include="Moq" Version="4.20.72" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.8.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.8.2" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.8.3" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.8.3" />
     <PackageReference Include="Selenium.Chrome.WebDriver" Version="85.0.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="4.29.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.30.0" />
   </ItemGroup>
 
   <ItemGroup>
