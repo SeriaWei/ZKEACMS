@@ -155,6 +155,11 @@ namespace ZKEACMS.Page
             get { return DbContext.Page; }
         }
 
+        public override IQueryable<PageEntity> Get()
+        {
+            return CurrentDbSet.AsNoTracking();
+        }
+
         public override PageEntity Get(params object[] primaryKey)
         {
             PageEntity page = base.Get(primaryKey);
