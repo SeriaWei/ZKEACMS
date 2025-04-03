@@ -13,19 +13,18 @@ namespace Easy
 {
     public static class ServiceLocator
     {
-        private static IHttpContextAccessor HttpContextAccessor;
-        private static IServiceProvider AppScopedServiceProvider;
+        private static IServiceScope AppScopedServiceProvider;
         private static Type MetaDataType = typeof(ViewMetaData<>);
         public static void Setup(IServiceProvider serviceProvider)
         {
-            HttpContextAccessor = serviceProvider.GetService<IHttpContextAccessor>();
-            AppScopedServiceProvider = serviceProvider;
+            AppScopedServiceProvider = serviceProvider.CreateScope();
         }
         private static IServiceProvider GetServiceProvider()
         {
-            if (HttpContextAccessor == null || HttpContextAccessor.HttpContext == null) return AppScopedServiceProvider;
+            var httpContextAccessor = AppScopedServiceProvider.ServiceProvider.GetService<IHttpContextAccessor>();
+            if (httpContextAccessor == null || httpContextAccessor.HttpContext == null) return AppScopedServiceProvider.ServiceProvider;
 
-            return HttpContextAccessor.HttpContext.RequestServices;
+            return httpContextAccessor.HttpContext.RequestServices;
         }
         public static T GetService<T>()
         {
@@ -45,7 +44,7 @@ namespace Easy
         }
         public static ViewConfigure GetViewConfigure(Type type)
         {
-            if (type != null && HttpContextAccessor != null)
+            if (type != null && AppScopedServiceProvider.ServiceProvider.GetService<IHttpContextAccessor>() != null)
             {
                 if (typeof(Microsoft.AspNetCore.Mvc.ControllerBase).IsAssignableFrom(type))
                 {
