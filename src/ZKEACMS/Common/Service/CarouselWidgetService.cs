@@ -114,11 +114,14 @@ namespace ZKEACMS.Common.Service
             {
                 carouselWidget.CarouselItems = new List<CarouselItemEntity>();
             }
-            if (carouselWidget.CarouselID.HasValue)
+            if (carouselWidget.CarouselID.HasValue && !carouselWidget.CarouselItems.Any(m => m.CarouselID == carouselWidget.CarouselID))
             {
-                carouselWidget.CarouselItems = carouselWidget.CarouselItems.Concat(_carouselItemService.Get(m => m.CarouselID == carouselWidget.CarouselID));
+                carouselWidget.CarouselItems = carouselWidget.CarouselItems.Concat(_carouselItemService.Get(m => m.CarouselID == carouselWidget.CarouselID)).ToList();
             }
-            carouselWidget.CarouselItems = carouselWidget.CarouselItems.Where(m => m.Status == (int)RecordStatus.Active);
+            if (carouselWidget.CarouselItems.Any(m => m.Status != (int)RecordStatus.Active))
+            {
+                carouselWidget.CarouselItems = carouselWidget.CarouselItems.Where(m => m.Status == (int)RecordStatus.Active).ToList();
+            }
             return carouselWidget;
         }
 
