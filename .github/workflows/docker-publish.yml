@@ -1,9 +1,7 @@
 name: Build and push Docker image
 on:
   push:
-    branches: [ master ]
-    tags:
-      - v*
+    branches: [ develop ]
 
 jobs:
   build-docker-image:
@@ -12,11 +10,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - id: docker-tag
-        uses: yuya-takeyama/docker-tag-from-github-ref-action@v1
-        with:
-          remove-version-tag-prefix: false
       
       - name: Log into registry
         uses: docker/login-action@v3
@@ -29,4 +22,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: zkeasoft/zkeacms:${{ steps.docker-tag.outputs.tag }}
+          tags: zkeasoft/zkeacms:dev
