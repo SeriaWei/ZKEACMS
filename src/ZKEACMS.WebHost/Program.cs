@@ -32,15 +32,15 @@ namespace ZKEACMS.WebHost
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
-            {
-                var logFoler = new DirectoryInfo(Path.Combine(hostingContext.HostingEnvironment.ContentRootPath, "Logs"));
-                if (!logFoler.Exists)
-                {
-                    logFoler.Create();
-                }
-                loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
-            });
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            builder.Services.AddSerilog((services, lc) => lc
+                .ReadFrom.Configuration(builder.Configuration)
+                .ReadFrom.Services(services)
+                .Enrich.FromLogContext()
+                .WriteTo.Console());
 
             builder.Services.ConfigureResource<DefaultResourceManager>();
             builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<MvcRazorRuntimeCompilationOptions>, CompilationOptionsSetup>());

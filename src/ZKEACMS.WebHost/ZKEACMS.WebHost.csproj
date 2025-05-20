@@ -24,6 +24,9 @@
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Logs\" />
   </ItemGroup>  
   <ItemGroup>
     <Content Include="Templates.zip" CopyToPublishDirectory="Always" />
