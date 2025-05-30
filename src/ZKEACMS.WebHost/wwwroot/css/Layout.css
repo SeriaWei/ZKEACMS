@@ -3,6 +3,7 @@
  * http://www.zkea.net/licenses */
 
 @import "./glyphicon/css/glyphicon.css";
+@import "./material-symbols.css";
 
 .zk-btn {
     display: inline-block;
