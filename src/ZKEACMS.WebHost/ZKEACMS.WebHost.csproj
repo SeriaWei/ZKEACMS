@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>ZKEACMS.WebHost</AssemblyName>
@@ -20,17 +19,17 @@
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.4" />
-    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
+    <PackageReference Include="Serilog.AspNetCore" />
     <ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
     <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logs\" />
-  </ItemGroup>  
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Templates.zip" CopyToPublishDirectory="Always" />
-  </ItemGroup>  
+  </ItemGroup>
   <ItemGroup>
     <None Update="Locale\en.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
