@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<PropertyGroup>
+		<AssemblyName>ZKEACMS.StyleEditor</AssemblyName>
+		<PackageId>ZKEACMS.StyleEditor</PackageId>
+		<PackageTags>CMS.StyleEditor</PackageTags>
+		<Description>Session plugin for ZKEACMS</Description>
+	</PropertyGroup>
+</Project>

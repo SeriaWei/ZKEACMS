@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<PropertyGroup>
+		<AssemblyName>ZKEACMS.Product</AssemblyName>
+		<PackageId>ZKEACMS.Product</PackageId>
+		<PackageTags>CMS.Product</PackageTags>
+		<Description>Product plugin for ZKEACMS</Description>
+	</PropertyGroup>
+</Project>

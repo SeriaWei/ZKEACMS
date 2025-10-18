@@ -26,6 +26,7 @@ namespace Easy.Mvc.Plugin
 #endif
         private readonly static List<AssemblyLoader> Loaders = new List<AssemblyLoader>();
         private readonly static Dictionary<string, Assembly> LoadedAssemblies = new Dictionary<string, Assembly>();
+        private static Dictionary<string, Assembly> PluginAssemblies = new Dictionary<string, Assembly>();
         public Loader(IWebHostEnvironment hostEnvironment)
         {
             HostingEnvironment = hostEnvironment;
@@ -53,6 +54,10 @@ namespace Easy.Mvc.Plugin
                         LoadedAssemblies.Add(assembly.FullName, assembly);
                     }
                 });
+                if (!PluginAssemblies.ContainsKey(m.DirectoryName))
+                {
+                    PluginAssemblies.Add(m.DirectoryName, loader.CurrentAssembly);
+                }
                 return loader;
             }));
             Console.WriteLine("All plugins are loaded. Elapsed: {0}ms", (DateTime.Now - start).Milliseconds);
@@ -66,7 +71,7 @@ namespace Easy.Mvc.Plugin
         public IEnumerable<PluginInfo> GetPlugins()
         {
             string modulePath = HostingEnvironment.IsDevelopment() ?
-                new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent.FullName :
+                Path.Combine(new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent.FullName, PluginFolder) :
                 Path.Combine(HostingEnvironment.WebRootPath, PluginFolder);
 
             if (Directory.Exists(modulePath))
@@ -79,6 +84,12 @@ namespace Easy.Mvc.Plugin
                     {
                         var plugin = JsonConverter.Deserialize<PluginInfo>(File.ReadAllText(pluginInfo));
                         plugin.RelativePath = item.FullName;
+                        plugin.DirectoryName = item.Name;
+                        if (PluginAssemblies.ContainsKey(item.Name))
+                        {
+                            plugin.Assembly = PluginAssemblies[item.Name];
+                            plugin.EmbeddedResource = plugin.Assembly.GetManifestResourceNames().ToHashSet(StringComparer.OrdinalIgnoreCase);
+                        }
                         yield return plugin;
                     }
                 }

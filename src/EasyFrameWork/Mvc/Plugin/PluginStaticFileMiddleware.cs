@@ -14,6 +14,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,41 +25,46 @@ namespace Easy.Mvc.Plugin
         private readonly RequestDelegate _next;
         private readonly IContentTypeProvider _contentTypeProvider;
         private readonly IPluginLoader _pluginLoader;
-        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public PluginStaticFileMiddleware(RequestDelegate next, IWebHostEnvironment hostingEnv, IOptions<StaticFileOptions> options, IPluginLoader pluginLoader)
+        public PluginStaticFileMiddleware(RequestDelegate next, IOptions<StaticFileOptions> options, IPluginLoader pluginLoader)
         {
             _next = next;
             _contentTypeProvider = options.Value.ContentTypeProvider ?? new FileExtensionContentTypeProvider();
             _pluginLoader = pluginLoader;
-            _hostingEnvironment = hostingEnv;
         }
 
-        public Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context)
         {
             if (IsGetMethod(context.Request.Method) && IsPluginMatchPath(context.Request.Path) && IsSupportContentType(context))
             {
-                string filePath = GetAbsolutePath(context.Request.Path);
-                if (File.Exists(filePath))
+                string filePath = context.Request.Path;
+                foreach (var plugin in _pluginLoader.GetPlugins().Where(p => p.Enable))
                 {
-                    var file = new PhysicalFileInfo(new FileInfo(filePath));
-                    context.Response.ContentLength = file.Length;
+                    if (!filePath.StartsWith($"/{_pluginLoader.PluginFolderName()}/{plugin.Name}/")) continue;
+
+                    var resourceName = filePath.Substring($"/{_pluginLoader.PluginFolderName()}/".Length).Replace('/', '.');
+                    if (!plugin.EmbeddedResource.TryGetValue(resourceName, out string actualResourceName)) continue;
+
+                    var resourceStream = plugin.Assembly.GetManifestResourceStream(actualResourceName);
+                    if (resourceStream == null) continue;
+
+                    context.Response.ContentLength = resourceStream.Length;
                     context.Response.StatusCode = 200;
                     var sendFileFeature = context.Features.Get<IHttpResponseBodyFeature>();
                     if (sendFileFeature != null)
                     {
-                        return sendFileFeature.SendFileAsync(filePath, 0, file.Length, CancellationToken.None);
+                        await resourceStream.CopyToAsync(sendFileFeature.Stream);
                     }
-                    using (var readStream = file.CreateReadStream())
+                    else
                     {
-                        var task = StreamCopyOperation.CopyToAsync(readStream, context.Response.Body, file.Length, 64 * 1024, context.RequestAborted);
-                        task.Wait();
-                        return task;
+                        await resourceStream.CopyToAsync(context.Response.Body);
                     }
                 }
-
             }
-            return _next(context);
+            else
+            {
+                await _next(context);
+            }
         }
         private bool IsGetMethod(string method)
         {
@@ -77,12 +83,6 @@ namespace Easy.Mvc.Plugin
                 return true;
             }
             return false;
-        }
-        private string GetAbsolutePath(string path)
-        {
-            string parentPath = new DirectoryInfo(_hostingEnvironment.ContentRootPath).Parent.FullName;
-            string subPath = path.Replace($"/{_pluginLoader.PluginFolderName()}/", "/").ToFilePath();
-            return parentPath.CombinePath(subPath);
         }
     }
 }

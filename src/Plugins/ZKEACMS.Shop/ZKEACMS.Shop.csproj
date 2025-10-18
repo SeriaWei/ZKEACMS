@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<PropertyGroup>
+		<AssemblyName>ZKEACMS.Shop</AssemblyName>
+		<PackageId>ZKEACMS.Shop</PackageId>
+		<PackageTags>CMS.Shop</PackageTags>
+		<Description>Session plugin for ZKEACMS</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Alipay.AopSdk.F2FPay.AspnetCore" />
+	</ItemGroup>
+</Project>

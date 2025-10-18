@@ -1,7 +1,7 @@
 /* http://www.zkea.net/ 
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
-
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ namespace Easy.Mvc.Plugin
 {
     public interface IPluginLoader
     {
+        IWebHostEnvironment HostingEnvironment { get; set; }
         IEnumerable<IPluginStartup> LoadEnablePlugins(IServiceCollection serviceCollection);
         IEnumerable<PluginInfo> GetPlugins();
         void DisablePlugin(string pluginId);

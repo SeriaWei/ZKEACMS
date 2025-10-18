@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<PropertyGroup>
+		<AssemblyName>ZKEACMS.FormGenerator</AssemblyName>
+		<PackageId>ZKEACMS.FormGenerator</PackageId>		
+		<PackageTags>CMS.Section</PackageTags>
+		<Description>Session plugin for ZKEACMS</Description>
+	</PropertyGroup>
+</Project>

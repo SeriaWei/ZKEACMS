@@ -5,7 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Easy.Mvc.Plugin
 {
@@ -22,6 +24,12 @@ namespace Easy.Mvc.Plugin
         public DateTime? PublishedDate { get; set; }
 
         //Additional Property
+        [JsonIgnore]
         public string RelativePath { get; set; }
+        [JsonIgnore]
+        public string DirectoryName { get; set; }
+        [JsonIgnore]
+        public Assembly Assembly { get; set; }
+        public HashSet<string> EmbeddedResource { get; set; }
     }
 }

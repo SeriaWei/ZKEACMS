@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<PropertyGroup>
+		<AssemblyName>ZKEACMS.Swagger</AssemblyName>
+		<PackageId>ZKEACMS.Swagger</PackageId>
+		<PackageTags>CMS.Swagger</PackageTags>
+		<Description>Session plugin for ZKEACMS</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" />
+	</ItemGroup>
+</Project>
