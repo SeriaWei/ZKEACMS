@@ -72,7 +72,7 @@ namespace Easy.Mvc.Plugin
         {
             string modulePath = HostingEnvironment.IsDevelopment() ?
                 Path.Combine(new DirectoryInfo(HostingEnvironment.ContentRootPath).Parent.FullName, PluginFolder) :
-                Path.Combine(HostingEnvironment.WebRootPath, PluginFolder);
+                Path.Combine(HostingEnvironment.ContentRootPath, PluginFolder);
 
             if (Directory.Exists(modulePath))
             {
