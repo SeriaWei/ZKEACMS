@@ -115,7 +115,7 @@ namespace Easy.Mvc.Plugin
             });
         }
 
-        public string PluginFolderName()
+        public string GetPluginFolderName()
         {
             return PluginFolder;
         }

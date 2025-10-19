@@ -23,7 +23,7 @@ namespace Easy.Notification
         public object Model { get; set; }
         /// <summary>
         /// Content root view path: ~/EmailTemplates/ResetPassword.cshtml.
-        /// Or view in plugins: ~/wwwroot/Plugins/ZKEACMS.Article/EmailTemplates/ResetPassword.cshtml
+        /// Or view in plugins: ~/Plugins/ZKEACMS.Article/EmailTemplates/ResetPassword.cshtml
         /// </summary>
         public string TemplatePath { get; set; }
     }

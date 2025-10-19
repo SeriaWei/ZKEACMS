@@ -19,6 +19,6 @@ namespace Easy.Mvc.Plugin
         void DisablePlugin(string pluginId);
         void EnablePlugin(string pluginId);
         IEnumerable<Assembly> GetPluginAssemblies();
-        string PluginFolderName();
+        string GetPluginFolderName();
     }
 }

@@ -42,26 +42,18 @@ namespace Easy.Mvc.RazorPages
         {
             ActionContext actionContext = new ActionContext(_httpContextAccessor.HttpContext, new RouteData(), new ActionDescriptor());
 
-            string pluginPath = $"~/wwwroot/{Loader.PluginFolder}/";
+            string pluginPath = $"~/{Loader.PluginFolder}/";
             string actualViewPath = viewPath;
-            if (_hostingEnvironment.IsDevelopment() && actualViewPath.StartsWith(pluginPath))
+            if (_hostingEnvironment.IsDevelopment() && viewPath.StartsWith(pluginPath))
             {
-                actualViewPath = actualViewPath.Replace(pluginPath, DeveloperViewFileProvider.ProjectRootPath);
+                actualViewPath = viewPath.Replace("~/", DeveloperViewFileProvider.ProjectRootPath);
             }
-            else if (_hostingEnvironment.IsProduction() && actualViewPath.StartsWith(pluginPath))
-            {
-                string filePath = actualViewPath.Replace("~/", string.Empty);
-                var fileInfo = _hostingEnvironment.ContentRootFileProvider.GetFileInfo(filePath);
-                if (!fileInfo.Exists)
-                {
-                    actualViewPath = $"~/{string.Join("/", actualViewPath.Split('/').Skip(4))}";
-                }
-            }
+
             ViewEngineResult viewResult = _viewEngine.GetView(null, actualViewPath, true);
 
             if (!viewResult.Success)
             {
-                throw new InvalidOperationException($"Can not find view from path: {viewPath}. If your view is in plugins, please make sure the path is starts with ~/wwwroot/{Loader.PluginFolder}/");
+                throw new InvalidOperationException($"Can not find view from path: {viewPath}. If your view is in plugins, please make sure the path is starts with ~/{Loader.PluginFolder}/");
             }
 
             ViewDataDictionary viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())

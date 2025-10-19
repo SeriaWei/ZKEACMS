@@ -40,25 +40,10 @@ namespace Easy.Mvc.Plugin
         {
             if (IsGetMethod(context.Request.Method) && IsPluginMatchPath(context.Request.Path) && IsSupportContentType(context))
             {
-                string filePath = context.Request.Path;
-                var fileInfo = GetFileInfo(filePath);
-                if (fileInfo.Exists)
-                {
-                    using (var fileStream = fileInfo.OpenRead())
-                    {
-                        await WriteStream(context, fileStream);
-                    }
-                }
-                else
-                {
-                    using (var fileStream = GetManifestResourceStream(filePath))
-                    {
-                        if (fileStream != null)
-                        {
-                            await WriteStream(context, fileStream);
-                        }
-                    }
-                }                    
+                var stream = GetFileStream(context.Request.Path);
+                if (stream == null) return;
+
+                await CopyToResponseStream(context, stream);
             }
             else
             {
@@ -66,35 +51,43 @@ namespace Easy.Mvc.Plugin
             }
         }
 
+        private Stream GetFileStream(string path)
+        {
+            var fileInfo = GetFileInfo(path);
+            if (fileInfo.Exists) return fileInfo.OpenRead();
+
+            return GetManifestResourceStream(path);
+        }
+
         private Stream GetManifestResourceStream(string filePath)
         {
             foreach (var plugin in _pluginLoader.GetPlugins().Where(p => p.Enable))
             {
-                if (!filePath.StartsWith($"/{_pluginLoader.PluginFolderName()}/{plugin.Name}/")) continue;
+                if (!filePath.StartsWith($"/{_pluginLoader.GetPluginFolderName()}/{plugin.Name}/")) continue;
 
-                var resourceName = filePath.Substring($"/{_pluginLoader.PluginFolderName()}/".Length).Replace('/', '.');
+                var resourceName = filePath.Substring($"/{_pluginLoader.GetPluginFolderName()}/".Length).Replace('/', '.');
                 if (!plugin.EmbeddedResource.TryGetValue(resourceName, out string actualResourceName)) continue;
 
-                var resourceStream = plugin.Assembly.GetManifestResourceStream(actualResourceName);
-                if (resourceStream == null) continue;
-
-                return resourceStream;
+                return plugin.Assembly.GetManifestResourceStream(actualResourceName);
             }
             return null;
         }
 
-        private static async Task WriteStream(HttpContext context, Stream resourceStream)
+        private static async Task CopyToResponseStream(HttpContext context, Stream resourceStream)
         {
-            context.Response.ContentLength = resourceStream.Length;
-            context.Response.StatusCode = 200;
-            var sendFileFeature = context.Features.Get<IHttpResponseBodyFeature>();
-            if (sendFileFeature != null)
+            using (resourceStream)
             {
-                await resourceStream.CopyToAsync(sendFileFeature.Stream);
-            }
-            else
-            {
-                await resourceStream.CopyToAsync(context.Response.Body);
+                context.Response.ContentLength = resourceStream.Length;
+                context.Response.StatusCode = 200;
+                var sendFileFeature = context.Features.Get<IHttpResponseBodyFeature>();
+                if (sendFileFeature != null)
+                {
+                    await resourceStream.CopyToAsync(sendFileFeature.Stream);
+                }
+                else
+                {
+                    await resourceStream.CopyToAsync(context.Response.Body);
+                }
             }
         }
 
@@ -104,7 +97,7 @@ namespace Easy.Mvc.Plugin
         }
         private bool IsPluginMatchPath(string path)
         {
-            return path.StartsWith($"/{_pluginLoader.PluginFolderName()}/", StringComparison.OrdinalIgnoreCase);
+            return path.StartsWith($"/{_pluginLoader.GetPluginFolderName()}/", StringComparison.OrdinalIgnoreCase);
         }
 
         private bool IsSupportContentType(HttpContext context)
