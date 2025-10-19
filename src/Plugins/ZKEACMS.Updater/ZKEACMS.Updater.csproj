@@ -5,4 +5,12 @@
 		<PackageTags>CMS.Updater</PackageTags>
 		<Description>Session plugin for ZKEACMS</Description>
 	</PropertyGroup>
+	<ItemGroup>
+	  <EmbeddedResource Remove="DbScripts\Readme.txt" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="DbScripts\Readme.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
 </Project>

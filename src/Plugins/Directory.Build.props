@@ -12,7 +12,7 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<EmbeddedResource Include="**\*" Exclude="bin\**;obj\**;Views\**;*.csproj"/>
+		<EmbeddedResource Include="**\*" Exclude="bin\**;obj\**;Views\**;*.csproj;data.db"/>
 	</ItemGroup>
 
 	<ItemGroup>
