@@ -26,11 +26,15 @@ namespace ZKEACMS
 
         public static string MapPath(this IWebHostEnvironment env, params string[] paths)
         {
-            if (env.IsDevelopment() && paths[0] == Easy.Mvc.Plugin.Loader.PluginFolder)
+            if (paths[0] == Easy.Mvc.Plugin.Loader.PluginFolder)
             {
-                return Path.Combine(new DirectoryInfo(env.ContentRootPath).Parent.FullName, Path.Combine(paths));
+                if (env.IsDevelopment())
+                {
+                    return Path.Combine(new DirectoryInfo(env.ContentRootPath).Parent.FullName, Path.Combine(paths));
+                }
+                return Path.Combine(env.ContentRootPath, Path.Combine(paths));
             }
-            return Path.Combine(env.ContentRootPath, Path.Combine(paths));
+            return Path.Combine(env.WebRootPath, Path.Combine(paths));
         }
     }
 }
