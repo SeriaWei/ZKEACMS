@@ -16,6 +16,8 @@ namespace Easy.Mvc.Plugin
         IWebHostEnvironment HostingEnvironment { get; set; }
         IEnumerable<IPluginStartup> LoadEnablePlugins(IServiceCollection serviceCollection);
         IEnumerable<PluginInfo> GetPlugins();
+        PluginInfo GetLoadedPlugin(string name);
+        IEnumerable<PluginInfo> GetLoadedPlugins();
         void DisablePlugin(string pluginId);
         void EnablePlugin(string pluginId);
         IEnumerable<Assembly> GetPluginAssemblies();

@@ -41,7 +41,11 @@ namespace Easy.Mvc.Plugin
             if (IsGetMethod(context.Request.Method) && IsPluginMatchPath(context.Request.Path) && IsSupportContentType(context))
             {
                 var stream = GetFileStream(context.Request.Path);
-                if (stream == null) return;
+                if (stream == null)
+                {
+                    context.Response.StatusCode = 404;
+                    return;
+                }
 
                 await CopyToResponseStream(context, stream);
             }
@@ -61,16 +65,13 @@ namespace Easy.Mvc.Plugin
 
         private Stream GetManifestResourceStream(string filePath)
         {
-            foreach (var plugin in _pluginLoader.GetPlugins().Where(p => p.Enable))
-            {
-                if (!filePath.StartsWith($"/{_pluginLoader.GetPluginFolderName()}/{plugin.Name}/")) continue;
+            var plugin = _pluginLoader.GetLoadedPlugin(filePath.Split('/')[2]);
+            if (plugin == null) return null;
 
-                var resourceName = filePath.Substring($"/{_pluginLoader.GetPluginFolderName()}/".Length).Replace('/', '.');
-                if (!plugin.EmbeddedResource.TryGetValue(resourceName, out string actualResourceName)) continue;
+            var resourceName = filePath.Substring($"/{_pluginLoader.GetPluginFolderName()}/".Length).Replace('/', '.');
+            if (!plugin.EmbeddedResource.TryGetValue(resourceName, out string actualResourceName)) return null;
 
-                return plugin.Assembly.GetManifestResourceStream(actualResourceName);
-            }
-            return null;
+            return plugin.Assembly.GetManifestResourceStream(actualResourceName);
         }
 
         private static async Task CopyToResponseStream(HttpContext context, Stream resourceStream)

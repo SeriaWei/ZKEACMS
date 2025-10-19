@@ -26,7 +26,7 @@ namespace ZKEACMS
 
         public static string MapPath(this IWebHostEnvironment env, params string[] paths)
         {
-            if (paths[0] == Easy.Mvc.Plugin.Loader.PluginFolder)
+            if (Easy.Mvc.Plugin.Loader.PluginFolder.Equals(paths[0], StringComparison.OrdinalIgnoreCase))
             {
                 if (env.IsDevelopment())
                 {

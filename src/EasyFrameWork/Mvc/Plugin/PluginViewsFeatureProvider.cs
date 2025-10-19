@@ -34,7 +34,7 @@ namespace Easy.Mvc.Plugin
             var knownIdentifiers = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var descriptors = new List<CompiledViewDescriptor>();
 
-            var plugins = PluginLoader.GetPlugins();
+            var plugins = PluginLoader.GetLoadedPlugins();
             var isDevelopment = PluginLoader.HostingEnvironment.IsDevelopment();
             foreach (var plugin in plugins.Where(m => m.Enable))
             {

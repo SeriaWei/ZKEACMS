@@ -27,6 +27,9 @@ namespace Easy.Mvc.Plugin
         private readonly static List<AssemblyLoader> Loaders = new List<AssemblyLoader>();
         private readonly static Dictionary<string, Assembly> LoadedAssemblies = new Dictionary<string, Assembly>();
         private static Dictionary<string, Assembly> PluginAssemblies = new Dictionary<string, Assembly>();
+        private static Dictionary<string, PluginInfo> availablePluginSet = new Dictionary<string, PluginInfo>(StringComparer.OrdinalIgnoreCase);
+
+
         public Loader(IWebHostEnvironment hostEnvironment)
         {
             HostingEnvironment = hostEnvironment;
@@ -54,10 +57,15 @@ namespace Easy.Mvc.Plugin
                         LoadedAssemblies.Add(assembly.FullName, assembly);
                     }
                 });
-                if (!PluginAssemblies.ContainsKey(m.DirectoryName))
+                if (!PluginAssemblies.ContainsKey(m.Name))
                 {
-                    PluginAssemblies.Add(m.DirectoryName, loader.CurrentAssembly);
+                    PluginAssemblies.Add(m.Name, loader.CurrentAssembly);
                 }
+
+                m.Assembly = loader.CurrentAssembly;
+                m.EmbeddedResource = loader.CurrentAssembly.GetManifestResourceNames().ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+                availablePluginSet[m.Name] = m;
                 return loader;
             }));
             Console.WriteLine("All plugins are loaded. Elapsed: {0}ms", (DateTime.Now - start).Milliseconds);
@@ -85,11 +93,6 @@ namespace Easy.Mvc.Plugin
                         var plugin = JsonConverter.Deserialize<PluginInfo>(File.ReadAllText(pluginInfo));
                         plugin.RelativePath = item.FullName;
                         plugin.DirectoryName = item.Name;
-                        if (PluginAssemblies.ContainsKey(item.Name))
-                        {
-                            plugin.Assembly = PluginAssemblies[item.Name];
-                            plugin.EmbeddedResource = plugin.Assembly.GetManifestResourceNames().ToHashSet(StringComparer.OrdinalIgnoreCase);
-                        }
                         yield return plugin;
                     }
                 }
@@ -118,6 +121,18 @@ namespace Easy.Mvc.Plugin
         public string GetPluginFolderName()
         {
             return PluginFolder;
+        }
+
+        public PluginInfo GetLoadedPlugin(string name)
+        {
+            if (!availablePluginSet.ContainsKey(name)) return null;
+
+            return availablePluginSet[name];
+        }
+
+        public IEnumerable<PluginInfo> GetLoadedPlugins()
+        {
+            return availablePluginSet.Values;
         }
     }
 

@@ -19,7 +19,7 @@ namespace Easy.Mvc.Plugin
             base(options =>
             {
                 options.ViewLocationFormats.Clear();
-                loader.GetPlugins().Where(m => m.Enable && m.ID.IsNotNullAndWhiteSpace()).Each(m =>
+                loader.GetLoadedPlugins().Each(m =>
                 {
                     var directory = new DirectoryInfo(m.RelativePath);
                     if (hostingEnvironment.IsDevelopment())

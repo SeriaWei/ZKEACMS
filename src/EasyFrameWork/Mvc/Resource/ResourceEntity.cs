@@ -117,7 +117,7 @@ namespace Easy.Mvc.Resource
                 {
                     const string pluginPath = "~/" + Plugin.Loader.PluginFolder + "/";
                     string filePath = null;
-                    if (factory.StartsWith(pluginPath))
+                    if (factory.StartsWith(pluginPath, StringComparison.OrdinalIgnoreCase))
                     {
                         if (hostingEnvironment.IsDevelopment())
                         {

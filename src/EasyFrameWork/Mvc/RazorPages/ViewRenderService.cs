@@ -44,7 +44,7 @@ namespace Easy.Mvc.RazorPages
 
             string pluginPath = $"~/{Loader.PluginFolder}/";
             string actualViewPath = viewPath;
-            if (_hostingEnvironment.IsDevelopment() && viewPath.StartsWith(pluginPath))
+            if (_hostingEnvironment.IsDevelopment() && viewPath.StartsWith(pluginPath, StringComparison.OrdinalIgnoreCase))
             {
                 actualViewPath = viewPath.Replace("~/", DeveloperViewFileProvider.ProjectRootPath);
             }
