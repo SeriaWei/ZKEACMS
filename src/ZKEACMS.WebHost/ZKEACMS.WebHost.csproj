@@ -1,44 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <AssemblyName>ZKEACMS.WebHost</AssemblyName>
-    <PackageId>ZKEACMS.WebHost</PackageId>
-    <Copyright>深圳市纸壳软件科技有限公司 纸壳CMS</Copyright>
-    <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS.Core</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>ZKEACMS.WebHost</PackageTags>
-    <Description>Package Description</Description>
-    <Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
-    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
-    <TieredCompilation>true</TieredCompilation>
-    <ServerGarbageCollection>false</ServerGarbageCollection>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <RazorCompileOnBuild>true</RazorCompileOnBuild>
-    <RazorCompileOnPublish>true</RazorCompileOnPublish>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
-    <PackageReference Include="Serilog.AspNetCore" />
-    <ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
-    <ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logs\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Templates.zip" CopyToPublishDirectory="Always" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Locale\en.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Locale\zh-CN.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Locale\zh-TW.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<AssemblyName>ZKEACMS.WebHost</AssemblyName>
+		<PackageId>ZKEACMS.WebHost</PackageId>
+		<Copyright>深圳市纸壳软件科技有限公司 纸壳CMS</Copyright>
+		<PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/SeriaWei/ZKEACMS.Core</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>ZKEACMS.WebHost</PackageTags>
+		<Description>Package Description</Description>
+		<Authors>深圳市纸壳软件科技有限公司 ZKEASOFT</Authors>
+		<TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
+		<TieredCompilation>true</TieredCompilation>
+		<ServerGarbageCollection>false</ServerGarbageCollection>
+		<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+		<RazorCompileOnBuild>true</RazorCompileOnBuild>
+		<RazorCompileOnPublish>true</RazorCompileOnPublish>
+		<CompressionEnabled>false</CompressionEnabled>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
+		<PackageReference Include="Serilog.AspNetCore" />
+		<ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
+		<ProjectReference Include="..\ZKEACMS\ZKEACMS.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Logs\" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Templates.zip" CopyToPublishDirectory="Always" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Locale\en.yml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Locale\zh-CN.yml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Locale\zh-TW.yml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>
