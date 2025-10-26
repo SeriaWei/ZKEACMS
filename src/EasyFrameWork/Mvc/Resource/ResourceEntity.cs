@@ -117,9 +117,16 @@ namespace Easy.Mvc.Resource
                 {
                     const string pluginPath = "~/" + Plugin.Loader.PluginFolder + "/";
                     string filePath = null;
-                    if (hostingEnvironment.IsDevelopment() && factory.StartsWith(pluginPath))
+                    if (factory.StartsWith(pluginPath, StringComparison.OrdinalIgnoreCase))
                     {
-                        filePath = Directory.GetParent(hostingEnvironment.ContentRootPath).FullName.CombinePath(factory.Replace(pluginPath, ""));
+                        if (hostingEnvironment.IsDevelopment())
+                        {
+                            filePath = Directory.GetParent(hostingEnvironment.ContentRootPath).FullName.CombinePath(factory.Replace("~/", ""));
+                        }
+                        else
+                        {
+                            filePath = hostingEnvironment.ContentRootPath.CombinePath(factory.Replace("~/", ""));
+                        }
                     }
                     else
                     {
@@ -127,8 +134,10 @@ namespace Easy.Mvc.Resource
                         filePath = hostingEnvironment.WebRootPath.CombinePath(relatePath);
                         hostingEnvironment.WebRootFileProvider.Watch(relatePath).RegisterChangeCallback(OnFileChange, new FilePathMap { Source = factory, FilePath = filePath });
                     }
-
-                    return factory + "?v=" + File.GetLastWriteTime(filePath).ToFileTime().ToString("x");
+                    if (File.Exists(filePath))
+                    {
+                        return factory + "?v=" + File.GetLastWriteTime(filePath).ToFileTime().ToString("x");
+                    }                    
                 }
                 return factory;
             });

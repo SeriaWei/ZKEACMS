@@ -7,8 +7,8 @@ using Easy.Mvc.Plugin;
 using Easy.Mvc.Resource;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -31,16 +31,20 @@ namespace ZKEACMS.WebHost
         private static WebApplication BuildApplication(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            //builder.Services.AddResponseCompression(options =>
+            //{
+            //    options.Providers.Add<BrotliCompressionProvider>();
+            //    options.Providers.Add<GzipCompressionProvider>();
+            //});
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();
 
-            builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
-            {
-                var logFoler = new DirectoryInfo(Path.Combine(hostingContext.HostingEnvironment.ContentRootPath, "Logs"));
-                if (!logFoler.Exists)
-                {
-                    logFoler.Create();
-                }
-                loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
-            });
+            builder.Services.AddSerilog((services, lc) => lc
+                .ReadFrom.Configuration(builder.Configuration)
+                .ReadFrom.Services(services)
+                .Enrich.FromLogContext()
+                .WriteTo.Console());
 
             builder.Services.ConfigureResource<DefaultResourceManager>();
             builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<MvcRazorRuntimeCompilationOptions>, CompilationOptionsSetup>());
@@ -53,6 +57,7 @@ namespace ZKEACMS.WebHost
             builder.Services.UseZKEACMS(builder.Configuration, builder.Environment);
 
             var app = builder.Build();
+            //app.UseResponseCompression();
             return app;
         }
         private static void ConfigureApplication(WebApplication app)

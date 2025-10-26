@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<PropertyGroup>
+		<AssemblyName>ZKEACMS.GlobalScripts</AssemblyName>
+		<PackageId>ZKEACMS.GlobalScripts</PackageId>		
+		<PackageTags>CMS.GlobalScripts</PackageTags>
+		<Description>GlobalScripts plugin for ZKEACMS</Description>
+	</PropertyGroup>
+</Project>

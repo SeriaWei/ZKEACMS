@@ -15,23 +15,10 @@ namespace ZKEACMS.Storage
 {
     public abstract class PluginData<T> : IDisposable where T : PluginBase
     {
-        private readonly Stream _dbStream;
-        private readonly Stream _dbLogStream;
         private LiteDatabase Database;
         public PluginData(ILogger<T> logger)
         {
-            try
-            {
-                Database = new LiteDatabase(Path.Combine(PluginBase.GetPath<T>(), "Data.db"));
-            }
-            catch (Exception ex)
-            {
-                logger.LogError("Can not use persistent file storage, use memory storage instead.");
-                logger.LogError(ex, ex.Message);
-                _dbStream = new MemoryStream();
-                _dbLogStream = new MemoryStream();
-                Database = new LiteDatabase(_dbStream, null, _dbLogStream);
-            }
+            Database = new LiteDatabase(Path.Combine(PluginBase.GetPath<T>(), "Data.db"));
         }
 
         public virtual ILiteCollection<TModel> GetCollection<TModel>(string name)

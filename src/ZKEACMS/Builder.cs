@@ -39,10 +39,7 @@ namespace ZKEACMS
 
         public static void UseZKEACMS(this IApplicationBuilder applicationBuilder, IWebHostEnvironment hostingEnvironment, IServiceProvider serviceProvider)
         {
-            if (hostingEnvironment.IsDevelopment())
-            {
-                applicationBuilder.UsePluginStaticFile();
-            }
+            applicationBuilder.UsePluginStaticFile();
             applicationBuilder.UseStaticFiles();
             ServiceLocator.Setup(serviceProvider);
             applicationBuilder.ConfigureResource();

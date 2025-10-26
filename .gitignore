@@ -164,3 +164,4 @@ node_modules
 App_Data/
 *.db
 /src/ZKEACMS.WebHost/Temp
+/src/ZKEACMS.WebHost/Logs

@@ -1,43 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
-		<AssemblyName>ZKEACMS</AssemblyName>
-		<PackageId>ZKEACMS</PackageId>
-		<Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>
-		<PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
-		<PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/SeriaWei/ZKEACMS.Core</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<PackageTags>CMS</PackageTags>
-		<Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
-		<Version>4.3</Version>
-		<AssemblyVersion>4.3</AssemblyVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	</PropertyGroup>
-	<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App"></FrameworkReference>
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Fluid.Core" Version="2.24.0" />
-		<PackageReference Include="HtmlAgilityPack" Version="1.12.1" />
-		<PackageReference Include="HtmlSanitizer" Version="9.0.884" />
-		<PackageReference Include="LiteDB" Version="5.0.21" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.4" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.4" />
-		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-preview.3.efcore.9.0.0" />
-		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.8" />
-		<PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.6" />
-		<PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.7.0" />
-	</ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <AssemblyName>ZKEACMS</AssemblyName>
+    <PackageId>ZKEACMS</PackageId>
+    <Copyright>深圳市纸壳软件有限公司 纸壳CMS</Copyright>
+    <PackageLicenseUrl>http://www.zkea.net/licenses</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/SeriaWei/ZKEACMS.Core</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SeriaWei/ZKEACMS.Core</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>CMS</PackageTags>
+    <Authors>深圳市纸壳软件有限公司 ZKEASOFT</Authors>
+    <Version>4.3</Version>
+    <AssemblyVersion>4.3</AssemblyVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App">
+    </FrameworkReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fluid.Core" />
+    <PackageReference Include="HtmlAgilityPack" />
+    <PackageReference Include="HtmlSanitizer" />
+    <PackageReference Include="LiteDB" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" />
+    <PackageReference Include="SixLabors.ImageSharp" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" />
+    <PackageReference Include="System.Xml.XPath.XmlDocument" />
+  </ItemGroup>
 </Project>
