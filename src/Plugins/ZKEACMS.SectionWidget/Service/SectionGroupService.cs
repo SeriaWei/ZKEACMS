@@ -21,13 +21,12 @@ namespace ZKEACMS.SectionWidget.Service
     public class SectionGroupService : ServiceBase<SectionGroup, CMSDbContext>, ISectionGroupService
     {
         private readonly ISectionContentProviderService _sectionContentProviderService;
-        private readonly IPluginLoader _pluginLoader;
+        private readonly SectionPlug _sectionPlug;
 
-        public SectionGroupService(ISectionContentProviderService sectionContentProviderService,
-            IPluginLoader pluginLoader, IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
+        public SectionGroupService(ISectionContentProviderService sectionContentProviderService, SectionPlug sectionPlug, IApplicationContext applicationContext, CMSDbContext dbContext) : base(applicationContext, dbContext)
         {
             _sectionContentProviderService = sectionContentProviderService;
-            _pluginLoader = pluginLoader;
+            _sectionPlug = sectionPlug;
         }
         public override IQueryable<SectionGroup> Get()
         {
@@ -35,45 +34,43 @@ namespace ZKEACMS.SectionWidget.Service
         }
         public SectionGroup GenerateContentFromConfig(SectionGroup group)
         {
-            string configFile = PluginBase.GetPath<SectionPlug>().CombinePath("Thumbnail/{0}.xml".FormatWith(group.PartialView).ToFilePath());
             List<SectionContent> contents = new List<SectionContent>();
-            if (File.Exists(configFile))
+
+            using (var fileStream = _sectionPlug.GetResourceStream("~/Thumbnail/{0}.xml".FormatWith(group.PartialView)))
             {
-                using (FileStream fileStream = new FileStream(configFile, FileMode.Open))
+                XmlDocument doc = new XmlDocument();
+                doc.Load(fileStream);
+                var nodes = doc.SelectNodes("/required/item");
+                const string fullNameSpace = "ZKEACMS.SectionWidget.Models.{0}";
+                foreach (XmlNode item in nodes)
                 {
-                    XmlDocument doc = new XmlDocument();
-                    doc.Load(fileStream);
-                    var nodes = doc.SelectNodes("/required/item");
-                    const string fullNameSpace = "ZKEACMS.SectionWidget.Models.{0}";
-                    foreach (XmlNode item in nodes)
+                    var attr = item.Attributes["type"];
+
+                    if (attr != null && attr.Value.IsNotNullAndWhiteSpace())
                     {
-                        var attr = item.Attributes["type"];
-
-                        if (attr != null && attr.Value.IsNotNullAndWhiteSpace())
+                        var typeInfoArray = attr.Value.Split('.');
+                        string fullTypeInfo = fullNameSpace.FormatWith(typeInfoArray[typeInfoArray.Length - 1]);
+                        if (SectionPlug.ContentTypes.ContainsKey(fullTypeInfo))
                         {
-                            var typeInfoArray = attr.Value.Split('.');
-                            string fullTypeInfo = fullNameSpace.FormatWith(typeInfoArray[typeInfoArray.Length - 1]);
-                            if (SectionPlug.ContentTypes.ContainsKey(fullTypeInfo))
+                            var content = Activator.CreateInstance(SectionPlug.ContentTypes[fullTypeInfo]) as SectionContent;
+                            var properties = item.SelectNodes("property");
+                            foreach (XmlNode property in properties)
                             {
-                                var content = Activator.CreateInstance(SectionPlug.ContentTypes[fullTypeInfo]) as SectionContent;
-                                var properties = item.SelectNodes("property");
-                                foreach (XmlNode property in properties)
+                                var name = property.Attributes["name"];
+                                if (name != null && name.Value.IsNotNullAndWhiteSpace() && property.InnerText.IsNotNullAndWhiteSpace())
                                 {
-                                    var name = property.Attributes["name"];
-                                    if (name != null && name.Value.IsNotNullAndWhiteSpace() && property.InnerText.IsNotNullAndWhiteSpace())
-                                    {
-                                        PropertyHelper.SetValue(content, name.Value, property.InnerText);
-                                    }
+                                    PropertyHelper.SetValue(content, name.Value, property.InnerText);
                                 }
-                                content.SectionGroupId = group.ID;
-                                content.SectionWidgetId = group.SectionWidgetId;
-                                contents.Add(content);
                             }
-
+                            content.SectionGroupId = group.ID;
+                            content.SectionWidgetId = group.SectionWidgetId;
+                            contents.Add(content);
                         }
+
                     }
                 }
             }
+
             group.SectionContents = contents;
             return group;
         }
