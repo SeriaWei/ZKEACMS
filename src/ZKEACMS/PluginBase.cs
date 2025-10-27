@@ -251,6 +251,33 @@ namespace ZKEACMS
                 yield return item.Location;
             }
         }
+        public string ReadResourceText(string resourceName)
+        {
+            string matchResourceName = MapToResourceName(resourceName);
+
+            using (var stream = Assembly.GetManifestResourceStream(matchResourceName))
+            {
+                if (stream == null)
+                {
+                    return string.Empty;
+                }
+                using (var reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
+        public Stream GetResourceStream(string resourceName)
+        {
+            var matchResourceName = MapToResourceName(resourceName);
+            return Assembly.GetManifestResourceStream(matchResourceName);
+        }
+
+        private string MapToResourceName(string resourceName)
+        {
+            return resourceName.Replace("~/", Assembly.GetName().Name + ".").Replace('/', '.');
+        }
+
         #region Viewfeature
         public virtual void PopulateFeature(IEnumerable<ApplicationPart> parts, ViewsFeature feature)
         {

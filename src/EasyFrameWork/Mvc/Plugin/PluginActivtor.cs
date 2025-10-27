@@ -19,8 +19,8 @@ namespace Easy.Mvc.Plugin
             var pluginType = typeof(IPluginStartup);
             foreach (var item in LoadedPlugins)
             {
-                serviceCollection.AddTransient(pluginType, item.PluginType);
-                serviceCollection.AddTransient(item.PluginType);
+                serviceCollection.AddSingleton(pluginType, item.PluginType);
+                serviceCollection.AddSingleton(item.PluginType);
             }
             return serviceCollection;
         }

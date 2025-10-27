@@ -13,6 +13,7 @@ using Easy.Mvc.Authorize;
 using ZKEACMS.EventAction.Models;
 using System.IO;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ZKEACMS.EventAction.Controllers
 {
@@ -34,7 +35,7 @@ namespace ZKEACMS.EventAction.Controllers
         {
             return View(new Models.EventAction
             {
-                Actions = System.IO.File.ReadAllText(Path.Combine(PluginBase.GetPath<EventActionPlug>(), "example.yml"), Encoding.UTF8)
+                Actions = HttpContext.RequestServices.GetService<EventActionPlug>().ReadResourceText("~/example.yml")
             });
         }
 
