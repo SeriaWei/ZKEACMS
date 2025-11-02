@@ -106,10 +106,29 @@ namespace Easy.Mvc.Plugin
             string contentType;
             if (_contentTypeProvider.TryGetContentType(context.Request.Path, out contentType))
             {
-                context.Response.ContentType = contentType;
+                if (IsTextContentType(contentType))
+                {
+                    context.Response.ContentType = $"{contentType}; charset=utf-8";
+                }
+                else
+                {
+                    context.Response.ContentType = contentType;
+                }
                 return true;
             }
             return false;
+        }
+
+        private bool IsTextContentType(string contentType)
+        {
+            var textContentTypes = new[]
+            {
+                "text/plain","text/html","text/css",
+                "text/javascript", "application/javascript","application/json",
+                "application/xml", "text/xml","text/csv"
+            };
+
+            return textContentTypes.Any(t => contentType.StartsWith(t, StringComparison.OrdinalIgnoreCase));
         }
 
         private FileInfo GetFileInfo(string path)
