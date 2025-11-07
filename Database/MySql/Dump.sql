@@ -32,7 +32,7 @@ INSERT INTO `ApplicationSetting` VALUES
 ('PinNavigation','true',NULL,NULL,1,NULL,NULL,'2022-07-29 20:42:10.386',NULL,NULL,'2022-07-29 20:42:10.386'),
 ('SiteInformation_Logo_Mini','/images/logo_min.png',NULL,NULL,1,'admin','ZKEASOFT','2021-03-06 22:16:20.370','admin','ZKEASOFT','2021-03-06 22:16:20.370'),
 ('SiteInformation_SiteName','ZKEASOFT',NULL,NULL,1,'admin','ZKEASOFT','2021-03-06 22:16:20.310','admin','ZKEASOFT','2021-03-06 22:16:20.310'),
-('UseImageCaptcha','true',NULL,NULL,1,NULL,NULL,'2022-07-29 20:42:39.536',NULL,NULL,'2022-07-29 20:42:39.536');
+('UseImageCaptcha','false',NULL,NULL,1,NULL,NULL,'2022-07-29 20:42:39.536',NULL,NULL,'2022-07-29 20:42:39.536');
 /*!40000 ALTER TABLE `ApplicationSetting` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `Article`;
