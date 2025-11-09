@@ -1,15 +1,20 @@
 import { Page } from '@playwright/test';
-export class AdminPageBase {
-    protected page: Page;
-    
+import { PageBase } from '@models/PageBase';
+
+export abstract class AdminPageBase extends PageBase {
+
     constructor(page: Page) {
-        this.page = page;
+        super(page);
     }
 
-    async login(username: string, password: string): Promise<void> {
+    async login(username?: string, password?: string): Promise<void> {
+        // Use provided credentials or fall back to environment variables, with 'admin' as final fallback
+        const user = username || process.env.ADMIN_USERNAME || 'admin';
+        const pass = password || process.env.ADMIN_PASSWORD || 'admin';
+        
         await this.page.goto('/account/login?ReturnUrl=%2Fadmin');
-        await this.page.fill('input[name="UserID"]', username);
-        await this.page.fill('input[name="PassWord"]', password);
+        await this.page.fill('input[name="UserID"]', user);
+        await this.page.fill('input[name="PassWord"]', pass);
         await this.page.click('input[type="submit"]');
         await this.page.waitForURL('/admin');
     }

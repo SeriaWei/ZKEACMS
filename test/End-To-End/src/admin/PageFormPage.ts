@@ -1,5 +1,5 @@
 import { Page, expect } from "@playwright/test";
-import { AdminPageBase } from "../models/AdminPageBase";
+import { AdminPageBase } from "@models/AdminPageBase";
 export interface PageFormData {
     id: string;
     name: string;

@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { AdminPageBase } from "../models/AdminPageBase";
+import { AdminPageBase } from "@models/AdminPageBase";
 
 export class PageDashboardPage extends AdminPageBase {
     constructor(page: Page) {

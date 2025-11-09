@@ -1,9 +1,9 @@
 import { test, expect, Page } from '@playwright/test';
-import { PageFormData, PageFormPage } from '../../../src/admin/PageFormPage';
+import { PageFormData, PageFormPage } from '@admin/PageFormPage';
 
 async function createPage(pageForm: PageFormPage): Promise<PageFormData> {
     const timeStamp = new Date().getTime();
-    await pageForm.login('admin', 'admin');
+    await pageForm.login();
     await pageForm.navigateTo();
     const formData = {
         name: 'Test Page' + timeStamp,
@@ -26,7 +26,7 @@ test('Should create page successfully with primary fields', async ({ page }) => 
 
 test('Should fail to create page with missing required fields', async ({ page }) => {
     var pageForm = new PageFormPage(page);
-    await pageForm.login('admin', 'admin');
+    await pageForm.login();
     await pageForm.navigateTo();
     pageForm.submitForm();
     await expect(page.locator('#PageName-error')).toBeVisible();

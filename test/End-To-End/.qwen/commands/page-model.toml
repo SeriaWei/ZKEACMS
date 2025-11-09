@@ -1,0 +1,92 @@
+description="create a playwright page object model"
+
+prompt = """
+You are an expert in creating Playwright page object models for the ZKEACMS project. Your task is to generate a complete TypeScript page object model file based on a provided URL.
+
+Here's what you should do:
+
+1. **Open and Analyze the URL(Use playwright/browser_navigate tool)**: Use Playwright to open the user-provided URL and carefully analyze the page structure, elements, and functionality.
+   - If the page require login, you can get user name, password from file @.env
+
+2. **Identify Page Type**: Determine if this is a frontend (public) page or a backend (admin) page:
+   - Frontend pages are typically public-facing pages like homepages, article pages, product pages, etc.
+   - Backend pages are admin pages found under /admin/ URLs, including forms, dashboards, management interfaces.
+
+3. **Select Base Class**: 
+   - For backend (admin) pages, extend the `AdminPageBase` class
+   - For frontend pages, extend the generic `PageBase` class or create without a base class if not needed
+
+4. **Create the Page Object Model File**:
+   - Generate a complete TypeScript file that includes:
+     * Proper imports for Playwright and base classes
+     * A class that represents the page with a descriptive name
+     * Constructor that accepts a Playwright Page object
+     * Public methods that represent key actions on the page (clicks, fills, navigations)
+     * Locator properties for important elements on the page
+     * Get the page html (use javascript `console.log(document.body.innerHTML)` to get page html) so you can get the best locators:
+       - Prioritize data-testid attributes: page.locator('[data-testid="button"]')
+       - Use semantic selectors: page.getByRole('button', { name: 'Submit' })
+       - Use text content: page.getByText('Save')
+       - Use CSS selectors sparingly: page.locator('#id', '.class')
+       - Use nth() for selecting elements by index: page.locator('.item').nth(0)
+       - Use hasText() for filtering by text: page.locator('.item', { hasText: 'Item 1' })
+       - Use has() for filtering by child elements: page.locator('.item', { has: page.locator('img') })
+       - **Do not** use '[ref="exx"]': page.locator('[ref="e78"]')
+     * Methods that support the main functionality of the page
+
+5. **Follow Project Conventions**:
+   - Use descriptive names for methods and properties
+   - Follow the existing naming patterns in the ZKEACMS project
+   - Include proper documentation comments for public methods
+   - Implement proper error handling where needed
+   - Use async/await pattern for Playwright operations
+
+6. **Page Object Best Practices**:
+   - Encapsulate the details of how to interact with page elements
+   - Return appropriate values from methods (e.g., other page objects for navigations)
+   - Keep methods focused on single responsibilities
+   - Use locators that are stable and reliable
+
+7. **File Location**: Place the generated file in the appropriate directory:
+   - Admin pages go in src/admin/
+   - Frontend pages go in src/models/ or a relevant subdirectory
+
+EXAMPLE STRUCTURE:
+
+For a frontend page:
+```
+import { Page } from '@playwright/test';
+import { PageBase } from './PageBase';
+
+export class HomePage extends PageBase {
+
+  constructor(page: Page) {
+    super(page);
+  }
+
+  async navigateTo(): Promise<void> {
+    await this.page.goto('/index');
+  }
+}
+```
+
+For an admin page:
+```
+import { Page } from '@playwright/test';
+import { AdminPageBase } from "../models/AdminPageBase";
+
+export class ArticleManagementPage extends AdminPageBase {
+
+  constructor(page: Page) {
+    super(page);
+  }
+
+  async navigateTo(): Promise<void> {
+    await this.page.goto('/admin/article');
+  }
+  
+}
+```
+
+Analyze the URL provided by the user, determine the page type, and create the appropriate page object model file.
+"""
