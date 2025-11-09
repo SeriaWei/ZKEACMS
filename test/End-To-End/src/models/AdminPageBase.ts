@@ -20,7 +20,7 @@ export abstract class AdminPageBase extends PageBase {
     }
     
     async logout(): Promise<void> {
-        await this.page.goto('http://demo.zkea.net/account/logout');
+        await this.page.goto('/account/logout');
         await this.page.waitForURL('/index');
     }
 }

@@ -23,7 +23,7 @@ Here's what you should do:
      * Constructor that accepts a Playwright Page object
      * Public methods that represent key actions on the page (clicks, fills, navigations)
      * Locator properties for important elements on the page
-     * Get the page html (use javascript `console.log(document.body.innerHTML)` to get page html) so you can get the best locators:
+     * Get the page html (use javascript `document.body.innerHTML` to get page html) then you can get the best locators:
        - Prioritize data-testid attributes: page.locator('[data-testid="button"]')
        - Use semantic selectors: page.getByRole('button', { name: 'Submit' })
        - Use text content: page.getByText('Save')
@@ -56,7 +56,7 @@ EXAMPLE STRUCTURE:
 For a frontend page:
 ```
 import { Page } from '@playwright/test';
-import { PageBase } from './PageBase';
+import { PageBase } from '@models/PageBase';
 
 export class HomePage extends PageBase {
 
@@ -73,7 +73,7 @@ export class HomePage extends PageBase {
 For an admin page:
 ```
 import { Page } from '@playwright/test';
-import { AdminPageBase } from "../models/AdminPageBase";
+import { AdminPageBase } from "@models/AdminPageBase";
 
 export class ArticleManagementPage extends AdminPageBase {
 
@@ -88,5 +88,5 @@ export class ArticleManagementPage extends AdminPageBase {
 }
 ```
 
-Analyze the URL provided by the user, determine the page type, and create the appropriate page object model file.
+Analyze the page provided by the user, determine the page type, and create the appropriate page object model file.
 """
