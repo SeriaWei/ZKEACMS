@@ -79,8 +79,8 @@ test.describe('Article Form Page - Basic Functionality Tests', () => {
     await expect(page).toHaveURL(/\/admin\/article/);
   });
 
-  
-  test('should be able to publish article', async ({ page }) => {
+
+  test('should be able to save then publish article', async ({ page }) => {
     // Fill in the required fields
     const timestamp = new Date().getTime();
     await articleFormPage.fillArticleForm({
@@ -98,6 +98,27 @@ test.describe('Article Form Page - Basic Functionality Tests', () => {
     });
     await articleFormPage.publishArticle();
     // After saving and exiting, we should be redirected to the article list page
+    await expect(articleFormPage.publishDateField).not.toBeEmpty();
+    await expect(page.getByText('已发布')).toBeVisible();
+  });
+
+  test('should be able to publish article directly', async ({ page }) => {
+    // Fill in the required fields
+    const timestamp = new Date().getTime();
+    await articleFormPage.fillArticleForm({
+      title: 'Test Article ' + timestamp,
+      url: 'test-article-' + timestamp,
+      summary: 'This is a test article summary',
+      content: 'This is the content of the test article.',
+      articleType: '公司新闻' // News category
+    });
+    page.on('dialog', async dialog => {
+      await dialog.accept();
+    });
+
+    // Publish directly
+    await articleFormPage.publishArticle();
+    // After publishing, we should see the publish date and status updated
     await expect(articleFormPage.publishDateField).not.toBeEmpty();
     await expect(page.getByText('已发布')).toBeVisible();
   });
