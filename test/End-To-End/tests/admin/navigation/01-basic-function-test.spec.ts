@@ -39,8 +39,8 @@ test.describe('NavigationFormPage Tests', () => {
     await navigationFormPage.fillNavigationForm(formData);
 
     // Verify the values were entered correctly
-    await expect(navigationFormPage.titleInput).toHaveValue(formData.title);
-    await expect(navigationFormPage.urlInput).toHaveValue(formData.url);
+    await expect(navigationFormPage.titleInput).toHaveValue(formData.title||"");
+    await expect(navigationFormPage.urlInput).toHaveValue(formData.url||"");
     await expect(navigationFormPage.isMobileCheckbox).toBeChecked();
     await expect(navigationFormPage.htmlTextarea).toHaveValue(formData.html || '');
     await expect(navigationFormPage.statusSelect).toHaveValue('1'); // '有效' has value '1'

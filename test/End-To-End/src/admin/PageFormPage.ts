@@ -1,14 +1,14 @@
 import { Page, expect } from "@playwright/test";
 import { AdminPageBase } from "@models/AdminPageBase";
 export interface PageFormData {
-    id: string;
-    name: string;
-    title: string;
-    path: string;
-    layout: string;
-    keywords: string;
-    description: string;
-    status: string;
+    id?: string;
+    name?: string;
+    title?: string;
+    path?: string;
+    layout?: string;
+    keywords?: string;
+    description?: string;
+    status?: string;
 }
 export class PageFormPage extends AdminPageBase {
     constructor(page: Page) {
@@ -20,27 +20,15 @@ export class PageFormPage extends AdminPageBase {
     }
 
     async fillForm(data: PageFormData): Promise<void> {
-        if (data.name) {
-            await this.page.fill('input[name="PageName"]', data.name);
-        }
-        if (data.title) {
-            await this.page.fill('input[name="Title"]', data.title);
-        }
-        if (data.path) {
-            await this.page.fill('input[name="PageUrl"]', data.path);
-        }
+        await this.fill(this.page.locator('input[name="PageName"]'), data.name);
+        await this.fill(this.page.locator('input[name="Title"]'), data.title);
+        await this.fill(this.page.locator('input[name="PageUrl"]'), data.path);
         if (data.layout) {
             await this.page.locator('.layout-item').filter({ hasText: data.layout }).click();
         }
-        if (data.keywords) {
-            await this.page.fill('input[name="MetaKeyWorlds"]', data.keywords);
-        }
-        if (data.description) {
-            await this.page.fill('input[name="MetaDescription"]', data.description);
-        }
-        if (data.status) {
-            await this.page.locator('select[name="Status"]').selectOption(data.status);
-        }
+        await this.fill(this.page.locator('input[name="MetaKeyWorlds"]'), data.keywords);
+        await this.fill(this.page.locator('input[name="MetaDescription"]'), data.description);
+        await this.fill(this.page.locator('select[name="Status"]'), data.status);
     }
     async submitForm(): Promise<void> {
         await this.page.click('input[type="submit"]');

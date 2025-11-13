@@ -99,17 +99,17 @@ export class ArticleFormPage extends AdminPageBase {
     status?: string,
     description?: string
   }): Promise<void> {
-    if (articleData.title) await this.titleField.fill(articleData.title);
-    if (articleData.url) await this.urlField.fill(articleData.url);
-    if (articleData.summary) await this.summaryField.fill(articleData.summary);
-    if (articleData.metaKeywords) await this.metaKeywordsField.fill(articleData.metaKeywords);
-    if (articleData.metaDescription) await this.metaDescriptionField.fill(articleData.metaDescription);
-    if (articleData.counter) await this.counterField.fill(articleData.counter);
-    if (articleData.content) await this.page.locator('#ArticleContent_ifr').contentFrame().locator('#tinymce').fill(articleData.content);
-    if (articleData.imageThumbUrl) await this.imageThumbUrlField.fill(articleData.imageThumbUrl);
-    if (articleData.imageUrl) await this.imageUrlField.fill(articleData.imageUrl);
-    if (articleData.publishDate) await this.publishDateField.fill(articleData.publishDate);
-    if (articleData.description) await this.descriptionField.fill(articleData.description);
+    await this.fill(this.titleField, articleData.title);
+    await this.fill(this.urlField, articleData.url);
+    await this.fill(this.summaryField, articleData.summary);
+    await this.fill(this.metaKeywordsField, articleData.metaKeywords);
+    await this.fill(this.metaDescriptionField, articleData.metaDescription);
+    await this.fill(this.counterField, articleData.counter);
+    await this.fillTinymceEditor(this.page.locator('#ArticleContent_ifr'), articleData.content);
+    await this.fill(this.imageThumbUrlField, articleData.imageThumbUrl);
+    await this.fill(this.imageUrlField, articleData.imageUrl);
+    await this.fill(this.publishDateField, articleData.publishDate);
+    await this.fill(this.descriptionField, articleData.description);
 
     // Select article type if provided
     if (articleData.articleType) {
@@ -117,17 +117,18 @@ export class ArticleFormPage extends AdminPageBase {
     }
 
     // Select status if provided
-    if (articleData.status) {
-      await this.statusDropdown.selectOption(articleData.status);
-    }
+    await this.fill(this.statusDropdown, articleData.status);
   }
 
   /**
    * Selects an article type from the dropdown tree
    * @param articleType The article type to select
    */
-  async selectArticleType(articleType: string): Promise<void> {
-    // Click the dropdown to open it
+  async selectArticleType(articleType?: string): Promise<void> {
+    if(articleType == null || articleType === undefined) {
+      return;
+    }
+    
     if (await this.articleTypeDropdown.isVisible()) {
       await this.articleTypeDropdown.click();
     }

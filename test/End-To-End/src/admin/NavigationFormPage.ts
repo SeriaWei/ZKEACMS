@@ -2,11 +2,11 @@ import { Page, Locator } from '@playwright/test';
 import { AdminPageBase } from '@models/AdminPageBase';
 
 export interface NavigationFormData {
-  title: string;
-  url: string;
+  title?: string;
+  url?: string;
   isMobile?: boolean;
   html?: string;
-  status?: '有效' | '无效';
+  status?: string;
   description?: string;
 }
 
@@ -63,28 +63,12 @@ export class NavigationFormPage extends AdminPageBase {
    * @param formData - Navigation form data to fill
    */
   async fillNavigationForm(formData: NavigationFormData): Promise<void> {
-    await this.titleInput.fill(formData.title);
-    await this.urlInput.fill(formData.url);
-
-    if (formData.isMobile !== undefined) {
-      if (formData.isMobile) {
-        await this.isMobileCheckbox.check();
-      } else {
-        await this.isMobileCheckbox.uncheck();
-      }
-    }
-
-    if (formData.html) {
-      await this.htmlTextarea.fill(formData.html);
-    }
-
-    if (formData.status) {
-      await this.statusSelect.selectOption(formData.status);
-    }
-
-    if (formData.description) {
-      await this.descriptionTextarea.fill(formData.description);
-    }
+    await this.fill(this.titleInput, formData.title);
+    await this.fill(this.urlInput, formData.url);
+    await this.fill(this.isMobileCheckbox, formData.isMobile);
+    await this.fill(this.htmlTextarea, formData.html);
+    await this.fill(this.statusSelect, formData.status);
+    await this.fill(this.descriptionTextarea, formData.description);
   }
 
   /**
