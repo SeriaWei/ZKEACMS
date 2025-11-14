@@ -59,7 +59,7 @@ import { Page } from '@playwright/test';
 import { PageBase } from '@models/PageBase';
 
 export class HomePage extends PageBase {
-
+  readonly titleField = this.page.locator('#Title');
   constructor(page: Page) {
     super(page);
   }
@@ -76,7 +76,7 @@ import { Page } from '@playwright/test';
 import { AdminPageBase } from "@models/AdminPageBase";
 
 export class ArticleManagementPage extends AdminPageBase {
-
+  readonly titleField = this.page.locator('#Title');
   constructor(page: Page) {
     super(page);
   }

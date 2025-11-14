@@ -3,56 +3,32 @@ import { AdminPageBase } from '@models/AdminPageBase';
 
 export class ArticleFormPage extends AdminPageBase {
   // Form fields
-  readonly titleField: Locator;
-  readonly urlField: Locator;
-  readonly summaryField: Locator;
-  readonly metaKeywordsField: Locator;
-  readonly metaDescriptionField: Locator;
-  readonly counterField: Locator;
-  readonly contentFrame: Locator;
-  readonly imageThumbUrlField: Locator;
-  readonly imageUrlField: Locator;
-  readonly articleTypeField: Locator;
-  readonly publishDateField: Locator;
-  readonly statusDropdown: Locator;
-  readonly descriptionField: Locator;
+  readonly titleField = this.page.locator('#Title');
+  readonly urlField = this.page.locator('#Url');
+  readonly summaryField = this.page.locator('#Summary');
+  readonly metaKeywordsField = this.page.locator('#MetaKeyWords');
+  readonly metaDescriptionField = this.page.locator('#MetaDescription');
+  readonly counterField = this.page.locator('#Counter');
+  readonly contentFrame = this.page.locator('#ArticleContent');
+  readonly imageThumbUrlField = this.page.locator('#ImageThumbUrl');
+  readonly imageUrlField = this.page.locator('#ImageUrl');
+  readonly articleTypeField = this.page.locator('#ArticleTypeID');
+  readonly publishDateField = this.page.locator('#PublishDate');
+  readonly statusDropdown = this.page.locator('#Status');
+  readonly descriptionField = this.page.locator('#Description');
 
   // Buttons
-  readonly saveButton: Locator;
-  readonly saveAndExitButton: Locator;
-  readonly publishButton: Locator;
-  readonly cancelButton: Locator;
-  readonly randomUrlButton: Locator;
+  readonly saveButton = this.page.locator('input[data-value="Create"]');
+  readonly saveAndExitButton = this.page.locator('input[data-value="CreateAndExit"]');
+  readonly publishButton = this.page.locator('input[data-value="Publish"]');
+  readonly cancelButton = this.page.getByRole('link', { name: '取消' });
+  readonly randomUrlButton = this.page.locator('#Url').locator('..').getByRole('link');
 
   // Article type dropdown elements
-  readonly articleTypeDropdown: Locator;
+  readonly articleTypeDropdown = this.page.locator('#dropdown-tree-ArticleTypeID > .form-control');
 
   constructor(page: Page) {
     super(page);
-    // Form fields locators
-    this.titleField = page.locator('#Title');
-    this.urlField = page.locator('#Url');
-    this.summaryField = page.locator('#Summary');
-    this.metaKeywordsField = page.locator('#MetaKeyWords');
-    this.metaDescriptionField = page.locator('#MetaDescription');
-    this.counterField = page.locator('#Counter');
-    this.contentFrame = page.locator('#ArticleContent');
-    this.imageThumbUrlField = page.locator('#ImageThumbUrl');
-    this.imageUrlField = page.locator('#ImageUrl');
-    this.articleTypeField = page.locator('#ArticleTypeID');
-    this.publishDateField = page.locator('#PublishDate');
-    this.statusDropdown = page.locator('#Status');
-    this.descriptionField = page.locator('#Description');
-
-    // Button locators
-    this.saveButton = page.locator('input[data-value="Create"]');
-    this.saveAndExitButton = page.locator('input[data-value="CreateAndExit"]');
-    this.publishButton = page.locator('input[data-value="Publish"]');
-    this.cancelButton = page.getByRole('link', { name: '取消' });
-    this.randomUrlButton = page.locator('#Url').locator('..').getByRole('link');
-
-    // Article type dropdown elements
-    this.articleTypeDropdown = page.locator('#dropdown-tree-ArticleTypeID > .form-control');
   }
 
   /**

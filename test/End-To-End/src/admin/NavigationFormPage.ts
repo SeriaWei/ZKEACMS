@@ -12,34 +12,21 @@ export interface NavigationFormData {
 
 export class NavigationFormPage extends AdminPageBase {
   // Form fields
-  readonly titleInput: Locator;
-  readonly urlInput: Locator;
-  readonly isMobileCheckbox: Locator;
-  readonly htmlTextarea: Locator;
-  readonly statusSelect: Locator;
-  readonly descriptionTextarea: Locator;
+  readonly titleInput = this.page.locator('#Title');
+  readonly urlInput = this.page.locator('#Url');
+  readonly isMobileCheckbox = this.page.locator('#IsMobile');
+  readonly htmlTextarea = this.page.locator('#Html');
+  readonly statusSelect = this.page.locator('#Status');
+  readonly descriptionTextarea = this.page.locator('#Description');
 
   // Action buttons
-  readonly saveButton: Locator;
-  readonly saveAndExitButton: Locator;
-  readonly convertToStaticPathButton: Locator;
-  readonly cancelButton: Locator;
+  readonly saveButton = this.page.locator('input[value="保存"]');
+  readonly saveAndExitButton = this.page.locator('input[value="保存并退出"]');
+  readonly convertToStaticPathButton = this.page.locator('input[value="转为伪静态路径"]');
+  readonly cancelButton = this.page.locator('a:has-text("取消")');
 
   constructor(page: Page) {
     super(page);
-    // Form fields locators
-    this.titleInput = page.locator('#Title');
-    this.urlInput = page.locator('#Url');
-    this.isMobileCheckbox = page.locator('#IsMobile');
-    this.htmlTextarea = page.locator('#Html');
-    this.statusSelect = page.locator('#Status');
-    this.descriptionTextarea = page.locator('#Description');
-
-    // Action buttons locators
-    this.saveButton = page.locator('input[value="保存"]');
-    this.saveAndExitButton = page.locator('input[value="保存并退出"]');
-    this.convertToStaticPathButton = page.locator('input[value="转为伪静态路径"]');
-    this.cancelButton = page.locator('a:has-text("取消")');
   }
 
   /**
