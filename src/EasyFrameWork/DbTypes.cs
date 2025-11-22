@@ -29,6 +29,10 @@ namespace Easy
         /// <summary>
         /// Oracle
         /// </summary>
-        Oracle = 5
+        Oracle = 5,
+        /// <summary>
+        /// Dameng DB
+        /// </summary>
+        DM = 6
     }
 }

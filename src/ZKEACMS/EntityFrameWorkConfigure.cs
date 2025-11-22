@@ -11,7 +11,7 @@ using ZKEACMS.Options;
 
 namespace ZKEACMS
 {
-    public class EntityFrameWorkConfigure: IDatabaseConfiguring
+    public class EntityFrameWorkConfigure : IDatabaseConfiguring
     {
         private readonly DatabaseOption _dataBaseOption;
         private readonly ILoggerFactory _loggerFactory;
@@ -49,11 +49,19 @@ namespace ZKEACMS
                         if (dbConnectionForReusing != null)
                             optionsBuilder.UseMySql(dbConnectionForReusing, ServerVersion.AutoDetect(dbConnectionForReusing as MySqlConnector.MySqlConnection));
                         else
-                            optionsBuilder.UseMySql(_dataBaseOption.ConnectionString , ServerVersion.AutoDetect(_dataBaseOption.ConnectionString));
+                            optionsBuilder.UseMySql(_dataBaseOption.ConnectionString, ServerVersion.AutoDetect(_dataBaseOption.ConnectionString));
+                        break;
+                    }
+                case Easy.DbTypes.DM:
+                    {
+                        if (dbConnectionForReusing != null)
+                            optionsBuilder.UseDm(dbConnectionForReusing);
+                        else
+                            optionsBuilder.UseDm(_dataBaseOption.ConnectionString);
                         break;
                     }
             }
-            
+
             optionsBuilder.UseLoggerFactory(_loggerFactory);
         }
     }

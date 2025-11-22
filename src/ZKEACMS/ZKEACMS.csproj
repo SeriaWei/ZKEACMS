@@ -28,6 +28,7 @@
     <ProjectReference Include="..\EasyFrameWork\EasyFrameWork.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="DM.Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Fluid.Core" />
     <PackageReference Include="HtmlAgilityPack" />
     <PackageReference Include="HtmlSanitizer" />

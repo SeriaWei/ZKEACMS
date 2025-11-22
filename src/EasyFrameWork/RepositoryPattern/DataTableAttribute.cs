@@ -11,8 +11,7 @@ namespace Easy.RepositoryPattern
 {
     public class DataTableAttribute : TableAttribute
     {
-        public static bool IsLowerCaseTableNames { get; set; }
-        public DataTableAttribute(string name) : base(IsLowerCaseTableNames ? name.ToLowerInvariant() : name)
+        public DataTableAttribute(string name) : base(name)
         {
 
         }

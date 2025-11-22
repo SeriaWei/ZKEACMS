@@ -33,4 +33,14 @@ namespace Easy.Constant
         Administrator = 1,
         Customer = 2
     }
+    public enum NameCaseStrategy
+    {
+        None = 0,
+        LowerCase = 1,
+        UpperCase = 2,
+        CamelCase = 3,      // userName
+        PascalCase = 4,     // UserName
+        SnakeCase = 5,      // user_name
+        KebabCase = 6       // user-name
+    }
 }

@@ -2,14 +2,16 @@
  * Copyright (c) ZKEASOFT. All rights reserved. 
  * http://www.zkea.net/licenses */
 
-using System.Collections.Generic;
 using Easy;
+using Easy.Constant;
 using Easy.RepositoryPattern;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using ZKEACMS.Common.Models;
 using ZKEACMS.ExtendField;
 using ZKEACMS.Layout;
 using ZKEACMS.Media;
+using ZKEACMS.Options;
 using ZKEACMS.Page;
 using ZKEACMS.PendingTask;
 using ZKEACMS.Setting;
@@ -22,9 +24,14 @@ namespace ZKEACMS
 {
     public class CMSDbContext : EasyDbContext
     {
-        public CMSDbContext(DbContextOptions<CMSDbContext> dbContextOptions, IEnumerable<IOnModelCreating> modelCreatings) : base(dbContextOptions)
+        private readonly DatabaseOption _databaseOption;
+        public CMSDbContext(DbContextOptions<CMSDbContext> dbContextOptions,
+            IEnumerable<IOnModelCreating> modelCreatings,
+            DatabaseOption databaseOption)
+            : base(dbContextOptions)
         {
             ModelCreatings = modelCreatings;
+            _databaseOption = databaseOption;
         }
 
         public DbSet<WidgetBasePart> WidgetBasePart { get; set; }
@@ -48,5 +55,27 @@ namespace ZKEACMS
         public DbSet<StyleSheetWidget> StyleSheetWidget { get; set; }
         public DbSet<VideoWidget> VideoWidget { get; set; }
         public DbSet<BreadcrumbWidget> BreadcrumbWidget { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            var tableNamingConverter = new NamingConverter(_databaseOption.TableNaming);
+            var columnNamingConverter = new NamingConverter(_databaseOption.ColumnNaming);
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            {
+                if (tableNamingConverter.Strategy != NameCaseStrategy.None)
+                {
+                    entity.SetTableName(tableNamingConverter.ConvertName(entity.GetTableName()));
+                }
+                foreach (var property in entity.GetProperties())
+                {
+                    if (columnNamingConverter.Strategy != NameCaseStrategy.None)
+                    {
+                        property.SetColumnName(columnNamingConverter.ConvertName(property.GetColumnName()));
+                    }
+                }
+            }
+        }
     }
 }
