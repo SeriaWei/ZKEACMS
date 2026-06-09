@@ -171,7 +171,7 @@ namespace ZKEACMS.Controllers
             return View("PreView");
         }
 
-        [HttpPost]
+        [HttpPost, DefaultAuthorize(Policy = PermissionKeys.ManagePage)]
         public JsonResult Revert(string ID, bool RetainLatest)
         {
             Service.Revert(ID, RetainLatest);
