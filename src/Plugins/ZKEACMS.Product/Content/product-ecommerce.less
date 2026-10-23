@@ -26,6 +26,46 @@
         }
     }
 
+    .stage {
+        cursor: zoom-in;
+    }
+
+    &.zooming .thumbnail .stage {
+        cursor: zoom-out;
+    }
+
+    .zoom-panel {
+        display: none;
+        position: fixed;
+        z-index: 1050;
+        border: 1px solid #ddd;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+        background-color: #fff;
+        background-repeat: no-repeat;
+        /* must match zoomScale in product-ecommerce.js */
+        background-size: 250%;
+        cursor: zoom-out;
+
+        &.active {
+            display: block;
+        }
+
+        .zoom-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 5px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, .9);
+            background: rgba(0, 0, 0, .5);
+            cursor: pointer;
+
+            &:hover {
+                color: #fff;
+            }
+        }
+    }
+
     .thumbnails {
         list-style: none;
         padding: 0;
