@@ -1967,7 +1967,7 @@ li.ui-sortable-helper {
 }
 
 .ui-draggable-dragging {
-    z-index: 11;
+    z-index: 10003 !important;
     word-break: keep-all;
     word-wrap: normal;
     white-space: nowrap;

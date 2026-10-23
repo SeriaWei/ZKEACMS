@@ -46,7 +46,7 @@ $(function () {
     $(".AddContainer").draggable({ helper: "clone" });
     $(".AddRow").draggable({ helper: "clone", revert: "invalid", connectToSortable: ".container,.container-fluid" });
     $(".AddCol").draggable({ helper: "clone", connectToSortable: ".additional.row" });
-    $(".templates ul li").draggable({ helper: "clone", connectToSortable: "#containers>div" });
+    $(".templates ul li").draggable({ helper: "clone", appendTo: "body", connectToSortable: "#containers>div" });
 
     var colSortOption = {
         placeholder: "additional",

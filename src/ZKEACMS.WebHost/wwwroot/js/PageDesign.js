@@ -53,7 +53,7 @@ $(function () {
         }
     });
 
-    $(".templates ul li").draggable({ helper: "clone", connectToSortable: ".zone" });
+    $(".templates ul li").draggable({ helper: "clone", appendTo: "body", connectToSortable: ".zone" });
     $(document).on("click", ".zoneToolbar .delete", function () {
         var th = $(this);
         var id = th.data("id");
