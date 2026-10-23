@@ -14,6 +14,14 @@
     "gulp-sourcemaps": "^2.6.5"
   },
   "scripts": {
+    "compile:less": "gulp compile:less",
+    "compile:theme": "gulp compile:theme",
+    "compile:themes": "gulp compile:themes",
+    "minify:all:js": "gulp minify:all:js",
+    "minify:all:css": "gulp minify:all:css",
+    "minify:file": "gulp minify:file",
+    "minify": "gulp minify",
+    "watch": "gulp watch:minify-js-css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "ZKEASOFT",
