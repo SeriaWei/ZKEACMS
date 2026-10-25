@@ -3,6 +3,8 @@
  * http://www.zkea.net/licenses */
 
 $(function () {
+    var toolBar = window.ShadowDom.get("shadow-dom-design-toolbar");
+    var templates = $(window.ShadowDom.get("shadow-dom-design-templates")).find(".templates");
     $(".zone").sortable({
         items: ">div:not(.zoneName)",
         placeholder: "sorting",
@@ -53,7 +55,20 @@ $(function () {
         }
     });
 
-    $(".templates ul li").draggable({ helper: "clone", appendTo: "body", connectToSortable: ".zone" });
+    templates.find("ul li").draggable({ helper: "clone", appendTo: templates, connectToSortable: ".zone" });
+    templates.find(".tool-open").on("click", function () {
+        $(this).parent().toggleClass("active");
+    });
+    templates.find(".delete-template").on("click", function () {
+        var th = $(this);
+        Easy.ShowMessageBox("提示", "确定要删除该模板吗？", function () {
+            $.post(th.data("url"), { Id: th.data("id") }, function (data) {
+                if (data) {
+                    templates.find("#template_" + data).remove();
+                }
+            }, "json");
+        }, true, 10);
+    });
     $(document).on("click", ".zoneToolbar .delete", function () {
         var th = $(this);
         var id = th.data("id");
@@ -66,20 +81,7 @@ $(function () {
         $(this).siblings(".toggle-hidden").toggleClass("hidden");
         $(this).toggleClass("hidden");
     });
-    $(document).on("click", ".templates .tool-open", function () {
-        $(this).parent().toggleClass("active");
-    }).on("click", ".templates .delete-template", function () {
-        var th = $(this);
-        Easy.ShowMessageBox("提示", "确定要删除该模板吗？", function () {
-            $.post(th.data("url"), { Id: th.data("id") }, function (data) {
-                if (data) {
-                    $("#template_" + data).remove();
-                }
-            }, "json");
-        }, true, 10);
-    }).on("click", ".upload-template", function () {
-        $("#template-file").trigger("click");
-    }).on("change", "#template-file", function () {
+    $(document).on("change", "#template-file", function () {
         $("#template-form").submit();
     }).on("click", ".zoneToolbar .toggle-widget-class", function () {
         var clas = $(this).data("class");
@@ -120,11 +122,14 @@ $(function () {
         }
         return false;
     });
-    $(".helper").click(function () {
+    $(toolBar).find(".upload-template").on("click", function () {
+        $("#template-file").trigger("click");
+    });
+    $(toolBar).find(".helper").click(function () {
         $("#containers").toggleClass($(this).data("class"));
     });
     if ($(window).width() > 1600) {
-        $(".templates").addClass("active");
+        templates.addClass("active");
     }
 
     $(document).on("show.bs.modal", "#mobile-frame", function () {

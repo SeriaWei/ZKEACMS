@@ -3,6 +3,8 @@
  * http://www.zkea.net/licenses */
 
 $(function () {
+    var toolBar = window.ShadowDom.get("shadow-dom-design-toolbar");
+    var templates = $(window.ShadowDom.get("shadow-dom-design-templates")).find(".templates");
     var container = $("#containers");
     if (container.children().size() > 0 && container.children(".container").size() === 0 && container.children(".container-fluid").size() === 0) {
         var containerItem = $('<div class="container"></div>');
@@ -38,15 +40,15 @@ $(function () {
         zoneParent.append(zone);
         return zoneParent;
     }
-    $(document).on("click", "#toolBar .col-size a", function () {
-        $("#add-col-handle").attr("data-val", $(this).data("val")).find(".col-size-info").text($(this).text());
+    $(toolBar).find(".col-size a").on("click", function () {
+        $(toolBar).find("#add-col-handle").attr("data-val", $(this).data("val")).find(".col-size-info").text($(this).text());
         $(this).parent().parent().find(".active").removeClass("active");
         $(this).parent().addClass("active");
     });
-    $(".AddContainer").draggable({ helper: "clone" });
-    $(".AddRow").draggable({ helper: "clone", revert: "invalid", connectToSortable: ".container,.container-fluid" });
-    $(".AddCol").draggable({ helper: "clone", connectToSortable: ".additional.row" });
-    $(".templates ul li").draggable({ helper: "clone", appendTo: "body", connectToSortable: "#containers>div" });
+    $(toolBar).find(".AddContainer").draggable({ helper: "clone" });
+    $(toolBar).find(".AddRow").draggable({ helper: "clone", revert: "invalid", connectToSortable: ".container,.container-fluid" });
+    $(toolBar).find(".AddCol").draggable({ helper: "clone", connectToSortable: ".additional.row" });
+    templates.find("ul li").draggable({ helper: "clone", appendTo: templates, connectToSortable: "#containers>div" });
 
     var colSortOption = {
         placeholder: "additional",
@@ -162,14 +164,14 @@ $(function () {
         $(this).parents(".main").addClass("custom-style-target");
     });
     if ($(window).width() > 1600) {
-        $(".templates").addClass("active");
+        templates.addClass("active");
     }
-    $(document).on("click", ".templates .tool-open", function () {
+    templates.find(".tool-open").on("click", function () {
         $(this).parent().toggleClass("active");
     });
     container.removeClass("hide");
 
-    $(document).on("click", "#save", function () {
+    $(toolBar).find("#save").on("click", function () {
         $('input[name="ZoneName"]').each(function () {
             if (!$.trim($(this).val())) {
                 $(this).val("未命名");
@@ -238,7 +240,7 @@ $(function () {
             editor.getAction('editor.action.formatDocument').run();
         }, 50);
     }
-    $(document).on("click", "#show-source-code", function () {
+    $(toolBar).find("#show-source-code").on("click", function () {
         $('input[name="ZoneName"]').each(function () {
             if (!$.trim($(this).val())) {
                 $(this).val("Untitled");

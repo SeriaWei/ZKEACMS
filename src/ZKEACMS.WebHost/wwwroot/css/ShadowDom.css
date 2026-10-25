@@ -1,0 +1,27 @@
+/*! http://www.zkea.net/ 
+ * Copyright (c) ZKEASOFT. All rights reserved. 
+ * http://www.zkea.net/licenses */
+
+/* Isolate the custom shadow host from page and theme styles. */
+:host {
+    display: block;
+    font: 16px/1 Tahoma, Geneva, 'Microsoft YaHei', 'SimSun', sans-serif;
+    color: #444;
+    text-align: left;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: normal;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+:host([hidden]) {
+    display: none !important;
+}
+
+:host *,
+:host *::before,
+:host *::after {
+    box-sizing: border-box;
+}

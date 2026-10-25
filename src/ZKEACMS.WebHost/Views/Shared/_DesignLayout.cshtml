@@ -4,6 +4,8 @@
     Style.Reqiured("Layout").AtHead();
     Style.Reqiured("bootStrap").AtHead();
     Script.Reqiured("jQueryUi").AtFoot();
+    Script.Reqiured("ShadowDom").AtFoot();
+    Script.Reqiured("DesignToolBar").AtFoot();
     Script.Reqiured("admin").AtFoot();
     Script.Reqiured("code-editor").AtFoot();
     Model.ContainerClass = Model.ContainerClass ?? "container";
@@ -18,89 +20,95 @@
 </head>
 <body class="front">
     <form id="LayoutInfo" asp-controller="Layout" asp-action="SaveLayout" method="post">
-        <nav id="toolBar">
-            <div class="container">
-                <div class="clearfix">
-                    <div class="pull-left">
-                        <span class="badge">@L("Layout Design")</span>
-                        <label class="AddContainer zk-btn zk-btn-primary" data-container="container-fluid" title="@L("Drag to layout")" style="cursor:move">
-                            <i class="glyphicon glyphicon-unchecked"></i>
-                            @L("Container")
-                            <span class="glyphicon glyphicon-move"></span>
-                        </label>
-                        <label class="AddRow zk-btn zk-btn-primary" data-container="container-fluid" title="@L("Drag to container")" style="cursor:move">
-                            <i class="glyphicon glyphicon-align-justify"></i>
-                            @L("Row")
-                            <span class="glyphicon glyphicon-move"></span>
-                        </label>
-                        <div class="zk-btn-group">
-                            <label id="add-col-handle" class="AddCol zk-btn zk-btn-primary" data-col="col-md-" data-val="6" title="@L("Drag to row")" style="cursor:move">
-                                <i class="glyphicon glyphicon-tasks"></i>
-                                @L("Column Width") <span class="col-size-info">@L("6/12")</span>
-                                <span class="glyphicon glyphicon-move"></span>
-                            </label>
-                            <button type="button" class="zk-btn zk-btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="zk-dropdown-menu col-size">
-                                <li><a href="javascript:void(0)" data-val="1">@L("1/12")</a></li>
-                                <li><a href="javascript:void(0)" data-val="2">@L("2/12")</a></li>
-                                <li><a href="javascript:void(0)" data-val="3">@L("3/12")</a></li>
-                                <li><a href="javascript:void(0)" data-val="4">@L("4/12")</a></li>
-                                <li><a href="javascript:void(0)" data-val="5">@L("5/12")</a></li>
-                                <li class="active"><a href="javascript:void(0)" data-val="6">@L("6/12")</a></li>
-                                <li><a href="javascript:void(0)" data-val="7">@L("7/12")</a></li>
-                                <li><a href="javascript:void(0)" data-val="8">@L("8/12")</a></li>
-                                <li><a href="javascript:void(0)" data-val="9">@L("9/12")</a></li>
-                                <li><a href="javascript:void(0)" data-val="10">@L("10/12")</a></li>
-                                <li><a href="javascript:void(0)" data-val="11">@L("11/12")</a></li>
-                                <li><a href="javascript:void(0)" data-val="12">@L("12/12")</a></li>
-                            </ul>
-                        </div>
-                        <a class="zk-btn zk-btn-primary" id="show-source-code" data-toggle="modal" data-target="#modal-layout-code" title="@L("Code")">
-                            <i class="glyphicon glyphicon-pencil"></i>
-                        </a>
-                        <span class="badge" data-toggle="modal" data-target="#question" style="cursor:help">?</span>
-                    </div>
-
-                    <div class="pull-right">
-                        <div class="zk-btn-group">
-                            <a class="zk-btn zk-btn-primary cancel">
-                                <i class="glyphicon glyphicon-arrow-left"></i>
-                                @L("Cancel")
-                            </a>
-                            @if (Model.Page != null)
-                            {
-                                <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
+        <shadow-dom-design-toolbar>
+            <template shadowrootmode="open">
+                @Style.Render("ShadowDom")
+                @Style.Render("Layout")
+                <nav id="toolBar">
+                    <div class="container">
+                        <div class="clearfix">
+                            <div class="pull-left">
+                                <span class="badge">@L("Layout Design")</span>
+                                <label class="AddContainer zk-btn zk-btn-primary" data-container="container-fluid" title="@L("Drag to layout")" style="cursor:move">
+                                    <i class="glyphicon glyphicon-unchecked"></i>
+                                    @L("Container")
+                                    <span class="glyphicon glyphicon-move"></span>
+                                </label>
+                                <label class="AddRow zk-btn zk-btn-primary" data-container="container-fluid" title="@L("Drag to container")" style="cursor:move">
+                                    <i class="glyphicon glyphicon-align-justify"></i>
+                                    @L("Row")
+                                    <span class="glyphicon glyphicon-move"></span>
+                                </label>
+                                <div class="zk-btn-group">
+                                    <label id="add-col-handle" class="AddCol zk-btn zk-btn-primary" data-col="col-md-" data-val="6" title="@L("Drag to row")" style="cursor:move">
+                                        <i class="glyphicon glyphicon-tasks"></i>
+                                        @L("Column Width") <span class="col-size-info">@L("6/12")</span>
+                                        <span class="glyphicon glyphicon-move"></span>
+                                    </label>
+                                    <button type="button" class="zk-btn zk-btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="zk-dropdown-menu col-size">
+                                        <li><a href="javascript:void(0)" data-val="1">@L("1/12")</a></li>
+                                        <li><a href="javascript:void(0)" data-val="2">@L("2/12")</a></li>
+                                        <li><a href="javascript:void(0)" data-val="3">@L("3/12")</a></li>
+                                        <li><a href="javascript:void(0)" data-val="4">@L("4/12")</a></li>
+                                        <li><a href="javascript:void(0)" data-val="5">@L("5/12")</a></li>
+                                        <li class="active"><a href="javascript:void(0)" data-val="6">@L("6/12")</a></li>
+                                        <li><a href="javascript:void(0)" data-val="7">@L("7/12")</a></li>
+                                        <li><a href="javascript:void(0)" data-val="8">@L("8/12")</a></li>
+                                        <li><a href="javascript:void(0)" data-val="9">@L("9/12")</a></li>
+                                        <li><a href="javascript:void(0)" data-val="10">@L("10/12")</a></li>
+                                        <li><a href="javascript:void(0)" data-val="11">@L("11/12")</a></li>
+                                        <li><a href="javascript:void(0)" data-val="12">@L("12/12")</a></li>
+                                    </ul>
+                                </div>
+                                <a class="zk-btn zk-btn-primary" id="show-source-code" data-toggle="modal" data-target="#modal-layout-code" title="@L("Code")">
                                     <i class="glyphicon glyphicon-pencil"></i>
-                                    @L("Edit Page")
                                 </a>
-                            }
-                            <a href="@Url.Action("LayoutWidget", "Layout", new { layoutId = Model.ID })" class="zk-btn zk-btn-primary">
-                                <i class="glyphicon glyphicon-th-list"></i>
-                                @L("Content")
-                            </a>
-                            <a href="@Url.Action("Edit", "Layout", new {Model.ID})" class="zk-btn zk-btn-primary">
-                                <i class="glyphicon glyphicon-edit"></i>
-                                @L("Property")
-                            </a>
-                            <a class="zk-btn zk-btn-primary" id="save">
-                                <i class="glyphicon glyphicon-floppy-disk"></i>
-                                @L("Save")
-                            </a>
-                            @await Html.PartialAsync("Partial.Menu", Model)
-                        </div>
-                        <input type="hidden" id="ContainerClass" name="ContainerClass" value="@(Model.ContainerClass)" />
-                        <input type="hidden" id="LayoutId" name="ID" value="@Model.ID" />
-                        @if (Model.Page != null)
-                        {
-                            <input type="hidden" name="Page.ID" value="@Model.Page.ID" />
-                        }
-                    </div>
+                                <span class="badge" data-toggle="modal" data-target="#question" style="cursor:help">?</span>
+                            </div>
 
-                </div>
-            </div>
-        </nav>
+                            <div class="pull-right">
+                                <div class="zk-btn-group">
+                                    <a class="zk-btn zk-btn-primary cancel">
+                                        <i class="glyphicon glyphicon-arrow-left"></i>
+                                        @L("Cancel")
+                                    </a>
+                                    @if (Model.Page != null)
+                                    {
+                                        <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Page", new { Model.Page.ID })">
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                            @L("Edit Page")
+                                        </a>
+                                    }
+                                    <a href="@Url.Action("LayoutWidget", "Layout", new { layoutId = Model.ID })" class="zk-btn zk-btn-primary">
+                                        <i class="glyphicon glyphicon-th-list"></i>
+                                        @L("Content")
+                                    </a>
+                                    <a href="@Url.Action("Edit", "Layout", new {Model.ID})" class="zk-btn zk-btn-primary">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                        @L("Property")
+                                    </a>
+                                    <a class="zk-btn zk-btn-primary" id="save">
+                                        <i class="glyphicon glyphicon-floppy-disk"></i>
+                                        @L("Save")
+                                    </a>
+                                    @await Html.PartialAsync("Partial.Menu", Model)
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </nav>
+            </template>
+        </shadow-dom-design-toolbar>
+        <input type="hidden" id="ContainerClass" name="ContainerClass" value="@(Model.ContainerClass)" />
+        <input type="hidden" id="LayoutId" name="ID" value="@Model.ID" />
+        @if (Model.Page != null)
+        {
+            <input type="hidden" name="Page.ID" value="@Model.Page.ID" />
+        }
     </form>
     <div id="containers" class="hide">
         @RenderBody()

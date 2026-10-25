@@ -47,6 +47,12 @@ namespace ZKEACMS.WebHost
                 .Include($"{ScriptPath}/OwlCarousel/owl.carousel.min.js", $"{ScriptPath}/OwlCarousel/owl.carousel.min.js")
                 .Include($"{ScriptPath}/Owl.Carousel.js", $"{ScriptPath}/Owl.Carousel.min.js");
 
+            script("ShadowDom")
+                .Include($"{ScriptPath}/ShadowDom.js", $"{ScriptPath}/ShadowDom.min.js");
+
+            script("DesignToolBar")
+                .Include($"{ScriptPath}/DesignToolBar.js", $"{ScriptPath}/DesignToolBar.min.js");
+
             script("LayoutDesign")
                 .Include($"{ScriptPath}/LayoutDesign.js", $"{ScriptPath}/LayoutDesign.min.js");
 
@@ -128,9 +134,12 @@ namespace ZKEACMS.WebHost
             style("lightBox")
                 .Include($"{LibraryPath}/lightbox2/dist/css/lightbox.css", $"{LibraryPath}/lightbox2/dist/css/lightbox.min.css");
 
+            style("ShadowDom")
+                .Include($"{StylePath}/ShadowDom.css", $"{StylePath}/ShadowDom.min.css");
+
             style("Layout")
                 .Include($"{StylePath}/Layout.css", $"{StylePath}/Layout.min.css");
-
+                
             style("Login")
                 .Include($"{StylePath}/Login.css", $"{StylePath}/Login.min.css");
 

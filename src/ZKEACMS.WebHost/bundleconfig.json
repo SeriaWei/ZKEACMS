@@ -36,6 +36,12 @@
     ]
   },
   {
+    "outputFileName": "wwwroot/css/ShadowDom.min.css",
+    "inputFiles": [
+      "wwwroot/css/ShadowDom.css"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/css/Layout.min.css",
     "inputFiles": [
       "wwwroot/css/Layout.css"

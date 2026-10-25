@@ -69,18 +69,24 @@
         @Html.Raw(item.Html)
     }
 }
-<div class="templates">
-    <div class="tool-open glyphicon glyphicon-chevron-right"></div>
-    <ul>
-        @foreach (WidgetBase item in Model.Templates.OrderByDescending(m => m.IsSystem).ThenBy(m => m.Position))
-        {
-            <li id="template_@item.ID" class="widget-design" data-add="true" data-id="@item.ID">
-                <img title="@item.WidgetName" class="template" src="@Url.Content(item.Thumbnail.IsNullOrWhiteSpace() ? "~/images/template.png" : item.Thumbnail)" />
-                @if (!item.IsSystem)
+<shadow-dom-design-templates>
+    <template shadowrootmode="open">
+        @Style.Render("ShadowDom")
+        @Style.Render("Layout")
+        <div class="templates">
+            <div class="tool-open glyphicon glyphicon-chevron-right"></div>
+            <ul>
+                @foreach (WidgetBase item in Model.Templates.OrderByDescending(m => m.IsSystem).ThenBy(m => m.Position))
                 {
-                    <img data-id="@item.ID" data-url="@Url.Action("CancelTemplate", "Widget")" class="delete-template" src="~/images/close_red.png" />
+                    <li id="template_@item.ID" class="widget-design" data-add="true" data-id="@item.ID">
+                        <img title="@item.WidgetName" class="template" src="@Url.Content(item.Thumbnail.IsNullOrWhiteSpace() ? "~/images/template.png" : item.Thumbnail)" />
+                        @if (!item.IsSystem)
+                        {
+                            <img data-id="@item.ID" data-url="@Url.Action("CancelTemplate", "Widget")" class="delete-template" src="~/images/close_red.png" />
+                        }
+                    </li>
                 }
-            </li>
-        }
-    </ul>
-</div>
+            </ul>
+        </div>
+    </template>
+</shadow-dom-design-templates>

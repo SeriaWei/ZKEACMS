@@ -9,6 +9,8 @@
         return;
     }
     this.WorkContext().CurrentPage.Title = $"[{L("Design")}]{Model.Page.Title}";
+    Script.Reqiured("ShadowDom").AtFoot();
+    Script.Reqiured("DesignToolBar").AtFoot();
 }
 @inject IOptions<CultureOption> cultureOption
 <!DOCTYPE html>
@@ -17,74 +19,80 @@
     @await Html.PartialAsync("Partial.PageHeader")
 </head>
 <body class="front">
-    <nav id="toolBar">
-        <div class="container">
-            <div class="clearfix">
-                <div class="pull-left">
-                    <span class="badge">@L("Page Design")</span>
-                    <label class="display-border">
-                        <input class="helper" data-class="design-border" type="checkbox" autocomplete="off" checked />
-                        <span>
-                            @L("Border(Empty Zone)")
-                        </span>
-                    </label>
-                </div>
-                <div class="pull-right">
-                    <div class="zk-btn-group">
-                        <a class="zk-btn zk-btn-primary" href="@Url.Action("RedirectView", "Page", new { Model.Page.ID })">
-                            <i class="glyphicon glyphicon-eye-open"></i>
-                            @L("Preview")
-                        </a>
-                        <button class="zk-btn zk-btn-primary mobile-preview" data-toggle="modal" data-target="#mobile-frame">
-                            <i class="glyphicon glyphicon-phone"></i>
-                        </button>
-                        <a class="zk-btn zk-btn-primary" href="@Url.Action("Index", "Page", new { PageId = Model.Page.ID })">
-                            <i class="glyphicon glyphicon-th-list"></i>
-                            @L("Overview")
-                        </a>
-                        <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Layout", new { Model.ID, PageId = Model.Page.ID })">
-                            <i class="glyphicon glyphicon-th"></i>
-                            @L("Edit Layout")
-                        </a>
-                        <a class="zk-btn zk-btn-primary" href="@Url.Action("Edit", "Page", new { Model.Page.ID })">
-                            <i class="glyphicon glyphicon-record"></i>
-                            @L("Property/History")
-                        </a>
-                        <a class="zk-btn zk-btn-primary" href="@Url.Action("SelectWidget", "WidgetTemplate", new QueryContext{ PageId = Model.Page.ID })">
-                            <i class="glyphicon glyphicon-plus"></i>
-                            @L("Add Content")
-                        </a>
-                        <a href="javascript:void(0)" class="upload-template zk-btn zk-btn-primary">
-                            <i class="glyphicon glyphicon-copy"></i>
-                            @L("Upload Section")
-                        </a>
-                        <a class="zk-btn zk-btn-primary" href="@Url.Action("PublishPage", "Page", new { Model.Page.ID, ReturnUrl = Model.Page.Url })">
-                            <i class="glyphicon glyphicon-open"></i>
-                            @L("Publish")
-                        </a>
+    <shadow-dom-design-toolbar>
+        <template shadowrootmode="open">
+            @Style.Render("ShadowDom")
+            @Style.Render("Layout")
+            <nav id="toolBar">
+                <div class="container">
+                    <div class="clearfix">
+                        <div class="pull-left">
+                            <span class="badge">@L("Page Design")</span>
+                            <label class="display-border">
+                                <input class="helper" data-class="design-border" type="checkbox" autocomplete="off" checked />
+                                <span>
+                                    @L("Border(Empty Zone)")
+                                </span>
+                            </label>
+                        </div>
+                        <div class="pull-right">
+                            <div class="zk-btn-group">
+                                <a class="zk-btn zk-btn-primary" href="@Url.Action("RedirectView", "Page", new { Model.Page.ID })">
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                    @L("Preview")
+                                </a>
+                                <button class="zk-btn zk-btn-primary mobile-preview" data-toggle="modal" data-target="#mobile-frame">
+                                    <i class="glyphicon glyphicon-phone"></i>
+                                </button>
+                                <a class="zk-btn zk-btn-primary" href="@Url.Action("Index", "Page", new { PageId = Model.Page.ID })">
+                                    <i class="glyphicon glyphicon-th-list"></i>
+                                    @L("Overview")
+                                </a>
+                                <a class="zk-btn zk-btn-primary" href="@Url.Action("Design", "Layout", new { Model.ID, PageId = Model.Page.ID })">
+                                    <i class="glyphicon glyphicon-th"></i>
+                                    @L("Edit Layout")
+                                </a>
+                                <a class="zk-btn zk-btn-primary" href="@Url.Action("Edit", "Page", new { Model.Page.ID })">
+                                    <i class="glyphicon glyphicon-record"></i>
+                                    @L("Property/History")
+                                </a>
+                                <a class="zk-btn zk-btn-primary" href="@Url.Action("SelectWidget", "WidgetTemplate", new QueryContext{ PageId = Model.Page.ID })">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    @L("Add Content")
+                                </a>
+                                <a href="javascript:void(0)" class="upload-template zk-btn zk-btn-primary">
+                                    <i class="glyphicon glyphicon-copy"></i>
+                                    @L("Upload Section")
+                                </a>
+                                <a class="zk-btn zk-btn-primary" href="@Url.Action("PublishPage", "Page", new { Model.Page.ID, ReturnUrl = Model.Page.Url })">
+                                    <i class="glyphicon glyphicon-open"></i>
+                                    @L("Publish")
+                                </a>
 
-                        @if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
-                        {
-                            <a class="zk-btn zk-btn-primary" href="@Url.Action("CancelPreView", "Theme")">
-                                <i class="glyphicon glyphicon-transfer"></i>
-                                @L("Close")
-                                @Model.CurrentTheme.Title
-                                @L("Theme")
-                            </a>
-                        }
-                        @await Html.PartialAsync("Partial.Menu", Model)
+                                @if (Model.CurrentTheme != null && Model.CurrentTheme.IsPreView)
+                                {
+                                    <a class="zk-btn zk-btn-primary" href="@Url.Action("CancelPreView", "Theme")">
+                                        <i class="glyphicon glyphicon-transfer"></i>
+                                        @L("Close")
+                                        @Model.CurrentTheme.Title
+                                        @L("Theme")
+                                    </a>
+                                }
+                                @await Html.PartialAsync("Partial.Menu", Model)
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
-
-            </div>
-
-            <form id="template-form" action="@Url.Action("InstallWidgetTemplate", "Widget")" enctype="multipart/form-data" method="post">
-                <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.Path" />
-                <input id="template-file" name="template" type="file" class="hidden" />
-            </form>
-        </div>
-    </nav>
+            </nav>
+        </template>
+    </shadow-dom-design-toolbar>
+    <form id="template-form" action="@Url.Action("InstallWidgetTemplate", "Widget")" enctype="multipart/form-data" method="post">
+        <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.Path" />
+        <input id="template-file" name="template" type="file" class="hidden" />
+    </form>
     <div id="containers" class="pagePreview design-border">
         @RenderBody()
     </div>

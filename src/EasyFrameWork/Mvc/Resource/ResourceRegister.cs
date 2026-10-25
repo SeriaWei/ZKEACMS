@@ -12,21 +12,57 @@ using Microsoft.AspNetCore.Html;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Easy.Options;
 
 namespace Easy.Mvc.Resource
 {
     public abstract class ResourceRegister
     {
-        protected ResourceRegister(Action<ResourceCollection> onRegisted)
+        protected ResourceRegister(RazorPage page, Action<ResourceCollection> onRegisted)
         {
+            Page = page;
             this.OnRegisted = onRegisted;
         }
+
+        protected RazorPage Page { get; }
 
         public abstract IDisposable AtHead();
 
         public abstract IDisposable AtFoot();
 
         public abstract ResourceCapture Reqiured(string name);
+
+        /// <summary>
+        /// Renders the source tags in place instead of registering them for the page head/foot.
+        /// Useful for isolated contexts such as a shadow root.
+        /// </summary>
+        public IHtmlContent Render(string name)
+        {
+            var source = GetSource(name);
+            var builder = new HtmlContentBuilder();
+            if (source == null)
+            {
+                return builder;
+            }
+
+            var services = Page.ViewContext.HttpContext.RequestServices;
+            var urlHelper = services.GetService<IUrlHelperFactory>().GetUrlHelper(Page.ViewContext);
+            var hostingEnvironment = services.GetService<IWebHostEnvironment>();
+            var options = services.GetService<IOptions<CDNOption>>();
+
+            foreach (var item in source)
+            {
+                builder.AppendHtml(item.ToSource(urlHelper, hostingEnvironment, options));
+            }
+            return builder;
+        }
+
+        protected abstract ResourceCollection GetSource(string name);
 
         public Action<ResourceCollection> OnRegisted { get; set; }
 
@@ -105,55 +141,59 @@ namespace Easy.Mvc.Resource
 
     public class ScriptRegister : ResourceRegister
     {
-        private readonly RazorPage _page;
-        public ScriptRegister(RazorPage page, Action<ResourceCollection> onRegisted) : base(onRegisted)
+        public ScriptRegister(RazorPage page, Action<ResourceCollection> onRegisted) : base(page, onRegisted)
         {
-            _page = page;
         }
 
         public override IDisposable AtHead()
         {
-            return new Capture(_page, ResourcePosition.Head, OnRegisted);
+            return new Capture(Page, ResourcePosition.Head, OnRegisted);
         }
 
         public override IDisposable AtFoot()
         {
-            return new Capture(_page, ResourcePosition.Foot, OnRegisted);
+            return new Capture(Page, ResourcePosition.Foot, OnRegisted);
         }
 
         public override ResourceCapture Reqiured(string name)
         {
-            if (!ResourceHelper.ScriptSource.ContainsKey(name))
-                throw new Exception("Can't find source:{0}".FormatWith(name));
-            return new ResourceCapture(ResourceHelper.ScriptSource[name], OnRegisted);
+            return new ResourceCapture(GetSource(name), OnRegisted);
         }
 
-
+        protected override ResourceCollection GetSource(string name)
+        {
+            if (!ResourceHelper.ScriptSource.TryGetValue(name, out ResourceCollection source))
+                throw new Exception("Can't find source:{0}".FormatWith(name));
+            return source;
+        }
     }
 
     public class StyleRegister : ResourceRegister
     {
-        private readonly RazorPage _page;
-        public StyleRegister(RazorPage page, Action<ResourceCollection> onRegisted) : base(onRegisted)
+        public StyleRegister(RazorPage page, Action<ResourceCollection> onRegisted) : base(page, onRegisted)
         {
-            _page = page;
         }
 
         public override IDisposable AtHead()
         {
-            return new Capture(_page, ResourcePosition.Head, OnRegisted);
+            return new Capture(Page, ResourcePosition.Head, OnRegisted);
         }
 
         public override IDisposable AtFoot()
         {
-            return new Capture(_page, ResourcePosition.Foot, OnRegisted);
+            return new Capture(Page, ResourcePosition.Foot, OnRegisted);
         }
 
         public override ResourceCapture Reqiured(string name)
         {
-            if (!ResourceHelper.StyleSource.ContainsKey(name))
+            return new ResourceCapture(GetSource(name), OnRegisted);
+        }
+
+        protected override ResourceCollection GetSource(string name)
+        {
+            if (!ResourceHelper.StyleSource.TryGetValue(name, out ResourceCollection source))
                 throw new Exception("Can't find source:{0}".FormatWith(name));
-            return new ResourceCapture(ResourceHelper.StyleSource[name], OnRegisted);
+            return source;
         }
     }
 

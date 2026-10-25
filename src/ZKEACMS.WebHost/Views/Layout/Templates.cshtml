@@ -14,23 +14,30 @@
         new List<string>{"col-md-3","col-md-3","col-md-3","col-md-3"}
     };
 }
-<div class="layout templates">
-    <div class="tool-open glyphicon glyphicon-chevron-right"></div>
-    <ul>
-        @foreach (var item in templates)
-        {
-            <li class="widget-design" data-add="true">
-                <div class="container-fluid">
-                    <div class="row">
-                        @foreach (string col in item)
-                        {
-                            <div class="@col">
-                                <div class="border-helper"></div>
+<shadow-dom-design-templates>
+    <template shadowrootmode="open">
+        @Style.Render("ShadowDom")
+        @Style.Render("Layout")
+        @Style.Render("bootStrap")
+        <div class="layout templates">
+            <div class="tool-open glyphicon glyphicon-chevron-right"></div>
+            <ul>
+                @foreach (var item in templates)
+                {
+                    <li class="widget-design" data-add="true">
+                        <div class="container-fluid">
+                            <div class="row">
+                                @foreach (string col in item)
+                                {
+                                    <div class="@col">
+                                        <div class="border-helper"></div>
+                                    </div>
+                                }
                             </div>
-                        }
-                    </div>
-                </div>
-            </li>
-        }
-    </ul>
-</div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </template>
+</shadow-dom-design-templates>
