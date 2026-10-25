@@ -30,6 +30,8 @@ $(function () {
                     },
                     success: function (data) {
                         ui.item.replaceWith(data);
+                        window.ShadowDom.init();
+                        initWidgetToolBars(target);
                     }
                 });
             }
@@ -69,54 +71,108 @@ $(function () {
             }, "json");
         }, true, 10);
     });
-    $(document).on("click", ".zoneToolbar .delete", function () {
-        var th = $(this);
-        var id = th.data("id");
-        $.post(th.data("url"), { ID: id }, function (data) {
-            if (data) {
-                $("#widget_" + id).parent().remove();
+    function getToolBarRoot(host) {
+        if (window.ShadowDom && window.ShadowDom.attach) {
+            return window.ShadowDom.attach(host);
+        }
+        return host.shadowRoot;
+    }
+
+    // jQuery UI gets the mousedown retargeted to the host, so the host is the sort handle.
+    // Mousedown on other toolbar items has to stay in the shadow root, otherwise it starts a drag.
+    function stopNonHandleMouseDown(root) {
+        root.addEventListener("mousedown", function (e) {
+            if (!e.target.closest || !e.target.closest(".sort-handle")) {
+                e.stopPropagation();
             }
-        }, "json");
-    }).on("click", ".zoneToolbar .more", function () {
-        $(this).siblings(".toggle-hidden").toggleClass("hidden");
-        $(this).toggleClass("hidden");
-    });
+        });
+    }
+
+    function getWidget(element) {
+        var rootNode = element.getRootNode ? element.getRootNode() : null;
+        var host = rootNode && rootNode.host;
+        return host ? $(host).closest(".widget") : $(element).closest(".widget");
+    }
+
+    function initWidgetToolBar(host) {
+        if (host.dataset.widgetToolBarReady) {
+            return;
+        }
+        host.dataset.widgetToolBarReady = "true";
+
+        var root = getToolBarRoot(host) || host;
+        var $root = $(root);
+        stopNonHandleMouseDown(root);
+
+        $root.find(".delete").on("click", function () {
+            var th = $(this);
+            var id = th.data("id");
+            $.post(th.data("url"), { ID: id }, function (data) {
+                if (data) {
+                    $("#widget_" + id).parent().remove();
+                }
+            }, "json");
+        });
+
+        $root.find(".more").on("click", function () {
+            $(this).siblings(".toggle-hidden").toggleClass("hidden");
+            $(this).toggleClass("hidden");
+        });
+
+        $root.find(".toggle-widget-class").on("click", function () {
+            var clas = $(this).data("class");
+            getWidget(this).toggleClass(clas);
+            $.post($(this).data("action"), { clas: clas }, function () {
+            });
+        });
+
+        $root.find(".custom-style-editor").on("click", function () {
+            $(".custom-style-target").removeClass("custom-style-target");
+            var url = $(this).data("action");
+            var styleTarget = getWidget(this).parent();
+            styleTarget.toggleClass("custom-style-target");
+            window.top.Easy.ShowUrlWindow({
+                url: '/admin/StyleEditor/Edit',
+                width: 1024,
+                title: "编辑样式",
+                onLoad: function (box) {
+                    box.addClass("loaded");
+                },
+                callBack: function () {
+                    $.post(url, { style: styleTarget.attr("style") }, function () {
+                    });
+                },
+                isDialog: false
+            });
+            $(".WeiWindow.BoxShadow").addClass("StyleEditor");
+        });
+
+        $root.find(".copy-widget").on("click", function () {
+            $.post($(this).data("action"), function (data) {
+                Easy.MessageTip.Show(data.message);
+            });
+        });
+    }
+
+    // jQuery cannot delegate events on a ShadowRoot, so each widget toolbar is bound directly.
+    function initWidgetToolBars(context) {
+        context.find("shadow-dom-widget-toolbar").each(function () {
+            initWidgetToolBar(this);
+        });
+    }
+
+    initWidgetToolBars($(document));
+
     $(document).on("change", "#template-file", function () {
         $("#template-form").submit();
-    }).on("click", ".zoneToolbar .toggle-widget-class", function () {
-        var clas = $(this).data("class");
-        $(this).closest(".widget").toggleClass(clas);
-        $.post($(this).data("action"), { clas: clas }, function () {
-        });
-    }).on("click", ".zoneToolbar .custom-style-editor", function () {
-        $(".custom-style-target").removeClass("custom-style-target");
-        var url = $(this).data("action");
-        var styleTarget = $(this).closest(".widget").parent();
-        styleTarget.toggleClass("custom-style-target");
-        window.top.Easy.ShowUrlWindow({
-            url: '/admin/StyleEditor/Edit',
-            width: 1024,
-            title: "编辑样式",
-            onLoad: function (box) {
-                box.addClass("loaded");
-            },
-            callBack: function () {
-                $.post(url, { style: styleTarget.attr("style") }, function () {
-                });
-            },
-            isDialog: false
-        });
-        $(".WeiWindow.BoxShadow").addClass("StyleEditor");
-    }).on("click", ".copy-widget", function() {
-        $.post($(this).data("action"), function (data) {
-            Easy.MessageTip.Show(data.message);
-        });
     }).on("click", ".paste-widget", function () {
         var zone = $(this).closest(".zone");
         if (!zone.data("pasting")) {
             zone.data("pasting", true);
             $.post($(this).attr("href"), { Position: $(".widget", zone).size() + 1 }, function (html) {
                 zone.append(html);
+                window.ShadowDom.init();
+                initWidgetToolBars(zone);
                 zone.data("pasting", false);
             }, "html");
         }
